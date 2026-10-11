@@ -20,6 +20,7 @@ def view_count_figures(rows,folder):
             ax.errorbar([r['views'] for r in points],[r['mean_'+metric] for r in points],
                         yerr=[r['draw_std_'+metric] for r in points],marker='o',capsize=3,label=label)
         ax.axvspan(2.5,6.5,color='grey',alpha=.08,label='Trained V range (3–6)')
+        ax.set_title('5 draws; error bars: std of case-averaged metrics',fontsize=9)
         ax.set(xlabel='Number of stations V',ylabel=metric.replace('_',' '),xticks=[2,3,4,5,6,8]);ax.legend(fontsize=8)
         save(fig,Path(folder)/f'view_count_{metric}.png')
 
@@ -29,7 +30,7 @@ def coverage_figures(rows,individual,folder):
         points=[r for r in rows if r['views']==v]
         fig,ax=plt.subplots(figsize=(5,3.6));ax.bar([r['protocol'] for r in points],[r['mean_relative_l1'] for r in points],
            yerr=[r['draw_std_relative_l1'] for r in points],capsize=4)
-        ax.set(ylabel='Mean per-case relative L1',title=f'Val Pool A, V={v}');save(fig,Path(folder)/f'angular_coverage_v{v}.png')
+        ax.set(ylabel='Mean per-case relative L1',title=f'Val Pool A, V={v}; bars: draw std (spread: 1 set)');save(fig,Path(folder)/f'angular_coverage_v{v}.png')
     fig,ax=plt.subplots(figsize=(6,4))
     for label in ('spread','random','clustered'):
         points=[r for r in individual if r['protocol']==label]
