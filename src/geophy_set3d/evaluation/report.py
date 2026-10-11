@@ -236,6 +236,7 @@ seed std使用ddof=1；只有3 seeds，此稳定性评价有有限样本限制�
 relative L1 absolute improvement={horizon['absolute_relative_l1_improvement']:.9g}，
 即{horizon['percentage_point_improvement']:.6f} percentage points；预注册meaningful阈值=0.5个百分点（比例0.005）。
 {diagnostic_conclusion}
+诊断best仍位于第{horizon['best_epoch']}个epoch，若处于220上限则不能据此宣称220已经充分收敛。
 只用val loss/L1/L2回答诊断问题，未根据test或Pool B选择更长horizon。
 原正式B0、原150-epoch配置与原checkpoint仍保持原样。
 

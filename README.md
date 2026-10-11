@@ -165,3 +165,12 @@ python scripts/summarize_b0_generalization.py
 Horizon probe从头初始化，以cosine T_max=220诊断更长训练预算，不改写原checkpoint/scheduler。
 新run支持`--resume`；不运行test、不训练Pool B、不实现B1。
 主图导出PNG/PDF，同时保留CSV、逐case/draw JSONL和source/dataset/reference完整性记录。
+
+
+本轮泛化画像已完成：reference精确复现，两个新增seed完成150 epochs，独立horizon diagnostic完成220 epochs。
+三seed Val-A relative L1=0.13856±0.00563，Val-B=0.13155±0.00502；measurement/geometry shortcut结论跨seed复现。
+220-epoch diagnostic relative L1=0.11634，比reference改善1.655个百分点，且best仍在220上限，
+因此建议先确定公平的baseline训练预算，暂不进入B1。正式B0 reference未替换，38项测试通过，
+source/dataset/model/checkpoint/旧实验完整性全部通过。
+完整protocol、view count、coverage、分层、worst cases、multi-seed及horizon结论见
+[B0 Generalization报告](docs/reports/supervised_b0_generalization_v1.md)。
