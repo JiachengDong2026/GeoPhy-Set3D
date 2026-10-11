@@ -95,7 +95,7 @@ def validate(config, output):
         if key.startswith('input_'):
             expected = -1 if key.endswith('station_indices') else 0
             assert torch.all(batch[key][0, 3:] == expected)
-    # Independent loaders must replay with the SAME worker count and assignment.
+    # Independent loaders must replay, including across worker counts.
     worker_count = max(1, config['loader']['num_workers'])
     workers = [ProjectionPoolDataset(**options), ProjectionPoolDataset(**options)]
     loaders = [DataLoader(Subset(ds, list(range(min(8, len(ds))))),
@@ -113,6 +113,23 @@ def validate(config, output):
     finally:
         for loader in loaders:
             if loader._iterator is not None: loader._iterator._shutdown_workers()
+    invariant = []
+    for count in (0, 2, 4):
+        ds = ProjectionPoolDataset(**options)
+        loader = DataLoader(Subset(ds, list(range(min(8, len(ds))))), batch_size=2,
+                            num_workers=count, persistent_workers=count > 0,
+                            collate_fn=projection_pool_collate)
+        try:
+            first = signatures(loader)
+            ds.set_epoch(1)
+            second = signatures(loader)
+            assert first != second
+            ds.set_epoch(0)
+            assert first == signatures(loader)
+            invariant.append((first, second))
+        finally:
+            if loader._iterator is not None: loader._iterator._shutdown_workers()
+    assert invariant[0] == invariant[1] == invariant[2]
     # Smoke-test the configured normal loader as well as persistent-worker validation above.
     configured = DataLoader(train, collate_fn=projection_pool_collate,
                             generator=torch.Generator().manual_seed(config['random']['seed']),
@@ -133,6 +150,7 @@ def validate(config, output):
                   normalization=train.normalization, clips_normalized_projection=False,
                   multiworker_reproducibility=True, persistent_workers_observe_set_epoch=True,
                   worker_count=worker_count, configured_loader_smoke_passed=True,
+                  worker_count_invariant=True, worker_counts_checked=[0, 2, 4],
                   explicit_variable_view_batch_shapes=shapes)
     write_json(output / 'validation_summary.json', report)
     print(json.dumps({k: v for k, v in report.items() if k != 'explicit_variable_view_batch_shapes'}, indent=2))

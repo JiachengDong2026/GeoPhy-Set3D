@@ -103,10 +103,16 @@ log1p_p99_5:  Y_normalized = log1p(Y_raw / Y_ref)
 `V_input` 在闭区间 [3,6] 均匀采样，从全体 candidate station 无放回选择 input 与 hold，
 再随机打乱 input 顺序。不固定使用 0,1,2,…；同一 case 不同 epoch 使用新的确定性随机流。
 
-seed 由 base_seed、epoch、sample index、case_id 的稳定 BLAKE2b 摘要、worker id 组成，
-经 NumPy SeedSequence 创建局部 RNG。没有使用 Python 的进程随机 hash 或全局 np.random 状态。
-相同 seed、epoch、样本标识和 worker assignment 可以重放；同一 worker/epoch 重复访问同一样本
-返回相同组合。改变 worker 数量、分派方式或采样的 sample index 可能改变结果。
+seed 仅由 base_seed、epoch、sample index、case_id 的稳定 BLAKE2b 摘要组成，
+经 NumPy SeedSequence 创建局部 RNG，不使用 Python hash、全局 NumPy 或 Torch RNG。
+同一 seed、epoch、sample index 和 case_id 重复访问重放相同 input/hold station IDs 及顺序；
+worker ID、num_workers 和调度不影响结果。改变 sample index 或 epoch 会使用新的随机流。
+2026-10-11 的修正同时删除了 Dataset 中 get_worker_info 的依赖。
+
+新增测试确认 num_workers=0/2/4 在 epoch 0、1 及重置到 0 时逐元素一致；
+2/4 workers 使用 persistent_workers=True，跨 epoch 共享更新正确，多数 case 组合改变。
+真实冻结数据的前 8 个 train samples 也通过相同比较。
+验证结果在 outputs/logs/supervised_b0/data_validation/validation_summary.json。
 
 epoch 保存于共享内存 torch int64 scalar，`set_epoch` 对已有 persistent worker 同样生效，
 fork 和 spawn 都已验证。必须在创建该 epoch 的 iterator 前调用，上一 epoch 应先完成；
@@ -257,7 +263,7 @@ zero/constant/非对称仿射/偏心球/Gaussian、64/128/256/512 收敛、SciPy
 
 本轮使用真实冻结几何，不加入噪声、标定误差或 angular-coverage 分层策略。
 这些应在后续实验阶段显式设计。没有 rank-aware 分布式采样或训练器。
-每个 epoch 同 worker 的重复 case 访问重放同一组合；如需要 replacement sampler 的每次访问
+每个 epoch 同 sample index/case 的重复访问重放同一组合；如需要 replacement sampler 的每次访问
 均独立，需显式增加 draw 标识并验证恢复训练语义。
 
 全量审计是 float64 数值基线。补充选取索引等间距的 10 个 train case、Pool A station

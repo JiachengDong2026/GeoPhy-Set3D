@@ -109,3 +109,29 @@ python scripts/audit_c64_projection_mismatch.py --samples 96 --split train
 `validate_frozen_generation.py` 将原有几何、物理、收敛和完整性 QA 的结果写到外部，
 适合检查冻结数据；原生成入口的 `--audit-only` 会刷新冻结文件，本轮不使用。
 接口、复现规则、审计数值和测试结果见 `docs/reports/training_interface_v1.md`。
+
+## GeoLift-Mean-Res3D / Supervised B0
+
+站点采样只依赖 seed、epoch、sample index 和 case_id；num_workers=0/2/4 得到相同 station IDs
+及顺序，支持 persistent workers。B0 使用共享 2D encoder、显式 XYZ→扫描角 lifting、
+可见性 masked mean 与残差 3D decoder，输出 `[B,1,64,64,64]` CH4 质量分数。
+训练仅使用 train/Pool A 的 voxel SmoothL1 + 0.1×relativeL1；固定四视图 val 选择 best checkpoint。
+
+在已安装 torch/CUDA、NumPy、PyYAML、Matplotlib 的环境中，从仓库根目录执行：
+
+```bash
+OMP_NUM_THREADS=2 MKL_NUM_THREADS=2 PYTHONPATH=src:tests python -m unittest discover -s tests -v
+python scripts/smoke_supervised_b0.py
+python scripts/overfit_supervised_b0.py --cases 4 --epochs 300
+python scripts/train_supervised_b0.py
+python scripts/evaluate_supervised_b0.py
+# 需要恢复训练时：
+python scripts/train_supervised_b0.py --resume /data/djc/GeoPhy-Set3D/outputs/checkpoints/supervised_b0/last.pt
+```
+
+完整训练入口要求过拟合 gate 通过；实验已存在时使用 `--resume` 或更改 experiment.name。
+默认 FP32、batch_size=2、AdamW、cosine decay、最多150 epochs、val patience=20。
+配置在 `configs/train_supervised_b0.yaml`；日志、权重和图片全部保存到外部
+`/data/djc/GeoPhy-Set3D/outputs/{logs,checkpoints,figures}/`，不提交数据和权重。
+评估入口仅运行 val/Pool A，包含 zero、train-mean、错配几何、跨 case measurement、zero measurement
+和同步 view permutation。test 不参与模型选择。

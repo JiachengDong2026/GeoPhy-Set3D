@@ -1,0 +1,47 @@
+experiment:
+  name: supervised_b0
+  output_root: /data/djc/GeoPhy-Set3D/outputs
+dataset:
+  root: /data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1
+train:
+  split: train
+  geometry_pool: train
+  min_input_views: 3
+  max_input_views: 6
+  hold_views: 0
+validation:
+  split: val
+  geometry_pool: train
+  input_views: 4
+  hold_views: 0
+normalization:
+  method: linear_p99_5
+  statistics_file: train_statistics.json
+model:
+  name: geolift_mean_res3d
+  input_channels: 3
+  feature_channels: 32
+  lift_resolution: 32
+  output_resolution: 64
+  output_activation: sigmoid
+loss:
+  smooth_l1: 1.0
+  relative_l1: 0.1
+  relative_epsilon: 1.0e-6
+optimizer:
+  name: adamw
+  lr: 2.0e-4
+  weight_decay: 1.0e-4
+training:
+  batch_size: 2
+  gradient_accumulation: 1
+  max_epochs: 150
+  gradient_clip_norm: 1.0
+  early_stopping_patience: 20
+  seed: 20261011
+  precision: fp32
+  device: cuda:0
+loader:
+  num_workers: 4
+  pin_memory: true
+  persistent_workers: true

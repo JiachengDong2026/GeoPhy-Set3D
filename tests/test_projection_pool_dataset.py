@@ -135,6 +135,27 @@ class DatasetTests(unittest.TestCase):
         finally:
             if loader._iterator is not None: loader._iterator._shutdown_workers()
 
+    def test_worker_count_invariant_station_ids_and_order(self):
+        datasets = [ProjectionPoolDataset(self.root) for _ in range(3)]
+        loaders = [DataLoader(ds, batch_size=2, num_workers=workers,
+                              persistent_workers=workers > 0, collate_fn=projection_pool_collate)
+                   for ds, workers in zip(datasets, (0, 2, 4))]
+        try:
+            epoch0 = [signatures(loader) for loader in loaders]
+            self.assertEqual(epoch0[0], epoch0[1])
+            self.assertEqual(epoch0[0], epoch0[2])
+            self.assertEqual(epoch0[0], signatures(loaders[0]))
+            for ds in datasets: ds.set_epoch(1)
+            epoch1 = [signatures(loader) for loader in loaders]
+            self.assertEqual(epoch1[0], epoch1[1])
+            self.assertEqual(epoch1[0], epoch1[2])
+            self.assertGreater(sum(a != b for a, b in zip(epoch0[0], epoch1[0])), len(epoch0[0]) / 2)
+            for ds in datasets: ds.set_epoch(0)
+            for loader in loaders: self.assertEqual(epoch0[0], signatures(loader))
+        finally:
+            for loader in loaders:
+                if loader._iterator is not None: loader._iterator._shutdown_workers()
+
     def test_missing_index_does_not_fallback_to_scan(self):
         path = self.root / 'source_index.jsonl'
         backup = path.with_suffix('.backup')

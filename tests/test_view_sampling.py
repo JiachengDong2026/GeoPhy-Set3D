@@ -19,14 +19,14 @@ class ViewSamplingTests(unittest.TestCase):
         self.assertGreater(len(seen), 50)
         self.assertTrue(unsorted)
 
-    def test_seed_epoch_case_index_worker_identity(self):
+    def test_seed_epoch_case_index_identity(self):
         sampler = ViewSampler(base_seed=123)
-        args = dict(epoch=2, sample_index=4, case_id='a', worker_id=1)
+        args = dict(epoch=2, sample_index=4, case_id='a')
         first = sampler.sample(64, **args)
         replay = sampler.sample(64, **args)
         for a, b in zip(first, replay):
             np.testing.assert_array_equal(a, b)
-        for key, value in [('epoch', 3), ('sample_index', 5), ('case_id', 'b'), ('worker_id', 2)]:
+        for key, value in [('epoch', 3), ('sample_index', 5), ('case_id', 'b')]:
             changed = sampler.sample(64, **{**args, key: value})
             self.assertNotEqual(tuple(first[0]), tuple(changed[0]))
 

@@ -5,7 +5,7 @@ from pathlib import Path
 
 import numpy as np
 import torch
-from torch.utils.data import Dataset, get_worker_info
+from torch.utils.data import Dataset
 
 from geophy_set3d.data.view_sampling import ViewSampler
 
@@ -40,10 +40,10 @@ def artifact_path(root, relative):
 class ProjectionPoolDataset(Dataset):
     """XYZ CH4 GT and separate physical/normalized, randomly selected station views.
 
-    Sampling is deterministic for (seed, epoch, index, case_id, worker_id).
+    Sampling is deterministic for (seed, epoch, index, case_id).
     Call set_epoch BEFORE starting each epoch's iterator. Shared epoch state also
-    reaches persistent workers. Repeated access in the same worker/epoch replays
-    the same views; worker-count or scheduling changes can change the views.
+    reaches persistent workers. Repeated access in the same sample/epoch replays
+    the same views, independent of worker count and scheduling.
     Evaluation uses epoch zero unless explicitly changed by the caller.
     """
 
@@ -126,10 +126,9 @@ class ProjectionPoolDataset(Dataset):
         if not 0 <= index < len(self):
             raise IndexError(index)
         row = self.records[index]
-        worker = get_worker_info()
         inputs, holds = self.sampler.sample(
             self.station_count, epoch=int(self._epoch.item()), sample_index=index,
-            case_id=row['case_id'], worker_id=worker.id if worker is not None else 0)
+            case_id=row['case_id'])
         projections = np.load(artifact_path(self.root, row[f'{self.geometry_pool}_projection_path']),
                               mmap_mode='r', allow_pickle=False)
         if projections.shape != self.projection_shape or projections.dtype != np.float32:
