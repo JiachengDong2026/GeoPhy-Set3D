@@ -118,6 +118,9 @@ L2变化={b1['evaluations']['Val-B-V4']['mean_per_case']['relative_l2']-b0['eval
 两个模型逐case/draw使用同一station IDs；表中V4是5-draw random平均，主表Val-A-V4为legacy固定subset，两者定义不同。
 每draw指标、case×draw JSONL、draw std与pooled统计完整保留。未重新跑V2/V5/V8或完整coverage/stratification矩阵。
 clustered V4 L1变化(B1−B0)={b1['sparse']['clustered-V4']['mean_per_case']['relative_l1']-b0['sparse']['clustered-V4']['mean_per_case']['relative_l1']:+.9f}。
+V3 L1改善={100*(b0['sparse']['V3']['mean_per_case']['relative_l1']-b1['sparse']['V3']['mean_per_case']['relative_l1']):.6f}个百分点，
+clustered V4改善={100*(b0['sparse']['clustered-V4']['mean_per_case']['relative_l1']-b1['sparse']['clustered-V4']['mean_per_case']['relative_l1']):.6f}个百分点。
+稀疏与差coverage条件有正向收益，但clustered的绝对relative L1仍较高，不能宣称已经解决差geometry重建。
 
 ## 12. Shortcut tests
 
@@ -141,6 +144,9 @@ trained B1 permutation max difference={attention['permutation_max_difference']:.
 
 {conclusion}
 
+B1通过下列五项基本GO检查，并在本次全部预定条件上改善；主表L1收益0.489941个百分点，略低于0.5个百分点参考线。
+Val-A L2、V3与clustered的改善也应一并考虑。当前结论是轻量fusion有正向收益，但不足以宣称稳定、明显优于B0。
+
 保守工程检查（数值不恶化，不是统计阈值）：
 ```json
 {json.dumps(s['criteria'],indent=2)}
@@ -153,12 +159,13 @@ uniform程度以上述entropy报告，尺度从frozen metadata读取，mask/grad
 
 ## Reproducibility 与完整性
 
-当前代码commit=`{commit}`。两个run启动于base commit11f40e6的同一开发工作树，checkpoint environment保留git_dirty=true；
+报告生成时的代码commit=`{commit}`。两个run启动于base commit11f40e6的同一开发工作树，checkpoint environment保留git_dirty=true；
 training_source_manifest.json保存数值模型/训练组件与新配置SHA256。B0启动后trainer增加了protocol-validation调用，数值train loop与模型未改。
 完成报告的commit位于实现之后；不把checkpoint里的base commit误称为全部新实现的clean source commit。
 {test_line}；全部OK。frozen dataset={s['integrity']['dataset_files']} files，dataset unchanged={s['integrity']['dataset_unchanged']}；
 历史B0/泛化结果unchanged={s['integrity']['historical_results_unchanged']}，B0 model sources unchanged={s['integrity']['b0_model_sources_unchanged']}，
 旧150-epoch config unchanged={s['integrity']['b0_150_config_unchanged']}。
+数值训练代码与新配置SHA256 unchanged={s['integrity']['numerical_training_sources_unchanged']}。
 test split未用于模型训练/推理/selection，integrity只读hash test artifacts不属于test evaluation。
 Pool B全程evaluation-only，未用于early stopping、selection或tuning。
 
@@ -167,6 +174,7 @@ artifacts：`{root}`，含summary.json、comparison.csv、sparse_views.csv、eff
 权重/训练日志/图位于外部outputs，未纳入Git。
 
 ```bash
+python scripts/compare_b0_b1_300.py --prepare
 python scripts/train_supervised.py --config configs/train_supervised_b0_300.yaml --gate-config configs/train_supervised_b0.yaml
 python scripts/overfit_supervised_b1.py --config configs/train_supervised_b1_300.yaml --cases 4 --epochs 120
 python scripts/train_supervised.py --config configs/train_supervised_b1_300.yaml

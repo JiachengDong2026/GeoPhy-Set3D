@@ -206,3 +206,11 @@ Pool A的V3/V4/V6各5个deterministic draws、clustered V4五draw、wrong-geomet
 包含summary/CSV/effective protocol、逐case/draw结果、四张主图、完整性与test证据。
 完整报告由完成后的比较入口生成：`docs/reports/supervised_b1_gca_v1.md`。
 单seed结构比较不等于跨seed稳定性或统计显著性结论。
+
+本轮两个run均完成300 epochs，best分别为第298/290 epoch。
+B0/B1的Val-A relative L1=0.108330/0.103431，relative L2=0.122842/0.112474；
+Val-B relative L1=0.104500/0.100378，relative L2=0.125769/0.111750。
+B1主表L1改善0.489941个百分点（相对4.5227%），V3改善1.115847个百分点，clustered V4改善4.461874个百分点。
+五项基本GO检查全部通过，但主表L1收益偏弱，单seed不足以支持跨seed稳定或显著优势；暂不建议直接进入B2。
+46项测试全部通过，frozen dataset、历史结果、B0网络源文件和数值训练代码hash均未变化。
+完整设计、主表、shortcut、attention与复现证据见 [B1 GCA报告](docs/reports/supervised_b1_gca_v1.md)。
