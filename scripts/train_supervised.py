@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Train supervised B0/B1 on all train cases; select checkpoints exclusively using fixed val views."""
+"""Train supervised B0/B1/B2; select checkpoints exclusively using fixed val views."""
 import argparse
 import json
 import sys

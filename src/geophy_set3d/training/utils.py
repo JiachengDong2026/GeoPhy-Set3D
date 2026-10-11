@@ -43,14 +43,20 @@ def load_config(path):
     model = dict(config['model'])
     name = model.pop('name')
     gca = model.pop('gca', None)
-    if name not in ('geolift_mean_res3d', 'geolift_gca_res3d'):
+    interaction = model.pop('set_interaction', None)
+    if name not in ('geolift_mean_res3d', 'geolift_gca_res3d', 'geolift_gcsi_res3d'):
         raise ValueError('Unknown supervised architecture')
     if model != {k: v for k, v in expected.items() if k != 'name'} or config['training']['precision'] != 'fp32':
         raise ValueError('Supervised comparison requires the fixed encoder/lifting/decoder in FP32')
     if name == 'geolift_mean_res3d' and gca is not None:
         raise ValueError('B0 cannot contain attention settings')
-    if name == 'geolift_gca_res3d' and gca != dict(distance_scale_m=6.5, azimuth_scale_deg=180.0):
-        raise ValueError('B1 requires the frozen acquisition geometry scales')
+    if name in ('geolift_gca_res3d', 'geolift_gcsi_res3d') and gca != dict(distance_scale_m=6.5, azimuth_scale_deg=180.0):
+        raise ValueError('B1/B2 require the frozen acquisition geometry scales')
+    if name == 'geolift_gcsi_res3d':
+        if interaction != dict(d_model=32, num_heads=4, num_blocks=1, ffn_channels=64):
+            raise ValueError('B2 v1 fixes a single lightweight view attention block')
+    elif interaction is not None:
+        raise ValueError('Only B2 can contain set interaction settings')
     if config['train']['split'] != 'train' or config['train']['geometry_pool'] != 'train':
         raise ValueError('Training requires train/Pool A')
     if config['validation']['split'] != 'val' or config['validation']['geometry_pool'] != 'train':

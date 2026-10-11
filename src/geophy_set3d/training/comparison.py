@@ -23,7 +23,7 @@ def validate_comparison_config(config):
     output = Path(config['experiment']['output_root']).resolve()
     if output.is_relative_to(frozen.resolve()):
         raise ValueError('Output cannot be inside the frozen dataset')
-    if config['model']['name'] == 'geolift_gca_res3d':
+    if config['model']['name'] in ('geolift_gca_res3d', 'geolift_gcsi_res3d'):
         acquisition = yaml.safe_load((frozen/'generation_config.yaml').read_text())['geometry']
         scales = dict(distance_scale_m=float(acquisition['radius_m'][1]),
                       azimuth_scale_deg=float(acquisition['azimuth_deg'][1]))
@@ -46,3 +46,18 @@ def assert_fair_configs(b0, b1):
         normalized.append(other)
     if normalized[0] != normalized[1]:
         raise ValueError('B0/B1 training protocols differ beyond fusion and output paths')
+
+
+def assert_fair_b1_b2(b1, b2):
+    for config in (b1, b2):
+        validate_comparison_config(config)
+    if b1['model']['name'] != 'geolift_gca_res3d' or b2['model']['name'] != 'geolift_gcsi_res3d':
+        raise ValueError('Requires frozen B1 and new B2')
+    normalized=[]
+    for config in (b1, b2):
+        other=copy.deepcopy(config)
+        other.pop('experiment');other['training'].pop('device')
+        other['model'].pop('name');other['model'].pop('set_interaction',None)
+        normalized.append(other)
+    if normalized[0] != normalized[1]:
+        raise ValueError('B1/B2 protocols differ beyond set interaction and output paths')
