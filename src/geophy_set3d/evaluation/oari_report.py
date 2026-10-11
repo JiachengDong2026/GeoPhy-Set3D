@@ -1,4 +1,5 @@
 """Report the frozen B2/OARI comparison without overstating geometric evidence."""
+import csv
 import json
 import subprocess
 from pathlib import Path
@@ -63,6 +64,15 @@ def render_oari_report(root, repo):
     else:
         relation_text = f'关系错配没有恶化L1（变化{100*relation_delta:+.6f}个百分点），不能用该shortcut声称relations带来实测收益。'
     source = json.loads((root/'training_source_manifest.json').read_text())
+    draws = list(csv.DictReader((root/'clustered_v4_per_draw.csv').open()))
+    draw_metrics = {label:{int(r['draw_id']):float(r['relative_l1']) for r in draws if r['model'] == label} for label in labels}
+    draw_gains = [100*(draw_metrics[labels[0]][i]-draw_metrics[labels[1]][i]) for i in range(5)]
+    draw_wins = sum(gain > 0 for gain in draw_gains)
+    spread_l2_change = oari['spread']['mean_per_case']['relative_l2']-b2['spread']['mean_per_case']['relative_l2']
+    spread_l2_text = (f'spread V4 relative L2恶化{100*spread_l2_change:.6f}个百分点；本次GO不代表所有condition/metric均改善。'
+                     if spread_l2_change > 0 else 'spread V4 relative L2未恶化。')
+    pooled_rho = s['geometry_analysis']['correlations']['all']['rho']['l1_absolute_improvement']
+    clustered_rho = s['geometry_analysis']['correlations']['clustered-V4']['rho']['l1_absolute_improvement']
     text = f'''# GeoLift-OARI-Res3D supervised v1
 
 ## 1. Motivation
@@ -167,6 +177,9 @@ clustered_v4_per_draw.csv与clustered_v4_per_case.csv保存两模型各draw/case
 {'\n'.join(improvements)}
 
 正值代表OARI改善；判断重点始终是clustered V4和V3，不能只用普通Val-A微小变化包装核心创新。
+clustered V4有{draw_wins}/5个draw的mean L1改善，范围{min(draw_gains):.6f}至{max(draw_gains):.6f}个百分点。
+尽管均值明显改善，OARI clustered mean L1仍为{oari['sparse']['clustered-V4']['mean_per_case']['relative_l1']:.6f}，不声称已解决退化geometry重建。
+{spread_l2_text}
 
 ## 15. Geometry-stratified analysis
 
@@ -177,6 +190,7 @@ existing V3/V4/V6 random和clustered samples的case×draw结果保存geometry_st
 {'\n'.join(correlations)}
 
 Spearman仅描述性；同case多draw有重复，clustered draws也共享station windows，不作为独立样本，不报告统计显著性或因果解释。
+所有条件合并的diversity vs improvement ρ={pooled_rho:+.6f}，clustered内部ρ={clustered_rho:+.6f}；跨条件的负相关不能解释成每个regime内部都随diversity降低而单调增益。
 
 ## 16. Shortcut tests
 

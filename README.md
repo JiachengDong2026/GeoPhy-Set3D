@@ -274,3 +274,33 @@ fit recovered_fraction mean/median=0.695069/0.693206；所有case的fit误差下
 结论限定于本次有限优化，不证明64³存在理论capacity floor；本轮不进入强B3 projection constraint。
 63项测试通过，dataset、B0/B1/B2 checkpoints、projector源码与旧实验未修改，未使用test或Pool B。
 完整protocol、raw metrics、zero-init和plausibility诊断见 [64³ Capacity Audit报告](docs/reports/representation_capacity_64_v1.md)。
+
+## OARI：冻结 Final architecture candidate v1
+
+B3 measurement consistency及matched control仍为独立NO-GO结果，见 [B3报告](docs/reports/supervised_b3_measurement_consistency_v1.md)。
+网络创新阶段已完成 **GeoLift-OARI-Res3D / OARI GO**：仅替换B2 set interaction，保留encoder、32³ lifting、GCA pooling、decoder与监督训练协议。
+真实3D station-to-voxel ray relations进入per-head attention logits，5维local directional observability descriptor进入tokens和bias MLP。
+总参数319,558，相对B2仅增加516（0.161734%）；一层d32/h4/FFN64，pairwise bias为8→16→4、SiLU、final layer zero-init。
+
+一次4-train-case fixed-V4/120-epoch gate通过，正式训练从随机初始化跑满300 epochs，best为第278轮。
+与冻结B2完全相同的5个deterministic draws中：clustered V4 L1从0.652042降至0.565045（改善8.699705个百分点、13.3422%）；
+V3从0.147769降至0.136302（改善1.146646个百分点、7.7597%）。五个clustered draw均改善。
+Val-A L1/L2=0.093694/0.102252，Val-B=0.090660/0.101354；二者均优于B2。
+spread V4 L2略恶化；clustered绝对误差仍较高，单seed结果不证明解决ill-posedness或跨seed稳定性。
+115项测试通过；trained permutation/padding最大差3.28e−7/2.09e−7；mask、all-invalid、两个新增分支的梯度与连接检查正常。
+wrong relation只错配interaction内关系，L1从0.093694升至0.117097。
+dataset、B0/B1/B2 checkpoints、B3 artifacts及projector保持不变；test未使用，Pool B evaluation-only。
+
+```bash
+python scripts/overfit_supervised_oari.py --cases 4 --epochs 120
+python scripts/train_supervised.py --config configs/train_supervised_oari_300.yaml
+python scripts/compare_b2_oari_300.py --prepare
+python scripts/compare_b2_oari_300.py --device cuda:3
+```
+
+已有gate禁止重复覆盖；正式训练仅允许使用自身last.pt与同config恢复。
+结果、逐case/draw数据、geometry-stratified描述性分析、六个attention样例和五张图保存在
+`/data/djc/GeoPhy-Set3D/outputs/comparisons/b2_vs_oari_300/`。
+完整方法与边界见 [OARI报告](docs/reports/supervised_oari_v1.md)。本轮冻结OARI为Final architecture candidate v1，保留B2作为冻结比较基准。
+
+Evaluate measurement-residual refinement on top of the frozen OARI architecture.
