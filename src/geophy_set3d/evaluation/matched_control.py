@@ -209,6 +209,9 @@ def append_report(repo):
             table.append(f"| {name} | {domain} | {p['improved']} | {p['worsened']} | {p['unchanged']} | {p['mean_paired_change']:+.9f} | {p['median_paired_change']:+.9f} |")
     text.append('36个case逐对比较，change=candidate−control；abs(change)≤1e−12归为相等，无显著性检验。\n\n'+'\n'.join(table))
     text.append('评估前冻结规则：voxel L1 worsening≤.001，observed L1 worsening≤.001，held-out明确改善定义为相对下降≥1%；多个eligible优先held-out改善最大，差≤.001则weak>medium>strong较小λ优先。')
+    best=comparison['lowest_heldout_candidate']
+    best_result=s['candidate_vs_control'][best]
+    text.append(f"本轮最低held-out L1 candidate为{best}，相对control的held-out改善={100*best_result['relative_improvement']['heldout_l1']:.4f}%。Control本身相对冻结B2有continued-training drift；三组candidate的held-out/observed mean L1均略优于control，weak的voxel mean L1也略优于control。按预先定义的1%工程阈值，改善幅度不足以通过gate；这个NO-GO不构成regularizer导致原有恶化或完全无增量收益的证据。")
     for name,r in s['candidate_vs_control'].items():
         text.append(name+': '+('eligible' if r['eligible'] else '; '.join(r['rejection_reasons'])))
     decision=s['revised_decision']; selected=s['revised_selected']

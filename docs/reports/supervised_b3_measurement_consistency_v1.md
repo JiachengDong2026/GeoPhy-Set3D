@@ -118,3 +118,61 @@ Ran 79 tests in 20.543s，全部通过，含worker0/2/4与legacy站点、mask/al
 实现及数值产物source commit见checkpoint和environment；本报告生成时HEAD=406910c797aeccdb95c59ddda385621fd1bdc6c8。源manifest冻结训练文件hash；report-only revision与训练数值源分开。GitHub最终同步commit由终端报告给出。
 
 产物：`/data/djc/GeoPhy-Set3D/outputs/comparisons/b2_vs_b3_phys_v1`；comparison/projection/sparse CSV已标注baseline、screening或historical reference阶段；四张正式B2/B3 figures仅在正式run完成时生成，gate NO-GO时不生成正式对比图。测试日志、protocol、inventory、gate metrics/gradients、checkpoint路径均可查。
+
+
+## 15. Matched supervised-only fine-tuning control
+
+The original gate compared fine-tuned physics candidates against the unfine-tuned frozen B2 checkpoint. A matched λ=0 continuation control was therefore added to separate continued-training drift from the effect of measurement-consistency regularization.
+
+前14章节保留原gate的历史结果与NO-GO记录。本节给出补充control后的最新判断。没有重训weak/medium/strong，没有新λ/beta/loss/architecture实验。
+
+Control从同一个冻结B2 best启动，严格匹配166train、Pool A、V3–6 input+hold1、seed20261011、20 epochs、AdamW lr5e−5/wd1e−4、constant scheduler、FP32/batch2/clip1。仅λobs=λhold=0；训练不调用observed/heldout projection loss或其backprop。保持相同模型319042参数。评价唯一的epoch20 final checkpoint，未从20 epochs选best。
+
+自动重放全部166×20个case/index/epoch的冻结sampler，与三组candidate核对input与hold station IDs；三组共9960次比较，全部一致、重叠0。另核对36个Val-A fixedV4+hold1逐case station IDs和valid ray counts，全部一致。此处重放证明采样协议一致；旧candidate没有保存全部实际batch轨迹。
+
+仅评价Val-A/Pool A；raw ppm·m valid rays，固定K96与同一projection metrics实现。Pool B/test均未使用。
+
+| Model | Voxel L1 | Voxel L2 | MAE | RMSE | Obs L1 | Obs L2 | Hold L1 | Hold L2 |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| Frozen B2 | 0.09890657171 | 0.1067669526 | 0.0003289512528 | 0.001631771536 | 0.05255160908 | 0.06147438495 | 0.05791216309 | 0.0665497395 |
+| FT-control lambda0 | 0.102151361 | 0.1107233413 | 0.0003403310242 | 0.00169518161 | 0.05376393279 | 0.06259799644 | 0.05967526157 | 0.06795313417 |
+| weak | 0.1018257602 | 0.1100186949 | 0.0003393936448 | 0.0016856173 | 0.05315965398 | 0.06194560081 | 0.05926620196 | 0.06748395204 |
+| medium | 0.1022860471 | 0.1106492801 | 0.0003403671258 | 0.001693007315 | 0.05347864449 | 0.06218692662 | 0.05947513441 | 0.06748380203 |
+| strong | 0.1024339766 | 0.1104893986 | 0.000341437527 | 0.00169296984 | 0.05337245101 | 0.06190283829 | 0.05931542404 | 0.06735987595 |
+
+Candidate vs frozen B2表示20 epoch continuation后的整体变化，包含continued-training与regularization共同作用；candidate vs λ=0 control表示这个匹配实验中regularization的增量影响。两者均保留，旧candidate-vs-B2结果见第6/14节。单seed、CUDA grid_sample backward非逐bit确定性；不做复杂显著性检验或普适因果结论。
+
+Control − frozen B2：voxel_l1=+0.003244789, voxel_l2=+0.003956389, observed_l1=+0.001212324, heldout_l1=+0.001763098。
+
+Δ=candidate−control，负值为candidate更好；relative improvement=(control−candidate)/control，正值为candidate更好。完整8指标delta与relative improvement见control/candidate_vs_control.csv。
+
+| Candidate | Δvoxel L1 | Δvoxel L2 | Δobs L1 | Δhold L1 | Voxel L1 improvement | Obs L1 improvement | Hold L1 improvement | Eligible |
+|---|---:|---:|---:|---:|---:|---:|---:|---|
+| weak | -0.000325601 | -0.000704646 | -0.000604279 | -0.000409060 | +0.3187% | +1.1239% | +0.6855% | False |
+| medium | +0.000134686 | -0.000074061 | -0.000285288 | -0.000200127 | -0.1318% | +0.5306% | +0.3354% | False |
+| strong | +0.000282616 | -0.000233943 | -0.000391482 | -0.000359838 | -0.2767% | +0.7281% | +0.6030% | False |
+
+36个case逐对比较，change=candidate−control；abs(change)≤1e−12归为相等，无显著性检验。
+
+| Candidate | Domain | Improved cases | Worsened cases | Equal cases | Mean paired change | Median paired change |
+|---|---|---:|---:|---:|---:|---:|
+| weak | voxel_l1 | 22 | 14 | 0 | -0.000325601 | -0.000242952 |
+| weak | heldout_l1 | 24 | 12 | 0 | -0.000409060 | -0.000422390 |
+| medium | voxel_l1 | 16 | 20 | 0 | +0.000134686 | +0.000217078 |
+| medium | heldout_l1 | 21 | 15 | 0 | -0.000200127 | -0.000350612 |
+| strong | voxel_l1 | 16 | 20 | 0 | +0.000282616 | +0.000505210 |
+| strong | heldout_l1 | 23 | 13 | 0 | -0.000359838 | -0.000399904 |
+
+评估前冻结规则：voxel L1 worsening≤.001，observed L1 worsening≤.001，held-out明确改善定义为相对下降≥1%；多个eligible优先held-out改善最大，差≤.001则weak>medium>strong较小λ优先。
+
+本轮最低held-out L1 candidate为weak，相对control的held-out改善=0.6855%。Control本身相对冻结B2有continued-training drift；三组candidate的held-out/observed mean L1均略优于control，weak的voxel mean L1也略优于control。按预先定义的1%工程阈值，改善幅度不足以通过gate；这个NO-GO不构成regularizer导致原有恶化或完全无增量收益的证据。
+
+weak: held-out improvement below predeclared 1%
+
+medium: held-out improvement below predeclared 1%
+
+strong: held-out improvement below predeclared 1%
+
+**Revised B3 gate: definitive NO-GO**。no candidate meets the predeclared measurement gain and voxel preservation criteria。B2 remains the current main model。不追加λ搜索，不正式训练B3，不修改projector或增加projection loss。下一阶段建议network architecture innovation；本轮未实现。
+
+Ran 89 tests in 21.160s，全部通过。数据/B2/projector/旧weak-medium-strong source-config-checkpoint-metrics-artifacts冻结hash均未变；原summary全部字段值与原报告正文保留。控制实验产物：`/data/djc/GeoPhy-Set3D/outputs/comparisons/b2_vs_b3_phys_v1/lambda_gate/control`，包括checkpoint、training log、effective config、metrics、per-case paired CSV、sampling与integrity验证。Control源码commit见environment/checkpoint；最终GitHub同步commit由终端给出。
