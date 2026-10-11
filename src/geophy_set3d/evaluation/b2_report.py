@@ -33,12 +33,18 @@ def render_b2_report(root,repo):
     for e in interaction['examples']:
         diagnostic_rows.append(f"| {e['case_index']} | {e['selection']} | {e['max_deviation_from_uniform']:.8g} |")
     if s['retain_b2']:
-        conclusion='B2满足本轮工程GO检查，建议保留并进入B3。最优先的V3/clustered收益见下表；该结论限定于一个训练seed的验证比较。'
+        conclusion='B2满足本轮工程GO检查，建议保留并进入B3。该结论限定于一个训练seed的验证比较。'
     else:
         conclusion='B2未满足全部工程GO检查，暂不建议直接进入B3。保留本轮结果供负责人判断，没有做head/block/hidden-dimension搜索或追加seed。'
     if (b2['sparse']['V3']['mean_per_case']['relative_l1']>=b1['sparse']['V3']['mean_per_case']['relative_l1'] and
         b2['sparse']['clustered-V4']['mean_per_case']['relative_l1']>=b1['sparse']['clustered-V4']['mean_per_case']['relative_l1']):
         conclusion+=' Explicit set interaction did not outperform independent geometry-conditioned pooling on either prioritized sparse/clustered L1 condition.'
+    clustered_gain=b1['sparse']['clustered-V4']['mean_per_case']['relative_l1']-b2['sparse']['clustered-V4']['mean_per_case']['relative_l1']
+    if 0<=clustered_gain<s['protocol']['engineering_go']['clear_sparse_l1_absolute_gain']:
+        conclusion+=f" clustered L1仅改善{100*clustered_gain:.6f}个百分点（相对{100*clustered_gain/b1['sparse']['clustered-V4']['mean_per_case']['relative_l1']:.4f}%），不足以据此声称解决view冗余问题。"
+    b_l2_change=b2['evaluations']['Val-B-V4']['mean_per_case']['relative_l2']-b1['evaluations']['Val-B-V4']['mean_per_case']['relative_l2']
+    if b_l2_change>0:
+        conclusion+=f" Val-B relative L2恶化{100*b_l2_change:.6f}个百分点（相对{100*b_l2_change/b1['evaluations']['Val-B-V4']['mean_per_case']['relative_l2']:.4f}%）；GO依据冻结的L1工程检查，不代表所有指标改善。"
     next_stage='加入measurement-domain physics consistency。' if s['recommend_b3'] else '本轮不进入B3。'
     text=f'''# GeoLift-GCSI-Res3D / B2 supervised set interaction v1
 

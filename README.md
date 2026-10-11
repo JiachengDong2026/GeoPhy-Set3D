@@ -237,3 +237,11 @@ python scripts/compare_b0_b1_b2_300.py --device cuda:3
 包含三模型主表、V3/V4/V6、clustered、spread V4、成对improvement表、interaction矩阵、四张图与完整性记录。
 新报告在完成后的比较入口生成：`docs/reports/supervised_b2_gcsi_v1.md`。
 B2判断优先关注V3与clustered收益；本轮不实现B3或追加seed/超参数搜索。
+
+B2已完成300 epochs，best为第288轮，Val-A total supervised loss=0.009892290。
+Val-A relative L1/L2=0.098907/0.106767，Val-B=0.096799/0.114124；
+相对B1，Val-A L1改善4.3741%，V3从0.152994降至0.147769（改善3.4151%）。
+clustered V4 L1仅从0.653769降至0.652042（改善0.2642%），Val-B L2反而恶化2.1247%。
+冻结的五项L1工程GO检查通过，建议保留B2并进入B3；单seed结果不能证明已学会去冗余。
+56项测试、trained permutation/padding、mask/all-invalid与受保护文件完整性检查全部通过。
+完整主表、成对improvement、shortcut和interaction诊断见 [B2 GCSI报告](docs/reports/supervised_b2_gcsi_v1.md)。
