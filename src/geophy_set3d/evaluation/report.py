@@ -255,6 +255,7 @@ relative L1 absolute improvement={horizon['absolute_relative_l1_improvement']:.9
 支持相同V下宽coverage更有利。不能宣称arbitrary geometry、任意V或已经解决sparse-view tomography。
 
 仍只有36个val plumes，同一Fluent来源和若干相关source families，未做独立现实测量域验证。
+这些val案例也用于best checkpoint和early stopping选择，本阶段分数不是独立盲测test估计。
 小组样本、three-seed数量、同case重复draw及acquisition family的边界限制外推；
 standard deviations为各自明确的case/draw/seed变异，非泛化置信区间。
 32³ lifting和3D卷积对窄/多源plume可能有细节与峰值误差。
