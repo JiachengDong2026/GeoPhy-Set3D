@@ -214,3 +214,26 @@ B1主表L1改善0.489941个百分点（相对4.5227%），V3改善1.115847个百
 五项基本GO检查全部通过，但主表L1收益偏弱，单seed不足以支持跨seed稳定或显著优势；暂不建议直接进入B2。
 46项测试全部通过，frozen dataset、历史结果、B0网络源文件和数值训练代码hash均未变化。
 完整设计、主表、shortcut、attention与复现证据见 [B1 GCA报告](docs/reports/supervised_b1_gca_v1.md)。
+
+## B2：Geometry-Conditioned Set Interaction
+
+B2 `GeoLift-GCSI-Res3D` 在每个32³ voxel内加入一层view self-attention：
+geometry embedding4→16→16，feature32+geometry16投影到token32，4 heads、FFN32→64→32、pre-norm residual。
+interaction输出继续使用原B1 GCA pooling，encoder/lifting/decoder与supervised loss保持一致。
+没有view-index positional embedding或pairwise geometry bias，不在voxel空间做attention。
+B2共319,042参数，比B1增加10,464；B=2/V6 FP32前向反向已验证可在RTX4090运行。
+
+只训练新的B2-300/seed20261011，复用被冻结的B0/B1 checkpoints与结果：
+
+```bash
+python scripts/compare_b0_b1_b2_300.py --prepare
+python scripts/overfit_supervised_b2.py --cases 4 --epochs 120
+python scripts/train_supervised.py --config configs/train_supervised_b2_300.yaml
+python scripts/compare_b0_b1_b2_300.py --device cuda:3
+```
+
+继续使用固定300-epoch architecture-comparison protocol，不使用test，Pool B仅用于冻结best后的评估。
+比较输出写到 `/data/djc/GeoPhy-Set3D/outputs/comparisons/b0_b1_b2_300/`，
+包含三模型主表、V3/V4/V6、clustered、spread V4、成对improvement表、interaction矩阵、四张图与完整性记录。
+新报告在完成后的比较入口生成：`docs/reports/supervised_b2_gcsi_v1.md`。
+B2判断优先关注V3与clustered收益；本轮不实现B3或追加seed/超参数搜索。
