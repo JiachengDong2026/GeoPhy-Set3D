@@ -303,4 +303,45 @@ python scripts/compare_b2_oari_300.py --device cuda:3
 `/data/djc/GeoPhy-Set3D/outputs/comparisons/b2_vs_oari_300/`。
 完整方法与边界见 [OARI报告](docs/reports/supervised_oari_v1.md)。本轮冻结OARI为Final architecture candidate v1，保留B2作为冻结比较基准。
 
-Evaluate measurement-residual refinement on top of the frozen OARI architecture.
+## MRGR：冻结 Final architecture candidate v2
+
+**GeoLift-OARI-MRGR-Res3D / MRGR GO** 已完成单次 measurement-residual-guided refinement。
+共享 OARI 产生 C0，使用未修改的 K96 projector 计算 raw ppm·m signed residual，固定除以
+32284.894580078173，再经 16-channel residual encoder、同一个 GeometryLifting 和 zero-init adapter
+修正 context；第二次调用同一个 GCA 与 decoder 产生 C1。训练仅监督 C1，没有新增 projection loss。
+总参数 **332,070**，较 OARI 增加 12,512（3.915%）。
+
+一次冻结 OARI、4-case fixed-V4、60-epoch gate 通过：C0 L1 保持 0.036839，C1 降至 0.029469。
+正式模型重新随机初始化，按相同 seed/protocol 跑满 300 epochs，best 为第 295 轮。
+以下为 mean per-case relative L1；V3/random V4/V6/clustered 为与 OARI 完全配对的 5 draws：
+
+| 条件 | 冻结 OARI | MRGR C0 | MRGR C1 |
+|---|---:|---:|---:|
+| Val-A fixed V4 | 0.093694 | 0.111228 | **0.067980** |
+| Val-B fixed V4 | 0.090660 | 0.106385 | **0.060948** |
+| V3 | 0.136302 | 0.159126 | **0.098309** |
+| random V4 | 0.097139 | 0.111392 | **0.066923** |
+| V6 | 0.080065 | 0.094160 | **0.053401** |
+| clustered V4 | 0.565045 | 0.804391 | **0.495210** |
+| spread V4 draw0 | 0.089940 | 0.106313 | **0.058919** |
+
+MRGR 的 C0 是联合训练中只由 C1 loss 间接监督的中间输出；其误差高于冻结 OARI，
+C0→C1 改善与 residual shortcut 提供 refinement 贡献证据。
+Val-A normal/zero/wrong-pairing/signflip L1 为 0.067980/0.109388/0.106254/0.180266。
+Val-A observed reprojection L1 从 0.067022 降至 0.032218；held-out 从 0.071169 降至 0.040345。
+134 项测试通过，trained FP32 permutation/padding 最大差为 2.98e−7/2.38e−7。
+峰值 allocated memory 4.342 GiB，平均 epoch 16.277 s（非受控 benchmark）。
+所有旧 OARI/B0/B1/B2/B3 产物、dataset、projector 保持不变；Pool B 仅在训练后评估，test 未使用。
+单 seed 结果不证明跨 seed 稳定性或 inverse-problem uniqueness；clustered 绝对误差仍高。
+
+```bash
+python scripts/overfit_supervised_mrgr.py
+python scripts/train_supervised_mrgr.py --config configs/train_supervised_oari_mrgr_300.yaml
+python scripts/compare_oari_mrgr_300.py
+```
+
+已有 gate 禁止重复覆盖；正式训练仅允许使用自身 last.pt 与同 config 恢复。
+完整方法、20 节报告见 [MRGR 报告](docs/reports/supervised_oari_mrgr_v1.md)。
+所有 CSV/JSON、42 项终端汇报、六组 diagnostics、五张图及 v2 冻结记录在
+`/data/djc/GeoPhy-Set3D/outputs/comparisons/oari_vs_mrgr_300/`。
+OARI v1 继续作为冻结基准保留；本轮不增加第三个模块。
