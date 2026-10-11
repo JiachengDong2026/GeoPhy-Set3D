@@ -1,0 +1,22 @@
+dataset:
+  root: /data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1
+train:
+  split: train
+  geometry_pool: train
+  min_input_views: 3
+  max_input_views: 6
+  hold_views: 1
+normalization:
+  method: linear_p99_5
+  statistics_file: train_statistics.json
+gt:
+  resolution: 64
+  load_gt128: false
+loader:
+  batch_size: 2
+  shuffle: true
+  num_workers: 4
+  pin_memory: true
+  persistent_workers: false
+random:
+  seed: 20261011

@@ -65,3 +65,47 @@ Debug 为 5 个训练样本、16/8 个站位、K=128；MVP 为全部准入样本
 保留的方法验证样本固定到训练集，投影器验证和 Debug 也仅使用训练集。
 冻结后的配置、哈希、统计量和审计见数据集根目录；执行报告见 `docs/reports/dataset_generation_v1.md`。
 `configs/example.yaml` 仍仅为早期配置结构示例。
+
+## 训练数据接口与 64³ 投影审计
+
+训练数据配置为 `configs/training_data_v1.yaml`。`ProjectionPoolDataset` 只从冻结的
+`source_index.jsonl` 确定 membership，通过 mmap 读取选择的 station，默认不读取原始 128³ GT。
+训练只允许 `split="train", geometry_pool="train"`（Pool A）；`val/test + train` 表示羽流泛化，
+`val/test + ood` 表示独立几何评估。所有 split 共用训练集有效 ray 的 p99.5 归一化尺度。
+
+```python
+from torch.utils.data import DataLoader
+import torch
+from geophy_set3d.data.projection_pool_dataset import ProjectionPoolDataset
+from geophy_set3d.data.collate import projection_pool_collate
+
+dataset = ProjectionPoolDataset(
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1",
+    split="train", geometry_pool="train", base_seed=20261011,
+)
+loader = DataLoader(dataset, batch_size=2, shuffle=True, num_workers=4,
+                    collate_fn=projection_pool_collate,
+                    generator=torch.Generator().manual_seed(20261011))
+dataset.set_epoch(0)  # 每个 epoch 创建 iterator 前设置；支持 persistent_workers。
+batch = next(iter(loader))
+```
+
+直接导入时需设置 `PYTHONPATH=src`。每个样本返回 3–6 个随机 input station 和 1 个不重叠的
+held-out station，保留原始 `ppm·m`、固定尺度归一化投影、valid-ray mask、路径长度和冻结几何。
+GT64 是 `[1,64,64,64]` XYZ 质量分数；`load_gt128=True` 才加载原始 GT。
+Collate 按 batch 最大 view 数补零，返回 `view_mask` / `hold_view_mask`；station ID padding 为 -1。
+`view_mask` 表示实际 view，`valid_ray` 表示实际射线穿过域，两者必须分别使用。
+
+```bash
+OMP_NUM_THREADS=2 PYTHONPATH=src:tests python -m unittest discover -s tests -v
+python scripts/validate_training_interface.py
+python scripts/validate_frozen_generation.py
+python scripts/audit_c64_projection_mismatch.py --samples 96 --split train
+```
+
+审计对全部 166 个训练 case 的相同 Pool A 计算 `P_diff(C128,96)` 和 `P_diff(C64,96)`，
+与冻结的 `P_ref(C128,256)` 比较，正式指标仅使用 valid rays。默认采用 CPU / float64 / 8 线程。
+输出在 `/data/djc/GeoPhy-Set3D/outputs/audits/`，项目 `outputs/audits` 是该目录的本机链接。
+`validate_frozen_generation.py` 将原有几何、物理、收敛和完整性 QA 的结果写到外部，
+适合检查冻结数据；原生成入口的 `--audit-only` 会刷新冻结文件，本轮不使用。
+接口、复现规则、审计数值和测试结果见 `docs/reports/training_interface_v1.md`。
