@@ -11,7 +11,7 @@ import yaml
 from geophy_set3d.data.build_utils import digest, source_snapshot
 from geophy_set3d.data.projection_pool_dataset import ProjectionPoolDataset
 from geophy_set3d.data.collate import projection_pool_collate
-from geophy_set3d.models import GeoLiftMeanRes3D
+from geophy_set3d.models import build_model
 from geophy_set3d.training.metrics import VolumeMetrics
 from geophy_set3d.training.losses import supervised_loss
 from geophy_set3d.training.utils import load_config, move_batch, write_json, permute_views
@@ -55,7 +55,7 @@ def load_model(checkpoint_path, device):
     torch.backends.cudnn.allow_tf32 = False
     torch.backends.cuda.matmul.allow_tf32 = False
     checkpoint = torch.load(checkpoint_path, map_location=device, weights_only=False)
-    model = GeoLiftMeanRes3D().to(device)
+    model = build_model(checkpoint['config']).to(device)
     model.load_state_dict(checkpoint['model']); model.eval()
     return model, checkpoint
 

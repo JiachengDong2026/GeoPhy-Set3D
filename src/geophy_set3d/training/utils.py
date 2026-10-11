@@ -40,8 +40,17 @@ def load_config(path):
     # Fail explicitly rather than quietly accepting forbidden/different model choices.
     expected = dict(name='geolift_mean_res3d', input_channels=3, feature_channels=32,
                     lift_resolution=32, output_resolution=64, output_activation='sigmoid')
-    if config['model'] != expected or config['training']['precision'] != 'fp32':
-        raise ValueError('This baseline implements the fixed B0 architecture in FP32 only')
+    model = dict(config['model'])
+    name = model.pop('name')
+    gca = model.pop('gca', None)
+    if name not in ('geolift_mean_res3d', 'geolift_gca_res3d'):
+        raise ValueError('Unknown supervised architecture')
+    if model != {k: v for k, v in expected.items() if k != 'name'} or config['training']['precision'] != 'fp32':
+        raise ValueError('Supervised comparison requires the fixed encoder/lifting/decoder in FP32')
+    if name == 'geolift_mean_res3d' and gca is not None:
+        raise ValueError('B0 cannot contain attention settings')
+    if name == 'geolift_gca_res3d' and gca != dict(distance_scale_m=6.5, azimuth_scale_deg=180.0):
+        raise ValueError('B1 requires the frozen acquisition geometry scales')
     if config['train']['split'] != 'train' or config['train']['geometry_pool'] != 'train':
         raise ValueError('Training requires train/Pool A')
     if config['validation']['split'] != 'val' or config['validation']['geometry_pool'] != 'train':

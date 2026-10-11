@@ -174,3 +174,35 @@ Horizon probe从头初始化，以cosine T_max=220诊断更长训练预算，不
 source/dataset/model/checkpoint/旧实验完整性全部通过。
 完整protocol、view count、coverage、分层、worst cases、multi-seed及horizon结论见
 [B0 Generalization报告](docs/reports/supervised_b0_generalization_v1.md)。
+
+## B0/B1 architecture comparison：固定300 epochs
+
+本阶段按负责人指定冻结300-epoch协议，不再搜索训练horizon。
+新增 `configs/train_supervised_b0_300.yaml` / `configs/train_supervised_b1_300.yaml`，
+不覆盖B0-150 reference或220 diagnostic。两者均FP32、batch2、AdamW lr2e−4/weight_decay1e−4、
+gradient clip1、cosine T_max300，禁用early stopping；train只用Pool A/V3–6/hold0，
+固定Val-A-V4 minimum supervised loss选best。新配置默认GPU3，可在新的实验启动前修改device。
+
+B1 `GeoLift-GCA-Res3D` 复用B0的encoder/lifting/decoder，仅替换fusion：
+voxel级lifted feature与归一化α/β、scanner距离和station azimuth共同生成轻量view score，
+在visibility AND view_mask上做安全masked softmax。支持 `model(batch, return_attention=True)`。
+B0 306,625参数；B1 308,578参数，新增fusion仅1,953参数。
+
+```bash
+python scripts/compare_b0_b1_300.py --prepare
+python scripts/train_supervised.py --config configs/train_supervised_b0_300.yaml --gate-config configs/train_supervised_b0.yaml
+python scripts/overfit_supervised_b1.py --cases 4 --epochs 120
+python scripts/train_supervised.py --config configs/train_supervised_b1_300.yaml
+python scripts/compare_b0_b1_300.py --device cuda:3
+# 恢复只允许同实验、同config的last checkpoint：
+python scripts/train_supervised.py --config configs/train_supervised_b1_300.yaml --resume /data/djc/GeoPhy-Set3D/outputs/checkpoints/supervised_b1_gca_300/last.pt
+```
+
+比较入口要求两个run均完成300 epochs，使用冻结best checkpoint，只评估Val-A/Val-B、
+Pool A的V3/V4/V6各5个deterministic draws、clustered V4五draw、wrong-geometry/zero-measurement，
+以及固定少量val案例的attention/entropy/permutation/padding诊断。
+始终不做test模型评估，Pool B仅用于冻结checkpoint的评估。
+输出在 `/data/djc/GeoPhy-Set3D/outputs/comparisons/b0_vs_b1_300/`，
+包含summary/CSV/effective protocol、逐case/draw结果、四张主图、完整性与test证据。
+完整报告由完成后的比较入口生成：`docs/reports/supervised_b1_gca_v1.md`。
+单seed结构比较不等于跨seed稳定性或统计显著性结论。

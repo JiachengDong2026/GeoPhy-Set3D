@@ -1,0 +1,53 @@
+dataset:
+  root: /data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1
+experiment:
+  name: supervised_b1_gca_300
+  output_root: /data/djc/GeoPhy-Set3D/outputs
+loader:
+  num_workers: 4
+  persistent_workers: true
+  pin_memory: true
+loss:
+  relative_epsilon: 1.0e-06
+  relative_l1: 0.1
+  smooth_l1: 1.0
+model:
+  feature_channels: 32
+  input_channels: 3
+  lift_resolution: 32
+  name: geolift_gca_res3d
+  output_activation: sigmoid
+  output_resolution: 64
+  gca:
+    distance_scale_m: 6.5
+    azimuth_scale_deg: 180.0
+normalization:
+  method: linear_p99_5
+  statistics_file: train_statistics.json
+optimizer:
+  lr: 0.0002
+  name: adamw
+  weight_decay: 0.0001
+train:
+  geometry_pool: train
+  hold_views: 0
+  max_input_views: 6
+  min_input_views: 3
+  split: train
+training:
+  batch_size: 2
+  device: cuda:3
+  early_stopping_patience: null
+  gradient_accumulation: 1
+  gradient_clip_norm: 1.0
+  max_epochs: 300
+  precision: fp32
+  seed: 20261011
+validation:
+  geometry_pool: train
+  hold_views: 0
+  input_views: 4
+  split: val
+scheduler:
+  name: cosine
+  T_max: 300
