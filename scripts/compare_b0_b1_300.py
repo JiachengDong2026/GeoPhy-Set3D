@@ -57,6 +57,14 @@ def freeze_protocol(configs):
             b0_sources={str(p):digest(p) for p in Path('src/geophy_set3d/models').glob('*.py')
                         if p.name not in ('__init__.py','attention_fusion.py','geolift_gca_res3d.py')},
             original_config=digest('configs/train_supervised_b0.yaml')))
+    source_manifest=ROOT/'training_source_manifest.json'
+    if not source_manifest.exists():
+        sources=[*Path('src/geophy_set3d/models').glob('*.py'),
+                 *Path('src/geophy_set3d/training').glob('*.py'),Path('scripts/train_supervised.py'),
+                 Path('scripts/overfit_supervised_b1.py'),*map(Path,CONFIGS)]
+        write_json(source_manifest,dict(repository=str(Path.cwd()),
+            implementation_commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
+            sha256={str(p):digest(p) for p in sources}))
     return protocol
 
 
@@ -112,13 +120,16 @@ def check_integrity(config):
     base = Path(config['experiment']['output_root'])
     historical = {relative: digest(base/relative) for relative in before['historical']}
     unchanged_sources = {relative:digest(relative) for relative in before['b0_sources']}
+    training_sources=json.loads((ROOT/'training_source_manifest.json').read_text())['sha256']
     result = dict(dataset_unchanged=dataset==before['dataset'],
         historical_results_unchanged=historical==before['historical'],
         b0_model_sources_unchanged=unchanged_sources==before['b0_sources'],
         b0_150_config_unchanged=digest('configs/train_supervised_b0.yaml')==before['original_config'],
+        numerical_training_sources_unchanged=all(digest(p)==sha for p,sha in training_sources.items()),
         dataset_files=len(dataset), test_model_evaluation=False, pool_b_training=False)
     result['passed'] = all(result[k] for k in ('dataset_unchanged','historical_results_unchanged',
-                                              'b0_model_sources_unchanged','b0_150_config_unchanged'))
+                                              'b0_model_sources_unchanged','b0_150_config_unchanged',
+                                              'numerical_training_sources_unchanged'))
     write_json(ROOT/'integrity_summary.json', result)
     if not result['passed']:
         raise AssertionError('Frozen artifacts changed')
