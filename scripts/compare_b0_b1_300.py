@@ -46,6 +46,17 @@ def freeze_protocol(configs):
         raise ValueError('Effective comparison protocol changed')
     if not target.exists():
         target.write_text(yaml.safe_dump(protocol, sort_keys=False))
+    inventory=ROOT/'inventory_before.json'
+    if not inventory.exists():
+        base=Path(configs[0]['experiment']['output_root'])
+        directories=[base/k/'supervised_b0' for k in ('logs','checkpoints','figures')]
+        directories.append(base/'evaluations/supervised_b0_generalization_v1')
+        write_json(inventory, dict(dataset=source_snapshot(configs[0]['dataset']['root']),
+            historical={str(p.relative_to(base)):digest(p) for directory in directories
+                        for p in directory.rglob('*') if p.is_file()},
+            b0_sources={str(p):digest(p) for p in Path('src/geophy_set3d/models').glob('*.py')
+                        if p.name not in ('__init__.py','attention_fusion.py','geolift_gca_res3d.py')},
+            original_config=digest('configs/train_supervised_b0.yaml')))
     return protocol
 
 
