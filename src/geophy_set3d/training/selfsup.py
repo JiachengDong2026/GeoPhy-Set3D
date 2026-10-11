@@ -56,6 +56,11 @@ def make_loader(dataset, config, shuffle=False, generator=None):
         **({'multiprocessing_context':'fork'} if workers else {}))
 
 
+def move_dual_batch(batch, device):
+    assert_no_gt(batch)
+    return {k: move_batch(batch[k], device) for k in ('A', 'B', 'H')}
+
+
 def measurement_discrepancy(projected, target, *, beta=.01,relative_l1=.1,relative_epsilon=1e-6):
     """Mean per-case robust discrepancy across all valid rays, including Y=0."""
     valid=target['input_valid_ray'].detach().bool() & target['view_mask'][:,:,None,None,None]
@@ -124,7 +129,7 @@ def zero_volume_baseline(loader,config):
     totals=[]; losses=[]
     with torch.no_grad():
         for raw in loader:
-            assert_no_gt(raw); b=move_batch(raw,config['training']['device']); h=b['H']
+            assert_no_gt(raw); b=move_dual_batch(raw,config['training']['device']); h=b['H']
             zero=torch.zeros_like(h['input_projection_raw'])
             losses.append((float(measurement_discrepancy(zero,h)),len(h['case_id'])))
             valid=h['input_valid_ray'].bool() & h['view_mask'][:,:,None,None,None]
@@ -143,7 +148,7 @@ def run_epoch(model,loader,config,optimizer=None):
     if training: optimizer.zero_grad(set_to_none=True)
     with torch.set_grad_enabled(training):
         for step,raw in enumerate(loader):
-            assert_no_gt(raw); batch=move_batch(raw,config['training']['device'])
+            assert_no_gt(raw); batch=move_dual_batch(raw,config['training']['device'])
             loss,parts,volumes,projections=objective(model,batch)
             n=len(volumes[0]); count+=n
             if training:

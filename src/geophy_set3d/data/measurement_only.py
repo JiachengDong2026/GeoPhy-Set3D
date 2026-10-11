@@ -1,5 +1,4 @@
 """Strict measurement-only access and deterministic disjoint A/B/H sampling."""
-import copy
 import hashlib
 from dataclasses import dataclass
 import numpy as np
@@ -72,7 +71,7 @@ class MeasurementOnlyPoolDataset(ProjectionPoolDataset):
 
     def _measurement_sample(self, row, projections, inputs, holds):
         result=dict(case_id=row['case_id'],sample_id=row['sample_id'],split=self.split,
-                    geometry_pool=self.geometry_pool,condition_meta=copy.deepcopy(row['condition_meta']),
+                    geometry_pool=self.geometry_pool,
                     projection_scale_ppm_m=torch.tensor(self.y_ref,dtype=torch.float64))
         result.update(self._views(projections,inputs,'input'))
         result.update(self._views(projections,holds,'hold'))
