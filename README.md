@@ -143,3 +143,25 @@ wrong geometry / wrong measurement / zero measurement 的 relative L1 为0.87744
 正常输入明显更好；同步 view permutation 最大差4.92e−7。31项测试通过，冻结数据 inventory 未变。
 结构、完整 per-case/pooled 指标、GPU显存、过拟合、完整训练和限制见
 [Supervised B0报告](docs/reports/supervised_b0_v1.md)。
+
+## B0 Generalization Evaluation Protocol v1
+
+泛化画像保持 B0 网络、正式150-epoch配置和旧实验输出冻结，只在新的
+`/data/djc/GeoPhy-Set3D/outputs/evaluations/supervised_b0_generalization_v1/` 保存结果。
+协议在 `configs/evaluate_b0_generalization_v1.yaml`：先精确复现 Val-A-V4，再评估同一 acquisition
+family 的未见 Pool B station poses、V=2/3/4/5/6/8 的五 deterministic draws、
+V4/V6 的 spread/random/clustered、metadata 分层和 worst cases。所有 model evaluation 使用 val。
+
+```bash
+python scripts/evaluate_b0_generalization.py --stage reference
+python scripts/train_b0_multiseed.py --seed 20261012
+python scripts/train_b0_multiseed.py --seed 20261013
+python scripts/run_b0_horizon_probe.py
+python scripts/evaluate_b0_generalization.py --stage all
+python scripts/summarize_b0_generalization.py
+```
+
+三个训练 seed 使用相同 reference val station IDs；原seed20261011直接引用已有checkpoint。
+Horizon probe从头初始化，以cosine T_max=220诊断更长训练预算，不改写原checkpoint/scheduler。
+新run支持`--resume`；不运行test、不训练Pool B、不实现B1。
+主图导出PNG/PDF，同时保留CSV、逐case/draw JSONL和source/dataset/reference完整性记录。
