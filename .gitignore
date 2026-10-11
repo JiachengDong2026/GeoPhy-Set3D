@@ -1,0 +1,46 @@
+# Python and local tooling
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+build/
+dist/
+.venv/
+venv/
+.ipynb_checkpoints/
+.vscode/
+.idea/
+.DS_Store
+*.swp
+*.swo
+
+# Local environment and credentials
+.env
+.env.*
+!.env.example
+
+# Datasets: retain directory structure and documentation
+/data/**
+!/data/**/
+!/data/**/.gitkeep
+!/data/README.md
+
+# Generated experiment output
+/outputs/**
+!/outputs/**/
+!/outputs/**/.gitkeep
+!/outputs/README.md
+
+# Model weights and large array files placed elsewhere by accident
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.npy
+*.npz
+*.h5
+*.hdf5

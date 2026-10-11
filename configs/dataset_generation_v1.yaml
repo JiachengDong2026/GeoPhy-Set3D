@@ -1,0 +1,59 @@
+dataset:
+  source_root: /data/djc/GeoPhy-Set3D/data/raw/Fluent/static_final_frame_partial_v1
+  output_root: /data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1
+  name: geophy_projection_pool_v1
+  ignore_existing_inputs: true
+  source_read_only: true
+gt:
+  shape: [128, 128, 128]
+  axes: [x, y, z]
+  bounds_m: [[0.0, 0.6], [0.0, 0.6], [0.0, 0.6]]
+  range_tolerance: 0.000001
+  downsample: endpoint_aligned_trilinear_64
+frames:
+  mode: final_only
+  frame_index: 60
+  physical_time_s: 2.0
+geometry:
+  profile: tdlas_fan_half_ring_r6m_v1
+  train_count: 64
+  ood_count: 32
+  train_seed: 20261011
+  ood_seed: 20261012
+  azimuth_deg: [0.0, 180.0]
+  radius_m: [5.5, 6.5]
+  height_m: [0.25, 0.35]
+  target_m: [0.3, 0.3, 0.3]
+  horizontal_fan_deg: 10.0
+  vertical_scan_deg: 8.0
+  projection_hw: [64, 64]
+  beam_convention: spherical_yaw_elevation
+  array_axes: [vertical_steering, horizontal_steering]
+projector:
+  version: ref_projector_v1
+  methane_molar_mass: 16.043
+  air_molar_mass: 28.965
+  reference_samples: 256
+  interpolation: trilinear_mass_fraction_before_mole_conversion
+  integration: trapezoidal
+  output_unit: ppm_m
+  dtype: float32
+  backend: cpp_openmp_cpu_float64_accumulation
+  threads: 12
+  view_chunk: 4
+split:
+  train: 0.70
+  val: 0.15
+  test: 0.15
+  seed: 20261010
+  retained_evidence: train_only
+validation:
+  convergence_relative_l1_max: 0.005
+  convergence_relative_l2_max: 0.01
+  reference_diff_relative_l1_max: 0.02
+  reference_diff_relative_l2_max: 0.03
+debug:
+  sample_count: 5
+  train_count: 16
+  ood_count: 8
+  reference_samples: 128
