@@ -135,3 +135,11 @@ python scripts/train_supervised_b0.py --resume /data/djc/GeoPhy-Set3D/outputs/ch
 `/data/djc/GeoPhy-Set3D/outputs/{logs,checkpoints,figures}/`，不提交数据和权重。
 评估入口仅运行 val/Pool A，包含 zero、train-mean、错配几何、跨 case measurement、zero measurement
 和同步 view permutation。test 不参与模型选择。
+
+
+本轮实测：150 epochs，best 为第148个 epoch；36-case val 的 mean per-case
+MAE=0.0004593、RMSE=0.0023858、relative L1=0.13289、relative L2=0.15161。
+wrong geometry / wrong measurement / zero measurement 的 relative L1 为0.87744 / 1.92355 / 1.00134，
+正常输入明显更好；同步 view permutation 最大差4.92e−7。31项测试通过，冻结数据 inventory 未变。
+结构、完整 per-case/pooled 指标、GPU显存、过拟合、完整训练和限制见
+[Supervised B0报告](docs/reports/supervised_b0_v1.md)。
