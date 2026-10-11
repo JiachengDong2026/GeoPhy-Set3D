@@ -23,7 +23,7 @@ def validate_comparison_config(config):
     output = Path(config['experiment']['output_root']).resolve()
     if output.is_relative_to(frozen.resolve()):
         raise ValueError('Output cannot be inside the frozen dataset')
-    if config['model']['name'] in ('geolift_gca_res3d', 'geolift_gcsi_res3d', 'geolift_oari_res3d', 'geolift_oari_mrgr_res3d'):
+    if config['model']['name'] in ('geolift_gca_res3d', 'geolift_gcsi_res3d', 'geolift_oari_res3d', 'geolift_oari_mrgr_res3d', 'geolift_oari_mrgr_zero_residual_control'):
         acquisition = yaml.safe_load((frozen/'generation_config.yaml').read_text())['geometry']
         scales = dict(distance_scale_m=float(acquisition['radius_m'][1]),
                       azimuth_scale_deg=float(acquisition['azimuth_deg'][1]))
@@ -89,3 +89,17 @@ def assert_fair_oari_mrgr(oari, mrgr):
         normalized.append(other)
     if normalized[0] != normalized[1]:
         raise ValueError('OARI/MRGR training protocols differ')
+
+
+def assert_fair_mrgr_zero_control(full, control):
+    for config in (full, control):
+        validate_comparison_config(config)
+    if (full['model']['name'], control['model']['name']) != ('geolift_oari_mrgr_res3d', 'geolift_oari_mrgr_zero_residual_control'):
+        raise ValueError('Requires frozen full MRGR and its zero-residual control')
+    normalized = []
+    for config in (full, control):
+        other = copy.deepcopy(config)
+        other.pop('experiment'); other['training'].pop('device'); other['model'].pop('name')
+        normalized.append(other)
+    if normalized[0] != normalized[1]:
+        raise ValueError('Full/control protocols differ beyond residual mode and output/device')

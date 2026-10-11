@@ -5,7 +5,9 @@ from .geolift_oari_res3d import GeoLiftOARIRes3D
 
 from .geolift_oari_mrgr_res3d import GeoLiftOARIMRGRRes3D
 
-__all__ = ['GeoLiftMeanRes3D', 'GeoLiftGCARes3D', 'GeoLiftGCSIRes3D', 'GeoLiftOARIRes3D', 'GeoLiftOARIMRGRRes3D', 'build_model']
+from .geolift_oari_mrgr_zero_residual import GeoLiftOARIMRGRZeroResidualControl
+
+__all__ = ['GeoLiftMeanRes3D', 'GeoLiftGCARes3D', 'GeoLiftGCSIRes3D', 'GeoLiftOARIRes3D', 'GeoLiftOARIMRGRRes3D', 'GeoLiftOARIMRGRZeroResidualControl', 'build_model']
 
 
 def build_model(config):
@@ -19,4 +21,6 @@ def build_model(config):
         return GeoLiftOARIRes3D(**config['model']['gca'], **config['model']['set_interaction'])
     if config['model']['name'] == 'geolift_oari_mrgr_res3d':
         return GeoLiftOARIMRGRRes3D(**config['model']['gca'], **config['model']['set_interaction'])
+    if config['model']['name'] == 'geolift_oari_mrgr_zero_residual_control':
+        return GeoLiftOARIMRGRZeroResidualControl(**config['model']['gca'], **config['model']['set_interaction'])
     raise ValueError('Unknown model')
