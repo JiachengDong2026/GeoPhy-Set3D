@@ -22,10 +22,14 @@ def integrity_check(protocol,config,root):
     reference=json.loads((root/'reference.json').read_text())
     model_unchanged=all(digest(REPO/path)==sha for path,sha in reference['model_source_hashes'].items())
     hashes_unchanged=all(digest(Path(config['dataset']['root'])/path)==sha for path,sha in reference['dataset_hashes'].items())
-    summary=dict(passed=before==after and model_unchanged and hashes_unchanged,
+    report_unchanged=digest(REPO/'docs/reports/supervised_b0_v1.md')==reference['report_sha256']
+    config_unchanged=config==reference['effective_config']
+    checkpoint_unchanged=digest(protocol['reference_checkpoint'])==reference['checkpoint_sha256']
+    summary=dict(passed=before==after and model_unchanged and hashes_unchanged and report_unchanged and config_unchanged and checkpoint_unchanged,
                  dataset_file_count=len(after['dataset']),source_file_count=len(after['source']),
                  old_experiment_unchanged=before['old_experiment']==after['old_experiment'],
-                 checkpoint_unchanged=digest(protocol['reference_checkpoint'])==reference['checkpoint_sha256'],
+                 checkpoint_unchanged=checkpoint_unchanged,reference_report_unchanged=report_unchanged,
+                 reference_config_unchanged=config_unchanged,
                  model_source_unchanged=model_unchanged,dataset_hashes_unchanged=hashes_unchanged,changes=differences)
     write_json(root/'inventory_after.json',after);write_json(root/'integrity_summary.json',summary)
     if not summary['passed']:raise AssertionError('Frozen source/dataset/reference/model changed')
