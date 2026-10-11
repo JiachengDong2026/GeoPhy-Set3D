@@ -1,0 +1,48 @@
+name: supervised_b0_generalization_v1
+output_root: /data/djc/GeoPhy-Set3D/outputs/evaluations/supervised_b0_generalization_v1
+reference_config: configs/train_supervised_b0.yaml
+reference_checkpoint: /data/djc/GeoPhy-Set3D/outputs/checkpoints/supervised_b0/best.pt
+reference_seed: 20261011
+reference_split: val
+reference_views: 4
+reference_epoch: 0
+reference_tolerance:
+  absolute: 1.0e-8
+  relative: 1.0e-5
+evaluation_seed: 20261011
+view_counts: [2, 3, 4, 5, 6, 8]
+draw_ids: [0, 1, 2, 3, 4]
+pools: [train, ood]
+trained_cardinality: [3, 4, 5, 6]
+angular_coverage:
+  views: [4, 6]
+  spread: canonical endpoints plus greedy max-min azimuth distance; one set
+  clustered: five smallest-span consecutive azimuth windows; one per draw
+  random: five case-specific deterministic draws
+  largest_gap: max consecutive sorted azimuth difference; excludes half-ring boundary gaps
+plume_active_threshold: 1.0e-5
+integration_proxy: equal-weight voxel mean multiplied by domain volume 0.6^3; not methane mass
+correlations: spearman; descriptive; no model selection
+small_n_threshold: 3
+training_seeds: [20261011, 20261012, 20261013]
+training_validation_selection_seed: 20261011
+training_max_epochs: 150
+horizon_probe:
+  seed: 20261011
+  max_epochs: 220
+  strategy: fresh training; cosine T_max=220 from epoch zero; original checkpoint untouched
+  meaningful_absolute_relative_l1_improvement: 0.005
+statistics:
+  draw_std: sample standard deviation of case-averaged metric over draws; ddof=1
+  seed_std: sample standard deviation over three training seeds; ddof=1
+  case_variability: per-case distribution reported separately
+saturation_absolute_relative_l1_gain: 0.005
+b1_criteria:
+  seed_relative_l1_cv_max: 0.15
+  pool_b_relative_l1_max: 0.5
+  pool_b_degradation_max: 1.0
+  v3_to_v6_relative_l1_improvement_required: true
+  shortcut_min_relative_l1_ratio: 1.2
+  horizon_absolute_relative_l1_improvement_max: 0.005
+test_evaluation: false
+pool_b_training: false
