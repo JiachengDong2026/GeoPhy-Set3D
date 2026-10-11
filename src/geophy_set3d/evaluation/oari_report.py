@@ -131,6 +131,8 @@ all-invalid safe={diag['all_invalid_safe']}；mask correct={diag['interaction_ma
 
 B2={b2['parameter_count']:,}；OARI={oari['parameter_count']:,}；absolute increase={parameter_increase:,}，relative increase={parameter_percent:.6f}%。
 这是lightweight增量，未做parameter-matched capacity control；本轮对比不能严格分离capacity与各geometry分支的因果贡献。
+OARI正式训练peak allocated={s['runtime']['OARI-300']['peak_allocated_bytes']/2**30:.3f}GiB，reserved={s['runtime']['OARI-300']['peak_reserved_bytes']/2**30:.3f}GiB；
+observed mean epoch time：B2={s['runtime']['B2-GCSI-300']['mean_epoch_seconds']:.3f}s，OARI={s['runtime']['OARI-300']['mean_epoch_seconds']:.3f}s。这不是独立受控throughput benchmark。
 
 ## 10. Quick gate
 
@@ -235,7 +237,7 @@ OMP_NUM_THREADS=2 MKL_NUM_THREADS=2 PYTHONPATH=src:tests python -m unittest disc
     terminal = dict(current_git_commit=commit, training_source_commit=source['commit'],
         oari_model_name='GeoLift-OARI-Res3D', b2_parameter_count=b2['parameter_count'],
         oari_parameter_count=oari['parameter_count'], parameter_increase_absolute=parameter_increase,
-        parameter_increase_relative_percent=parameter_percent, observability_dimension=5,
+        parameter_increase_relative_percent=parameter_percent, runtime=s['runtime'], observability_dimension=5,
         pairwise_dimension=3, pairwise_bias_network='8 -> 16 -> 4; SiLU; zero-init final layer',
         quick_gate_passed=gate['passed'], oari_best_epoch=oari['best_epoch'],
         oari_best_val_loss=oari['best_val_loss'],

@@ -273,6 +273,13 @@ def main():
         v3_or_clustered_clear_gain=any(baseline['sparse'][key]['mean_per_case']['relative_l1']-result['sparse'][key]['mean_per_case']['relative_l1'] >= go['clear_sparse_l1_absolute_gain'] for key in ('V3', 'clustered-V4')),
         shortcuts_normal=all(result['evaluations'][key]['mean_per_case']['relative_l1'] > oa*go['shortcut_min_ratio'] for key in ('wrong_geometry', 'zero_measurement')),
         mask_permutation_and_connectivity_correct=interaction['passed'])
+    runtime = {}
+    for label, item in models.items():
+        training_rows = read_jsonl(Path(item['logs'])/'metrics.jsonl')
+        runtime[label] = dict(mean_epoch_seconds=float(np.mean([r['seconds'] for r in training_rows])),
+            peak_allocated_bytes=max(r['gpu_peak_allocated_bytes'] for r in training_rows),
+            peak_reserved_bytes=max(r['gpu_peak_reserved_bytes'] for r in training_rows),
+            note='Observed runs, not a controlled throughput benchmark')
     improvement = improvement_table(models)
     check = integrity(configs[1])
     if digest(checkpoint) != checkpoint_hash:
@@ -280,7 +287,7 @@ def main():
     summary = dict(completed=True, git_commit=subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True, cwd=REPO).strip(),
         training_source_commit=json.loads((ROOT/'training_source_manifest.json').read_text())['commit'],
         protocol=protocol, models=models, interaction=interaction, improvements=improvement,
-        geometry_analysis=geometry, go_criteria=criteria, retain_oari=all(criteria.values()),
+        geometry_analysis=geometry, runtime=runtime, go_criteria=criteria, retain_oari=all(criteria.values()),
         final_architecture_candidate_v1=all(criteria.values()), integrity=check,
         b0_b1_b2_retrained=False, actual_case_station_pairings_identical=True,
         single_training_seed=True, test_used=False, pool_b_evaluation_only=True)
