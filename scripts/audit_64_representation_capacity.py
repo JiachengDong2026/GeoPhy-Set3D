@@ -154,9 +154,14 @@ def render_report(summary):
     conclusion={'PASS':'64³ representation is sufficiently expressive for measurement-domain consistency within the tested setup. GO B3.',
                 'CONDITIONAL PASS':'GO B3 with model-error-aware projection loss. Projection consistency has non-negligible representation/model error; use a robust, moderate-weight loss and avoid exact equality.',
                 'FAIL':'NO-GO for strong 64³ projection-domain constraint. This finite optimizer run does not establish a theoretical representation floor; the owner should decide tolerance or another physics representation.'}[summary['classification']]
+    if summary['classification']=='FAIL':
+        improved_fit=sum(r['optimized64']['fit']['relative_l1']<r['naive64']['fit']['relative_l1'] for r in cases)
+        worsened=[r['train_index'] for r in cases if r['optimized64']['heldout']['relative_l1']>r['naive64']['heldout']['relative_l1']]
+        heldout_mean=100*summary['distributions']['optimized64']['heldout']['relative_l1']['mean']
+        conclusion+=f' 本次{improved_fit}/12个case的fit L1下降，held-out均值仍为{heldout_mean:.6f}%，indices={worsened}还比其naive结果更差，因此不满足本轮整体Gate。它反映有限优化与held-out兼容性限制，不能单独归因为64³表达能力不足。'
     zero=summary['zero_init_sanity']
     zero_text=('未执行zero-init。' if zero is None else
-               f"仅首个选定train case执行同一配置zero-init sanity：fit L1从{100*zero['optimization']['initial_fit_relative_l1']:.6f}%降至{100*zero['metrics']['fit']['relative_l1']:.6f}%，held-out={100*zero['metrics']['heldout']['relative_l1']:.6f}%，steps={zero['optimization']['completed_steps']}。下降={zero['fit_error_decreased']}；它不参与主Gate分类。")
+               f"仅首个选定train case执行同一配置zero-init sanity：初始fit L1={100*zero['optimization']['initial_fit_relative_l1']:.6f}%，最终={100*zero['metrics']['fit']['relative_l1']:.6f}%，held-out={100*zero['metrics']['heldout']['relative_l1']:.6f}%，steps={zero['optimization']['completed_steps']}。L1下降={zero['fit_error_decreased']}；它不参与主Gate分类，也不证明更长优化或其它初始化必然失败。")
     text=f'''# 64³ Representation Capacity Audit v1
 
 ## 1–2. Why this audit / current C64 mismatch
@@ -212,6 +217,7 @@ voxel similarity只作diagnostic，不用于PASS条件或优化。以下均按12
 工程Gate要求fit mean和median均<0.5%，held-out均<1.0%，且两个subset的mean/median均优于其naive结果；held-out在1%–1.5%以内则为CONDITIONAL PASS。不是理论阈值或统计显著性检验。
 本轮只测试12个GT64-initialized train volumes、16 fit+16 held-out stations，FP32误差远小于本Gate尺度；结果不证明所有64³体积都能精确表示GT128，也不证明网络能自动找到这些解。
 GT64初始化提供很强的空间先验，少量zero-init诊断不能取代这一限定；voxel非唯一性仍存在。
+本次正式case在{min(r['optimization']['completed_steps'] for r in cases)}–{max(r['optimization']['completed_steps'] for r in cases)}步按fit-L1 plateau停止。优化目标为SmoothL1，最低loss iterate不必同时具有最低relative L1；这些有限优化结果不能据此证明不可消除的capacity floor。没有为获得PASS追加lr、loss、初始化或regularizer搜索。
 
 下一阶段：{summary['next_stage']}
 本轮没有实现B3，没有改成128³网络，也未重新生成dataset、训练B0/B1/B2或研究其它inverse methods。

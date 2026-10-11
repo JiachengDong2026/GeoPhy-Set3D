@@ -266,3 +266,11 @@ protocol、selected cases/stations、operator/naive64/optimized64的raw valid-ra
 optimized volumes、voxel plausibility diagnostics、一个zero-init sanity、两张图和完整性记录。
 结果是有限优化得到的fitting result，不是exact theoretical representation floor。
 工程Gate看fit/held-out projection errors；voxel similarity仅作diagnostic。
+
+本轮12个case全部完成，工程分类为 **FAIL / NO-GO for strong 64³ projection-domain constraint**。
+fit relative L1 mean/median/max=0.624358%/0.495559%/1.535897%；
+held-out=1.577390%/1.040984%/4.552113%，naive held-out mean为1.664341%。
+fit recovered_fraction mean/median=0.695069/0.693206；所有case的fit误差下降，但3个case的held-out恶化。
+结论限定于本次有限优化，不证明64³存在理论capacity floor；本轮不进入强B3 projection constraint。
+63项测试通过，dataset、B0/B1/B2 checkpoints、projector源码与旧实验未修改，未使用test或Pool B。
+完整protocol、raw metrics、zero-init和plausibility诊断见 [64³ Capacity Audit报告](docs/reports/representation_capacity_64_v1.md)。
