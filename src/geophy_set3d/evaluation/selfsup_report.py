@@ -21,6 +21,8 @@ def render_control_report(root,repo):
 
 **Stage A complete. Supervised architecture experiments are closed.**
 
+Evaluation source commit: `{s['git_commit']}`. Training source provenance is retained in the checkpoint, training logs and numerical source manifest; a later documentation commit does not change the experiment.
+
 ## Question and matched design
 
 Does the signed measurement residual supply information beyond the added refinement capacity? The zero-residual control has exactly the same 332,070 parameters, parameter names/order, modules and same-seed initial tensors as full MRGR. The scalar channel is identically zero; valid-ray and path channels, residual encoder, adapter, shared GCA and decoder remain. Control training/inference does not invoke a projector. This is a separately trained from-scratch control, rather than a shortcut on full MRGR weights.
@@ -112,6 +114,15 @@ def render_selfsup_report(root,repo):
         ('Limitations','Saved measurement targets were historically generated from CFD volumes, but the training process never reads those volumes. The finite 64³/K96 model and 128³/K256 references need not agree exactly. Measurement agreement and cross-input consistency do not establish a unique/correct volumetric field. One seed and fixed v1 losses limit generality; no tuning, third module, full ablation or final test evaluation was conducted.'),
         ('GO / NO-GO',('**'+s['decision']+'**\n\n```json\n'+json.dumps(s['criteria'],indent=2)+'\n```\n\nThe operational decision uses measurement-domain improvement over zero, non-collapse, strict provenance, and post-hoc Val-A/Val-B voxel errors below the zero-volume relative-L1=1 reference. These evaluation references were frozen before GT access and are not checkpoint selectors or a claim of supervised parity.\n\n```json\n'+json.dumps(s['integrity'],indent=2)+'\n```') if completed else '**SelfSup-MRGR v1 NO-GO: measurement-only gate failed.** Stop without a formal run, GT evaluation or protocol tuning.')]
     report='# Self-supervised MRGR v1\n\n'+('Decision: **'+s['decision']+'**.' if completed else 'Decision: **SelfSup-MRGR v1 NO-GO (gate)**.')+'\n\n'
+    if completed:
+        report+=('This is an engineering viability GO under the predeclared evaluation references. '
+            'SelfSup C1 voxel relative L1 is 0.096193/0.090946 on Val-A/Val-B, versus supervised MRGR 0.067980/0.060948 '
+            '(41.50%/49.22% higher error). Clustered V4 improves from 0.495210 to 0.393402 (20.56% lower error); '
+            'this single-seed result does not establish superiority or supervised parity. The architecture and v1 objective remain frozen.\n\n'
+            f"Training numerical source commit: `{s['checkpoint']['training_source_commit']}`. "
+            f"Post-hoc evaluation source commit: `{s['posthoc_boundary']['source_commit']}`. "
+            f"First permitted GT evaluation: `{s['posthoc_boundary']['first_posthoc_gt_evaluation_at']}` (Asia/Shanghai), "
+            'after all 300 epochs and the checkpoint SHA256 freeze.\n\n')
     report+='\n\n'.join(f'## {i}. {title}\n\n{body}' for i,(title,body) in enumerate(chapters,1))
     report+='\n\nArtifacts: `'+str(root)+'`. Tests passed: '+str(test_count(root))+'.\n'
     (repo/'docs/reports/selfsup_mrgr_v1.md').write_text(report)

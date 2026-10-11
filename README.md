@@ -345,3 +345,58 @@ python scripts/compare_oari_mrgr_300.py
 所有 CSV/JSON、42 项终端汇报、六组 diagnostics、五张图及 v2 冻结记录在
 `/data/djc/GeoPhy-Set3D/outputs/comparisons/oari_vs_mrgr_300/`。
 OARI v1 继续作为冻结基准保留；本轮不增加第三个模块。
+
+## Matched residual control 与 GT-free MRGR v1
+
+Stage A 已完成唯一一次 from-scratch、300-epoch matched control：与 full MRGR 同为
+332,070 参数，同 seed 初始 tensors、sampler 和训练预算；refinement 输入为
+`[0, valid_ray, normalized_path]`，训练不调用 projector。control/full MRGR 的 Val-A、V3、
+clustered V4 relative L1 分别为 0.094630/0.067980、0.137334/0.098309、0.583203/0.495210。
+该单 seed 配对结果支持 signed measurement residual 提供额外信息；监督结构实验已关闭。
+完整结果见 [matched control 报告](docs/reports/mrgr_residual_control_v1.md)。
+
+Stage B 完成 **Self-supervised training without volumetric ground truth / SelfSup-MRGR v1 GO**。
+复用冻结 MRGR，从随机初始化训练；只读 TDLAS projections 和 acquisition geometry。
+train A3–5/B3–5/H2、validation A4/B4/H4 均两两不相交，H 不输入网络。
+固定 loss 为 `L_hold + 0.5 L_cross + 0.1 L_obs + 0.05 L_cons`，K96/all rays，
+无 TV、sparsity 或新增模块。唯一 8-case/80-epoch gate 的 held-out L1 为 0.520501，
+优于 zero-volume 基线 1.0，输出未塌缩。
+
+正式模型重新随机初始化，166 train/36 Val-A、FP32/effective batch2 跑满 300 epochs；
+best 第 278 轮，仅由 held-out measurement L1 选择。
+训练/验证 GT 打开尝试、外部 checkpoint 打开尝试均为 **0**；只读取 202 个 Pool A projection 文件。
+Val-A held-out measurement L1/L2=0.032752/0.042441，冻结后 Pool B=0.033222/0.043871。
+best checkpoint SHA256：`1573cd84dffeabeb58fbbfb1afec9c9dc865a0a674e21229711bb25b22e3c026`。
+只有完成 300 epochs 并冻结 hash 后，独立 post-hoc script 才读取 GT，方法与 checkpoint 随后保持冻结。
+
+以下 voxel relative L1 **仅用于 post-training evaluation**，不用于训练或选模；七种条件的
+case/station IDs/draws 与冻结监督模型完全配对。
+
+| 条件 | Supervised MRGR | SelfSup MRGR |
+|---|---:|---:|
+| Val-A fixed V4 | 0.067980 | 0.096193 |
+| Val-B fixed V4 | 0.060948 | 0.090946 |
+| V3 | 0.098309 | 0.118364 |
+| random V4 | 0.066923 | 0.095649 |
+| V6 | 0.053401 | 0.088058 |
+| clustered V4 | 0.495210 | 0.393402 |
+| spread V4 draw0 | 0.058919 | 0.087648 |
+
+GO 表示达到预先声明的工程可行性条件。Val-A/Val-B 相比监督模型仍有 41.50%/49.22% 的 L1 误差增幅；
+clustered V4 误差降低 20.56%，但单 seed 不证明跨 seed 稳定性、监督性能持平或三维解唯一。
+158 项历史与新增测试通过；旧 OARI/MRGR/B0–B3、dataset、GT、projector 均保持不变，test 未使用。
+完整 20 节方法、L1/L2/MAE/RMSE、测量泛化与边界见 [SelfSup 报告](docs/reports/selfsup_mrgr_v1.md)。
+
+```bash
+python scripts/train_supervised_mrgr_zero_control.py
+python scripts/compare_mrgr_residual_control.py
+python scripts/train_selfsup_mrgr.py --smoke
+python scripts/train_selfsup_mrgr.py --gate
+python scripts/train_selfsup_mrgr.py
+python scripts/evaluate_selfsup_with_gt.py
+```
+
+以上运行已完成，禁止重复 gate 或覆盖正式实验；正式恢复仅允许自身 `last.pt`。
+数值源协议 commit 为 `3f76c3f`。全部逐 case/draw、read audit、完整性检查与 1–39 项终端汇报分别保存在
+`/data/djc/GeoPhy-Set3D/outputs/comparisons/mrgr_residual_control_v1/` 和
+`/data/djc/GeoPhy-Set3D/outputs/comparisons/selfsup_mrgr_v1/`。
