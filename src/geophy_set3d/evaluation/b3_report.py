@@ -221,6 +221,26 @@ def render_report(root, repo):
     section_names={8:'Val-A reconstruction',9:'Val-B reconstruction',10:'V3/V4/V6',11:'Projection-domain metrics',12:'Clustered V4',13:'Shortcut tests'}
     for section,title in section_names.items():
         content='未运行正式B3，指标不适用。'
+        if not summary['formal_run']:
+            reference = summary['frozen_b2_reference']
+            if section in (8,9):
+                condition = 'Val-A-V4' if section == 8 else 'Val-B-V4'
+                v = reference['evaluations'][condition]['mean_per_case']
+                content = ('冻结B2历史reference（本轮未重新运行Pool B），正式B3未训练：\n\n'
+                    '| Model | MAE | RMSE | L1 | L2 |\n|---|---:|---:|---:|---:|\n| B2 | '+
+                    ' | '.join(f'{v[k]:.10g}' for k in ('mae','rmse','relative_l1','relative_l2'))+
+                    ' |\n| B3 formal | N/A | N/A | N/A | N/A |')
+            elif section in (10,12):
+                keys = ['V3','V4','V6'] if section == 10 else ['clustered-V4']
+                content = '冻结B2的5 deterministic draws历史reference，未评估正式B3：\n\n| Condition | B2 L1 | B3 formal L1 |\n|---|---:|---|\n'
+                content += '\n'.join(f"| {k} | {reference['sparse'][k]['mean_per_case']['relative_l1']:.9f} | N/A |" for k in keys)
+            elif section == 11:
+                content = '本轮同协议重评B2 Val-A，正式B3指标不适用。只用raw ppm·m valid rays；mean per-case relative errors。\n\n| Domain | B2 L1 | B2 L2 | B3 formal |\n|---|---:|---:|---|\n'
+                content += '\n'.join(f"| {k} | {baseline[k]['relative_l1']:.9f} | {baseline[k]['relative_l2']:.9f} | N/A |" for k in ('observed','heldout'))
+            elif section == 13:
+                e=reference['evaluations']
+                content = (f"冻结B2 normal/wrong geometry/zero measurement voxel L1：{e['Val-A-V4']['mean_per_case']['relative_l1']:.9f} / {e['wrong_geometry']['mean_per_case']['relative_l1']:.9f} / {e['zero_measurement']['mean_per_case']['relative_l1']:.9f}。\n\n"
+                    f"本轮B2 fixed volume/reference的hold geometry sanity：correct/wrong L1={baseline['heldout']['relative_l1']:.9f}/{baseline['wrong_heldout_geometry']['relative_l1']:.9f}。正式B3 shortcuts未运行。")
         if summary['formal_run']:
             ms=summary['models']
             if section in (8,9):
@@ -256,6 +276,14 @@ def render_report(root, repo):
             detail+='\n\nMeasurement compatibility改善不能宣称voxel reconstruction accuracy提高。'
     else:
         detail=summary['reason']+' 不进行额外λ搜索；projection consistency在当前协议下未获得足以进入正式训练的证据。'
+        for name,r in gate['candidates'].items():
+            reasons=[]
+            if r['voxel_worsening_absolute'] > .005: reasons.append('voxel恶化>.005')
+            if r['heldout_improvement_absolute'] <= 0: reasons.append('held-out未改善')
+            if r['metrics']['observed']['relative_l1'] >= baseline['observed']['relative_l1']: reasons.append('observed未改善')
+            if r['gradient']['physics_to_supervised_ratio'] > 2: reasons.append('physics gradient主导')
+            detail+=f"\n\n{name}: voxel恶化={r['voxel_worsening_absolute']:.9f}；held-out改善={r['heldout_improvement_absolute']:.9f}；淘汰原因："+'、'.join(reasons)+'.'
+        detail+='\n\n本轮没有supervised-only同预算fine-tuning对照，不能将变化完全归因于regularizer；结论仅限这个预先定义的screening协议，不推断所有measurement consistency方法均无效。'
     conclusion='建议下一阶段评估网络结构创新；本轮没有追加loss或实现新结构。' if summary['decision']=='GO' else '保留B2为当前主模型，不追加λ搜索，由负责人决定下一步。'
     texts.append('## 14. GO/NO-GO\n\n**B3 '+summary['decision']+'**。'+conclusion+'\n\n'+detail+
         f'\n\n{test_line}，全部通过，含worker0/2/4与legacy站点、mask/all-invalid/raw units/两条梯度路径/architecture/parameter/warmup/ramp测试。input-hold overlap严格0。冻结projector、B2source/config/checkpoint/report/旧artifact、完整dataset文件hash与inventory均未变。GPU3 all-rayV6+hold1/batch2/K96 smoke无OOM，峰值allocated约2.8GB，未chunk/subsample。\n\n实现及数值产物source commit见checkpoint和environment；本报告生成时HEAD={commit}。源manifest冻结训练文件hash；report-only revision与训练数值源分开。GitHub最终同步commit由终端报告给出。\n\n产物：`{root}`；comparison/projection/sparse CSV和四张figures仅在正式run完成时生成。测试日志、protocol、inventory、gate metrics/gradients、checkpoint路径均可查。')
