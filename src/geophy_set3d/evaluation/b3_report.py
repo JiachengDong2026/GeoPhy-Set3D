@@ -64,9 +64,26 @@ def final_evaluation(root, repo):
     root, repo = Path(root), Path(repo)
     gate = json.loads((root/'lambda_gate/summary.json').read_text())
     if not gate['gate_passed']:
+        reference = json.loads((OLD_ROOT/'summary.json').read_text())['models']['B2-GCSI-300']
+        rows = [dict(model='B2 frozen', stage='baseline', condition='Val-A-V4',
+                     **{k:gate['baseline']['voxel']['mean_per_case'][k] for k in ('mae','rmse','relative_l1','relative_l2')})]
+        projections = []
+        for label, result in [('B2 frozen', gate['baseline'])] + [('gate-only '+n, r['metrics']) for n,r in gate['candidates'].items()]:
+            if label != 'B2 frozen':
+                rows.append(dict(model=label, stage='screening epoch20', condition='Val-A-V4',
+                                 **{k:result['voxel']['mean_per_case'][k] for k in ('mae','rmse','relative_l1','relative_l2')}))
+            for domain in ('observed','heldout'):
+                projections.append(dict(model=label, stage='baseline' if label == 'B2 frozen' else 'screening epoch20',
+                                        condition='Val-A-V4',domain=domain,**result[domain]))
+        csv_file(root/'comparison.csv', rows); csv_file(root/'projection_metrics.csv', projections)
+        csv_file(root/'sparse_views.csv', [dict(model='B2 frozen',condition=k,stage='historical reference',
+                    relative_l1=v['mean_per_case']['relative_l1'],relative_l2=v['mean_per_case']['relative_l2'])
+                    for k,v in reference['sparse'].items()])
+        write_json(root/'formal_run/status.json',dict(started=False,reason='bounded lambda gate NO-GO',
+            formal_b3_metrics_available=False,final_b3_figures_available=False, additional_lambda_search=False))
         write_json(root/'summary.json', dict(completed=True, formal_run=False, decision='NO-GO', gate=gate,
-            reason='No candidate passed the predeclared reconstruction, measurement and gradient criteria.',
-            retain_b2=True, additional_lambda_search=False, integrity=integrity(root)))
+            reason='No candidate passed the predeclared reconstruction, measurement and gradient criteria; see per-candidate deltas for the actual rejection reasons.',
+            frozen_b2_reference=reference,retain_b2=True, additional_lambda_search=False, integrity=integrity(root)))
         return
     config = load_config(repo/'configs/train_supervised_b3_phys_300.yaml')
     paths = directories(config)
