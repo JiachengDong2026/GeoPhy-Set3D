@@ -245,3 +245,24 @@ clustered V4 L1仅从0.653769降至0.652042（改善0.2642%），Val-B L2反而�
 冻结的五项L1工程GO检查通过，建议保留B2并进入B3；单seed结果不能证明已学会去冗余。
 56项测试、trained permutation/padding、mask/all-invalid与受保护文件完整性检查全部通过。
 完整主表、成对improvement、shortcut和interaction诊断见 [B2 GCSI报告](docs/reports/supervised_b2_gcsi_v1.md)。
+
+## B3 前置 Gate：64³ Representation Capacity Audit
+
+直接优化64³ concentration volume，检查naive GT64的projection mismatch是否能够通过
+measurement-compatible representation消除；本阶段不训练网络或实现B3。
+固定12个evenly-spaced train cases，共用16个spread Pool A fit stations及16个不重叠held-out stations。
+目标为saved P_ref(C_GT128,K256)，复用未修改的P_diff/K96、frozen train p99.5归一化，
+sigmoid volume参数化、Adam lr0.01、最多2000步，只按fit rays的SmoothL1优化和选择iterate。
+held-out只在优化后评估，不参与loss、early stop或iterate selection；未使用test或Pool B。
+
+```bash
+python scripts/audit_64_representation_capacity.py --device cuda:3
+# 已完成结果只重新生成报告，不重复优化：
+python scripts/audit_64_representation_capacity.py --report-only
+```
+
+输出在 `/data/djc/GeoPhy-Set3D/outputs/audits/representation_capacity_64_v1/`：
+protocol、selected cases/stations、operator/naive64/optimized64的raw valid-ray metrics、
+optimized volumes、voxel plausibility diagnostics、一个zero-init sanity、两张图和完整性记录。
+结果是有限优化得到的fitting result，不是exact theoretical representation floor。
+工程Gate看fit/held-out projection errors；voxel similarity仅作diagnostic。
