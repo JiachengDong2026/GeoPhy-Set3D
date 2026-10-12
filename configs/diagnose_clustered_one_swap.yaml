@@ -1,0 +1,36 @@
+name: clustered_v4_one_swap
+output: /data/djc/GeoPhy-Set3D/outputs/diagnostics/clustered_v4_one_swap
+dataset: /data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1
+device: cuda:2
+precision: fp32
+parameter_count: 332070
+split: val
+pool: train
+views: 4
+draws: [0, 1, 2, 3, 4]
+original_seed: 20261011
+center_m: [0.3, 0.3, 0.3]
+targeted_score: mean over unordered pairs of 1-abs(dot(normalize(center-origin)))
+tie_break: exact equal float64 score; ascending deleted ID then added ID
+random_seed: 2026101203
+heldout_seed: 2026101204
+random_rule: uniform one ID from sorted Pool A outside Original; same deleted ID as Targeted; retain coincidences
+heldout_rule: uniform H4 without replacement from sorted Pool A outside Original/Targeted/Random union
+identity_seed_rule: blake2b16 little-endian u32 of purpose+NUL+case_id; SeedSequence(base_seed,draw,*words); PCG64
+bootstrap: {samples: 10000, seed: 2026101205, unit: case after averaging five paired draw differences, confidence: 0.95}
+reproduction_tolerance: {absolute: 1.0e-8, relative: 1.0e-5}
+projector: {prediction_resolution: 64, prediction_samples: 96, all_rays: true, view_chunk: 2, reference_resolution: 128, reference_samples: 256}
+figures: {case_indices: [0, 18, 35], draw: 0, block_mean_voxel_size: 2, mass_fraction_threshold: 0.02, elevation: 25, azimuth: -60}
+models:
+  SelfSup:
+    config: configs/train_selfsup_oari_mrgr_v1.yaml
+    checkpoint: /data/djc/GeoPhy-Set3D/outputs/checkpoints/selfsup_oari_mrgr_v1/best.pt
+    sha256: 1573cd84dffeabeb58fbbfb1afec9c9dc865a0a674e21229711bb25b22e3c026
+    freeze_record: /data/djc/GeoPhy-Set3D/outputs/comparisons/selfsup_mrgr_v1/frozen_checkpoint.json
+    historical_root: /data/djc/GeoPhy-Set3D/outputs/comparisons/selfsup_mrgr_v1/selfsup_oari_mrgr_v1/clustered-V4
+  Supervised:
+    config: configs/train_supervised_oari_mrgr_300.yaml
+    checkpoint: /data/djc/GeoPhy-Set3D/outputs/checkpoints/supervised_oari_mrgr_300/best.pt
+    sha256: 4c9a39fd39432988cf5971b9a657a4cf22180650d3490bf65f3a8a7aeb04905c
+    freeze_record: /data/djc/GeoPhy-Set3D/outputs/comparisons/oari_vs_mrgr_300/summary.json
+    historical_root: /data/djc/GeoPhy-Set3D/outputs/comparisons/oari_vs_mrgr_300/supervised_oari_mrgr_300/clustered-V4
