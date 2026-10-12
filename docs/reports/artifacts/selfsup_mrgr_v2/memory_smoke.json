@@ -1,0 +1,94 @@
+{
+  "passed": true,
+  "worst_case_views": {
+    "A": 5,
+    "B": 5,
+    "H": 2,
+    "T": 10
+  },
+  "batch_size": 1,
+  "gradient_accumulation": 2,
+  "measurement_only": {
+    "loss": {
+      "total": 94.8222427368164,
+      "hold": 34.83056640625,
+      "cross": 35.88261604309082,
+      "observed": 35.87962245941162,
+      "hold_teacher": 34.863563537597656,
+      "observed_teacher": 35.90889930725098,
+      "teacher": 0.07950862497091293
+    },
+    "measurement": {
+      "heldout": {
+        "relative_l1": 264.0289071799216,
+        "relative_l2": 86.47268007159201
+      },
+      "cross": {
+        "relative_l1": 273.15416168147715,
+        "relative_l2": 84.46399685689971
+      },
+      "observed": {
+        "relative_l1": 273.144565052796,
+        "relative_l2": 84.50302793996228
+      },
+      "teacher_heldout": {
+        "relative_l1": 264.2812403915001,
+        "relative_l2": 86.63549652222011
+      },
+      "teacher_observed": {
+        "relative_l1": 273.4306113019686,
+        "relative_l2": 84.60317190478064
+      },
+      "A_heldout": {
+        "relative_l1": 262.846540863523,
+        "relative_l2": 85.99743692641167
+      },
+      "B_heldout": {
+        "relative_l1": 265.21127349632013,
+        "relative_l2": 86.94792321677235
+      }
+    },
+    "disagreement": {
+      "D_A_T": 0.08381884172558784,
+      "D_B_T": 0.07519840449094772,
+      "D_A_B": 0.1452132984995842
+    },
+    "output": {
+      "min": 0.001198501675389707,
+      "max": 0.9967723488807678,
+      "mean": 0.4765447825193405,
+      "std": 0.1229022775277632,
+      "fraction_near_one": 0.0,
+      "fraction_near_zero": 0.0,
+      "case_to_case_mean_absolute_difference": 0.09033279865980148
+    },
+    "teacher_output": {
+      "min": 0.0016474012518301606,
+      "max": 0.9942905902862549,
+      "mean": 0.47700534760951996,
+      "std": 0.1224426617059437,
+      "fraction_near_one": 0.0,
+      "fraction_near_zero": 0.0,
+      "case_to_case_mean_absolute_difference": 0.08412058651447296
+    },
+    "gradient_norm_max": 680.8001098632812,
+    "case_station_digest": "5d1f44508cb08d435fed44d4ec5cc9a91cac119dc622f075982227d2fced0384",
+    "sample_count": 2,
+    "gt_used": false,
+    "seconds": 2.203335057012737
+  },
+  "gt_access": {
+    "gt_file_opened": false,
+    "gt_open_attempts": 0,
+    "forbidden_npy_attempts": 0,
+    "supervised_checkpoint_open_attempts": 0,
+    "projection_open_count": 6,
+    "unique_pool_a_projection_files": 2,
+    "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+    "audit_hook_inherited_by_workers": true,
+    "Pool_B_access_attempts": 0,
+    "forbidden_projection_attempts": 0,
+    "external_checkpoint_attempts": 0
+  },
+  "peak_gpu_allocated_bytes": 7459640320
+}

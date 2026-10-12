@@ -1,0 +1,131 @@
+method: SelfSup-MRGR v2; Rich-View Teacher Consistency (working name)
+config:
+  dataset:
+    root: /data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1
+  experiment:
+    name: selfsup_oari_mrgr_v2_rvtc
+    output_root: /data/djc/GeoPhy-Set3D/outputs
+  loader:
+    num_workers: 4
+    persistent_workers: true
+    pin_memory: true
+  loss:
+    hold: 1.0
+    cross: 0.5
+    observed: 0.1
+    beta: 0.01
+    relative_l1: 0.1
+    relative_epsilon: 1.0e-06
+    measurement_scale: 32284.894580078173
+    hold_teacher: 1.0
+    observed_teacher: 0.1
+    teacher: 0.1
+  model:
+    feature_channels: 32
+    input_channels: 3
+    lift_resolution: 32
+    name: geolift_oari_mrgr_res3d
+    output_activation: sigmoid
+    output_resolution: 64
+    gca:
+      distance_scale_m: 6.5
+      azimuth_scale_deg: 180.0
+    set_interaction:
+      d_model: 32
+      num_heads: 4
+      num_blocks: 1
+      ffn_channels: 64
+  normalization:
+    method: linear_p99_5
+    statistics_file: train_statistics.json
+  optimizer:
+    lr: 0.0002
+    name: adamw
+    weight_decay: 0.0001
+  train:
+    split: train
+    geometry_pool: train
+    a_views:
+    - 3
+    - 5
+    b_views:
+    - 3
+    - 5
+    heldout_views: 2
+  training:
+    batch_size: 1
+    device: cuda:2
+    early_stopping_patience: null
+    gradient_accumulation: 2
+    gradient_clip_norm: 1.0
+    max_epochs: 300
+    precision: fp32
+    seed: 20261011
+  validation:
+    split: val
+    geometry_pool: train
+    a_views:
+    - 4
+    - 4
+    b_views:
+    - 4
+    - 4
+    heldout_views: 4
+  scheduler:
+    name: cosine
+    T_max: 300
+model: GeoLift-OARI-MRGR-Res3D
+parameter_count: 332070
+architecture_changed: false
+train_views:
+  A:
+  - 3
+  - 5
+  B:
+  - 3
+  - 5
+  H: 2
+  T:
+  - 6
+  - 10
+validation_views:
+  A: 4
+  B: 4
+  H: 4
+  T: 8
+teacher: same network; T = A union B; T excludes H; only consistency target detached
+selection_metric: mean sparse held-out measurement relative L1
+fresh_initialization: true
+test_used: false
+projector:
+  samples: 96
+  view_chunk: 2
+  all_rays: true
+  unchanged: true
+gate:
+  cases: 8
+  epochs: 80
+  station_epoch: 0
+  v1_frozen_final_heldout_l1: 0.520501
+  criteria:
+  - finite losses
+  - teacher heldout below zero-volume baseline
+  - both sparse branches improve from initialization
+  - 'student-teacher mean loss decreases: first10 vs last10 training epochs'
+  - no output collapse
+  - permutation safe
+  - padding safe
+  - all-invalid safe
+  - teacher stop-gradient and measurement gradients correct
+  - zero forbidden reads
+posthoc_boundary: 300 epochs completed; sparse measurement-only best selected; SHA256
+  frozen; measurement evaluations precede GT
+decision_references:
+  val_a_absolute_l1_improvement_min: 0.003
+  val_b_relative_worsening_max: 0.03
+  v3_l1_reference: 0.115
+  clustered_l1_reference: 0.42
+formal_go: Val-A improvement >= .003; Val-B relative worsening <= 3%; V3 and V6 improve;
+  clustered L1 <= .42
+research_boundary: Training and model selection are volumetric-GT-free; method development
+  has inspected v1 post-hoc GT.

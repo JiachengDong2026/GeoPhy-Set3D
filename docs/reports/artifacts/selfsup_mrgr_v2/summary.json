@@ -1,0 +1,517 @@
+{
+  "completed": false,
+  "engineering_gate_completed": true,
+  "formal_training_executed": false,
+  "formal_comparison_executed": false,
+  "git_commit": "a2b6476690575d986d8075b07d691be1d6d02f31",
+  "model": "GeoLift-OARI-MRGR-Res3D",
+  "parameter_count": 332070,
+  "architecture_changed": false,
+  "gate": {
+    "passed": false,
+    "criteria": {
+      "all_losses_finite": true,
+      "teacher_better_than_zero": true,
+      "sparse_A_improved": true,
+      "sparse_B_improved": true,
+      "student_teacher_loss_decreased": false,
+      "output_not_collapsed": true,
+      "set_properties": true,
+      "teacher_gradients": true,
+      "gt_free": true
+    },
+    "epochs": 80,
+    "case_count": 8,
+    "station_protocol": {
+      "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet1_half": {
+        "A": [
+          10,
+          17,
+          40
+        ],
+        "B": [
+          1,
+          23,
+          6,
+          28,
+          59
+        ],
+        "H": [
+          16,
+          51
+        ],
+        "T": [
+          10,
+          17,
+          40,
+          1,
+          23,
+          6,
+          28,
+          59
+        ]
+      },
+      "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w1_inlet1_half": {
+        "A": [
+          43,
+          23,
+          25,
+          14
+        ],
+        "B": [
+          46,
+          60,
+          13,
+          55
+        ],
+        "H": [
+          53,
+          61
+        ],
+        "T": [
+          43,
+          23,
+          25,
+          14,
+          46,
+          60,
+          13,
+          55
+        ]
+      },
+      "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w3_inlet1_half": {
+        "A": [
+          28,
+          24,
+          53
+        ],
+        "B": [
+          43,
+          46,
+          5,
+          36
+        ],
+        "H": [
+          60,
+          51
+        ],
+        "T": [
+          28,
+          24,
+          53,
+          43,
+          46,
+          5,
+          36
+        ]
+      },
+      "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w0_inlet1_half": {
+        "A": [
+          29,
+          41,
+          52
+        ],
+        "B": [
+          42,
+          24,
+          58,
+          10,
+          49
+        ],
+        "H": [
+          50,
+          54
+        ],
+        "T": [
+          29,
+          41,
+          52,
+          42,
+          24,
+          58,
+          10,
+          49
+        ]
+      },
+      "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w1_inlet1_half": {
+        "A": [
+          52,
+          36,
+          47,
+          21,
+          7
+        ],
+        "B": [
+          61,
+          9,
+          58,
+          43,
+          62
+        ],
+        "H": [
+          19,
+          25
+        ],
+        "T": [
+          52,
+          36,
+          47,
+          21,
+          7,
+          61,
+          9,
+          58,
+          43,
+          62
+        ]
+      },
+      "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w3_inlet1_half": {
+        "A": [
+          30,
+          18,
+          38,
+          13,
+          37
+        ],
+        "B": [
+          0,
+          39,
+          24
+        ],
+        "H": [
+          43,
+          45
+        ],
+        "T": [
+          30,
+          18,
+          38,
+          13,
+          37,
+          0,
+          39,
+          24
+        ]
+      },
+      "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w0_inlet1_half": {
+        "A": [
+          46,
+          55,
+          36,
+          4
+        ],
+        "B": [
+          52,
+          32,
+          17,
+          57
+        ],
+        "H": [
+          7,
+          48
+        ],
+        "T": [
+          46,
+          55,
+          36,
+          4,
+          52,
+          32,
+          17,
+          57
+        ]
+      },
+      "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w3_inlet1_half": {
+        "A": [
+          49,
+          48,
+          33,
+          24
+        ],
+        "B": [
+          29,
+          54,
+          40,
+          60,
+          44
+        ],
+        "H": [
+          61,
+          30
+        ],
+        "T": [
+          49,
+          48,
+          33,
+          24,
+          29,
+          54,
+          40,
+          60,
+          44
+        ]
+      }
+    },
+    "station_epoch": 0,
+    "initialization": "fresh random; no checkpoints",
+    "initial": {
+      "loss": {
+        "total": 124.65775966644287,
+        "hold": 46.05721712112427,
+        "cross": 46.14810562133789,
+        "observed": 46.151517152786255,
+        "hold_teacher": 46.26278495788574,
+        "observed_teacher": 46.382524728775024,
+        "teacher": 0.10301753599196672
+      },
+      "measurement": {
+        "heldout": {
+          "relative_l1": 377.3561554754116,
+          "relative_l2": 95.26291596095744
+        },
+        "cross": {
+          "relative_l1": 376.8033695719135,
+          "relative_l2": 95.77860169411863
+        },
+        "observed": {
+          "relative_l1": 376.8588826003057,
+          "relative_l2": 95.84629521791868
+        },
+        "teacher_heldout": {
+          "relative_l1": 379.0837656688634,
+          "relative_l2": 95.6711559132858
+        },
+        "teacher_observed": {
+          "relative_l1": 379.1199326946198,
+          "relative_l2": 96.2820341903104
+        },
+        "A_heldout": {
+          "relative_l1": 377.43197851140644,
+          "relative_l2": 95.21509406723877
+        },
+        "B_heldout": {
+          "relative_l1": 377.2803324394168,
+          "relative_l2": 95.3107378546761
+        }
+      },
+      "disagreement": {
+        "D_A_T": 0.10553373210132122,
+        "D_B_T": 0.10050133988261223,
+        "D_A_B": 0.17992054484784603
+      },
+      "output": {
+        "min": 0.0004323521279729903,
+        "max": 0.9975997805595398,
+        "mean": 0.4783473890274763,
+        "std": 0.11799762949289946,
+        "fraction_near_one": 0.0,
+        "fraction_near_zero": 0.0,
+        "case_to_case_mean_absolute_difference": 0.08907183791909899
+      },
+      "teacher_output": {
+        "min": 0.00055711466120556,
+        "max": 0.9956676959991455,
+        "mean": 0.4802515171468258,
+        "std": 0.11523293230571534,
+        "fraction_near_one": 0.0,
+        "fraction_near_zero": 0.0,
+        "case_to_case_mean_absolute_difference": 0.08277620162282671
+      },
+      "gradient_norm_max": 0.0,
+      "case_station_digest": "a30cb094a9d2f5957b38d435ffbae26a864f6e19a9ba0846805cb71759cda765",
+      "sample_count": 8,
+      "gt_used": false,
+      "seconds": 2.0771769750863314
+    },
+    "final": {
+      "loss": {
+        "total": 0.1671467525884509,
+        "hold": 0.05896570114418864,
+        "cross": 0.05933600873686373,
+        "observed": 0.056522837141528726,
+        "hold_teacher": 0.057902032509446144,
+        "observed_teacher": 0.05674800369888544,
+        "teacher": 0.09283932950347662
+      },
+      "measurement": {
+        "heldout": {
+          "relative_l1": 0.5193492503659906,
+          "relative_l2": 0.15987256353976256
+        },
+        "cross": {
+          "relative_l1": 0.5193197013570494,
+          "relative_l2": 0.16209486199869835
+        },
+        "observed": {
+          "relative_l1": 0.4981312772489035,
+          "relative_l2": 0.14538395817201202
+        },
+        "teacher_heldout": {
+          "relative_l1": 0.5113563476170482,
+          "relative_l2": 0.1544387815169542
+        },
+        "teacher_observed": {
+          "relative_l1": 0.5006558421287469,
+          "relative_l2": 0.14634184508987516
+        },
+        "A_heldout": {
+          "relative_l1": 0.5171232558625852,
+          "relative_l2": 0.16206817916719976
+        },
+        "B_heldout": {
+          "relative_l1": 0.5215752448693958,
+          "relative_l2": 0.15767694791232537
+        }
+      },
+      "disagreement": {
+        "D_A_T": 0.08637324720621109,
+        "D_B_T": 0.09930541133508086,
+        "D_A_B": 0.15614016726613045
+      },
+      "output": {
+        "min": 0.00010824911441886798,
+        "max": 0.294413685798645,
+        "mean": 0.0016694842706783675,
+        "std": 0.008586448020541095,
+        "fraction_near_one": 0.0,
+        "fraction_near_zero": 0.0,
+        "case_to_case_mean_absolute_difference": 0.002471474082475262
+      },
+      "teacher_output": {
+        "min": 0.00011788806295953691,
+        "max": 0.29223117232322693,
+        "mean": 0.0016666397132212296,
+        "std": 0.008818068099383292,
+        "fraction_near_one": 0.0,
+        "fraction_near_zero": 0.0,
+        "case_to_case_mean_absolute_difference": 0.0024593951779284646
+      },
+      "gradient_norm_max": 0.0,
+      "case_station_digest": "a30cb094a9d2f5957b38d435ffbae26a864f6e19a9ba0846805cb71759cda765",
+      "sample_count": 8,
+      "gt_used": false,
+      "seconds": 1.2203465811908245
+    },
+    "zero_volume_baseline": {
+      "relative_l1": 1.0,
+      "relative_l2": 1.0
+    },
+    "output_collapsed": false,
+    "set_properties": {
+      "A": {
+        "permutation_max_diff": 1.4901161193847656e-07,
+        "padding_max_diff": 0.0,
+        "visibility_identical": true,
+        "all_invalid_safe": true,
+        "passed": true
+      },
+      "B": {
+        "permutation_max_diff": 1.043081283569336e-07,
+        "padding_max_diff": 0.0,
+        "visibility_identical": true,
+        "all_invalid_safe": true,
+        "passed": true
+      },
+      "T": {
+        "permutation_max_diff": 1.1920928955078125e-07,
+        "padding_max_diff": 1.1920928955078125e-07,
+        "visibility_identical": true,
+        "all_invalid_safe": true,
+        "passed": true
+      }
+    },
+    "teacher_gradients": {
+      "student_A_gradient_abs_sum": 219.97764587402344,
+      "student_B_gradient_abs_sum": 219.976806640625,
+      "teacher_consistency_gradient_abs_sum": 0.0,
+      "teacher_measurement_gradient_abs_sum": 66.06106567382812,
+      "teacher_stop_gradient_verified": true,
+      "passed": true
+    },
+    "gt_access": {
+      "gt_file_opened": false,
+      "gt_open_attempts": 0,
+      "forbidden_npy_attempts": 0,
+      "supervised_checkpoint_open_attempts": 0,
+      "projection_open_count": 2235,
+      "unique_pool_a_projection_files": 8,
+      "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+      "audit_hook_inherited_by_workers": true,
+      "Pool_B_access_attempts": 0,
+      "forbidden_projection_attempts": 0,
+      "external_checkpoint_attempts": 0
+    },
+    "v1_frozen_gate_heldout_final_l1": 0.520501,
+    "v1_retrained": false,
+    "formal_comparison": false,
+    "student_teacher_decrease": {
+      "first10_mean": 0.03606435666442849,
+      "last10_mean": 0.09986418401822447
+    },
+    "peak_gpu_allocated_bytes": 7459042816,
+    "mean_epoch_seconds": 4.093782035401091,
+    "volumetric_metrics_computed": false
+  },
+  "gate_failure_diagnostics": {
+    "checked_cases": 8,
+    "checked_view_fields": 120,
+    "T_geometry_construction_correct": true,
+    "A_B_union_order_correct": true,
+    "view_mask_correct": true,
+    "T_measurement_pairing_correct": true,
+    "max_measurement_geometry_pairing_difference": 0.0,
+    "station_protocol_unchanged": true,
+    "teacher_stop_gradient_correct": true,
+    "student_gradient_dot_error": [
+      0.031729020178318024,
+      0.03840801119804382
+    ],
+    "teacher_loss_gradient_direction_correct": true,
+    "teacher_measurement_gradient_abs_sum": 155.8334197998047,
+    "permutation_padding_all_invalid_passed": true,
+    "gt_access": {
+      "gt_file_opened": false,
+      "gt_open_attempts": 0,
+      "forbidden_npy_attempts": 0,
+      "supervised_checkpoint_open_attempts": 0,
+      "projection_open_count": 24,
+      "unique_pool_a_projection_files": 8,
+      "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+      "audit_hook_inherited_by_workers": true,
+      "Pool_B_access_attempts": 0,
+      "forbidden_projection_attempts": 0,
+      "external_checkpoint_attempts": 0
+    },
+    "bug_found": false,
+    "gate_retrained": false,
+    "loss_weights_changed": false,
+    "conclusion": "No construction/mask/measurement/stop-gradient/gradient-direction bug found. Frozen loss-decrease criterion failed; stop without tuning."
+  },
+  "integrity": {
+    "dataset_unchanged": true,
+    "all_historical_artifacts_unchanged": true,
+    "source_gt128_metadata_unchanged": true,
+    "projector_unchanged": true,
+    "network_architecture_unchanged": true,
+    "v1_training_unchanged": true,
+    "numerical_training_sources_unchanged": true,
+    "test_used": false,
+    "pool_b_training_unused": true,
+    "gt_hashes_checked": false,
+    "passed": true
+  },
+  "volumetric_gt_used_for_training": false,
+  "volumetric_gt_used_for_selection": false,
+  "gt_posthoc_evaluation_executed": false,
+  "test_used": false,
+  "decision": "SelfSup-MRGR v2 NO-GO",
+  "decision_stage": "engineering gate",
+  "failed_criteria": [
+    "student_teacher_loss_decreased"
+  ],
+  "decision_note": "Gate loss-decrease criterion failed without an identified implementation bug. No claim about post-hoc voxel superiority can be made; formal v1/v2 comparison was not executed.",
+  "retain_baseline": "SelfSup v1",
+  "automatic_experiments_stopped": true,
+  "next_step": "Await the next research decision; no v3, EMA, priors or tuning.",
+  "reporting_source_commit": "a2b6476690575d986d8075b07d691be1d6d02f31"
+}
