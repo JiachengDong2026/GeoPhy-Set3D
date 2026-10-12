@@ -1,0 +1,919 @@
+{
+  "completed": true,
+  "evaluated_at": "2026-10-12T08:11:13.030040+00:00",
+  "protocol_sha256": "f3b9f3ae73db6f4f3c2c78ff17b36416230452756062f2287b921f319f94da07",
+  "effects": {
+    "Val-A_H": {
+      "relative_l1": {
+        "control_mean": 0.29695429882599145,
+        "treatment_mean": 0.3283493432579687,
+        "mean_delta": 0.03139504443197735,
+        "median_delta": 0.0257126703822117,
+        "treatment_wins": 10,
+        "treatment_losses": 26,
+        "ties": 0,
+        "paired_case_95ci": [
+          0.016833082308928927,
+          0.04647490795328772
+        ],
+        "decision": "measurement_harm",
+        "case_count": 36,
+        "bootstrap_samples": 10000,
+        "bootstrap_seed": 2026101202,
+        "unit": "paired case"
+      },
+      "relative_l2": {
+        "control_mean": 0.21648008194801485,
+        "treatment_mean": 0.2438703927686704,
+        "mean_delta": 0.027390310820655496,
+        "median_delta": 0.02313968032067855,
+        "treatment_wins": 10,
+        "treatment_losses": 26,
+        "ties": 0,
+        "paired_case_95ci": [
+          0.014159116782300196,
+          0.041511700491552554
+        ],
+        "decision": "measurement_harm",
+        "case_count": 36,
+        "bootstrap_samples": 10000,
+        "bootstrap_seed": 2026101202,
+        "unit": "paired case"
+      }
+    },
+    "gate_U": {
+      "relative_l1": {
+        "control_mean": 0.5308715059631955,
+        "treatment_mean": 0.5218156276368295,
+        "mean_delta": -0.009055878326365986,
+        "median_delta": -0.011582842846897368,
+        "treatment_wins": 6,
+        "treatment_losses": 2,
+        "ties": 0,
+        "paired_case_95ci": [
+          -0.022856496118702857,
+          0.007397364385521988
+        ],
+        "decision": "inconclusive",
+        "case_count": 8,
+        "bootstrap_samples": 10000,
+        "bootstrap_seed": 2026101202,
+        "unit": "paired case"
+      },
+      "relative_l2": {
+        "control_mean": 0.1701418700192598,
+        "treatment_mean": 0.1579233104253473,
+        "mean_delta": -0.012218559593912458,
+        "median_delta": -0.012671217001888044,
+        "treatment_wins": 7,
+        "treatment_losses": 1,
+        "ties": 0,
+        "paired_case_95ci": [
+          -0.02180592521929956,
+          -0.002264582857709432
+        ],
+        "decision": "extra_measurement_benefit",
+        "case_count": 8,
+        "bootstrap_samples": 10000,
+        "bootstrap_seed": 2026101202,
+        "unit": "paired case"
+      }
+    },
+    "gate_H": {
+      "relative_l1": {
+        "control_mean": 0.5131536245037269,
+        "treatment_mean": 0.5097626420721475,
+        "mean_delta": -0.0033909824315793563,
+        "median_delta": -0.006421925598257244,
+        "treatment_wins": 6,
+        "treatment_losses": 2,
+        "ties": 0,
+        "paired_case_95ci": [
+          -0.013948333948333516,
+          0.008465056016719858
+        ],
+        "decision": "inconclusive",
+        "case_count": 8,
+        "bootstrap_samples": 10000,
+        "bootstrap_seed": 2026101202,
+        "unit": "paired case"
+      },
+      "relative_l2": {
+        "control_mean": 0.1641326035904645,
+        "treatment_mean": 0.1509957600778362,
+        "mean_delta": -0.013136843512628348,
+        "median_delta": -0.01175262947814628,
+        "treatment_wins": 7,
+        "treatment_losses": 1,
+        "ties": 0,
+        "paired_case_95ci": [
+          -0.023214207154207325,
+          -0.004236370189332775
+        ],
+        "decision": "extra_measurement_benefit",
+        "case_count": 8,
+        "bootstrap_samples": 10000,
+        "bootstrap_seed": 2026101202,
+        "unit": "paired case"
+      }
+    }
+  },
+  "teacher_advantage": {
+    "Control_Val-A_H": {
+      "case_count": 36,
+      "bootstrap_unit": "paired case",
+      "bootstrap_samples": 10000,
+      "bootstrap_seed": 2026101202,
+      "relative_l1": {
+        "student_mean": 0.29695429882599145,
+        "teacher_mean": 0.24214603552877248,
+        "teacher_minus_student_mean": -0.05480826329721898,
+        "teacher_minus_student_median": -0.04813542881962286,
+        "teacher_win_rate": 1.0,
+        "teacher_worse_case_count": 0,
+        "paired_mean_delta_percentile_95ci": [
+          -0.06648952450328585,
+          -0.04387497111458076
+        ],
+        "worse_cases": []
+      },
+      "relative_l2": {
+        "student_mean": 0.21648008194801485,
+        "teacher_mean": 0.1616581037901423,
+        "teacher_minus_student_mean": -0.05482197815787258,
+        "teacher_minus_student_median": -0.04357054578326691,
+        "teacher_win_rate": 1.0,
+        "teacher_worse_case_count": 0,
+        "paired_mean_delta_percentile_95ci": [
+          -0.06680189795954047,
+          -0.043657267582493484
+        ],
+        "worse_cases": []
+      }
+    },
+    "Treatment_Val-A_H": {
+      "case_count": 36,
+      "bootstrap_unit": "paired case",
+      "bootstrap_samples": 10000,
+      "bootstrap_seed": 2026101202,
+      "relative_l1": {
+        "student_mean": 0.3283493432579687,
+        "teacher_mean": 0.3144433408285054,
+        "teacher_minus_student_mean": -0.013906002429463462,
+        "teacher_minus_student_median": -0.012386892423084439,
+        "teacher_win_rate": 0.6666666666666666,
+        "teacher_worse_case_count": 12,
+        "paired_mean_delta_percentile_95ci": [
+          -0.022962066315564366,
+          -0.005235130358247679
+        ],
+        "worse_cases": [
+          {
+            "case_id": "case2_1_g2_transient_scheme_a_v1_2s_asymmetric_p0300_w3_inlet2_half",
+            "teacher_minus_student": 0.0440560440791844
+          },
+          {
+            "case_id": "case2_crosswind_g2_transient_scheme_a_v1_2s_asymmetric_p0300_w3_inlet1_half",
+            "teacher_minus_student": 0.026131764960254378
+          },
+          {
+            "case_id": "case3_streamwise_g3_transient_scheme_a_v1_2s_p0100_w0_equal",
+            "teacher_minus_student": 0.024635980461468254
+          },
+          {
+            "case_id": "case3_streamwise_g3_transient_scheme_a_v1_2s_p0300_w1_equal",
+            "teacher_minus_student": 0.02229021605492576
+          },
+          {
+            "case_id": "case3_streamwise_g3_transient_scheme_a_v1_2s_asymmetric_p1000_w1_inlet1_half",
+            "teacher_minus_student": 0.0162966071909163
+          },
+          {
+            "case_id": "case2_1_g2_transient_scheme_a_v1_2s_asymmetric_p1500_w3_inlet1_half",
+            "teacher_minus_student": 0.013580849381313681
+          },
+          {
+            "case_id": "case3_streamwise_g3_transient_scheme_a_v1_2s_asymmetric_p0300_w3_inlet3_half",
+            "teacher_minus_student": 0.010873259388599454
+          },
+          {
+            "case_id": "case2_streamwise_g2_transient_scheme_a_v1_2s_asymmetric_p1000_w3_inlet1_half",
+            "teacher_minus_student": 0.006413035491474706
+          },
+          {
+            "case_id": "case3_crosswind_g3_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet2_half",
+            "teacher_minus_student": 0.006289288209757604
+          },
+          {
+            "case_id": "case2_crosswind_g2_transient_scheme_a_v1_2s_asymmetric_p1000_w3_inlet1_half",
+            "teacher_minus_student": 0.005138655299377071
+          },
+          {
+            "case_id": "case3_streamwise_g3_transient_scheme_a_v1_2s_p0300_w3_equal",
+            "teacher_minus_student": 0.0008367211196770863
+          },
+          {
+            "case_id": "case2_1_g2_transient_scheme_a_v1_2s_asymmetric_p1500_w1_inlet1_half",
+            "teacher_minus_student": 0.00029939928770544855
+          }
+        ]
+      },
+      "relative_l2": {
+        "student_mean": 0.2438703927686704,
+        "teacher_mean": 0.22684256761947477,
+        "teacher_minus_student_mean": -0.01702782514919554,
+        "teacher_minus_student_median": -0.018803617070933948,
+        "teacher_win_rate": 0.6944444444444444,
+        "teacher_worse_case_count": 11,
+        "paired_mean_delta_percentile_95ci": [
+          -0.026334272781158952,
+          -0.00855576789553282
+        ],
+        "worse_cases": [
+          {
+            "case_id": "case2_1_g2_transient_scheme_a_v1_2s_asymmetric_p0300_w3_inlet2_half",
+            "teacher_minus_student": 0.04247885479122204
+          },
+          {
+            "case_id": "case2_crosswind_g2_transient_scheme_a_v1_2s_asymmetric_p0300_w3_inlet1_half",
+            "teacher_minus_student": 0.019095531314128666
+          },
+          {
+            "case_id": "case3_streamwise_g3_transient_scheme_a_v1_2s_p0300_w1_equal",
+            "teacher_minus_student": 0.015303860433326516
+          },
+          {
+            "case_id": "case3_streamwise_g3_transient_scheme_a_v1_2s_p0100_w0_equal",
+            "teacher_minus_student": 0.012359398431852853
+          },
+          {
+            "case_id": "case3_streamwise_g3_transient_scheme_a_v1_2s_asymmetric_p0300_w3_inlet3_half",
+            "teacher_minus_student": 0.010392828929357
+          },
+          {
+            "case_id": "case3_streamwise_g3_transient_scheme_a_v1_2s_asymmetric_p1000_w1_inlet1_half",
+            "teacher_minus_student": 0.009941749056732396
+          },
+          {
+            "case_id": "case2_1_g2_transient_scheme_a_v1_2s_asymmetric_p1500_w3_inlet1_half",
+            "teacher_minus_student": 0.009590680646028332
+          },
+          {
+            "case_id": "case2_streamwise_g2_transient_scheme_a_v1_2s_asymmetric_p1000_w3_inlet1_half",
+            "teacher_minus_student": 0.007819436154568399
+          },
+          {
+            "case_id": "case3_crosswind_g3_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet2_half",
+            "teacher_minus_student": 0.003761852423112555
+          },
+          {
+            "case_id": "case3_crosswind_g3_transient_scheme_a_v1_2s_asymmetric_p1500_w3_inlet3_half",
+            "teacher_minus_student": 0.0017718964337168075
+          },
+          {
+            "case_id": "case2_crosswind_g2_transient_scheme_a_v1_2s_asymmetric_p1000_w3_inlet1_half",
+            "teacher_minus_student": 0.0005937261144608741
+          }
+        ]
+      }
+    },
+    "Control_gate_U": {
+      "case_count": 8,
+      "bootstrap_unit": "paired case",
+      "bootstrap_samples": 10000,
+      "bootstrap_seed": 2026101202,
+      "relative_l1": {
+        "student_mean": 0.5308715059631955,
+        "teacher_mean": 0.4986379460332852,
+        "teacher_minus_student_mean": -0.032233559929910345,
+        "teacher_minus_student_median": -0.013853644858074207,
+        "teacher_win_rate": 1.0,
+        "teacher_worse_case_count": 0,
+        "paired_mean_delta_percentile_95ci": [
+          -0.05964313910747647,
+          -0.011159044894228967
+        ],
+        "worse_cases": []
+      },
+      "relative_l2": {
+        "student_mean": 0.1701418700192598,
+        "teacher_mean": 0.14880805921109705,
+        "teacher_minus_student_mean": -0.021333810808162736,
+        "teacher_minus_student_median": -0.011436507535731638,
+        "teacher_win_rate": 1.0,
+        "teacher_worse_case_count": 0,
+        "paired_mean_delta_percentile_95ci": [
+          -0.04051615578845589,
+          -0.008229049571533056
+        ],
+        "worse_cases": []
+      }
+    },
+    "Treatment_gate_U": {
+      "case_count": 8,
+      "bootstrap_unit": "paired case",
+      "bootstrap_samples": 10000,
+      "bootstrap_seed": 2026101202,
+      "relative_l1": {
+        "student_mean": 0.5218156276368295,
+        "teacher_mean": 0.5033247332206516,
+        "teacher_minus_student_mean": -0.018490894416177964,
+        "teacher_minus_student_median": -0.006456411156344294,
+        "teacher_win_rate": 0.875,
+        "teacher_worse_case_count": 1,
+        "paired_mean_delta_percentile_95ci": [
+          -0.038317273707655135,
+          -0.003840447974696761
+        ],
+        "worse_cases": [
+          {
+            "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet1_half",
+            "teacher_minus_student": 4.101494742200784e-05
+          }
+        ]
+      },
+      "relative_l2": {
+        "student_mean": 0.1579233104253473,
+        "teacher_mean": 0.14372667290176072,
+        "teacher_minus_student_mean": -0.01419663752358662,
+        "teacher_minus_student_median": -0.004871039998584403,
+        "teacher_win_rate": 0.875,
+        "teacher_worse_case_count": 1,
+        "paired_mean_delta_percentile_95ci": [
+          -0.02915464538731497,
+          -0.003477932293776388
+        ],
+        "worse_cases": [
+          {
+            "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w3_inlet1_half",
+            "teacher_minus_student": 0.00017286448161712986
+          }
+        ]
+      }
+    },
+    "Control_gate_H": {
+      "case_count": 8,
+      "bootstrap_unit": "paired case",
+      "bootstrap_samples": 10000,
+      "bootstrap_seed": 2026101202,
+      "relative_l1": {
+        "student_mean": 0.5131536245037269,
+        "teacher_mean": 0.4955896136431172,
+        "teacher_minus_student_mean": -0.017564010860609672,
+        "teacher_minus_student_median": -0.009881586666857456,
+        "teacher_win_rate": 1.0,
+        "teacher_worse_case_count": 0,
+        "paired_mean_delta_percentile_95ci": [
+          -0.028008281634061584,
+          -0.0083821271367252
+        ],
+        "worse_cases": []
+      },
+      "relative_l2": {
+        "student_mean": 0.1641326035904645,
+        "teacher_mean": 0.15200283544155432,
+        "teacher_minus_student_mean": -0.012129768148910198,
+        "teacher_minus_student_median": -0.005535051969684561,
+        "teacher_win_rate": 0.875,
+        "teacher_worse_case_count": 1,
+        "paired_mean_delta_percentile_95ci": [
+          -0.022391971671754433,
+          -0.0027378013733043343
+        ],
+        "worse_cases": [
+          {
+            "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w3_inlet1_half",
+            "teacher_minus_student": 0.002923122049638016
+          }
+        ]
+      }
+    },
+    "Treatment_gate_H": {
+      "case_count": 8,
+      "bootstrap_unit": "paired case",
+      "bootstrap_samples": 10000,
+      "bootstrap_seed": 2026101202,
+      "relative_l1": {
+        "student_mean": 0.5097626420721475,
+        "teacher_mean": 0.4988760317608486,
+        "teacher_minus_student_mean": -0.010886610311299005,
+        "teacher_minus_student_median": -0.003214809109742617,
+        "teacher_win_rate": 0.75,
+        "teacher_worse_case_count": 2,
+        "paired_mean_delta_percentile_95ci": [
+          -0.021761747955383683,
+          -0.001610347213447547
+        ],
+        "worse_cases": [
+          {
+            "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet1_half",
+            "teacher_minus_student": 0.0012690238569138534
+          },
+          {
+            "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w3_inlet1_half",
+            "teacher_minus_student": 0.0010914584294143825
+          }
+        ]
+      },
+      "relative_l2": {
+        "student_mean": 0.1509957600778362,
+        "teacher_mean": 0.14508724641066081,
+        "teacher_minus_student_mean": -0.005908513667175359,
+        "teacher_minus_student_median": -0.0027656229264590437,
+        "teacher_win_rate": 0.75,
+        "teacher_worse_case_count": 2,
+        "paired_mean_delta_percentile_95ci": [
+          -0.013281601695349109,
+          -0.0010902236326445884
+        ],
+        "worse_cases": [
+          {
+            "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w3_inlet1_half",
+            "teacher_minus_student": 0.0006878470274301884
+          },
+          {
+            "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet1_half",
+            "teacher_minus_student": 9.382744854458114e-06
+          }
+        ]
+      }
+    }
+  },
+  "training": {
+    "Control": {
+      "completed": true,
+      "arm": "Control",
+      "completed_epochs": 80,
+      "updates": 320,
+      "final_fixed_evaluation": {
+        "statistic": "fixed-parameter evaluation",
+        "loss": {
+          "total": 0.15487023442983627,
+          "hold": 0.058276208117604256,
+          "cross": 0.058947211131453514,
+          "observed": 0.05681993090547621,
+          "hold_teacher": 0.05593994678929448,
+          "observed_teacher": 0.05498483590781689,
+          "teacher": 0.11184400971978903
+        },
+        "measurement": {
+          "heldout": {
+            "relative_l1": 0.5131536245037269,
+            "relative_l2": 0.16413260359046453
+          },
+          "cross": {
+            "relative_l1": 0.515501812072699,
+            "relative_l2": 0.16277963076238786
+          },
+          "observed": {
+            "relative_l1": 0.5001927113053,
+            "relative_l2": 0.15143061970496766
+          },
+          "teacher_heldout": {
+            "relative_l1": 0.49558961364311727,
+            "relative_l2": 0.15200283544155432
+          },
+          "teacher_observed": {
+            "relative_l1": 0.4865730041041688,
+            "relative_l2": 0.14222803279180227
+          },
+          "A_heldout": {
+            "relative_l1": 0.5127319494253575,
+            "relative_l2": 0.16359360096181416
+          },
+          "B_heldout": {
+            "relative_l1": 0.5135752995820964,
+            "relative_l2": 0.1646716062191149
+          }
+        },
+        "output": {
+          "min": 4.3627776904031634e-05,
+          "max": 0.36344921588897705,
+          "mean": 0.0017236018175026402,
+          "std": 0.009365029447037798,
+          "fraction_near_one": 0.0,
+          "fraction_near_zero": 0.0,
+          "case_to_case_mean_absolute_difference": 0.002596198581159115
+        },
+        "teacher_output": {
+          "min": 5.073477223049849e-05,
+          "max": 0.3627152442932129,
+          "mean": 0.0017163261727546342,
+          "std": 0.009600735454040894,
+          "fraction_near_one": 0.0,
+          "fraction_near_zero": 0.0,
+          "case_to_case_mean_absolute_difference": 0.002580871107056737
+        },
+        "steps": [],
+        "case_order": [
+          "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet1_half",
+          "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w1_inlet1_half",
+          "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w3_inlet1_half",
+          "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w0_inlet1_half",
+          "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w1_inlet1_half",
+          "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w3_inlet1_half",
+          "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w0_inlet1_half",
+          "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w3_inlet1_half"
+        ],
+        "microbatch_records": [
+          {
+            "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet1_half",
+            "order": 0,
+            "loss": 0.06474438309669495,
+            "teacher_relative_discrepancy": 0.050561461597681046,
+            "A_output_mean": 0.0024076534900814295,
+            "B_output_mean": 0.002351973205804825,
+            "T_output_mean": 0.002377782016992569,
+            "T_output_std": 0.012008964084088802
+          },
+          {
+            "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w1_inlet1_half",
+            "order": 1,
+            "loss": 0.1544022262096405,
+            "teacher_relative_discrepancy": 0.0895281583070755,
+            "A_output_mean": 0.0012982368934899569,
+            "B_output_mean": 0.001284381840378046,
+            "T_output_mean": 0.0012994860298931599,
+            "T_output_std": 0.0075720008462667465
+          },
+          {
+            "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w3_inlet1_half",
+            "order": 2,
+            "loss": 0.3463253974914551,
+            "teacher_relative_discrepancy": 0.05252840742468834,
+            "A_output_mean": 0.0008153043454512954,
+            "B_output_mean": 0.0008181638550013304,
+            "T_output_mean": 0.0008214591653086245,
+            "T_output_std": 0.005952693987637758
+          },
+          {
+            "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w0_inlet1_half",
+            "order": 3,
+            "loss": 0.06798192858695984,
+            "teacher_relative_discrepancy": 0.11256618052721024,
+            "A_output_mean": 0.0024408074095845222,
+            "B_output_mean": 0.002553565427660942,
+            "T_output_mean": 0.002503009047359228,
+            "T_output_std": 0.012507866136729717
+          },
+          {
+            "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w1_inlet1_half",
+            "order": 4,
+            "loss": 0.0947534441947937,
+            "teacher_relative_discrepancy": 0.1709343045949936,
+            "A_output_mean": 0.0021755860652774572,
+            "B_output_mean": 0.0020730961114168167,
+            "T_output_mean": 0.002063653664663434,
+            "T_output_std": 0.010273268446326256
+          },
+          {
+            "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w3_inlet1_half",
+            "order": 5,
+            "loss": 0.24935413897037506,
+            "teacher_relative_discrepancy": 0.1391019970178604,
+            "A_output_mean": 0.0009927335195243359,
+            "B_output_mean": 0.0010139602236449718,
+            "T_output_mean": 0.0010380869498476386,
+            "T_output_std": 0.006823412608355284
+          },
+          {
+            "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w0_inlet1_half",
+            "order": 6,
+            "loss": 0.06528274714946747,
+            "teacher_relative_discrepancy": 0.19294914603233337,
+            "A_output_mean": 0.002482171868905425,
+            "B_output_mean": 0.0025755437090992928,
+            "T_output_mean": 0.002473694970831275,
+            "T_output_std": 0.011612847447395325
+          },
+          {
+            "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w3_inlet1_half",
+            "order": 7,
+            "loss": 0.1961176097393036,
+            "teacher_relative_discrepancy": 0.08658242225646973,
+            "A_output_mean": 0.0011647162027657032,
+            "B_output_mean": 0.001129734911955893,
+            "T_output_mean": 0.0011534375371411443,
+            "T_output_std": 0.00731450691819191
+          }
+        ],
+        "seconds": 1.0474996590055525
+      },
+      "set_properties": {
+        "A": {
+          "permutation_max_diff": 1.341104507446289e-07,
+          "padding_max_diff": 0.0,
+          "visibility_identical": true,
+          "all_invalid_safe": true,
+          "passed": true
+        },
+        "B": {
+          "permutation_max_diff": 1.4901161193847656e-07,
+          "padding_max_diff": 0.0,
+          "visibility_identical": true,
+          "all_invalid_safe": true,
+          "passed": true
+        },
+        "T": {
+          "permutation_max_diff": 1.7881393432617188e-07,
+          "padding_max_diff": 1.7881393432617188e-07,
+          "visibility_identical": true,
+          "all_invalid_safe": true,
+          "passed": true
+        }
+      },
+      "output_collapsed": false,
+      "consistency_first10": 0.03715858657378703,
+      "consistency_last10": 0.11336898542940617,
+      "peak_gpu_allocated_bytes": 8029604352,
+      "final_checkpoint": "/data/djc/GeoPhy-Set3D/outputs/experiments/selfsup_rvtc_matched_80/checkpoints/Control/epoch_080.pt",
+      "final_checkpoint_sha256": "782636eecb37d0ae68ac9d6b9059c4a6e0b779ebb091a2ffdbd28a86fe877c80",
+      "final_state_sha256": "db96193ad51b5dce373666ef25bc507101742b5f49e706ce67b7d87fed48c938",
+      "initial_state_sha256": "af76bbf4afd36c0d34fa3407dce4e7497a3a57b5b4b2ca837b95afc7a2311a3c",
+      "gt_access": {
+        "gt_file_opened": false,
+        "gt_open_attempts": 0,
+        "forbidden_npy_attempts": 0,
+        "supervised_checkpoint_open_attempts": 0,
+        "projection_open_count": 2259,
+        "unique_pool_a_projection_files": 12,
+        "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+        "audit_hook_inherited_by_workers": true,
+        "Pool_B_access_attempts": 0,
+        "forbidden_projection_attempts": 0,
+        "external_checkpoint_attempts": 0,
+        "own_checkpoint_reads": 9,
+        "own_checkpoint_writes": 0,
+        "loader_workers": 0,
+        "external_weights_loaded": false,
+        "final_test_used": false
+      },
+      "prior_audits": [],
+      "protocol_sha256": "f3b9f3ae73db6f4f3c2c78ff17b36416230452756062f2287b921f319f94da07",
+      "finished_at": "2026-10-12T08:03:17.556502+00:00",
+      "stopping_reason": "fixed epoch80; no selection or early stopping"
+    },
+    "Treatment": {
+      "completed": true,
+      "arm": "Treatment",
+      "completed_epochs": 80,
+      "updates": 320,
+      "final_fixed_evaluation": {
+        "statistic": "fixed-parameter evaluation",
+        "loss": {
+          "total": 0.1622387319803238,
+          "hold": 0.057577781146392226,
+          "cross": 0.05789949162863195,
+          "observed": 0.055394508643075824,
+          "hold_teacher": 0.056147808907553554,
+          "observed_teacher": 0.05522293830290437,
+          "teacher": 0.08501648344099522
+        },
+        "measurement": {
+          "heldout": {
+            "relative_l1": 0.5097626420721476,
+            "relative_l2": 0.15099576007783616
+          },
+          "cross": {
+            "relative_l1": 0.5097050362927968,
+            "relative_l2": 0.15348628474750092
+          },
+          "observed": {
+            "relative_l1": 0.4911200142009994,
+            "relative_l2": 0.13852106472914277
+          },
+          "teacher_heldout": {
+            "relative_l1": 0.49887603176084855,
+            "relative_l2": 0.14508724641066081
+          },
+          "teacher_observed": {
+            "relative_l1": 0.4904079009579351,
+            "relative_l2": 0.13869292296483224
+          },
+          "A_heldout": {
+            "relative_l1": 0.5091094797504795,
+            "relative_l2": 0.15377985766724467
+          },
+          "B_heldout": {
+            "relative_l1": 0.5104158043938156,
+            "relative_l2": 0.14821166248842768
+          }
+        },
+        "output": {
+          "min": 0.0001046036122716032,
+          "max": 0.2901201546192169,
+          "mean": 0.0017068857305275742,
+          "std": 0.008578893995546314,
+          "fraction_near_one": 0.0,
+          "fraction_near_zero": 0.0,
+          "case_to_case_mean_absolute_difference": 0.002537833842714982
+        },
+        "teacher_output": {
+          "min": 0.00011914713104488328,
+          "max": 0.28394848108291626,
+          "mean": 0.0017094048962462693,
+          "std": 0.008813923288345911,
+          "fraction_near_one": 0.0,
+          "fraction_near_zero": 0.0,
+          "case_to_case_mean_absolute_difference": 0.0025370282819494605
+        },
+        "steps": [],
+        "case_order": [
+          "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet1_half",
+          "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w1_inlet1_half",
+          "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w3_inlet1_half",
+          "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w0_inlet1_half",
+          "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w1_inlet1_half",
+          "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w3_inlet1_half",
+          "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w0_inlet1_half",
+          "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w3_inlet1_half"
+        ],
+        "microbatch_records": [
+          {
+            "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet1_half",
+            "order": 0,
+            "loss": 0.06670130044221878,
+            "teacher_relative_discrepancy": 0.034115374088287354,
+            "A_output_mean": 0.0023504109121859074,
+            "B_output_mean": 0.0023272724356502295,
+            "T_output_mean": 0.002332513453438878,
+            "T_output_std": 0.010961726307868958
+          },
+          {
+            "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w1_inlet1_half",
+            "order": 1,
+            "loss": 0.1605442315340042,
+            "teacher_relative_discrepancy": 0.06898418068885803,
+            "A_output_mean": 0.0013343692990019917,
+            "B_output_mean": 0.0013332950184121728,
+            "T_output_mean": 0.0013188066659495234,
+            "T_output_std": 0.006987299770116806
+          },
+          {
+            "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w3_inlet1_half",
+            "order": 2,
+            "loss": 0.3603779673576355,
+            "teacher_relative_discrepancy": 0.03576630353927612,
+            "A_output_mean": 0.000829766970127821,
+            "B_output_mean": 0.0008301130146719515,
+            "T_output_mean": 0.000826916191726923,
+            "T_output_std": 0.004997608717530966
+          },
+          {
+            "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w0_inlet1_half",
+            "order": 3,
+            "loss": 0.07079815864562988,
+            "teacher_relative_discrepancy": 0.0806722417473793,
+            "A_output_mean": 0.002460245043039322,
+            "B_output_mean": 0.0024413354694843292,
+            "T_output_mean": 0.002446859609335661,
+            "T_output_std": 0.011266849003732204
+          },
+          {
+            "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w1_inlet1_half",
+            "order": 4,
+            "loss": 0.1039152443408966,
+            "teacher_relative_discrepancy": 0.13075855374336243,
+            "A_output_mean": 0.0020180908031761646,
+            "B_output_mean": 0.0020306208170950413,
+            "T_output_mean": 0.0020678413566201925,
+            "T_output_std": 0.009469150565564632
+          },
+          {
+            "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w3_inlet1_half",
+            "order": 5,
+            "loss": 0.2618178129196167,
+            "teacher_relative_discrepancy": 0.10791842639446259,
+            "A_output_mean": 0.001041281153447926,
+            "B_output_mean": 0.001071058213710785,
+            "T_output_mean": 0.0010394189739599824,
+            "T_output_std": 0.006028778851032257
+          },
+          {
+            "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w0_inlet1_half",
+            "order": 6,
+            "loss": 0.07262738794088364,
+            "teacher_relative_discrepancy": 0.15938794612884521,
+            "A_output_mean": 0.002486679470166564,
+            "B_output_mean": 0.0024540615268051624,
+            "T_output_mean": 0.002500836504623294,
+            "T_output_std": 0.01139603927731514
+          },
+          {
+            "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w3_inlet1_half",
+            "order": 7,
+            "loss": 0.20112775266170502,
+            "teacher_relative_discrepancy": 0.06252884119749069,
+            "A_output_mean": 0.0011469264281913638,
+            "B_output_mean": 0.001154645113274455,
+            "T_output_mean": 0.0011420464143157005,
+            "T_output_std": 0.006427471991628408
+          }
+        ],
+        "seconds": 0.8339453032240272
+      },
+      "set_properties": {
+        "A": {
+          "permutation_max_diff": 1.4901161193847656e-07,
+          "padding_max_diff": 0.0,
+          "visibility_identical": true,
+          "all_invalid_safe": true,
+          "passed": true
+        },
+        "B": {
+          "permutation_max_diff": 1.1920928955078125e-07,
+          "padding_max_diff": 0.0,
+          "visibility_identical": true,
+          "all_invalid_safe": true,
+          "passed": true
+        },
+        "T": {
+          "permutation_max_diff": 1.6391277313232422e-07,
+          "padding_max_diff": 1.7881393432617188e-07,
+          "visibility_identical": true,
+          "all_invalid_safe": true,
+          "passed": true
+        }
+      },
+      "output_collapsed": false,
+      "consistency_first10": 0.03606435976107605,
+      "consistency_last10": 0.09007576741278171,
+      "peak_gpu_allocated_bytes": 8029604352,
+      "final_checkpoint": "/data/djc/GeoPhy-Set3D/outputs/experiments/selfsup_rvtc_matched_80/checkpoints/Treatment/epoch_080.pt",
+      "final_checkpoint_sha256": "40755700a378e9c22b499581240b5b0c2f09f5c9fa0301730f7983d577aeb7be",
+      "final_state_sha256": "e388961181d10e15fe450799fa369c8ea03575041df13dadd09ef3e8d20c32ab",
+      "initial_state_sha256": "af76bbf4afd36c0d34fa3407dce4e7497a3a57b5b4b2ca837b95afc7a2311a3c",
+      "gt_access": {
+        "gt_file_opened": false,
+        "gt_open_attempts": 0,
+        "forbidden_npy_attempts": 0,
+        "supervised_checkpoint_open_attempts": 0,
+        "projection_open_count": 2259,
+        "unique_pool_a_projection_files": 12,
+        "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+        "audit_hook_inherited_by_workers": true,
+        "Pool_B_access_attempts": 0,
+        "forbidden_projection_attempts": 0,
+        "external_checkpoint_attempts": 0,
+        "own_checkpoint_reads": 9,
+        "own_checkpoint_writes": 0,
+        "loader_workers": 0,
+        "external_weights_loaded": false,
+        "final_test_used": false
+      },
+      "prior_audits": [],
+      "protocol_sha256": "f3b9f3ae73db6f4f3c2c78ff17b36416230452756062f2287b921f319f94da07",
+      "finished_at": "2026-10-12T08:10:24.828976+00:00",
+      "stopping_reason": "fixed epoch80; no selection or early stopping"
+    }
+  },
+  "integrity": {
+    "dataset_metadata_unchanged": true,
+    "source_gt128_metadata_unchanged": true,
+    "all_historical_artifacts_unchanged": true,
+    "original_numerical_sources_unchanged": true,
+    "original_no_go_retained": true,
+    "GT_content_not_read": true,
+    "paired_final_epoch80": true,
+    "equal_initial_states": true,
+    "equal_steps": true
+  },
+  "evaluation_audit": {
+    "gt_file_opened": false,
+    "gt_open_attempts": 0,
+    "forbidden_npy_attempts": 0,
+    "supervised_checkpoint_open_attempts": 0,
+    "projection_open_count": 264,
+    "unique_pool_a_projection_files": 44,
+    "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+    "audit_hook_inherited_by_workers": true,
+    "Pool_B_access_attempts": 0,
+    "forbidden_projection_attempts": 0,
+    "external_checkpoint_attempts": 0,
+    "own_checkpoint_reads": 4,
+    "own_checkpoint_writes": 0,
+    "loader_workers": 0,
+    "external_weights_loaded": false,
+    "final_test_used": false
+  },
+  "primary": {
+    "control_mean": 0.29695429882599145,
+    "treatment_mean": 0.3283493432579687,
+    "mean_delta": 0.03139504443197735,
+    "median_delta": 0.0257126703822117,
+    "treatment_wins": 10,
+    "treatment_losses": 26,
+    "ties": 0,
+    "paired_case_95ci": [
+      0.016833082308928927,
+      0.04647490795328772
+    ],
+    "decision": "measurement_harm",
+    "case_count": 36,
+    "bootstrap_samples": 10000,
+    "bootstrap_seed": 2026101202,
+    "unit": "paired case"
+  },
+  "single_seed_exploratory": true,
+  "volumetric_accuracy_evaluated": false
+}

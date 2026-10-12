@@ -437,3 +437,6 @@ protocol, test log and complete terminal checklist for GitHub review.
 
 [中文 RVTC 失败诊断](docs/reports/selfsup_mrgr_v2_failure_diagnosis.md)区分原工程判据、独立测量教师质量和共享参数梯度风险。
 本轮只做无GT、无更新诊断，保留原v2 NO-GO；关/开一致性对照仅为待登记草案。
+
+[中文 RVTC 严格匹配有限对照](docs/reports/selfsup_rvtc_matched_80.md)报告随后获授权的 Control/Treatment 各80轮、320步实验。
+相同富视角测量训练下，原0.1体积一致性使 Val-A held-out L1 增加0.031395（配对95%CI：0.016833–0.046475）；保留v1及原v2 NO-GO，不自动启动后续实验。

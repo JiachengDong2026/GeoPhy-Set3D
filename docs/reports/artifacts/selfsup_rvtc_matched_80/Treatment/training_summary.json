@@ -1,0 +1,213 @@
+{
+  "completed": true,
+  "arm": "Treatment",
+  "completed_epochs": 80,
+  "updates": 320,
+  "final_fixed_evaluation": {
+    "statistic": "fixed-parameter evaluation",
+    "loss": {
+      "total": 0.1622387319803238,
+      "hold": 0.057577781146392226,
+      "cross": 0.05789949162863195,
+      "observed": 0.055394508643075824,
+      "hold_teacher": 0.056147808907553554,
+      "observed_teacher": 0.05522293830290437,
+      "teacher": 0.08501648344099522
+    },
+    "measurement": {
+      "heldout": {
+        "relative_l1": 0.5097626420721476,
+        "relative_l2": 0.15099576007783616
+      },
+      "cross": {
+        "relative_l1": 0.5097050362927968,
+        "relative_l2": 0.15348628474750092
+      },
+      "observed": {
+        "relative_l1": 0.4911200142009994,
+        "relative_l2": 0.13852106472914277
+      },
+      "teacher_heldout": {
+        "relative_l1": 0.49887603176084855,
+        "relative_l2": 0.14508724641066081
+      },
+      "teacher_observed": {
+        "relative_l1": 0.4904079009579351,
+        "relative_l2": 0.13869292296483224
+      },
+      "A_heldout": {
+        "relative_l1": 0.5091094797504795,
+        "relative_l2": 0.15377985766724467
+      },
+      "B_heldout": {
+        "relative_l1": 0.5104158043938156,
+        "relative_l2": 0.14821166248842768
+      }
+    },
+    "output": {
+      "min": 0.0001046036122716032,
+      "max": 0.2901201546192169,
+      "mean": 0.0017068857305275742,
+      "std": 0.008578893995546314,
+      "fraction_near_one": 0.0,
+      "fraction_near_zero": 0.0,
+      "case_to_case_mean_absolute_difference": 0.002537833842714982
+    },
+    "teacher_output": {
+      "min": 0.00011914713104488328,
+      "max": 0.28394848108291626,
+      "mean": 0.0017094048962462693,
+      "std": 0.008813923288345911,
+      "fraction_near_one": 0.0,
+      "fraction_near_zero": 0.0,
+      "case_to_case_mean_absolute_difference": 0.0025370282819494605
+    },
+    "steps": [],
+    "case_order": [
+      "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet1_half",
+      "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w1_inlet1_half",
+      "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w3_inlet1_half",
+      "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w0_inlet1_half",
+      "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w1_inlet1_half",
+      "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w3_inlet1_half",
+      "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w0_inlet1_half",
+      "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w3_inlet1_half"
+    ],
+    "microbatch_records": [
+      {
+        "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet1_half",
+        "order": 0,
+        "loss": 0.06670130044221878,
+        "teacher_relative_discrepancy": 0.034115374088287354,
+        "A_output_mean": 0.0023504109121859074,
+        "B_output_mean": 0.0023272724356502295,
+        "T_output_mean": 0.002332513453438878,
+        "T_output_std": 0.010961726307868958
+      },
+      {
+        "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w1_inlet1_half",
+        "order": 1,
+        "loss": 0.1605442315340042,
+        "teacher_relative_discrepancy": 0.06898418068885803,
+        "A_output_mean": 0.0013343692990019917,
+        "B_output_mean": 0.0013332950184121728,
+        "T_output_mean": 0.0013188066659495234,
+        "T_output_std": 0.006987299770116806
+      },
+      {
+        "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w3_inlet1_half",
+        "order": 2,
+        "loss": 0.3603779673576355,
+        "teacher_relative_discrepancy": 0.03576630353927612,
+        "A_output_mean": 0.000829766970127821,
+        "B_output_mean": 0.0008301130146719515,
+        "T_output_mean": 0.000826916191726923,
+        "T_output_std": 0.004997608717530966
+      },
+      {
+        "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w0_inlet1_half",
+        "order": 3,
+        "loss": 0.07079815864562988,
+        "teacher_relative_discrepancy": 0.0806722417473793,
+        "A_output_mean": 0.002460245043039322,
+        "B_output_mean": 0.0024413354694843292,
+        "T_output_mean": 0.002446859609335661,
+        "T_output_std": 0.011266849003732204
+      },
+      {
+        "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w1_inlet1_half",
+        "order": 4,
+        "loss": 0.1039152443408966,
+        "teacher_relative_discrepancy": 0.13075855374336243,
+        "A_output_mean": 0.0020180908031761646,
+        "B_output_mean": 0.0020306208170950413,
+        "T_output_mean": 0.0020678413566201925,
+        "T_output_std": 0.009469150565564632
+      },
+      {
+        "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w3_inlet1_half",
+        "order": 5,
+        "loss": 0.2618178129196167,
+        "teacher_relative_discrepancy": 0.10791842639446259,
+        "A_output_mean": 0.001041281153447926,
+        "B_output_mean": 0.001071058213710785,
+        "T_output_mean": 0.0010394189739599824,
+        "T_output_std": 0.006028778851032257
+      },
+      {
+        "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w0_inlet1_half",
+        "order": 6,
+        "loss": 0.07262738794088364,
+        "teacher_relative_discrepancy": 0.15938794612884521,
+        "A_output_mean": 0.002486679470166564,
+        "B_output_mean": 0.0024540615268051624,
+        "T_output_mean": 0.002500836504623294,
+        "T_output_std": 0.01139603927731514
+      },
+      {
+        "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w3_inlet1_half",
+        "order": 7,
+        "loss": 0.20112775266170502,
+        "teacher_relative_discrepancy": 0.06252884119749069,
+        "A_output_mean": 0.0011469264281913638,
+        "B_output_mean": 0.001154645113274455,
+        "T_output_mean": 0.0011420464143157005,
+        "T_output_std": 0.006427471991628408
+      }
+    ],
+    "seconds": 0.8339453032240272
+  },
+  "set_properties": {
+    "A": {
+      "permutation_max_diff": 1.4901161193847656e-07,
+      "padding_max_diff": 0.0,
+      "visibility_identical": true,
+      "all_invalid_safe": true,
+      "passed": true
+    },
+    "B": {
+      "permutation_max_diff": 1.1920928955078125e-07,
+      "padding_max_diff": 0.0,
+      "visibility_identical": true,
+      "all_invalid_safe": true,
+      "passed": true
+    },
+    "T": {
+      "permutation_max_diff": 1.6391277313232422e-07,
+      "padding_max_diff": 1.7881393432617188e-07,
+      "visibility_identical": true,
+      "all_invalid_safe": true,
+      "passed": true
+    }
+  },
+  "output_collapsed": false,
+  "consistency_first10": 0.03606435976107605,
+  "consistency_last10": 0.09007576741278171,
+  "peak_gpu_allocated_bytes": 8029604352,
+  "final_checkpoint": "/data/djc/GeoPhy-Set3D/outputs/experiments/selfsup_rvtc_matched_80/checkpoints/Treatment/epoch_080.pt",
+  "final_checkpoint_sha256": "40755700a378e9c22b499581240b5b0c2f09f5c9fa0301730f7983d577aeb7be",
+  "final_state_sha256": "e388961181d10e15fe450799fa369c8ea03575041df13dadd09ef3e8d20c32ab",
+  "initial_state_sha256": "af76bbf4afd36c0d34fa3407dce4e7497a3a57b5b4b2ca837b95afc7a2311a3c",
+  "gt_access": {
+    "gt_file_opened": false,
+    "gt_open_attempts": 0,
+    "forbidden_npy_attempts": 0,
+    "supervised_checkpoint_open_attempts": 0,
+    "projection_open_count": 2259,
+    "unique_pool_a_projection_files": 12,
+    "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+    "audit_hook_inherited_by_workers": true,
+    "Pool_B_access_attempts": 0,
+    "forbidden_projection_attempts": 0,
+    "external_checkpoint_attempts": 0,
+    "own_checkpoint_reads": 9,
+    "own_checkpoint_writes": 0,
+    "loader_workers": 0,
+    "external_weights_loaded": false,
+    "final_test_used": false
+  },
+  "prior_audits": [],
+  "protocol_sha256": "f3b9f3ae73db6f4f3c2c78ff17b36416230452756062f2287b921f319f94da07",
+  "finished_at": "2026-10-12T08:10:24.828976+00:00",
+  "stopping_reason": "fixed epoch80; no selection or early stopping"
+}

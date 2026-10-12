@@ -1,5 +1,9 @@
-# RVTC 严格匹配有限对照
+# RVTC 严格匹配 Control / Treatment 有限对照
 
-protocol.json 在任何实验 optimizer 更新前登记，冻结 Control/Treatment 配置、数值源码、初始 state、case/站位/顺序、320 步预算、最终 checkpoint 评价和配对结论规则。
+[中文报告与图表](../../selfsup_rvtc_matched_80.md)。
 
-原 v2 NO-GO 保留。本目录不含权重或数据；训练和评价完成后补充结果与中文报告。
+协议在任何实验更新前登记并提交于 a2484c3；两组均fresh random、相同初始化/数据/顺序/站位/优化器/320步，只改变一致性0/.1。最终epoch80评价，不挑best。原v2 NO-GO保留。
+
+本目录归档真实104条测量、52条配对指标、192条梯度、640次更新日志、协议/source/state/checkpoint哈希、测试及实际访问审计。Control假设0.1梯度单独标记，实际一致性梯度为零。35个不同测试通过，审计日志补充后复跑9项。
+
+不含权重、测量数据或GT；完整checkpoint/optimizer/RNG与metadata inventory在外部独立目录。SHA256SUMS校验所有归档文件，artifact_manifest.json记录大小。无GT/Pool B/test/foreign checkpoint访问，无正式300轮或后续实验。
