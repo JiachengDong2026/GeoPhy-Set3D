@@ -1,0 +1,24 @@
+Traceback (most recent call last):
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/report_clustered_one_swap.py", line 306, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/report_clustered_one_swap.py", line 287, in main
+    plots(summary,records);report(summary,records)
+    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/report_clustered_one_swap.py", line 124, in plots
+    ax.bar(np.arange(5)+offset,[np.mean(v) for v in vals],width=.22,color=color,label=condition,
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/site-packages/matplotlib/__init__.py", line 1531, in inner
+    return func(
+           ^^^^^
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/site-packages/matplotlib/axes/_axes.py", line 2633, in bar
+    errorbar = self.errorbar(ex, ey, yerr=yerr, xerr=xerr, fmt='none',
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/site-packages/matplotlib/_api/deprecation.py", line 477, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/site-packages/matplotlib/__init__.py", line 1531, in inner
+    return func(
+           ^^^^^
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/site-packages/matplotlib/axes/_axes.py", line 4232, in errorbar
+    raise ValueError(
+ValueError: 'yerr' must not contain negative values

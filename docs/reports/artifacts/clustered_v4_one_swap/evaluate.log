@@ -1,0 +1,42 @@
+SelfSup new paired conditions draw0 completed
+SelfSup new paired conditions draw1 completed
+SelfSup new paired conditions draw2 completed
+SelfSup new paired conditions draw3 completed
+SelfSup new paired conditions draw4 completed
+Supervised new paired conditions draw0 completed
+Supervised new paired conditions draw1 completed
+Supervised new paired conditions draw2 completed
+Supervised new paired conditions draw3 completed
+Supervised new paired conditions draw4 completed
+Traceback (most recent call last):
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/diagnose_clustered_one_swap.py", line 339, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/diagnose_clustered_one_swap.py", line 333, in main
+    try:globals()[args.phase](cfg,root)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/diagnose_clustered_one_swap.py", line 323, in evaluate
+    write_json(root/'summary.json',dict(completed=True,completed_at=now(),protocol_sha256=digest(root/'protocol.json'),
+  File "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/utils.py", line 79, in write_json
+    Path(path).write_text(json.dumps(value, indent=2, allow_nan=False)+'\n')
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/json/__init__.py", line 238, in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/json/encoder.py", line 202, in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/json/encoder.py", line 432, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/json/encoder.py", line 326, in _iterencode_list
+    yield from chunks
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/json/encoder.py", line 439, in _iterencode
+    o = _default(o)
+        ^^^^^^^^^^^
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/json/encoder.py", line 180, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+TypeError: Object of type bool is not JSON serializable

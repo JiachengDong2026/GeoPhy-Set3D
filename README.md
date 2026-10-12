@@ -439,4 +439,6 @@ protocol, test log and complete terminal checklist for GitHub review.
 本轮只做无GT、无更新诊断，保留原v2 NO-GO；关/开一致性对照仅为待登记草案。
 
 [中文 RVTC 严格匹配有限对照](docs/reports/selfsup_rvtc_matched_80.md)报告随后获授权的 Control/Treatment 各80轮、320步实验。
+
+[冻结 clustered V4 单站位诊断](docs/reports/clustered_v4_one_swap.md)使用原36例Val与5个draw，保持V=4，配对比较Original、几何互补Targeted和均匀Random替换。SelfSup v1三维L1的Targeted−Original为−0.250984（95% case区间[−0.292007,−0.213704]），Targeted−Random为−0.028574（[−0.042523,−0.015141]）；监督MRGR三维L1方向一致。仅冻结推理，未训练；不证明唯一恢复、跨seed稳定性或原clustered输入能力提升。原v2 NO-GO保留。
 相同富视角测量训练下，原0.1体积一致性使 Val-A held-out L1 增加0.031395（配对95%CI：0.016833–0.046475）；保留v1及原v2 NO-GO，不自动启动后续实验。
