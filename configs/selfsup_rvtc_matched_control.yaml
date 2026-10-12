@@ -1,0 +1,23 @@
+# Independent finite contrast; the original v2 config and constants remain frozen.
+experiment: selfsup_rvtc_matched_80
+arm: Control
+consistency_weight: 0.0
+base_config: configs/train_selfsup_oari_mrgr_v2.yaml
+output: /data/djc/GeoPhy-Set3D/outputs/experiments/selfsup_rvtc_matched_80
+device: cuda:2
+seed: 20261011
+epochs: 80
+batch_size: 1
+gradient_accumulation: 2
+optimizer_steps: 320
+precision: fp32
+optimizer: {name: adamw, lr: 0.0002, weight_decay: 0.0001}
+gradient_clip_norm: 1.0
+scheduler: null
+shuffle: false
+station_epoch: 0
+projector: {samples: 96, all_rays: true, view_chunk: 2}
+station_manifest: docs/reports/artifacts/selfsup_mrgr_v2_failure_diagnosis/case_station_protocol.json
+gradient_epochs: [10, 20, 30, 40, 50, 60, 70, 80]
+gradient_cases: all gate8 plus first4 Val-A in frozen order
+bootstrap: {samples: 10000, seed: 2026101202, unit: paired case, confidence: 0.95}

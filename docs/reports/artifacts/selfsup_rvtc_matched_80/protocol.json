@@ -1,0 +1,343 @@
+{
+  "status": "REGISTERED BEFORE ANY EXPERIMENT OPTIMIZATION",
+  "registered_at": "2026-10-12T07:54:04.411978+00:00",
+  "review_base_commit": "39a65fd22efb0de0e1c721f6a679dcbda35c5900",
+  "configs": [
+    {
+      "experiment": "selfsup_rvtc_matched_80",
+      "arm": "Control",
+      "consistency_weight": 0.0,
+      "base_config": "configs/train_selfsup_oari_mrgr_v2.yaml",
+      "output": "/data/djc/GeoPhy-Set3D/outputs/experiments/selfsup_rvtc_matched_80",
+      "device": "cuda:2",
+      "seed": 20261011,
+      "epochs": 80,
+      "batch_size": 1,
+      "gradient_accumulation": 2,
+      "optimizer_steps": 320,
+      "precision": "fp32",
+      "optimizer": {
+        "name": "adamw",
+        "lr": 0.0002,
+        "weight_decay": 0.0001
+      },
+      "gradient_clip_norm": 1.0,
+      "scheduler": null,
+      "shuffle": false,
+      "station_epoch": 0,
+      "projector": {
+        "samples": 96,
+        "all_rays": true,
+        "view_chunk": 2
+      },
+      "station_manifest": "docs/reports/artifacts/selfsup_mrgr_v2_failure_diagnosis/case_station_protocol.json",
+      "gradient_epochs": [
+        10,
+        20,
+        30,
+        40,
+        50,
+        60,
+        70,
+        80
+      ],
+      "gradient_cases": "all gate8 plus first4 Val-A in frozen order",
+      "bootstrap": {
+        "samples": 10000,
+        "seed": 2026101202,
+        "unit": "paired case",
+        "confidence": 0.95
+      }
+    },
+    {
+      "experiment": "selfsup_rvtc_matched_80",
+      "arm": "Treatment",
+      "consistency_weight": 0.1,
+      "base_config": "configs/train_selfsup_oari_mrgr_v2.yaml",
+      "output": "/data/djc/GeoPhy-Set3D/outputs/experiments/selfsup_rvtc_matched_80",
+      "device": "cuda:2",
+      "seed": 20261011,
+      "epochs": 80,
+      "batch_size": 1,
+      "gradient_accumulation": 2,
+      "optimizer_steps": 320,
+      "precision": "fp32",
+      "optimizer": {
+        "name": "adamw",
+        "lr": 0.0002,
+        "weight_decay": 0.0001
+      },
+      "gradient_clip_norm": 1.0,
+      "scheduler": null,
+      "shuffle": false,
+      "station_epoch": 0,
+      "projector": {
+        "samples": 96,
+        "all_rays": true,
+        "view_chunk": 2
+      },
+      "station_manifest": "docs/reports/artifacts/selfsup_mrgr_v2_failure_diagnosis/case_station_protocol.json",
+      "gradient_epochs": [
+        10,
+        20,
+        30,
+        40,
+        50,
+        60,
+        70,
+        80
+      ],
+      "gradient_cases": "all gate8 plus first4 Val-A in frozen order",
+      "bootstrap": {
+        "samples": 10000,
+        "seed": 2026101202,
+        "unit": "paired case",
+        "confidence": 0.95
+      }
+    }
+  ],
+  "base_config": {
+    "dataset": {
+      "root": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1"
+    },
+    "experiment": {
+      "name": "selfsup_oari_mrgr_v2_rvtc",
+      "output_root": "/data/djc/GeoPhy-Set3D/outputs"
+    },
+    "loader": {
+      "num_workers": 4,
+      "persistent_workers": true,
+      "pin_memory": true
+    },
+    "loss": {
+      "hold": 1.0,
+      "cross": 0.5,
+      "observed": 0.1,
+      "beta": 0.01,
+      "relative_l1": 0.1,
+      "relative_epsilon": 1e-06,
+      "measurement_scale": 32284.894580078173,
+      "hold_teacher": 1.0,
+      "observed_teacher": 0.1,
+      "teacher": 0.1
+    },
+    "model": {
+      "feature_channels": 32,
+      "input_channels": 3,
+      "lift_resolution": 32,
+      "name": "geolift_oari_mrgr_res3d",
+      "output_activation": "sigmoid",
+      "output_resolution": 64,
+      "gca": {
+        "distance_scale_m": 6.5,
+        "azimuth_scale_deg": 180.0
+      },
+      "set_interaction": {
+        "d_model": 32,
+        "num_heads": 4,
+        "num_blocks": 1,
+        "ffn_channels": 64
+      }
+    },
+    "normalization": {
+      "method": "linear_p99_5",
+      "statistics_file": "train_statistics.json"
+    },
+    "optimizer": {
+      "lr": 0.0002,
+      "name": "adamw",
+      "weight_decay": 0.0001
+    },
+    "train": {
+      "split": "train",
+      "geometry_pool": "train",
+      "a_views": [
+        3,
+        5
+      ],
+      "b_views": [
+        3,
+        5
+      ],
+      "heldout_views": 2
+    },
+    "training": {
+      "batch_size": 1,
+      "device": "cuda:2",
+      "early_stopping_patience": null,
+      "gradient_accumulation": 2,
+      "gradient_clip_norm": 1.0,
+      "max_epochs": 300,
+      "precision": "fp32",
+      "seed": 20261011
+    },
+    "validation": {
+      "split": "val",
+      "geometry_pool": "train",
+      "a_views": [
+        4,
+        4
+      ],
+      "b_views": [
+        4,
+        4
+      ],
+      "heldout_views": 4
+    },
+    "scheduler": {
+      "name": "cosine",
+      "T_max": 300
+    }
+  },
+  "source_sha256": {
+    "configs/selfsup_rvtc_matched_control.yaml": "c8951c4fec2db4ef23d8b87873d941c9060c11f73b39cedc08972aa714d54ec5",
+    "configs/selfsup_rvtc_matched_treatment.yaml": "8ded44618efbecfe512f35dd64da91716ae5f0c25e6647c3cfd272cfcb1ca2ff",
+    "configs/train_selfsup_oari_mrgr_v2.yaml": "f82e6e6fdc6d0379d8975f5818d3a9c5b6d0f422aafd7dad80b8b571a5489735",
+    "scripts/run_selfsup_rvtc_matched.py": "ee0e74d26b3cf06d5d526417fb36974709b640e548b3e2c0450f6a37f218dc56",
+    "src/geophy_set3d/__init__.py": "47441c8638d63363d06b204cb8d6b0e9a6524c9d598920036b9cd8cc3e9ff2b5",
+    "src/geophy_set3d/data/build_utils.py": "0fbaa994ae1b3b82094fc687efc767e3ce019b7f28f0987e37e80efef1ba31be",
+    "src/geophy_set3d/data/collate.py": "64ba5c126d89e0e709eb7f002c791a32a896e8ef098128fd71cf10f6daf8e83e",
+    "src/geophy_set3d/data/generation.py": "36374efc91e0e27d00ed817109472cdb39f30e6cedcbced7c6bc6392746f703c",
+    "src/geophy_set3d/data/measurement_only.py": "8ac516e07b785ac82686306ded38bbe0e47622087318af2741731e5d4f1271b2",
+    "src/geophy_set3d/data/measurement_sampling.py": "88f6e05beb64111c1a63fab90825f0f68e6ae2772a92f0be6187d9e55cc7a693",
+    "src/geophy_set3d/data/projection_audit.py": "77b5d7afc44326ae00e676f41a3989244fa040e1020992fd5c2e5d0fc9c87e09",
+    "src/geophy_set3d/data/projection_pool_dataset.py": "2ff2426b94043c4d2487e1b47c27340599df798816187774be2a5a2d62e0ee8e",
+    "src/geophy_set3d/data/rich_measurement.py": "09648bd196db21be9e4f673da4157a53024145f8429af6846e780c960b298e26",
+    "src/geophy_set3d/data/validation.py": "76b1e84a737fcb740ab5bb5b83feecb86c76693968516a2efcbf24d84d192f14",
+    "src/geophy_set3d/data/view_sampling.py": "fc858a69533b41f67be5fd050ecd0dd6fdb253d86ae382e02591c2ee815e1eb8",
+    "src/geophy_set3d/evaluation/__init__.py": "7e7c0e83968957f68b7808b2b644686a0a12f21bad15045831d70a52214a8338",
+    "src/geophy_set3d/evaluation/analysis.py": "199f1457d0978a606c761ad4d11ca1edd10f6aafa95e198bc1e7ec25021131ad",
+    "src/geophy_set3d/evaluation/b2_report.py": "fada1bbce57c3ffeb0056862e0756bbf63635764327b1b9c408f785c573916d1",
+    "src/geophy_set3d/evaluation/b3_report.py": "73fb688b46965b915ab8b8e602ee333995121261c94985e72a54a3d371b524af",
+    "src/geophy_set3d/evaluation/comparison_report.py": "2e44d97c482a08e7a8c97b141d4a30b72305fe831e0496661d6efe79944ad0e1",
+    "src/geophy_set3d/evaluation/experiments.py": "5aedd0c55eec76e4b874222bc7b19578c1b7d8f48af657bdf67a2adf60041182",
+    "src/geophy_set3d/evaluation/figures.py": "816712bea9a5ac3bf35946eef78e8781cf20248f6d3bc427f6f8fb03b405486a",
+    "src/geophy_set3d/evaluation/matched_control.py": "55eacbce1ded9de9c9344f4c32e1836d729ef229175080ac1048b9680cb37611",
+    "src/geophy_set3d/evaluation/measurement_consistency.py": "edee97bea059708eddcc772b3831858f918a1ccbcf4050f4c491d2aa768f9889",
+    "src/geophy_set3d/evaluation/measurement_diagnostics.py": "2b920ed3da6310f68193bb8ef5e047f51c67c39f7686c683f847fed8fc3cd382",
+    "src/geophy_set3d/evaluation/mrgr.py": "c796ede1a09fd06fae65c3d833184c9cfea5a0a1a37159dafa5f8187b3fa9c08",
+    "src/geophy_set3d/evaluation/mrgr_report.py": "409822580c09530d2272c796fd02704b02af45d4a0f397d4b1dc5a3a5fac671d",
+    "src/geophy_set3d/evaluation/oari_diagnostics.py": "ea656b350edd48da390281d4e25d5a3f56e9146b48a043c694a975d72c9cccfa",
+    "src/geophy_set3d/evaluation/oari_report.py": "a907c8912468605c3fa55b59bdb987ca2086e0a451ff4f24be429986e3e4d73e",
+    "src/geophy_set3d/evaluation/protocols.py": "60b4a82f96dfaec4947762855e6987a1fffedb987d96ab15dcdb2bd9e7caf878",
+    "src/geophy_set3d/evaluation/report.py": "60799671d8f557c775490a2dd6755f18258cfa38ea755d19b0eec84cfe15067a",
+    "src/geophy_set3d/evaluation/research_integrity.py": "9a433d6ded5173fcc2c0921078693c849e490bc6a6e4c22647d0414bf1e68902",
+    "src/geophy_set3d/evaluation/rvtc_failure_diagnostics.py": "47d1f9f28445af6d29a198c3e1f3b3a151073ab722d21a8bb4c3527c5b4deed4",
+    "src/geophy_set3d/evaluation/selfsup_report.py": "685f66b86bb233116a0bdbe8a2ff835d16e63780332609613b3aa1cf5289c78a",
+    "src/geophy_set3d/evaluation/selfsup_v2_integrity.py": "2aacd7d9220869a37bf214fcb512128211442bc67b274cc474d28c766ba05dde",
+    "src/geophy_set3d/evaluation/selfsup_v2_report.py": "96df2a594503353517849af5751c8921f1144c172218659825ac58782c56a677",
+    "src/geophy_set3d/evaluation/stratification.py": "de9ee3059ba4e59288021105671fdab907b670617212a7428d0e1ce03e43623f",
+    "src/geophy_set3d/evaluation/summary.py": "73a8acd82a6ba703665993280af31ac95daeae413b81ff078c5d932b678b0d68",
+    "src/geophy_set3d/evaluation/training_runs.py": "b2b9a3bffc3002d60d0f5896b3e8b7efefc3133fbf8238f67f4909a8c6e55cad",
+    "src/geophy_set3d/evaluation/view_selection.py": "32a56947b18b30bf788768c3a939ff1cf06694caf4939512713ad64b1e230b60",
+    "src/geophy_set3d/geometry/tdlas.py": "d641d3ebbb0fe288b9ae770b9bb5f1b5c5cd4ff3a4729235a161e74f78fa6dce",
+    "src/geophy_set3d/models/__init__.py": "eebc7e2632649b56980cce0abe3c922f013a655721b86f9f8efa1db7783acde6",
+    "src/geophy_set3d/models/attention_fusion.py": "d349c05cb1565889ff83b0f391fff5882782e6525bc61481d3e2db9ceba4329e",
+    "src/geophy_set3d/models/blocks.py": "2842f04765a4c9ba7bc5ac04135ec8ddd8c7537745fc6f79b6c6ab41b3033223",
+    "src/geophy_set3d/models/decoder3d.py": "3aab7052dcc19f356fc2245ada14e8fe085b858b26c91cd180e358a4cc0691ac",
+    "src/geophy_set3d/models/encoder2d.py": "fd6f7e6f9d14573dcfb2d2b494941f83f63a269993f8bbae9616594a32443e14",
+    "src/geophy_set3d/models/fusion.py": "5a7ae6fd64daa283c15af3545311f75c58b774cb86294b2996bc3b098c3868d1",
+    "src/geophy_set3d/models/geolift_gca_res3d.py": "cde73cf1249ade86f54a3fcfc2ce5e7c8f85852cb836d356f3eed7cb74376c04",
+    "src/geophy_set3d/models/geolift_gcsi_res3d.py": "fcad0a6ff1daa02716f16d3c2661a1caa73e25fa915c061ae32d510418d084d1",
+    "src/geophy_set3d/models/geolift_mean_res3d.py": "119db246431a2b4612620afc29d819951d0ae21ab0ff08a8846f22c66f2a443a",
+    "src/geophy_set3d/models/geolift_oari_mrgr_res3d.py": "a095e2cf9bbd9e86fc0a999df4c7d7185fcb4133220ba6334211b91b70166c26",
+    "src/geophy_set3d/models/geolift_oari_mrgr_zero_residual.py": "cff44973dca6731ddcde04920eee7064c2ca7844a9fd74d3608d2a44163c1634",
+    "src/geophy_set3d/models/geolift_oari_res3d.py": "0c254b09b598c3f3bed1af29c7a17e3de26349024106c8849938ac8a2126b0ed",
+    "src/geophy_set3d/models/lifting.py": "0cf2fc39535fab45cf7e2f8bd8cdcac70c8ff3f830c816b936347cf7f3b39710",
+    "src/geophy_set3d/models/ray_relational_interaction.py": "25db37d18c84240bc86f5b0eeb1a0a009a9958dce8bd3f6875dcb92f30b1eac2",
+    "src/geophy_set3d/models/set_interaction.py": "1b80318623b8cd07f94bad70879e159af5f0cd54f083b172c8b4a8bbe0eaefb3",
+    "src/geophy_set3d/physics/projectors.py": "fe3475e29abbba0d3495be9fc69909f3b8b1d7e8d40c25aed683094198f6e776",
+    "src/geophy_set3d/physics/reference_projector.cpp": "3773bb832aeb04928e45d1baac4fcf0a9701502727ee6046a05fa85811881a0c",
+    "src/geophy_set3d/physics/representation_capacity.py": "f0b3491204a172951bec0a1354f95933548672d75343ce2f24ad4d3d395ce92a",
+    "src/geophy_set3d/training/__init__.py": "d253aa4cda19ba45b2d472981e2410da0a7fd319f8509be5acd8ed2d037ff0ae",
+    "src/geophy_set3d/training/comparison.py": "b5028eca4f820f79b8c5eb9e17f6c143042805fd961db85955afb57e6881ecf3",
+    "src/geophy_set3d/training/engine.py": "4491b17bcbc2dbb89d227086b53dfe84d21ed6c86ba1010b64358168f7bc4bb6",
+    "src/geophy_set3d/training/gt_read_guard.py": "42bf7c374d0f297050e801f4b5baf9a544b731a46157f65862eeaa3b4b5cfe50",
+    "src/geophy_set3d/training/losses.py": "a6bec7ce5ee00fbe11d8d159add0d42243775b5d443c07a8e59dadee759b4c5e",
+    "src/geophy_set3d/training/matched_control.py": "0c807bacef0acca1362c3ce6b283bea2165e26b845c4b6bc88743ef0734ae319",
+    "src/geophy_set3d/training/measurement_engine.py": "373bc13981c1e4afd63f5959ea76528e6cc53ea30353b44272b6fee378c3ac85",
+    "src/geophy_set3d/training/measurement_runs.py": "d2c3fc98b593917419c2b74c454888dcdfa7ff1255f1d6adf112d6a2204c8e65",
+    "src/geophy_set3d/training/metrics.py": "e5244421a7cba81702873d0b69e882468a4ee97012676097545729a1fc31461a",
+    "src/geophy_set3d/training/mrgr.py": "098b6ca504d53eab4a01f3ce4f2ba7f5a7e1417c79ec144bc837cc8a242c1b53",
+    "src/geophy_set3d/training/projection_losses.py": "d64e4fd327bf68e4f18ee3f9278ef453363042a7a0deaa71fc4a91283f6f05ad",
+    "src/geophy_set3d/training/rvtc_matched.py": "c8236c8dddc66fdf11e083ed516bd7797aecbdc837c749202b2c41a343692866",
+    "src/geophy_set3d/training/selfsup.py": "03cdee12b66aa1f7fdbd6a265ac7a23397ae03cee13fd18b1d8d721b6a91d909",
+    "src/geophy_set3d/training/selfsup_v2.py": "f4bb9c0159e6c4acaef188c0627d4ddcaa667d3c6851bb2055e34dac395a668e",
+    "src/geophy_set3d/training/utils.py": "51f397ff01ed89b6b930fdc0fee436bf754bcc40c0eaa58f5b3e7c005d14a1ae",
+    "tests/test_rvtc_matched.py": "1190cce1d6159143ce7b98393432754a995e115c65e6f62e6531d1aad41bba75"
+  },
+  "preflight_tests_sha256": "d45d7c5b8914717c9f4fc31fbbbfcdd04c701d3d819e59542baf6ea7ac19cd36",
+  "parameter_count": 332070,
+  "initial_state_sha256": "af76bbf4afd36c0d34fa3407dce4e7497a3a57b5b4b2ca837b95afc7a2311a3c",
+  "initial_states_tensor_equal": true,
+  "station_manifest_sha256": "1a5a3a2e9fc663a62c86e5bb6f97ac753859f65c8fe2e7de71afa703343bfe93",
+  "train_cases": 8,
+  "val_cases": 36,
+  "train_loss": "hold + 0.5 cross + 0.1 observed + hold_teacher + 0.1 observed_teacher + arm_weight teacher",
+  "teacher": "same network; original v2 target and denominator detach; H/U never network inputs",
+  "fresh_random": true,
+  "external_weights_permitted": false,
+  "train_steps_per_epoch": 4,
+  "total_steps_per_arm": 320,
+  "gradient_cases": [
+    "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet1_half",
+    "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w1_inlet1_half",
+    "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w3_inlet1_half",
+    "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w0_inlet1_half",
+    "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w1_inlet1_half",
+    "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w3_inlet1_half",
+    "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w0_inlet1_half",
+    "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w3_inlet1_half",
+    "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w1_inlet1_half",
+    "case1_g1_transient_scheme_a_v1_2s_p0300_w2_equal",
+    "case1_g1_transient_scheme_a_v1_2s_p1000_w1_equal",
+    "case1_g1_transient_scheme_a_v1_2s_p1000_w2_equal"
+  ],
+  "gradient_epochs": [
+    10,
+    20,
+    30,
+    40,
+    50,
+    60,
+    70,
+    80
+  ],
+  "gradients": "fixed checkpoint; applied weight; Control training consistency zero; separate hypothetical 0.1 gradient",
+  "diagnostics_preserve": "model tensors, grads, RNG, training mode; no additional optimizer updates",
+  "checkpoint_rule": "initial; own last each epoch; fixed epoch10/20/30/40/50/60/70/80; evaluate epoch80 only",
+  "primary": "Val-A36 same-case Treatment-Control sparse H relative L1; mean A/B errors, never volume ensemble",
+  "auxiliary": [
+    "Val-A H relative L2",
+    "gate U4 sparse relative L1/L2",
+    "within-arm teacher vs student",
+    "volume discrepancy and denominator",
+    "scales/noncollapse/set properties"
+  ],
+  "bootstrap": {
+    "samples": 10000,
+    "seed": 2026101202,
+    "unit": "paired case",
+    "confidence": 0.95
+  },
+  "conclusion_rules": {
+    "benefit": "mean < 0 and entire 95% CI < 0",
+    "inconclusive": "CI includes zero",
+    "harm": "mean > 0 and entire 95% CI > 0"
+  },
+  "interpretation": "single-seed exploratory measurement-only; no 3D accuracy, clustered degradation or cross-seed claim",
+  "engineering": {
+    "stop_on": [
+      "nonfinite values",
+      "forbidden reads",
+      "protocol mismatch"
+    ],
+    "set_tolerance": 1e-05,
+    "collapse": "original v2 output_collapsed at fixed final, logged; no post-hoc threshold",
+    "teacher_difference_windows": "diagnostic only, never a run gate"
+  },
+  "no_formal300": true,
+  "no_new_model": true,
+  "no_gt_pool_b_test": true,
+  "original_no_go_retained": true
+}
