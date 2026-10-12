@@ -424,3 +424,10 @@ A failed gate stops the experiment without GT, tuning or another gate. Results a
 all 48 terminal checklist fields are recorded in
 `/data/djc/GeoPhy-Set3D/outputs/comparisons/selfsup_mrgr_v2/` and
 `docs/reports/selfsup_mrgr_v2.md`.
+
+The v2 run stopped at the engineering gate (NO-GO): student–teacher discrepancy
+did not decrease under the predeclared first10/last10 criterion. Formal training
+and GT post-hoc evaluation were not executed. See
+[the v2 report](docs/reports/selfsup_mrgr_v2.md). To reproduce the read-only failure
+diagnostics and artifact report, run `python scripts/report_selfsup_v2_gate_failure.py`;
+this loads only the existing v2 gate checkpoint and does not retrain.
