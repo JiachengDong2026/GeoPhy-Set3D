@@ -400,3 +400,27 @@ python scripts/evaluate_selfsup_with_gt.py
 数值源协议 commit 为 `3f76c3f`。全部逐 case/draw、read audit、完整性检查与 1–39 项终端汇报分别保存在
 `/data/djc/GeoPhy-Set3D/outputs/comparisons/mrgr_residual_control_v1/` 和
 `/data/djc/GeoPhy-Set3D/outputs/comparisons/selfsup_mrgr_v1/`。
+
+### SelfSup-MRGR v2: rich-view teacher consistency
+
+MRGR remains frozen (332,070 parameters). v2 changes only view construction and the
+training objective: the same network reconstructs disjoint sparse A/B and their rich
+union T; sparse volumes match detached T while all three retain measurement losses.
+Use the independent frozen config; no v1/supervised warm start, EMA, prior or sweep.
+
+```bash
+python scripts/train_selfsup_mrgr_v2.py --prepare
+python scripts/train_selfsup_mrgr_v2.py --smoke
+python scripts/train_selfsup_mrgr_v2.py --gate
+python scripts/train_selfsup_mrgr_v2.py
+python scripts/evaluate_selfsup_v2_with_gt.py
+```
+
+Freeze `training_source_manifest.json` in the v2 comparison directory before the
+single gate. Run formal training only after the gate passes. GT evaluation verifies
+full 300-epoch completion, sparse measurement-only checkpoint selection and the
+frozen SHA256; Val-A/Pool-B measurement evaluation precedes any voxel evaluation.
+A failed gate stops the experiment without GT, tuning or another gate. Results and
+all 48 terminal checklist fields are recorded in
+`/data/djc/GeoPhy-Set3D/outputs/comparisons/selfsup_mrgr_v2/` and
+`docs/reports/selfsup_mrgr_v2.md`.
