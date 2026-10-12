@@ -1,0 +1,32 @@
+review_base_commit: 52fab4fc6f40b60992e44386e81d304ed51a010d
+training_config: configs/train_selfsup_oari_mrgr_v2.yaml
+historical_artifacts: docs/reports/artifacts/selfsup_mrgr_v2
+checkpoint: /data/djc/GeoPhy-Set3D/outputs/checkpoints/selfsup_oari_mrgr_v2_rvtc_gate/gate.pt
+output: /data/djc/GeoPhy-Set3D/outputs/diagnostics/selfsup_mrgr_v2_failure_v1
+device: cuda:2
+seed: 2026101201
+unseen_stations:
+  count: 4
+  rule: sorted remaining Pool A IDs; case-keyed blake2b SeedSequence; without replacement
+validation:
+  split: val
+  geometry_pool: train
+  a_views:
+  - 4
+  - 4
+  b_views:
+  - 4
+  - 4
+  heldout_views: 4
+  seed: 20261011
+  epoch: 0
+bootstrap:
+  samples: 10000
+  seed: 2026101202
+  unit: case
+  interval: paired mean teacher-minus-mean-student; percentile 95%
+gradients:
+  cases: all gate8 and all Val-A36
+  losses: original weighted student measurement / teacher measurement / consistency
+  clip: false
+  updates: false

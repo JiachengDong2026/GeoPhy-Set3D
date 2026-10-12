@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/diagnose_selfsup_mrgr_v2_failure.py", line 193, in <module>
+    main()
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/diagnose_selfsup_mrgr_v2_failure.py", line 51, in main
+    args = parser.parse_args(); cfg = load_config(REPO / args.config)
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/utils.py", line 43, in load_config
+    model = dict(config['model'])
+                 ~~~~~~^^^^^^^^^
+KeyError: 'model'

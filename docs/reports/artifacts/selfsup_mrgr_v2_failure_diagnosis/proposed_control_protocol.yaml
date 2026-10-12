@@ -1,0 +1,87 @@
+status: DRAFT / NOT EXECUTED / requires registration before any future run
+purpose: Separate rich-view measurement training benefit from the additional effect
+  of volumetric teacher consistency
+original_v2_no_go_retained: true
+baseline_retained: SelfSup v1
+scope: One matched limited engineering contrast; no formal300, GT, Pool B, final test,
+  v3, EMA, added module/prior or sweep
+arms:
+  A:
+    rich_branch: true
+    teacher_measurement_weights:
+      hold: 1.0
+      observed: 0.1
+    teacher_consistency_weight: 0.0
+  B:
+    rich_branch: true
+    teacher_measurement_weights:
+      hold: 1.0
+      observed: 0.1
+    teacher_consistency_weight: 0.1
+shared:
+  model: Frozen GeoLift-OARI-MRGR-Res3D
+  parameters: 332070
+  initialization: fresh random in both arms; verify identical state SHA256
+  seed: 20261011
+  train_cases: Same original gate8; exact frozen case_station_protocol.json
+  train_views: same epoch0 A/B/H/T in both arms
+  epochs: 80
+  optimizer_steps: 320
+  batch_size: 1
+  gradient_accumulation: 2
+  precision: fp32
+  optimizer: AdamW
+  lr: 0.0002
+  weight_decay: 0.0001
+  gradient_clip_norm: 1.0
+  scheduler: none, matching the original gate
+  sparse_loss_weights:
+    hold: 1.0
+    cross: 0.5
+    observed: 0.1
+  projector:
+    samples: 96
+    view_chunk: 2
+    all_rays: true
+    output_resolution: 64
+  data_order: identical original dataset order; no shuffle
+  evaluation_checkpoint: fixed final epoch80 in both arms; no best-checkpoint search
+  independent_evaluation: same fixed U4 for gate8 and Val-A A4/B4/H4/T8 lists; H/U
+    never network inputs or validation updates
+engineering:
+  criteria:
+  - all losses/outputs/raw gradients finite
+  - zero forbidden access attempts
+  - unchanged parameter count/projector/shape; permutation and padding within original
+    1e-5 tolerance; all-invalid finite
+  - no saturation/constant-output collapse under original numerical checks
+  - correct detach, student output gradient direction and teacher measurement gradients;
+    clipped optimization logged separately
+  consistency_window_decrease: diagnostic only; not a runtime pass/fail condition
+  basis: numerical correctness and data-access rules; reuse original numerical tolerances,
+    no threshold fitted to this diagnostic
+efficacy:
+  primary: B minus A mean sparse held-out relative L1 on the same Val-A36 final checkpoints
+  secondary:
+  - paired relative L2
+  - same-case U4 prediction error
+  - teacher-versus-student measurements
+  - within-arm absolute discrepancy and teacher denominator per case
+  - unclipped shared gradient geometry
+  uncertainty: paired case bootstrap 95% interval; no ray/view pseudo-replication;
+    one seed, exploratory
+  interpretation: negative B-A supports incremental independent-measurement benefit;
+    interval containing zero is inconclusive; positive signals harm
+  statistical_basis: directional benefit around zero (identity/no additional gain),
+    conventional 95% paired uncertainty; no data-fitted magnitude threshold
+  veto: dynamic student-teacher discrepancy alone cannot decide method effectiveness
+  voxel_claims: Not tested by this GT-free contrast; cannot establish 3D distillation
+    accuracy. Any later full method evaluation requires separately registered formal
+    training and the original post-freeze GT boundary.
+required_before_execution:
+- review and register this draft, exact input IDs, evaluation rules and unchanged
+  initialization/sampler/step checks
+- freeze source/config hashes; preserve all old experiments; record every proposed
+  rule before optimization
+continuation: Do not launch formal training or replace v1 from this diagnosis; use
+  the limited contrast only to obtain the missing A/B incremental-benefit evidence

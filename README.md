@@ -434,3 +434,6 @@ this loads only the existing v2 gate checkpoint and does not retrain.
 
 The [v2 result snapshot](docs/reports/artifacts/selfsup_mrgr_v2/README.md) contains the frozen gate metrics, read audits, failure diagnostics,
 protocol, test log and complete terminal checklist for GitHub review.
+
+[中文 RVTC 失败诊断](docs/reports/selfsup_mrgr_v2_failure_diagnosis.md)区分原工程判据、独立测量教师质量和共享参数梯度风险。
+本轮只做无GT、无更新诊断，保留原v2 NO-GO；关/开一致性对照仅为待登记草案。
