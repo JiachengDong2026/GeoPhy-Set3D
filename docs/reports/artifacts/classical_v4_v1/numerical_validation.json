@@ -1,0 +1,33 @@
+{
+  "actual_PoolA_adjoint_relative_discrepancy": 1.527908268513163e-15,
+  "constant_C02_sparse_vs_frozen_Pdiff_relative_l1": 2.3591278755005384e-08,
+  "mass_mole_roundtrip_max_absolute_error": 2.220446049250313e-16,
+  "frozen_projector_source_sha256": "fe3475e29abbba0d3495be9fc69909f3b8b1d7e8d40c25aed683094198f6e776",
+  "GT128_PoolB_test_read": false,
+  "torch_version": "2.11.0+cu128",
+  "sparse_weight_build": "float64 then cast FP32 for actual runs; numerical audit float64",
+  "phantom": {
+    "SART": {
+      "relative_l1": 0.051709793508052826,
+      "solver_relative_l2": 7.980223631527749e-05,
+      "iterations": 100,
+      "status": "budget_exhausted"
+    },
+    "Tikhonov": {
+      "relative_l1": 0.043763529509305954,
+      "solver_relative_l2": 4.86490625917213e-06,
+      "iterations": 80,
+      "status": "budget_exhausted",
+      "first_objective": 0.0015881942817941308,
+      "last_objective": 8.46207015570144e-09
+    },
+    "TV": {
+      "relative_l1": 0.03347198665142059,
+      "solver_relative_l2": 4.864235961576924e-05,
+      "iterations": 80,
+      "status": "budget_exhausted",
+      "first_objective": 0.0015884253662079573,
+      "last_objective": 1.4861929287235398e-07
+    }
+  }
+}

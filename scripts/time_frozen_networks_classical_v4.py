@@ -7,11 +7,12 @@ import torch,numpy as np,yaml
 from run_classical_v4 import ReadGuard,verify,original_cfg,write
 from diagnose_clustered_one_swap import dataset,load_frozen
 from geophy_set3d.data.collate import projection_pool_collate
-from geophy_set3d.training.utils import move_batch
+from geophy_set3d.training.utils import move_batch,seed_everything
 from geophy_set3d.training.rvtc_matched import state_hash
 
 
 def main():
+    seed_everything(20261011)
     cfg=yaml.safe_load((ROOT/'configs/classical_v4_v1.yaml').read_text());out=Path(cfg['output']);verify(cfg,out)
     if (out/'network_forward_times.json').exists():print('Network timing already complete; no repeat');return
     old=original_cfg();old['device']=cfg['device'];protocol=json.loads((Path(old['output'])/'protocol.json').read_text())

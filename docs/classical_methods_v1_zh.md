@@ -51,3 +51,5 @@ SART 在线性算子中插值 chi；原 P_diff 先插值 C，再逐采样点执�
 `configs/classical_v4_v1.yaml` 登记候选：SART relaxation {0.25,0.5,0.8}；Tikhonov lambda {1e-5,1e-4,1e-3}；TV lambda {1e-4,1e-3,1e-2}。每种3个全局配置，不按 Val 扩展。12 train×2布局×3方法×3候选=216实际重建，SART至多150 sweep、变分至多200迭代。
 
 只按输入目标相对变化1e-5、连续8次停止，SART最少30 sweep、变分最少40步；状态包括 objective_stable、budget_exhausted、line_search_failed/nonfinite。H/GT只能选择全局校准配置，不选择单case迭代。最终参数及源码 hash 在 `selected_configs.json/.sha256` 冻结，随后才运行 Val。完整日志保留预算耗尽/失败，不按 Val 调参重试。
+
+参数单位说明：C为无量纲质量分数、gradient为m^-1。归一化数据项无量纲，因此Tikhonov的lambda对应m²系数，TV的lambda对应m系数；它们是本实现归一化约定下的数值，不直接对应原手册以lambda²记号写出的参数。稀疏权重以float64构建，实际求解转FP32；原P_diff使用FP32坐标，离散化诊断同时含这项浮点差异。

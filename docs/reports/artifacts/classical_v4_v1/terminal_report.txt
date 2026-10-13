@@ -1,0 +1,19 @@
+完成范围：3种三维经典算法；12train×2布局×3方法×3候选=216校准；36Val×5draw×3条件×3方法=1620实际经典重建；1080历史网络指标复用，1080真实前向计时。
+参数身份：GT辅助(train三维L1)与测量选择(train独立H4 L1)分别登记，3方法恰好同配置，仅重建一次。SART relaxation0.8/最多150sweep；Tikhonov lambda1e-3/TV lambda1e-4/最多200步。
+三维relative L1，顺序Original/Targeted/Random：
+SART_measurement_only: 1.33435424 / 0.65776754 / 0.91989186
+Tikhonov_measurement_only: 1.20094539 / 0.65865230 / 0.84958429
+TV_measurement_only: 1.29863697 / 0.76515655 / 0.99815699
+SelfSup: 0.39340239 / 0.14241841 / 0.17099213
+Supervised: 0.49520997 / 0.15508995 / 0.17959938
+平均求解/前向秒：
+SART: 0.1292584422216923
+Tikhonov: 3.6109322088511866
+TV: 3.5666551412566116
+SelfSup: 0.05508607125202953
+Supervised: 0.05492732312392305
+求解器数值/线搜索失败0；Tikhonov objective_stable350，budget_exhausted190；SART/TV各budget_exhausted540，共1270达预算。不能视为理论下限或已收敛网络优势。
+辅助流程失败：网络计时TF32设置、真实case精确零值存在检查，各1次，均已修正、保留失败日志与审计，未改算法参数或Val输出。
+原数据、checkpoint、投影器、训练代码、读取保护与历史产物未修改。V3/V6及完整分层矩阵仅登记，普通固定V4未追加；无Pool B、test、GT128内容读取或新网络训练。
+方案：docs/research_revision_geometry_classical_v1_zh.md；报告：docs/reports/classical_v4_comparison_v1_zh.md
+独立核验：216+1620体积与1080配对统计全部通过；真实禁止访问尝试0。

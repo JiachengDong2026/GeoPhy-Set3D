@@ -2,7 +2,7 @@
 
 基于物理约束的三维气体羽流重建研究项目。
 
-当前阶段：冻结数据与 SelfSup-MRGR v1 / 监督 MRGR 网络，修订自由稀疏视角定义，优先执行同输入的三维经典算法比较。适用定义及评价边界见 [中文方案修订](docs/research_revision_geometry_classical_v1_zh.md)，算法公式、来源及预算见 [经典算法登记](docs/classical_methods_v1_zh.md)。原 v0.5 技术计划及所有历史结果保留；RVTC NO-GO 不改判。V3/V4/V6 几何分层只登记，第一轮实测限于原36 Val×5draw×Original/Targeted/Random V4。下一阶段依据实测判断是否需要一次匹配的几何分层采样训练，本轮不启动新训练。
+当前阶段：已完成研究定义修订、冻结Pool A几何清单，以及三维SART、非线性Tikhonov、平滑三维TV与冻结SelfSup-MRGR v1 / 监督MRGR的首轮同输入比较。见 [中文方案修订](docs/research_revision_geometry_classical_v1_zh.md)、[算法登记](docs/classical_methods_v1_zh.md) 和 [中文比较报告](docs/reports/classical_v4_comparison_v1_zh.md)。实际完成216次train校准与1620次Val经典重建（36case×5draw×三种V4布局×三种算法），两类参数选择身份分开登记且恰好选择相同配置；GT/测量/权重/大型算子不提交。350次Tikhonov满足目标稳定，其余1270次达到预算上限，不将差距称为理论下限。原v0.5计划、历史结果与RVTC NO-GO保留；原投影器、训练代码和读取保护不变。V3/V6分层仅登记，未运行扩展矩阵。下一阶段建议独立登记一次匹配几何分层采样训练，本轮停止，不启动新训练。
 
 ## 开发环境
 
