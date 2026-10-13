@@ -1,0 +1,18 @@
+name: pool_a_geometry_strata_v2
+dataset: /data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1
+output: /data/djc/GeoPhy-Set3D/outputs/evaluations/geometry_strata_frozen_v1
+views: [3, 4, 6]
+population_seed: 2026101401
+subset_seed: 2026101402
+heldout_seed: 2026101403
+bootstrap_seed: 2026101404
+bootstrap_samples: 10000
+monte_carlo_count: 100000
+draws: 5
+coverage_resolution: 16
+samples: 96
+natural_seed: 20261011
+heldout_views: 4
+go_rule: one_model_passes_all_three_V_ordering_and_low_high_positive_CI_and_each_V_has_one_registered_rho_at_most_minus_0.30
+association_descriptors: [center_direction_score, ray_tensor_lambda_min_over_max, ray_tensor_lambda_mid_over_max, coverage_fraction, coverage_at_least_two_stations]
+gate_descriptors: [center_direction_score, ray_tensor_lambda_min_over_max, coverage_at_least_two_stations]

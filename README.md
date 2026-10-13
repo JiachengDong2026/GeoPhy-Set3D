@@ -2,7 +2,7 @@
 
 基于物理约束的三维气体羽流重建研究项目。
 
-当前阶段：已完成研究定义修订、冻结Pool A几何清单，以及三维SART、非线性Tikhonov、平滑三维TV与冻结SelfSup-MRGR v1 / 监督MRGR的首轮同输入比较。见 [中文方案修订](docs/research_revision_geometry_classical_v1_zh.md)、[算法登记](docs/classical_methods_v1_zh.md) 和 [中文比较报告](docs/reports/classical_v4_comparison_v1_zh.md)。实际完成216次train校准与1620次Val经典重建（36case×5draw×三种V4布局×三种算法），两类参数选择身份分开登记且恰好选择相同配置；GT/测量/权重/大型算子不提交。350次Tikhonov满足目标稳定，其余1270次达到预算上限，不将差距称为理论下限。原v0.5计划、历史结果与RVTC NO-GO保留；原投影器、训练代码和读取保护不变。V3/V6分层仅登记，未运行扩展矩阵。下一阶段建议独立登记一次匹配几何分层采样训练，本轮停止，不启动新训练。
+当前阶段：经典三维算法首轮V4比较已归档，有限预算和未收敛解释保持有效。正在执行独立的冻结网络几何分层验证，先修复高度轴并建立Pool A稳定分位总体，再检验V3/V4/V6几何描述量是否排序重建难度；见 [优化前协议](docs/geometry_strata_frozen_v1_protocol_zh.md)。原 [方案修订](docs/research_revision_geometry_classical_v1_zh.md)、[经典报告](docs/reports/classical_v4_comparison_v1_zh.md) 和历史计划保留。RVTC路线关闭，结构与SelfSup v1冻结。只有预登记Stage C GO才允许提交并执行仅改变sampler的匹配训练；NO-GO立即停止，不扩经典矩阵、不读Pool B/test/GT128。
 
 ## 开发环境
 

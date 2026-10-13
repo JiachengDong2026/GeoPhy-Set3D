@@ -32,9 +32,15 @@ class GeometryCatalog:
         sample=d[np.linspace(0,len(d)-1,min(len(d),512)).astype(int)]
         rd=np.abs(sample@sample.T)[np.triu_indices(len(sample),1)]
         cover=np.stack([self.cover[i] for i in ids]).sum(0)
+        eigenvalues=np.linalg.eigvalsh(q)
+        denominator=max(float(eigenvalues[2]),1e-12)
         return dict(V=len(ids),station_ids=ids,center_direction_score=float(np.mean(1-dot)),
-            actual_ray_direction_score_sampled=float(np.mean(1-rd)),actual_ray_direction_tensor_eigenvalues=np.linalg.eigvalsh(q).tolist(),
+            actual_ray_direction_score_sampled=float(np.mean(1-rd)),actual_ray_direction_tensor_eigenvalues=eigenvalues.tolist(),
+            ray_tensor_lambda_min=float(eigenvalues[0]),ray_tensor_lambda_mid=float(eigenvalues[1]),ray_tensor_lambda_max=float(eigenvalues[2]),
+            ray_tensor_lambda_min_over_max=float(eigenvalues[0])/denominator,ray_tensor_lambda_mid_over_max=float(eigenvalues[1])/denominator,
             valid_ray_count=len(d),coverage_resolution=self.n,coverage_fraction=float((cover>0).mean()),
             coverage_at_least_two_stations=float((cover>=2).mean()),coverage_by_xyz_plane=[(cover>0).mean(tuple(j for j in range(3) if j!=i)).tolist() for i in range(3)],
-            station_height_m=origin[:,2].tolist(),station_distance_to_center_m=np.linalg.norm(origin-.3,axis=1).tolist(),
+            station_height_m=origin[:,1].tolist(),station_distance_to_center_m=np.linalg.norm(origin-.3,axis=1).tolist(),
+            station_radius_m=np.linalg.norm(origin[:,[0,2]]-.3,axis=1).tolist(),
+            station_azimuth_deg=self.g['station_azimuth_deg'][ids].astype(float).tolist(),
             station_origins_m=origin.tolist(),descriptor_status='geometry description only; not observability or condition number')
