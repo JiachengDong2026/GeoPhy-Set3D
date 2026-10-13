@@ -1,0 +1,34 @@
+{
+  "decision": "NO-GO",
+  "formal_registration_commit": "36c041c",
+  "downstream_implementation_commit": "e794bb0",
+  "report_sha256": "a2a47e0ab7fe9245cd28f26d39df18032ac6eaf41f299e0a4294b134acab69d9",
+  "final_integrity_verified": true,
+  "downstream_source_manifest_verified": true,
+  "tests": 252,
+  "epochs_per_arm": 300,
+  "steps_per_arm": 24900,
+  "forward_evaluations": 5760,
+  "posthoc_unique_Val_GT64": 36,
+  "protocol": "docs/geometry_augmentation_formal_v1_protocol_zh.md",
+  "report": "docs/reports/geometry_augmentation_formal_v1_zh.md",
+  "limitations": [
+    "single matched training seed",
+    "CUDA grid_sample backward nondeterminism",
+    "ordinary geometry harm prevents GO",
+    "Treatment best at budget endpoint; no global convergence claim"
+  ],
+  "original_replay_metadata_erratum": "registration/control_fresh_replay_index_erratum.json; original preregistration evidence unchanged",
+  "historical_artifacts_modified": false,
+  "user_untracked_script_preserved": true,
+  "new_training_after_this_round": false,
+  "excluded": [
+    "checkpoints",
+    "raw datasets",
+    "GT volumes",
+    "saved prediction volumes",
+    "Pool B",
+    "final test",
+    "GT128 content"
+  ]
+}
