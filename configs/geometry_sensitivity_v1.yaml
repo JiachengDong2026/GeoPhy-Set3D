@@ -1,0 +1,32 @@
+name: geometry_sensitivity_v1
+paths:
+  dataset: /data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1
+  output: /data/djc/GeoPhy-Set3D/outputs/evaluations/geometry_sensitivity_v1
+  checkpoint: /data/djc/GeoPhy-Set3D/outputs/checkpoints/selfsup_oari_mrgr_v1/best.pt
+  freeze_record: /data/djc/GeoPhy-Set3D/outputs/comparisons/selfsup_mrgr_v1/frozen_checkpoint.json
+  historical_strata: /data/djc/GeoPhy-Set3D/outputs/evaluations/geometry_strata_frozen_v1
+  historical_swap: /data/djc/GeoPhy-Set3D/outputs/diagnostics/clustered_v4_one_swap
+model_config: configs/train_selfsup_oari_mrgr_v1.yaml
+checkpoint_sha256: 1573cd84dffeabeb58fbbfb1afec9c9dc865a0a674e21229711bb25b22e3c026
+views: 4
+draws: 5
+split: val
+pool: train
+population_seed: 2026101501
+subset_seed: 2026101502
+heldout_seed: 2026101503
+bootstrap_seed: 2026101504
+permutation_seed: 2026101505
+bootstrap_samples: 10000
+permutations: 10000
+quantiles: [0.05, 0.40, 0.60, 0.80]
+cluster_span_max_deg: 5.0
+coverage_resolution: 16
+samples: 96
+spectral_resolution: 8
+spectral_relative_sigma_tolerance: 1.0e-6
+representative_case_indices: [0, 18, 35]
+representative_draw: 0
+representative_groups: [G1, G3, G5]
+slice_y_index: 32
+original_seed: 20261011
