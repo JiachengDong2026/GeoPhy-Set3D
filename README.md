@@ -4,7 +4,7 @@
 
 当前阶段：原始冻结 SelfSup v1 的五档 V4 Geometry Sensitivity Analysis 已完成：36 Val×25几何，共900次真实推理。G1–G5 relative L1=0.08839/0.08589/0.08951/0.09925/0.29802；G5−G1 case95%CI=[0.17768,0.24472]、36/36案例变差，但组均值不严格单调。中心分数与误差Spearman为−0.817，去掉极端组仍为−0.647。测量拟合与voxel误差实际强相关（Pearson/Spearman=0.902/0.952），不支持预设“弱相关”。见 [中文总结](docs/reports/geometry_sensitivity_summary.md)、[优化前冻结协议](docs/geometry_sensitivity_v1_protocol_zh.md)、[逐case×geometry CSV](docs/reports/artifacts/geometry_sensitivity_v1/geometry_sensitivity_results.csv)。25个8³线性chi稀疏算子谱只作粗网格诊断，不能当完整64³可观测性或唯一恢复证明；exploratory hull-area score明确使用Val GT误差选择，不改旧分数/边界。
 
-后续判断：几何是可操作的显著瓶颈之一；本轮没有容量/优化/损失干预，不能证明它比网络容量更主要。已独立实现50% natural/25% moderate/25% hard sampler，物化49,800对前瞻站位计划并登记 [准备协议](docs/geometry_augmentation_preparation_v1_zh.md)；该入口仅允许无GT forward/backward smoke，没有正式训练分支。正式增强训练、curriculum/hard weighting、V3/V6新五档、Pool B、最终test均未启动；先保留原v1架构、损失和自然Val measurement selector。
+后续判断：几何是可操作的显著瓶颈之一；本轮没有容量/优化/损失干预，不能证明它比网络容量更主要。已独立实现50% natural/25% moderate/25% hard sampler，物化49,800对前瞻站位计划并登记 [准备协议](docs/geometry_augmentation_preparation_v1_zh.md)；九种mode组合的无GT forward/backward smoke已实际通过，初态/参数/缓冲不变、optimizer steps=0；该入口没有正式训练分支。正式增强训练、curriculum/hard weighting、V3/V6新五档、Pool B、最终test均未启动；先保留原v1架构、损失和自然Val measurement selector。
 
 历史阶段保留：两个冻结模型的三档V3/V4/V6验证Stage C GO见 [报告](docs/reports/geometry_strata_frozen_v1_zh.md)；fresh同q A/B匹配300轮Stage D **NO-GO**见 [报告](docs/reports/geometry_stratified_selfsup_matched_v1_zh.md)，它主要改变A/B联合分布，并未检验本次显式极端增强。RVTC关闭，经典算法有限预算结果见 [原报告](docs/reports/classical_v4_comparison_v1_zh.md)，不称理论下限。历史数据、网络、checkpoint、数值训练代码、配置、实验结论及用户未跟踪绘图脚本保留。
 

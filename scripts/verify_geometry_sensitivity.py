@@ -48,6 +48,20 @@ def main():
         assert r['coarse_nullity']==512-rank and r['full64_nullity_lower_bound']==262144-r['valid_ray_count']>0
         if rank<512:assert r['coarse_condition_number'] is None
     df=pd.DataFrame(raw);cases=sorted(df.case_id.unique());assert len(cases)==36
+    exported=pd.read_csv(out/'geometry_sensitivity_results.csv');assert len(exported)==900
+    source_metadata=[json.loads(l) for l in (Path(cfg['paths']['dataset'])/'source_index.jsonl').read_text().splitlines()]
+    sample_ids={r['case_id']:str(r['sample_id']) for r in source_metadata if r['split']=='val'}
+    keyed=exported.set_index(['case_id','geometry_id'])
+    assert keyed.index.is_unique
+    for row in raw:
+        exported_row=keyed.loc[row['case_id'],row['geometry_id']]
+        for metric in ['relative_l1','relative_l2','mae','rmse','observed_relative_l1','heldout_relative_l1']:
+            assert abs(exported_row[metric]-row[metric])<1e-12
+        assert json.loads(exported_row['station_ids'])==row['station_ids']
+        assert json.loads(exported_row['H_station_ids'])==row['H_station_ids']
+        assert str(exported_row['sample_id'])==sample_ids[row['case_id']]
+        assert exported_row['protocol_sha256']==digest(out/'protocol.json')
+        for name in ['original_seed','population_seed','subset_seed','heldout_seed']:assert exported_row[name]==cfg[name]
     cm=pd.read_csv(out/'case_means.csv');metrics=[k for k in cm.columns if k not in ['case_id','group']]
     assert len(cm)==180
     for row in cm.to_dict('records'):

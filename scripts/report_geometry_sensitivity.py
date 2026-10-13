@@ -93,6 +93,11 @@ def main():
     descriptors=json.loads((out/'geometry_layouts.json').read_text())['descriptors']
     gd=pd.DataFrame(descriptors).set_index('geometry_id');df=pd.DataFrame(rows)
     for name in ['station_origins_m','station_height_m','station_distance_to_center_m',*DESCRIPTORS]:df[name]=df.geometry_id.map(gd[name])
+    metadata=[json.loads(l) for l in (Path(cfg['paths']['dataset'])/'source_index.jsonl').read_text().splitlines()]
+    sample_ids={r['case_id']:r['sample_id'] for r in metadata if r['split']=='val'}
+    df['sample_id']=df.case_id.map(sample_ids);assert df.sample_id.notna().all()
+    df['configuration_name']=cfg['name'];df['protocol_sha256']=digest(out/'protocol.json')
+    for name in ['original_seed','population_seed','subset_seed','heldout_seed']:df[name]=cfg[name]
     df.to_csv(out/'geometry_sensitivity_results.csv',index=False,lineterminator='\n')
     counts=df.groupby(['case_id','group']).size();assert len(counts)==180 and (counts==5).all()
     cm=df.groupby(['case_id','group'])[METRICS].mean().reset_index();cm.to_csv(out/'case_means.csv',index=False,lineterminator='\n')
@@ -305,6 +310,19 @@ def main():
         '新增与已有针对性40项测试通过；完整仓库测试日志见full_tests.log。边界/圆周跨度/凸包轴单位/秩亏/常量关联测试与原RayMatrix伴随、phantom、单位/非线性/物理梯度验证复用；真实全部使用的站位另做float64伴随内积。主CSV900行，180 case×group均值、100个十指标配对、完整相关/谱/固定代表图/审计归档。',
         '源码入口均从config/CLI解析数据与输出路径，没有硬编码部署绝对路径；权重、measurement、GT、体积和大算子缓存仅外部存储不提交。V3/V6新五档、Pool B、最终test、容量/损失改动及curriculum均未运行。',
         '```bash\npython scripts/run_geometry_sensitivity.py --config configs/geometry_sensitivity_v1.yaml --stage register\npython scripts/run_geometry_sensitivity.py --config configs/geometry_sensitivity_v1.yaml --stage smoke --device cuda:2\npython scripts/run_geometry_sensitivity.py --config configs/geometry_sensitivity_v1.yaml --stage full --device cuda:2\npython scripts/report_geometry_sensitivity.py --config configs/geometry_sensitivity_v1.yaml\npython scripts/verify_geometry_sensitivity.py --config configs/geometry_sensitivity_v1.yaml\n```'])
+    preparation=out/'augmentation_preparation'/'smoke_result.json'
+    if preparation.exists():
+        prepared=json.loads(preparation.read_text());assert prepared['passed'] and prepared['optimizer_steps']==0
+        text.extend(['## 8. 证据后的下一阶段实现状态',
+            '[独立50/25/25采样准备协议](../geometry_augmentation_preparation_v1_zh.md)已实现，49,800对/99,600输入的前瞻计划物化；实际模式计数natural/moderate/hard=49,429/25,027/25,144，联合拒绝最多38次。新sampler各A/B mode独立，moderate按各V纯几何q05/q40、hard跨度≤10°，未采用本轮GT-informed hull-area score。原模型、loss及原采样器没有改变。',
+            f'正式训练前只执行九种mode组合的真实原objective前向/反向smoke（{prepared["seconds"]:.3f}s）。有限非零梯度、输出[0,1]、初态hash及parameters/buffers不变均通过；GT/外部checkpoint/Pool B/test尝试0，实际读取9个train Pool A文件。没有optimizer、训练步数0、没有新checkpoint或训练效果结论。此前主敏感性流程仅Val；这一独立准备流程才按登记读取必要train测量。',
+            '后续值得开展一次明确匹配的正式增强训练；当前49,800仅planned sampler pairs，不是已训练步数。正式训练、curriculum/hard weighting不在本入口自动执行范围。原v1与旧NO-GO完整保留。'])
+    finaltests=out/'final_full_tests.log'
+    if finaltests.exists() and finaltests.read_text().rstrip().endswith('OK'):
+        import re
+        count=int(re.findall(r'Ran (\d+) tests',finaltests.read_text())[-1])
+        text.append(f'最终新采样器加入后的完整仓库回归：{count}项全部通过，原243项日志与最终日志分别保留。独立几何审计另核对900条输入/100个配对bootstrap/84个有效关联/9个代表体积L1；增强计划独立审计另核对49,800对全部模式、V、disjoint、分数/跨度/频次。')
+        shutil.copy2(finaltests,REPO/'docs/reports/artifacts/geometry_sensitivity_v1/final_full_tests.log')
     report=REPO/'docs/reports/geometry_sensitivity_summary.md';report.write_text('\n\n'.join(text)+'\n')
     write_json(out/'report_runtime.json',dict(seconds=time.perf_counter()-start,geometry_forward_seconds=float(df.forward_seconds.sum()),evaluation_seconds=float(df.evaluation_seconds.sum())))
     dest=REPO/'docs/reports/artifacts/geometry_sensitivity_v1';dest.mkdir(exist_ok=True)

@@ -25,3 +25,9 @@ python scripts/prepare_geometry_augmentation.py --config configs/geometry_augmen
 ```
 
 已完成准备/smoke应核对退出，不重复或覆盖。准备不是正式增强收益结论；当前决策是值得开展一项独立匹配增强训练，原v1基线和旧NO-GO继续保留。
+
+## 准备阶段实际结果
+
+49,800对计划核对完成；natural/moderate/hard输入计数49,429/25,027/25,144，A/B联合类型9格均有样本，最大联合提议次数38，无mode/V fallback。九种mode组合真实原objective反向smoke完成，用时4.317s，输出/梯度finite且梯度非零，前后state hash相同。GT读取尝试0、外部checkpoint读取0、Pool B/test读取0；仅9个train Pool A文件用于smoke，27次projection opens。optimizer未创建、optimizer steps=0、正式训练未运行。随机初态的loss只作数值连通检查，不是收敛或重建精度结论。
+
+独立审计脚本 `scripts/verify_geometry_augmentation_preparation.py` 从原origin/azimuth重算全部99,600输入的score/跨度、模式、频次、V数量与disjoint，核对九种组合和全部禁止访问计数；不读测量或GT。大站位计划只外部保留，归档SHA256和标量审计。

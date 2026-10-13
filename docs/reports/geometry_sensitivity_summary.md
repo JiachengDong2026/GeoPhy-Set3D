@@ -177,3 +177,13 @@ python scripts/run_geometry_sensitivity.py --config configs/geometry_sensitivity
 python scripts/report_geometry_sensitivity.py --config configs/geometry_sensitivity_v1.yaml
 python scripts/verify_geometry_sensitivity.py --config configs/geometry_sensitivity_v1.yaml
 ```
+
+## 8. 证据后的下一阶段实现状态
+
+[独立50/25/25采样准备协议](../geometry_augmentation_preparation_v1_zh.md)已实现，49,800对/99,600输入的前瞻计划物化；实际模式计数natural/moderate/hard=49,429/25,027/25,144，联合拒绝最多38次。新sampler各A/B mode独立，moderate按各V纯几何q05/q40、hard跨度≤10°，未采用本轮GT-informed hull-area score。原模型、loss及原采样器没有改变。
+
+正式训练前只执行九种mode组合的真实原objective前向/反向smoke（4.317s）。有限非零梯度、输出[0,1]、初态hash及parameters/buffers不变均通过；GT/外部checkpoint/Pool B/test尝试0，实际读取9个train Pool A文件。没有optimizer、训练步数0、没有新checkpoint或训练效果结论。此前主敏感性流程仅Val；这一独立准备流程才按登记读取必要train测量。
+
+后续值得开展一次明确匹配的正式增强训练；当前49,800仅planned sampler pairs，不是已训练步数。正式训练、curriculum/hard weighting不在本入口自动执行范围。原v1与旧NO-GO完整保留。
+
+最终新采样器加入后的完整仓库回归：246项全部通过，原243项日志与最终日志分别保留。独立几何审计另核对900条输入/100个配对bootstrap/84个有效关联/9个代表体积L1；增强计划独立审计另核对49,800对全部模式、V、disjoint、分数/跨度/频次。
