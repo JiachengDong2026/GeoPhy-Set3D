@@ -1,0 +1,426 @@
+{
+  "passed": true,
+  "actual_optimizer_steps": 4,
+  "seconds": 9.156286975834519,
+  "rows": [
+    {
+      "arm": "Control",
+      "repeat": 0,
+      "model_training": true,
+      "initial_state_sha256": "af76bbf4afd36c0d34fa3407dce4e7497a3a57b5b4b2ca837b95afc7a2311a3c",
+      "after_state_sha256": "20c4e058768292dc579d97ada2cb0c272331fafcb3dc7b9bea1287899361da59",
+      "parameter_hash": "20c4e058768292dc579d97ada2cb0c272331fafcb3dc7b9bea1287899361da59",
+      "buffer_hash": "79457d31fddcf939f04942f73413b021b92990fe757ac845b6572eb2df899364",
+      "optimizer_state_hash": "b15a5fe136b50702ad111ec9359d4babd4e35d5613771103092b6354035d038a",
+      "metrics": {
+        "loss": {
+          "total": 24.122255325317383,
+          "hold": 15.025821685791016,
+          "cross": 15.14383602142334,
+          "observed": 15.14632797241211,
+          "consistency": 0.1976255476474762
+        },
+        "measurement": {
+          "heldout": {
+            "relative_l1": 66.92130859729355,
+            "relative_l2": 34.891673769358
+          },
+          "cross": {
+            "relative_l1": 67.71860841300845,
+            "relative_l2": 34.07988405211974
+          },
+          "observed": {
+            "relative_l1": 67.73988890646991,
+            "relative_l2": 34.11610545168343
+          }
+        },
+        "output": {
+          "min": 0.0004158052324783057,
+          "max": 0.986457884311676,
+          "mean": 0.4772001653909683,
+          "std": 0.12653944912948978,
+          "fraction_near_one": 0.0,
+          "case_to_case_mean_absolute_difference": 0.10029146075248718
+        },
+        "gradient_norm_max": 166.1407928466797,
+        "case_station_digest": "53d54abbb6e81d10bede576b6779fb072155e0a3528320e39b95e792d1f11c08",
+        "gradient_norms": [
+          {
+            "preclip": 166.1407928466797,
+            "postclip": 1.0
+          }
+        ],
+        "sample_count": 2,
+        "gt_used": false,
+        "seconds": 1.8881472391076386
+      },
+      "trace": [
+        {
+          "step": 1,
+          "loss": {
+            "total": 24.122255325317383,
+            "hold": 15.025821685791016,
+            "cross": 15.14383602142334,
+            "observed": 15.14632797241211,
+            "consistency": 0.1976255476474762
+          },
+          "lr": 0.0002,
+          "gradient": {
+            "preclip": 166.1407928466797,
+            "postclip": 1.0
+          },
+          "parameter_hash": "20c4e058768292dc579d97ada2cb0c272331fafcb3dc7b9bea1287899361da59",
+          "optimizer_hash": "b15a5fe136b50702ad111ec9359d4babd4e35d5613771103092b6354035d038a"
+        }
+      ],
+      "flags": {
+        "torch": "2.11.0+cu128",
+        "cuda": "12.8",
+        "cudnn": 91900,
+        "tf32_matmul": false,
+        "tf32_cudnn": false,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": false,
+        "deterministic_algorithms": false,
+        "precision": "fp32"
+      },
+      "case_indices": [
+        162,
+        82
+      ],
+      "batch_size": 2,
+      "finite_nonzero_gradient": true,
+      "parameters_changed": true,
+      "optimizer_state_entries": 130
+    },
+    {
+      "arm": "Control",
+      "repeat": 1,
+      "model_training": true,
+      "initial_state_sha256": "af76bbf4afd36c0d34fa3407dce4e7497a3a57b5b4b2ca837b95afc7a2311a3c",
+      "after_state_sha256": "ff959b1f1b581ca057668f193edc2551ca62085fb806a1bd8cc9473c57e4234f",
+      "parameter_hash": "ff959b1f1b581ca057668f193edc2551ca62085fb806a1bd8cc9473c57e4234f",
+      "buffer_hash": "79457d31fddcf939f04942f73413b021b92990fe757ac845b6572eb2df899364",
+      "optimizer_state_hash": "c827254c0a485fd8aa71d9d962b92bcd81582d996e35ee2557d06d61306c3ac0",
+      "metrics": {
+        "loss": {
+          "total": 24.122255325317383,
+          "hold": 15.025821685791016,
+          "cross": 15.14383602142334,
+          "observed": 15.14632797241211,
+          "consistency": 0.1976255476474762
+        },
+        "measurement": {
+          "heldout": {
+            "relative_l1": 66.92130859729355,
+            "relative_l2": 34.891673769358
+          },
+          "cross": {
+            "relative_l1": 67.71860841300845,
+            "relative_l2": 34.07988405211974
+          },
+          "observed": {
+            "relative_l1": 67.73988890646991,
+            "relative_l2": 34.11610545168343
+          }
+        },
+        "output": {
+          "min": 0.0004158052324783057,
+          "max": 0.986457884311676,
+          "mean": 0.4772001653909683,
+          "std": 0.12653944912948978,
+          "fraction_near_one": 0.0,
+          "case_to_case_mean_absolute_difference": 0.10029146075248718
+        },
+        "gradient_norm_max": 166.1407928466797,
+        "case_station_digest": "53d54abbb6e81d10bede576b6779fb072155e0a3528320e39b95e792d1f11c08",
+        "gradient_norms": [
+          {
+            "preclip": 166.1407928466797,
+            "postclip": 1.0
+          }
+        ],
+        "sample_count": 2,
+        "gt_used": false,
+        "seconds": 0.984250376932323
+      },
+      "trace": [
+        {
+          "step": 1,
+          "loss": {
+            "total": 24.122255325317383,
+            "hold": 15.025821685791016,
+            "cross": 15.14383602142334,
+            "observed": 15.14632797241211,
+            "consistency": 0.1976255476474762
+          },
+          "lr": 0.0002,
+          "gradient": {
+            "preclip": 166.1407928466797,
+            "postclip": 1.0
+          },
+          "parameter_hash": "ff959b1f1b581ca057668f193edc2551ca62085fb806a1bd8cc9473c57e4234f",
+          "optimizer_hash": "c827254c0a485fd8aa71d9d962b92bcd81582d996e35ee2557d06d61306c3ac0"
+        }
+      ],
+      "flags": {
+        "torch": "2.11.0+cu128",
+        "cuda": "12.8",
+        "cudnn": 91900,
+        "tf32_matmul": false,
+        "tf32_cudnn": false,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": false,
+        "deterministic_algorithms": false,
+        "precision": "fp32"
+      },
+      "case_indices": [
+        162,
+        82
+      ],
+      "batch_size": 2,
+      "finite_nonzero_gradient": true,
+      "parameters_changed": true,
+      "optimizer_state_entries": 130
+    },
+    {
+      "arm": "Treatment",
+      "repeat": 0,
+      "model_training": true,
+      "initial_state_sha256": "af76bbf4afd36c0d34fa3407dce4e7497a3a57b5b4b2ca837b95afc7a2311a3c",
+      "after_state_sha256": "8bc80e58d27c167e38064497f91650f10245989ef30fcb7ba081fdda2d0f37d5",
+      "parameter_hash": "8bc80e58d27c167e38064497f91650f10245989ef30fcb7ba081fdda2d0f37d5",
+      "buffer_hash": "79457d31fddcf939f04942f73413b021b92990fe757ac845b6572eb2df899364",
+      "optimizer_state_hash": "ef28455e6363bb0e744fb26ac5ede2db8843ed8f379c18891b65db655de76ad0",
+      "metrics": {
+        "loss": {
+          "total": 24.40607452392578,
+          "hold": 15.24699878692627,
+          "cross": 15.252830505371094,
+          "observed": 15.242332458496094,
+          "consistency": 0.1685718595981598
+        },
+        "measurement": {
+          "heldout": {
+            "relative_l1": 68.65893449202292,
+            "relative_l2": 33.06943192300541
+          },
+          "cross": {
+            "relative_l1": 68.15365291961803,
+            "relative_l2": 36.301088416196734
+          },
+          "observed": {
+            "relative_l1": 68.15512722827312,
+            "relative_l2": 36.31575360581808
+          }
+        },
+        "output": {
+          "min": 0.0019453391432762146,
+          "max": 0.9898654818534851,
+          "mean": 0.4803222715854645,
+          "std": 0.1257506875392132,
+          "fraction_near_one": 0.0,
+          "case_to_case_mean_absolute_difference": 0.10007917881011963
+        },
+        "gradient_norm_max": 161.33837890625,
+        "case_station_digest": "854e8927c0aedeeaf09a749e54e9feda33767767cc571ba6dc891bf855010317",
+        "gradient_norms": [
+          {
+            "preclip": 161.33837890625,
+            "postclip": 0.9999999403953552
+          }
+        ],
+        "sample_count": 2,
+        "gt_used": false,
+        "seconds": 1.4017204279080033
+      },
+      "trace": [
+        {
+          "step": 1,
+          "loss": {
+            "total": 24.40607452392578,
+            "hold": 15.24699878692627,
+            "cross": 15.252830505371094,
+            "observed": 15.242332458496094,
+            "consistency": 0.1685718595981598
+          },
+          "lr": 0.0002,
+          "gradient": {
+            "preclip": 161.33837890625,
+            "postclip": 0.9999999403953552
+          },
+          "parameter_hash": "8bc80e58d27c167e38064497f91650f10245989ef30fcb7ba081fdda2d0f37d5",
+          "optimizer_hash": "ef28455e6363bb0e744fb26ac5ede2db8843ed8f379c18891b65db655de76ad0"
+        }
+      ],
+      "flags": {
+        "torch": "2.11.0+cu128",
+        "cuda": "12.8",
+        "cudnn": 91900,
+        "tf32_matmul": false,
+        "tf32_cudnn": false,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": false,
+        "deterministic_algorithms": false,
+        "precision": "fp32"
+      },
+      "case_indices": [
+        162,
+        82
+      ],
+      "batch_size": 2,
+      "finite_nonzero_gradient": true,
+      "parameters_changed": true,
+      "optimizer_state_entries": 130
+    },
+    {
+      "arm": "Treatment",
+      "repeat": 1,
+      "model_training": true,
+      "initial_state_sha256": "af76bbf4afd36c0d34fa3407dce4e7497a3a57b5b4b2ca837b95afc7a2311a3c",
+      "after_state_sha256": "0cc972cabe511d5f5c4d996f37968274d7339fb4814a550bcfb7ba15d9091679",
+      "parameter_hash": "0cc972cabe511d5f5c4d996f37968274d7339fb4814a550bcfb7ba15d9091679",
+      "buffer_hash": "79457d31fddcf939f04942f73413b021b92990fe757ac845b6572eb2df899364",
+      "optimizer_state_hash": "6922e2a4a1fbb5d5892e6c2eb95dac8fe6292642b03c946b3cd092f30b38fefa",
+      "metrics": {
+        "loss": {
+          "total": 24.40607452392578,
+          "hold": 15.24699878692627,
+          "cross": 15.252830505371094,
+          "observed": 15.242332458496094,
+          "consistency": 0.1685718595981598
+        },
+        "measurement": {
+          "heldout": {
+            "relative_l1": 68.65893449202292,
+            "relative_l2": 33.06943192300541
+          },
+          "cross": {
+            "relative_l1": 68.15365291961803,
+            "relative_l2": 36.301088416196734
+          },
+          "observed": {
+            "relative_l1": 68.15512722827312,
+            "relative_l2": 36.31575360581808
+          }
+        },
+        "output": {
+          "min": 0.0019453391432762146,
+          "max": 0.9898654818534851,
+          "mean": 0.4803222715854645,
+          "std": 0.1257506875392132,
+          "fraction_near_one": 0.0,
+          "case_to_case_mean_absolute_difference": 0.10007917881011963
+        },
+        "gradient_norm_max": 161.33837890625,
+        "case_station_digest": "854e8927c0aedeeaf09a749e54e9feda33767767cc571ba6dc891bf855010317",
+        "gradient_norms": [
+          {
+            "preclip": 161.33837890625,
+            "postclip": 1.0
+          }
+        ],
+        "sample_count": 2,
+        "gt_used": false,
+        "seconds": 0.9867064990103245
+      },
+      "trace": [
+        {
+          "step": 1,
+          "loss": {
+            "total": 24.40607452392578,
+            "hold": 15.24699878692627,
+            "cross": 15.252830505371094,
+            "observed": 15.242332458496094,
+            "consistency": 0.1685718595981598
+          },
+          "lr": 0.0002,
+          "gradient": {
+            "preclip": 161.33837890625,
+            "postclip": 1.0
+          },
+          "parameter_hash": "0cc972cabe511d5f5c4d996f37968274d7339fb4814a550bcfb7ba15d9091679",
+          "optimizer_hash": "6922e2a4a1fbb5d5892e6c2eb95dac8fe6292642b03c946b3cd092f30b38fefa"
+        }
+      ],
+      "flags": {
+        "torch": "2.11.0+cu128",
+        "cuda": "12.8",
+        "cudnn": 91900,
+        "tf32_matmul": false,
+        "tf32_cudnn": false,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": false,
+        "deterministic_algorithms": false,
+        "precision": "fp32"
+      },
+      "case_indices": [
+        162,
+        82
+      ],
+      "batch_size": 2,
+      "finite_nonzero_gradient": true,
+      "parameters_changed": true,
+      "optimizer_state_entries": 130
+    }
+  ],
+  "repeat_comparisons": {
+    "Control": {
+      "loss_abs_difference": 0.0,
+      "parameter_difference": {
+        "max_abs": 3.2782554626464844e-07,
+        "max_relative": 5.249057927511736
+      },
+      "optimizer_difference": {
+        "max_abs": 6.984919309616089e-10,
+        "max_relative": 1.6816869348890846
+      },
+      "parameter_hash_equal": false,
+      "optimizer_hash_equal": false,
+      "audit": {
+        "gt_file_opened": false,
+        "gt_open_attempts": 0,
+        "forbidden_npy_attempts": 0,
+        "supervised_checkpoint_open_attempts": 0,
+        "projection_open_count": 12,
+        "unique_pool_a_projection_files": 2,
+        "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+        "audit_hook_inherited_by_workers": true,
+        "pool_b_open_attempts": 0,
+        "test_or_unknown_npy_attempts": 0,
+        "data_write_attempts": 0
+      }
+    },
+    "Treatment": {
+      "loss_abs_difference": 0.0,
+      "parameter_difference": {
+        "max_abs": 2.2351741790771484e-07,
+        "max_relative": 1.6215065613081368
+      },
+      "optimizer_difference": {
+        "max_abs": 4.656612873077393e-10,
+        "max_relative": 1.118418115823687
+      },
+      "parameter_hash_equal": false,
+      "optimizer_hash_equal": false,
+      "audit": {
+        "gt_file_opened": false,
+        "gt_open_attempts": 0,
+        "forbidden_npy_attempts": 0,
+        "supervised_checkpoint_open_attempts": 0,
+        "projection_open_count": 12,
+        "unique_pool_a_projection_files": 2,
+        "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+        "audit_hook_inherited_by_workers": true,
+        "pool_b_open_attempts": 0,
+        "test_or_unknown_npy_attempts": 0,
+        "data_write_attempts": 0
+      }
+    }
+  },
+  "nondeterminism": "CUDA grid_sample 2D/3D backward atomic accumulation; historical deterministic flags retained for both arms. Exact hash differences and observed numeric ranges recorded; no GT or seed search.",
+  "tolerance": {
+    "absolute": 1e-07,
+    "relative": 1e-06
+  }
+}

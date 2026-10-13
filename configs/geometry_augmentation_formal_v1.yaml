@@ -1,0 +1,24 @@
+name: geometry_augmentation_formal_v1
+base_config: configs/train_selfsup_oari_mrgr_v1.yaml
+output: /data/djc/GeoPhy-Set3D/outputs/experiments/geometry_augmentation_formal_v1
+paths:
+  dataset: /data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1
+  preparation: /data/djc/GeoPhy-Set3D/outputs/evaluations/geometry_sensitivity_v1/augmentation_preparation
+  sensitivity: /data/djc/GeoPhy-Set3D/outputs/evaluations/geometry_sensitivity_v1
+  existing_control: /data/djc/GeoPhy-Set3D/outputs/experiments/geometry_stratified_selfsup_matched_v1
+  historical_strata: /data/djc/GeoPhy-Set3D/outputs/evaluations/geometry_strata_frozen_v1
+seed: 20261011
+epochs: 300
+arms:
+  Control: {device: 'cuda:0'}
+  Treatment: {device: 'cuda:1'}
+confirmatory_draws: 10
+confirmatory_seed: 2026101601
+heldout_seed: 2026101602
+bootstrap_seed: 2026101603
+bootstrap_samples: 10000
+numeric_replay_steps: 100
+numeric_tolerance: {absolute: 1.0e-7, relative: 1.0e-6}
+noninferiority_ratio: 1.03
+partial_max_natural_ratio: 1.10
+partial_min_g5_improvement: 0.10

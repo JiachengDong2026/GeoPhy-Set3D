@@ -1,0 +1,48 @@
+{
+  "CONTROL_REUSE": "REJECTED",
+  "checks": {
+    "all300_case_orders": true,
+    "all49800_ABH": true,
+    "batch_composition_all300": true,
+    "dataloader_workers": 0,
+    "shuffle": false,
+    "all36_selector_ABH_exact": true,
+    "numeric_configuration_exact_except_device_and_output": true
+  },
+  "initial_hashes": {
+    "full": "af76bbf4afd36c0d34fa3407dce4e7497a3a57b5b4b2ca837b95afc7a2311a3c",
+    "parameters": "af76bbf4afd36c0d34fa3407dce4e7497a3a57b5b4b2ca837b95afc7a2311a3c",
+    "buffers": "79457d31fddcf939f04942f73413b021b92990fe757ac845b6572eb2df899364"
+  },
+  "initial_full_hash_exact": true,
+  "missing": [
+    "historical initial separate parameter/buffer hashes",
+    "historical step1/10/100 parameter and optimizer states",
+    "historical clipped gradient norms",
+    "complete historical CUDA/cudnn runtime flags"
+  ],
+  "replay_steps": 100,
+  "replay_sha256": "7ca064f34b8e7feecdbaeec49ea08e76edeabef3bef7ea18bd347c50687653e8",
+  "tolerance": {
+    "absolute": 1e-07,
+    "relative": 1e-06
+  },
+  "audit": {
+    "gt_file_opened": false,
+    "gt_open_attempts": 0,
+    "forbidden_npy_attempts": 0,
+    "supervised_checkpoint_open_attempts": 0,
+    "projection_open_count": 720,
+    "unique_pool_a_projection_files": 166,
+    "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+    "audit_hook_inherited_by_workers": true,
+    "pool_b_open_attempts": 0,
+    "test_or_unknown_npy_attempts": 0,
+    "data_write_attempts": 0
+  },
+  "consequence": "Fresh Control and fresh Treatment, both300 epochs. Configuration/plan equality alone insufficient.",
+  "instrumentation_comparison": {
+    "max_abs": 2.816319465637207e-06,
+    "max_relative": 9.415583680484984
+  }
+}
