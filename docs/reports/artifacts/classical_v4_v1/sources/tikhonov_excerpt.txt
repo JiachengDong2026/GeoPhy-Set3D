@@ -1,0 +1,32 @@
+Undoubtedly, the most common and well-known form of regularization is the one
+known as Tikhonov regularization [72, 77, 78]. Here, the idea is to deﬁne the reg-
+ularized solution xλ as the minimizer of the following weighted combination of the
+residual norm and the side constraint
+xλ = argmin
+{
+‖A x − b‖22 + λ2‖L (x − x∗)‖22} , (2.6)
+where the regularization parameter λ controls the weight given to minimization of
+the side constraint relative to minimization of the residual norm. Clearly, a large λ
+(equivalent to a large amount of regularization) favors a small solution seminorm at
+the cost of a large residual norm, while a small λ (i.e., a small amount of regular-
+ization) has the opposite eﬀect. As we shall see in Eq. (2.14), λ also controls the
+sensitivity of the regularized solution xλ to perturbations in A and b, and the per-
+turbation bound is proportional to λ−1. Thus, the regularization parameter λ is an
+important quantity which controls the properties of the regularized solution, and λ
+should therefore be chosen with care. In Section 2.9 we return to numerical methods
+for actually computing λ.
+We remark that an underlying assumption for the use of Tikhonov regularization
+in the form of Eq. (2.6) is that the errors in the right-hand side are unbiased and that
+their covariance matrix is proportional to the identity matrix. If the latter condition
+is not satisﬁed one should incorporate the additional information and rescale the
+problem or use a regularized version of the general Gauss-Markov linear model:
+min
+{
+‖u‖22 + λ2‖L x‖22} subject to A x + C u = b , (2.7)
+where C is the Cholesky factor of the covariance matrix. The latter approach using
+(2.7) must be used if the covariance matrix is rank deﬁcient, i.e., if C is not a square
+matrix. For a discussion of this approach and a numerical algorithm for solving (2.7),
+cf. [90].
+Besides Tikhonov regularization, there are many other regularization methods
+with properties that make them better suited to certain problems or certain comput-
+ers. We return to these methods in Sections 2.7 and 2.8, but ﬁrst it is con

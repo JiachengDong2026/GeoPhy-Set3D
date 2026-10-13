@@ -1,0 +1,193 @@
+[
+  {
+    "method": "SART",
+    "candidate": 0,
+    "train_relative_l1": 0.8616306622287349,
+    "train_H4_relative_l1": 0.545250835186924,
+    "config": {
+      "iterations": 150,
+      "minimum_iterations": 30,
+      "tolerance": 1e-05,
+      "patience": 8,
+      "relaxation": 0.25
+    },
+    "statuses": {
+      "budget_exhausted": 24
+    }
+  },
+  {
+    "method": "SART",
+    "candidate": 1,
+    "train_relative_l1": 0.8279854351407708,
+    "train_H4_relative_l1": 0.515719706817632,
+    "config": {
+      "iterations": 150,
+      "minimum_iterations": 30,
+      "tolerance": 1e-05,
+      "patience": 8,
+      "relaxation": 0.5
+    },
+    "statuses": {
+      "budget_exhausted": 24
+    }
+  },
+  {
+    "method": "SART",
+    "candidate": 2,
+    "train_relative_l1": 0.8240491939899872,
+    "train_H4_relative_l1": 0.5027352028417751,
+    "config": {
+      "iterations": 150,
+      "minimum_iterations": 30,
+      "tolerance": 1e-05,
+      "patience": 8,
+      "relaxation": 0.8
+    },
+    "statuses": {
+      "budget_exhausted": 24
+    }
+  },
+  {
+    "method": "Tikhonov",
+    "candidate": 0,
+    "train_relative_l1": 0.8470925274815237,
+    "train_H4_relative_l1": 0.5436626011914054,
+    "config": {
+      "iterations": 200,
+      "minimum_iterations": 40,
+      "tolerance": 1e-05,
+      "patience": 8,
+      "initial_step": 1000.0,
+      "step_bounds": [
+        1e-05,
+        1000000.0
+      ],
+      "max_backtracks": 20,
+      "armijo": 0.0001,
+      "lambda": 1e-05
+    },
+    "statuses": {
+      "budget_exhausted": 24
+    }
+  },
+  {
+    "method": "Tikhonov",
+    "candidate": 1,
+    "train_relative_l1": 0.790034421642296,
+    "train_H4_relative_l1": 0.506874307234937,
+    "config": {
+      "iterations": 200,
+      "minimum_iterations": 40,
+      "tolerance": 1e-05,
+      "patience": 8,
+      "initial_step": 1000.0,
+      "step_bounds": [
+        1e-05,
+        1000000.0
+      ],
+      "max_backtracks": 20,
+      "armijo": 0.0001,
+      "lambda": 0.0001
+    },
+    "statuses": {
+      "budget_exhausted": 20,
+      "objective_stable": 4
+    }
+  },
+  {
+    "method": "Tikhonov",
+    "candidate": 2,
+    "train_relative_l1": 0.7741949046627093,
+    "train_H4_relative_l1": 0.48417497949588545,
+    "config": {
+      "iterations": 200,
+      "minimum_iterations": 40,
+      "tolerance": 1e-05,
+      "patience": 8,
+      "initial_step": 1000.0,
+      "step_bounds": [
+        1e-05,
+        1000000.0
+      ],
+      "max_backtracks": 20,
+      "armijo": 0.0001,
+      "lambda": 0.001
+    },
+    "statuses": {
+      "budget_exhausted": 10,
+      "objective_stable": 14
+    }
+  },
+  {
+    "method": "TV",
+    "candidate": 0,
+    "train_relative_l1": 0.927103807039949,
+    "train_H4_relative_l1": 0.5970772128363788,
+    "config": {
+      "iterations": 200,
+      "minimum_iterations": 40,
+      "tolerance": 1e-05,
+      "patience": 8,
+      "initial_step": 1000.0,
+      "step_bounds": [
+        1e-05,
+        1000000.0
+      ],
+      "max_backtracks": 20,
+      "armijo": 0.0001,
+      "epsilon": 0.0001,
+      "lambda": 0.0001
+    },
+    "statuses": {
+      "budget_exhausted": 24
+    }
+  },
+  {
+    "method": "TV",
+    "candidate": 1,
+    "train_relative_l1": 0.9990669706712033,
+    "train_H4_relative_l1": 0.6541003833417313,
+    "config": {
+      "iterations": 200,
+      "minimum_iterations": 40,
+      "tolerance": 1e-05,
+      "patience": 8,
+      "initial_step": 1000.0,
+      "step_bounds": [
+        1e-05,
+        1000000.0
+      ],
+      "max_backtracks": 20,
+      "armijo": 0.0001,
+      "epsilon": 0.0001,
+      "lambda": 0.001
+    },
+    "statuses": {
+      "budget_exhausted": 24
+    }
+  },
+  {
+    "method": "TV",
+    "candidate": 2,
+    "train_relative_l1": 1.2174594479785055,
+    "train_H4_relative_l1": 0.8122405177788213,
+    "config": {
+      "iterations": 200,
+      "minimum_iterations": 40,
+      "tolerance": 1e-05,
+      "patience": 8,
+      "initial_step": 1000.0,
+      "step_bounds": [
+        1e-05,
+        1000000.0
+      ],
+      "max_backtracks": 20,
+      "armijo": 0.0001,
+      "epsilon": 0.0001,
+      "lambda": 0.01
+    },
+    "statuses": {
+      "budget_exhausted": 24
+    }
+  }
+]
