@@ -1,0 +1,186 @@
+{
+  "SelfSup": {
+    "checkpoint": "/data/djc/GeoPhy-Set3D/outputs/checkpoints/selfsup_oari_mrgr_v1/best.pt",
+    "sha256": "1573cd84dffeabeb58fbbfb1afec9c9dc865a0a674e21229711bb25b22e3c026",
+    "config": {
+      "dataset": {
+        "root": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1"
+      },
+      "experiment": {
+        "name": "selfsup_oari_mrgr_v1",
+        "output_root": "/data/djc/GeoPhy-Set3D/outputs"
+      },
+      "loader": {
+        "num_workers": 4,
+        "persistent_workers": true,
+        "pin_memory": true
+      },
+      "loss": {
+        "hold": 1.0,
+        "cross": 0.5,
+        "observed": 0.1,
+        "consistency": 0.05,
+        "beta": 0.01,
+        "relative_l1": 0.1,
+        "relative_epsilon": 1e-06,
+        "measurement_scale": 32284.894580078173
+      },
+      "model": {
+        "feature_channels": 32,
+        "input_channels": 3,
+        "lift_resolution": 32,
+        "name": "geolift_oari_mrgr_res3d",
+        "output_activation": "sigmoid",
+        "output_resolution": 64,
+        "gca": {
+          "distance_scale_m": 6.5,
+          "azimuth_scale_deg": 180.0
+        },
+        "set_interaction": {
+          "d_model": 32,
+          "num_heads": 4,
+          "num_blocks": 1,
+          "ffn_channels": 64
+        }
+      },
+      "normalization": {
+        "method": "linear_p99_5",
+        "statistics_file": "train_statistics.json"
+      },
+      "optimizer": {
+        "lr": 0.0002,
+        "name": "adamw",
+        "weight_decay": 0.0001
+      },
+      "train": {
+        "split": "train",
+        "geometry_pool": "train",
+        "a_views": [
+          3,
+          5
+        ],
+        "b_views": [
+          3,
+          5
+        ],
+        "heldout_views": 2
+      },
+      "training": {
+        "batch_size": 2,
+        "device": "cuda:3",
+        "early_stopping_patience": null,
+        "gradient_accumulation": 1,
+        "gradient_clip_norm": 1.0,
+        "max_epochs": 300,
+        "precision": "fp32",
+        "seed": 20261011
+      },
+      "validation": {
+        "split": "val",
+        "geometry_pool": "train",
+        "a_views": [
+          4,
+          4
+        ],
+        "b_views": [
+          4,
+          4
+        ],
+        "heldout_views": 4
+      },
+      "scheduler": {
+        "name": "cosine",
+        "T_max": 300
+      }
+    },
+    "canonical_state_sha256": "dc47c74fd66d8b6c02be31b71a1071abca67e391a7629f1fa51d5bca914ecd58",
+    "parameter_count": 332070,
+    "epoch_zero_based": 277,
+    "training_source_commit": "3f76c3fe3cb17f75e4244bf67424b00355eca6bf",
+    "freeze_record": "/data/djc/GeoPhy-Set3D/outputs/comparisons/selfsup_mrgr_v1/frozen_checkpoint.json",
+    "freeze_record_sha256": "86693748379fdcc8fd27bb22635f260bfa44b5c8d3a1167ecd9533954b4473d2"
+  },
+  "Supervised": {
+    "checkpoint": "/data/djc/GeoPhy-Set3D/outputs/checkpoints/supervised_oari_mrgr_300/best.pt",
+    "sha256": "4c9a39fd39432988cf5971b9a657a4cf22180650d3490bf65f3a8a7aeb04905c",
+    "config": {
+      "dataset": {
+        "root": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1"
+      },
+      "experiment": {
+        "name": "supervised_oari_mrgr_300",
+        "output_root": "/data/djc/GeoPhy-Set3D/outputs"
+      },
+      "loader": {
+        "num_workers": 4,
+        "persistent_workers": true,
+        "pin_memory": true
+      },
+      "loss": {
+        "relative_epsilon": 1e-06,
+        "relative_l1": 0.1,
+        "smooth_l1": 1.0
+      },
+      "model": {
+        "feature_channels": 32,
+        "input_channels": 3,
+        "lift_resolution": 32,
+        "name": "geolift_oari_mrgr_res3d",
+        "output_activation": "sigmoid",
+        "output_resolution": 64,
+        "gca": {
+          "distance_scale_m": 6.5,
+          "azimuth_scale_deg": 180.0
+        },
+        "set_interaction": {
+          "d_model": 32,
+          "num_heads": 4,
+          "num_blocks": 1,
+          "ffn_channels": 64
+        }
+      },
+      "normalization": {
+        "method": "linear_p99_5",
+        "statistics_file": "train_statistics.json"
+      },
+      "optimizer": {
+        "lr": 0.0002,
+        "name": "adamw",
+        "weight_decay": 0.0001
+      },
+      "train": {
+        "geometry_pool": "train",
+        "hold_views": 0,
+        "max_input_views": 6,
+        "min_input_views": 3,
+        "split": "train"
+      },
+      "training": {
+        "batch_size": 2,
+        "device": "cuda:1",
+        "early_stopping_patience": null,
+        "gradient_accumulation": 1,
+        "gradient_clip_norm": 1.0,
+        "max_epochs": 300,
+        "precision": "fp32",
+        "seed": 20261011
+      },
+      "validation": {
+        "geometry_pool": "train",
+        "hold_views": 0,
+        "input_views": 4,
+        "split": "val"
+      },
+      "scheduler": {
+        "name": "cosine",
+        "T_max": 300
+      }
+    },
+    "canonical_state_sha256": "8405cc06f6aec059ddf0b3001b3c44ef4733008757b9985868736552acd92177",
+    "parameter_count": 332070,
+    "epoch_zero_based": 294,
+    "training_source_commit": "2d6e22a5a129d1db860684054f72737ddd0e1a20",
+    "freeze_record": "/data/djc/GeoPhy-Set3D/outputs/comparisons/oari_vs_mrgr_300/summary.json",
+    "freeze_record_sha256": "b1bef86489f2180d2ce9c59a2fff92a89b8a75c0a2ec21c1a84c94413f7cabd5"
+  }
+}

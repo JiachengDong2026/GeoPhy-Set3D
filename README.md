@@ -2,7 +2,7 @@
 
 基于物理约束的三维气体羽流重建研究项目。
 
-当前阶段：经典三维算法首轮V4比较已归档，有限预算和未收敛解释保持有效。正在执行独立的冻结网络几何分层验证，先修复高度轴并建立Pool A稳定分位总体，再检验V3/V4/V6几何描述量是否排序重建难度；见 [优化前协议](docs/geometry_strata_frozen_v1_protocol_zh.md)。原 [方案修订](docs/research_revision_geometry_classical_v1_zh.md)、[经典报告](docs/reports/classical_v4_comparison_v1_zh.md) 和历史计划保留。RVTC路线关闭，结构与SelfSup v1冻结。只有预登记Stage C GO才允许提交并执行仅改变sampler的匹配训练；NO-GO立即停止，不扩经典矩阵、不读Pool B/test/GT128。
+当前阶段：冻结几何分层评价已实际完成，两个模型在V3/V4/V6均通过预登记Stage C GO；见 [中文验证报告](docs/reports/geometry_strata_frozen_v1_zh.md)。高度轴已前瞻修复，V3/V4全组合与V6十万唯一组合边界冻结。自然随机与clustered历史指标8,640项逐条复现完全一致，229项全仓测试通过。正在登记并执行仅改变A/B采样联合分布的fresh匹配300轮Control/Treatment；见 [优化前训练协议](docs/geometry_stratified_selfsup_matched_v1_protocol_zh.md)。原 [方案修订](docs/research_revision_geometry_classical_v1_zh.md)、[经典报告](docs/reports/classical_v4_comparison_v1_zh.md) 和所有历史结论保留；经典有限预算不是理论下限。RVTC关闭、结构/损失/原SelfSup v1冻结，Pool B/test/GT128不参与。新训练须两组完整结束并冻结best后才单独posthoc GT64评价；完成后停止，不追加下一轮。
 
 ## 开发环境
 

@@ -1,0 +1,59 @@
+{
+  "stage": "C",
+  "decision": "GO",
+  "passing_models": [
+    "SelfSup",
+    "Supervised"
+  ],
+  "per_V_model": [
+    {
+      "model": "SelfSup",
+      "V": 3,
+      "ordered": true,
+      "low_high_positive_CI": true,
+      "directed_nonweak_association": true,
+      "passed": true
+    },
+    {
+      "model": "SelfSup",
+      "V": 4,
+      "ordered": true,
+      "low_high_positive_CI": true,
+      "directed_nonweak_association": true,
+      "passed": true
+    },
+    {
+      "model": "SelfSup",
+      "V": 6,
+      "ordered": true,
+      "low_high_positive_CI": true,
+      "directed_nonweak_association": true,
+      "passed": true
+    },
+    {
+      "model": "Supervised",
+      "V": 3,
+      "ordered": true,
+      "low_high_positive_CI": true,
+      "directed_nonweak_association": true,
+      "passed": true
+    },
+    {
+      "model": "Supervised",
+      "V": 4,
+      "ordered": true,
+      "low_high_positive_CI": true,
+      "directed_nonweak_association": true,
+      "passed": true
+    },
+    {
+      "model": "Supervised",
+      "V": 6,
+      "ordered": true,
+      "low_high_positive_CI": true,
+      "directed_nonweak_association": true,
+      "passed": true
+    }
+  ],
+  "rule": "At least one model must satisfy all three V: low>middle>high, low-high CI lower>0, at least one gate descriptor rho<=-0.30. Association CI reported descriptively, no extra gate. Conservative stable-ordering operationalization."
+}

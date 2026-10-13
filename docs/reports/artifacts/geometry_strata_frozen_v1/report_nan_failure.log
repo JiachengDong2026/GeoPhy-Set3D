@@ -1,0 +1,38 @@
+/scratch/djc/envs/gas-torch/lib/python3.12/site-packages/numpy/lib/_nanfunctions_impl.py:1573: RuntimeWarning: All-NaN slice encountered
+  return _nanquantile_unchecked(
+/scratch/djc/envs/gas-torch/lib/python3.12/site-packages/numpy/lib/_nanfunctions_impl.py:1573: RuntimeWarning: All-NaN slice encountered
+  return _nanquantile_unchecked(
+/scratch/djc/envs/gas-torch/lib/python3.12/site-packages/numpy/lib/_nanfunctions_impl.py:1573: RuntimeWarning: All-NaN slice encountered
+  return _nanquantile_unchecked(
+/scratch/djc/envs/gas-torch/lib/python3.12/site-packages/numpy/lib/_nanfunctions_impl.py:1573: RuntimeWarning: All-NaN slice encountered
+  return _nanquantile_unchecked(
+/scratch/djc/envs/gas-torch/lib/python3.12/site-packages/numpy/lib/_nanfunctions_impl.py:1573: RuntimeWarning: All-NaN slice encountered
+  return _nanquantile_unchecked(
+/scratch/djc/envs/gas-torch/lib/python3.12/site-packages/numpy/lib/_nanfunctions_impl.py:1573: RuntimeWarning: All-NaN slice encountered
+  return _nanquantile_unchecked(
+Traceback (most recent call last):
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/report_geometry_strata_frozen.py", line 230, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/report_geometry_strata_frozen.py", line 81, in main
+    write_csv(OUT/'correlations.csv',correlations);write_json(OUT/'correlations.json',correlations)
+                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/utils.py", line 79, in write_json
+    Path(path).write_text(json.dumps(value, indent=2, allow_nan=False)+'\n')
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/json/__init__.py", line 238, in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/json/encoder.py", line 202, in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/json/encoder.py", line 430, in _iterencode
+    yield from _iterencode_list(o, _current_indent_level)
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/json/encoder.py", line 326, in _iterencode_list
+    yield from chunks
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/json/encoder.py", line 398, in _iterencode_dict
+    yield _floatstr(value)
+          ^^^^^^^^^^^^^^^^
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/json/encoder.py", line 240, in floatstr
+    raise ValueError(
+ValueError: Out of range float values are not JSON compliant: nan

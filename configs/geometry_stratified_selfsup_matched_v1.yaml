@@ -1,0 +1,19 @@
+name: geometry_stratified_selfsup_matched_v1
+output: /data/djc/GeoPhy-Set3D/outputs/experiments/geometry_stratified_selfsup_matched_v1
+base_config: configs/train_selfsup_oari_mrgr_v1.yaml
+stage_c: /data/djc/GeoPhy-Set3D/outputs/evaluations/geometry_strata_frozen_v1
+seed: 20261011
+epochs: 300
+train_cases: 166
+batch_size: 2
+optimizer_steps_per_arm: 24900
+precision: fp32
+loader_workers: 0
+sampler_rejection_cap: 10000
+V5_population_seed: 2026101401
+V5_population_size: 100000
+arms:
+  Control: {device: 'cuda:0', sampler: original_natural_random}
+  Treatment: {device: 'cuda:1', sampler: equally_probable_natural_tertile_same_q_A_B}
+bootstrap: {samples: 10000, seed: 2026101404, unit: case}
+material_high_stratum_relative_harm: 0.05
