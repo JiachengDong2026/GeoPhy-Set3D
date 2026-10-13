@@ -2,7 +2,11 @@
 
 基于物理约束的三维气体羽流重建研究项目。
 
-当前阶段：冻结几何分层验证和fresh匹配300轮采样实验均已实际完成。高度轴从z修为y，Pool A V3/V4全组合与V6十万唯一组合边界冻结；两个冻结模型在三个V均通过Stage C几何排序GO，见 [中文验证报告](docs/reports/geometry_strata_frozen_v1_zh.md)。随后Control/Treatment各完成24,900步、同初态/顺序/V/目标/selector，只改变A/B联合采样；Stage D为 **NO-GO**：Treatment自然macro三维L1增加约1.50%、low增加约1.97%，配对区间支持受损，clustered增加约7.80%。见 [匹配实验中文报告](docs/reports/geometry_stratified_selfsup_matched_v1_zh.md) 和 [优化前协议](docs/geometry_stratified_selfsup_matched_v1_protocol_zh.md)。训练/验证/选择GT读取为0，两组300轮与best冻结后先测量评价，再独立posthoc GT64。原SelfSup v1仍为最终GT-free基线，RVTC关闭，架构/损失/历史产物保留；经典算法有限预算结论见 [原报告](docs/reports/classical_v4_comparison_v1_zh.md)，不称理论下限。本轮结束，不调score/sampler、不启动下一轮训练，不读取Pool B/test/GT128。
+当前阶段：原始冻结 SelfSup v1 的五档 V4 Geometry Sensitivity Analysis 已完成：36 Val×25几何，共900次真实推理。G1–G5 relative L1=0.08839/0.08589/0.08951/0.09925/0.29802；G5−G1 case95%CI=[0.17768,0.24472]、36/36案例变差，但组均值不严格单调。中心分数与误差Spearman为−0.817，去掉极端组仍为−0.647。测量拟合与voxel误差实际强相关（Pearson/Spearman=0.902/0.952），不支持预设“弱相关”。见 [中文总结](docs/reports/geometry_sensitivity_summary.md)、[优化前冻结协议](docs/geometry_sensitivity_v1_protocol_zh.md)、[逐case×geometry CSV](docs/reports/artifacts/geometry_sensitivity_v1/geometry_sensitivity_results.csv)。25个8³线性chi稀疏算子谱只作粗网格诊断，不能当完整64³可观测性或唯一恢复证明；exploratory hull-area score明确使用Val GT误差选择，不改旧分数/边界。
+
+后续判断：几何是可操作的显著瓶颈之一；本轮没有容量/优化/损失干预，不能证明它比网络容量更主要。已独立实现50% natural/25% moderate/25% hard sampler，物化49,800对前瞻站位计划并登记 [准备协议](docs/geometry_augmentation_preparation_v1_zh.md)；该入口仅允许无GT forward/backward smoke，没有正式训练分支。正式增强训练、curriculum/hard weighting、V3/V6新五档、Pool B、最终test均未启动；先保留原v1架构、损失和自然Val measurement selector。
+
+历史阶段保留：两个冻结模型的三档V3/V4/V6验证Stage C GO见 [报告](docs/reports/geometry_strata_frozen_v1_zh.md)；fresh同q A/B匹配300轮Stage D **NO-GO**见 [报告](docs/reports/geometry_stratified_selfsup_matched_v1_zh.md)，它主要改变A/B联合分布，并未检验本次显式极端增强。RVTC关闭，经典算法有限预算结果见 [原报告](docs/reports/classical_v4_comparison_v1_zh.md)，不称理论下限。历史数据、网络、checkpoint、数值训练代码、配置、实验结论及用户未跟踪绘图脚本保留。
 
 ## 开发环境
 

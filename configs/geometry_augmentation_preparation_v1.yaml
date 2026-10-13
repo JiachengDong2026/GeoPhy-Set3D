@@ -1,0 +1,17 @@
+name: geometry_augmentation_preparation_v1
+paths:
+  dataset: /data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1
+  output: /data/djc/GeoPhy-Set3D/outputs/evaluations/geometry_sensitivity_v1/augmentation_preparation
+  sensitivity: /data/djc/GeoPhy-Set3D/outputs/evaluations/geometry_sensitivity_v1
+  existing_control: /data/djc/GeoPhy-Set3D/outputs/experiments/geometry_stratified_selfsup_matched_v1
+base_config: configs/train_selfsup_oari_mrgr_v1.yaml
+seed: 20261011
+planned_epochs: 300
+probabilities: [0.50, 0.25, 0.25]
+moderate_quantiles: [0.05, 0.40]
+hard_span_max_deg: 10.0
+V5_population_seed: 2026101506
+V5_population_size: 100000
+rejection_cap: 10000
+smoke_mode_pairs: 9
+formal_training: false

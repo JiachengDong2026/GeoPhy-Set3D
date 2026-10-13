@@ -208,9 +208,22 @@ def main():
             im=axes[row,col].imshow(a[:,cfg['slice_y_index'],:].T,origin='lower',extent=[0,.6,0,.6],vmin=0,vmax=vmax,cmap='inferno',interpolation='nearest')
             subset=df[(df.case_index==caseidx)&(df.group==name)&(df.draw==cfg['representative_draw'])]
             axes[row,col].set_title(name if name=='GT' else f'{name}: L1={subset.iloc[0].relative_l1:.3f}')
-            axes[row,col].set_xlabel('x (m)');axes[row,col].set_ylabel(f'case index {caseidx}; z (m)')
-        fig.colorbar(im,ax=axes[row,:].tolist(),label='CH4 mass fraction; shared scale within case',shrink=.85)
+            axes[row,col].set_xlabel('x (m)');axes[row,col].set_ylabel(f'case {caseidx}; z (m)' if col==0 else 'z (m)')
+        fig.colorbar(im,ax=axes[row,:].tolist(),label='CH4 mass fraction',shrink=.85)
     save(fig,'figure4_paired_slices')
+    # Supplement only: y32 intersects little plume in case35. This uniform y-mean
+    # projection uses every voxel, no case/slice/iterate selection by error.
+    fig,axes=plt.subplots(3,4,figsize=(11,8),constrained_layout=True)
+    for row,caseidx in enumerate(cfg['representative_case_indices']):
+        volumes=[np.load(out/'case_images'/f'case{caseidx}_{group}.npz') for group in cfg['representative_groups']]
+        arrays=[volumes[0]['GT']]+[v['prediction'] for v in volumes]
+        display=[a.mean(axis=1) for a in arrays];vmax=float(display[0].max())
+        for col,(name,a) in enumerate(zip(['GT',*cfg['representative_groups']],display)):
+            im=axes[row,col].imshow(a.T,origin='lower',extent=[0,.6,0,.6],vmin=0,vmax=vmax,cmap='inferno',interpolation='nearest')
+            axes[row,col].set_title(name);axes[row,col].set_xlabel('x (m)')
+            axes[row,col].set_ylabel(f'case {caseidx}; z (m)' if col==0 else 'z (m)')
+        fig.colorbar(im,ax=axes[row,:].tolist(),label='y-mean CH4 mass fraction',shrink=.85)
+    save(fig,'figure7_paired_ymean')
     fig,ax=plt.subplots(figsize=(6,4),constrained_layout=True);scatter(ax,score,ym,'Exploratory GT-informed geometry score',bygeom.group);ax.legend(frameon=False);save(fig,'figure5_exploratory_score')
     fig,ax=plt.subplots(figsize=(7,4),constrained_layout=True)
     for spec in json.loads((out/'spectra.json').read_text()):
@@ -257,27 +270,31 @@ def main():
         '定义和预算在新推理前提交，见[协议](../geometry_sensitivity_v1_protocol_zh.md)。Pool A全部635,376组合，仅按预生成几何确定q05/q40/q60/q80；G1≥q80、G2[q60,q80)、G3[q40,q60)、G4[q05,q40)、G5<q05且最小方位跨度≤5°。G5是极端压力组，五档不是自然总体等概率代表；排除其余低尾组合，全部case保留。每case/draw H4在五档输入并集外且组间相同，不参与prediction。输入ppm·m、C为XYZ64³质量分数[0,1]，y为高度。',
         '## 2. 案例级分布与配对干预',
         table(l1,[('组',lambda r:r['group']),('mean [95%CI]',lambda r:fmt(r['mean'])+' '+fmtci(r['mean_95ci'])),('median',lambda r:fmt(r['median'])),('sample std',lambda r:fmt(r['std'])),('q25/q75',lambda r:fmt(r['q25'])+'/'+fmt(r['q75'])),('worst',lambda r:fmt(r['worst']))]),
-        'worst case IDs完整保存在group_summary.csv；所有十指标的分布和case均值完整归档。先平均五draw，再以36case为统计单位，bootstrap10,000/seed2026101504。工况家族相关性未消除，区间是本案例集合的描述性不确定性。',
+        f'五档没有严格单调：G2比G1低约{core["G1"]["mean"]-core["G2"]["mean"]:.6f}，对应配对表也保留。中心方向最高分不保证最低误差，G1的五个固定布局与G2不同；自然范围的趋势须结合连续指标。worst case IDs完整保存在group_summary.csv；所有十指标的分布和case均值完整归档。先平均五draw，再以36case为统计单位，bootstrap10,000/seed2026101504。工况家族相关性未消除，区间是本案例集合的描述性不确定性。',
         table([r for r in pairs if r['metric']=='relative_l1'],[('差（后档−前档）',lambda r:r['comparison']),('L1差 [95%CI]',lambda r:fmt(r['mean_delta'])+' '+fmtci(r['case_bootstrap_95ci'])),('变差/改善/平',lambda r:f"{r['worsened_cases']}/{r['improved_cases']}/{r['tied_cases']}"),('Wilcoxon Holm p',lambda r:f"{r['wilcoxon_holm_p']:.3g}")]),
+        table([dict(group=g,**{r['metric']:r['mean'] for r in summaries if r['group']==g}) for g in GROUPS],[('组',lambda r:r['group']),('3D L2',lambda r:fmt(r['relative_l2'])),('MAE',lambda r:f"{r['mae']:.7f}"),('RMSE',lambda r:f"{r['rmse']:.7f}"),('输入L1',lambda r:fmt(r['observed_relative_l1'])),('H4 L1',lambda r:fmt(r['heldout_relative_l1']))]),
         '## 3. 几何与误差：25布局均值及20布局敏感性',
         '关联先在每geometry ID上平均36case误差；Pearson/Spearman CI只bootstrap案例，布局保持固定。置换p在布局级计算，各scope×相关类型跨描述量Holm，不能当900独立观测。下表列全部五档Spearman；Pearson及去除G5的G1–G4关联全数见geometry_correlations.csv/json。多描述量、固定单seed/Pool A和同Val开发样本限制外推。',
         table([r for r in correlations if r['scope']=='all_G1_G5' and r['correlation']=='Spearman'],[('描述量',lambda r:r['descriptor']),('rho [95%CI]',lambda r:fmt(r['coefficient'])+' '+fmtci(r['case_bootstrap_95ci'])),('Holm置换p',lambda r:fmt(r.get('holm_p')))]),
-        '覆盖触达proxy可能饱和；若常量则null/未定义，不填0。凸包描述的是站位分布，不是重建域信息充分性。距离/体积/方向之间共线，相关不等于各指标独立因果贡献。',
+        '本次coverage及至少两站coverage在全部25布局均为1，均导出null/未定义，不填0。凸包描述的是站位分布，不是重建域信息充分性。距离/体积/方向之间共线，相关不等于各指标独立因果贡献。',
         '### 算子谱的范围',
-        '实际射线、全部valid、K96、三维稀疏线性chi算子，8³=512未知；仅Gram512×512稠密。保存全512奇异值、熵有效秩/稳定秩/数值秩、raw sigma_min和保留子空间condition。阈值1e−6 sigma_max；秩亏整体condition=null，不将保留子空间condition冒称全场条件数。Gram小sigma受舍入影响。冻结P_diff先插值C再非线性转chi；粗chi谱不是其Jacobian，更不是完整64³谱。每布局full64零空间下界见geometry_descriptors.csv，完整64³稀疏视角线性算子必有零空间；粗谱有限condition不能证明唯一恢复。',
-        '## 4. Measurement fitting与voxel正确性：不预设弱关联',
+        '实际射线、全部valid、K96、三维稀疏线性chi算子，8³=512未知；仅Gram512×512稠密。保存全512奇异值、熵有效秩/稳定秩/数值秩、raw sigma_min和保留子空间condition。阈值1e−6 sigma_max；秩亏整体condition=null，不将保留子空间condition冒称全场条件数。Gram小sigma受舍入影响。冻结P_diff先插值C再非线性转chi；粗chi谱不是其Jacobian，更不是完整64³谱。每布局full64零空间下界见geometry_descriptors.csv，完整64³稀疏视角线性算子必有零空间；粗谱有限condition不能证明唯一恢复。本次25个8³算子数值秩均为512，但G5熵有效秩仅约171–183，其他档约262–335；所有64³线性布局仍至少有251,600维零空间下界。这同时说明分辨率依赖和有效谱质量劣化，不能用粗网格full rank忽略真实稀疏逆问题。',
+        table([r for r in correlations if r['descriptor'] in ['center_direction_score','horizontal_hull_area_m2','coarse_effective_rank']],[('范围',lambda r:r['scope']),('描述量',lambda r:r['descriptor']),('相关类型',lambda r:r['correlation']),('系数 [CI]',lambda r:fmt(r['coefficient'])+' '+fmtci(r['case_bootstrap_95ci']))]),
+        '去除G5后center score与误差Spearman仍约−0.647、coarse effective rank约−0.770，说明全局趋势不只由极端组造成；但不能保证每档均值严格单调。',
+        '## 4. Measurement fitting与voxel正确性：实际为强正相关',
+        f'本轮不支持“测量拟合与体积误差相关较弱”。全局Pearson={fit[0]["coefficient"]:.4f}、Spearman={fit[1]["coefficient"]:.4f}；双向去均值后仍为{fit[2]["coefficient"]:.4f}/{fit[3]["coefficient"]:.4f}，各档内也均为强正相关。因此输入误差在当前冻结网络和数据分布中是有用的诊断信号；这不等价于拟合唯一确定体积，未测试更广泛算法/场的充分性。',
         table(fit,[('范围',lambda r:r['scope']),('相关',lambda r:r['correlation']),('系数 [case CI]',lambda r:fmt(r['coefficient'])+' '+fmtci(r['case_bootstrap_95ci']))]),
         '全行pooled仅描述性、不给独立行p值；组内和去除case/layout双向均值用于检验混合几何及case难度是否驱动关系。每case跨25布局关联另存within_case。输入拟合是网络输出经同一P_diff的误差，无任何优化或拟合后选点；H4独立重投影另报。因此弱/强必须按上述范围回答，不能先假定projection consistency与体积精度无关。',
         '## 5. 图与exploratory score',
         f'根据预登记选择规则，候选中最强正确方向单指标为 `{best["descriptor"]}`；Spearman={best["coefficient"]:+.5f}。按当前25布局几何范围minmax，质量方向={best["quality_direction"]:+d}。这是**exploratory、GT-informed**：指标身份依据Val GT误差关联选出，存在选择偏倚，尚未在新布局/独立集验证。不改旧center score、边界或模型，不用于本次组定义/调参/训练；不拟合多指标权重。',
-        '代表case预先固定0/18/35、draw0、G1/G3/G5，均同y=32水平切片，统一XYZ轴和每case GT全体积max色标，case之间GT峰值不同所以色标可不同；没有挑最优/最差GT iterate或case。']
-    for name in ['figure1_geometry_vs_error','figure2_group_boxplot','figure3_measurement_vs_voxel','figure4_paired_slices','figure5_exploratory_score','figure6_coarse_spectra']:
+        '代表case预先固定0/18/35、draw0、G1/G3/G5，均同y=32水平切片，统一XYZ轴和每case GT全体积max色标，case之间GT峰值不同所以色标可不同；没有挑最优/最差GT iterate或case。预设y32在case35几乎不穿过羽流，保留原图并补充全体积y均值投影Figure7；补图规则在结果后作为呈现修订，全部case/布局相同操作，没有按误差挑slice或改变任何统计。']
+    for name in ['figure1_geometry_vs_error','figure2_group_boxplot','figure3_measurement_vs_voxel','figure4_paired_slices','figure5_exploratory_score','figure6_coarse_spectra','figure7_paired_ymean']:
         text.append(f'![{name}](artifacts/geometry_sensitivity_v1/figures/{name}.png)')
     text.extend(['## 6. 七个问题与下一阶段判断',
         f'1. 普通自然V4历史case平均relative L1={historical_natural:.6f}，本轮G1/G2/G3={core["G1"]["mean"]:.6f}/{core["G2"]["mean"]:.6f}/{core["G3"]["mean"]:.6f}。在当前单seed/Val范围可称相对稳定，不能称已证明跨seed/任意几何稳定。',
         f'2. G5={core["G5"]["mean"]:.6f}，G5−G1={pair["mean_delta"]:+.6f}，95%CI={fmtci(pair["case_bootstrap_95ci"])}，变差{pair["worsened_cases"]}/36case；这是冻结模型的配对几何干预，不是网络新能力。',
         f'3. 本次25布局最强单指标是{best["descriptor"]}，但须结合去除G5的关联、尺度/表示差异和共线性，不能当理论可观测性。',
-        '4. 测量与voxel关联见上表，按全局、组内和双向去均值分别解读；好的拟合并不保证唯一正确三维场，亦不能把实际正相关说成“很弱”。',
+        '4. 本轮测量拟合与voxel错误强正相关，不能支持弱相关假设；也不证明低测量误差保证三维正确或唯一恢复。',
         f'5. 独立历史单站替换Original/Matched-Random/Targeted L1={swapmeans["Original"]:.6f}/{swapmeans["Random"]:.6f}/{swapmeans["Targeted"]:.6f}；保留原完整来源。两段收益分别是打破极端集中及额外互补指导，不将全部收益归于score。',
         '6. 本轮证实或量化几何敏感性，并未操纵容量、优化或physics loss，不能排除这些因素及网络先验/训练分布。主瓶颈四选一没有可识别的比较证据；准确判断是“几何是当前v1可操作的显著瓶颈之一”，而非“容量不是问题”。',
         '7. 若配对和关联支持几何依赖，有理由实现独立显式normal/moderate/extreme增强sampler并做读取/数值smoke，保留v1。上次same-q方案主要约束A/B联合分布且普通几何质量未提升，其NO-GO保留；新的50/25/25并未被该结果检验。该判据不等于证明增强会成功。正式训练需独立冻结明确匹配预算/协议；当前不自动启动curriculum或hard weighting。',
