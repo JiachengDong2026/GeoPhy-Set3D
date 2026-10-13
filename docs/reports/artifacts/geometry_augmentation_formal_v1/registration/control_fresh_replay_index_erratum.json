@@ -1,0 +1,2071 @@
+{
+  "source_sha256": "7ca064f34b8e7feecdbaeec49ea08e76edeabef3bef7ea18bd347c50687653e8",
+  "registered_evidence_unchanged": true,
+  "actual_optimizer_steps": 100,
+  "reason": "Generator extend evaluated len(trace) while extending: original global_step label increments twice; local step/epoch/sequence/hash/loss unchanged.",
+  "effect": "Metadata labels only. Control reuse remains REJECTED; formal training uses independent actual optimizer step counter, no intervention change.",
+  "corrected_trace": [
+    {
+      "epoch": 0,
+      "global_step": 1,
+      "step": 1,
+      "loss": {
+        "total": 24.122255325317383,
+        "hold": 15.025821685791016,
+        "cross": 15.14383602142334,
+        "observed": 15.14632797241211,
+        "consistency": 0.1976255476474762
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 166.1407928466797,
+        "postclip": 1.0
+      },
+      "parameter_hash": "e9a928c565cb24a156a870d5d93d1839d1ce9d7191b1da05f57885f6ffa7c91a",
+      "optimizer_hash": "22d07ed94b1f4546edba722cf96a4bbbddbfa07dc411f73c19fc9ab834d26830",
+      "registered_global_step_label": 1
+    },
+    {
+      "epoch": 0,
+      "global_step": 2,
+      "step": 2,
+      "loss": {
+        "total": 23.393712997436523,
+        "hold": 14.621057510375977,
+        "cross": 14.607255935668945,
+        "observed": 14.614601135253906,
+        "consistency": 0.15131235122680664
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 224.89697265625,
+        "postclip": 0.9999999403953552
+      },
+      "parameter_hash": "359c4fcb65415ad3c2fe60b40f267499b47ff47a30b5c0271b3dc4597de1c57c",
+      "optimizer_hash": "6ceca1f7d8fc2d638667bb271fa373b6bd4b450887bc437205c8b2f98a6590c1",
+      "registered_global_step_label": 3
+    },
+    {
+      "epoch": 0,
+      "global_step": 3,
+      "step": 3,
+      "loss": {
+        "total": 13.497673988342285,
+        "hold": 8.30505084991455,
+        "cross": 8.624490737915039,
+        "observed": 8.631528854370117,
+        "consistency": 0.3445145785808563
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 177.77752685546875,
+        "postclip": 1.0
+      },
+      "parameter_hash": "337c4493d0674aa14e25f1560dc4d6670583b61a0f962bc79a836a984766a574",
+      "optimizer_hash": "0c1e1e83c48bdfc12506b5992d92f64f0d6c60e2ab542027ceb80bc2414a8025",
+      "registered_global_step_label": 5
+    },
+    {
+      "epoch": 0,
+      "global_step": 4,
+      "step": 4,
+      "loss": {
+        "total": 8.150182723999023,
+        "hold": 5.060739517211914,
+        "cross": 5.11916971206665,
+        "observed": 5.1095428466796875,
+        "consistency": 0.3780862092971802
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 163.54623413085938,
+        "postclip": 1.0
+      },
+      "parameter_hash": "4588575c72cf43863f3ceef02f457b28ee4d1901d62e0e8998eb1af18d7cd982",
+      "optimizer_hash": "4e12dffc4f18a9deb5366076700e6916415689e4a43dba393d12dca5bf468ac4",
+      "registered_global_step_label": 7
+    },
+    {
+      "epoch": 0,
+      "global_step": 5,
+      "step": 5,
+      "loss": {
+        "total": 5.159652233123779,
+        "hold": 3.18412709236145,
+        "cross": 3.27152156829834,
+        "observed": 3.272261381149292,
+        "consistency": 0.2507573068141937
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 97.81314086914062,
+        "postclip": 0.9999999403953552
+      },
+      "parameter_hash": "e894095d0aaca41292d64445b48f44b948cff6998d2ce4a211d740e42b7882bd",
+      "optimizer_hash": "c96ea87569ef5d3788810a46eae9af003a28f577f96d63f84da83d43123529c9",
+      "registered_global_step_label": 9
+    },
+    {
+      "epoch": 0,
+      "global_step": 6,
+      "step": 6,
+      "loss": {
+        "total": 3.991816520690918,
+        "hold": 2.491664409637451,
+        "cross": 2.484724521636963,
+        "observed": 2.489210367202759,
+        "consistency": 0.17737340927124023
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 71.35991668701172,
+        "postclip": 0.9999999403953552
+      },
+      "parameter_hash": "1210bf3cebd412827332c865c3be85a040cd38290cc091f63bf5ffb8ae207134",
+      "optimizer_hash": "db9ce1f264a2f992f937e759d23df16984583f72a9432b160cffb1ae98049937",
+      "registered_global_step_label": 11
+    },
+    {
+      "epoch": 0,
+      "global_step": 7,
+      "step": 7,
+      "loss": {
+        "total": 2.6558852195739746,
+        "hold": 1.6608572006225586,
+        "cross": 1.6507164239883423,
+        "observed": 1.6521544456481934,
+        "consistency": 0.08908818662166595
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 46.04682922363281,
+        "postclip": 1.0
+      },
+      "parameter_hash": "7e5c26aeca78edeeeee347738b4419d8e11a9958d20fd0abfaf8efdf7aeb2077",
+      "optimizer_hash": "45f8a4a6132117e0d4ac04dcd6d38b4f7fc1ad8653a4644ae9a2a6de69ff8eb6",
+      "registered_global_step_label": 13
+    },
+    {
+      "epoch": 0,
+      "global_step": 8,
+      "step": 8,
+      "loss": {
+        "total": 2.445319414138794,
+        "hold": 1.5262727737426758,
+        "cross": 1.5253337621688843,
+        "observed": 1.5272071361541748,
+        "consistency": 0.07317833602428436
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 36.707523345947266,
+        "postclip": 0.9999998807907104
+      },
+      "parameter_hash": "09edc908fab94a7c744c6e8fb19d0261f6efe5b963155dc606f2c9be8e2d381c",
+      "optimizer_hash": "7e70db93501fffde115c0cdfa9170113275eb636a71bffdb2f222e21d42f9549",
+      "registered_global_step_label": 15
+    },
+    {
+      "epoch": 0,
+      "global_step": 9,
+      "step": 9,
+      "loss": {
+        "total": 1.2758514881134033,
+        "hold": 0.7662968039512634,
+        "cross": 0.84479159116745,
+        "observed": 0.8480892181396484,
+        "consistency": 0.046998292207717896
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 15.751547813415527,
+        "postclip": 1.0
+      },
+      "parameter_hash": "28ad74aaf77253dbef8bf31fdb6ef91eb05acf75ac8743d75ad955e4a9d1b1ac",
+      "optimizer_hash": "b9b355a302b3c9e64918ba2b9f8aa4ff8faae2d318f8a2e8afc62566b2ffc3a4",
+      "registered_global_step_label": 17
+    },
+    {
+      "epoch": 0,
+      "global_step": 10,
+      "step": 10,
+      "loss": {
+        "total": 2.218247652053833,
+        "hold": 1.4008712768554688,
+        "cross": 1.3561348915100098,
+        "observed": 1.3583509922027588,
+        "consistency": 0.06947550177574158
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 23.144105911254883,
+        "postclip": 0.9999999403953552
+      },
+      "parameter_hash": "0973b643037cc3a094e31d4757d6144413d245b0b00d73bd45925d456da302c9",
+      "optimizer_hash": "7a2d33a404a2ba428c28943e7693c8c75d8abe8b5794f0f99e551e5922242776",
+      "registered_global_step_label": 19
+    },
+    {
+      "epoch": 0,
+      "global_step": 11,
+      "step": 11,
+      "loss": {
+        "total": 1.8389992713928223,
+        "hold": 1.1447426080703735,
+        "cross": 1.153560757637024,
+        "observed": 1.1534544229507446,
+        "consistency": 0.042615149170160294
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 20.449363708496094,
+        "postclip": 0.9999998807907104
+      },
+      "parameter_hash": "7f8b9235d719a5343e57aa9dcb59c1021c4fe96eaf3dca3f256426b1bc14de0b",
+      "optimizer_hash": "59c6aec363e07529858ec8f9aa6b1c5ac569e7721cdd575f615bca72c716f267",
+      "registered_global_step_label": 21
+    },
+    {
+      "epoch": 0,
+      "global_step": 12,
+      "step": 12,
+      "loss": {
+        "total": 2.587618112564087,
+        "hold": 1.6264885663986206,
+        "cross": 1.5981504917144775,
+        "observed": 1.5983874797821045,
+        "consistency": 0.04431384056806564
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 26.0759334564209,
+        "postclip": 0.9999998807907104
+      },
+      "parameter_hash": "c57a5e6a9dd87bdfc65f4e6982ac9c7c9e0a64729b9f511073061414c3dd0917",
+      "optimizer_hash": "4b1d4012f7da585b8290ab61cb17a57162b082a07f85ce19b1454ab4685211ab",
+      "registered_global_step_label": 23
+    },
+    {
+      "epoch": 0,
+      "global_step": 13,
+      "step": 13,
+      "loss": {
+        "total": 0.8898854851722717,
+        "hold": 0.5475165843963623,
+        "cross": 0.5665746927261353,
+        "observed": 0.563859760761261,
+        "consistency": 0.05391121655702591
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 8.366679191589355,
+        "postclip": 0.9999998807907104
+      },
+      "parameter_hash": "dc6322863cccfa8cbb0e81955dc6405561f2677ae2e1df69924c4fc1f6b39c3b",
+      "optimizer_hash": "0c4b861e3882d22775f4a547701ad931ec53fbe9b014ec7559e5de1a995f5d55",
+      "registered_global_step_label": 25
+    },
+    {
+      "epoch": 0,
+      "global_step": 14,
+      "step": 14,
+      "loss": {
+        "total": 0.8318865895271301,
+        "hold": 0.5048004388809204,
+        "cross": 0.5410082340240479,
+        "observed": 0.5380431413650513,
+        "consistency": 0.05555403232574463
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 8.024518966674805,
+        "postclip": 0.9999998807907104
+      },
+      "parameter_hash": "16570536293badd30e6247edaf3433a704a33f02bb41c70536f5aeddb53db65c",
+      "optimizer_hash": "1acfa8a5e13a0889305c0a223455662fb73fa2d9807cb225900767c6313431ee",
+      "registered_global_step_label": 27
+    },
+    {
+      "epoch": 0,
+      "global_step": 15,
+      "step": 15,
+      "loss": {
+        "total": 0.6525537371635437,
+        "hold": 0.4176429808139801,
+        "cross": 0.3887729048728943,
+        "observed": 0.38817283511161804,
+        "consistency": 0.03414028510451317
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 4.733737945556641,
+        "postclip": 0.9999997615814209
+      },
+      "parameter_hash": "a2a31cffb22fa4089aab3fced750133c0a38265f525bbb32e6f5bf0bc2a37d1a",
+      "optimizer_hash": "09d77ed23ae3418dcc7b624ffd173d6cb80ab24883926c20293ec20cc5cb208b",
+      "registered_global_step_label": 29
+    },
+    {
+      "epoch": 0,
+      "global_step": 16,
+      "step": 16,
+      "loss": {
+        "total": 2.909209966659546,
+        "hold": 1.8049201965332031,
+        "cross": 1.8381719589233398,
+        "observed": 1.837563395500183,
+        "consistency": 0.0289494376629591
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 27.991973876953125,
+        "postclip": 0.9999998807907104
+      },
+      "parameter_hash": "81038278d6061b77a7ff1a0f579be6fc055456d9abc35ea31591c0bb3a1840df",
+      "optimizer_hash": "9a85e85d8f9b83046a455a35ac30306042d80921a97e933711486c6f596a633a",
+      "registered_global_step_label": 31
+    },
+    {
+      "epoch": 0,
+      "global_step": 17,
+      "step": 17,
+      "loss": {
+        "total": 0.8567558526992798,
+        "hold": 0.531123697757721,
+        "cross": 0.5377980470657349,
+        "observed": 0.5314140319824219,
+        "consistency": 0.07183444499969482
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 7.637778282165527,
+        "postclip": 0.9999998211860657
+      },
+      "parameter_hash": "89847d3f303f0dd76043ddc1054dc0623ab14908f89f7c90f348352a9a0fad1d",
+      "optimizer_hash": "eed5a4ec932113848c6f19a22d58538f9c4d0bdd5337425eae78c3f206667001",
+      "registered_global_step_label": 33
+    },
+    {
+      "epoch": 0,
+      "global_step": 18,
+      "step": 18,
+      "loss": {
+        "total": 0.9283903241157532,
+        "hold": 0.5850313901901245,
+        "cross": 0.5694680213928223,
+        "observed": 0.5670363903045654,
+        "consistency": 0.03842597454786301
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 7.866898059844971,
+        "postclip": 0.9999998807907104
+      },
+      "parameter_hash": "0d49924e8064ff296fb8576ac897274c578f62d55814529a59e78a40283b3adc",
+      "optimizer_hash": "85caa02d1cc9fb073d18f6e1236e74d35ed3471d9eae337b2d0318889c8f3054",
+      "registered_global_step_label": 35
+    },
+    {
+      "epoch": 0,
+      "global_step": 19,
+      "step": 19,
+      "loss": {
+        "total": 0.8252794146537781,
+        "hold": 0.5087025165557861,
+        "cross": 0.5251855254173279,
+        "observed": 0.5231281518936157,
+        "consistency": 0.03342597186565399
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 6.720870494842529,
+        "postclip": 0.9999997615814209
+      },
+      "parameter_hash": "f43f09f72f8b5f0283af4932186ccca1364a2b2faf7c399895ee3f2eacaf237d",
+      "optimizer_hash": "90646c587e6a6f72f793cead6861a58ed21e02f26672d4379f9bf598119d0f62",
+      "registered_global_step_label": 37
+    },
+    {
+      "epoch": 0,
+      "global_step": 20,
+      "step": 20,
+      "loss": {
+        "total": 1.5455681085586548,
+        "hold": 0.9652794599533081,
+        "cross": 0.9635148048400879,
+        "observed": 0.9598410129547119,
+        "consistency": 0.050943292677402496
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 14.266953468322754,
+        "postclip": 0.9999998807907104
+      },
+      "parameter_hash": "37756ea43372ff939a89dc50ad30d42361dc23ecc2bde6c213afc40ff93dd1fb",
+      "optimizer_hash": "5bfbb67957b881080c81143af67414d06f782c294e6b30bf8c9a1541e04e6079",
+      "registered_global_step_label": 39
+    },
+    {
+      "epoch": 0,
+      "global_step": 21,
+      "step": 21,
+      "loss": {
+        "total": 1.0546797513961792,
+        "hold": 0.6598635911941528,
+        "cross": 0.653176486492157,
+        "observed": 0.6481781005859375,
+        "consistency": 0.06820143759250641
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 9.812350273132324,
+        "postclip": 0.9999997615814209
+      },
+      "parameter_hash": "3adb4881b0f6018601405d87f1bd1378b6597df38c5d33380588934c25c65dc3",
+      "optimizer_hash": "be4fc0d57db5fd7cbab5e7ace9793a0fc399e9695e93584ad64944d8a254a5bc",
+      "registered_global_step_label": 41
+    },
+    {
+      "epoch": 0,
+      "global_step": 22,
+      "step": 22,
+      "loss": {
+        "total": 1.23209810256958,
+        "hold": 0.7590305805206299,
+        "cross": 0.7857754230499268,
+        "observed": 0.7828638553619385,
+        "consistency": 0.03786902129650116
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 11.357832908630371,
+        "postclip": 0.9999998807907104
+      },
+      "parameter_hash": "8c34e9c8523062b6989e3074737934e5c6ab6b897978e6018f19d6a3d4673a3c",
+      "optimizer_hash": "3ac46f8d2cc43d58d9c93fbc37c2b36802bb1b76310a2281dd16b327d0f8d9f7",
+      "registered_global_step_label": 43
+    },
+    {
+      "epoch": 0,
+      "global_step": 23,
+      "step": 23,
+      "loss": {
+        "total": 0.5646487474441528,
+        "hold": 0.35914337635040283,
+        "cross": 0.338742196559906,
+        "observed": 0.33319640159606934,
+        "consistency": 0.056291431188583374
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 4.124851703643799,
+        "postclip": 0.9999997615814209
+      },
+      "parameter_hash": "ba895f3ba7a3fce51c125c767a93aa9e33489f3558adb701f273569870d10487",
+      "optimizer_hash": "682f108b0c7c0dd8780c27e2615f4931aeace7d93e01db1dc0bfda4f63649313",
+      "registered_global_step_label": 45
+    },
+    {
+      "epoch": 0,
+      "global_step": 24,
+      "step": 24,
+      "loss": {
+        "total": 0.7626330852508545,
+        "hold": 0.4902578890323639,
+        "cross": 0.44953781366348267,
+        "observed": 0.44567304849624634,
+        "consistency": 0.06078043207526207
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 6.237428188323975,
+        "postclip": 0.9999998211860657
+      },
+      "parameter_hash": "46cdab4540112c0ac708bc999fd98c9bad951939591c1dc628b494593ebca3de",
+      "optimizer_hash": "887a04d321c9d4c4e55a1fc40ffb093c6d12337867acca1afe557b1c93b953b3",
+      "registered_global_step_label": 47
+    },
+    {
+      "epoch": 0,
+      "global_step": 25,
+      "step": 25,
+      "loss": {
+        "total": 0.7723273038864136,
+        "hold": 0.5038887858390808,
+        "cross": 0.442879319190979,
+        "observed": 0.4361468553543091,
+        "consistency": 0.06768335402011871
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 6.4204511642456055,
+        "postclip": 0.9999997615814209
+      },
+      "parameter_hash": "42c71c6e8a8951464f75876d2befd0d55c6718fd83beac61f4029bb452c8e7d7",
+      "optimizer_hash": "8e004ad05f0b09a3a613d5bfb79123c3e5f783a1330c7b78f70199af049f64a7",
+      "registered_global_step_label": 49
+    },
+    {
+      "epoch": 0,
+      "global_step": 26,
+      "step": 26,
+      "loss": {
+        "total": 0.8212152719497681,
+        "hold": 0.504436731338501,
+        "cross": 0.5221192836761475,
+        "observed": 0.5137510895729065,
+        "consistency": 0.08687639236450195
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 7.942214488983154,
+        "postclip": 0.9999998211860657
+      },
+      "parameter_hash": "87ca36f2ebbe5304f7b71b408f07ca4dbffc5b6cb2c0e35e2aec339cb5f5248f",
+      "optimizer_hash": "6f103e6b275257073c98e075f9854201e77828e828d85861ecd2a63772a7695e",
+      "registered_global_step_label": 51
+    },
+    {
+      "epoch": 0,
+      "global_step": 27,
+      "step": 27,
+      "loss": {
+        "total": 0.7162650227546692,
+        "hold": 0.44094017148017883,
+        "cross": 0.45168426632881165,
+        "observed": 0.43450888991355896,
+        "consistency": 0.12063565850257874
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 5.922699451446533,
+        "postclip": 0.9999998211860657
+      },
+      "parameter_hash": "561d0d427527e3beff92688111a1d542e5ecf0b1cd72687a6c947fb27756fc3a",
+      "optimizer_hash": "c631bf1f2222cbbee0a5dc79efea55c461582aeaf68fe15f0d9d5a3ca9dc4707",
+      "registered_global_step_label": 53
+    },
+    {
+      "epoch": 0,
+      "global_step": 28,
+      "step": 28,
+      "loss": {
+        "total": 0.7084308862686157,
+        "hold": 0.4314930737018585,
+        "cross": 0.4527677893638611,
+        "observed": 0.4400341212749481,
+        "consistency": 0.13100922107696533
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 6.525803089141846,
+        "postclip": 0.9999997615814209
+      },
+      "parameter_hash": "dfb0ba8188b90382ca7458519bac6f28b1a59d12168f93b5c1445f3410c563c7",
+      "optimizer_hash": "5a75e9beddd01e61df75fee3ab83e8175ce564f1eae80065052de430200c0d01",
+      "registered_global_step_label": 55
+    },
+    {
+      "epoch": 0,
+      "global_step": 29,
+      "step": 29,
+      "loss": {
+        "total": 1.2231673002243042,
+        "hold": 0.7605948448181152,
+        "cross": 0.7628333568572998,
+        "observed": 0.7515782117843628,
+        "consistency": 0.11996103823184967
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 12.495525360107422,
+        "postclip": 0.9999998211860657
+      },
+      "parameter_hash": "1b67161f852f3a38f988d2887a2ffedfd0520c0f00dcc3855ef32c6e7cf05797",
+      "optimizer_hash": "470be564c9dbdb591479cfbcdd44b298b5d569dde3f959f62aa8cfd28a29467d",
+      "registered_global_step_label": 57
+    },
+    {
+      "epoch": 0,
+      "global_step": 30,
+      "step": 30,
+      "loss": {
+        "total": 0.4657476842403412,
+        "hold": 0.30414527654647827,
+        "cross": 0.26120150089263916,
+        "observed": 0.25414401292800903,
+        "consistency": 0.1117447093129158
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 3.027435064315796,
+        "postclip": 0.9999996423721313
+      },
+      "parameter_hash": "0248db5770a26a24f2562f6536efc857a3b392cbee62ccacc9c6c7e57ba9e70c",
+      "optimizer_hash": "3c9cecd6f5d20008f75ac8baf31139a58ea0f1568829bc1c2e7c773be2673864",
+      "registered_global_step_label": 59
+    },
+    {
+      "epoch": 0,
+      "global_step": 31,
+      "step": 31,
+      "loss": {
+        "total": 0.6539546251296997,
+        "hold": 0.39239007234573364,
+        "cross": 0.42329317331314087,
+        "observed": 0.4013804793357849,
+        "consistency": 0.1955970823764801
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 7.0323333740234375,
+        "postclip": 0.9999998211860657
+      },
+      "parameter_hash": "cb4d103f744fde59e0b4567ceae4b5d0acb0dad4bba72bbf53b4acd5e700a4f6",
+      "optimizer_hash": "a500922cd9661d4ba59fbdbaa02e68426f5fd76a61e699984a294882ecc40f71",
+      "registered_global_step_label": 61
+    },
+    {
+      "epoch": 0,
+      "global_step": 32,
+      "step": 32,
+      "loss": {
+        "total": 0.8759219646453857,
+        "hold": 0.5360308885574341,
+        "cross": 0.5593298673629761,
+        "observed": 0.5512943267822266,
+        "consistency": 0.10193462669849396
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 8.358552932739258,
+        "postclip": 0.9999998807907104
+      },
+      "parameter_hash": "ca095942e1ce083f89fa4661a021aa2db04d6b4e61b70e0f249148d7fd026ef2",
+      "optimizer_hash": "4e6399684f443324e507f7435b5e9111f537f662d9bbbaf82056e517ab2c3ee1",
+      "registered_global_step_label": 63
+    },
+    {
+      "epoch": 0,
+      "global_step": 33,
+      "step": 33,
+      "loss": {
+        "total": 0.7240200638771057,
+        "hold": 0.44181111454963684,
+        "cross": 0.4588763117790222,
+        "observed": 0.43946146965026855,
+        "consistency": 0.1764925867319107
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 7.256391525268555,
+        "postclip": 0.9999998807907104
+      },
+      "parameter_hash": "4dbb17c152e34d497d3de9e557ba3585ba7d96378ea6a806f1813a0d896c0b79",
+      "optimizer_hash": "acfcc6fcbbb80ad804f00114690a432229a2dd67f5c70ca4238cd23cc2c87ad8",
+      "registered_global_step_label": 65
+    },
+    {
+      "epoch": 0,
+      "global_step": 34,
+      "step": 34,
+      "loss": {
+        "total": 2.2604448795318604,
+        "hold": 1.4052588939666748,
+        "cross": 1.4202628135681152,
+        "observed": 1.4119994640350342,
+        "consistency": 0.0770920142531395
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 23.087820053100586,
+        "postclip": 1.0
+      },
+      "parameter_hash": "ee4e57d7283fda3323d511b0ff0a188277e87056ccde36a9e67c1297edfc0be2",
+      "optimizer_hash": "8ea93679529ba0e7a062d7cfcd728fbf15b3254cdcc653f16651518386312844",
+      "registered_global_step_label": 67
+    },
+    {
+      "epoch": 0,
+      "global_step": 35,
+      "step": 35,
+      "loss": {
+        "total": 0.7997615337371826,
+        "hold": 0.5223939418792725,
+        "cross": 0.4570803642272949,
+        "observed": 0.4515268802642822,
+        "consistency": 0.07349548488855362
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 6.909151554107666,
+        "postclip": 0.9999998211860657
+      },
+      "parameter_hash": "bbc29e8c245ad79dcab0a89cb6352956fdb5d5917312fb5d37b082fa2e81a3fc",
+      "optimizer_hash": "56bdb0e9c2322d823e738795b7cb8b936ecbf63ef0a16dba886bb34d097d148a",
+      "registered_global_step_label": 69
+    },
+    {
+      "epoch": 0,
+      "global_step": 36,
+      "step": 36,
+      "loss": {
+        "total": 0.6899844408035278,
+        "hold": 0.42644190788269043,
+        "cross": 0.4335238039493561,
+        "observed": 0.42558974027633667,
+        "consistency": 0.08443295955657959
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 6.389711856842041,
+        "postclip": 0.9999998807907104
+      },
+      "parameter_hash": "42e313098592bc8d05bbb3b13226aafff13cd0c60c9067b09b6d1d7344069715",
+      "optimizer_hash": "2dfe96024cb22826cd7a206b0c6aeca19382f5221817fb4c6899c482fae7aad9",
+      "registered_global_step_label": 71
+    },
+    {
+      "epoch": 0,
+      "global_step": 37,
+      "step": 37,
+      "loss": {
+        "total": 0.5394352078437805,
+        "hold": 0.3330489993095398,
+        "cross": 0.3342656195163727,
+        "observed": 0.3173685073852539,
+        "consistency": 0.1503317505121231
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 4.273672580718994,
+        "postclip": 0.9999998211860657
+      },
+      "parameter_hash": "76b0232c1808a3f275c8a3440b76296285ef717c2eec9e7b3d1638e1e7b05ac4",
+      "optimizer_hash": "370321c39e4b6d52fd233bba3379519dacd85f5c53f07b74564f8a1348228aef",
+      "registered_global_step_label": 73
+    },
+    {
+      "epoch": 0,
+      "global_step": 38,
+      "step": 38,
+      "loss": {
+        "total": 0.4214550256729126,
+        "hold": 0.2698618173599243,
+        "cross": 0.24312537908554077,
+        "observed": 0.23317797482013702,
+        "consistency": 0.13425476849079132
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 3.1159768104553223,
+        "postclip": 0.9999996423721313
+      },
+      "parameter_hash": "dbba1347758237795132ca47630a4c76616b7ab0bdc0ddac66f3686771bd7129",
+      "optimizer_hash": "33372a6ed52bf7969ad53fd7b0b50a0b164514bbc81a7dcdc5d8c21ed4b5c254",
+      "registered_global_step_label": 75
+    },
+    {
+      "epoch": 0,
+      "global_step": 39,
+      "step": 39,
+      "loss": {
+        "total": 0.441464900970459,
+        "hold": 0.2627333402633667,
+        "cross": 0.2765243649482727,
+        "observed": 0.25199049711227417,
+        "consistency": 0.3054061532020569
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 4.964852333068848,
+        "postclip": 0.9999997615814209
+      },
+      "parameter_hash": "6b5e2e0ef1555002ef5d608c3ae2783c341c98af6bed3fe95fa0566530323cce",
+      "optimizer_hash": "623b7a51bcf42c42c369f46982261db230c46db148712becc4a37aa42f68989c",
+      "registered_global_step_label": 77
+    },
+    {
+      "epoch": 0,
+      "global_step": 40,
+      "step": 40,
+      "loss": {
+        "total": 0.4890274703502655,
+        "hold": 0.3003956973552704,
+        "cross": 0.3019177317619324,
+        "observed": 0.2935684323310852,
+        "consistency": 0.166321262717247
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 5.894757270812988,
+        "postclip": 0.9999998211860657
+      },
+      "parameter_hash": "e8288a55800079c58d0e31b6a1fdbc36d8a398a8719a40018bb402b03e6bdeec",
+      "optimizer_hash": "7c29607f238c5e2a7a5980ebb8c0d71ccf2b0311b4d0a95893bb5f97103f1939",
+      "registered_global_step_label": 79
+    },
+    {
+      "epoch": 0,
+      "global_step": 41,
+      "step": 41,
+      "loss": {
+        "total": 0.6450820565223694,
+        "hold": 0.3986855745315552,
+        "cross": 0.39989104866981506,
+        "observed": 0.37957999110221863,
+        "consistency": 0.16985896229743958
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 6.6877121925354,
+        "postclip": 0.9999998211860657
+      },
+      "parameter_hash": "65cc2ade3b94354618fbf60fb3d90b23b3e205a29d03edd3cd14fa08020ab49c",
+      "optimizer_hash": "5451e6e0e735c02c6507ea64be37a16d18c16259f7469e481960ec739bf0ff84",
+      "registered_global_step_label": 81
+    },
+    {
+      "epoch": 0,
+      "global_step": 42,
+      "step": 42,
+      "loss": {
+        "total": 0.49138084053993225,
+        "hold": 0.3078553080558777,
+        "cross": 0.29736483097076416,
+        "observed": 0.28629669547080994,
+        "consistency": 0.12426912039518356
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 4.000174522399902,
+        "postclip": 0.9999996423721313
+      },
+      "parameter_hash": "a75e61ac92d863ee1e12829c4bf6145bed9f78e0fd8f4ea5bb6ded50afd1c515",
+      "optimizer_hash": "59647b38a53ededb26f44b215b62b15f1b75cc77bb9dc4ce306dbddc1bf49997",
+      "registered_global_step_label": 83
+    },
+    {
+      "epoch": 0,
+      "global_step": 43,
+      "step": 43,
+      "loss": {
+        "total": 0.46339958906173706,
+        "hold": 0.2807718515396118,
+        "cross": 0.2923312187194824,
+        "observed": 0.2670595049858093,
+        "consistency": 0.19512329995632172
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 3.3307924270629883,
+        "postclip": 0.9999998211860657
+      },
+      "parameter_hash": "fce24a90aa82729de92da8b2d579a06768fb7252cb0556127e2a27f8fa41ab49",
+      "optimizer_hash": "4aa10f7e9b953007a5d3befeb6dbf189a27ec0e2c52fa1aacfd9c2664a6e0631",
+      "registered_global_step_label": 85
+    },
+    {
+      "epoch": 0,
+      "global_step": 44,
+      "step": 44,
+      "loss": {
+        "total": 0.4985152781009674,
+        "hold": 0.32033753395080566,
+        "cross": 0.28343629837036133,
+        "observed": 0.2596833109855652,
+        "consistency": 0.20982500910758972
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 3.1082491874694824,
+        "postclip": 0.9999996423721313
+      },
+      "parameter_hash": "9d314a20f53b85ab9b6da1b1ad03bd3a04719813d4a15df585172b7fefefd230",
+      "optimizer_hash": "90aaef16ca69e0180b88f27e523a08cf40dd3747167481b3323cccb4d839ff96",
+      "registered_global_step_label": 87
+    },
+    {
+      "epoch": 0,
+      "global_step": 45,
+      "step": 45,
+      "loss": {
+        "total": 0.3839430809020996,
+        "hold": 0.22568213939666748,
+        "cross": 0.25268352031707764,
+        "observed": 0.24144545197486877,
+        "consistency": 0.155492901802063
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 2.790820837020874,
+        "postclip": 0.9999996423721313
+      },
+      "parameter_hash": "c51fde73347bae6ecd5872bf0d940c6e5a034f277b39b99400d59e4223973976",
+      "optimizer_hash": "ad9ca65eb60df141845936ff5fc430b4e9afaeddef47373b5caaccc74503dd25",
+      "registered_global_step_label": 89
+    },
+    {
+      "epoch": 0,
+      "global_step": 46,
+      "step": 46,
+      "loss": {
+        "total": 0.43872785568237305,
+        "hold": 0.2780667841434479,
+        "cross": 0.25119930505752563,
+        "observed": 0.2407645285129547,
+        "consistency": 0.2196992039680481
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 5.066700458526611,
+        "postclip": 0.9999998211860657
+      },
+      "parameter_hash": "0088cc6036b98db0893a43ff426b0c0e27e8205046956335b2c308a23b78fcee",
+      "optimizer_hash": "70c07354de3b104f2b715222a9a6dc6abf239a2afddf6834aeacbf1285f47c41",
+      "registered_global_step_label": 91
+    },
+    {
+      "epoch": 0,
+      "global_step": 47,
+      "step": 47,
+      "loss": {
+        "total": 0.42483285069465637,
+        "hold": 0.27413487434387207,
+        "cross": 0.2328137904405594,
+        "observed": 0.22627951204776764,
+        "consistency": 0.2332627773284912
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 8.305063247680664,
+        "postclip": 0.9999999403953552
+      },
+      "parameter_hash": "8bd73776c2e1ad1a360611b57efefaf22181a92ede93f1244385b9c7b07b9c82",
+      "optimizer_hash": "93a592d95d9abbf5577dbf2998cd06947331e99c40e497d5bd978da171680c42",
+      "registered_global_step_label": 93
+    },
+    {
+      "epoch": 0,
+      "global_step": 48,
+      "step": 48,
+      "loss": {
+        "total": 0.6426774859428406,
+        "hold": 0.41330838203430176,
+        "cross": 0.372904509305954,
+        "observed": 0.3633019030094147,
+        "consistency": 0.1317330151796341
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 5.566022872924805,
+        "postclip": 0.9999997615814209
+      },
+      "parameter_hash": "6630ba06eac9000972f923b14d0660bcf03368ad50b934bb7ed2ad5363b71990",
+      "optimizer_hash": "701eea9bb7f038f22cde827d60764c47c47a02716b9d9bf0e0ba56541674d95a",
+      "registered_global_step_label": 95
+    },
+    {
+      "epoch": 0,
+      "global_step": 49,
+      "step": 49,
+      "loss": {
+        "total": 0.8511176705360413,
+        "hold": 0.5121964812278748,
+        "cross": 0.5544940829277039,
+        "observed": 0.5316438674926758,
+        "consistency": 0.1701962798833847
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 7.536303520202637,
+        "postclip": 0.9999997615814209
+      },
+      "parameter_hash": "354d2e0fda3d0f2db98c7bb8ea371b6b4173142d67c2fd0043720f57efb13951",
+      "optimizer_hash": "efa1c9ba0c5137b3db87a7797733a73ae5df4f167f67e27d62b52a1943e3aa76",
+      "registered_global_step_label": 97
+    },
+    {
+      "epoch": 0,
+      "global_step": 50,
+      "step": 50,
+      "loss": {
+        "total": 0.4222911298274994,
+        "hold": 0.2674693763256073,
+        "cross": 0.24633672833442688,
+        "observed": 0.221838116645813,
+        "consistency": 0.18939149379730225
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 2.537031412124634,
+        "postclip": 0.9999995827674866
+      },
+      "parameter_hash": "197cb320c5ba2b0b7984a23377cb8916f15ebc143c749a685f4ca3fc864b2d0a",
+      "optimizer_hash": "faf01633594de6ac20c9716f3c2f7d0994c29f4ea1e5b358715f3339e28248d5",
+      "registered_global_step_label": 99
+    },
+    {
+      "epoch": 0,
+      "global_step": 51,
+      "step": 51,
+      "loss": {
+        "total": 0.7064905762672424,
+        "hold": 0.4280824065208435,
+        "cross": 0.4566417336463928,
+        "observed": 0.4437525272369385,
+        "consistency": 0.1142401397228241
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 6.844539165496826,
+        "postclip": 0.9999998211860657
+      },
+      "parameter_hash": "44219eb74c9bde95b8be135e0380af7cbed37d8b3dbed299f8a6bbe4889c3052",
+      "optimizer_hash": "f38f845169fc94b4aa5e1ad7f5e3e438fa7cea3d2b8ff49da2d2c352badd7c92",
+      "registered_global_step_label": 101
+    },
+    {
+      "epoch": 0,
+      "global_step": 52,
+      "step": 52,
+      "loss": {
+        "total": 0.5457872152328491,
+        "hold": 0.33394524455070496,
+        "cross": 0.33814045786857605,
+        "observed": 0.3006408214569092,
+        "consistency": 0.25415295362472534
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 4.200899600982666,
+        "postclip": 0.9999997615814209
+      },
+      "parameter_hash": "0a75eaf19f9506483592e71b5aad35ea1ac6d7aaf31b010eaad9ad7bdb823ffd",
+      "optimizer_hash": "4392cb56edb3c52b75ea6dc87ac8d5ca8806ad88332b7e3adafc187eea06d688",
+      "registered_global_step_label": 103
+    },
+    {
+      "epoch": 0,
+      "global_step": 53,
+      "step": 53,
+      "loss": {
+        "total": 0.49276983737945557,
+        "hold": 0.2917463779449463,
+        "cross": 0.3224312663078308,
+        "observed": 0.2934134006500244,
+        "consistency": 0.2093294858932495
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 3.950996160507202,
+        "postclip": 0.9999997019767761
+      },
+      "parameter_hash": "0c96bfd5515b48c72f24ae14bfb41f4cb39daf8de6cd56f8203496276f985de8",
+      "optimizer_hash": "29f03f7d5995566dd06693823a7a71c9613804cd879d757a1f1259be4796a20a",
+      "registered_global_step_label": 105
+    },
+    {
+      "epoch": 0,
+      "global_step": 54,
+      "step": 54,
+      "loss": {
+        "total": 0.49214667081832886,
+        "hold": 0.31434744596481323,
+        "cross": 0.28437018394470215,
+        "observed": 0.27258628606796265,
+        "consistency": 0.1671096682548523
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 3.788198709487915,
+        "postclip": 0.9999998211860657
+      },
+      "parameter_hash": "a3f5933aaff9cebbf84a7aa6e9ab506a5ea7402d6b06f0af0faa48d7adc5364b",
+      "optimizer_hash": "692708e2089a9520dbb336bffc33c3be59af3ba0efb3495918d93b34a7291d9d",
+      "registered_global_step_label": 107
+    },
+    {
+      "epoch": 0,
+      "global_step": 55,
+      "step": 55,
+      "loss": {
+        "total": 0.3891593813896179,
+        "hold": 0.23656485974788666,
+        "cross": 0.24415996670722961,
+        "observed": 0.2388572096824646,
+        "consistency": 0.1325763612985611
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 4.02040958404541,
+        "postclip": 0.9999997019767761
+      },
+      "parameter_hash": "04aaeccccf06e50bb531f1713e88cd1c56b78f1dfba9f66e0b71b8ecbe3dcc88",
+      "optimizer_hash": "ec3a38159e4daeb89a28b84c506dd14219504896d923b39fc0648241ba495ce1",
+      "registered_global_step_label": 109
+    },
+    {
+      "epoch": 0,
+      "global_step": 56,
+      "step": 56,
+      "loss": {
+        "total": 0.3267005383968353,
+        "hold": 0.20142929255962372,
+        "cross": 0.19201384484767914,
+        "observed": 0.1760159432888031,
+        "consistency": 0.23325519263744354
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 2.447242021560669,
+        "postclip": 0.9999996423721313
+      },
+      "parameter_hash": "22ef2fb16e73565df5dd3a8ba3d8700f55fb5720a348ca8e882b8cb997fe2c2c",
+      "optimizer_hash": "87b6848371e3e195290497593d7496432602f7d0b01e6beb508c3342e397539b",
+      "registered_global_step_label": 111
+    },
+    {
+      "epoch": 0,
+      "global_step": 57,
+      "step": 57,
+      "loss": {
+        "total": 0.62641441822052,
+        "hold": 0.3810470700263977,
+        "cross": 0.39490699768066406,
+        "observed": 0.3814457654953003,
+        "consistency": 0.1953856647014618
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 7.052079677581787,
+        "postclip": 0.9999998211860657
+      },
+      "parameter_hash": "0daefd6829bf68c23a72090ba02c9405bec5026c1f4a91b67fa29a4ad1b08b20",
+      "optimizer_hash": "85a5203ee955ac0bd18d4340cf0a32a53c8d269076febe5ab287b99886324f1a",
+      "registered_global_step_label": 113
+    },
+    {
+      "epoch": 0,
+      "global_step": 58,
+      "step": 58,
+      "loss": {
+        "total": 1.3500440120697021,
+        "hold": 0.8473516702651978,
+        "cross": 0.828754186630249,
+        "observed": 0.8127232193946838,
+        "consistency": 0.14085671305656433
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 13.947185516357422,
+        "postclip": 0.9999998211860657
+      },
+      "parameter_hash": "806baa4cee7089115f0f196fb9b28f86200f3bea75dea781a5f26309e2bfebaa",
+      "optimizer_hash": "942d06304a7c0d332ac8aafed8170dbe3c0c02e0fd3e7e95274d17ab6e045078",
+      "registered_global_step_label": 115
+    },
+    {
+      "epoch": 0,
+      "global_step": 59,
+      "step": 59,
+      "loss": {
+        "total": 0.5591821074485779,
+        "hold": 0.34330523014068604,
+        "cross": 0.3499414622783661,
+        "observed": 0.3423795700073242,
+        "consistency": 0.1333632469177246
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 5.642158508300781,
+        "postclip": 0.9999998211860657
+      },
+      "parameter_hash": "582e195ffe4b10f2007043c7b887e005ee94ed8e8a2d1075480af00f6dc42ee7",
+      "optimizer_hash": "e5cf41b2b6f180cbf0b1f064a8576f84fdd17050ff0c9acc3e9ea69c81e87b5e",
+      "registered_global_step_label": 117
+    },
+    {
+      "epoch": 0,
+      "global_step": 60,
+      "step": 60,
+      "loss": {
+        "total": 0.5608629584312439,
+        "hold": 0.3453236222267151,
+        "cross": 0.34891459345817566,
+        "observed": 0.34227481484413147,
+        "consistency": 0.137090265750885
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 5.727015972137451,
+        "postclip": 0.9999998211860657
+      },
+      "parameter_hash": "3bbdff4e41396626df0094fea7d551d5665f5d777824fccd1137cf3cb19bed11",
+      "optimizer_hash": "90f55740ea4575174963e5333a7012a7c5e07a945a02bf9d34c1b544acc2ce38",
+      "registered_global_step_label": 119
+    },
+    {
+      "epoch": 0,
+      "global_step": 61,
+      "step": 61,
+      "loss": {
+        "total": 0.5042168498039246,
+        "hold": 0.30752626061439514,
+        "cross": 0.31535518169403076,
+        "observed": 0.2969434857368469,
+        "consistency": 0.18637263774871826
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 4.623787879943848,
+        "postclip": 0.9999997615814209
+      },
+      "parameter_hash": "dd3726034296f41ed236f11232b7c0f4a9e2dcaea9424f3eb757a818d5ce79f6",
+      "optimizer_hash": "26009a82181b4b18edabab9f514332564888987e11669c6c3b85775bc57ea099",
+      "registered_global_step_label": 121
+    },
+    {
+      "epoch": 0,
+      "global_step": 62,
+      "step": 62,
+      "loss": {
+        "total": 0.33676522970199585,
+        "hold": 0.19975771009922028,
+        "cross": 0.2118324488401413,
+        "observed": 0.1881096363067627,
+        "consistency": 0.24560672044754028
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 2.725694179534912,
+        "postclip": 0.9999998211860657
+      },
+      "parameter_hash": "6eeac6f9a6aef53e72e32ad36f875d6c7f2c6d7e0a12b2840fb1ad1a309afacf",
+      "optimizer_hash": "1bd7b3f9e4fb65dccda68313467c6124ba31988c2d1792b40aa0ec5d6d10b398",
+      "registered_global_step_label": 123
+    },
+    {
+      "epoch": 0,
+      "global_step": 63,
+      "step": 63,
+      "loss": {
+        "total": 0.5315630435943604,
+        "hold": 0.3377419114112854,
+        "cross": 0.3119177520275116,
+        "observed": 0.3008202314376831,
+        "consistency": 0.15560376644134521
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 4.837899208068848,
+        "postclip": 0.9999997615814209
+      },
+      "parameter_hash": "65adec8bc9b3ba6122b59abeb81b5d60a3df97e96452b926148b20fc019e2fbd",
+      "optimizer_hash": "f54a8e143354750c2bc759dbba3a292049eb3867d4340f219e4b438f3214674e",
+      "registered_global_step_label": 125
+    },
+    {
+      "epoch": 0,
+      "global_step": 64,
+      "step": 64,
+      "loss": {
+        "total": 0.46143639087677,
+        "hold": 0.28546565771102905,
+        "cross": 0.2769532799720764,
+        "observed": 0.26986002922058105,
+        "consistency": 0.2101619988679886
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 5.493770122528076,
+        "postclip": 0.9999998211860657
+      },
+      "parameter_hash": "eba3e855d8d46ca5b386296ea52f8e81eac7b63d117692ed093f64d028179ca9",
+      "optimizer_hash": "7caad12d5986cee4308e760213a86a2d1d41f76116690f384452ad5d71caea9a",
+      "registered_global_step_label": 127
+    },
+    {
+      "epoch": 0,
+      "global_step": 65,
+      "step": 65,
+      "loss": {
+        "total": 0.5583586096763611,
+        "hold": 0.34662264585494995,
+        "cross": 0.33926939964294434,
+        "observed": 0.3298661708831787,
+        "consistency": 0.18229274451732635
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 5.921143054962158,
+        "postclip": 0.9999998807907104
+      },
+      "parameter_hash": "bf8126cd5cdb53c86d2bdaa2e0ec4150463f5e8b9c51a0ff572c53bc06a1e2ed",
+      "optimizer_hash": "12a3c896cf15716b4574b9c4fe7c0b2f9a457a6035368db55d7414e4f82d031f",
+      "registered_global_step_label": 129
+    },
+    {
+      "epoch": 0,
+      "global_step": 66,
+      "step": 66,
+      "loss": {
+        "total": 0.3056963384151459,
+        "hold": 0.18764537572860718,
+        "cross": 0.176232248544693,
+        "observed": 0.162627175450325,
+        "consistency": 0.27344298362731934
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 3.418870449066162,
+        "postclip": 0.9999996423721313
+      },
+      "parameter_hash": "4a9f93c63e2db67497f1d81a40fed2a11b0dda8af580a9c367792612bc975cbe",
+      "optimizer_hash": "e6a451736fce2374e65d520eef887a80e70ca6b3b614150615e78d4bc7aa3488",
+      "registered_global_step_label": 131
+    },
+    {
+      "epoch": 0,
+      "global_step": 67,
+      "step": 67,
+      "loss": {
+        "total": 1.5993202924728394,
+        "hold": 0.993078351020813,
+        "cross": 1.0050668716430664,
+        "observed": 0.9887974858283997,
+        "consistency": 0.09657537937164307
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 16.53329849243164,
+        "postclip": 0.9999998211860657
+      },
+      "parameter_hash": "330d448536bb9bb62c7568d97a9589df9d1dd7e7353280865f97016f3378ecd3",
+      "optimizer_hash": "7b57e647245c5e3a584594afd36c7564647d4e5e2d542d2d3d67bc2e4e4a19c2",
+      "registered_global_step_label": 133
+    },
+    {
+      "epoch": 0,
+      "global_step": 68,
+      "step": 68,
+      "loss": {
+        "total": 0.3077976107597351,
+        "hold": 0.1933484673500061,
+        "cross": 0.17794737219810486,
+        "observed": 0.16807153820991516,
+        "consistency": 0.1733660250902176
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 2.0396437644958496,
+        "postclip": 0.9999995827674866
+      },
+      "parameter_hash": "3aa7aa8399b148e4be3ff273b4835a1420c84e882aa1f0bdea2d73a707ce9f77",
+      "optimizer_hash": "df311bcca73ca62950bfacf1bd90286a62585541bc42e9e102281e37eed47769",
+      "registered_global_step_label": 135
+    },
+    {
+      "epoch": 0,
+      "global_step": 69,
+      "step": 69,
+      "loss": {
+        "total": 0.5518074631690979,
+        "hold": 0.3550556004047394,
+        "cross": 0.3205275535583496,
+        "observed": 0.312907874584198,
+        "consistency": 0.1039474830031395
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 4.932271957397461,
+        "postclip": 0.9999997019767761
+      },
+      "parameter_hash": "d5efa097078bcd48152db04cc1a9e707f64b8c1d95cfe8e577c5df5509cd06da",
+      "optimizer_hash": "a92d8e9c694f3543808a792a2d1fff105c624773696a4293ba00dd803841ad44",
+      "registered_global_step_label": 137
+    },
+    {
+      "epoch": 0,
+      "global_step": 70,
+      "step": 70,
+      "loss": {
+        "total": 0.46216344833374023,
+        "hold": 0.2735927700996399,
+        "cross": 0.2988128662109375,
+        "observed": 0.26833489537239075,
+        "consistency": 0.2466154545545578
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 3.840907096862793,
+        "postclip": 0.9999998211860657
+      },
+      "parameter_hash": "33b667a13a25f435e474cc55177153587947f0024d251289c08ee94b3e23a99a",
+      "optimizer_hash": "71fcd3a76650007194690120021e91453e354a058a788fe715b8263f51c20414",
+      "registered_global_step_label": 139
+    },
+    {
+      "epoch": 0,
+      "global_step": 71,
+      "step": 71,
+      "loss": {
+        "total": 0.3234853744506836,
+        "hold": 0.20787091553211212,
+        "cross": 0.1762310266494751,
+        "observed": 0.16435456275939941,
+        "consistency": 0.2212701141834259
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 2.0246386528015137,
+        "postclip": 0.9999995231628418
+      },
+      "parameter_hash": "94ff985836f6ff73ef92bccaa53c45e6ee096e2aade063fced4fa9b34bc23bf2",
+      "optimizer_hash": "d1002db55bd09459cfc6108e624aa9761d2acbc7f6fd903705d4990d2a3b3fc7",
+      "registered_global_step_label": 141
+    },
+    {
+      "epoch": 0,
+      "global_step": 72,
+      "step": 72,
+      "loss": {
+        "total": 0.6458543539047241,
+        "hold": 0.40338748693466187,
+        "cross": 0.39345884323120117,
+        "observed": 0.3815173804759979,
+        "consistency": 0.15171459317207336
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 6.223079681396484,
+        "postclip": 0.9999997615814209
+      },
+      "parameter_hash": "62c1ffa20dbf7177e3034bf0fc7a078c8bf9c53f7ffb8cb8090f78e1d22e5207",
+      "optimizer_hash": "c8f2c7f096c52de5a57d643bf314e21679a9e3e0d8b7c38b7e16bf0b6f35ab95",
+      "registered_global_step_label": 143
+    },
+    {
+      "epoch": 0,
+      "global_step": 73,
+      "step": 73,
+      "loss": {
+        "total": 0.31904667615890503,
+        "hold": 0.19777387380599976,
+        "cross": 0.19211368262767792,
+        "observed": 0.18700647354125977,
+        "consistency": 0.1303057074546814
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 4.645873546600342,
+        "postclip": 0.9999997019767761
+      },
+      "parameter_hash": "4d5c31accc602532936a548345461e1cf5aba0b0500d48fdad3fdebe60d445c6",
+      "optimizer_hash": "7838dd4af9863311bc28cb2839821cf026cde4159d26ca46a05935fbf60d6890",
+      "registered_global_step_label": 145
+    },
+    {
+      "epoch": 0,
+      "global_step": 74,
+      "step": 74,
+      "loss": {
+        "total": 0.6861400604248047,
+        "hold": 0.4204977750778198,
+        "cross": 0.4314976930618286,
+        "observed": 0.41777220368385315,
+        "consistency": 0.16232463717460632
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 6.857609748840332,
+        "postclip": 0.9999998807907104
+      },
+      "parameter_hash": "5cbc455e5602d60363ea348965fab694f0ca470338dd90fbdf01a7308236cc4b",
+      "optimizer_hash": "b63232685c6b670a1fe3e7b4d697069eefe41620f05be8ba2c9d2cab63ec09af",
+      "registered_global_step_label": 147
+    },
+    {
+      "epoch": 0,
+      "global_step": 75,
+      "step": 75,
+      "loss": {
+        "total": 0.3600817322731018,
+        "hold": 0.21776103973388672,
+        "cross": 0.21827250719070435,
+        "observed": 0.20215700566768646,
+        "consistency": 0.25937485694885254
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 3.629725456237793,
+        "postclip": 0.9999997615814209
+      },
+      "parameter_hash": "e998bfeb296abf9cd6db1032a7ddc609a98e06df9dbde684e4eb4bb18c9bc734",
+      "optimizer_hash": "9acfec8b586001154b166e75c59cce20934ad1416a0b5773410cc399cb39954f",
+      "registered_global_step_label": 149
+    },
+    {
+      "epoch": 0,
+      "global_step": 76,
+      "step": 76,
+      "loss": {
+        "total": 0.2432345449924469,
+        "hold": 0.1359919011592865,
+        "cross": 0.14978525042533875,
+        "observed": 0.12599657475948334,
+        "consistency": 0.39500707387924194
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 3.0692665576934814,
+        "postclip": 0.9999996423721313
+      },
+      "parameter_hash": "adfb2e91f75caa643e2a1de32bbd0bcc4b87ec66acd851ede06f97284bc57fc2",
+      "optimizer_hash": "42e4ea0326828dbc2b249a731645e76935470e7ebac6a4b266477ea680e3ebfe",
+      "registered_global_step_label": 151
+    },
+    {
+      "epoch": 0,
+      "global_step": 77,
+      "step": 77,
+      "loss": {
+        "total": 0.557909369468689,
+        "hold": 0.3482360243797302,
+        "cross": 0.34024518728256226,
+        "observed": 0.333904504776001,
+        "consistency": 0.12320601940155029
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 5.527812480926514,
+        "postclip": 0.9999999403953552
+      },
+      "parameter_hash": "bc9c4231b6ae53ec314e4af2db40462e99325f587e8e5d2080210e6d6535f379",
+      "optimizer_hash": "fed1d432bb6747cdbe828350f4d131f6c3d868867c100ab74aafa89336e08ef1",
+      "registered_global_step_label": 153
+    },
+    {
+      "epoch": 0,
+      "global_step": 78,
+      "step": 78,
+      "loss": {
+        "total": 0.3000200390815735,
+        "hold": 0.18547889590263367,
+        "cross": 0.1681600958108902,
+        "observed": 0.13842546939849854,
+        "consistency": 0.3323711156845093
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 1.4377210140228271,
+        "postclip": 0.9999993443489075
+      },
+      "parameter_hash": "c704ce751462e574b6d28d44991d9a551dc5d175f85eb438262aa455de0094dc",
+      "optimizer_hash": "90499dce456cb0932698046bc4f626a53c2b80c2cd27c71baf352ce732df717f",
+      "registered_global_step_label": 155
+    },
+    {
+      "epoch": 0,
+      "global_step": 79,
+      "step": 79,
+      "loss": {
+        "total": 0.545399010181427,
+        "hold": 0.34381839632987976,
+        "cross": 0.32798534631729126,
+        "observed": 0.31807953119277954,
+        "consistency": 0.1155996024608612
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 5.243496894836426,
+        "postclip": 0.9999998807907104
+      },
+      "parameter_hash": "40523ac94676d883227aaecbc983f125df91f977cefbcfefeca61587b921ddf5",
+      "optimizer_hash": "a03be0c75d8f8dcc35821dca845aa4377e28909099a1ee1b4fcbc2d248b2e743",
+      "registered_global_step_label": 157
+    },
+    {
+      "epoch": 0,
+      "global_step": 80,
+      "step": 80,
+      "loss": {
+        "total": 0.27791470289230347,
+        "hold": 0.15426430106163025,
+        "cross": 0.18611884117126465,
+        "observed": 0.15553905069828033,
+        "consistency": 0.30074185132980347
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 2.640536069869995,
+        "postclip": 0.9999995827674866
+      },
+      "parameter_hash": "40a00346a720990525f616973be10b98f0c183b2c2a4b7ed01a38c403a676889",
+      "optimizer_hash": "8b356a061862b93b18046b2c161bc2578a129cb69dec155eb5a12cf41c121442",
+      "registered_global_step_label": 159
+    },
+    {
+      "epoch": 0,
+      "global_step": 81,
+      "step": 81,
+      "loss": {
+        "total": 0.4480736255645752,
+        "hold": 0.2697451710700989,
+        "cross": 0.2831488251686096,
+        "observed": 0.26899194717407227,
+        "consistency": 0.1970972716808319
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 4.047772407531738,
+        "postclip": 0.9999997019767761
+      },
+      "parameter_hash": "99c27fb895cb03005d4a0b8085c68389c09a3e370deb1a5bccb7cf2b280aaa41",
+      "optimizer_hash": "d962b1ee517258c0970170c40637880fdc1d7a8dbba025b2ded1c8abd6f3de53",
+      "registered_global_step_label": 161
+    },
+    {
+      "epoch": 0,
+      "global_step": 82,
+      "step": 82,
+      "loss": {
+        "total": 0.26359444856643677,
+        "hold": 0.14965997636318207,
+        "cross": 0.17008483409881592,
+        "observed": 0.15137767791748047,
+        "consistency": 0.27508601546287537
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 3.161773204803467,
+        "postclip": 0.9999997019767761
+      },
+      "parameter_hash": "fda28392cb1d96b8bc07594539e4927f01cc51152eae34b3d2d43b012734dc4e",
+      "optimizer_hash": "48261a52ecb085d04f95fd2ec6c623199bee613cb0a425582cb42313bce49392",
+      "registered_global_step_label": 163
+    },
+    {
+      "epoch": 0,
+      "global_step": 83,
+      "step": 83,
+      "loss": {
+        "total": 0.41824913024902344,
+        "hold": 0.24832044541835785,
+        "cross": 0.27176570892333984,
+        "observed": 0.2622058093547821,
+        "consistency": 0.1565047800540924
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 3.8416717052459717,
+        "postclip": 0.9999998211860657
+      },
+      "parameter_hash": "4fb7032a0ef4e7d6bf76a7ba3419ca6dc69e563443cf82a80ef4091a3ce704fd",
+      "optimizer_hash": "c42ea0881133ca369d06545522bbd6748192b9fbfc2002d559f5077869b295ed",
+      "registered_global_step_label": 165
+    },
+    {
+      "epoch": 1,
+      "global_step": 84,
+      "step": 1,
+      "loss": {
+        "total": 0.4789676070213318,
+        "hold": 0.29977571964263916,
+        "cross": 0.2891710698604584,
+        "observed": 0.2830183506011963,
+        "consistency": 0.12609003484249115
+      },
+      "lr": 0.00019999451693655123,
+      "gradient": {
+        "preclip": 4.582246780395508,
+        "postclip": 0.9999997019767761
+      },
+      "parameter_hash": "ef89edeac68cfef348f9b71e1e342eb0fcf2be121eb08fe053058992cb3f3998",
+      "optimizer_hash": "6ae2143fac9d58aef1b95dedf9e8389d76eb0e9ef6c6e9d81d96cdb98e463578",
+      "registered_global_step_label": 84
+    },
+    {
+      "epoch": 1,
+      "global_step": 85,
+      "step": 2,
+      "loss": {
+        "total": 0.2628583014011383,
+        "hold": 0.14236921072006226,
+        "cross": 0.176605224609375,
+        "observed": 0.14320868253707886,
+        "consistency": 0.35731208324432373
+      },
+      "lr": 0.00019999451693655123,
+      "gradient": {
+        "preclip": 1.7916741371154785,
+        "postclip": 0.9999995827674866
+      },
+      "parameter_hash": "d6278f738118630b37754096bb1f658c4dbf646a4ed7ae7afd9a6a09cbf2dc30",
+      "optimizer_hash": "a1cbefc051566523cb5cc63823474a3ee27f7887e8d6bbdbd6044af077b6b435",
+      "registered_global_step_label": 86
+    },
+    {
+      "epoch": 1,
+      "global_step": 86,
+      "step": 3,
+      "loss": {
+        "total": 0.38231366872787476,
+        "hold": 0.2208247035741806,
+        "cross": 0.2496379166841507,
+        "observed": 0.2244236320257187,
+        "consistency": 0.28455281257629395
+      },
+      "lr": 0.00019999451693655123,
+      "gradient": {
+        "preclip": 3.5005481243133545,
+        "postclip": 0.9999997615814209
+      },
+      "parameter_hash": "dd841d82e1eb3fa322d9b5525af6852689db683d5026ea3e44fd0731e0f97020",
+      "optimizer_hash": "e784296a456dc2ddd8c3f28ccf401ebcc260e3dbfcf56f0aec49035a0545b813",
+      "registered_global_step_label": 88
+    },
+    {
+      "epoch": 1,
+      "global_step": 87,
+      "step": 4,
+      "loss": {
+        "total": 0.4811681807041168,
+        "hold": 0.29342615604400635,
+        "cross": 0.30051448941230774,
+        "observed": 0.29150351881980896,
+        "consistency": 0.16668866574764252
+      },
+      "lr": 0.00019999451693655123,
+      "gradient": {
+        "preclip": 5.2364020347595215,
+        "postclip": 0.9999998211860657
+      },
+      "parameter_hash": "53eb45feb1ab596e70ae6f4d7f84161821ca0aae72cfde0522bfdf8995b90d4a",
+      "optimizer_hash": "d24b6190766efc01629bb5c339e082ef78c3ceb945951b7e1f7cc4ebc0fd9459",
+      "registered_global_step_label": 90
+    },
+    {
+      "epoch": 1,
+      "global_step": 88,
+      "step": 5,
+      "loss": {
+        "total": 0.3027040958404541,
+        "hold": 0.17155194282531738,
+        "cross": 0.19715480506420135,
+        "observed": 0.17595790326595306,
+        "consistency": 0.29957863688468933
+      },
+      "lr": 0.00019999451693655123,
+      "gradient": {
+        "preclip": 3.257049798965454,
+        "postclip": 0.9999997615814209
+      },
+      "parameter_hash": "c25dd88e3116154358305ec647337db4785cb9704205c673a0b040ea128f9226",
+      "optimizer_hash": "5282f43234ea5e3e2b3b6c32037682d9bb073ad4f62baaf82b5bce935fe26517",
+      "registered_global_step_label": 92
+    },
+    {
+      "epoch": 1,
+      "global_step": 89,
+      "step": 6,
+      "loss": {
+        "total": 0.3917357921600342,
+        "hold": 0.24253499507904053,
+        "cross": 0.2357783317565918,
+        "observed": 0.22615855932235718,
+        "consistency": 0.17391586303710938
+      },
+      "lr": 0.00019999451693655123,
+      "gradient": {
+        "preclip": 4.066038608551025,
+        "postclip": 0.9999998211860657
+      },
+      "parameter_hash": "cf6d35daf13f4178c8bca8d5645d41980a78c4d502494add86b26e6bf18a605f",
+      "optimizer_hash": "a03eb5c5133276b16a63524568f54078597bdb1e457110b484c07ba76bc2e08b",
+      "registered_global_step_label": 94
+    },
+    {
+      "epoch": 1,
+      "global_step": 90,
+      "step": 7,
+      "loss": {
+        "total": 0.3101685047149658,
+        "hold": 0.18389193713665009,
+        "cross": 0.20015262067317963,
+        "observed": 0.19111230969429016,
+        "consistency": 0.14178049564361572
+      },
+      "lr": 0.00019999451693655123,
+      "gradient": {
+        "preclip": 2.8234002590179443,
+        "postclip": 0.9999997615814209
+      },
+      "parameter_hash": "a0721438b16568bd24ae927454417be8c2e142fdec82d04b24f163477d9c07e1",
+      "optimizer_hash": "0520aaf6445a54fff91cb4c5759c6b5abc5cb91e1026ab4afe3e50abd0bc100a",
+      "registered_global_step_label": 96
+    },
+    {
+      "epoch": 1,
+      "global_step": 91,
+      "step": 8,
+      "loss": {
+        "total": 0.8012534976005554,
+        "hold": 0.4968162178993225,
+        "cross": 0.501802921295166,
+        "observed": 0.499105304479599,
+        "consistency": 0.07250537723302841
+      },
+      "lr": 0.00019999451693655123,
+      "gradient": {
+        "preclip": 8.53305721282959,
+        "postclip": 0.9999999403953552
+      },
+      "parameter_hash": "4899338ed229566d5a6eb0a42ceb83b1e393617170b14f48da5fddd9fd2934d4",
+      "optimizer_hash": "81fd9ba2d5404252c0c6591f212e59558cb0dad55fb322245d3664f01578ab7b",
+      "registered_global_step_label": 98
+    },
+    {
+      "epoch": 1,
+      "global_step": 92,
+      "step": 9,
+      "loss": {
+        "total": 0.2597622871398926,
+        "hold": 0.15666553378105164,
+        "cross": 0.15586593747138977,
+        "observed": 0.14597442746162415,
+        "consistency": 0.21132677793502808
+      },
+      "lr": 0.00019999451693655123,
+      "gradient": {
+        "preclip": 1.8172105550765991,
+        "postclip": 0.999999463558197
+      },
+      "parameter_hash": "07c1f8abb9de43335c1e7dd0fd010b853340ff92e1926620e5c46c8eac8b0ba0",
+      "optimizer_hash": "faff868e2a11ed315b68470503be9037fc4cc9b881374857da773be428b2f46d",
+      "registered_global_step_label": 100
+    },
+    {
+      "epoch": 1,
+      "global_step": 93,
+      "step": 10,
+      "loss": {
+        "total": 0.34216615557670593,
+        "hold": 0.20385387539863586,
+        "cross": 0.21557305753231049,
+        "observed": 0.19884143769741058,
+        "consistency": 0.21283221244812012
+      },
+      "lr": 0.00019999451693655123,
+      "gradient": {
+        "preclip": 2.852627754211426,
+        "postclip": 0.9999997019767761
+      },
+      "parameter_hash": "8eecce57a021254ce132dda8be709c699a5791c270fc21396aa53ba4a8ca27d6",
+      "optimizer_hash": "82523d31c5d3ca3a4ce2ca1afe4e06956e0d268bb17ef3a050b87116c1d69391",
+      "registered_global_step_label": 102
+    },
+    {
+      "epoch": 1,
+      "global_step": 94,
+      "step": 11,
+      "loss": {
+        "total": 0.3599856495857239,
+        "hold": 0.24564138054847717,
+        "cross": 0.17000338435173035,
+        "observed": 0.15205118060112,
+        "consistency": 0.2827492952346802
+      },
+      "lr": 0.00019999451693655123,
+      "gradient": {
+        "preclip": 2.7898454666137695,
+        "postclip": 0.9999995827674866
+      },
+      "parameter_hash": "55603e3cd560926d8f8b62e06735f776063b8dfb046dfaa0d90cbdbc71af47b1",
+      "optimizer_hash": "8958078a60ff7763801515519819ad9ac3f7651d9faed27288aba02b05c1f722",
+      "registered_global_step_label": 104
+    },
+    {
+      "epoch": 1,
+      "global_step": 95,
+      "step": 12,
+      "loss": {
+        "total": 0.23058393597602844,
+        "hold": 0.12946565449237823,
+        "cross": 0.14494121074676514,
+        "observed": 0.135684072971344,
+        "consistency": 0.3015856146812439
+      },
+      "lr": 0.00019999451693655123,
+      "gradient": {
+        "preclip": 5.975633144378662,
+        "postclip": 0.9999998211860657
+      },
+      "parameter_hash": "aad3f12ae2de466c815415edeed189ff7558e626a8fdce8464de6139c3fea2ca",
+      "optimizer_hash": "e9c3555033e57bb8655124140eab04efb37f517050ce7535f496c9e2075c7651",
+      "registered_global_step_label": 106
+    },
+    {
+      "epoch": 1,
+      "global_step": 96,
+      "step": 13,
+      "loss": {
+        "total": 0.36232805252075195,
+        "hold": 0.2229921817779541,
+        "cross": 0.21862205862998962,
+        "observed": 0.21048513054847717,
+        "consistency": 0.17952632904052734
+      },
+      "lr": 0.00019999451693655123,
+      "gradient": {
+        "preclip": 3.4599545001983643,
+        "postclip": 0.9999997615814209
+      },
+      "parameter_hash": "80da3359f943d9a92aaf5efa4f418a9a6e0bf01ebce1ace130a79d42e45a42dd",
+      "optimizer_hash": "0c582e700f276abab99149217e225dd480ea40b92d9e430c0014aa1d2b601db9",
+      "registered_global_step_label": 108
+    },
+    {
+      "epoch": 1,
+      "global_step": 97,
+      "step": 14,
+      "loss": {
+        "total": 0.23346170783042908,
+        "hold": 0.1348854899406433,
+        "cross": 0.13778167963027954,
+        "observed": 0.12373502552509308,
+        "consistency": 0.34623727202415466
+      },
+      "lr": 0.00019999451693655123,
+      "gradient": {
+        "preclip": 2.1905922889709473,
+        "postclip": 0.9999995827674866
+      },
+      "parameter_hash": "f9cd95e515ea08ef8df4cac17c657e750ba472237fd84aa77ca00e3e9ade9e8b",
+      "optimizer_hash": "b5ed5ee1beac089d847946600030699ccd88c5ed2cc8003a6990adc3f2a18ffa",
+      "registered_global_step_label": 110
+    },
+    {
+      "epoch": 1,
+      "global_step": 98,
+      "step": 15,
+      "loss": {
+        "total": 0.37218767404556274,
+        "hold": 0.2212774157524109,
+        "cross": 0.22949139773845673,
+        "observed": 0.20871633291244507,
+        "consistency": 0.30585843324661255
+      },
+      "lr": 0.00019999451693655123,
+      "gradient": {
+        "preclip": 2.9785923957824707,
+        "postclip": 0.9999995827674866
+      },
+      "parameter_hash": "11933b14bb3e45a1555c2b972e53b3348eabadb6175bd83bd580635d7075e873",
+      "optimizer_hash": "0df15e8d2b5be7f8698aa6868101a2fd24472c84abe1551a06f01a468b9c1b86",
+      "registered_global_step_label": 112
+    },
+    {
+      "epoch": 1,
+      "global_step": 99,
+      "step": 16,
+      "loss": {
+        "total": 0.29450759291648865,
+        "hold": 0.1698809266090393,
+        "cross": 0.1932811141014099,
+        "observed": 0.17966893315315247,
+        "consistency": 0.20038433372974396
+      },
+      "lr": 0.00019999451693655123,
+      "gradient": {
+        "preclip": 2.5481631755828857,
+        "postclip": 0.9999995827674866
+      },
+      "parameter_hash": "00463b406edc1bdbdcae521da64223bbee0b86a26976f635e5830d018b8b8073",
+      "optimizer_hash": "855a6328993773e4388a9345c219182a24c2b5e97ede8c82bddf099f2edbb3ca",
+      "registered_global_step_label": 114
+    },
+    {
+      "epoch": 1,
+      "global_step": 100,
+      "step": 17,
+      "loss": {
+        "total": 0.6214429140090942,
+        "hold": 0.38583409786224365,
+        "cross": 0.3822031617164612,
+        "observed": 0.3673708438873291,
+        "consistency": 0.15540316700935364
+      },
+      "lr": 0.00019999451693655123,
+      "gradient": {
+        "preclip": 6.1987385749816895,
+        "postclip": 0.9999998211860657
+      },
+      "parameter_hash": "4b862b07969f8dfad0a14fac35c6a73b41ecb46a15f42211bad342299f58565d",
+      "optimizer_hash": "3aad4ef8c1a0b93f38292f8973648b8e420dd5c0f4b0bfe0a896ee1869d85721",
+      "registered_global_step_label": 116
+    }
+  ],
+  "step1_10_100": [
+    {
+      "epoch": 0,
+      "global_step": 1,
+      "step": 1,
+      "loss": {
+        "total": 24.122255325317383,
+        "hold": 15.025821685791016,
+        "cross": 15.14383602142334,
+        "observed": 15.14632797241211,
+        "consistency": 0.1976255476474762
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 166.1407928466797,
+        "postclip": 1.0
+      },
+      "parameter_hash": "e9a928c565cb24a156a870d5d93d1839d1ce9d7191b1da05f57885f6ffa7c91a",
+      "optimizer_hash": "22d07ed94b1f4546edba722cf96a4bbbddbfa07dc411f73c19fc9ab834d26830",
+      "registered_global_step_label": 1
+    },
+    {
+      "epoch": 0,
+      "global_step": 10,
+      "step": 10,
+      "loss": {
+        "total": 2.218247652053833,
+        "hold": 1.4008712768554688,
+        "cross": 1.3561348915100098,
+        "observed": 1.3583509922027588,
+        "consistency": 0.06947550177574158
+      },
+      "lr": 0.0002,
+      "gradient": {
+        "preclip": 23.144105911254883,
+        "postclip": 0.9999999403953552
+      },
+      "parameter_hash": "0973b643037cc3a094e31d4757d6144413d245b0b00d73bd45925d456da302c9",
+      "optimizer_hash": "7a2d33a404a2ba428c28943e7693c8c75d8abe8b5794f0f99e551e5922242776",
+      "registered_global_step_label": 19
+    },
+    {
+      "epoch": 1,
+      "global_step": 100,
+      "step": 17,
+      "loss": {
+        "total": 0.6214429140090942,
+        "hold": 0.38583409786224365,
+        "cross": 0.3822031617164612,
+        "observed": 0.3673708438873291,
+        "consistency": 0.15540316700935364
+      },
+      "lr": 0.00019999451693655123,
+      "gradient": {
+        "preclip": 6.1987385749816895,
+        "postclip": 0.9999998211860657
+      },
+      "parameter_hash": "4b862b07969f8dfad0a14fac35c6a73b41ecb46a15f42211bad342299f58565d",
+      "optimizer_hash": "3aad4ef8c1a0b93f38292f8973648b8e420dd5c0f4b0bfe0a896ee1869d85721",
+      "registered_global_step_label": 116
+    }
+  ]
+}

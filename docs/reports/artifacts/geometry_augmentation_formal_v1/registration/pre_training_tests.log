@@ -1,0 +1,18 @@
+............../home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/reconstruction/classical.py:70: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /pytorch/aten/src/ATen/Context.cpp:760.)
+  return torch.sparse_csr_tensor(torch.as_tensor(m.indptr.astype(np.int64),device=device),
+/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/reconstruction/classical.py:70: UserWarning: Sparse CSR tensor support is in beta state. If you miss a functionality in the sparse tensor support, please submit a feature request to https://github.com/pytorch/pytorch/issues. (Triggered internally at /pytorch/aten/src/ATen/SparseCsrTensorImpl.cpp:49.)
+  return torch.sparse_csr_tensor(torch.as_tensor(m.indptr.astype(np.int64),device=device),
+......................................................................................................./scratch/djc/envs/gas-torch/lib/python3.12/multiprocessing/popen_fork.py:66: DeprecationWarning: This process (pid=3234780) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  self.pid = os.fork()
+...../home/djc/projects/GeoPhy-Set3D/tests/test_measurement_consistency.py:95: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  self.assertEqual(float(loss), 0); loss.backward()
+..........1/1 case-0 C128 L1=0.000002% C64 L1=0.000002% elapsed=0.8s
+......../scratch/djc/envs/gas-torch/lib/python3.12/multiprocessing/popen_fork.py:66: DeprecationWarning: This process (pid=3234780) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  self.pid = os.fork()
+............................ step=0 fit L1=28.525473% loss=0.00042291536
+...................................................................................
+----------------------------------------------------------------------
+Ran 251 tests in 197.733s
+
+OK
