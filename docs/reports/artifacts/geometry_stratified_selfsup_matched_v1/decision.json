@@ -1,0 +1,75 @@
+{
+  "stage": "D",
+  "decision": "NO-GO",
+  "rules": {
+    "natural_not_clearly_worse": false,
+    "low_improves_direction": false,
+    "high_not_materially_harmed": true
+  },
+  "natural_macro": {
+    "section": "natural",
+    "V": "macro3_4_6",
+    "stratum": "natural",
+    "metric": "relative_l1",
+    "Control": 0.09971758180564055,
+    "Treatment": 0.10121203083699656,
+    "delta": 0.0014944490313560318,
+    "relative_change": 0.014986815808157694,
+    "ci": [
+      0.0004840229192043881,
+      0.0025491851985188284
+    ],
+    "unit": "36case; average5draws first",
+    "bootstrap_samples": 10000,
+    "bootstrap_seed": 2026101404,
+    "wins": 11,
+    "losses": 25,
+    "ties": 0
+  },
+  "low_macro": {
+    "section": "controlled",
+    "V": "macro3_4_6",
+    "stratum": "low",
+    "metric": "relative_l1",
+    "Control": 0.1024930912124766,
+    "Treatment": 0.10451119689129856,
+    "delta": 0.002018105678821949,
+    "relative_change": 0.0196901630631693,
+    "ci": [
+      0.0008024464179071729,
+      0.0033032741790933163
+    ],
+    "unit": "36case; average5draws first",
+    "bootstrap_samples": 10000,
+    "bootstrap_seed": 2026101404,
+    "wins": 10,
+    "losses": 26,
+    "ties": 0
+  },
+  "high_macro": {
+    "section": "controlled",
+    "V": "macro3_4_6",
+    "stratum": "high",
+    "metric": "relative_l1",
+    "Control": 0.0876119665464362,
+    "Treatment": 0.08859905356384691,
+    "delta": 0.0009870870174107033,
+    "relative_change": 0.011266577572910958,
+    "ci": [
+      -0.00014895633593616636,
+      0.002176267517020026
+    ],
+    "unit": "36case; average5draws first",
+    "bootstrap_samples": 10000,
+    "bootstrap_seed": 2026101404,
+    "wins": 15,
+    "losses": 21,
+    "ties": 0
+  },
+  "registered_gate": {
+    "natural_macro": "Treatment-Control 95%CI lower must not exceed0",
+    "low_macro": "mean delta<0; CI reported",
+    "high_macro": "reject material harm if mean relative increase>5% AND CI lower>0",
+    "clustered": "secondary only"
+  }
+}

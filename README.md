@@ -2,7 +2,7 @@
 
 基于物理约束的三维气体羽流重建研究项目。
 
-当前阶段：冻结几何分层评价已实际完成，两个模型在V3/V4/V6均通过预登记Stage C GO；见 [中文验证报告](docs/reports/geometry_strata_frozen_v1_zh.md)。高度轴已前瞻修复，V3/V4全组合与V6十万唯一组合边界冻结。自然随机与clustered历史指标8,640项逐条复现完全一致，229项全仓测试通过。正在登记并执行仅改变A/B采样联合分布的fresh匹配300轮Control/Treatment；见 [优化前训练协议](docs/geometry_stratified_selfsup_matched_v1_protocol_zh.md)。原 [方案修订](docs/research_revision_geometry_classical_v1_zh.md)、[经典报告](docs/reports/classical_v4_comparison_v1_zh.md) 和所有历史结论保留；经典有限预算不是理论下限。RVTC关闭、结构/损失/原SelfSup v1冻结，Pool B/test/GT128不参与。新训练须两组完整结束并冻结best后才单独posthoc GT64评价；完成后停止，不追加下一轮。
+当前阶段：冻结几何分层验证和fresh匹配300轮采样实验均已实际完成。高度轴从z修为y，Pool A V3/V4全组合与V6十万唯一组合边界冻结；两个冻结模型在三个V均通过Stage C几何排序GO，见 [中文验证报告](docs/reports/geometry_strata_frozen_v1_zh.md)。随后Control/Treatment各完成24,900步、同初态/顺序/V/目标/selector，只改变A/B联合采样；Stage D为 **NO-GO**：Treatment自然macro三维L1增加约1.50%、low增加约1.97%，配对区间支持受损，clustered增加约7.80%。见 [匹配实验中文报告](docs/reports/geometry_stratified_selfsup_matched_v1_zh.md) 和 [优化前协议](docs/geometry_stratified_selfsup_matched_v1_protocol_zh.md)。训练/验证/选择GT读取为0，两组300轮与best冻结后先测量评价，再独立posthoc GT64。原SelfSup v1仍为最终GT-free基线，RVTC关闭，架构/损失/历史产物保留；经典算法有限预算结论见 [原报告](docs/reports/classical_v4_comparison_v1_zh.md)，不称理论下限。本轮结束，不调score/sampler、不启动下一轮训练，不读取Pool B/test/GT128。
 
 ## 开发环境
 
