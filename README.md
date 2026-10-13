@@ -2,7 +2,7 @@
 
 基于物理约束的三维气体羽流重建研究项目。
 
-当前阶段：已实现 v1.3 协议要求的静态末帧数据集生成流程，包括独立 TDLAS 几何、参考投影器、物理验证、case 划分、断点续跑和冻结审计。
+当前阶段：冻结数据与 SelfSup-MRGR v1 / 监督 MRGR 网络，修订自由稀疏视角定义，优先执行同输入的三维经典算法比较。适用定义及评价边界见 [中文方案修订](docs/research_revision_geometry_classical_v1_zh.md)，算法公式、来源及预算见 [经典算法登记](docs/classical_methods_v1_zh.md)。原 v0.5 技术计划及所有历史结果保留；RVTC NO-GO 不改判。V3/V4/V6 几何分层只登记，第一轮实测限于原36 Val×5draw×Original/Targeted/Random V4。下一阶段依据实测判断是否需要一次匹配的几何分层采样训练，本轮不启动新训练。
 
 ## 开发环境
 

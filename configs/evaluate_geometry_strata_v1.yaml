@@ -1,0 +1,12 @@
+name: pool_a_geometry_strata_v1
+dataset: /data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1
+output: /data/djc/GeoPhy-Set3D/outputs/evaluations/classical_v4_v1/geometry
+pool: train
+views: [3, 4, 6]
+seed: 2026101301
+pregenerated_combinations_per_V: 256
+stratification: center_direction_score_tertiles_of_pregenerated_geometry_only
+coverage_resolution: 16
+samples: 96
+sections: [natural_random, controlled_geometry_strata, extreme_clustered_pressure]
+run_model_evaluation: false

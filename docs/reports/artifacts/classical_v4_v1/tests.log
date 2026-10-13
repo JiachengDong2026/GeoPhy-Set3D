@@ -1,0 +1,28 @@
+test_adjoint (test_classical_reconstruction.ClassicalTests.test_adjoint) ... /home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/reconstruction/classical.py:70: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /pytorch/aten/src/ATen/Context.cpp:760.)
+  return torch.sparse_csr_tensor(torch.as_tensor(m.indptr.astype(np.int64),device=device),
+/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/reconstruction/classical.py:70: UserWarning: Sparse CSR tensor support is in beta state. If you miss a functionality in the sparse tensor support, please submit a feature request to https://github.com/pytorch/pytorch/issues. (Triggered internally at /pytorch/aten/src/ATen/SparseCsrTensorImpl.cpp:49.)
+  return torch.sparse_csr_tensor(torch.as_tensor(m.indptr.astype(np.int64),device=device),
+ok
+test_conversion_boundaries_roundtrip (test_classical_reconstruction.ClassicalTests.test_conversion_boundaries_roundtrip) ... ok
+test_nonlinear_forward_gradient_and_discretization (test_classical_reconstruction.ClassicalTests.test_nonlinear_forward_gradient_and_discretization) ... ok
+test_phantom_reconstruction_convergence (test_classical_reconstruction.ClassicalTests.test_phantom_reconstruction_convergence) ... ok
+test_physical_gradient_and_regularizer_gradient (test_classical_reconstruction.ClassicalTests.test_physical_gradient_and_regularizer_gradient) ... ok
+test_valid_zero_invalid_and_padding (test_classical_reconstruction.ClassicalTests.test_valid_zero_invalid_and_padding) ... ok
+test_zero_constant_units_xyz_and_paths (test_classical_reconstruction.ClassicalTests.test_zero_constant_units_xyz_and_paths) ... ok
+test_asymmetric_affine_xyz_independent_quadrature_and_autograd (test_differentiable_projector_resolution.ProjectorResolutionTests.test_asymmetric_affine_xyz_independent_quadrature_and_autograd) ... ok
+test_constant_64_and_128_pic_and_invalid_ray (test_differentiable_projector_resolution.ProjectorResolutionTests.test_constant_64_and_128_pic_and_invalid_ray) ... ok
+test_all_station_fields_and_mask_indexed_together (test_clustered_one_swap.AccessAndAlignmentTests.test_all_station_fields_and_mask_indexed_together) ... ok
+test_forbidden_reads_and_writes (test_clustered_one_swap.AccessAndAlignmentTests.test_forbidden_reads_and_writes) ... ok
+test_parameter_buffer_hash_frozen_inference (test_clustered_one_swap.AccessAndAlignmentTests.test_parameter_buffer_hash_frozen_inference) ... ok
+test_registration_blocks_gt_and_measurements (test_clustered_one_swap.AccessAndAlignmentTests.test_registration_blocks_gt_and_measurements) ... ok
+test_exact_tie_break_and_antiparallel (test_clustered_one_swap.GeometryTests.test_exact_tie_break_and_antiparallel) ... ok
+test_exhaustive_score_optimum_and_three_preserved (test_clustered_one_swap.GeometryTests.test_exhaustive_score_optimum_and_three_preserved) ... ok
+test_replay_random_shared_deletion_h_disjoint_and_coincidence_retained (test_clustered_one_swap.GeometryTests.test_replay_random_shared_deletion_h_disjoint_and_coincidence_retained) ... ok
+test_five_draws_then_36_case_bootstrap (test_clustered_one_swap.PairingTests.test_five_draws_then_36_case_bootstrap) ... ok
+test_gt_evaluation_rejected_before_complete_training (test_selfsup_evaluation_boundary.SelfsupEvaluationBoundaryTests.test_gt_evaluation_rejected_before_complete_training) ... ok
+test_gt_evaluation_requires_frozen_hash_and_no_gt_provenance (test_selfsup_evaluation_boundary.SelfsupEvaluationBoundaryTests.test_gt_evaluation_requires_frozen_hash_and_no_gt_provenance) ... ok
+
+----------------------------------------------------------------------
+Ran 19 tests in 7.453s
+
+OK

@@ -1,0 +1,29 @@
+name: classical_v4_v1
+dataset: /data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1
+output: /data/djc/GeoPhy-Set3D/outputs/evaluations/classical_v4_v1
+device: cuda:1
+precision: fp32
+calibration_count: 12
+calibration_rule: rounded_linspace_source_index_train_order
+calibration_geometries: [ordinary_random_V4, clustered_draw0_V4]
+calibration_seed: 2026101302
+calibration_H4_seed: 2026101303
+selection_identities: [GT_assisted_train_relative_l1, measurement_train_H4_relative_l1]
+selection_rule: equal_case_and_geometry_weight_mean_error_tie_candidate_index
+resolution: 64
+projector_samples: 96
+normalization_scale_ppm_m: 32284.894580078173
+bootstrap: {samples: 10000, seed: 2026101304, unit: case_after_five_draw_mean, confidence: 0.95}
+SART:
+  candidates: [{relaxation: 0.25}, {relaxation: 0.5}, {relaxation: 0.8}]
+  fixed: {iterations: 150, minimum_iterations: 30, tolerance: 0.00001, patience: 8}
+Tikhonov:
+  candidates: [{lambda: 0.00001}, {lambda: 0.0001}, {lambda: 0.001}]
+  fixed: {iterations: 200, minimum_iterations: 40, tolerance: 0.00001, patience: 8, initial_step: 1000.0, step_bounds: [0.00001, 1000000.0], max_backtracks: 20, armijo: 0.0001}
+TV:
+  candidates: [{lambda: 0.0001}, {lambda: 0.001}, {lambda: 0.01}]
+  fixed: {iterations: 200, minimum_iterations: 40, tolerance: 0.00001, patience: 8, initial_step: 1000.0, step_bounds: [0.00001, 1000000.0], max_backtracks: 20, armijo: 0.0001, epsilon: 0.0001}
+validation_conditions: [Original, Targeted, Random]
+validation_cases: 36
+validation_draws: 5
+optional_ordinary_V4: false
