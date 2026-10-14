@@ -1,0 +1,25 @@
+Traceback (most recent call last):
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/evaluate_deep_comparison.py", line 198, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/evaluate_deep_comparison.py", line 196, in main
+    else:globals()[a.phase](c,a.device)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/evaluate_deep_comparison.py", line 105, in infer
+    row=dict(record=r,**ident,**measures,prediction_file=str(file),prediction_sha256=sha256(file),checkpoint_sha256=freeze['sha256'],
+                                                                                     ^^^^^^^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/deep_comparison.py", line 17, in sha256
+    with Path(path).open('rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/selfsup_c0c1_diagnostic.py", line 34, in _audit
+    super()._audit(event, args)
+  File "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/clustered_one_swap.py", line 130, in _audit
+    else:self.deny('pool_b_attempts' if p.name=='ood_geometry.npz' else 'nonval_or_unknown_npy_attempts','Unregistered geometry/cache forbidden')
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/clustered_one_swap.py", line 106, in deny
+    self.counts[key]+=1;self.counts['forbidden_attempts']+=1;raise PermissionError(message)
+                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: Unregistered geometry/cache forbidden

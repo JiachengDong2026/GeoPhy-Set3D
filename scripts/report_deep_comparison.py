@@ -62,15 +62,23 @@ def plot(c,out,case,stats,training):
     ax.set(xticks=range(5),xticklabels=GROUPS,yticks=range(36),yticklabels=range(36),ylabel='Original Val case index',title='Ours - DeepSets, case/group mean 3D L1');fig.colorbar(im,ax=ax);save(fig,'case_group_delta')
     source=[json.loads(l) for l in (Path(c['dataset']['root'])/'source_index.jsonl').read_text().splitlines()];source=[r for r in source if r['split']=='val']
     old=Path(c['comparison']['reference_predictions'])
+    # Reuse only the nine prespecified archived Ours arrays, without any forward.
+    for i in c['comparison']['representative_cases']:
+        for g in c['comparison']['representative_groups']:
+            token=f'case{i}_V4-{g}-d0';r=json.loads((old/'prediction_rows'/f'normal_{token}.json').read_text())
+            assert sha256(r['prediction_file'])==r['prediction_sha256']
+            target=out/'case_images'/f'ours_{token}.npz'
+            if not target.exists():shutil.copy2(r['prediction_file'],target)
+            assert sha256(target)==r['prediction_sha256']
     with DiagnosticReadGuard(c['dataset']['root'],[],out,'gt') as guard:
         for i in c['comparison']['representative_cases']:
             gt=np.load(Path(c['dataset']['root'])/source[i]['gt_volume_64_path'],allow_pickle=False)
             data=[]
             for g in c['comparison']['representative_groups']:
                 token=f'case{i}_V4-{g}-d0';row=json.loads((out/'prediction_rows'/f'{token}.json').read_text());assert sha256(row['prediction_file'])==row['prediction_sha256']
-                orow=json.loads((old/'prediction_rows'/f'normal_{token}.json').read_text());assert sha256(orow['prediction_file'])==orow['prediction_sha256']
+                orow=json.loads((old/'prediction_rows'/f'normal_{token}.json').read_text());reused_ours=out/'case_images'/f'ours_{token}.npz';assert sha256(reused_ours)==orow['prediction_sha256']
                 with np.load(row['prediction_file'],allow_pickle=False) as f:base=f['prediction']
-                with np.load(orow['prediction_file'],allow_pickle=False) as f:ours=f['C1']
+                with np.load(reused_ours,allow_pickle=False) as f:ours=f['C1']
                 data.append((g,ours,base))
             for view in ['slice','ymean']:
                 def project(v):return v[:,c['comparison']['slice_y_index'],:].T if view=='slice' else v.mean(1).T
@@ -241,7 +249,7 @@ tail基于36个case/group五layout均值；逐layout900行保留用于描述，�
 
 ## 交付与访问边界
 
-实际正式预算300epochs/24,900steps；主预测900、selector replay36次batch2前向/72个case预测、成本DeepSets360/Ours360；成功独立smoke七次batch2 forward/一步，失败检查两次batch2 forward/零步，不计正式预算；正式train/Val分别49,800/10,800次batch2 model调用。完整现有回归259项通过，新增独立配对统计三项通过。历史源码（除新增注册）、dataset、旧输出/checkpoint metadata/hash核验通过；GT128仅核对冻结metadata，内容未读。
+实际正式预算300epochs/24,900steps；主预测900、selector replay36次batch2前向/72个case预测、成本DeepSets360/Ours360；成功独立smoke七次batch2 forward/一步，失败检查两次batch2 forward/零步，不计正式预算；正式train/Val分别49,800/10,800次batch2 model调用。完整现有回归259项通过，新增独立配对统计三项通过。首次主评价因旧guard仅允许case_images子目录而阻止读取本run已保存的NPZ；更正输出子目录并保留失败审计。首个预测SHA核验后复用，仅补测量/身份记录，没有重复network forward；该行前向独立耗时未保存，记null，不估计，统一9输入成本benchmark完整。禁读原始GT/Pool B/test/foreign checkpoint尝试仍0。历史源码（除新增注册）、dataset、旧输出/checkpoint metadata/hash核验通过；GT128仅核对冻结metadata，内容未读。
 
 配置 `configs/train_deepsets_selfsup_v1.yaml`；训练入口 `scripts/train_deepsets_selfsup.py`；统一接口 `src/geophy_set3d/training/deep_comparison.py`；独立评价 `scripts/evaluate_deep_comparison.py`；报告入口 `scripts/report_deep_comparison.py`。标量/图/协议/审计在本报告同目录artifacts；大预测与checkpoint仅外部目录`{out}`和`/data/djc/GeoPhy-Set3D/outputs/checkpoints/deepsets_selfsup_v1`，不提交Git。
 '''

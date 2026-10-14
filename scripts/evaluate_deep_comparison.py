@@ -71,7 +71,7 @@ def infer(c,device):
     out,p,freeze=verify(c);records=json.loads((out/'station_subsets.json').read_text());existing=rows_saved(out,records);done={row_token(r['record']) for r in existing}
     if len(done)==900:
         seal_predictions(out,records,freeze);print('All 900 saved outputs verified; no duplicate inference',flush=True);return
-    (out/'predictions').mkdir(exist_ok=True);(out/'prediction_rows').mkdir(exist_ok=True)
+    (out/'case_images').mkdir(exist_ok=True);(out/'prediction_rows').mkdir(exist_ok=True)
     seed_everything(c['training']['seed']);torch.set_num_threads(2);ref=pd.read_csv(Path(c['comparison']['reference_artifact'])/'paired_900.csv').set_index(['case_id','group','draw'])
     with DiagnosticReadGuard(c['dataset']['root'],[freeze['checkpoint']],out,'inference') as guard:
         model=load_baseline(c,freeze,device);before=state_hash(model.state_dict());ds=dataset(dict(dataset=c['dataset']['root'],original_seed=c['training']['seed']))
@@ -91,19 +91,29 @@ def infer(c,device):
                     for key,val in ident.items():assert old[key]==val,key
                     ident['complete_input_sha256']=tensor_identity(*[b[k] for k in sorted(b) if isinstance(b[k],torch.Tensor)])
                     ident['complete_H_sha256']=tensor_identity(*[h[k] for k in sorted(h) if isinstance(h[k],torch.Tensor)])
-                    token=row_token(r);events.write(json.dumps(dict(at=now(),token=token,event='forward_started'))+'\n')
-                    torch.cuda.synchronize(device);torch.cuda.reset_peak_memory_stats(device);t=time.perf_counter();pred=check_prediction(model(b),b);torch.cuda.synchronize(device)
-                    seconds=time.perf_counter()-t;peak=torch.cuda.max_memory_allocated(device)
+                    token=row_token(r);file=out/'case_images'/f'{token}.npz'
+                    reused=file.exists()
+                    if reused:
+                        recovery=json.loads((out/'prediction_recovery.json').read_text())
+                        assert recovery['token']==token and recovery['prediction_sha256']==sha256(file) and recovery['checkpoint_sha256']==freeze['sha256']
+                        with np.load(file,allow_pickle=False) as a:pred=check_prediction(torch.from_numpy(a['prediction'].copy())[None,None].to(device),b)
+                        seconds=None;peak=None
+                        events.write(json.dumps(dict(at=now(),token=token,event='saved_forward_reused'))+'\n')
+                    else:
+                        events.write(json.dumps(dict(at=now(),token=token,event='forward_started'))+'\n')
+                        torch.cuda.synchronize(device);torch.cuda.reset_peak_memory_stats(device);t=time.perf_counter();pred=check_prediction(model(b),b);torch.cuda.synchronize(device)
+                        seconds=time.perf_counter()-t;peak=torch.cuda.max_memory_allocated(device)
                     measures={}
                     for prefix,batch in [('observed',b),('heldout',h)]:
                         projected=project_input(pred,batch);valid=batch['input_valid_ray'][0,:,0].bool()&batch['view_mask'][0,:,None,None]
                         metrics=relative_projection_metrics(projected[0,:,0],batch['input_projection_raw'][0,:,0],valid)
                         measures.update({prefix+'_'+k:v for k,v in metrics.items()})
-                    file=out/'predictions'/f'{token}.npz';temporary=file.with_suffix('.tmp')
-                    with temporary.open('wb') as f:np.savez(f,prediction=pred[0,0].cpu().numpy())
-                    os.replace(temporary,file)
+                    file=out/'case_images'/f'{token}.npz';temporary=file.with_suffix('.tmp')
+                    if not reused:
+                        with temporary.open('wb') as f:np.savez(f,prediction=pred[0,0].cpu().numpy())
+                        os.replace(temporary,file)
                     row=dict(record=r,**ident,**measures,prediction_file=str(file),prediction_sha256=sha256(file),checkpoint_sha256=freeze['sha256'],
-                             protocol_sha256=sha256(out/'protocol.json'),forward_seconds=seconds,peak_gpu_allocated_bytes=peak,
+                             protocol_sha256=sha256(out/'protocol.json'),saved_forward_reused=reused,forward_seconds=seconds,peak_gpu_allocated_bytes=peak,
                              output_min=float(pred.min()),output_max=float(pred.max()),output_mean=float(pred.mean()),output_std=float(pred.std(unbiased=False)))
                     write_json(out/'prediction_rows'/f'{token}.json',row);done.add(token)
                     events.write(json.dumps(dict(at=now(),token=token,event='saved',sha256=row['prediction_sha256']))+'\n')
