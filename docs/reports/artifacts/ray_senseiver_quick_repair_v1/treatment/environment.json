@@ -1,0 +1,129 @@
+{
+  "torch_version": "2.11.0+cu128",
+  "numpy_version": "2.5.3",
+  "cuda_version": "12.8",
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "git_commit": "1337bb4fae72c4f950ee82156bf711831139e646",
+  "git_dirty": true,
+  "seed": 20261011,
+  "precision": "fp32",
+  "test_used": false,
+  "arm": "treatment",
+  "initial_hash": "5ba2648d5311be7d4237560e11989454b23c9d0b58a95f30194b028bddf91f8c",
+  "config": {
+    "dataset": {
+      "root": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1"
+    },
+    "experiment": {
+      "name": "ray_senseiver_quick_repair_v1",
+      "output_root": "/data/djc/GeoPhy-Set3D/outputs"
+    },
+    "loader": {
+      "num_workers": 0,
+      "persistent_workers": false,
+      "pin_memory": true
+    },
+    "loss": {
+      "hold": 1.0,
+      "cross": 0.5,
+      "observed": 0.1,
+      "consistency": 0.0,
+      "beta": 0.01,
+      "relative_l1": 0.0,
+      "relative_epsilon": 1e-06,
+      "measurement_scale": 32284.894580078173
+    },
+    "model": {
+      "name": "ray_senseiver_ss",
+      "num_latents": 64,
+      "latent_channels": 64,
+      "preproc_channels": 64,
+      "num_layers": 3,
+      "self_layers_per_block": 3,
+      "cross_heads": 4,
+      "self_heads": 4,
+      "decoder_channels": 64,
+      "decoder_heads": 4,
+      "output_query_size": 1,
+      "space_bands": 16,
+      "dropout": 0.0,
+      "output_resolution": 64,
+      "output_activation": "sigmoid"
+    },
+    "normalization": {
+      "method": "linear_p99_5",
+      "statistics_file": "train_statistics.json"
+    },
+    "optimizer": {
+      "lr": 0.0002,
+      "name": "adamw",
+      "weight_decay": 0.0001
+    },
+    "train": {
+      "split": "train",
+      "geometry_pool": "train",
+      "a_views": [
+        3,
+        5
+      ],
+      "b_views": [
+        3,
+        5
+      ],
+      "heldout_views": 2
+    },
+    "training": {
+      "batch_size": 2,
+      "device": "cuda:0",
+      "gradient_accumulation": 1,
+      "gradient_clip_norm": 1.0,
+      "max_epochs": 80,
+      "precision": "fp32",
+      "seed": 20261011
+    },
+    "scheduler": {
+      "name": "cosine",
+      "T_max": 300
+    },
+    "runtime": {
+      "query_chunk_size": 16384,
+      "decoder_checkpoint": true
+    },
+    "probe": {
+      "case_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "sampler_epoch": 0,
+      "shuffle": false,
+      "diagnostic_case_indices": [
+        0,
+        1,
+        2
+      ],
+      "health_every": 5,
+      "weight_factor": 0.01,
+      "logit_clamp": [
+        1e-06,
+        0.999999
+      ],
+      "dependence_epsilon": 1e-12
+    },
+    "intervention": {
+      "direction": "decoder",
+      "kind": "global_latent_residual",
+      "channels": 64,
+      "bias": false,
+      "initialization": "zeros",
+      "relative_l1": 0.0,
+      "consistency": 0.0
+    }
+  },
+  "at": "2026-10-14T21:18:42.336901+08:00"
+}

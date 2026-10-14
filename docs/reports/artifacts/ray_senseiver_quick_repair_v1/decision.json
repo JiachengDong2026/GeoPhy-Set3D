@@ -1,0 +1,35 @@
+{
+  "status": "REPAIR_FAILED_NO_GO",
+  "conditions": {
+    "last3_H_below_090": false,
+    "no_engineering_or_collapse": true,
+    "distinguishable_case": true,
+    "two_measurement_dependent_cases": false,
+    "all_groups_gradient_update_valid": true
+  },
+  "paired_epochs": 30,
+  "paired_updates": 120,
+  "actual_budget": {
+    "control": {
+      "epochs": 35,
+      "updates": 140,
+      "reason": "FAILED_TO_LEARN",
+      "seconds": 83.2294917628169,
+      "peak_gpu_allocated_bytes": 772681728
+    },
+    "treatment": {
+      "epochs": 30,
+      "updates": 120,
+      "reason": "FAILED_TO_LEARN",
+      "seconds": 75.93852732982486,
+      "peak_gpu_allocated_bytes": 770267648
+    }
+  },
+  "readout_readable": {
+    "ridge": true,
+    "query": true
+  },
+  "stop_here": true,
+  "no_full_training": true,
+  "no_second_repair": true
+}

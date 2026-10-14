@@ -1,0 +1,21 @@
+test_frozen_configuration_and_own_resume (test_senseiver_consistency_probe.ConsistencyProbeTests.test_frozen_configuration_and_own_resume) ... ok
+test_same_graph_parameter_output_equivalence_and_amplitude (test_senseiver_consistency_probe.ConsistencyProbeTests.test_same_graph_parameter_output_equivalence_and_amplitude) ... FAIL
+
+======================================================================
+FAIL: test_same_graph_parameter_output_equivalence_and_amplitude (test_senseiver_consistency_probe.ConsistencyProbeTests.test_same_graph_parameter_output_equivalence_and_amplitude)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/djc/projects/GeoPhy-Set3D/tests/test_senseiver_consistency_probe.py", line 43, in test_same_graph_parameter_output_equivalence_and_amplitude
+    torch.testing.assert_close(torch.tensor(row['branches']['consistency_weighted']['dL_dalpha']),torch.tensor(row['analytic_consistency_weighted_dL_dalpha']),rtol=1e-3,atol=2e-7)
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/site-packages/torch/testing/_comparison.py", line 1600, in assert_close
+    raise error_metas[0].to_error(msg)
+AssertionError: Scalars are not close!
+
+Expected 1.130796499637654e-05 but got 1.1026859283447266e-05.
+Absolute difference: 2.811057129292749e-07 (up to 2e-07 allowed)
+Relative difference: 0.024859089413466595 (up to 0.001 allowed)
+
+----------------------------------------------------------------------
+Ran 2 tests in 12.065s
+
+FAILED (failures=1)

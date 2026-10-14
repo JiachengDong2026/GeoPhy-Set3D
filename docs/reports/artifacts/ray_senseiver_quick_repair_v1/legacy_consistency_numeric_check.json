@@ -1,0 +1,62 @@
+{
+  "scope": "Synthetic scalar derivative check only, no model/optimizer/data. No old code or tolerance changes.",
+  "shape": [
+    1,
+    1,
+    64,
+    64,
+    64
+  ],
+  "ca": 0.001,
+  "cb_increment": 1e-05,
+  "rows": [
+    {
+      "dtype": "torch.float32",
+      "alpha": 1.0,
+      "AD": 4.76837158203125e-07,
+      "analytic": 4.940515547684485e-07,
+      "absolute_error": 1.7214396565323492e-08,
+      "relative_error": 0.03484332029557424
+    },
+    {
+      "dtype": "torch.float32",
+      "alpha": 0.1,
+      "AD": 4.863739013671875e-05,
+      "analytic": 4.85328893710417e-05,
+      "absolute_error": 1.0450076567705094e-07,
+      "relative_error": 0.0021531948134825827
+    },
+    {
+      "dtype": "torch.float32",
+      "alpha": 0.01,
+      "AD": 0.004093170166015625,
+      "analytic": 0.004094903558227477,
+      "absolute_error": 1.733392211851828e-06,
+      "relative_error": 0.0004233047707238667
+    },
+    {
+      "dtype": "torch.float64",
+      "alpha": 1.0,
+      "AD": 4.940535712552596e-07,
+      "analytic": 4.940535712168351e-07,
+      "absolute_error": 3.842448498188886e-17,
+      "relative_error": 7.77739241662616e-11
+    },
+    {
+      "dtype": "torch.float64",
+      "alpha": 0.1,
+      "AD": 4.85330874323564e-05,
+      "analytic": 4.853308743235709e-05,
+      "absolute_error": 6.844026213814747e-19,
+      "relative_error": 1.4101773812254573e-14
+    },
+    {
+      "dtype": "torch.float64",
+      "alpha": 0.01,
+      "AD": 0.004094920251426437,
+      "analytic": 0.00409492025142811,
+      "absolute_error": 1.6731407925796304e-15,
+      "relative_error": 4.0858934725190795e-13
+    }
+  ]
+}

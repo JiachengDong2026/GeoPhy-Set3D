@@ -1,6 +1,9 @@
 # GeoPhy-Set3D
 
-当前阶段：[Ray-Senseiver 测量信号通路独立诊断](docs/reports/ray_senseiver_signal_path_v1_zh.md)已完成，正式训练仍 **NO-GO**。只读最新consistency Treatment的epoch0/last35，完成30次完整64³干预前向、6个成功259-query局部梯度图，0次optimizer更新；另保留1个工程异常中止局部图及两次版本化执行器修订。
+当前阶段：[Ray-Senseiver快速定位与单次修复闭环](docs/reports/ray_senseiver_quick_repair_v1_zh.md)已完成，**修复失败归档，正式训练NO-GO**。固定四站16例冻结latent读出中，岭回归/query头检查MSE=1.32e−8/2.39e−5（常量4.97e−4），两者均可读；随后只新增4096参数的全局latent解码残差，重新fresh对照。Control35轮/140步、Treatment30轮/120步均FAILED_TO_LEARN；共同e30 H L1=1.06066→1.03528，但L2=.99306→.99587，测量依赖3例均未达1e−3，不能作为有效修复。
+参数共享初态/完整query/真实更新/退出和访问审计通过，无GT64/128、Val、Pool B或test，无历史/读出/smoke权重warm start。新增7项及原模型4项测试通过；旧consistency幅度回归仍有1项FP32数值失败，原日志和有限float64核验保留，不改旧函数或容差。[协议](docs/ray_senseiver_quick_repair_v1_protocol_zh.md)、[唯一设计](docs/ray_senseiver_quick_repair_v1_design_zh.md)、[训练入口](scripts/run_senseiver_single_repair.py)、[结果与决策](docs/reports/artifacts/ray_senseiver_quick_repair_v1/)。本轮停止；唯一后续选择是暂停当前适配路线、沿用已冻结可学习的Ours/DeepSets作为比较对象，不追加结构/loss搜索或300轮。
+
+上一阶段：[Ray-Senseiver 测量信号通路独立诊断](docs/reports/ray_senseiver_signal_path_v1_zh.md)已完成，正式训练仍 **NO-GO**。只读最新consistency Treatment的epoch0/last35，完成30次完整64³干预前向、6个成功259-query局部梯度图，0次optimizer更新；另保留1个工程异常中止局部图及两次版本化执行器修订。
 测量正确进入token，预处理与latent响应非零；末态置零测量的浓度relative MA仅1.77e−5–1.11e−4，错配也几乎不改变原A/H拟合。测量权重列未消失，latent响应较初态弱，sigmoid缩小绝对响应但相对浓度响应系数接近1，尚不能锁定唯一瓶颈。22/24个logit有限差分未通过，原值及访问审计局限完整保留；12项诊断/模型回归通过，参数/buffers/历史hash不变，无GT/Val/Pool B/test。[协议](docs/ray_senseiver_signal_path_v1_protocol_zh.md)、[入口](scripts/diagnose_senseiver_signal_path.py)、[标量及图表](docs/reports/artifacts/ray_senseiver_signal_path_v1/)。
 唯一后续任务建议：独立预登记固定同几何、真实测量均值的latent→标量读出可学习性对照，检验现有latent信息是否能被可靠利用；本轮未实现。完成后停止，不训练、不调loss、不扫描增益或继续搜索，不将当前失败适配解释为原Senseiver能力上限。
 

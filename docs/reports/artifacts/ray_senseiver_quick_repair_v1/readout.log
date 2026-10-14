@@ -1,0 +1,134 @@
+{
+  "at": "2026-10-14T21:09:25.878786+08:00",
+  "config": {
+    "name": "ray_senseiver_quick_repair_v1",
+    "source_config": "configs/ray_senseiver_consistency_probe_v1.yaml",
+    "device": "cuda:0",
+    "seed": 20261011,
+    "readout": {
+      "fit_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "check_indices": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "geometry_source": "docs/reports/artifacts/ray_senseiver_selfsup_v1/geometry_layouts.json",
+      "geometry_id": "V4-G1-d0",
+      "source_checkpoint": "/data/djc/GeoPhy-Set3D/outputs/checkpoints/ray_senseiver_consistency_probe_v1/treatment/last.pt",
+      "checkpoint_sha256": "448ef11e82b0b29e26be2ecc0d10909f575b649cb30c1b00a4142e18219bec71",
+      "ridge_factor": 0.001,
+      "query_updates": 200,
+      "query_lr": 0.0002,
+      "query_weight_decay": 0.01
+    },
+    "reconstruction": {
+      "max_epochs": 80,
+      "max_updates": 320,
+      "relative_l1": 0.0,
+      "consistency": 0.0,
+      "health_every": 5,
+      "dependence_threshold": 0.001
+    }
+  },
+  "source_checkpoint_sha256": "448ef11e82b0b29e26be2ecc0d10909f575b649cb30c1b00a4142e18219bec71",
+  "encoder_identity_before": {
+    "parameters": "23464c04f6a1624000a3dbeb6b859f494829cd71ed6b19231a687bfcc2b6b3da",
+    "buffers": "9e210462da8996f8cbe10abc3b76b7d9d95048462b2f11cb449bf588d7b34a64"
+  },
+  "encoder_identity_after": {
+    "parameters": "23464c04f6a1624000a3dbeb6b859f494829cd71ed6b19231a687bfcc2b6b3da",
+    "buffers": "9e210462da8996f8cbe10abc3b76b7d9d95048462b2f11cb449bf588d7b34a64"
+  },
+  "encoder_grad_buffers_none": true,
+  "encoder_calls": 16,
+  "encoder_updates": 0,
+  "query_updates": 200,
+  "best_query_step": 200,
+  "selection": "fit MSE only; check used once after selection",
+  "training_statistics": {
+    "latent_global_rms": 0.0033949796566396834,
+    "target_mean": 0.03608864919575966,
+    "target_std": 0.019174219255700668
+  },
+  "statistics_sha256": "382c613dbc43946933a4d6187979d9c92f94f9a56b9f455a98a312909d070842",
+  "latents_sha256": "e7abbd8c42d7ca4aa1694b692c6afe426f0ab86d3c8b24e3b4e87f024257b9aa",
+  "ridge_stability": {
+    "lambda_value": 4.096000000000001,
+    "condition_number": 7973.620486633768,
+    "solve_relative_residual": 1.1749496091904413e-15,
+    "dtype": "float64",
+    "intercept": "training target mean; no extra intercept"
+  },
+  "metrics": {
+    "ridge": {
+      "fit": {
+        "MSE": 3.977725251449008e-09,
+        "MAE": 4.827119185156557e-05
+      },
+      "check": {
+        "MSE": 1.3162910642318153e-08,
+        "MAE": 7.286570567628398e-05
+      }
+    },
+    "query": {
+      "fit": {
+        "MSE": 1.5310775966497414e-05,
+        "MAE": 0.0030968800413495173
+      },
+      "check": {
+        "MSE": 2.3885964786441634e-05,
+        "MAE": 0.003197535193883827
+      }
+    },
+    "constant": {
+      "fit": {
+        "MSE": 0.00036765068406568216,
+        "MAE": 0.018468616220188618
+      },
+      "check": {
+        "MSE": 0.0004969343501902226,
+        "MAE": 0.02182684632823479
+      }
+    },
+    "direct_input": {
+      "fit": {
+        "MSE": 3.6957131654589174e-21,
+        "MAE": 4.941914672623726e-11
+      },
+      "check": {
+        "MSE": 7.239495676530518e-21,
+        "MAE": 6.908539365579891e-11
+      }
+    }
+  },
+  "readable": {
+    "ridge": true,
+    "query": true
+  },
+  "seconds": 9.183300252072513,
+  "access": {
+    "gt_file_opened": false,
+    "gt_open_attempts": 0,
+    "forbidden_npy_attempts": 0,
+    "supervised_checkpoint_open_attempts": 0,
+    "projection_open_count": 112,
+    "unique_pool_a_projection_files": 16,
+    "policy": "Only first 16 train Pool A; no GT/Val/Pool B/test; exact source checkpoint in A, own checkpoint directory in C",
+    "audit_hook_inherited_by_workers": true
+  },
+  "no_GT": true
+}
