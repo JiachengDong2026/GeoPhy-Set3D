@@ -1,0 +1,4547 @@
+{
+  "first_logged_epoch": {
+    "epoch": 0,
+    "train": {
+      "loss": {
+        "total": 3.695026254079428,
+        "hold": 2.314961047057646,
+        "cross": 2.2989625302423913,
+        "observed": 2.2997815763375846,
+        "consistency": 0.012115835884013718
+      },
+      "measurement": {
+        "heldout": {
+          "relative_l1": 13.298660191491898,
+          "relative_l2": 5.526133782244834
+        },
+        "cross": {
+          "relative_l1": 13.31451680823684,
+          "relative_l2": 5.673752450368513
+        },
+        "observed": {
+          "relative_l1": 13.31367979668098,
+          "relative_l2": 5.675609528046351
+        }
+      },
+      "output": {
+        "min": 2.2561811420018785e-05,
+        "max": 0.6514120697975159,
+        "mean": 0.04576314079636779,
+        "std": 0.09483702354500971,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 0.09425284074885505
+      },
+      "gradient_norm_max": 137.57077026367188,
+      "case_station_digest": "2a5ab466d172e66ef262ebd86e5c7409860b27ac0799a9725155d61bebe31386",
+      "sample_count": 166,
+      "gt_used": false,
+      "seconds": 39.193677227944136
+    },
+    "val": {
+      "loss": {
+        "total": 0.3009261066714923,
+        "hold": 0.18813542193836635,
+        "cross": 0.18758872068590587,
+        "observed": 0.18758873972627851,
+        "consistency": 0.004748987984688331
+      },
+      "measurement": {
+        "heldout": {
+          "relative_l1": 1.009128471613121,
+          "relative_l2": 0.995886307079568
+        },
+        "cross": {
+          "relative_l1": 1.0091061623474065,
+          "relative_l2": 0.9958908728102216
+        },
+        "observed": {
+          "relative_l1": 1.0091063646100245,
+          "relative_l2": 0.9958909526658578
+        }
+      },
+      "output": {
+        "min": 2.2061891286284663e-05,
+        "max": 0.00013572782336268574,
+        "mean": 5.819159858017681e-05,
+        "std": 9.537995730149741e-06,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 2.949612536440327e-07
+      },
+      "gradient_norm_max": 0.0,
+      "case_station_digest": "8ee6f530b867b124624aa6ad2f4830f3deecd56744882c7f471ef8235d7b44ef",
+      "sample_count": 36,
+      "gt_used": false,
+      "seconds": 1.8396739335730672
+    },
+    "learning_rate": 0.0002,
+    "seconds": 41.054948195349425,
+    "gpu_peak_allocated_bytes": 805046784,
+    "optimizer_steps": 83,
+    "optimizer_steps_this_epoch": 83,
+    "post_clip_gradient_norm_max": 1.0000001192092896,
+    "case_order_sha256": "ebbe45135e7dd951b075a5048b7e32eb187c8d16a6d2b8cd9e1410c5bba1f03f",
+    "historical_station_digest_equal": true,
+    "best": 1.009128471613121,
+    "is_best": true
+  },
+  "historical_best_to_snapshot": {
+    "epoch": 67,
+    "train": {
+      "loss": {
+        "total": 0.3068521961749318,
+        "hold": 0.1915193227938859,
+        "cross": 0.19222073903284878,
+        "observed": 0.1922207388533167,
+        "consistency": 8.606540928031978e-06
+      },
+      "measurement": {
+        "heldout": {
+          "relative_l1": 1.000006896330984,
+          "relative_l2": 0.9999955488805495
+        },
+        "cross": {
+          "relative_l1": 1.0000067079262878,
+          "relative_l2": 0.9999955657294126
+        },
+        "observed": {
+          "relative_l1": 1.0000067079180481,
+          "relative_l2": 0.9999955657236667
+        }
+      },
+      "output": {
+        "min": 1.2351764056006687e-08,
+        "max": 2.5263219072257925e-07,
+        "mean": 5.857804902454603e-08,
+        "std": 1.78266377731613e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.495933010401248e-10
+      },
+      "gradient_norm_max": 0.00044915484613738954,
+      "case_station_digest": "0cc2c626aefcff4567cb13402f0d090b1f71a9e20d2b22478452281e8c8debd8",
+      "sample_count": 166,
+      "gt_used": false,
+      "seconds": 27.31112174736336
+    },
+    "val": {
+      "loss": {
+        "total": 0.29993708845641875,
+        "hold": 0.18766504526138306,
+        "cross": 0.18711928609344694,
+        "observed": 0.18711928692128924,
+        "consistency": 9.430417498555875e-06
+      },
+      "measurement": {
+        "heldout": {
+          "relative_l1": 1.0000064888142006,
+          "relative_l2": 0.9999956546302641
+        },
+        "cross": {
+          "relative_l1": 1.0000064365193626,
+          "relative_l2": 0.9999956637569731
+        },
+        "observed": {
+          "relative_l1": 1.0000064364947148,
+          "relative_l2": 0.9999956637655063
+        }
+      },
+      "output": {
+        "min": 1.2343146060800336e-08,
+        "max": 2.3897942469375266e-07,
+        "mean": 5.729371451342521e-08,
+        "std": 1.7428846906095037e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.2797922320110074e-11
+      },
+      "gradient_norm_max": 0.0,
+      "case_station_digest": "8ee6f530b867b124624aa6ad2f4830f3deecd56744882c7f471ef8235d7b44ef",
+      "sample_count": 36,
+      "gt_used": false,
+      "seconds": 1.783227737993002
+    },
+    "learning_rate": 0.00017637960286346423,
+    "seconds": 29.116187188308686,
+    "gpu_peak_allocated_bytes": 806176256,
+    "optimizer_steps": 5644,
+    "optimizer_steps_this_epoch": 83,
+    "post_clip_gradient_norm_max": 0.00044915484613738954,
+    "case_order_sha256": "c4c86bcf1f34e9349149ca6ed8cab471a334002482d50a54e58b197784ce482a",
+    "historical_station_digest_equal": true,
+    "best": 1.0000064888142006,
+    "is_best": true
+  },
+  "current_checkpoint_epoch": {
+    "epoch": 67,
+    "train": {
+      "loss": {
+        "total": 0.3068521961749318,
+        "hold": 0.1915193227938859,
+        "cross": 0.19222073903284878,
+        "observed": 0.1922207388533167,
+        "consistency": 8.606540928031978e-06
+      },
+      "measurement": {
+        "heldout": {
+          "relative_l1": 1.000006896330984,
+          "relative_l2": 0.9999955488805495
+        },
+        "cross": {
+          "relative_l1": 1.0000067079262878,
+          "relative_l2": 0.9999955657294126
+        },
+        "observed": {
+          "relative_l1": 1.0000067079180481,
+          "relative_l2": 0.9999955657236667
+        }
+      },
+      "output": {
+        "min": 1.2351764056006687e-08,
+        "max": 2.5263219072257925e-07,
+        "mean": 5.857804902454603e-08,
+        "std": 1.78266377731613e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.495933010401248e-10
+      },
+      "gradient_norm_max": 0.00044915484613738954,
+      "case_station_digest": "0cc2c626aefcff4567cb13402f0d090b1f71a9e20d2b22478452281e8c8debd8",
+      "sample_count": 166,
+      "gt_used": false,
+      "seconds": 27.31112174736336
+    },
+    "val": {
+      "loss": {
+        "total": 0.29993708845641875,
+        "hold": 0.18766504526138306,
+        "cross": 0.18711928609344694,
+        "observed": 0.18711928692128924,
+        "consistency": 9.430417498555875e-06
+      },
+      "measurement": {
+        "heldout": {
+          "relative_l1": 1.0000064888142006,
+          "relative_l2": 0.9999956546302641
+        },
+        "cross": {
+          "relative_l1": 1.0000064365193626,
+          "relative_l2": 0.9999956637569731
+        },
+        "observed": {
+          "relative_l1": 1.0000064364947148,
+          "relative_l2": 0.9999956637655063
+        }
+      },
+      "output": {
+        "min": 1.2343146060800336e-08,
+        "max": 2.3897942469375266e-07,
+        "mean": 5.729371451342521e-08,
+        "std": 1.7428846906095037e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.2797922320110074e-11
+      },
+      "gradient_norm_max": 0.0,
+      "case_station_digest": "8ee6f530b867b124624aa6ad2f4830f3deecd56744882c7f471ef8235d7b44ef",
+      "sample_count": 36,
+      "gt_used": false,
+      "seconds": 1.783227737993002
+    },
+    "learning_rate": 0.00017637960286346423,
+    "seconds": 29.116187188308686,
+    "gpu_peak_allocated_bytes": 806176256,
+    "optimizer_steps": 5644,
+    "optimizer_steps_this_epoch": 83,
+    "post_clip_gradient_norm_max": 0.00044915484613738954,
+    "case_order_sha256": "c4c86bcf1f34e9349149ca6ed8cab471a334002482d50a54e58b197784ce482a",
+    "historical_station_digest_equal": true,
+    "best": 1.0000064888142006,
+    "is_best": true
+  },
+  "notes": "First logged train epoch aggregates changing weights across 83 updates; it is not an untrained single-model measurement.",
+  "epochs_read": 68,
+  "all_steps_exact": true,
+  "all_finite_gradients_and_postclip_max": 1.0000001192092896,
+  "full_output_trajectory": [
+    {
+      "epoch": 1,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 13.298660191491898,
+          "relative_l2": 5.526133782244834
+        },
+        "cross": {
+          "relative_l1": 13.31451680823684,
+          "relative_l2": 5.673752450368513
+        },
+        "observed": {
+          "relative_l1": 13.31367979668098,
+          "relative_l2": 5.675609528046351
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.009128471613121,
+          "relative_l2": 0.995886307079568
+        },
+        "cross": {
+          "relative_l1": 1.0091061623474065,
+          "relative_l2": 0.9958908728102216
+        },
+        "observed": {
+          "relative_l1": 1.0091063646100245,
+          "relative_l2": 0.9958909526658578
+        }
+      },
+      "train_loss": {
+        "total": 3.695026254079428,
+        "hold": 2.314961047057646,
+        "cross": 2.2989625302423913,
+        "observed": 2.2997815763375846,
+        "consistency": 0.012115835884013718
+      },
+      "val_loss": {
+        "total": 0.3009261066714923,
+        "hold": 0.18813542193836635,
+        "cross": 0.18758872068590587,
+        "observed": 0.18758873972627851,
+        "consistency": 0.004748987984688331
+      },
+      "train_output": {
+        "min": 2.2561811420018785e-05,
+        "max": 0.6514120697975159,
+        "mean": 0.04576314079636779,
+        "std": 0.09483702354500971,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 0.09425284074885505
+      },
+      "val_output": {
+        "min": 2.2061891286284663e-05,
+        "max": 0.00013572782336268574,
+        "mean": 5.819159858017681e-05,
+        "std": 9.537995730149741e-06,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 2.949612536440327e-07
+      },
+      "train_gradient_norm_max": 137.57077026367188,
+      "post_clip_gradient_norm_max": 1.0000001192092896
+    },
+    {
+      "epoch": 2,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0063338254829184,
+          "relative_l2": 0.9970584641339286
+        },
+        "cross": {
+          "relative_l1": 1.0065392103610777,
+          "relative_l2": 0.997137335780851
+        },
+        "observed": {
+          "relative_l1": 1.0065391238330654,
+          "relative_l2": 0.9971372192064387
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0047625499643822,
+          "relative_l2": 0.9977427253305353
+        },
+        "cross": {
+          "relative_l1": 1.00476129854734,
+          "relative_l2": 0.997745466725109
+        },
+        "observed": {
+          "relative_l1": 1.00476127350859,
+          "relative_l2": 0.9977456805124937
+        }
+      },
+      "train_loss": {
+        "total": 0.3086081486509507,
+        "hold": 0.19273107831018516,
+        "cross": 0.19275571836764555,
+        "observed": 0.19275567851152764,
+        "consistency": 0.004472902163874403
+      },
+      "val_loss": {
+        "total": 0.3004552010032866,
+        "hold": 0.18787877509991327,
+        "cross": 0.18733356479141447,
+        "observed": 0.18733354657888412,
+        "consistency": 0.0035259076652841437
+      },
+      "train_output": {
+        "min": 1.1444904885138385e-05,
+        "max": 0.0001350062811980024,
+        "mean": 4.0550926117368845e-05,
+        "std": 1.0807760598111283e-05,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 2.5440811473994733e-06
+      },
+      "val_output": {
+        "min": 1.1432588507886976e-05,
+        "max": 7.745282346149907e-05,
+        "mean": 3.164875316643803e-05,
+        "std": 5.4769246071690365e-06,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 7.949211117923888e-08
+      },
+      "train_gradient_norm_max": 0.1838921159505844,
+      "post_clip_gradient_norm_max": 0.1838921159505844
+    },
+    {
+      "epoch": 3,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.00424224563327,
+          "relative_l2": 0.9980587124511698
+        },
+        "cross": {
+          "relative_l1": 1.0041655112828936,
+          "relative_l2": 0.9980552319456848
+        },
+        "observed": {
+          "relative_l1": 1.004165539859465,
+          "relative_l2": 0.9980552693013932
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0033230436218055,
+          "relative_l2": 0.998379908577443
+        },
+        "cross": {
+          "relative_l1": 1.0033252192693756,
+          "relative_l2": 0.9983820024713369
+        },
+        "observed": {
+          "relative_l1": 1.003325309090203,
+          "relative_l2": 0.9983819573583388
+        }
+      },
+      "train_loss": {
+        "total": 0.30825604049556227,
+        "hold": 0.19267403451075038,
+        "cross": 0.19243835594998784,
+        "observed": 0.1924383586429688,
+        "consistency": 0.002379889138525419
+      },
+      "val_loss": {
+        "total": 0.30027948319911957,
+        "hold": 0.1878040706117948,
+        "cross": 0.1872590175933308,
+        "observed": 0.1872590316666497,
+        "consistency": 0.0023999823800598583
+      },
+      "train_output": {
+        "min": 7.861046469770372e-06,
+        "max": 7.82929128035903e-05,
+        "mean": 2.7214459608451335e-05,
+        "std": 6.135841097479942e-06,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.0848936047937383e-07
+      },
+      "val_output": {
+        "min": 7.883749276516028e-06,
+        "max": 5.747143950429745e-05,
+        "mean": 2.260654145579287e-05,
+        "std": 4.0774018013031076e-06,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 8.094343125922673e-08
+      },
+      "train_gradient_norm_max": 0.12697623670101166,
+      "post_clip_gradient_norm_max": 0.12697623670101166
+    },
+    {
+      "epoch": 4,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0030658073773036,
+          "relative_l2": 0.9984499173461012
+        },
+        "cross": {
+          "relative_l1": 1.0031075740472457,
+          "relative_l2": 0.9984785041211757
+        },
+        "observed": {
+          "relative_l1": 1.0031075469466098,
+          "relative_l2": 0.9984784988327755
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0026041254768894,
+          "relative_l2": 0.9987068143204441
+        },
+        "cross": {
+          "relative_l1": 1.0026066694598754,
+          "relative_l2": 0.9987085031009474
+        },
+        "observed": {
+          "relative_l1": 1.0026067316205376,
+          "relative_l2": 0.9987085139181617
+        }
+      },
+      "train_loss": {
+        "total": 0.30831727349614524,
+        "hold": 0.1929260973470757,
+        "cross": 0.19207220012883106,
+        "observed": 0.19207219546099744,
+        "consistency": 0.0029571642524125166
+      },
+      "val_loss": {
+        "total": 0.3001701086759567,
+        "hold": 0.18776934842268625,
+        "cross": 0.1872242349717352,
+        "observed": 0.1872242432501581,
+        "consistency": 0.0013244219169589793
+      },
+      "train_output": {
+        "min": 6.108150500949705e-06,
+        "max": 5.7397392083657905e-05,
+        "mean": 2.1300095203876107e-05,
+        "std": 4.086022264177602e-06,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 5.006960674640888e-08
+      },
+      "val_output": {
+        "min": 6.058941380615579e-06,
+        "max": 4.725487087853253e-05,
+        "mean": 1.797063588229422e-05,
+        "std": 3.3720087104771774e-06,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.8512686304563075e-08
+      },
+      "train_gradient_norm_max": 0.08468656241893768,
+      "post_clip_gradient_norm_max": 0.08468656241893768
+    },
+    {
+      "epoch": 5,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0022275291554836,
+          "relative_l2": 0.9989469012208977
+        },
+        "cross": {
+          "relative_l1": 1.002197573468542,
+          "relative_l2": 0.9989520772557164
+        },
+        "observed": {
+          "relative_l1": 1.0021976175185456,
+          "relative_l2": 0.9989520962888285
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0018578835614258,
+          "relative_l2": 0.999059007984708
+        },
+        "cross": {
+          "relative_l1": 1.0018593833410006,
+          "relative_l2": 0.999060258473263
+        },
+        "observed": {
+          "relative_l1": 1.0018593972598637,
+          "relative_l2": 0.9990602821923574
+        }
+      },
+      "train_loss": {
+        "total": 0.3080712292926857,
+        "hold": 0.19260575918548078,
+        "cross": 0.19230207010924097,
+        "observed": 0.19230207567473492,
+        "consistency": 0.0016845356292899203
+      },
+      "val_loss": {
+        "total": 0.30009841670592624,
+        "hold": 0.1877357785900434,
+        "cross": 0.1871904515557819,
+        "observed": 0.18719045569499335,
+        "consistency": 0.0009673142388540631
+      },
+      "train_output": {
+        "min": 4.263960818207124e-06,
+        "max": 4.718511627288535e-05,
+        "mean": 1.4559974586912844e-05,
+        "std": 3.0816779055337145e-06,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.7408461681713205e-07
+      },
+      "val_output": {
+        "min": 4.258515218680259e-06,
+        "max": 3.532440314302221e-05,
+        "mean": 1.3029260647575333e-05,
+        "std": 2.5231750363390392e-06,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.5775331771042796e-08
+      },
+      "train_gradient_norm_max": 0.07361149042844772,
+      "post_clip_gradient_norm_max": 0.07361149042844772
+    },
+    {
+      "epoch": 6,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0017957434462914,
+          "relative_l2": 0.9990995756249467
+        },
+        "cross": {
+          "relative_l1": 1.0017756237977915,
+          "relative_l2": 0.9990876867091584
+        },
+        "observed": {
+          "relative_l1": 1.0017756860640952,
+          "relative_l2": 0.9990877070160407
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0015635278856194,
+          "relative_l2": 0.9991975602524573
+        },
+        "cross": {
+          "relative_l1": 1.0015645046559123,
+          "relative_l2": 0.9991986474759655
+        },
+        "observed": {
+          "relative_l1": 1.001564573611306,
+          "relative_l2": 0.9991986818490227
+        }
+      },
+      "train_loss": {
+        "total": 0.3087032552225044,
+        "hold": 0.19304436463189412,
+        "cross": 0.1925836096865585,
+        "observed": 0.19258361731667117,
+        "consistency": 0.0021744789313721323
+      },
+      "val_loss": {
+        "total": 0.3001052579945988,
+        "hold": 0.18772278229395548,
+        "cross": 0.18717737081978056,
+        "observed": 0.18717737909820345,
+        "consistency": 0.001520903339648309
+      },
+      "train_output": {
+        "min": 3.5480986753100296e-06,
+        "max": 3.569932596292347e-05,
+        "mean": 1.252610066999241e-05,
+        "std": 2.5027683787936684e-06,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 4.830050416769284e-08
+      },
+      "val_output": {
+        "min": 3.5210748592362506e-06,
+        "max": 3.088977246079594e-05,
+        "mean": 1.1079030375387649e-05,
+        "std": 2.2107839630637892e-06,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 2.1875029248314652e-08
+      },
+      "train_gradient_norm_max": 0.1006045937538147,
+      "post_clip_gradient_norm_max": 0.1006045937538147
+    },
+    {
+      "epoch": 7,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0014232718597862,
+          "relative_l2": 0.999264579257379
+        },
+        "cross": {
+          "relative_l1": 1.0014112343402362,
+          "relative_l2": 0.9992730527433579
+        },
+        "observed": {
+          "relative_l1": 1.0014112165239402,
+          "relative_l2": 0.9992730415902713
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0012661661966185,
+          "relative_l2": 0.9993416567171377
+        },
+        "cross": {
+          "relative_l1": 1.0012667988384039,
+          "relative_l2": 0.9993425964163136
+        },
+        "observed": {
+          "relative_l1": 1.0012667498180534,
+          "relative_l2": 0.9993425837454092
+        }
+      },
+      "train_loss": {
+        "total": 0.3092887545206461,
+        "hold": 0.19368287849139018,
+        "cross": 0.19256910196987978,
+        "observed": 0.1925690965839179,
+        "consistency": 0.0012882929716079709
+      },
+      "val_loss": {
+        "total": 0.3000679992967182,
+        "hold": 0.1877103704545233,
+        "cross": 0.18716488199101555,
+        "observed": 0.1871648778518041,
+        "consistency": 0.0011739806149206641
+      },
+      "train_output": {
+        "min": 2.8312053927948e-06,
+        "max": 3.0842467822367325e-05,
+        "mean": 1.0132474614353219e-05,
+        "std": 2.125680554661289e-06,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 6.796705141555646e-08
+      },
+      "val_output": {
+        "min": 2.804413952617324e-06,
+        "max": 2.5902434572344646e-05,
+        "mean": 9.064587149825658e-06,
+        "std": 1.8570879451057245e-06,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.0305244530733099e-08
+      },
+      "train_gradient_norm_max": 0.043217938393354416,
+      "post_clip_gradient_norm_max": 0.043217938393354416
+    },
+    {
+      "epoch": 8,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0011418483810377,
+          "relative_l2": 0.9994006050635004
+        },
+        "cross": {
+          "relative_l1": 1.0011330383673103,
+          "relative_l2": 0.9994082511499096
+        },
+        "observed": {
+          "relative_l1": 1.0011330256126114,
+          "relative_l2": 0.9994082446191322
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0010147481530054,
+          "relative_l2": 0.9994650589690158
+        },
+        "cross": {
+          "relative_l1": 1.00101491858301,
+          "relative_l2": 0.9994658294934884
+        },
+        "observed": {
+          "relative_l1": 1.0010149074152994,
+          "relative_l2": 0.9994658200386729
+        }
+      },
+      "train_loss": {
+        "total": 0.308338440326323,
+        "hold": 0.1929156166243266,
+        "cross": 0.1922784462032548,
+        "observed": 0.19227844602372274,
+        "consistency": 0.0011151123922374323
+      },
+      "val_loss": {
+        "total": 0.30002423541413414,
+        "hold": 0.1877001714375284,
+        "cross": 0.18715460101763406,
+        "observed": 0.1871545985341072,
+        "consistency": 0.0006260805384954438
+      },
+      "train_output": {
+        "min": 2.2349988739733817e-06,
+        "max": 2.5889816242852248e-05,
+        "mean": 8.1401728743091e-06,
+        "std": 1.7393262262786288e-06,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.1171000848163106e-07
+      },
+      "val_output": {
+        "min": 2.2284093574853614e-06,
+        "max": 2.1422178178909235e-05,
+        "mean": 7.347479746992273e-06,
+        "std": 1.542068572035063e-06,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 4.961337531282441e-09
+      },
+      "train_gradient_norm_max": 0.04438997432589531,
+      "post_clip_gradient_norm_max": 0.04438997432589531
+    },
+    {
+      "epoch": 9,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0009664652242838,
+          "relative_l2": 0.9995037028667313
+        },
+        "cross": {
+          "relative_l1": 1.0009562263643228,
+          "relative_l2": 0.9995077835711266
+        },
+        "observed": {
+          "relative_l1": 1.0009562188926753,
+          "relative_l2": 0.9995077787457464
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0008377175396623,
+          "relative_l2": 0.9995533927603479
+        },
+        "cross": {
+          "relative_l1": 1.0008376222352193,
+          "relative_l2": 0.9995540401175389
+        },
+        "observed": {
+          "relative_l1": 1.0008376060649065,
+          "relative_l2": 0.9995540440180365
+        }
+      },
+      "train_loss": {
+        "total": 0.3087221488177058,
+        "hold": 0.19296710588127733,
+        "cross": 0.19284709282668241,
+        "observed": 0.1928470936345767,
+        "consistency": 0.0009357746924043644
+      },
+      "val_loss": {
+        "total": 0.3000103508432706,
+        "hold": 0.1876932606101036,
+        "cross": 0.1871476380361451,
+        "observed": 0.1871476380361451,
+        "consistency": 0.0005701316040358506
+      },
+      "train_output": {
+        "min": 1.8230022078569164e-06,
+        "max": 2.1389700123108923e-05,
+        "mean": 6.796329083877629e-06,
+        "std": 1.50783870463515e-06,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.1051442491297588e-08
+      },
+      "val_output": {
+        "min": 1.8185031649409211e-06,
+        "max": 1.818472628656309e-05,
+        "mean": 6.120509605504291e-06,
+        "std": 1.3128621356685925e-06,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 6.037600134131285e-09
+      },
+      "train_gradient_norm_max": 0.05150294676423073,
+      "post_clip_gradient_norm_max": 0.05150294676423073
+    },
+    {
+      "epoch": 10,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.000793869480562,
+          "relative_l2": 0.9995896019511447
+        },
+        "cross": {
+          "relative_l1": 1.000794493497055,
+          "relative_l2": 0.9995896573356662
+        },
+        "observed": {
+          "relative_l1": 1.0007945073305748,
+          "relative_l2": 0.9995896607280447
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0007140945846542,
+          "relative_l2": 0.9996154742792276
+        },
+        "cross": {
+          "relative_l1": 1.0007138075965258,
+          "relative_l2": 0.9996160411440387
+        },
+        "observed": {
+          "relative_l1": 1.0007138092903212,
+          "relative_l2": 0.9996160426980225
+        }
+      },
+      "train_loss": {
+        "total": 0.30864827460553274,
+        "hold": 0.19294927798839936,
+        "cross": 0.19276219714118772,
+        "observed": 0.19276219929557248,
+        "consistency": 0.0008335993926781398
+      },
+      "val_loss": {
+        "total": 0.30000072055392796,
+        "hold": 0.18768851127889422,
+        "cross": 0.187142852279875,
+        "observed": 0.187142852279875,
+        "consistency": 0.0005300636718554111
+      },
+      "train_output": {
+        "min": 1.536323111395177e-06,
+        "max": 1.8372671547695063e-05,
+        "mean": 5.647397581223154e-06,
+        "std": 1.2764050147056786e-06,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.3513911291594484e-08
+      },
+      "val_output": {
+        "min": 1.5333649798776605e-06,
+        "max": 1.5923797036521137e-05,
+        "mean": 5.259894250128936e-06,
+        "std": 1.149920084899972e-06,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 4.627560779013606e-09
+      },
+      "train_gradient_norm_max": 0.02721397578716278,
+      "post_clip_gradient_norm_max": 0.02721397578716278
+    },
+    {
+      "epoch": 11,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.000680671431392,
+          "relative_l2": 0.9996419951613884
+        },
+        "cross": {
+          "relative_l1": 1.0006708767821837,
+          "relative_l2": 0.9996449725292664
+        },
+        "observed": {
+          "relative_l1": 1.0006708818085073,
+          "relative_l2": 0.9996449742927034
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0006147750552856,
+          "relative_l2": 0.999666175707127
+        },
+        "cross": {
+          "relative_l1": 1.0006143679931263,
+          "relative_l2": 0.999666679775946
+        },
+        "observed": {
+          "relative_l1": 1.0006143831757965,
+          "relative_l2": 0.9996666869302749
+        }
+      },
+      "train_loss": {
+        "total": 0.30816445724073666,
+        "hold": 0.19263939981360034,
+        "cross": 0.19247873190296702,
+        "observed": 0.1924787327108613,
+        "consistency": 0.0007563553261710892
+      },
+      "val_loss": {
+        "total": 0.3000004117687543,
+        "hold": 0.18768482820855248,
+        "cross": 0.1871391443742646,
+        "observed": 0.1871391452021069,
+        "consistency": 0.0006419183272454473
+      },
+      "train_output": {
+        "min": 1.3116031141180429e-06,
+        "max": 1.589472776686307e-05,
+        "mean": 4.888078472022134e-06,
+        "std": 1.0980098371354754e-06,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.991264638892939e-08
+      },
+      "val_output": {
+        "min": 1.3100130900056683e-06,
+        "max": 1.4015789929544553e-05,
+        "mean": 4.558540429873877e-06,
+        "std": 1.0129561599872573e-06,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 3.69701735891681e-09
+      },
+      "train_gradient_norm_max": 0.030483560636639595,
+      "post_clip_gradient_norm_max": 0.030483562499284744
+    },
+    {
+      "epoch": 12,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0005769794149868,
+          "relative_l2": 0.9996824140381273
+        },
+        "cross": {
+          "relative_l1": 1.0005802172652014,
+          "relative_l2": 0.9996871865249454
+        },
+        "observed": {
+          "relative_l1": 1.0005802171864444,
+          "relative_l2": 0.99968718692038
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0005389334674955,
+          "relative_l2": 0.99970479255373
+        },
+        "cross": {
+          "relative_l1": 1.0005384963947088,
+          "relative_l2": 0.999705245472702
+        },
+        "observed": {
+          "relative_l1": 1.000538491190723,
+          "relative_l2": 0.9997052476866403
+        }
+      },
+      "train_loss": {
+        "total": 0.3078582040875791,
+        "hold": 0.19215741609952536,
+        "cross": 0.19277754856879453,
+        "observed": 0.1927775482097304,
+        "consistency": 0.0006851775688119233
+      },
+      "val_loss": {
+        "total": 0.29999035017357933,
+        "hold": 0.18768201602829826,
+        "cross": 0.1871363123257955,
+        "observed": 0.1871363114979532,
+        "consistency": 0.0005309327324438426
+      },
+      "train_output": {
+        "min": 1.1412178082537139e-06,
+        "max": 1.3998143003846053e-05,
+        "mean": 4.272773428757395e-06,
+        "std": 9.672650593117425e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 9.559073929236002e-09
+      },
+      "val_output": {
+        "min": 1.1376210977687151e-06,
+        "max": 1.2569706996146124e-05,
+        "mean": 4.024365839288495e-06,
+        "std": 9.095361422591319e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 3.7453183887592445e-09
+      },
+      "train_gradient_norm_max": 0.021107932552695274,
+      "post_clip_gradient_norm_max": 0.021107932552695274
+    },
+    {
+      "epoch": 13,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0005211814235317,
+          "relative_l2": 0.9997134496937253
+        },
+        "cross": {
+          "relative_l1": 1.0005150909030964,
+          "relative_l2": 0.999717573336952
+        },
+        "observed": {
+          "relative_l1": 1.0005150886645242,
+          "relative_l2": 0.9997175699920297
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0004768873183776,
+          "relative_l2": 0.9997369610827138
+        },
+        "cross": {
+          "relative_l1": 1.0004764238020716,
+          "relative_l2": 0.9997373681297985
+        },
+        "observed": {
+          "relative_l1": 1.000476430902021,
+          "relative_l2": 0.999737375481212
+        }
+      },
+      "train_loss": {
+        "total": 0.30712294686271485,
+        "hold": 0.19185618625347872,
+        "cross": 0.19205844887049803,
+        "observed": 0.19205844887049803,
+        "consistency": 0.0006337907252600417
+      },
+      "val_loss": {
+        "total": 0.3000033423304558,
+        "hold": 0.18767980072233412,
+        "cross": 0.18713408625788158,
+        "observed": 0.1871340854300393,
+        "consistency": 0.0008618823008469513
+      },
+      "train_output": {
+        "min": 1.0015459110945812e-06,
+        "max": 1.2559605238493532e-05,
+        "mean": 3.858141755140916e-06,
+        "std": 8.85567603443152e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.0201026119054696e-08
+      },
+      "val_output": {
+        "min": 9.96265612229763e-07,
+        "max": 1.136254650191404e-05,
+        "mean": 3.5803478921378783e-06,
+        "std": 8.219383232659101e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 3.2544329374241597e-09
+      },
+      "train_gradient_norm_max": 0.019066669046878815,
+      "post_clip_gradient_norm_max": 0.019066667184233665
+    },
+    {
+      "epoch": 14,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.000448325815083,
+          "relative_l2": 0.9997545562112093
+        },
+        "cross": {
+          "relative_l1": 1.0004436660917269,
+          "relative_l2": 0.9997557821961901
+        },
+        "observed": {
+          "relative_l1": 1.000443665064049,
+          "relative_l2": 0.9997557822903701
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0004040728904513,
+          "relative_l2": 0.9997751027541882
+        },
+        "cross": {
+          "relative_l1": 1.0004035781934841,
+          "relative_l2": 0.9997754572664052
+        },
+        "observed": {
+          "relative_l1": 1.0004035811094585,
+          "relative_l2": 0.9997754563833574
+        }
+      },
+      "train_loss": {
+        "total": 0.3075478568852666,
+        "hold": 0.19173656709222908,
+        "cross": 0.19294895698507147,
+        "observed": 0.19294895518975086,
+        "consistency": 0.0008382656503151765
+      },
+      "val_loss": {
+        "total": 0.29998405360513264,
+        "hold": 0.18767724434534708,
+        "cross": 0.18713151497973335,
+        "observed": 0.18713151746326023,
+        "consistency": 0.0005581036061307208
+      },
+      "train_output": {
+        "min": 8.416668606514577e-07,
+        "max": 1.133049499912886e-05,
+        "mean": 3.316725367477123e-06,
+        "std": 7.794143767594949e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.7073245103408193e-08
+      },
+      "val_output": {
+        "min": 8.400710385103594e-07,
+        "max": 9.818832040764391e-06,
+        "mean": 3.0565189237879367e-06,
+        "std": 7.120918251379224e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.8426185180838876e-09
+      },
+      "train_gradient_norm_max": 0.017045799642801285,
+      "post_clip_gradient_norm_max": 0.017045799642801285
+    },
+    {
+      "epoch": 15,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0003961039110676,
+          "relative_l2": 0.9997827751908053
+        },
+        "cross": {
+          "relative_l1": 1.0003918899673192,
+          "relative_l2": 0.9997817288562018
+        },
+        "observed": {
+          "relative_l1": 1.000391892571049,
+          "relative_l2": 0.9997817298752558
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0003576528454377,
+          "relative_l2": 0.9997996017630219
+        },
+        "cross": {
+          "relative_l1": 1.000357132973748,
+          "relative_l2": 0.999799921314204
+        },
+        "observed": {
+          "relative_l1": 1.0003571301852954,
+          "relative_l2": 0.9997999240807882
+        }
+      },
+      "train_loss": {
+        "total": 0.30856330890253364,
+        "hold": 0.19311739432524486,
+        "cross": 0.19236338425831623,
+        "observed": 0.19236338336065592,
+        "consistency": 0.0005576922225131912
+      },
+      "val_loss": {
+        "total": 0.29999033196104896,
+        "hold": 0.18767565819952223,
+        "cross": 0.18712991807195875,
+        "observed": 0.1871299155884319,
+        "consistency": 0.0007345304313477956
+      },
+      "train_output": {
+        "min": 7.40995403702982e-07,
+        "max": 9.977927220461424e-06,
+        "mean": 2.963819744615966e-06,
+        "std": 7.050874338080173e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 7.136835186319754e-09
+      },
+      "val_output": {
+        "min": 7.378208692898625e-07,
+        "max": 8.831208106130362e-06,
+        "mean": 2.7196038685259637e-06,
+        "std": 6.421272464136734e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 2.3379640604456344e-09
+      },
+      "train_gradient_norm_max": 0.015461337752640247,
+      "post_clip_gradient_norm_max": 0.015461337752640247
+    },
+    {
+      "epoch": 16,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.000344972940478,
+          "relative_l2": 0.9998050075234561
+        },
+        "cross": {
+          "relative_l1": 1.0003486918151603,
+          "relative_l2": 0.9998072301291906
+        },
+        "observed": {
+          "relative_l1": 1.000348691888811,
+          "relative_l2": 0.9998072305916016
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0003169900566369,
+          "relative_l2": 0.9998212101281383
+        },
+        "cross": {
+          "relative_l1": 1.000316461898857,
+          "relative_l2": 0.999821497331506
+        },
+        "observed": {
+          "relative_l1": 1.0003164599031902,
+          "relative_l2": 0.9998214975554343
+        }
+      },
+      "train_loss": {
+        "total": 0.30772850958697767,
+        "hold": 0.1920523860727448,
+        "cross": 0.19275312305214892,
+        "observed": 0.19275312377027717,
+        "consistency": 0.0004850051804804748
+      },
+      "val_loss": {
+        "total": 0.2999652822812398,
+        "hold": 0.18767427735858494,
+        "cross": 0.18712853060828316,
+        "observed": 0.18712853143612543,
+        "consistency": 0.00027765705817728303
+      },
+      "train_output": {
+        "min": 6.524113018713251e-07,
+        "max": 8.824826181808021e-06,
+        "mean": 2.6208316279713384e-06,
+        "std": 6.267002769385873e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 7.806701618484624e-09
+      },
+      "val_output": {
+        "min": 6.500395102193579e-07,
+        "max": 7.95894447946921e-06,
+        "mean": 2.42321149181003e-06,
+        "std": 5.794643507532084e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.6031683916902954e-09
+      },
+      "train_gradient_norm_max": 0.014855575747787952,
+      "post_clip_gradient_norm_max": 0.014855575747787952
+    },
+    {
+      "epoch": 17,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.000305062163616,
+          "relative_l2": 0.999829417670043
+        },
+        "cross": {
+          "relative_l1": 1.00029887228341,
+          "relative_l2": 0.9998305968365457
+        },
+        "observed": {
+          "relative_l1": 1.0002988692013053,
+          "relative_l2": 0.999830596056815
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0002789055765287,
+          "relative_l2": 0.9998416732515307
+        },
+        "cross": {
+          "relative_l1": 1.0002783611825095,
+          "relative_l2": 0.9998419316218676
+        },
+        "observed": {
+          "relative_l1": 1.0002783596578384,
+          "relative_l2": 0.9998419322358438
+        }
+      },
+      "train_loss": {
+        "total": 0.30774410966649113,
+        "hold": 0.1921763450625431,
+        "cross": 0.1925840124667409,
+        "observed": 0.1925840104918882,
+        "consistency": 0.0003471654177613904
+      },
+      "val_loss": {
+        "total": 0.29996370358599556,
+        "hold": 0.18767302317751777,
+        "cross": 0.1871272681487931,
+        "observed": 0.1871272623538971,
+        "consistency": 0.00028642721493573237
+      },
+      "train_output": {
+        "min": 5.695014806406107e-07,
+        "max": 7.954816283017863e-06,
+        "mean": 2.3004732489392932e-06,
+        "std": 5.592555531704058e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 6.680948905213313e-09
+      },
+      "val_output": {
+        "min": 5.686424060513673e-07,
+        "max": 7.128822289814707e-06,
+        "mean": 2.143254897014736e-06,
+        "std": 5.185026255923982e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 8.764146551344863e-10
+      },
+      "train_gradient_norm_max": 0.013586960732936859,
+      "post_clip_gradient_norm_max": 0.013586960732936859
+    },
+    {
+      "epoch": 18,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0002732380512083,
+          "relative_l2": 0.9998487391448243
+        },
+        "cross": {
+          "relative_l1": 1.000269668961046,
+          "relative_l2": 0.9998489701176955
+        },
+        "observed": {
+          "relative_l1": 1.0002696680283607,
+          "relative_l2": 0.9998489691935252
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0002529208338515,
+          "relative_l2": 0.9998556295194901
+        },
+        "cross": {
+          "relative_l1": 1.0002523714444225,
+          "relative_l2": 0.999855866098617
+        },
+        "observed": {
+          "relative_l1": 1.00025237098871,
+          "relative_l2": 0.9998558680017897
+        }
+      },
+      "train_loss": {
+        "total": 0.3074979866484562,
+        "hold": 0.19190600370786276,
+        "cross": 0.19262510789446083,
+        "observed": 0.19262510861258908,
+        "consistency": 0.000338411338312456
+      },
+      "val_loss": {
+        "total": 0.29996826085779404,
+        "hold": 0.18767216553290686,
+        "cross": 0.18712640553712845,
+        "observed": 0.18712640470928615,
+        "consistency": 0.00040497353054686554
+      },
+      "train_output": {
+        "min": 5.133563263370888e-07,
+        "max": 7.122990609786939e-06,
+        "mean": 2.0496721384893957e-06,
+        "std": 5.020799422921275e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 2.179512713164554e-09
+      },
+      "val_output": {
+        "min": 5.118062631481735e-07,
+        "max": 6.560627753060544e-06,
+        "mean": 1.952000903631617e-06,
+        "std": 4.775778257764762e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 9.408654054267528e-10
+      },
+      "train_gradient_norm_max": 0.010951114818453789,
+      "post_clip_gradient_norm_max": 0.010951114818453789
+    },
+    {
+      "epoch": 19,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0002454841375288,
+          "relative_l2": 0.9998618622676828
+        },
+        "cross": {
+          "relative_l1": 1.000243101620267,
+          "relative_l2": 0.9998621617430262
+        },
+        "observed": {
+          "relative_l1": 1.0002431022205873,
+          "relative_l2": 0.9998621616124446
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0002249420705358,
+          "relative_l2": 0.9998708031302235
+        },
+        "cross": {
+          "relative_l1": 1.0002243983302934,
+          "relative_l2": 0.9998710183139932
+        },
+        "observed": {
+          "relative_l1": 1.000224397635384,
+          "relative_l2": 0.9998710171616102
+        }
+      },
+      "train_loss": {
+        "total": 0.30787868654153433,
+        "hold": 0.19239899929029397,
+        "cross": 0.19243398093315492,
+        "observed": 0.19243398290800762,
+        "consistency": 0.0003859252678209366
+      },
+      "val_loss": {
+        "total": 0.2999592001239459,
+        "hold": 0.18767125987344319,
+        "cross": 0.18712549325492647,
+        "observed": 0.18712549077139962,
+        "consistency": 0.00025285796356102865
+      },
+      "train_output": {
+        "min": 4.5529114345299604e-07,
+        "max": 6.558751465490786e-06,
+        "mean": 1.8660283596014472e-06,
+        "std": 4.627618804276221e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 2.938865753928813e-09
+      },
+      "val_output": {
+        "min": 4.537315874131309e-07,
+        "max": 5.921589945501182e-06,
+        "mean": 1.7450370156287438e-06,
+        "std": 4.3123196829720467e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 6.832484141952985e-10
+      },
+      "train_gradient_norm_max": 0.010586858727037907,
+      "post_clip_gradient_norm_max": 0.010586858727037907
+    },
+    {
+      "epoch": 20,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0002126389781387,
+          "relative_l2": 0.999877600586879
+        },
+        "cross": {
+          "relative_l1": 1.000214330827807,
+          "relative_l2": 0.9998794136332319
+        },
+        "observed": {
+          "relative_l1": 1.0002143307911822,
+          "relative_l2": 0.999879413529972
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0001974313946003,
+          "relative_l2": 0.9998859489731535
+        },
+        "cross": {
+          "relative_l1": 1.000196908851558,
+          "relative_l2": 0.9998861385864802
+        },
+        "observed": {
+          "relative_l1": 1.0001969091766512,
+          "relative_l2": 0.9998861399281866
+        }
+      },
+      "train_loss": {
+        "total": 0.30833081164992,
+        "hold": 0.19265888433858572,
+        "cross": 0.1927570273359138,
+        "observed": 0.19275702643825346,
+        "consistency": 0.00035419595565966676
+      },
+      "val_loss": {
+        "total": 0.29996127635240555,
+        "hold": 0.1876703997453054,
+        "cross": 0.1871246306432618,
+        "observed": 0.18712463478247324,
+        "consistency": 0.00032189399159202975
+      },
+      "train_output": {
+        "min": 3.969756789956591e-07,
+        "max": 5.916600002819905e-06,
+        "mean": 1.639999399469205e-06,
+        "std": 4.121289077896038e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 6.5343863970517595e-09
+      },
+      "val_output": {
+        "min": 3.966449355630175e-07,
+        "max": 5.265243089525029e-06,
+        "mean": 1.5389454262049185e-06,
+        "std": 3.8388009809461163e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 6.159625627016091e-10
+      },
+      "train_gradient_norm_max": 0.008392910473048687,
+      "post_clip_gradient_norm_max": 0.008392910473048687
+    },
+    {
+      "epoch": 21,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0001876899926707,
+          "relative_l2": 0.9998890825069247
+        },
+        "cross": {
+          "relative_l1": 1.000192516656447,
+          "relative_l2": 0.9998909619753454
+        },
+        "observed": {
+          "relative_l1": 1.0001925163893663,
+          "relative_l2": 0.9998909614949166
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0001797059793884,
+          "relative_l2": 0.9998956410537247
+        },
+        "cross": {
+          "relative_l1": 1.0001791961795514,
+          "relative_l2": 0.9998958177628305
+        },
+        "observed": {
+          "relative_l1": 1.0001791931861135,
+          "relative_l2": 0.9998958171176644
+        }
+      },
+      "train_loss": {
+        "total": 0.3085011033767677,
+        "hold": 0.19284973877022066,
+        "cross": 0.1927251808614616,
+        "observed": 0.19272518193865396,
+        "consistency": 0.00032514592363353233
+      },
+      "val_loss": {
+        "total": 0.2999557563000255,
+        "hold": 0.18766983929607603,
+        "cross": 0.18712406936619017,
+        "observed": 0.18712406853834787,
+        "consistency": 0.00022943817788877318
+      },
+      "train_output": {
+        "min": 3.6026906968800176e-07,
+        "max": 5.263486400508555e-06,
+        "mean": 1.4798343434186648e-06,
+        "std": 3.72892738398172e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.288114706169249e-09
+      },
+      "val_output": {
+        "min": 3.593720521166688e-07,
+        "max": 4.863471531280084e-06,
+        "mean": 1.4067021112396105e-06,
+        "std": 3.542982439422194e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 6.557780112587913e-10
+      },
+      "train_gradient_norm_max": 0.008473443798720837,
+      "post_clip_gradient_norm_max": 0.008473443798720837
+    },
+    {
+      "epoch": 22,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0001727314846796,
+          "relative_l2": 0.9999020900616642
+        },
+        "cross": {
+          "relative_l1": 1.0001707800425566,
+          "relative_l2": 0.9999021730451475
+        },
+        "observed": {
+          "relative_l1": 1.00017078028078,
+          "relative_l2": 0.9999021729120702
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.000159458172486,
+          "relative_l2": 0.9999069060489028
+        },
+        "cross": {
+          "relative_l1": 1.000158957686166,
+          "relative_l2": 0.999907065017903
+        },
+        "observed": {
+          "relative_l1": 1.0001589584456358,
+          "relative_l2": 0.9999070648880488
+        }
+      },
+      "train_loss": {
+        "total": 0.30775960166770294,
+        "hold": 0.19222433954836374,
+        "cross": 0.19253849211227464,
+        "observed": 0.19253849247133875,
+        "consistency": 0.00024335475898690028
+      },
+      "val_loss": {
+        "total": 0.2999529217680295,
+        "hold": 0.18766922586494023,
+        "cross": 0.18712345345152748,
+        "observed": 0.18712345345152748,
+        "consistency": 0.000192513706376
+      },
+      "train_output": {
+        "min": 3.171498974552378e-07,
+        "max": 4.862029072683072e-06,
+        "mean": 1.3176106166616613e-06,
+        "std": 3.3825526383912593e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 2.3491882883419635e-09
+      },
+      "val_output": {
+        "min": 3.1811802614356566e-07,
+        "max": 4.365772383607691e-06,
+        "mean": 1.2537570262970298e-06,
+        "std": 3.1827261453084503e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 3.461931614394993e-10
+      },
+      "train_gradient_norm_max": 0.006419864483177662,
+      "post_clip_gradient_norm_max": 0.006419864483177662
+    },
+    {
+      "epoch": 23,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0001541841628716,
+          "relative_l2": 0.9999110532572009
+        },
+        "cross": {
+          "relative_l1": 1.000154331578647,
+          "relative_l2": 0.9999117299133103
+        },
+        "observed": {
+          "relative_l1": 1.0001543311246255,
+          "relative_l2": 0.9999117299559923
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0001428858196404,
+          "relative_l2": 0.9999161615571229
+        },
+        "cross": {
+          "relative_l1": 1.0001424059129267,
+          "relative_l2": 0.9999163061962921
+        },
+        "observed": {
+          "relative_l1": 1.0001424054678527,
+          "relative_l2": 0.9999163063275921
+        }
+      },
+      "train_loss": {
+        "total": 0.3079939233251365,
+        "hold": 0.19263414499989476,
+        "cross": 0.19224155523690833,
+        "observed": 0.1922415548778442,
+        "consistency": 0.00029692303509232644
+      },
+      "val_loss": {
+        "total": 0.2999518033530977,
+        "hold": 0.18766872253682879,
+        "cross": 0.18712294846773148,
+        "observed": 0.18712295012341607,
+        "consistency": 0.00018614013121502163
+      },
+      "train_output": {
+        "min": 2.844724917849817e-07,
+        "max": 4.368529516796116e-06,
+        "mean": 1.1961312434021852e-06,
+        "std": 3.087754033672465e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 6.358518077144635e-10
+      },
+      "val_output": {
+        "min": 2.8401328222571465e-07,
+        "max": 3.964568804804003e-06,
+        "mean": 1.1281110027362552e-06,
+        "std": 2.8872053930142737e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 2.5744615764608115e-10
+      },
+      "train_gradient_norm_max": 0.007366382051259279,
+      "post_clip_gradient_norm_max": 0.007366382051259279
+    },
+    {
+      "epoch": 24,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0001398710776976,
+          "relative_l2": 0.9999208007049907
+        },
+        "cross": {
+          "relative_l1": 1.000135434603117,
+          "relative_l2": 0.9999212289052019
+        },
+        "observed": {
+          "relative_l1": 1.0001354334415247,
+          "relative_l2": 0.9999212286869057
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0001260549582307,
+          "relative_l2": 0.9999256457407513
+        },
+        "cross": {
+          "relative_l1": 1.0001255964877391,
+          "relative_l2": 0.9999257745568167
+        },
+        "observed": {
+          "relative_l1": 1.0001255952923156,
+          "relative_l2": 0.9999257748966576
+        }
+      },
+      "train_loss": {
+        "total": 0.3087439368288201,
+        "hold": 0.19322021880063667,
+        "cross": 0.19251853766211544,
+        "observed": 0.19251853712351927,
+        "consistency": 0.00025186515635886535
+      },
+      "val_loss": {
+        "total": 0.2999514448973868,
+        "hold": 0.1876682291428248,
+        "cross": 0.18712245176235834,
+        "observed": 0.18712245176235834,
+        "consistency": 0.00019497761847257303
+      },
+      "train_output": {
+        "min": 2.4992408498292207e-07,
+        "max": 3.963586095778737e-06,
+        "mean": 1.0604296251706302e-06,
+        "std": 2.7585398533312607e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.082008332138023e-09
+      },
+      "val_output": {
+        "min": 2.498001663298055e-07,
+        "max": 3.5375705920159817e-06,
+        "mean": 9.99606086793392e-07,
+        "std": 2.5780971469051563e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 5.009952056386372e-10
+      },
+      "train_gradient_norm_max": 0.00882821436971426,
+      "post_clip_gradient_norm_max": 0.00882821436971426
+    },
+    {
+      "epoch": 25,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0001263931254758,
+          "relative_l2": 0.999928477097979
+        },
+        "cross": {
+          "relative_l1": 1.000123605490074,
+          "relative_l2": 0.9999284022489763
+        },
+        "observed": {
+          "relative_l1": 1.0001236056775091,
+          "relative_l2": 0.9999284025274628
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0001132309250476,
+          "relative_l2": 0.9999328941335679
+        },
+        "cross": {
+          "relative_l1": 1.0001127923622453,
+          "relative_l2": 0.9999330114219982
+        },
+        "observed": {
+          "relative_l1": 1.0001127928280547,
+          "relative_l2": 0.9999330122658985
+        }
+      },
+      "train_loss": {
+        "total": 0.3085117088743003,
+        "hold": 0.1930800821766796,
+        "cross": 0.19236670317779103,
+        "observed": 0.1923667021903647,
+        "consistency": 0.00023204060430927426
+      },
+      "val_loss": {
+        "total": 0.29995029585229027,
+        "hold": 0.1876678549581104,
+        "cross": 0.18712207674980164,
+        "observed": 0.1871220792333285,
+        "consistency": 0.00018389912414325713
+      },
+      "train_output": {
+        "min": 2.2418244327582215e-07,
+        "max": 3.5764551284955814e-06,
+        "mean": 9.7156402086035e-07,
+        "std": 2.541722486984713e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 7.026300315380953e-10
+      },
+      "val_output": {
+        "min": 2.2400956822821172e-07,
+        "max": 3.2124705739988713e-06,
+        "mean": 9.014208749312679e-07,
+        "std": 2.3408932361003398e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 3.48538458015492e-10
+      },
+      "train_gradient_norm_max": 0.009346866980195045,
+      "post_clip_gradient_norm_max": 0.009346866980195045
+    },
+    {
+      "epoch": 26,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0001113445974377,
+          "relative_l2": 0.9999348238938821
+        },
+        "cross": {
+          "relative_l1": 1.0001102483209723,
+          "relative_l2": 0.9999353588571063
+        },
+        "observed": {
+          "relative_l1": 1.0001102491851437,
+          "relative_l2": 0.9999353591735838
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0001027118908281,
+          "relative_l2": 0.9999388546655246
+        },
+        "cross": {
+          "relative_l1": 1.0001022863190294,
+          "relative_l2": 0.9999389622260971
+        },
+        "observed": {
+          "relative_l1": 1.0001022872824548,
+          "relative_l2": 0.9999389629522865
+        }
+      },
+      "train_loss": {
+        "total": 0.30756710433816337,
+        "hold": 0.19221265039530144,
+        "cross": 0.19224196349281863,
+        "observed": 0.19224196349281863,
+        "consistency": 0.0001854748394202121
+      },
+      "val_loss": {
+        "total": 0.2999479000767072,
+        "hold": 0.18766754948430592,
+        "cross": 0.18712176962031257,
+        "observed": 0.18712177127599716,
+        "consistency": 0.00014566696356471058
+      },
+      "train_output": {
+        "min": 2.029374428502706e-07,
+        "max": 3.214281377950101e-06,
+        "mean": 8.687319962406496e-07,
+        "std": 2.2801750874894152e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 3.6664567017373276e-10
+      },
+      "val_output": {
+        "min": 2.0273471079690353e-07,
+        "max": 2.9445154723362066e-06,
+        "mean": 8.207491141042233e-07,
+        "std": 2.1463723583919733e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 2.529676012314701e-10
+      },
+      "train_gradient_norm_max": 0.007050829473882914,
+      "post_clip_gradient_norm_max": 0.007050829473882914
+    },
+    {
+      "epoch": 27,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.000100162424871,
+          "relative_l2": 0.9999413410152073
+        },
+        "cross": {
+          "relative_l1": 1.000100002173124,
+          "relative_l2": 0.9999413129881801
+        },
+        "observed": {
+          "relative_l1": 1.0001000020018844,
+          "relative_l2": 0.9999413129140584
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000916686695003,
+          "relative_l2": 0.9999451601996872
+        },
+        "cross": {
+          "relative_l1": 1.0000912614909223,
+          "relative_l2": 0.9999452572809068
+        },
+        "observed": {
+          "relative_l1": 1.0000912617426407,
+          "relative_l2": 0.9999452574792017
+        }
+      },
+      "train_loss": {
+        "total": 0.30807017777339524,
+        "hold": 0.19229364089937095,
+        "cross": 0.1929424268653594,
+        "observed": 0.19294242605746512,
+        "consistency": 0.00022165257300857556
+      },
+      "val_loss": {
+        "total": 0.2999492080675231,
+        "hold": 0.1876672315928671,
+        "cross": 0.1871214575237698,
+        "observed": 0.1871214575237698,
+        "consistency": 0.0001820633818473046
+      },
+      "train_output": {
+        "min": 1.8067865426019125e-07,
+        "max": 2.942952050943859e-06,
+        "mean": 7.899721101310491e-07,
+        "std": 2.0937266046455222e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 4.064163093366245e-10
+      },
+      "val_output": {
+        "min": 1.8052107009225438e-07,
+        "max": 2.656946662682458e-06,
+        "mean": 7.355291873838926e-07,
+        "std": 1.9370640769599019e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 4.1382886403365914e-10
+      },
+      "train_gradient_norm_max": 0.005491670686751604,
+      "post_clip_gradient_norm_max": 0.005491670686751604
+    },
+    {
+      "epoch": 28,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000895495803028,
+          "relative_l2": 0.999947422678286
+        },
+        "cross": {
+          "relative_l1": 1.0000884512706647,
+          "relative_l2": 0.9999479048860366
+        },
+        "observed": {
+          "relative_l1": 1.0000884510379193,
+          "relative_l2": 0.9999479048026508
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.000083100239256,
+          "relative_l2": 0.9999500897272249
+        },
+        "cross": {
+          "relative_l1": 1.0000827117793598,
+          "relative_l2": 0.9999501791523614
+        },
+        "observed": {
+          "relative_l1": 1.0000827115593112,
+          "relative_l2": 0.9999501787322261
+        }
+      },
+      "train_loss": {
+        "total": 0.30904729628419303,
+        "hold": 0.1934041526303234,
+        "cross": 0.19272385268326264,
+        "observed": 0.19272385349115692,
+        "consistency": 0.00017663970111353122
+      },
+      "val_loss": {
+        "total": 0.29994991421699524,
+        "hold": 0.18766699731349945,
+        "cross": 0.18712121662166384,
+        "observed": 0.18712121496597925,
+        "consistency": 0.00020375836235568082
+      },
+      "train_output": {
+        "min": 1.6369256172765745e-07,
+        "max": 2.6536824861977948e-06,
+        "mean": 7.040762921225182e-07,
+        "std": 1.873863862437902e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 3.6000510310924787e-10
+      },
+      "val_output": {
+        "min": 1.6335914665432938e-07,
+        "max": 2.4322346234839642e-06,
+        "mean": 6.689890747048189e-07,
+        "std": 1.77162864016408e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.4520068381778424e-10
+      },
+      "train_gradient_norm_max": 0.0061566936783492565,
+      "post_clip_gradient_norm_max": 0.0061566936783492565
+    },
+    {
+      "epoch": 29,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000781520791275,
+          "relative_l2": 0.9999525117875279
+        },
+        "cross": {
+          "relative_l1": 1.000078668724226,
+          "relative_l2": 0.9999533412712951
+        },
+        "observed": {
+          "relative_l1": 1.000078668496196,
+          "relative_l2": 0.9999533411955848
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000751374575185,
+          "relative_l2": 0.9999546831901882
+        },
+        "cross": {
+          "relative_l1": 1.0000747704293478,
+          "relative_l2": 0.9999547646822486
+        },
+        "observed": {
+          "relative_l1": 1.0000747706039954,
+          "relative_l2": 0.9999547646805128
+        }
+      },
+      "train_loss": {
+        "total": 0.3086815794189292,
+        "hold": 0.19316175562071514,
+        "cross": 0.19252172830593156,
+        "observed": 0.1925217290240598,
+        "consistency": 0.0001357418830549984
+      },
+      "val_loss": {
+        "total": 0.2999437492754724,
+        "hold": 0.18766677296823925,
+        "cross": 0.18712099889914194,
+        "observed": 0.18712099889914194,
+        "consistency": 8.750077358854469e-05
+      },
+      "train_output": {
+        "min": 1.4744213672202022e-07,
+        "max": 2.4312025743711274e-06,
+        "mean": 6.251799213687154e-07,
+        "std": 1.6734321743293237e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.3564486121632667e-09
+      },
+      "val_output": {
+        "min": 1.476598328054024e-07,
+        "max": 2.217770770585048e-06,
+        "mean": 6.070324963679418e-07,
+        "std": 1.616585692508254e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.5725766125803834e-10
+      },
+      "train_gradient_norm_max": 0.0038775817956775427,
+      "post_clip_gradient_norm_max": 0.0038775817956775427
+    },
+    {
+      "epoch": 30,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.000073681121678,
+          "relative_l2": 0.9999556536455058
+        },
+        "cross": {
+          "relative_l1": 1.0000737967325666,
+          "relative_l2": 0.9999563128799486
+        },
+        "observed": {
+          "relative_l1": 1.0000737968122213,
+          "relative_l2": 0.9999563129852368
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000692852072601,
+          "relative_l2": 0.9999580627964055
+        },
+        "cross": {
+          "relative_l1": 1.0000689355589012,
+          "relative_l2": 0.9999581385678966
+        },
+        "observed": {
+          "relative_l1": 1.0000689357163077,
+          "relative_l2": 0.9999581388494951
+        }
+      },
+      "train_loss": {
+        "total": 0.3081355312143464,
+        "hold": 0.1925881134278803,
+        "cross": 0.19256946049540877,
+        "observed": 0.19256946121353702,
+        "consistency": 0.0001148655742819909
+      },
+      "val_loss": {
+        "total": 0.29994400093952817,
+        "hold": 0.187666611538993,
+        "cross": 0.18712083912558025,
+        "observed": 0.18712083912558025,
+        "consistency": 9.756920796159345e-05
+      },
+      "train_output": {
+        "min": 1.3602569026716083e-07,
+        "max": 2.217959035988315e-06,
+        "mean": 5.890508687623177e-07,
+        "std": 1.580785727968554e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 5.648388701207097e-10
+      },
+      "val_output": {
+        "min": 1.3591754566277814e-07,
+        "max": 2.0614197637769394e-06,
+        "mean": 5.614061085642182e-07,
+        "std": 1.5030933298758516e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 2.1542735948295747e-10
+      },
+      "train_gradient_norm_max": 0.0037748294416815042,
+      "post_clip_gradient_norm_max": 0.0037748294416815042
+    },
+    {
+      "epoch": 31,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000663218967618,
+          "relative_l2": 0.9999583485644555
+        },
+        "cross": {
+          "relative_l1": 1.000068732270701,
+          "relative_l2": 0.9999593213013813
+        },
+        "observed": {
+          "relative_l1": 1.0000687322476993,
+          "relative_l2": 0.9999593212041863
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000647039305621,
+          "relative_l2": 0.9999607040369263
+        },
+        "cross": {
+          "relative_l1": 1.0000643684173611,
+          "relative_l2": 0.9999607751750451
+        },
+        "observed": {
+          "relative_l1": 1.0000643684300903,
+          "relative_l2": 0.9999607754466897
+        }
+      },
+      "train_loss": {
+        "total": 0.3072876064892275,
+        "hold": 0.19190152240804878,
+        "cross": 0.19230166939367732,
+        "observed": 0.19230166885508113,
+        "consistency": 0.00010162702406032842
+      },
+      "val_loss": {
+        "total": 0.29994478573401767,
+        "hold": 0.18766648570696512,
+        "cross": 0.18712071081002554,
+        "observed": 0.18712070915434095,
+        "consistency": 0.00011756517940537176
+      },
+      "train_output": {
+        "min": 1.26764859942341e-07,
+        "max": 2.0613315427908674e-06,
+        "mean": 5.47555737832599e-07,
+        "std": 1.4722633996987828e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.154169684428449e-09
+      },
+      "val_output": {
+        "min": 1.265043465537019e-07,
+        "max": 1.942453081937856e-06,
+        "mean": 5.257116050137888e-07,
+        "std": 1.4158649417113994e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.8933831982418222e-10
+      },
+      "train_gradient_norm_max": 0.0034733403008431196,
+      "post_clip_gradient_norm_max": 0.0034733403008431196
+    },
+    {
+      "epoch": 32,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000609674776135,
+          "relative_l2": 0.999961874189331
+        },
+        "cross": {
+          "relative_l1": 1.0000622631547607,
+          "relative_l2": 0.9999629170791146
+        },
+        "observed": {
+          "relative_l1": 1.0000622632633323,
+          "relative_l2": 0.9999629170136763
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000581192662055,
+          "relative_l2": 0.9999645543264511
+        },
+        "cross": {
+          "relative_l1": 1.0000578096549686,
+          "relative_l2": 0.9999646190117448
+        },
+        "observed": {
+          "relative_l1": 1.000057809850786,
+          "relative_l2": 0.9999646191122109
+        }
+      },
+      "train_loss": {
+        "total": 0.30902160129633294,
+        "hold": 0.19344760001782912,
+        "cross": 0.19261162413890104,
+        "observed": 0.19261162422866707,
+        "consistency": 0.00014053280844005295
+      },
+      "val_loss": {
+        "total": 0.29994264658954406,
+        "hold": 0.18766631103224224,
+        "cross": 0.18712053530746037,
+        "observed": 0.18712053447961807,
+        "consistency": 8.026466214990553e-05
+      },
+      "train_output": {
+        "min": 1.139017697937561e-07,
+        "max": 1.9415474525885656e-06,
+        "mean": 4.999944225180817e-07,
+        "std": 1.3584123152940647e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.2989626081110523e-09
+      },
+      "val_output": {
+        "min": 1.1371356123390797e-07,
+        "max": 1.7576826394360978e-06,
+        "mean": 4.739587744495566e-07,
+        "std": 1.2822604282873001e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.4181789671179652e-10
+      },
+      "train_gradient_norm_max": 0.005312995053827763,
+      "post_clip_gradient_norm_max": 0.005312995053827763
+    },
+    {
+      "epoch": 33,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.000055868671351,
+          "relative_l2": 0.9999658288988393
+        },
+        "cross": {
+          "relative_l1": 1.0000560713452733,
+          "relative_l2": 0.9999660139789607
+        },
+        "observed": {
+          "relative_l1": 1.0000560714472946,
+          "relative_l2": 0.9999660139236431
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.000053574157055,
+          "relative_l2": 0.9999672213452501
+        },
+        "cross": {
+          "relative_l1": 1.000053283072747,
+          "relative_l2": 0.9999672816180291
+        },
+        "observed": {
+          "relative_l1": 1.0000532830757545,
+          "relative_l2": 0.9999672817461188
+        }
+      },
+      "train_loss": {
+        "total": 0.3078730007611125,
+        "hold": 0.1923662127859621,
+        "cross": 0.19250391746859952,
+        "observed": 0.19250391701976938,
+        "consistency": 8.876681136190386e-05
+      },
+      "val_loss": {
+        "total": 0.29994239492548835,
+        "hold": 0.1876661909951104,
+        "cross": 0.18712041527032852,
+        "observed": 0.1871204169260131,
+        "consistency": 7.900664483410462e-05
+      },
+      "train_output": {
+        "min": 1.0487150348126306e-07,
+        "max": 1.757481641107006e-06,
+        "mean": 4.521479400365758e-07,
+        "std": 1.2304021570061386e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 8.718650632804398e-10
+      },
+      "val_output": {
+        "min": 1.0469762656839521e-07,
+        "max": 1.6334699921571882e-06,
+        "mean": 4.3805579568672533e-07,
+        "std": 1.1904020055725769e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.3553251130520623e-10
+      },
+      "train_gradient_norm_max": 0.00328809698112309,
+      "post_clip_gradient_norm_max": 0.00328809698112309
+    },
+    {
+      "epoch": 34,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000516857359347,
+          "relative_l2": 0.9999679521313872
+        },
+        "cross": {
+          "relative_l1": 1.0000514226325752,
+          "relative_l2": 0.9999682939879736
+        },
+        "observed": {
+          "relative_l1": 1.000051422695584,
+          "relative_l2": 0.9999682939943243
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000496423989558,
+          "relative_l2": 0.9999695253643986
+        },
+        "cross": {
+          "relative_l1": 1.0000493684198135,
+          "relative_l2": 0.9999695815627343
+        },
+        "observed": {
+          "relative_l1": 1.000049368439968,
+          "relative_l2": 0.9999695815738369
+        }
+      },
+      "train_loss": {
+        "total": 0.3074567598032664,
+        "hold": 0.19215664608650898,
+        "cross": 0.19216143420661788,
+        "observed": 0.19216143456568202,
+        "consistency": 6.505815778278285e-05
+      },
+      "val_loss": {
+        "total": 0.29994112253189087,
+        "hold": 0.18766608420345518,
+        "cross": 0.18712031261788475,
+        "observed": 0.18712031179004246,
+        "consistency": 5.70237771171378e-05
+      },
+      "train_output": {
+        "min": 9.696383784785212e-08,
+        "max": 1.6329278196280939e-06,
+        "mean": 4.2300333743915836e-07,
+        "std": 1.1581199678800146e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.0264338347530456e-09
+      },
+      "val_output": {
+        "min": 9.689432545201271e-08,
+        "max": 1.5242904964907211e-06,
+        "mean": 4.0705888319318245e-07,
+        "std": 1.1111490928838243e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.3509239362084558e-10
+      },
+      "train_gradient_norm_max": 0.0025919245090335608,
+      "post_clip_gradient_norm_max": 0.0025919245090335608
+    },
+    {
+      "epoch": 35,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000485253529754,
+          "relative_l2": 0.9999707743210533
+        },
+        "cross": {
+          "relative_l1": 1.000048807981267,
+          "relative_l2": 0.9999708168275435
+        },
+        "observed": {
+          "relative_l1": 1.0000488078610767,
+          "relative_l2": 0.999970816831212
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.000046053238885,
+          "relative_l2": 0.9999716343470801
+        },
+        "cross": {
+          "relative_l1": 1.0000457959249587,
+          "relative_l2": 0.9999716870749411
+        },
+        "observed": {
+          "relative_l1": 1.000045796160297,
+          "relative_l2": 0.9999716870771458
+        }
+      },
+      "train_loss": {
+        "total": 0.30829288101339913,
+        "hold": 0.19285026776144304,
+        "cross": 0.19239837335175777,
+        "observed": 0.19239837380058794,
+        "consistency": 7.180972786144079e-05
+      },
+      "val_loss": {
+        "total": 0.2999416258600023,
+        "hold": 0.18766599231296116,
+        "cross": 0.187120221555233,
+        "observed": 0.1871202207273907,
+        "consistency": 7.005975668208621e-05
+      },
+      "train_output": {
+        "min": 8.984724075844497e-08,
+        "max": 1.5241159871948184e-06,
+        "mean": 3.927534421276264e-07,
+        "std": 1.0784880234992276e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 7.286887165098527e-11
+      },
+      "val_output": {
+        "min": 8.977238508123264e-08,
+        "max": 1.4251619404603844e-06,
+        "mean": 3.786990051916443e-07,
+        "std": 1.0383536770886545e-07,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 5.965917046094456e-11
+      },
+      "train_gradient_norm_max": 0.0029349764809012413,
+      "post_clip_gradient_norm_max": 0.0029349764809012413
+    },
+    {
+      "epoch": 36,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000442070619313,
+          "relative_l2": 0.9999724114467858
+        },
+        "cross": {
+          "relative_l1": 1.0000448132735564,
+          "relative_l2": 0.9999729976554127
+        },
+        "observed": {
+          "relative_l1": 1.0000448133656075,
+          "relative_l2": 0.9999729976891685
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000427386869697,
+          "relative_l2": 0.9999735907595753
+        },
+        "cross": {
+          "relative_l1": 1.000042497381885,
+          "relative_l2": 0.9999736400778372
+        },
+        "observed": {
+          "relative_l1": 1.0000424973312816,
+          "relative_l2": 0.9999736400101573
+        }
+      },
+      "train_loss": {
+        "total": 0.3072987274233117,
+        "hold": 0.1919089884284031,
+        "cross": 0.19231134204261274,
+        "observed": 0.19231134240167685,
+        "consistency": 5.863160858788466e-05
+      },
+      "val_loss": {
+        "total": 0.29994097020890975,
+        "hold": 0.18766590870089,
+        "cross": 0.18712013380395043,
+        "observed": 0.18712013380395043,
+        "consistency": 5.960444125068736e-05
+      },
+      "train_output": {
+        "min": 8.326740896791307e-08,
+        "max": 1.424755737389205e-06,
+        "mean": 3.616624970695136e-07,
+        "std": 9.980978063409347e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 2.8335574610888996e-10
+      },
+      "val_output": {
+        "min": 8.328615308528242e-08,
+        "max": 1.3306349728736677e-06,
+        "mean": 3.5239736462244764e-07,
+        "std": 9.703008882705061e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 8.65302155325257e-11
+      },
+      "train_gradient_norm_max": 0.0022919040638953447,
+      "post_clip_gradient_norm_max": 0.0022919040638953447
+    },
+    {
+      "epoch": 37,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000420031257982,
+          "relative_l2": 0.9999747555712478
+        },
+        "cross": {
+          "relative_l1": 1.0000416081129735,
+          "relative_l2": 0.9999748402929366
+        },
+        "observed": {
+          "relative_l1": 1.0000416080831707,
+          "relative_l2": 0.9999748402905109
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.000039703634742,
+          "relative_l2": 0.9999753867016616
+        },
+        "cross": {
+          "relative_l1": 1.0000394772551495,
+          "relative_l2": 0.999975432925765
+        },
+        "observed": {
+          "relative_l1": 1.000039476971031,
+          "relative_l2": 0.9999754328646373
+        }
+      },
+      "train_loss": {
+        "total": 0.30829838744129046,
+        "hold": 0.19257191685308894,
+        "cross": 0.19287287847823406,
+        "observed": 0.1928728779396379,
+        "consistency": 5.484791972228404e-05
+      },
+      "val_loss": {
+        "total": 0.29994087169567746,
+        "hold": 0.1876658300558726,
+        "cross": 0.18712005764245987,
+        "observed": 0.18712005598677528,
+        "consistency": 6.0232200262867584e-05
+      },
+      "train_output": {
+        "min": 7.727506101673498e-08,
+        "max": 1.330069267169165e-06,
+        "mean": 3.362643237593772e-07,
+        "std": 9.316578264533522e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 2.4759480874278085e-10
+      },
+      "val_output": {
+        "min": 7.72611983279603e-08,
+        "max": 1.245234102498216e-06,
+        "mean": 3.282696390272122e-07,
+        "std": 9.078231575088718e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.2350913446741123e-10
+      },
+      "train_gradient_norm_max": 0.0019859278108924627,
+      "post_clip_gradient_norm_max": 0.0019859278108924627
+    },
+    {
+      "epoch": 38,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000388203596045,
+          "relative_l2": 0.9999756280501244
+        },
+        "cross": {
+          "relative_l1": 1.0000391589317517,
+          "relative_l2": 0.9999760224286278
+        },
+        "observed": {
+          "relative_l1": 1.0000391587508035,
+          "relative_l2": 0.9999760224099608
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000371159535009,
+          "relative_l2": 0.9999769215195019
+        },
+        "cross": {
+          "relative_l1": 1.000036902252563,
+          "relative_l2": 0.9999769649283751
+        },
+        "observed": {
+          "relative_l1": 1.0000369023117681,
+          "relative_l2": 0.9999769650212706
+        }
+      },
+      "train_loss": {
+        "total": 0.30860437955482894,
+        "hold": 0.19301050901412964,
+        "cross": 0.19265143878488655,
+        "observed": 0.19265143968254686,
+        "consistency": 6.013887481874764e-05
+      },
+      "val_loss": {
+        "total": 0.2999402582645416,
+        "hold": 0.18766576051712036,
+        "cross": 0.1871199889315499,
+        "observed": 0.1871199889315499,
+        "consistency": 5.0069845504670717e-05
+      },
+      "train_output": {
+        "min": 7.220116771122775e-08,
+        "max": 1.2450133226593607e-06,
+        "mean": 3.2278224396410467e-07,
+        "std": 8.968839988697097e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 6.600965359632965e-11
+      },
+      "val_output": {
+        "min": 7.213111530290917e-08,
+        "max": 1.1715879963958287e-06,
+        "mean": 3.0765042937888313e-07,
+        "std": 8.544564058445375e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 6.940893098368e-11
+      },
+      "train_gradient_norm_max": 0.0021878331899642944,
+      "post_clip_gradient_norm_max": 0.0021878331899642944
+    },
+    {
+      "epoch": 39,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000364861283881,
+          "relative_l2": 0.9999772209826855
+        },
+        "cross": {
+          "relative_l1": 1.000036232085903,
+          "relative_l2": 0.9999775406724221
+        },
+        "observed": {
+          "relative_l1": 1.0000362321224114,
+          "relative_l2": 0.9999775406740335
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000345667959931,
+          "relative_l2": 0.9999784384012619
+        },
+        "cross": {
+          "relative_l1": 1.0000343664990754,
+          "relative_l2": 0.9999784791017563
+        },
+        "observed": {
+          "relative_l1": 1.0000343664811553,
+          "relative_l2": 0.9999784791396767
+        }
+      },
+      "train_loss": {
+        "total": 0.3078933482069567,
+        "hold": 0.1924192768981658,
+        "cross": 0.192452090332307,
+        "observed": 0.19245209051183906,
+        "consistency": 5.6319893329019984e-05
+      },
+      "val_loss": {
+        "total": 0.29993996851974064,
+        "hold": 0.18766569511757958,
+        "cross": 0.18711992518769371,
+        "observed": 0.18711992435985142,
+        "consistency": 4.651049716307575e-05
+      },
+      "train_output": {
+        "min": 6.721743517346113e-08,
+        "max": 1.171209305539378e-06,
+        "mean": 2.996014191649284e-07,
+        "std": 8.362222030328357e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 4.178414479495883e-10
+      },
+      "val_output": {
+        "min": 6.714362399407037e-08,
+        "max": 1.0986367442455958e-06,
+        "mean": 2.8730026200049804e-07,
+        "std": 8.010581370860917e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 4.9135486849895467e-11
+      },
+      "train_gradient_norm_max": 0.001966530689969659,
+      "post_clip_gradient_norm_max": 0.001966530689969659
+    },
+    {
+      "epoch": 40,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000345135531732,
+          "relative_l2": 0.9999792013059348
+        },
+        "cross": {
+          "relative_l1": 1.0000339982073947,
+          "relative_l2": 0.9999792944776154
+        },
+        "observed": {
+          "relative_l1": 1.000033998108415,
+          "relative_l2": 0.999979294440753
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000322378847155,
+          "relative_l2": 0.9999798330437084
+        },
+        "cross": {
+          "relative_l1": 1.0000320498217354,
+          "relative_l2": 0.999979871437926
+        },
+        "observed": {
+          "relative_l1": 1.0000320497396604,
+          "relative_l2": 0.9999798713836164
+        }
+      },
+      "train_loss": {
+        "total": 0.3081002113330795,
+        "hold": 0.19281209035810218,
+        "cross": 0.19214344114424234,
+        "observed": 0.19214344150330648,
+        "consistency": 4.108274200018103e-05
+      },
+      "val_loss": {
+        "total": 0.2999395860566033,
+        "hold": 0.18766563799646166,
+        "cross": 0.1871198680665758,
+        "observed": 0.1871198688944181,
+        "consistency": 4.0600622721993e-05
+      },
+      "train_output": {
+        "min": 6.263442031695376e-08,
+        "max": 1.0980219258271973e-06,
+        "mean": 2.7892719463714084e-07,
+        "std": 7.811893025573874e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 3.2998330853509627e-10
+      },
+      "val_output": {
+        "min": 6.257901219441919e-08,
+        "max": 1.030614157571108e-06,
+        "mean": 2.6859494736994645e-07,
+        "std": 7.515540397636264e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 6.713571415065519e-11
+      },
+      "train_gradient_norm_max": 0.001652438542805612,
+      "post_clip_gradient_norm_max": 0.001652438542805612
+    },
+    {
+      "epoch": 41,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000306770371734,
+          "relative_l2": 0.9999803927998288
+        },
+        "cross": {
+          "relative_l1": 1.0000315582227126,
+          "relative_l2": 0.9999806342455843
+        },
+        "observed": {
+          "relative_l1": 1.0000315583257173,
+          "relative_l2": 0.9999806342687381
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000300652256076,
+          "relative_l2": 0.999981135339469
+        },
+        "cross": {
+          "relative_l1": 1.0000298887853285,
+          "relative_l2": 0.9999811713074505
+        },
+        "observed": {
+          "relative_l1": 1.0000298887007997,
+          "relative_l2": 0.9999811713008856
+        }
+      },
+      "train_loss": {
+        "total": 0.30810446265232133,
+        "hold": 0.1928022582846952,
+        "cross": 0.19216642214591245,
+        "observed": 0.19216642205614642,
+        "consistency": 4.6998029355596506e-05
+      },
+      "val_loss": {
+        "total": 0.29993943456146455,
+        "hold": 0.18766558584239748,
+        "cross": 0.18711981425682703,
+        "observed": 0.18711981425682703,
+        "consistency": 3.913138051656359e-05
+      },
+      "train_output": {
+        "min": 5.832548310991115e-08,
+        "max": 1.0302300097464467e-06,
+        "mean": 2.582144391745517e-07,
+        "std": 7.265937606347795e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.462265507092196e-10
+      },
+      "val_output": {
+        "min": 5.828134774787941e-08,
+        "max": 9.677034995547729e-07,
+        "mean": 2.511370106440659e-07,
+        "std": 7.054832303739413e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 3.9327832161508065e-11
+      },
+      "train_gradient_norm_max": 0.002115333918482065,
+      "post_clip_gradient_norm_max": 0.002115333918482065
+    },
+    {
+      "epoch": 42,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000296470613503,
+          "relative_l2": 0.9999817191260311
+        },
+        "cross": {
+          "relative_l1": 1.00002938135887,
+          "relative_l2": 0.9999819021765777
+        },
+        "observed": {
+          "relative_l1": 1.0000293814306436,
+          "relative_l2": 0.9999819021845042
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.000028265831873,
+          "relative_l2": 0.9999822170083603
+        },
+        "cross": {
+          "relative_l1": 1.0000280989309323,
+          "relative_l2": 0.9999822510642734
+        },
+        "observed": {
+          "relative_l1": 1.0000280988065646,
+          "relative_l2": 0.999982251036044
+        }
+      },
+      "train_loss": {
+        "total": 0.30680470024964895,
+        "hold": 0.19156295276549926,
+        "cross": 0.1920663018722132,
+        "observed": 0.1920663016029151,
+        "consistency": 3.9347807790155534e-05
+      },
+      "val_loss": {
+        "total": 0.29993904216421974,
+        "hold": 0.1876655394832293,
+        "cross": 0.1871197728647126,
+        "observed": 0.18711977203687033,
+        "consistency": 3.269843465305813e-05
+      },
+      "train_output": {
+        "min": 5.4818801942246864e-08,
+        "max": 9.675301271272474e-07,
+        "mean": 2.419404321115902e-07,
+        "std": 6.82385658064362e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.514863958480233e-10
+      },
+      "val_output": {
+        "min": 5.474721831433271e-08,
+        "max": 9.152732900474803e-07,
+        "mean": 2.366406158434605e-07,
+        "std": 6.671714166684629e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 4.388874060805887e-11
+      },
+      "train_gradient_norm_max": 0.0019051625858992338,
+      "post_clip_gradient_norm_max": 0.0019051625858992338
+    },
+    {
+      "epoch": 43,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.00002723204094,
+          "relative_l2": 0.9999825555844885
+        },
+        "cross": {
+          "relative_l1": 1.0000279477749685,
+          "relative_l2": 0.9999828229994291
+        },
+        "observed": {
+          "relative_l1": 1.0000279476753258,
+          "relative_l2": 0.9999828229669312
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000266391349015,
+          "relative_l2": 0.9999831971433459
+        },
+        "cross": {
+          "relative_l1": 1.000026480805368,
+          "relative_l2": 0.9999832294411599
+        },
+        "observed": {
+          "relative_l1": 1.000026480809924,
+          "relative_l2": 0.9999832294484925
+        }
+      },
+      "train_loss": {
+        "total": 0.30725901995796756,
+        "hold": 0.19176277823476906,
+        "cross": 0.1924905581287591,
+        "observed": 0.192490557949227,
+        "consistency": 3.813046780386828e-05
+      },
+      "val_loss": {
+        "total": 0.29993920028209686,
+        "hold": 0.18766549891895717,
+        "cross": 0.1871197314725982,
+        "observed": 0.18711973395612505,
+        "consistency": 3.723953523149248e-05
+      },
+      "train_output": {
+        "min": 5.162810268188878e-08,
+        "max": 9.14854410893895e-07,
+        "mean": 2.3069571493277795e-07,
+        "std": 6.522353819932101e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 2.1139796832690483e-10
+      },
+      "val_output": {
+        "min": 5.152264748176094e-08,
+        "max": 8.676350944369915e-07,
+        "mean": 2.2349670085001586e-07,
+        "std": 6.324188429749194e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 4.9307524581178515e-11
+      },
+      "train_gradient_norm_max": 0.0013644446153193712,
+      "post_clip_gradient_norm_max": 0.0013644446153193712
+    },
+    {
+      "epoch": 44,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.000025709811351,
+          "relative_l2": 0.9999837425062222
+        },
+        "cross": {
+          "relative_l1": 1.0000257213066375,
+          "relative_l2": 0.9999838843385055
+        },
+        "observed": {
+          "relative_l1": 1.0000257212475954,
+          "relative_l2": 0.999983884335924
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.000024682980844,
+          "relative_l2": 0.9999843828425709
+        },
+        "cross": {
+          "relative_l1": 1.0000245345940444,
+          "relative_l2": 0.9999844129951163
+        },
+        "observed": {
+          "relative_l1": 1.0000245344781264,
+          "relative_l2": 0.999984412981738
+        }
+      },
+      "train_loss": {
+        "total": 0.3084928664457367,
+        "hold": 0.19302702219371337,
+        "cross": 0.19243994804031878,
+        "observed": 0.19243994839938292,
+        "consistency": 3.746189553106866e-05
+      },
+      "val_loss": {
+        "total": 0.2999388989475038,
+        "hold": 0.18766545255978903,
+        "cross": 0.18711968759695688,
+        "observed": 0.18711968759695688,
+        "consistency": 3.2705592881635916e-05
+      },
+      "train_output": {
+        "min": 4.776868678391111e-08,
+        "max": 8.672247417962353e-07,
+        "mean": 2.147219015603378e-07,
+        "std": 6.101517319968488e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 4.80394942080155e-10
+      },
+      "val_output": {
+        "min": 4.772815742626335e-08,
+        "max": 8.088621257229534e-07,
+        "mean": 2.0764247190798972e-07,
+        "std": 5.895026862387794e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 3.8224893984211454e-11
+      },
+      "train_gradient_norm_max": 0.0015396198723465204,
+      "post_clip_gradient_norm_max": 0.0015396198723465204
+    },
+    {
+      "epoch": 45,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000251728955045,
+          "relative_l2": 0.9999852074625115
+        },
+        "cross": {
+          "relative_l1": 1.0000242390563787,
+          "relative_l2": 0.9999850501427153
+        },
+        "observed": {
+          "relative_l1": 1.0000242390122356,
+          "relative_l2": 0.9999850501511603
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000231103241664,
+          "relative_l2": 0.9999853365915824
+        },
+        "cross": {
+          "relative_l1": 1.000022970574041,
+          "relative_l2": 0.9999853650433133
+        },
+        "observed": {
+          "relative_l1": 1.0000229705478207,
+          "relative_l2": 0.9999853650156214
+        }
+      },
+      "train_loss": {
+        "total": 0.3076069317309253,
+        "hold": 0.19213770850595221,
+        "cross": 0.1924462435116251,
+        "observed": 0.19244624315256095,
+        "consistency": 2.953359825073402e-05
+      },
+      "val_loss": {
+        "total": 0.2999386580453979,
+        "hold": 0.1876654177904129,
+        "cross": 0.18711964951621163,
+        "observed": 0.18711964951621163,
+        "consistency": 2.8992559944324763e-05
+      },
+      "train_output": {
+        "min": 4.4682106903337626e-08,
+        "max": 8.087603191597736e-07,
+        "mean": 1.997357405788266e-07,
+        "std": 5.6956614796056567e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 6.48586430098844e-11
+      },
+      "val_output": {
+        "min": 4.4665494414175555e-08,
+        "max": 7.616266657350934e-07,
+        "mean": 1.948845699138878e-07,
+        "std": 5.552099393888844e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 3.9031021470403715e-11
+      },
+      "train_gradient_norm_max": 0.0012883308809250593,
+      "post_clip_gradient_norm_max": 0.0012883308809250593
+    },
+    {
+      "epoch": 46,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000228426226316,
+          "relative_l2": 0.9999856108046083
+        },
+        "cross": {
+          "relative_l1": 1.0000225409840395,
+          "relative_l2": 0.9999858346302201
+        },
+        "observed": {
+          "relative_l1": 1.000022540946704,
+          "relative_l2": 0.9999858346088338
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000215300599233,
+          "relative_l2": 0.9999862978674364
+        },
+        "cross": {
+          "relative_l1": 1.0000213982231299,
+          "relative_l2": 0.9999863245664413
+        },
+        "observed": {
+          "relative_l1": 1.0000213981946706,
+          "relative_l2": 0.9999863245183691
+        }
+      },
+      "train_loss": {
+        "total": 0.3078527375158057,
+        "hold": 0.19232154987662672,
+        "cross": 0.19254891376897512,
+        "observed": 0.19254891430757132,
+        "consistency": 3.6789192136093775e-05
+      },
+      "val_loss": {
+        "total": 0.2999388790792889,
+        "hold": 0.18766537557045618,
+        "cross": 0.1871196130911509,
+        "observed": 0.1871196130911509,
+        "consistency": 3.4743035131315184e-05
+      },
+      "train_output": {
+        "min": 4.161685751569166e-08,
+        "max": 7.616455377501552e-07,
+        "mean": 1.8957836095601892e-07,
+        "std": 5.428906839139315e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 7.265030690135304e-11
+      },
+      "val_output": {
+        "min": 4.157591249054349e-08,
+        "max": 7.140281468309695e-07,
+        "mean": 1.820257990756444e-07,
+        "std": 5.2048714180875415e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 3.6447351833041837e-11
+      },
+      "train_gradient_norm_max": 0.001260408665984869,
+      "post_clip_gradient_norm_max": 0.001260408665984869
+    },
+    {
+      "epoch": 47,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000210322536804,
+          "relative_l2": 0.9999867398633124
+        },
+        "cross": {
+          "relative_l1": 1.0000209713649022,
+          "relative_l2": 0.9999868342949491
+        },
+        "observed": {
+          "relative_l1": 1.0000209713878163,
+          "relative_l2": 0.9999868343125721
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.000020306592022,
+          "relative_l2": 0.9999870459953087
+        },
+        "cross": {
+          "relative_l1": 1.0000201810343954,
+          "relative_l2": 0.9999870713361187
+        },
+        "observed": {
+          "relative_l1": 1.000020180957838,
+          "relative_l2": 0.9999870712948277
+        }
+      },
+      "train_loss": {
+        "total": 0.307810928448137,
+        "hold": 0.1922867921102478,
+        "cross": 0.19253793825586157,
+        "observed": 0.19253793825586157,
+        "consistency": 2.7503890890669475e-05
+      },
+      "val_loss": {
+        "total": 0.29993851565652424,
+        "hold": 0.18766534411244923,
+        "cross": 0.18711958411667082,
+        "observed": 0.1871195849445131,
+        "consistency": 2.8440422384947953e-05
+      },
+      "train_output": {
+        "min": 3.915108592877914e-08,
+        "max": 7.139580020520953e-07,
+        "mean": 1.7535900866334255e-07,
+        "std": 5.032261193409405e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 8.142698271603902e-11
+      },
+      "val_output": {
+        "min": 3.918387747603447e-08,
+        "max": 6.766984483874694e-07,
+        "mean": 1.7202491283304275e-07,
+        "std": 4.93402934182899e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 3.1641719998111635e-11
+      },
+      "train_gradient_norm_max": 0.0012208136031404138,
+      "post_clip_gradient_norm_max": 0.0012208136031404138
+    },
+    {
+      "epoch": 48,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000193039435687,
+          "relative_l2": 0.9999873110406892
+        },
+        "cross": {
+          "relative_l1": 1.0000198393337214,
+          "relative_l2": 0.9999874348926444
+        },
+        "observed": {
+          "relative_l1": 1.0000198393367934,
+          "relative_l2": 0.9999874348926798
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000190544418044,
+          "relative_l2": 0.9999878119676295
+        },
+        "cross": {
+          "relative_l1": 1.0000189351055826,
+          "relative_l2": 0.9999878358766008
+        },
+        "observed": {
+          "relative_l1": 1.0000189351076498,
+          "relative_l2": 0.9999878358842683
+        }
+      },
+      "train_loss": {
+        "total": 0.3077662215534463,
+        "hold": 0.1924916650336909,
+        "cross": 0.19212205887558947,
+        "observed": 0.19212205896535553,
+        "consistency": 2.6405640304998878e-05
+      },
+      "val_loss": {
+        "total": 0.29993808186716503,
+        "hold": 0.18766532093286514,
+        "cross": 0.18711955679787529,
+        "observed": 0.18711955679787529,
+        "consistency": 2.0591738474548845e-05
+      },
+      "train_output": {
+        "min": 3.6763474042800226e-08,
+        "max": 6.765532702956989e-07,
+        "mean": 1.6637463185455922e-07,
+        "std": 4.7886605930936776e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.8628190830149993e-10
+      },
+      "val_output": {
+        "min": 3.6741738540513325e-08,
+        "max": 6.384242396961781e-07,
+        "mean": 1.617922635372477e-07,
+        "std": 4.655115211454693e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 2.920564682952685e-11
+      },
+      "train_gradient_norm_max": 0.0009840029524639249,
+      "post_clip_gradient_norm_max": 0.0009840029524639249
+    },
+    {
+      "epoch": 49,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000184310983726,
+          "relative_l2": 0.9999878940782436
+        },
+        "cross": {
+          "relative_l1": 1.0000185270962128,
+          "relative_l2": 0.9999881649835686
+        },
+        "observed": {
+          "relative_l1": 1.0000185270974458,
+          "relative_l2": 0.9999881649773246
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000180530011662,
+          "relative_l2": 0.9999884248251116
+        },
+        "cross": {
+          "relative_l1": 1.0000179388068453,
+          "relative_l2": 0.9999884476095118
+        },
+        "observed": {
+          "relative_l1": 1.0000179388671924,
+          "relative_l2": 0.999988447624631
+        }
+      },
+      "train_loss": {
+        "total": 0.3087952128016805,
+        "hold": 0.19338082333645187,
+        "cross": 0.19235529975000634,
+        "observed": 0.19235529939094223,
+        "consistency": 2.4165103263018304e-05
+      },
+      "val_loss": {
+        "total": 0.2999379833539327,
+        "hold": 0.18766529692543876,
+        "cross": 0.18711953113476434,
+        "observed": 0.18711953113476434,
+        "consistency": 1.9368211774740808e-05
+      },
+      "train_output": {
+        "min": 3.48015802842383e-08,
+        "max": 6.383097570505925e-07,
+        "mean": 1.5766130484150316e-07,
+        "std": 4.5515050656820374e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.312206543821074e-10
+      },
+      "val_output": {
+        "min": 3.478093901776447e-08,
+        "max": 6.079432068872848e-07,
+        "mean": 1.5359803522901277e-07,
+        "std": 4.43347188006353e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 2.0835680651048224e-11
+      },
+      "train_gradient_norm_max": 0.000986855709925294,
+      "post_clip_gradient_norm_max": 0.000986855709925294
+    },
+    {
+      "epoch": 50,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000180675455266,
+          "relative_l2": 0.9999887080347688
+        },
+        "cross": {
+          "relative_l1": 1.0000178067371848,
+          "relative_l2": 0.9999887468061381
+        },
+        "observed": {
+          "relative_l1": 1.0000178067493086,
+          "relative_l2": 0.9999887468165604
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000169505831316,
+          "relative_l2": 0.9999891032357624
+        },
+        "cross": {
+          "relative_l1": 1.0000168422386695,
+          "relative_l2": 0.9999891247996864
+        },
+        "observed": {
+          "relative_l1": 1.000016842202772,
+          "relative_l2": 0.9999891247480688
+        }
+      },
+      "train_loss": {
+        "total": 0.30781627958079416,
+        "hold": 0.19234026762017284,
+        "cross": 0.19245818221425437,
+        "observed": 0.19245818221425437,
+        "consistency": 2.2055646323098195e-05
+      },
+      "val_loss": {
+        "total": 0.29993805703189635,
+        "hold": 0.18766527126232782,
+        "cross": 0.187119507127338,
+        "observed": 0.1871195062994957,
+        "consistency": 2.161560375194919e-05
+      },
+      "train_output": {
+        "min": 3.2647005099306625e-08,
+        "max": 6.081727974560636e-07,
+        "mean": 1.4999421934757024e-07,
+        "std": 4.348580911193918e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 5.5961779357341765e-11
+      },
+      "val_output": {
+        "min": 3.264196379859641e-08,
+        "max": 5.741100039813318e-07,
+        "mean": 1.4454714047928974e-07,
+        "std": 4.184864380369394e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.7650014138717982e-11
+      },
+      "train_gradient_norm_max": 0.0010507869301363826,
+      "post_clip_gradient_norm_max": 0.0010507869301363826
+    },
+    {
+      "epoch": 51,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000162521159852,
+          "relative_l2": 0.9999892876551312
+        },
+        "cross": {
+          "relative_l1": 1.000016761325604,
+          "relative_l2": 0.9999895143155368
+        },
+        "observed": {
+          "relative_l1": 1.000016761325813,
+          "relative_l2": 0.9999895143061085
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000160462546344,
+          "relative_l2": 0.9999896605276852
+        },
+        "cross": {
+          "relative_l1": 1.0000159425862298,
+          "relative_l2": 0.9999896810176548
+        },
+        "observed": {
+          "relative_l1": 1.0000159425460913,
+          "relative_l2": 0.9999896810129179
+        }
+      },
+      "train_loss": {
+        "total": 0.3080443409552057,
+        "hold": 0.19275116148483323,
+        "cross": 0.19215357384408813,
+        "observed": 0.19215357348502402,
+        "consistency": 2.0710909743081493e-05
+      },
+      "val_loss": {
+        "total": 0.2999379676249292,
+        "hold": 0.18766525139411291,
+        "cross": 0.18711948725912306,
+        "observed": 0.1871194856034385,
+        "consistency": 2.0433863988324043e-05
+      },
+      "train_output": {
+        "min": 3.0843899878618686e-08,
+        "max": 5.73904117118218e-07,
+        "mean": 1.398787714626303e-07,
+        "std": 4.0679659115529264e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 3.2253478905532236e-11
+      },
+      "val_output": {
+        "min": 3.0861141198101905e-08,
+        "max": 5.462258059196756e-07,
+        "mean": 1.3710063977928004e-07,
+        "std": 3.98187339074366e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 3.700107209712668e-11
+      },
+      "train_gradient_norm_max": 0.0007976909982971847,
+      "post_clip_gradient_norm_max": 0.0007976909400895238
+    },
+    {
+      "epoch": 52,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.000015645976655,
+          "relative_l2": 0.999989784585697
+        },
+        "cross": {
+          "relative_l1": 1.0000158424892083,
+          "relative_l2": 0.9999899696545511
+        },
+        "observed": {
+          "relative_l1": 1.0000158425284948,
+          "relative_l2": 0.9999899696735336
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.00001513219113,
+          "relative_l2": 0.9999902248654057
+        },
+        "cross": {
+          "relative_l1": 1.0000150335367448,
+          "relative_l2": 0.9999902443566658
+        },
+        "observed": {
+          "relative_l1": 1.0000150334955817,
+          "relative_l2": 0.999990244345186
+        }
+      },
+      "train_loss": {
+        "total": 0.3083366284887475,
+        "hold": 0.19297880778111606,
+        "cross": 0.19226113446505674,
+        "observed": 0.19226113392646055,
+        "consistency": 2.280269317375917e-05
+      },
+      "val_loss": {
+        "total": 0.29993774824672276,
+        "hold": 0.18766523152589798,
+        "cross": 0.18711946739090812,
+        "observed": 0.18711946739090812,
+        "consistency": 1.68318976344987e-05
+      },
+      "train_output": {
+        "min": 2.9105217791425275e-08,
+        "max": 5.460664169731899e-07,
+        "mean": 1.3391339960884557e-07,
+        "std": 3.9041453867585005e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 6.496955255532098e-11
+      },
+      "val_output": {
+        "min": 2.9084576524951444e-08,
+        "max": 5.178081892154296e-07,
+        "mean": 1.2957102057953307e-07,
+        "std": 3.774410036932141e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.946908916325826e-11
+      },
+      "train_gradient_norm_max": 0.0009153689607046545,
+      "post_clip_gradient_norm_max": 0.0009153689607046545
+    },
+    {
+      "epoch": 53,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000148195772016,
+          "relative_l2": 0.9999904231780748
+        },
+        "cross": {
+          "relative_l1": 1.0000147732611677,
+          "relative_l2": 0.9999906015210889
+        },
+        "observed": {
+          "relative_l1": 1.0000147732620908,
+          "relative_l2": 0.9999906015188708
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000142814589252,
+          "relative_l2": 0.9999907520131627
+        },
+        "cross": {
+          "relative_l1": 1.0000141875677326,
+          "relative_l2": 0.9999907704840242
+        },
+        "observed": {
+          "relative_l1": 1.000014187566945,
+          "relative_l2": 0.999990770491432
+        }
+      },
+      "train_loss": {
+        "total": 0.30745276629206647,
+        "hold": 0.19193284841905156,
+        "cross": 0.19253159314393997,
+        "observed": 0.19253159314393997,
+        "consistency": 1.9286459601390967e-05
+      },
+      "val_loss": {
+        "total": 0.29993779295020634,
+        "hold": 0.1876652083463139,
+        "cross": 0.18711944669485092,
+        "observed": 0.18711944752269322,
+        "consistency": 1.839543887803706e-05
+      },
+      "train_output": {
+        "min": 2.7445642203360876e-08,
+        "max": 5.177336106498842e-07,
+        "mean": 1.2531743289665123e-07,
+        "std": 3.663606144309184e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.0411246914191326e-10
+      },
+      "val_output": {
+        "min": 2.7436220406684697e-08,
+        "max": 4.909752533421852e-07,
+        "mean": 1.2254107003191925e-07,
+        "std": 3.579659433449301e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 3.0897382618680755e-11
+      },
+      "train_gradient_norm_max": 0.0009541738545522094,
+      "post_clip_gradient_norm_max": 0.0009541738545522094
+    },
+    {
+      "epoch": 54,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000135379025954,
+          "relative_l2": 0.9999908474184066
+        },
+        "cross": {
+          "relative_l1": 1.0000142061000767,
+          "relative_l2": 0.999991162865782
+        },
+        "observed": {
+          "relative_l1": 1.0000142060718016,
+          "relative_l2": 0.9999911628786348
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.000013531135246,
+          "relative_l2": 0.9999912179653426
+        },
+        "cross": {
+          "relative_l1": 1.000013441093567,
+          "relative_l2": 0.9999912356000729
+        },
+        "observed": {
+          "relative_l1": 1.0000134410821113,
+          "relative_l2": 0.9999912355921978
+        }
+      },
+      "train_loss": {
+        "total": 0.30778812087443935,
+        "hold": 0.19195637609585223,
+        "cross": 0.19305141611271595,
+        "observed": 0.1930514160229499,
+        "consistency": 1.7890510777311668e-05
+      },
+      "val_loss": {
+        "total": 0.2999376671181785,
+        "hold": 0.1876651934451527,
+        "cross": 0.18711943344937432,
+        "observed": 0.18711943427721658,
+        "consistency": 1.6326813642485326e-05
+      },
+      "train_output": {
+        "min": 2.5962570759929804e-08,
+        "max": 4.909284143650439e-07,
+        "mean": 1.1886833112462994e-07,
+        "std": 3.4839840685681735e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 3.905419935858388e-11
+      },
+      "val_output": {
+        "min": 2.5982732410056997e-08,
+        "max": 4.6740115067223087e-07,
+        "mean": 1.1632754108129954e-07,
+        "std": 3.407585380150072e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.3929874738812957e-11
+      },
+      "train_gradient_norm_max": 0.0012098117731511593,
+      "post_clip_gradient_norm_max": 0.0012098117731511593
+    },
+    {
+      "epoch": 55,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000134387175745,
+          "relative_l2": 0.9999912863331767
+        },
+        "cross": {
+          "relative_l1": 1.0000133335066679,
+          "relative_l2": 0.9999913017130447
+        },
+        "observed": {
+          "relative_l1": 1.0000133334936658,
+          "relative_l2": 0.9999913017099608
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.000012920447666,
+          "relative_l2": 0.9999915961964189
+        },
+        "cross": {
+          "relative_l1": 1.0000128333330514,
+          "relative_l2": 0.9999916131017815
+        },
+        "observed": {
+          "relative_l1": 1.0000128333765974,
+          "relative_l2": 0.9999916131223302
+        }
+      },
+      "train_loss": {
+        "total": 0.3085873078509986,
+        "hold": 0.19307173609015454,
+        "cross": 0.19252448017338672,
+        "observed": 0.19252448035291878,
+        "consistency": 1.7679535488581216e-05
+      },
+      "val_loss": {
+        "total": 0.29993752638498944,
+        "hold": 0.1876651785439915,
+        "cross": 0.18711941854821312,
+        "observed": 0.1871194193760554,
+        "consistency": 1.3856143242365862e-05
+      },
+      "train_output": {
+        "min": 2.480462590881416e-08,
+        "max": 4.688954788889532e-07,
+        "mean": 1.1497510625496577e-07,
+        "std": 3.378233058504118e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 2.34259320770956e-11
+      },
+      "val_output": {
+        "min": 2.4767610184994737e-08,
+        "max": 4.487038438583113e-07,
+        "mean": 1.1127637083379543e-07,
+        "std": 3.2699528599668294e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.4937928002691146e-11
+      },
+      "train_gradient_norm_max": 0.0008518510148860514,
+      "post_clip_gradient_norm_max": 0.0008518510148860514
+    },
+    {
+      "epoch": 56,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.000012696382756,
+          "relative_l2": 0.9999916661559831
+        },
+        "cross": {
+          "relative_l1": 1.0000126605252324,
+          "relative_l2": 0.9999918374639318
+        },
+        "observed": {
+          "relative_l1": 1.0000126605156163,
+          "relative_l2": 0.9999918374668656
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000122246136083,
+          "relative_l2": 0.9999920294791451
+        },
+        "cross": {
+          "relative_l1": 1.000012140921908,
+          "relative_l2": 0.9999920455747114
+        },
+        "observed": {
+          "relative_l1": 1.000012140926619,
+          "relative_l2": 0.9999920455727717
+        }
+      },
+      "train_loss": {
+        "total": 0.30821050990776844,
+        "hold": 0.19296773891132998,
+        "cross": 0.19207006262009402,
+        "observed": 0.1920700622610299,
+        "consistency": 1.4698337443142777e-05
+      },
+      "val_loss": {
+        "total": 0.29993751727872425,
+        "hold": 0.1876651661263572,
+        "cross": 0.18711940613057879,
+        "observed": 0.1871194053027365,
+        "consistency": 1.4157606377314854e-05
+      },
+      "train_output": {
+        "min": 2.345545091486656e-08,
+        "max": 4.4864947312817094e-07,
+        "mean": 1.0876858484302747e-07,
+        "std": 3.205465318555485e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.4620968882530664e-10
+      },
+      "val_output": {
+        "min": 2.3426881767818486e-08,
+        "max": 4.262775803454133e-07,
+        "mean": 1.055025918480131e-07,
+        "std": 3.1091686592282604e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.716653592589593e-11
+      },
+      "train_gradient_norm_max": 0.0007440980989485979,
+      "post_clip_gradient_norm_max": 0.0007440980989485979
+    },
+    {
+      "epoch": 57,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.000011899450993,
+          "relative_l2": 0.9999921395880293
+        },
+        "cross": {
+          "relative_l1": 1.0000119594149715,
+          "relative_l2": 0.9999922847259913
+        },
+        "observed": {
+          "relative_l1": 1.0000119593835908,
+          "relative_l2": 0.9999922847116327
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.000011551873171,
+          "relative_l2": 0.9999924506674953
+        },
+        "cross": {
+          "relative_l1": 1.000011471615772,
+          "relative_l2": 0.9999924659616622
+        },
+        "observed": {
+          "relative_l1": 1.0000114716083524,
+          "relative_l2": 0.9999924659523965
+        }
+      },
+      "train_loss": {
+        "total": 0.30864681321454335,
+        "hold": 0.1932340977062662,
+        "cross": 0.19235313459333167,
+        "observed": 0.19235313441379961,
+        "consistency": 1.670606685278121e-05
+      },
+      "val_loss": {
+        "total": 0.2999374684360292,
+        "hold": 0.18766515205303827,
+        "cross": 0.18711938874589074,
+        "observed": 0.18711938874589074,
+        "consistency": 1.370797771313745e-05
+      },
+      "train_output": {
+        "min": 2.2150697276401843e-08,
+        "max": 4.2618489715096075e-07,
+        "mean": 1.0272682647766887e-07,
+        "std": 3.0361603297018965e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 4.319870230378482e-11
+      },
+      "val_output": {
+        "min": 2.212561689418635e-08,
+        "max": 4.0475904938830354e-07,
+        "mean": 9.989335748706986e-08,
+        "std": 2.951882396661155e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.93216682732787e-11
+      },
+      "train_gradient_norm_max": 0.0006448361091315746,
+      "post_clip_gradient_norm_max": 0.0006448361091315746
+    },
+    {
+      "epoch": 58,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000110143065695,
+          "relative_l2": 0.9999925723331806
+        },
+        "cross": {
+          "relative_l1": 1.0000114370469995,
+          "relative_l2": 0.999992707295275
+        },
+        "observed": {
+          "relative_l1": 1.0000114370194497,
+          "relative_l2": 0.9999927072850366
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000108814637692,
+          "relative_l2": 0.9999928714097097
+        },
+        "cross": {
+          "relative_l1": 1.0000108048373626,
+          "relative_l2": 0.9999928859309859
+        },
+        "observed": {
+          "relative_l1": 1.000010804850017,
+          "relative_l2": 0.9999928859288825
+        }
+      },
+      "train_loss": {
+        "total": 0.30778278015464183,
+        "hold": 0.1921105918036886,
+        "cross": 0.192785726613309,
+        "observed": 0.19278572643377695,
+        "consistency": 1.5062193197300952e-05
+      },
+      "val_loss": {
+        "total": 0.29993754045830834,
+        "hold": 0.1876651363240348,
+        "cross": 0.18711937136120266,
+        "observed": 0.18711937136120266,
+        "consistency": 1.557012039180942e-05
+      },
+      "train_output": {
+        "min": 2.084377115352254e-08,
+        "max": 4.0465482697982225e-07,
+        "mean": 9.715526356115152e-08,
+        "std": 2.879313536787748e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.223889927895857e-10
+      },
+      "val_output": {
+        "min": 2.083164929445047e-08,
+        "max": 3.8320169437611185e-07,
+        "mean": 9.429240637675522e-08,
+        "std": 2.794239702244902e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.1214320766648823e-11
+      },
+      "train_gradient_norm_max": 0.0007827335502952337,
+      "post_clip_gradient_norm_max": 0.0007827335502952337
+    },
+    {
+      "epoch": 59,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000106891955143,
+          "relative_l2": 0.9999930490828797
+        },
+        "cross": {
+          "relative_l1": 1.0000108177903544,
+          "relative_l2": 0.9999931836981574
+        },
+        "observed": {
+          "relative_l1": 1.0000108178009888,
+          "relative_l2": 0.9999931836987447
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.000010299841449,
+          "relative_l2": 0.9999932365138873
+        },
+        "cross": {
+          "relative_l1": 1.0000102262529968,
+          "relative_l2": 0.9999932503096944
+        },
+        "observed": {
+          "relative_l1": 1.000010226223936,
+          "relative_l2": 0.9999932503173644
+        }
+      },
+      "train_loss": {
+        "total": 0.30861075994480086,
+        "hold": 0.193094299320715,
+        "cross": 0.1925263616694025,
+        "observed": 0.19252636148987046,
+        "consistency": 1.2873932793086005e-05
+      },
+      "val_loss": {
+        "total": 0.29993729293346405,
+        "hold": 0.18766512473424277,
+        "cross": 0.18711936391062206,
+        "observed": 0.18711936391062206,
+        "consistency": 1.1087060455692052e-05
+      },
+      "train_output": {
+        "min": 1.9704396336805985e-08,
+        "max": 3.8314578887366224e-07,
+        "mean": 9.157459337012802e-08,
+        "std": 2.7220234277886767e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 6.515888622311244e-11
+      },
+      "val_output": {
+        "min": 1.970112784022149e-08,
+        "max": 3.644935588908993e-07,
+        "mean": 8.943214840289531e-08,
+        "std": 2.6579515977685686e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.4031721717084571e-11
+      },
+      "train_gradient_norm_max": 0.0006257679197005928,
+      "post_clip_gradient_norm_max": 0.0006257679197005928
+    },
+    {
+      "epoch": 60,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000104445393156,
+          "relative_l2": 0.9999934557446446
+        },
+        "cross": {
+          "relative_l1": 1.0000101810609368,
+          "relative_l2": 0.9999934407464057
+        },
+        "observed": {
+          "relative_l1": 1.0000101810765754,
+          "relative_l2": 0.9999934407623408
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000097901482572,
+          "relative_l2": 0.9999935570253015
+        },
+        "cross": {
+          "relative_l1": 1.0000097193139035,
+          "relative_l2": 0.9999935702324425
+        },
+        "observed": {
+          "relative_l1": 1.000009719288612,
+          "relative_l2": 0.9999935702269028
+        }
+      },
+      "train_loss": {
+        "total": 0.3085606116128255,
+        "hold": 0.19291808617761336,
+        "cross": 0.19273652315857898,
+        "observed": 0.19273652333811106,
+        "consistency": 1.2268252177533892e-05
+      },
+      "val_loss": {
+        "total": 0.2999372093213929,
+        "hold": 0.18766511397229302,
+        "cross": 0.18711935232083002,
+        "observed": 0.18711935232083002,
+        "consistency": 9.776828569051253e-06
+      },
+      "train_output": {
+        "min": 1.8724657380175813e-08,
+        "max": 3.6449978324526455e-07,
+        "mean": 8.721803430482139e-08,
+        "std": 2.598733524308788e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 3.4715962619494676e-11
+      },
+      "val_output": {
+        "min": 1.8715407890113056e-08,
+        "max": 3.479680685813946e-07,
+        "mean": 8.516682499977908e-08,
+        "std": 2.5376999654039567e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.3138260382901589e-11
+      },
+      "train_gradient_norm_max": 0.0006423776503652334,
+      "post_clip_gradient_norm_max": 0.0006423775921575725
+    },
+    {
+      "epoch": 61,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000098226143963,
+          "relative_l2": 0.9999937726772979
+        },
+        "cross": {
+          "relative_l1": 1.0000096835296173,
+          "relative_l2": 0.999993765267308
+        },
+        "observed": {
+          "relative_l1": 1.0000096835203705,
+          "relative_l2": 0.9999937652648412
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.000009285311457,
+          "relative_l2": 0.9999938748359511
+        },
+        "cross": {
+          "relative_l1": 1.0000092171763775,
+          "relative_l2": 0.999993887430966
+        },
+        "observed": {
+          "relative_l1": 1.000009217153123,
+          "relative_l2": 0.999993887437121
+        }
+      },
+      "train_loss": {
+        "total": 0.30827834322509995,
+        "hold": 0.19288130014775748,
+        "cross": 0.1923273480441197,
+        "observed": 0.19232734858271588,
+        "consistency": 1.268014468596119e-05
+      },
+      "val_loss": {
+        "total": 0.29993726478682625,
+        "hold": 0.18766510238250098,
+        "cross": 0.1871193399031957,
+        "observed": 0.1871193399031957,
+        "consistency": 1.1137876274208085e-05
+      },
+      "train_output": {
+        "min": 1.7744827829346832e-08,
+        "max": 3.4792856240528636e-07,
+        "mean": 8.277316650569528e-08,
+        "std": 2.4741797419761675e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 2.129037521677749e-11
+      },
+      "val_output": {
+        "min": 1.7733324142454876e-08,
+        "max": 3.3167265200972906e-07,
+        "mean": 8.093677362887144e-08,
+        "std": 2.4188953682870727e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.0744545010654694e-11
+      },
+      "train_gradient_norm_max": 0.0005636485293507576,
+      "post_clip_gradient_norm_max": 0.0005636485293507576
+    },
+    {
+      "epoch": 62,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000090748815837,
+          "relative_l2": 0.999993958123141
+        },
+        "cross": {
+          "relative_l1": 1.0000091148416947,
+          "relative_l2": 0.9999940321094113
+        },
+        "observed": {
+          "relative_l1": 1.0000091148084473,
+          "relative_l2": 0.9999940320996409
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000088215598344,
+          "relative_l2": 0.9999941690201862
+        },
+        "cross": {
+          "relative_l1": 1.0000087559564836,
+          "relative_l2": 0.9999941810371281
+        },
+        "observed": {
+          "relative_l1": 1.000008755937159,
+          "relative_l2": 0.9999941810388526
+        }
+      },
+      "train_loss": {
+        "total": 0.3081302147313773,
+        "hold": 0.1926876517483987,
+        "cross": 0.19240326551069697,
+        "observed": 0.19240326604929314,
+        "consistency": 1.2083042040914338e-05
+      },
+      "val_loss": {
+        "total": 0.2999372465742959,
+        "hold": 0.1876650924483935,
+        "cross": 0.18711933410829967,
+        "observed": 0.18711933410829967,
+        "consistency": 1.1081665232066169e-05
+      },
+      "train_output": {
+        "min": 1.6855640438961927e-08,
+        "max": 3.3154773859678244e-07,
+        "mean": 7.897235424639304e-08,
+        "std": 2.365017145013977e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 6.7605853702944e-11
+      },
+      "val_output": {
+        "min": 1.6839539540569604e-08,
+        "max": 3.1644322007196024e-07,
+        "mean": 7.702796751058511e-08,
+        "std": 2.3076033164555766e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.473529297092118e-11
+      },
+      "train_gradient_norm_max": 0.0006218537455424666,
+      "post_clip_gradient_norm_max": 0.0006218538037501276
+    },
+    {
+      "epoch": 63,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000085639334537,
+          "relative_l2": 0.999994271413724
+        },
+        "cross": {
+          "relative_l1": 1.000008667829955,
+          "relative_l2": 0.9999943386588469
+        },
+        "observed": {
+          "relative_l1": 1.0000086678040954,
+          "relative_l2": 0.9999943386520543
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000083284844548,
+          "relative_l2": 0.9999944811881257
+        },
+        "cross": {
+          "relative_l1": 1.0000082656088431,
+          "relative_l2": 0.9999944926037266
+        },
+        "observed": {
+          "relative_l1": 1.0000082655931875,
+          "relative_l2": 0.9999944925840852
+        }
+      },
+      "train_loss": {
+        "total": 0.30761360044938973,
+        "hold": 0.1921546775174428,
+        "cross": 0.1924305942403265,
+        "observed": 0.1924305945993906,
+        "consistency": 1.1343589323083309e-05
+      },
+      "val_loss": {
+        "total": 0.29993727389309144,
+        "hold": 0.18766508251428604,
+        "cross": 0.18711932169066536,
+        "observed": 0.18711932169066536,
+        "consistency": 1.2014541526797177e-05
+      },
+      "train_output": {
+        "min": 1.5894562110929655e-08,
+        "max": 3.164664690302743e-07,
+        "mean": 7.491140298170703e-08,
+        "std": 2.2500438912503648e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.065254952700315e-10
+      },
+      "val_output": {
+        "min": 1.588877296399005e-08,
+        "max": 3.001257482537767e-07,
+        "mean": 7.287878784407238e-08,
+        "std": 2.189533097508803e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.0733724301246829e-11
+      },
+      "train_gradient_norm_max": 0.0004714401438832283,
+      "post_clip_gradient_norm_max": 0.0004714401438832283
+    },
+    {
+      "epoch": 64,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000079760547722,
+          "relative_l2": 0.9999944664170367
+        },
+        "cross": {
+          "relative_l1": 1.0000082865740652,
+          "relative_l2": 0.9999946140519489
+        },
+        "observed": {
+          "relative_l1": 1.0000082865674318,
+          "relative_l2": 0.9999946140529659
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000079224026817,
+          "relative_l2": 0.9999947392463694
+        },
+        "cross": {
+          "relative_l1": 1.0000078617502035,
+          "relative_l2": 0.9999947501566037
+        },
+        "observed": {
+          "relative_l1": 1.0000078617255241,
+          "relative_l2": 0.9999947501526604
+        }
+      },
+      "train_loss": {
+        "total": 0.30777210661445753,
+        "hold": 0.19228379787450814,
+        "cross": 0.19247968764190215,
+        "observed": 0.192479687282838,
+        "consistency": 9.978116658345813e-06
+      },
+      "val_loss": {
+        "total": 0.29993703547451234,
+        "hold": 0.18766507506370544,
+        "cross": 0.18711931258440018,
+        "observed": 0.18711931258440018,
+        "consistency": 7.547454995599563e-06
+      },
+      "train_output": {
+        "min": 1.5111343287799173e-08,
+        "max": 3.00121740792747e-07,
+        "mean": 7.124826235820978e-08,
+        "std": 2.1465389079235752e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.8338689445975197e-11
+      },
+      "val_output": {
+        "min": 1.5111890405705708e-08,
+        "max": 2.8669896323663124e-07,
+        "mean": 6.94496757386926e-08,
+        "std": 2.0914964985933328e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.0077434918289084e-11
+      },
+      "train_gradient_norm_max": 0.0004591700853779912,
+      "post_clip_gradient_norm_max": 0.0004591700853779912
+    },
+    {
+      "epoch": 65,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000080159163918,
+          "relative_l2": 0.9999947239272053
+        },
+        "cross": {
+          "relative_l1": 1.0000078396992844,
+          "relative_l2": 0.9999947282847782
+        },
+        "observed": {
+          "relative_l1": 1.0000078397066092,
+          "relative_l2": 0.9999947282865933
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000076224150556,
+          "relative_l2": 0.9999949293537088
+        },
+        "cross": {
+          "relative_l1": 1.000007563370117,
+          "relative_l2": 0.9999949398973366
+        },
+        "observed": {
+          "relative_l1": 1.0000075633871015,
+          "relative_l2": 0.999994939908652
+        }
+      },
+      "train_loss": {
+        "total": 0.307799016316253,
+        "hold": 0.19214752307498312,
+        "cross": 0.192751688770501,
+        "observed": 0.19275168912956514,
+        "consistency": 9.65382804931422e-06
+      },
+      "val_loss": {
+        "total": 0.29993708928426105,
+        "hold": 0.18766506761312485,
+        "cross": 0.18711930761734644,
+        "observed": 0.18711930761734644,
+        "consistency": 8.726405717930498e-06
+      },
+      "train_output": {
+        "min": 1.454031117731347e-08,
+        "max": 2.8914524818901555e-07,
+        "mean": 6.921777312496592e-08,
+        "std": 2.0895098928913734e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 4.376744601662454e-11
+      },
+      "val_output": {
+        "min": 1.4519832447490444e-08,
+        "max": 2.7701824478754133e-07,
+        "mean": 6.691784084880383e-08,
+        "std": 2.0207302961392974e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.0353566032790727e-11
+      },
+      "train_gradient_norm_max": 0.0005075063090771437,
+      "post_clip_gradient_norm_max": 0.0005075063090771437
+    },
+    {
+      "epoch": 66,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000076691084447,
+          "relative_l2": 0.9999950619354384
+        },
+        "cross": {
+          "relative_l1": 1.0000074393641956,
+          "relative_l2": 0.9999950297216531
+        },
+        "observed": {
+          "relative_l1": 1.0000074393397955,
+          "relative_l2": 0.9999950297124545
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000072188986389,
+          "relative_l2": 0.999995186614306
+        },
+        "cross": {
+          "relative_l1": 1.0000071621609403,
+          "relative_l2": 0.9999951966640902
+        },
+        "observed": {
+          "relative_l1": 1.0000071621648305,
+          "relative_l2": 0.9999951966779013
+        }
+      },
+      "train_loss": {
+        "total": 0.3083551947969988,
+        "hold": 0.19299041713217654,
+        "cross": 0.19227383824357067,
+        "observed": 0.1922738380640386,
+        "consistency": 9.517605297124723e-06
+      },
+      "val_loss": {
+        "total": 0.29993706362115014,
+        "hold": 0.18766505933470196,
+        "cross": 0.18711929933892357,
+        "observed": 0.18711930016676584,
+        "consistency": 8.44457041340421e-06
+      },
+      "train_output": {
+        "min": 1.3759192896145578e-08,
+        "max": 2.7694693471858045e-07,
+        "mean": 6.547308132869273e-08,
+        "std": 1.981806162278983e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.1246880807621754e-10
+      },
+      "val_output": {
+        "min": 1.3743506777075254e-08,
+        "max": 2.634812403812248e-07,
+        "mean": 6.350259143219874e-08,
+        "std": 1.9224338050646372e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.055808689484231e-11
+      },
+      "train_gradient_norm_max": 0.0004382532206363976,
+      "post_clip_gradient_norm_max": 0.0004382532206363976
+    },
+    {
+      "epoch": 67,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000069582166917,
+          "relative_l2": 0.9999952877828066
+        },
+        "cross": {
+          "relative_l1": 1.0000070653414703,
+          "relative_l2": 0.999995340137151
+        },
+        "observed": {
+          "relative_l1": 1.0000070653408,
+          "relative_l2": 0.999995340136319
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000068922229741,
+          "relative_l2": 0.9999953948784928
+        },
+        "cross": {
+          "relative_l1": 1.000006837371314,
+          "relative_l2": 0.9999954045152835
+        },
+        "observed": {
+          "relative_l1": 1.0000068373331983,
+          "relative_l2": 0.9999954045058139
+        }
+      },
+      "train_loss": {
+        "total": 0.3075496543602771,
+        "hold": 0.1920653786285814,
+        "cross": 0.19247306964124541,
+        "observed": 0.19247306973101144,
+        "consistency": 8.632547529070661e-06
+      },
+      "val_loss": {
+        "total": 0.2999370801779959,
+        "hold": 0.18766505271196365,
+        "cross": 0.18711929271618524,
+        "observed": 0.18711929271618524,
+        "consistency": 9.010995831380973e-06
+      },
+      "train_output": {
+        "min": 1.3109869634320148e-08,
+        "max": 2.634900226894388e-07,
+        "mean": 6.179018802377725e-08,
+        "std": 1.8750087875651736e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.1552434802426198e-10
+      },
+      "val_output": {
+        "min": 1.3113846009105146e-08,
+        "max": 2.5267797809647163e-07,
+        "mean": 6.073658228208008e-08,
+        "std": 1.8432820690939306e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.013191613941089e-11
+      },
+      "train_gradient_norm_max": 0.0004798749869223684,
+      "post_clip_gradient_norm_max": 0.0004798749869223684
+    },
+    {
+      "epoch": 68,
+      "train_measurement": {
+        "heldout": {
+          "relative_l1": 1.000006896330984,
+          "relative_l2": 0.9999955488805495
+        },
+        "cross": {
+          "relative_l1": 1.0000067079262878,
+          "relative_l2": 0.9999955657294126
+        },
+        "observed": {
+          "relative_l1": 1.0000067079180481,
+          "relative_l2": 0.9999955657236667
+        }
+      },
+      "val_measurement": {
+        "heldout": {
+          "relative_l1": 1.0000064888142006,
+          "relative_l2": 0.9999956546302641
+        },
+        "cross": {
+          "relative_l1": 1.0000064365193626,
+          "relative_l2": 0.9999956637569731
+        },
+        "observed": {
+          "relative_l1": 1.0000064364947148,
+          "relative_l2": 0.9999956637655063
+        }
+      },
+      "train_loss": {
+        "total": 0.3068521961749318,
+        "hold": 0.1915193227938859,
+        "cross": 0.19222073903284878,
+        "observed": 0.1922207388533167,
+        "consistency": 8.606540928031978e-06
+      },
+      "val_loss": {
+        "total": 0.29993708845641875,
+        "hold": 0.18766504526138306,
+        "cross": 0.18711928609344694,
+        "observed": 0.18711928692128924,
+        "consistency": 9.430417498555875e-06
+      },
+      "train_output": {
+        "min": 1.2351764056006687e-08,
+        "max": 2.5263219072257925e-07,
+        "mean": 5.857804902454603e-08,
+        "std": 1.78266377731613e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.495933010401248e-10
+      },
+      "val_output": {
+        "min": 1.2343146060800336e-08,
+        "max": 2.3897942469375266e-07,
+        "mean": 5.729371451342521e-08,
+        "std": 1.7428846906095037e-08,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.2797922320110074e-11
+      },
+      "train_gradient_norm_max": 0.00044915484613738954,
+      "post_clip_gradient_norm_max": 0.00044915484613738954
+    }
+  ]
+}

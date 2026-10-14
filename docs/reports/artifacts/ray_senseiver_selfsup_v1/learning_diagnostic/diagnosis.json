@@ -1,0 +1,2812 @@
+{
+  "completed": true,
+  "registration": {
+    "at": "2026-10-14T16:47:56.714094+08:00",
+    "case_indices": [
+      0,
+      1,
+      2
+    ],
+    "train_sampler_epoch": 0,
+    "own_checkpoint_only": "last.pt atomic snapshot",
+    "optimizer_created": false,
+    "optimizer_steps": 0,
+    "GT": false,
+    "Pool_B": false,
+    "test": false,
+    "source_sha256": "0d254f932cf39c1013c12911c0d96786b20e45fca8c49af778b90a77d71f7ba7",
+    "config_sha256": "91ea77ed89f3dc11c7b7dfdc9bfc915a83528ee04af198a5482fdf19ada7810b",
+    "query_check": "259 fixed endpoint grid positions; numerical test only, formal training all 262144 unchanged",
+    "near_zero_levels": [
+      0.0,
+      1e-08,
+      1e-07,
+      1e-06,
+      1e-05
+    ]
+  },
+  "checkpoint_sha256": "faa96d0dfd4125733c6c3aabc27e59ad5a112183ead28351967dc0da9267c9be",
+  "snapshot_epoch": 68,
+  "snapshot_steps": 5644,
+  "optimizer_state_steps": [
+    5644
+  ],
+  "model_state_sha256": "7c218a45ba6bdf774eac2e2743a57f73ab26a6c5f55df189f5d5d0dc4695ae18",
+  "initial_state_sha256": "1fd1e876755be64371fa85c584410063b8f3b7f135f9ab7630e495ededf8e1e1",
+  "parameters_differ_from_initial": true,
+  "diagnostic_model_state_unchanged": true,
+  "optimizer_created": false,
+  "optimizer_steps": 0,
+  "all_parameter_grad_buffers_none": true,
+  "formal_model_optimizer_config_selector_untouched": true,
+  "seconds": 10.859590633772314,
+  "case_results": [
+    {
+      "case_index": 0,
+      "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet1_half",
+      "station_ids": {
+        "A": [
+          10,
+          17,
+          40
+        ],
+        "B": [
+          1,
+          23,
+          6,
+          28,
+          59
+        ],
+        "H": [
+          16,
+          51
+        ]
+      },
+      "prediction": {
+        "min": 1.2349927303034747e-08,
+        "max": 2.3890444822427526e-07,
+        "mean": 5.729845525781171e-08,
+        "std": 1.7429618139484726e-08,
+        "l2": 3.0664075232641456e-05,
+        "quantiles": {
+          "0.0": 1.2349927303034747e-08,
+          "0.001": 1.8779891931330895e-08,
+          "0.01": 2.5307593478629543e-08,
+          "0.1": 3.7231359328870894e-08,
+          "0.5": 5.5381903507623065e-08,
+          "0.9": 7.893756048815703e-08,
+          "0.99": 1.119650207925816e-07,
+          "0.999": 1.505926356770708e-07,
+          "1.0": 2.3890444822427526e-07
+        },
+        "axis_neighbor_mean_abs": {
+          "x": 4.34162981109533e-09,
+          "y": 4.5287107641447455e-09,
+          "z": 4.8644577392438116e-09
+        },
+        "fraction_below_1e_6": 1.0
+      },
+      "logits": {
+        "min": -18.20961570739746,
+        "max": -15.247201919555664,
+        "mean": -16.719260608504555,
+        "std": 0.29914624288236036,
+        "l2": 8561.631540965203,
+        "quantiles": {
+          "0.0": -18.20961570739746,
+          "0.001": -17.79047908782959,
+          "0.01": -17.49216131210327,
+          "0.1": -17.106114387512207,
+          "0.5": -16.709012985229492,
+          "0.9": -16.3546085357666,
+          "0.99": -16.005079135894775,
+          "0.999": -15.708687296867375,
+          "1.0": -15.247201919555664
+        }
+      },
+      "sigmoid_derivative": {
+        "min": 1.2349927303034747e-08,
+        "max": 2.389043913808564e-07,
+        "mean": 5.729845006891498e-08,
+        "std": 1.742961562868841e-08,
+        "l2": 3.0664072316801103e-05,
+        "quantiles": {
+          "0.0": 1.2349927303034747e-08,
+          "0.001": 1.8779891931330895e-08,
+          "0.01": 2.5307593478629543e-08,
+          "0.1": 3.7231355776157216e-08,
+          "0.5": 5.5381899954909386e-08,
+          "0.9": 7.893755338272967e-08,
+          "0.99": 1.1196500658172688e-07,
+          "0.999": 1.5059260725536136e-07,
+          "1.0": 2.389043913808564e-07
+        }
+      },
+      "logit_fraction_below_minus10": 1.0,
+      "normal_vs_zero_measurement": {
+        "output_mean_abs": 3.294837709957865e-12,
+        "output_max_abs": 1.7067236512957606e-11,
+        "relative_l1": 5.750307900598273e-05,
+        "latent_difference_l2": 0.35410481691360474,
+        "latent_relative_l2": 0.0012415603268891573,
+        "geometry_path_mask_unchanged": true
+      },
+      "geometry_and_input_scale": {
+        "valid_rays": 6007,
+        "packed_real_rays": 6007,
+        "valid_zero_measurements": 0,
+        "positive_measurement_fraction": 1.0,
+        "raw_ppm_m": {
+          "min": 1.0932966152972531e-31,
+          "max": 17388.181640625,
+          "mean": 1768.9273959970399,
+          "std": 4333.59587469828,
+          "l2": 362778.5938095403,
+          "quantiles": {
+            "0.0": 1.0932966152972531e-31,
+            "0.001": 1.5440456854529716e-31,
+            "0.01": 3.2613611312332505e-30,
+            "0.1": 2.539812371922291e-27,
+            "0.5": 6.277161052554519e-21,
+            "0.9": 8900.670117187508,
+            "0.99": 16520.3936328125,
+            "0.999": 17342.012769531248,
+            "1.0": 17388.181640625
+          }
+        },
+        "normalized_integral": {
+          "min": 3.3864030698389354e-36,
+          "max": 0.5385857224464417,
+          "mean": 0.054791179975693785,
+          "std": 0.13422983443914985,
+          "l2": 11.236790876097121,
+          "quantiles": {
+            "0.0": 3.3864030698389354e-36,
+            "0.001": 4.782563855445844e-36,
+            "0.01": 1.010181788467066e-34,
+            "0.1": 7.866875572256636e-32,
+            "0.5": 1.9443028846483825e-25,
+            "0.9": 0.275691479444504,
+            "0.99": 0.5117066037654876,
+            "0.999": 0.5371556438207625,
+            "1.0": 0.5385857224464417
+          }
+        },
+        "direction_norm": {
+          "min": 0.9999999403953552,
+          "max": 1.0,
+          "mean": 0.9999999849078302,
+          "std": 2.5918908819451747e-08,
+          "l2": 77.50483738891835,
+          "quantiles": {
+            "0.0": 0.9999999403953552,
+            "0.001": 0.9999999403953552,
+            "0.01": 0.9999999403953552,
+            "0.1": 0.9999999403953552,
+            "0.5": 1.0,
+            "0.9": 1.0,
+            "0.99": 1.0,
+            "0.999": 1.0,
+            "1.0": 1.0
+          }
+        },
+        "path_length_m": {
+          "min": 0.000684702186845243,
+          "max": 0.7712971568107605,
+          "mean": 0.48401014580630225,
+          "std": 0.19937367186169172,
+          "l2": 40.5710759461249,
+          "quantiles": {
+            "0.0": 0.000684702186845243,
+            "0.001": 0.0038094169637188317,
+            "0.01": 0.01042120845988393,
+            "0.1": 0.14583317339420318,
+            "0.5": 0.6010535359382629,
+            "0.9": 0.6147324085235596,
+            "0.99": 0.7690035736560822,
+            "0.999": 0.7710742241144181,
+            "1.0": 0.7712971568107605
+          }
+        },
+        "entry_min_m": [
+          -4.76837158203125e-07,
+          3.781914710998535e-05,
+          0.0035986900329589844
+        ],
+        "entry_max_m": [
+          0.6000003814697266,
+          0.5999665260314941,
+          0.6000003814697266
+        ],
+        "exit_min_m": [
+          -6.705522537231445e-07,
+          -4.1443854570388794e-08,
+          -5.960464477539062e-07
+        ],
+        "exit_max_m": [
+          0.6000005006790161,
+          0.6000000834465027,
+          0.5995496511459351
+        ],
+        "entry_exit_in_domain": true,
+        "all_tokens_finite": true,
+        "token_channels": 203,
+        "token_measurement": {
+          "min": 3.3864030698389354e-36,
+          "max": 0.5385857224464417,
+          "mean": 0.054791179975693785,
+          "std": 0.13422983443914985,
+          "l2": 11.236790876097121,
+          "quantiles": {
+            "0.0": 3.3864030698389354e-36,
+            "0.001": 4.782563855445844e-36,
+            "0.01": 1.010181788467066e-34,
+            "0.1": 7.866875572256636e-32,
+            "0.5": 1.9443028846483825e-25,
+            "0.9": 0.275691479444504,
+            "0.99": 0.5117066037654876,
+            "0.999": 0.5371556438207625,
+            "1.0": 0.5385857224464417
+          }
+        },
+        "token_geometry": {
+          "min": -1.0000022649765015,
+          "max": 1.0000016689300537,
+          "mean": -0.017655478349323857,
+          "std": 0.6761960090802002,
+          "l2": 165.78659237045326,
+          "quantiles": {
+            "0.0": -1.0000022649765015,
+            "0.001": -1.0000020265579224,
+            "0.01": -1.0000015497207642,
+            "0.1": -0.9992498278617858,
+            "0.5": -0.009521263651549816,
+            "0.9": 0.9999980926513672,
+            "0.99": 1.0000004768371582,
+            "0.999": 1.0000011920928955,
+            "1.0": 1.0000016689300537
+          }
+        },
+        "token_fourier": {
+          "min": -1.0,
+          "max": 1.0,
+          "mean": -0.004172120184154646,
+          "std": 0.7070944793195725,
+          "l2": 759.3892353020998,
+          "quantiles": {
+            "0.0": -1.0,
+            "0.001": -1.0,
+            "0.01": -1.0,
+            "0.1": -0.9510724544525146,
+            "0.5": -2.7975288503512274e-06,
+            "0.9": 0.9510594606399536,
+            "0.99": 1.0,
+            "0.999": 1.0,
+            "1.0": 1.0
+          }
+        }
+      },
+      "loss_branch_gradients": {
+        "total": {
+          "loss": 0.2384323924779892,
+          "outer_weight": 1.0,
+          "parameter_gradients": {
+            "encoder": {
+              "l2": 2.3817117776526978e-05,
+              "finite": true,
+              "parameters_with_gradient": 102,
+              "zero_gradient_parameters": 0
+            },
+            "learned_encoder_latents": {
+              "l2": 4.158246423776305e-07,
+              "finite": true,
+              "parameters_with_gradient": 1,
+              "zero_gradient_parameters": 0
+            },
+            "decoder": {
+              "l2": 3.611941622512312e-05,
+              "finite": true,
+              "parameters_with_gradient": 19,
+              "zero_gradient_parameters": 0
+            },
+            "learned_output_query": {
+              "l2": 7.458869025881007e-07,
+              "finite": true,
+              "parameters_with_gradient": 1,
+              "zero_gradient_parameters": 0
+            },
+            "all": {
+              "l2": 4.326708030082285e-05,
+              "finite": true,
+              "parameters_with_gradient": 122,
+              "zero_gradient_parameters": 0
+            }
+          },
+          "d_loss_d_prediction_A": {
+            "l2": 92.02289001911635,
+            "mean": -0.011333865154493993,
+            "sum": -2971.104747059673,
+            "positive_fraction": 0.46978759765625,
+            "negative_fraction": 0.53021240234375,
+            "zero_fraction": 0.0,
+            "logit_chain_l2": 5.512097520824422e-06,
+            "logit_chain_attenuation": 5.989920029331145e-08
+          },
+          "d_loss_d_prediction_B": {
+            "l2": 92.029638284286,
+            "mean": 0.011391184651084418,
+            "sum": 2986.1307091738736,
+            "positive_fraction": 0.5327720642089844,
+            "negative_fraction": 0.4672279357910156,
+            "zero_fraction": 0.0,
+            "logit_chain_l2": 5.512667793717785e-06,
+            "logit_chain_attenuation": 5.990100468165232e-08
+          }
+        },
+        "hold": {
+          "loss": 0.14695510268211365,
+          "outer_weight": 1.0,
+          "parameter_gradients": {
+            "encoder": {
+              "l2": 1.268207350794014e-07,
+              "finite": true,
+              "parameters_with_gradient": 102,
+              "zero_gradient_parameters": 0
+            },
+            "learned_encoder_latents": {
+              "l2": 1.5302059985581975e-09,
+              "finite": true,
+              "parameters_with_gradient": 1,
+              "zero_gradient_parameters": 0
+            },
+            "decoder": {
+              "l2": 1.458495431593607e-05,
+              "finite": true,
+              "parameters_with_gradient": 19,
+              "zero_gradient_parameters": 0
+            },
+            "learned_output_query": {
+              "l2": 3.3508053383175034e-07,
+              "finite": true,
+              "parameters_with_gradient": 1,
+              "zero_gradient_parameters": 0
+            },
+            "all": {
+              "l2": 1.4585505758742776e-05,
+              "finite": true,
+              "parameters_with_gradient": 122,
+              "zero_gradient_parameters": 0
+            }
+          },
+          "d_loss_d_prediction_A": {
+            "l2": 0.05792338205209372,
+            "mean": 1.7215089524351383e-05,
+            "sum": 4.512832428271569,
+            "positive_fraction": 0.6606521606445312,
+            "negative_fraction": 0.3390350341796875,
+            "zero_fraction": 0.00031280517578125,
+            "logit_chain_l2": 3.549026256640177e-09,
+            "logit_chain_attenuation": 6.127104687099141e-08
+          },
+          "d_loss_d_prediction_B": {
+            "l2": 0.057923382075563926,
+            "mean": 1.7215089671472847e-05,
+            "sum": 4.512832466838578,
+            "positive_fraction": 0.6606521606445312,
+            "negative_fraction": 0.3390350341796875,
+            "zero_fraction": 0.00031280517578125,
+            "logit_chain_l2": 3.5490688309176415e-09,
+            "logit_chain_attenuation": 6.127178185637892e-08
+          }
+        },
+        "cross": {
+          "loss": 0.1524617075920105,
+          "outer_weight": 0.5,
+          "parameter_gradients": {
+            "encoder": {
+              "l2": 1.399202934780211e-07,
+              "finite": true,
+              "parameters_with_gradient": 102,
+              "zero_gradient_parameters": 0
+            },
+            "learned_encoder_latents": {
+              "l2": 1.506150741177824e-09,
+              "finite": true,
+              "parameters_with_gradient": 1,
+              "zero_gradient_parameters": 0
+            },
+            "decoder": {
+              "l2": 1.595329033860898e-05,
+              "finite": true,
+              "parameters_with_gradient": 19,
+              "zero_gradient_parameters": 0
+            },
+            "learned_output_query": {
+              "l2": 3.6526569145200704e-07,
+              "finite": true,
+              "parameters_with_gradient": 1,
+              "zero_gradient_parameters": 0
+            },
+            "all": {
+              "l2": 1.5953903991969227e-05,
+              "finite": true,
+              "parameters_with_gradient": 122,
+              "zero_gradient_parameters": 0
+            }
+          },
+          "d_loss_d_prediction_A": {
+            "l2": 0.04162855256989263,
+            "mean": 1.92766459762563e-05,
+            "sum": 5.053257082799732,
+            "positive_fraction": 0.6968574523925781,
+            "negative_fraction": 0.3031425476074219,
+            "zero_fraction": 0.0,
+            "logit_chain_l2": 2.632664807239741e-09,
+            "logit_chain_attenuation": 6.324180507644614e-08
+          },
+          "d_loss_d_prediction_B": {
+            "l2": 0.04218627880716148,
+            "mean": 2.046169687672103e-05,
+            "sum": 5.363911066051157,
+            "positive_fraction": 0.6712532043457031,
+            "negative_fraction": 0.3282508850097656,
+            "zero_fraction": 0.00049591064453125,
+            "logit_chain_l2": 2.6280737412423774e-09,
+            "logit_chain_attenuation": 6.22968845689286e-08
+          }
+        },
+        "observed": {
+          "loss": 0.1524617075920105,
+          "outer_weight": 0.1,
+          "parameter_gradients": {
+            "encoder": {
+              "l2": 1.3990179193234278e-07,
+              "finite": true,
+              "parameters_with_gradient": 102,
+              "zero_gradient_parameters": 0
+            },
+            "learned_encoder_latents": {
+              "l2": 1.510378509530707e-09,
+              "finite": true,
+              "parameters_with_gradient": 1,
+              "zero_gradient_parameters": 0
+            },
+            "decoder": {
+              "l2": 1.595354786696899e-05,
+              "finite": true,
+              "parameters_with_gradient": 19,
+              "zero_gradient_parameters": 0
+            },
+            "learned_output_query": {
+              "l2": 3.652742168429831e-07,
+              "finite": true,
+              "parameters_with_gradient": 1,
+              "zero_gradient_parameters": 0
+            },
+            "all": {
+              "l2": 1.5954161348572978e-05,
+              "finite": true,
+              "parameters_with_gradient": 122,
+              "zero_gradient_parameters": 0
+            }
+          },
+          "d_loss_d_prediction_A": {
+            "l2": 0.04218627874152232,
+            "mean": 2.0461696775739793e-05,
+            "sum": 5.363911039579532,
+            "positive_fraction": 0.6712532043457031,
+            "negative_fraction": 0.3282508850097656,
+            "zero_fraction": 0.00049591064453125,
+            "logit_chain_l2": 2.6280545927337126e-09,
+            "logit_chain_attenuation": 6.229643076214304e-08
+          },
+          "d_loss_d_prediction_B": {
+            "l2": 0.04162855263355811,
+            "mean": 1.927664612097756e-05,
+            "sum": 5.053257120737541,
+            "positive_fraction": 0.6968574523925781,
+            "negative_fraction": 0.3031425476074219,
+            "zero_fraction": 0.0,
+            "logit_chain_l2": 2.6326889297939637e-09,
+            "logit_chain_attenuation": 6.324238445109112e-08
+          }
+        },
+        "consistency": {
+          "loss": 5.285807219479466e-06,
+          "outer_weight": 0.05,
+          "parameter_gradients": {
+            "encoder": {
+              "l2": 0.00047632816122795697,
+              "finite": true,
+              "parameters_with_gradient": 102,
+              "zero_gradient_parameters": 0
+            },
+            "learned_encoder_latents": {
+              "l2": 8.322117109610415e-06,
+              "finite": true,
+              "parameters_with_gradient": 1,
+              "zero_gradient_parameters": 0
+            },
+            "decoder": {
+              "l2": 0.0003696665418728741,
+              "finite": true,
+              "parameters_with_gradient": 19,
+              "zero_gradient_parameters": 0
+            },
+            "learned_output_query": {
+              "l2": 3.883421207905509e-06,
+              "finite": true,
+              "parameters_with_gradient": 1,
+              "zero_gradient_parameters": 0
+            },
+            "all": {
+              "l2": 0.00060300176367258,
+              "finite": true,
+              "parameters_with_gradient": 122,
+              "zero_gradient_parameters": 0
+            }
+          },
+          "d_loss_d_prediction_A": {
+            "l2": 1840.5328450741592,
+            "mean": -0.22725528712914084,
+            "sum": -59573.609989181496,
+            "positive_fraction": 0.4648628234863281,
+            "negative_fraction": 0.5351371765136719,
+            "zero_fraction": 0.0,
+            "logit_chain_l2": 0.0001102474894561368,
+            "logit_chain_attenuation": 5.989976747831125e-08
+          },
+          "d_loss_d_prediction_B": {
+            "l2": 1840.532227737204,
+            "mean": 0.22723621366088637,
+            "sum": 59568.609993919395,
+            "positive_fraction": 0.5278472900390625,
+            "negative_fraction": 0.4721527099609375,
+            "zero_fraction": 0.0,
+            "logit_chain_l2": 0.0001102490310909059,
+            "logit_chain_attenuation": 5.990062517212687e-08
+          }
+        }
+      },
+      "near_zero_constant_field_probe": [
+        {
+          "constant_mass_fraction": 0.0,
+          "loss": {
+            "total": 0.2384314239025116,
+            "hold": 0.14695468544960022,
+            "cross": 0.1524612158536911,
+            "observed": 0.1524612158536911,
+            "consistency": 0.0
+          },
+          "d_loss_d_constant_field": {
+            "total": -90.18995666503906,
+            "hold": -56.257938385009766,
+            "cross": -56.55336380004883,
+            "observed": -56.55336380004883,
+            "consistency": 0.0
+          },
+          "interpretation": "positive derivative means gradient descent pushes constant field lower; exact-zero absolute-value subgradient differs from small positive output"
+        },
+        {
+          "constant_mass_fraction": 1e-08,
+          "loss": {
+            "total": 0.23843151330947876,
+            "hold": 0.146954745054245,
+            "cross": 0.15246130526065826,
+            "observed": 0.15246130526065826,
+            "consistency": 0.0
+          },
+          "d_loss_d_constant_field": {
+            "total": 13.921817779541016,
+            "hold": 8.214193344116211,
+            "cross": 9.51270866394043,
+            "observed": 9.51270866394043,
+            "consistency": 0.0
+          },
+          "interpretation": "positive derivative means gradient descent pushes constant field lower; exact-zero absolute-value subgradient differs from small positive output"
+        },
+        {
+          "constant_mass_fraction": 1e-07,
+          "loss": {
+            "total": 0.2384328991174698,
+            "hold": 0.14695556461811066,
+            "cross": 0.15246222913265228,
+            "observed": 0.15246222913265228,
+            "consistency": 0.0
+          },
+          "d_loss_d_constant_field": {
+            "total": 15.919967651367188,
+            "hold": 9.505674362182617,
+            "cross": 10.690489768981934,
+            "observed": 10.690489768981934,
+            "consistency": 0.0
+          },
+          "interpretation": "positive derivative means gradient descent pushes constant field lower; exact-zero absolute-value subgradient differs from small positive output"
+        },
+        {
+          "constant_mass_fraction": 1e-06,
+          "loss": {
+            "total": 0.2384483367204666,
+            "hold": 0.14696478843688965,
+            "cross": 0.152472585439682,
+            "observed": 0.152472585439682,
+            "consistency": 0.0
+          },
+          "d_loss_d_constant_field": {
+            "total": 17.817258834838867,
+            "hold": 10.663122177124023,
+            "cross": 11.923559188842773,
+            "observed": 11.923559188842773,
+            "consistency": 0.0
+          },
+          "interpretation": "positive derivative means gradient descent pushes constant field lower; exact-zero absolute-value subgradient differs from small positive output"
+        },
+        {
+          "constant_mass_fraction": 1e-05,
+          "loss": {
+            "total": 0.23862546682357788,
+            "hold": 0.14707086980342865,
+            "cross": 0.15259099006652832,
+            "observed": 0.15259099006652832,
+            "consistency": 0.0
+          },
+          "d_loss_d_constant_field": {
+            "total": 20.76017189025879,
+            "hold": 12.400003433227539,
+            "cross": 13.933612823486328,
+            "observed": 13.933611869812012,
+            "consistency": 0.0
+          },
+          "interpretation": "positive derivative means gradient descent pushes constant field lower; exact-zero absolute-value subgradient differs from small positive output"
+        }
+      ],
+      "current_weight_chunk_gradient_check": {
+        "passed": false,
+        "diagnostic_queries": 259,
+        "full_formal_grid_unchanged": 262144,
+        "chunk_sizes": [
+          259,
+          37
+        ],
+        "prediction_max_abs": 2.6290081223123707e-13,
+        "prediction_relative_l2": 1.2309874732059263e-06,
+        "all_query_gradients_nonzero": true,
+        "encoder_latent_decoder_and_query_gradients": [
+          {
+            "parameter": "encoder.latent",
+            "full_gradient_l2": 2.840944956401299e-08,
+            "difference_l2": 8.53180212835021e-14,
+            "relative_l2": 3.0031564353706e-06,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.preproc.weight",
+            "full_gradient_l2": 3.7380028426960566e-07,
+            "difference_l2": 4.87374617347774e-13,
+            "relative_l2": 1.303836936079621e-06,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.preproc.bias",
+            "full_gradient_l2": 1.0352623633967025e-07,
+            "difference_l2": 1.3402293788042644e-13,
+            "relative_l2": 1.2945794478676528e-06,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.0.0.module.q_norm.weight",
+            "full_gradient_l2": 6.761074805787415e-10,
+            "difference_l2": 1.3575134645101986e-15,
+            "relative_l2": 2.0078367767032843e-06,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.0.0.module.q_norm.bias",
+            "full_gradient_l2": 3.2293825619387117e-09,
+            "difference_l2": 4.027501820520888e-15,
+            "relative_l2": 1.2471429888761884e-06,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.0.0.module.kv_norm.weight",
+            "full_gradient_l2": 1.9662020729122703e-08,
+            "difference_l2": 2.2569037784166036e-14,
+            "relative_l2": 1.1478493535884417e-06,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.0.0.module.kv_norm.bias",
+            "full_gradient_l2": 4.001849134504932e-08,
+            "difference_l2": 4.181347354856769e-14,
+            "relative_l2": 1.0448538199014447e-06,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.0.0.module.attention.attention.in_proj_weight",
+            "full_gradient_l2": 2.1631724544615174e-07,
+            "difference_l2": 2.424776827881257e-13,
+            "relative_l2": 1.1209355143554013e-06,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.0.0.module.attention.attention.in_proj_bias",
+            "full_gradient_l2": 5.68260608729411e-08,
+            "difference_l2": 6.256066566245669e-14,
+            "relative_l2": 1.1009150502678294e-06,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.0.0.module.attention.attention.out_proj.weight",
+            "full_gradient_l2": 3.273627713086018e-07,
+            "difference_l2": 3.26815650834913e-13,
+            "relative_l2": 9.983287028286637e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.0.0.module.attention.attention.out_proj.bias",
+            "full_gradient_l2": 1.0800032268258823e-07,
+            "difference_l2": 1.0540281433357464e-13,
+            "relative_l2": 9.759490686278074e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.0.1.module.0.weight",
+            "full_gradient_l2": 1.9719714013047324e-08,
+            "difference_l2": 1.4642585405903973e-14,
+            "relative_l2": 7.425353834348649e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.0.1.module.0.bias",
+            "full_gradient_l2": 1.9264620232631956e-08,
+            "difference_l2": 1.5096628565675483e-14,
+            "relative_l2": 7.836452721815717e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.0.1.module.1.weight",
+            "full_gradient_l2": 2.546454405381645e-07,
+            "difference_l2": 1.919255742819011e-13,
+            "relative_l2": 7.536972736534688e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.0.1.module.1.bias",
+            "full_gradient_l2": 3.208140226887834e-08,
+            "difference_l2": 2.3619932755630128e-14,
+            "relative_l2": 7.362500104474377e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.0.1.module.3.weight",
+            "full_gradient_l2": 2.548617303401667e-07,
+            "difference_l2": 2.614210606216851e-13,
+            "relative_l2": 1.0257368192265021e-06,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.0.1.module.3.bias",
+            "full_gradient_l2": 7.896718496430041e-08,
+            "difference_l2": 8.191862892400169e-14,
+            "relative_l2": 1.0373755751966538e-06,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.1.0.0.module.norm.weight",
+            "full_gradient_l2": 2.928194178813727e-08,
+            "difference_l2": 2.154787252731038e-14,
+            "relative_l2": 7.358758064343901e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.1.0.0.module.norm.bias",
+            "full_gradient_l2": 2.891938304243237e-08,
+            "difference_l2": 2.2347237573880458e-14,
+            "relative_l2": 7.727425422973637e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.1.0.0.module.attention.attention.in_proj_weight",
+            "full_gradient_l2": 2.913078490773947e-07,
+            "difference_l2": 2.936674900289568e-13,
+            "relative_l2": 1.0081001626253304e-06,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.1.0.0.module.attention.attention.in_proj_bias",
+            "full_gradient_l2": 3.651532850133539e-08,
+            "difference_l2": 3.659129097292659e-14,
+            "relative_l2": 1.0020802899688669e-06,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.1.0.0.module.attention.attention.out_proj.weight",
+            "full_gradient_l2": 4.0850697769898577e-07,
+            "difference_l2": 4.0521484785500997e-13,
+            "relative_l2": 9.919410682712948e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.1.0.0.module.attention.attention.out_proj.bias",
+            "full_gradient_l2": 6.648836180605196e-08,
+            "difference_l2": 6.453035125424025e-14,
+            "relative_l2": 9.705510784350008e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.1.0.1.module.0.weight",
+            "full_gradient_l2": 1.4999065101450127e-08,
+            "difference_l2": 1.3961208784739575e-14,
+            "relative_l2": 9.30805266215545e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.1.0.1.module.0.bias",
+            "full_gradient_l2": 1.505871872849119e-08,
+            "difference_l2": 1.4256530407655564e-14,
+            "relative_l2": 9.467293110855519e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.1.0.1.module.1.weight",
+            "full_gradient_l2": 1.9266928695541864e-07,
+            "difference_l2": 1.7221441604399296e-13,
+            "relative_l2": 8.938342938064711e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.1.0.1.module.1.bias",
+            "full_gradient_l2": 2.408182856861161e-08,
+            "difference_l2": 2.046566883272739e-14,
+            "relative_l2": 8.498386563303775e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.1.0.1.module.3.weight",
+            "full_gradient_l2": 2.159185277717569e-07,
+            "difference_l2": 2.0737350953918963e-13,
+            "relative_l2": 9.604248031850234e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.1.0.1.module.3.bias",
+            "full_gradient_l2": 6.498866195688952e-08,
+            "difference_l2": 6.195678955780471e-14,
+            "relative_l2": 9.533476716123803e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.1.1.0.module.norm.weight",
+            "full_gradient_l2": 1.9164053511224078e-08,
+            "difference_l2": 1.978099307480122e-14,
+            "relative_l2": 1.0321925402272442e-06,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.1.1.0.module.norm.bias",
+            "full_gradient_l2": 2.0900686191146913e-08,
+            "difference_l2": 2.051682030262058e-14,
+            "relative_l2": 9.816338140759737e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.1.1.0.module.attention.attention.in_proj_weight",
+            "full_gradient_l2": 2.546990101329799e-07,
+            "difference_l2": 2.305357793428336e-13,
+            "relative_l2": 9.051302524594401e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.1.1.0.module.attention.attention.in_proj_bias",
+            "full_gradient_l2": 3.1806170213763304e-08,
+            "difference_l2": 2.863119871754089e-14,
+            "relative_l2": 9.001774977973134e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.1.1.0.module.attention.attention.out_proj.weight",
+            "full_gradient_l2": 3.8269735285973466e-07,
+            "difference_l2": 3.827000947169732e-13,
+            "relative_l2": 1.0000071645576277e-06,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.1.1.0.module.attention.attention.out_proj.bias",
+            "full_gradient_l2": 5.8812009012813455e-08,
+            "difference_l2": 5.758240510391653e-14,
+            "relative_l2": 9.79092638909359e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.1.1.1.module.0.weight",
+            "full_gradient_l2": 1.124416795548958e-08,
+            "difference_l2": 1.4433061278433482e-14,
+            "relative_l2": 1.283604205804044e-06,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.1.1.1.module.0.bias",
+            "full_gradient_l2": 1.1997349001236493e-08,
+            "difference_l2": 1.2713675097297779e-14,
+            "relative_l2": 1.0597070316106883e-06,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.1.1.1.module.1.weight",
+            "full_gradient_l2": 1.6169277381903635e-07,
+            "difference_l2": 1.6506449034158373e-13,
+            "relative_l2": 1.0208526110531132e-06,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.1.1.1.module.1.bias",
+            "full_gradient_l2": 2.0147089242450036e-08,
+            "difference_l2": 2.0002147177876164e-14,
+            "relative_l2": 9.928058061971316e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.1.1.1.module.3.weight",
+            "full_gradient_l2": 2.685260088331605e-07,
+            "difference_l2": 2.577473089412003e-13,
+            "relative_l2": 9.598597545958494e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.1.1.1.module.3.bias",
+            "full_gradient_l2": 5.8297705050294876e-08,
+            "difference_l2": 5.4643454222510036e-14,
+            "relative_l2": 9.373174154174298e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.1.2.0.module.norm.weight",
+            "full_gradient_l2": 2.550368029904477e-08,
+            "difference_l2": 1.4039697933713659e-14,
+            "relative_l2": 5.504969388374709e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.1.2.0.module.norm.bias",
+            "full_gradient_l2": 2.2084863079855568e-08,
+            "difference_l2": 1.9157558272865935e-14,
+            "relative_l2": 8.674519829982673e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.1.2.0.module.attention.attention.in_proj_weight",
+            "full_gradient_l2": 2.55497829630954e-07,
+            "difference_l2": 2.3242823757826267e-13,
+            "relative_l2": 9.097072875882606e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.1.2.0.module.attention.attention.in_proj_bias",
+            "full_gradient_l2": 3.187256279674617e-08,
+            "difference_l2": 2.897216518997616e-14,
+            "relative_l2": 9.090001759423592e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.1.2.0.module.attention.attention.out_proj.weight",
+            "full_gradient_l2": 3.5284351933858144e-07,
+            "difference_l2": 3.2051815048259327e-13,
+            "relative_l2": 9.083861057825767e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.1.2.0.module.attention.attention.out_proj.bias",
+            "full_gradient_l2": 5.994460770233247e-08,
+            "difference_l2": 5.422973547971813e-14,
+            "relative_l2": 9.046641150611455e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.1.2.1.module.0.weight",
+            "full_gradient_l2": 1.9010933436979347e-08,
+            "difference_l2": 1.0868437425350679e-14,
+            "relative_l2": 5.716940444496958e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.1.2.1.module.0.bias",
+            "full_gradient_l2": 1.59426582244949e-08,
+            "difference_l2": 1.0974593403685272e-14,
+            "relative_l2": 6.883791428723909e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.1.2.1.module.1.weight",
+            "full_gradient_l2": 2.3332947627772907e-07,
+            "difference_l2": 1.6568637206136873e-13,
+            "relative_l2": 7.100961897508156e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.1.2.1.module.1.bias",
+            "full_gradient_l2": 2.9182296221885655e-08,
+            "difference_l2": 1.971733931701667e-14,
+            "relative_l2": 6.756609955260952e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.1.2.1.module.3.weight",
+            "full_gradient_l2": 1.9208256110653052e-07,
+            "difference_l2": 1.7770092451016846e-13,
+            "relative_l2": 9.251278381883617e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_1.1.2.1.module.3.bias",
+            "full_gradient_l2": 5.870696025561908e-08,
+            "difference_l2": 5.2682233970349026e-14,
+            "relative_l2": 8.973762862352696e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.0.0.module.q_norm.weight",
+            "full_gradient_l2": 3.6132942904652472e-09,
+            "difference_l2": 1.5822868941105442e-15,
+            "relative_l2": 4.379070086502169e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.0.0.module.q_norm.bias",
+            "full_gradient_l2": 3.405190907365967e-09,
+            "difference_l2": 1.7745441110037363e-15,
+            "relative_l2": 5.211291111946518e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.0.0.module.kv_norm.weight",
+            "full_gradient_l2": 2.0935160874449303e-08,
+            "difference_l2": 2.1333789266015113e-14,
+            "relative_l2": 1.0190410952156726e-06,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.0.0.module.kv_norm.bias",
+            "full_gradient_l2": 3.7939720888153476e-08,
+            "difference_l2": 4.213569719951739e-14,
+            "relative_l2": 1.1105958666310087e-06,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.0.0.module.attention.attention.in_proj_weight",
+            "full_gradient_l2": 2.50820830705796e-07,
+            "difference_l2": 2.2887464187261133e-13,
+            "relative_l2": 9.125025271169492e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.0.0.module.attention.attention.in_proj_bias",
+            "full_gradient_l2": 6.289522502045003e-08,
+            "difference_l2": 5.67477755361736e-14,
+            "relative_l2": 9.022588840046662e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.0.0.module.attention.attention.out_proj.weight",
+            "full_gradient_l2": 3.6782459510696953e-07,
+            "difference_l2": 3.305922546095482e-13,
+            "relative_l2": 8.987769143425726e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.0.0.module.attention.attention.out_proj.bias",
+            "full_gradient_l2": 1.1428991798938394e-07,
+            "difference_l2": 1.0067519283049579e-13,
+            "relative_l2": 8.808755365442402e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.0.1.module.0.weight",
+            "full_gradient_l2": 2.0356065266099167e-08,
+            "difference_l2": 1.740749845971634e-14,
+            "relative_l2": 8.551504542828644e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.0.1.module.0.bias",
+            "full_gradient_l2": 2.0287953405805744e-08,
+            "difference_l2": 1.5021133151584318e-14,
+            "relative_l2": 7.403966704342768e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.0.1.module.1.weight",
+            "full_gradient_l2": 2.595799240418221e-07,
+            "difference_l2": 2.1132228895911488e-13,
+            "relative_l2": 8.140933461598047e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.0.1.module.1.bias",
+            "full_gradient_l2": 3.323342224067919e-08,
+            "difference_l2": 2.5950778810709337e-14,
+            "relative_l2": 7.808638732048614e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.0.1.module.3.weight",
+            "full_gradient_l2": 3.261531083241982e-07,
+            "difference_l2": 2.9149767306344406e-13,
+            "relative_l2": 8.93744887366499e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.0.1.module.3.bias",
+            "full_gradient_l2": 1.1503054831068628e-07,
+            "difference_l2": 9.991914702612692e-14,
+            "relative_l2": 8.686314069916024e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.1.0.0.module.norm.weight",
+            "full_gradient_l2": 5.01598587279269e-08,
+            "difference_l2": 3.978569954037436e-14,
+            "relative_l2": 7.931780620869922e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.1.0.0.module.norm.bias",
+            "full_gradient_l2": 5.4000363033262124e-08,
+            "difference_l2": 4.445725010421262e-14,
+            "relative_l2": 8.232768745800594e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.1.0.0.module.attention.attention.in_proj_weight",
+            "full_gradient_l2": 5.27488567620982e-07,
+            "difference_l2": 4.811119597538385e-13,
+            "relative_l2": 9.12080354506438e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.1.0.0.module.attention.attention.in_proj_bias",
+            "full_gradient_l2": 6.73902512609375e-08,
+            "difference_l2": 6.121477159670645e-14,
+            "relative_l2": 9.083624181735222e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.1.0.0.module.attention.attention.out_proj.weight",
+            "full_gradient_l2": 6.62274584983221e-07,
+            "difference_l2": 6.026172448730952e-13,
+            "relative_l2": 9.099205352842624e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.1.0.0.module.attention.attention.out_proj.bias",
+            "full_gradient_l2": 1.1581969630299157e-07,
+            "difference_l2": 1.0372406779831991e-13,
+            "relative_l2": 8.955650127675284e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.1.0.1.module.0.weight",
+            "full_gradient_l2": 1.549197705956382e-08,
+            "difference_l2": 1.8620985606522655e-14,
+            "relative_l2": 1.2019760637992406e-06,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.1.0.1.module.0.bias",
+            "full_gradient_l2": 1.5948216985825527e-08,
+            "difference_l2": 1.8506205659686885e-14,
+            "relative_l2": 1.1603933954582414e-06,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.1.0.1.module.1.weight",
+            "full_gradient_l2": 2.2618831959330593e-07,
+            "difference_l2": 2.3722119472550757e-13,
+            "relative_l2": 1.0487773867016613e-06,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.1.0.1.module.1.bias",
+            "full_gradient_l2": 2.8652412875397016e-08,
+            "difference_l2": 2.95398489739249e-14,
+            "relative_l2": 1.0309724735011724e-06,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.1.0.1.module.3.weight",
+            "full_gradient_l2": 2.6064325943083526e-07,
+            "difference_l2": 2.3670538693598906e-13,
+            "relative_l2": 9.081584824133985e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.1.0.1.module.3.bias",
+            "full_gradient_l2": 1.1492886150832726e-07,
+            "difference_l2": 1.0260268905988512e-13,
+            "relative_l2": 8.927495470965835e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.1.1.0.module.norm.weight",
+            "full_gradient_l2": 6.900151663532821e-08,
+            "difference_l2": 5.1285759737704937e-14,
+            "relative_l2": 7.432555433346381e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.1.1.0.module.norm.bias",
+            "full_gradient_l2": 6.163418629682259e-08,
+            "difference_l2": 5.136191578576782e-14,
+            "relative_l2": 8.333348563801136e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.1.1.0.module.attention.attention.in_proj_weight",
+            "full_gradient_l2": 6.310318014312342e-07,
+            "difference_l2": 5.269948873080884e-13,
+            "relative_l2": 8.351320584997758e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.1.1.0.module.attention.attention.in_proj_bias",
+            "full_gradient_l2": 7.96556257610979e-08,
+            "difference_l2": 6.602280113267882e-14,
+            "relative_l2": 8.288529592460113e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.1.1.0.module.attention.attention.out_proj.weight",
+            "full_gradient_l2": 7.411230461853047e-07,
+            "difference_l2": 6.339066441803492e-13,
+            "relative_l2": 8.553325219653905e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.1.1.0.module.attention.attention.out_proj.bias",
+            "full_gradient_l2": 1.1871458708903642e-07,
+            "difference_l2": 1.009749519352204e-13,
+            "relative_l2": 8.505690363012321e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.1.1.1.module.0.weight",
+            "full_gradient_l2": 3.166526380700661e-08,
+            "difference_l2": 1.8631862078370924e-14,
+            "relative_l2": 5.884006585869097e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.1.1.1.module.0.bias",
+            "full_gradient_l2": 3.3139391419680895e-08,
+            "difference_l2": 1.950058329887393e-14,
+            "relative_l2": 5.884412013460477e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.1.1.1.module.1.weight",
+            "full_gradient_l2": 4.348091711217467e-07,
+            "difference_l2": 3.524944580556385e-13,
+            "relative_l2": 8.106877257125285e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.1.1.1.module.1.bias",
+            "full_gradient_l2": 5.4638100720906765e-08,
+            "difference_l2": 4.375020672159185e-14,
+            "relative_l2": 8.007270777047935e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.1.1.1.module.3.weight",
+            "full_gradient_l2": 4.0352101715761927e-07,
+            "difference_l2": 3.480838478719272e-13,
+            "relative_l2": 8.626164018018478e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.1.1.1.module.3.bias",
+            "full_gradient_l2": 1.1859757102560256e-07,
+            "difference_l2": 1.0037682564363993e-13,
+            "relative_l2": 8.463649362765686e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.1.2.0.module.norm.weight",
+            "full_gradient_l2": 3.8131722077304294e-08,
+            "difference_l2": 4.0947531912668454e-14,
+            "relative_l2": 1.0738442871700281e-06,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.1.2.0.module.norm.bias",
+            "full_gradient_l2": 4.258698131511934e-08,
+            "difference_l2": 4.197425478756913e-14,
+            "relative_l2": 9.856123512719443e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.1.2.0.module.attention.attention.in_proj_weight",
+            "full_gradient_l2": 4.989085054701699e-07,
+            "difference_l2": 4.426899316774923e-13,
+            "relative_l2": 8.87316866366715e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.1.2.0.module.attention.attention.in_proj_bias",
+            "full_gradient_l2": 6.279177288861091e-08,
+            "difference_l2": 5.581493529222023e-14,
+            "relative_l2": 8.888893038779587e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.1.2.0.module.attention.attention.out_proj.weight",
+            "full_gradient_l2": 6.027254920073852e-07,
+            "difference_l2": 5.076299728002595e-13,
+            "relative_l2": 8.422241626276519e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.1.2.0.module.attention.attention.out_proj.bias",
+            "full_gradient_l2": 1.1683629593609493e-07,
+            "difference_l2": 9.760129671532428e-14,
+            "relative_l2": 8.353679473774873e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.1.2.1.module.0.weight",
+            "full_gradient_l2": 2.8554621954102516e-08,
+            "difference_l2": 3.155076220205416e-14,
+            "relative_l2": 1.1049266298383328e-06,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.1.2.1.module.0.bias",
+            "full_gradient_l2": 2.535147825546749e-08,
+            "difference_l2": 2.9106085227001206e-14,
+            "relative_l2": 1.148102092260595e-06,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.1.2.1.module.1.weight",
+            "full_gradient_l2": 3.453121626495963e-07,
+            "difference_l2": 3.5808253851313956e-13,
+            "relative_l2": 1.0369821200781218e-06,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.1.2.1.module.1.bias",
+            "full_gradient_l2": 4.3296095997989194e-08,
+            "difference_l2": 4.611355000979634e-14,
+            "relative_l2": 1.0650740891727976e-06,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.1.2.1.module.3.weight",
+            "full_gradient_l2": 5.12503423421112e-07,
+            "difference_l2": 4.2963120964269966e-13,
+            "relative_l2": 8.38299199593213e-07,
+            "finite": true
+          },
+          {
+            "parameter": "encoder.layer_n.1.2.1.module.3.bias",
+            "full_gradient_l2": 1.1709203892823498e-07,
+            "difference_l2": 9.83956412435486e-14,
+            "relative_l2": 8.403273368896984e-07,
+            "finite": true
+          },
+          {
+            "parameter": "decoder.output",
+            "full_gradient_l2": 6.076332682663272e-06,
+            "difference_l2": 3.7084613355488866e-13,
+            "relative_l2": 6.103124251457968e-08,
+            "finite": true
+          },
+          {
+            "parameter": "decoder.postproc.weight",
+            "full_gradient_l2": 0.0002294144923880643,
+            "difference_l2": 1.787162874564145e-11,
+            "relative_l2": 7.790104521998042e-08,
+            "finite": true
+          },
+          {
+            "parameter": "decoder.postproc.bias",
+            "full_gradient_l2": 8.439294106210582e-06,
+            "difference_l2": 0.0,
+            "relative_l2": 0.0,
+            "finite": true
+          },
+          {
+            "parameter": "decoder.preproc.weight",
+            "full_gradient_l2": 2.564410872020524e-06,
+            "difference_l2": 5.876235568555108e-12,
+            "relative_l2": 2.291456346823692e-06,
+            "finite": true
+          },
+          {
+            "parameter": "decoder.preproc.bias",
+            "full_gradient_l2": 5.775443346167205e-06,
+            "difference_l2": 4.949887738872514e-13,
+            "relative_l2": 8.570576217594516e-08,
+            "finite": true
+          },
+          {
+            "parameter": "decoder.cross_attention.0.module.q_norm.weight",
+            "full_gradient_l2": 2.8000021097406407e-11,
+            "difference_l2": 1.2403617492285956e-13,
+            "relative_l2": 0.00442986005229649,
+            "finite": true
+          },
+          {
+            "parameter": "decoder.cross_attention.0.module.q_norm.bias",
+            "full_gradient_l2": 1.480653669424024e-10,
+            "difference_l2": 7.85422859697356e-14,
+            "relative_l2": 0.00053045683532658,
+            "finite": true
+          },
+          {
+            "parameter": "decoder.cross_attention.0.module.kv_norm.weight",
+            "full_gradient_l2": 1.4191919771245961e-05,
+            "difference_l2": 1.258002768740915e-12,
+            "relative_l2": 8.864218435688566e-08,
+            "finite": true
+          },
+          {
+            "parameter": "decoder.cross_attention.0.module.kv_norm.bias",
+            "full_gradient_l2": 1.067950904662576e-05,
+            "difference_l2": 8.4647084644504e-13,
+            "relative_l2": 7.926121348363727e-08,
+            "finite": true
+          },
+          {
+            "parameter": "decoder.cross_attention.0.module.attention.attention.in_proj_weight",
+            "full_gradient_l2": 5.792318414567441e-05,
+            "difference_l2": 7.531098320722058e-12,
+            "relative_l2": 1.300187210320078e-07,
+            "finite": true
+          },
+          {
+            "parameter": "decoder.cross_attention.0.module.attention.attention.in_proj_bias",
+            "full_gradient_l2": 6.998582733972103e-06,
+            "difference_l2": 7.070203920231074e-13,
+            "relative_l2": 1.0102336700131174e-07,
+            "finite": true
+          },
+          {
+            "parameter": "decoder.cross_attention.0.module.attention.attention.out_proj.weight",
+            "full_gradient_l2": 8.053261946625946e-05,
+            "difference_l2": 1.1142981713708597e-11,
+            "relative_l2": 1.3836606567078252e-07,
+            "finite": true
+          },
+          {
+            "parameter": "decoder.cross_attention.0.module.attention.attention.out_proj.bias",
+            "full_gradient_l2": 5.7752376907257305e-06,
+            "difference_l2": 3.8574356687624504e-13,
+            "relative_l2": 6.679267374496088e-08,
+            "finite": true
+          },
+          {
+            "parameter": "decoder.cross_attention.1.module.0.weight",
+            "full_gradient_l2": 8.320179919711122e-06,
+            "difference_l2": 9.258074646642117e-13,
+            "relative_l2": 1.1127252939217159e-07,
+            "finite": true
+          },
+          {
+            "parameter": "decoder.cross_attention.1.module.0.bias",
+            "full_gradient_l2": 7.6401905992287e-06,
+            "difference_l2": 6.161679774742993e-13,
+            "relative_l2": 8.064824685610635e-08,
+            "finite": true
+          },
+          {
+            "parameter": "decoder.cross_attention.1.module.1.weight",
+            "full_gradient_l2": 5.25065259156652e-05,
+            "difference_l2": 7.257118116959855e-12,
+            "relative_l2": 1.38213640883727e-07,
+            "finite": true
+          },
+          {
+            "parameter": "decoder.cross_attention.1.module.1.bias",
+            "full_gradient_l2": 6.4106759740815775e-06,
+            "difference_l2": 4.811884769325344e-13,
+            "relative_l2": 7.506048954556178e-08,
+            "finite": true
+          },
+          {
+            "parameter": "decoder.cross_attention.1.module.3.weight",
+            "full_gradient_l2": 5.127414194988345e-05,
+            "difference_l2": 6.9188129660656426e-12,
+            "relative_l2": 1.3493766454109077e-07,
+            "finite": true
+          },
+          {
+            "parameter": "decoder.cross_attention.1.module.3.bias",
+            "full_gradient_l2": 5.768435097956569e-06,
+            "difference_l2": 3.465353053874658e-13,
+            "relative_l2": 6.007440484339049e-08,
+            "finite": true
+          },
+          {
+            "parameter": "query_fourier",
+            "full_gradient_l2": 2.3340790488356632e-07,
+            "difference_l2": 3.9402942463049554e-13,
+            "relative_l2": 1.688158011730811e-06,
+            "finite": true
+          }
+        ]
+      }
+    },
+    {
+      "case_index": 1,
+      "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w1_inlet1_half",
+      "station_ids": {
+        "A": [
+          43,
+          23,
+          25,
+          14
+        ],
+        "B": [
+          46,
+          60,
+          13,
+          55
+        ],
+        "H": [
+          53,
+          61
+        ]
+      },
+      "prediction": {
+        "min": 1.2349550715384794e-08,
+        "max": 2.389329267771245e-07,
+        "mean": 5.729998227304065e-08,
+        "std": 1.743066962496617e-08,
+        "l2": 3.066497990046131e-05,
+        "quantiles": {
+          "0.0": 1.2349550715384794e-08,
+          "0.001": 1.8780362166737062e-08,
+          "0.01": 2.530694080959961e-08,
+          "0.1": 3.723106196673598e-08,
+          "0.5": 5.5384269614933146e-08,
+          "0.9": 7.894128160046422e-08,
+          "0.99": 1.1196890525866369e-07,
+          "0.999": 1.5060461085170045e-07,
+          "1.0": 2.389329267771245e-07
+        },
+        "axis_neighbor_mean_abs": {
+          "x": 4.341745710111629e-09,
+          "y": 4.528648004076301e-09,
+          "z": 4.864898838884917e-09
+        },
+        "fraction_below_1e_6": 1.0
+      },
+      "logits": {
+        "min": -18.209646224975586,
+        "max": -15.247082710266113,
+        "mean": -16.719236932145577,
+        "std": 0.2991562004965788,
+        "l2": 8561.619511816729,
+        "quantiles": {
+          "0.0": -18.209646224975586,
+          "0.001": -17.790454032897948,
+          "0.01": -17.492187156677247,
+          "0.1": -17.106122398376463,
+          "0.5": -16.708970069885254,
+          "0.9": -16.354561424255373,
+          "0.99": -16.00504446029663,
+          "0.999": -15.70860773658753,
+          "1.0": -15.247082710266113
+        }
+      },
+      "sigmoid_derivative": {
+        "min": 1.2349550715384794e-08,
+        "max": 2.3893286993370566e-07,
+        "mean": 5.7299977083886424e-08,
+        "std": 1.743066711371547e-08,
+        "l2": 3.066497698442283e-05,
+        "quantiles": {
+          "0.0": 1.2349550715384794e-08,
+          "0.001": 1.8780362166737062e-08,
+          "0.01": 2.530694080959961e-08,
+          "0.1": 3.72310584140223e-08,
+          "0.5": 5.538426606221947e-08,
+          "0.9": 7.894127449503686e-08,
+          "0.99": 1.1196889104780898e-07,
+          "0.999": 1.5060458242999102e-07,
+          "1.0": 2.3893286993370566e-07
+        }
+      },
+      "logit_fraction_below_minus10": 1.0,
+      "normal_vs_zero_measurement": {
+        "output_mean_abs": 1.0398639414821442e-12,
+        "output_max_abs": 6.366462912410498e-12,
+        "relative_l1": 1.814771894714795e-05,
+        "latent_difference_l2": 0.15919096767902374,
+        "latent_relative_l2": 0.0005563909071497619,
+        "geometry_path_mask_unchanged": true
+      },
+      "geometry_and_input_scale": {
+        "valid_rays": 8199,
+        "packed_real_rays": 8199,
+        "valid_zero_measurements": 16,
+        "positive_measurement_fraction": 0.9980485439300537,
+        "raw_ppm_m": {
+          "min": 0.0,
+          "max": 28154.703125,
+          "mean": 788.6081542863213,
+          "std": 3018.139558920703,
+          "l2": 282462.45152132894,
+          "quantiles": {
+            "0.0": 0.0,
+            "0.001": 0.0,
+            "0.01": 6.61739012448794e-31,
+            "0.1": 1.5219786956152508e-27,
+            "0.5": 2.0953794361961985e-23,
+            "0.9": 112.55655517578106,
+            "0.99": 15088.09789062499,
+            "0.999": 22525.02789062484,
+            "1.0": 28154.703125
+          }
+        },
+        "normalized_integral": {
+          "min": 0.0,
+          "max": 0.8720704913139343,
+          "mean": 0.02442653748289572,
+          "std": 0.09348457613138673,
+          "l2": 8.749059491328918,
+          "quantiles": {
+            "0.0": 0.0,
+            "0.001": 0.0,
+            "0.01": 2.0496862737578727e-35,
+            "0.1": 4.7142132415362955e-32,
+            "0.5": 6.49027846792053e-28,
+            "0.9": 0.0034863537177443446,
+            "0.99": 0.4673423522710797,
+            "0.999": 0.697695592880244,
+            "1.0": 0.8720704913139343
+          }
+        },
+        "direction_norm": {
+          "min": 0.9999999403953552,
+          "max": 1.0,
+          "mean": 0.9999999846462971,
+          "std": 2.6065605949926704e-08,
+          "l2": 90.54832824646729,
+          "quantiles": {
+            "0.0": 0.9999999403953552,
+            "0.001": 0.9999999403953552,
+            "0.01": 0.9999999403953552,
+            "0.1": 0.9999999403953552,
+            "0.5": 1.0,
+            "0.9": 1.0,
+            "0.99": 1.0,
+            "0.999": 1.0,
+            "1.0": 1.0
+          }
+        },
+        "path_length_m": {
+          "min": 8.932665514294058e-05,
+          "max": 0.7005795836448669,
+          "mean": 0.4808725200852176,
+          "std": 0.19854386684703573,
+          "l2": 47.107593151900176,
+          "quantiles": {
+            "0.0": 8.932665514294058e-05,
+            "0.001": 0.009593319557607173,
+            "0.01": 0.016287007704377174,
+            "0.1": 0.13197656869888305,
+            "0.5": 0.6008065342903137,
+            "0.9": 0.621435546875,
+            "0.99": 0.6981289923191071,
+            "0.999": 0.700208554983139,
+            "1.0": 0.7005795836448669
+          }
+        },
+        "entry_min_m": [
+          -4.76837158203125e-07,
+          4.0531158447265625e-06,
+          0.00467073917388916
+        ],
+        "entry_max_m": [
+          0.6000000238418579,
+          0.5999603271484375,
+          0.6000003814697266
+        ],
+        "exit_min_m": [
+          -1.909211277961731e-07,
+          -4.640605766326189e-08,
+          -7.003545761108398e-07
+        ],
+        "exit_max_m": [
+          0.6000007390975952,
+          0.6000000834465027,
+          0.5990115404129028
+        ],
+        "entry_exit_in_domain": true,
+        "all_tokens_finite": true,
+        "token_channels": 203,
+        "token_measurement": {
+          "min": 0.0,
+          "max": 0.8720704913139343,
+          "mean": 0.02442653748289572,
+          "std": 0.09348457613138673,
+          "l2": 8.749059491328918,
+          "quantiles": {
+            "0.0": 0.0,
+            "0.001": 0.0,
+            "0.01": 2.0496862737578727e-35,
+            "0.1": 4.7142132415362955e-32,
+            "0.5": 6.49027846792053e-28,
+            "0.9": 0.0034863537177443446,
+            "0.99": 0.4673423522710797,
+            "0.999": 0.697695592880244,
+            "1.0": 0.8720704913139343
+          }
+        },
+        "token_geometry": {
+          "min": -1.000002384185791,
+          "max": 1.000002384185791,
+          "mean": 0.01490868747792482,
+          "std": 0.6767058566298348,
+          "l2": 193.8142705494616,
+          "quantiles": {
+            "0.0": -1.000002384185791,
+            "0.001": -1.0000020265579224,
+            "0.01": -1.0000011920928955,
+            "0.1": -0.9999983906745911,
+            "0.5": -0.0011484813876450062,
+            "0.9": 0.9895495057106019,
+            "0.99": 1.0000007152557373,
+            "0.999": 1.0000016689300537,
+            "1.0": 1.000002384185791
+          }
+        },
+        "token_fourier": {
+          "min": -1.0,
+          "max": 1.0,
+          "mean": -0.0019370749471059468,
+          "std": 0.7071041345557476,
+          "l2": 887.1888269938631,
+          "quantiles": {
+            "0.0": -1.0,
+            "0.001": -1.0,
+            "0.01": -1.0,
+            "0.1": -0.9510747790336609,
+            "0.5": -1.5099580252808664e-07,
+            "0.9": 0.9510594606399536,
+            "0.99": 1.0,
+            "0.999": 1.0,
+            "1.0": 1.0
+          }
+        }
+      },
+      "loss_branch_gradients": {
+        "total": {
+          "loss": 0.19521832466125488,
+          "outer_weight": 1.0,
+          "parameter_gradients": {
+            "encoder": {
+              "l2": 4.604380312666134e-05,
+              "finite": true,
+              "parameters_with_gradient": 102,
+              "zero_gradient_parameters": 0
+            },
+            "learned_encoder_latents": {
+              "l2": 5.894632400290493e-07,
+              "finite": true,
+              "parameters_with_gradient": 1,
+              "zero_gradient_parameters": 0
+            },
+            "decoder": {
+              "l2": 0.00017580069650494754,
+              "finite": true,
+              "parameters_with_gradient": 19,
+              "zero_gradient_parameters": 0
+            },
+            "learned_output_query": {
+              "l2": 4.0104636669664435e-06,
+              "finite": true,
+              "parameters_with_gradient": 1,
+              "zero_gradient_parameters": 0
+            },
+            "all": {
+              "l2": 0.00018173129660271168,
+              "finite": true,
+              "parameters_with_gradient": 122,
+              "zero_gradient_parameters": 0
+            }
+          },
+          "d_loss_d_prediction_A": {
+            "l2": 91.9850870893614,
+            "mean": -0.03327068707682797,
+            "sum": -8721.71099306799,
+            "positive_fraction": 0.40969085693359375,
+            "negative_fraction": 0.5903091430664062,
+            "zero_fraction": 0.0,
+            "logit_chain_l2": 5.51055539105079e-06,
+            "logit_chain_attenuation": 5.990705195177357e-08
+          },
+          "d_loss_d_prediction_B": {
+            "l2": 92.02763225250882,
+            "mean": 0.03365905223684397,
+            "sum": 8823.518589575226,
+            "positive_fraction": 0.5952110290527344,
+            "negative_fraction": 0.4047889709472656,
+            "zero_fraction": 0.0,
+            "logit_chain_l2": 5.512535241324915e-06,
+            "logit_chain_attenuation": 5.990087005823878e-08
+          }
+        },
+        "hold": {
+          "loss": 0.12186793982982635,
+          "outer_weight": 1.0,
+          "parameter_gradients": {
+            "encoder": {
+              "l2": 9.314260036509372e-07,
+              "finite": true,
+              "parameters_with_gradient": 102,
+              "zero_gradient_parameters": 0
+            },
+            "learned_encoder_latents": {
+              "l2": 8.93101705474774e-09,
+              "finite": true,
+              "parameters_with_gradient": 1,
+              "zero_gradient_parameters": 0
+            },
+            "decoder": {
+              "l2": 0.00010587574284157997,
+              "finite": true,
+              "parameters_with_gradient": 19,
+              "zero_gradient_parameters": 0
+            },
+            "learned_output_query": {
+              "l2": 2.4401355916184554e-06,
+              "finite": true,
+              "parameters_with_gradient": 1,
+              "zero_gradient_parameters": 0
+            },
+            "all": {
+              "l2": 0.0001058798401794209,
+              "finite": true,
+              "parameters_with_gradient": 122,
+              "zero_gradient_parameters": 0
+            }
+          },
+          "d_loss_d_prediction_A": {
+            "l2": 0.11032702105373916,
+            "mean": 0.00012383148466026133,
+            "sum": 32.46168071477955,
+            "positive_fraction": 0.7912673950195312,
+            "negative_fraction": 0.20613861083984375,
+            "zero_fraction": 0.002593994140625,
+            "logit_chain_l2": 6.6606538143019384e-09,
+            "logit_chain_attenuation": 6.037191751110186e-08
+          },
+          "d_loss_d_prediction_B": {
+            "l2": 0.11032702109493203,
+            "mean": 0.00012383148480270474,
+            "sum": 32.46168075212023,
+            "positive_fraction": 0.7912673950195312,
+            "negative_fraction": 0.20613861083984375,
+            "zero_fraction": 0.002593994140625,
+            "logit_chain_l2": 6.6607607111577755e-09,
+            "logit_chain_attenuation": 6.037288639767092e-08
+          }
+        },
+        "cross": {
+          "loss": 0.12225023657083511,
+          "outer_weight": 0.5,
+          "parameter_gradients": {
+            "encoder": {
+              "l2": 8.811944099855725e-07,
+              "finite": true,
+              "parameters_with_gradient": 102,
+              "zero_gradient_parameters": 0
+            },
+            "learned_encoder_latents": {
+              "l2": 8.453147523159759e-09,
+              "finite": true,
+              "parameters_with_gradient": 1,
+              "zero_gradient_parameters": 0
+            },
+            "decoder": {
+              "l2": 0.00010026588787753562,
+              "finite": true,
+              "parameters_with_gradient": 19,
+              "zero_gradient_parameters": 0
+            },
+            "learned_output_query": {
+              "l2": 2.310084348258781e-06,
+              "finite": true,
+              "parameters_with_gradient": 1,
+              "zero_gradient_parameters": 0
+            },
+            "all": {
+              "l2": 0.00010026976038125571,
+              "finite": true,
+              "parameters_with_gradient": 122,
+              "zero_gradient_parameters": 0
+            }
+          },
+          "d_loss_d_prediction_A": {
+            "l2": 0.09893200670296277,
+            "mean": 0.00011758457374207404,
+            "sum": 30.824090499042256,
+            "positive_fraction": 0.8051719665527344,
+            "negative_fraction": 0.19480133056640625,
+            "zero_fraction": 2.6702880859375e-05,
+            "logit_chain_l2": 5.961043204195579e-09,
+            "logit_chain_attenuation": 6.025394008324568e-08
+          },
+          "d_loss_d_prediction_B": {
+            "l2": 0.09777175548643047,
+            "mean": 0.0001184093291876041,
+            "sum": 31.040295190555288,
+            "positive_fraction": 0.7939033508300781,
+            "negative_fraction": 0.2060699462890625,
+            "zero_fraction": 2.6702880859375e-05,
+            "logit_chain_l2": 5.84794243715145e-09,
+            "logit_chain_attenuation": 5.981218612734302e-08
+          }
+        },
+        "observed": {
+          "loss": 0.12225023657083511,
+          "outer_weight": 0.1,
+          "parameter_gradients": {
+            "encoder": {
+              "l2": 8.811922980802281e-07,
+              "finite": true,
+              "parameters_with_gradient": 102,
+              "zero_gradient_parameters": 0
+            },
+            "learned_encoder_latents": {
+              "l2": 8.460636593361146e-09,
+              "finite": true,
+              "parameters_with_gradient": 1,
+              "zero_gradient_parameters": 0
+            },
+            "decoder": {
+              "l2": 0.00010026572532157394,
+              "finite": true,
+              "parameters_with_gradient": 19,
+              "zero_gradient_parameters": 0
+            },
+            "learned_output_query": {
+              "l2": 2.3100798817810752e-06,
+              "finite": true,
+              "parameters_with_gradient": 1,
+              "zero_gradient_parameters": 0
+            },
+            "all": {
+              "l2": 0.0001002695978136438,
+              "finite": true,
+              "parameters_with_gradient": 122,
+              "zero_gradient_parameters": 0
+            }
+          },
+          "d_loss_d_prediction_A": {
+            "l2": 0.09777175536904996,
+            "mean": 0.00011840932891481731,
+            "sum": 31.04029511904587,
+            "positive_fraction": 0.7939033508300781,
+            "negative_fraction": 0.2060699462890625,
+            "zero_fraction": 2.6702880859375e-05,
+            "logit_chain_l2": 5.84785433215785e-09,
+            "logit_chain_attenuation": 5.981128506984965e-08
+          },
+          "d_loss_d_prediction_B": {
+            "l2": 0.09893200674935854,
+            "mean": 0.00011758457393239315,
+            "sum": 30.82409054893327,
+            "positive_fraction": 0.8051719665527344,
+            "negative_fraction": 0.19480133056640625,
+            "zero_fraction": 2.6702880859375e-05,
+            "logit_chain_l2": 5.9611326241887344e-09,
+            "logit_chain_attenuation": 6.025484390800944e-08
+          }
+        },
+        "consistency": {
+          "loss": 5.0369581003906205e-06,
+          "outer_weight": 0.05,
+          "parameter_gradients": {
+            "encoder": {
+              "l2": 0.0009212087394958752,
+              "finite": true,
+              "parameters_with_gradient": 102,
+              "zero_gradient_parameters": 0
+            },
+            "learned_encoder_latents": {
+              "l2": 1.1715689723282039e-05,
+              "finite": true,
+              "parameters_with_gradient": 1,
+              "zero_gradient_parameters": 0
+            },
+            "decoder": {
+              "l2": 0.0006373173313762666,
+              "finite": true,
+              "parameters_with_gradient": 19,
+              "zero_gradient_parameters": 0
+            },
+            "learned_output_query": {
+              "l2": 3.9398353297172265e-06,
+              "finite": true,
+              "parameters_with_gradient": 1,
+              "zero_gradient_parameters": 0
+            },
+            "all": {
+              "l2": 0.001120239340490164,
+              "finite": true,
+              "parameters_with_gradient": 122,
+              "zero_gradient_parameters": 0
+            }
+          },
+          "d_loss_d_prediction_A": {
+            "l2": 1840.1199802688373,
+            "mean": -0.6693031434248794,
+            "sum": -175453.80322997159,
+            "positive_fraction": 0.40338134765625,
+            "negative_fraction": 0.59661865234375,
+            "zero_fraction": 0.0,
+            "logit_chain_l2": 0.00011022925873403876,
+            "logit_chain_attenuation": 5.990329973914773e-08
+          },
+          "d_loss_d_prediction_B": {
+            "l2": 1840.118252583457,
+            "mean": 0.6692850232005342,
+            "sum": 175449.05312188083,
+            "positive_fraction": 0.5888862609863281,
+            "negative_fraction": 0.4111137390136719,
+            "zero_fraction": 0.0,
+            "logit_chain_l2": 0.00011023177213486204,
+            "logit_chain_attenuation": 5.990472187322785e-08
+          }
+        }
+      },
+      "near_zero_constant_field_probe": [
+        {
+          "constant_mass_fraction": 0.0,
+          "loss": {
+            "total": 0.19521287083625793,
+            "hold": 0.12186462432146072,
+            "cross": 0.12224707752466202,
+            "observed": 0.12224707752466202,
+            "consistency": 0.0
+          },
+          "d_loss_d_constant_field": {
+            "total": -182.95098876953125,
+            "hold": -114.8890151977539,
+            "cross": -113.43663024902344,
+            "observed": -113.43663024902344,
+            "consistency": 0.0
+          },
+          "interpretation": "positive derivative means gradient descent pushes constant field lower; exact-zero absolute-value subgradient differs from small positive output"
+        },
+        {
+          "constant_mass_fraction": 1e-08,
+          "loss": {
+            "total": 0.19521382451057434,
+            "hold": 0.12186522036790848,
+            "cross": 0.12224768847227097,
+            "observed": 0.12224768847227097,
+            "consistency": 0.0
+          },
+          "d_loss_d_constant_field": {
+            "total": 99.39645385742188,
+            "hold": 63.119903564453125,
+            "cross": 60.460906982421875,
+            "observed": 60.460906982421875,
+            "consistency": 0.0
+          },
+          "interpretation": "positive derivative means gradient descent pushes constant field lower; exact-zero absolute-value subgradient differs from small positive output"
+        },
+        {
+          "constant_mass_fraction": 1e-07,
+          "loss": {
+            "total": 0.19522297382354736,
+            "hold": 0.12187103927135468,
+            "cross": 0.12225322425365448,
+            "observed": 0.12225322425365448,
+            "consistency": 0.0
+          },
+          "d_loss_d_constant_field": {
+            "total": 102.42550659179688,
+            "hold": 65.08700561523438,
+            "cross": 62.23081970214844,
+            "observed": 62.23081970214844,
+            "consistency": 0.0
+          },
+          "interpretation": "positive derivative means gradient descent pushes constant field lower; exact-zero absolute-value subgradient differs from small positive output"
+        },
+        {
+          "constant_mass_fraction": 1e-06,
+          "loss": {
+            "total": 0.19531676173210144,
+            "hold": 0.1219305545091629,
+            "cross": 0.1223103478550911,
+            "observed": 0.1223103478550911,
+            "consistency": 0.0
+          },
+          "d_loss_d_constant_field": {
+            "total": 105.13455200195312,
+            "hold": 66.71275329589844,
+            "cross": 64.03633117675781,
+            "observed": 64.03633117675781,
+            "consistency": 0.0
+          },
+          "interpretation": "positive derivative means gradient descent pushes constant field lower; exact-zero absolute-value subgradient differs from small positive output"
+        },
+        {
+          "constant_mass_fraction": 1e-05,
+          "loss": {
+            "total": 0.19628818333148956,
+            "hold": 0.1225474625825882,
+            "cross": 0.12290120124816895,
+            "observed": 0.12290120124816895,
+            "consistency": 0.0
+          },
+          "d_loss_d_constant_field": {
+            "total": 109.48368835449219,
+            "hold": 69.51000213623047,
+            "cross": 66.62281799316406,
+            "observed": 66.62281799316406,
+            "consistency": 0.0
+          },
+          "interpretation": "positive derivative means gradient descent pushes constant field lower; exact-zero absolute-value subgradient differs from small positive output"
+        }
+      ]
+    },
+    {
+      "case_index": 2,
+      "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w3_inlet1_half",
+      "station_ids": {
+        "A": [
+          28,
+          24,
+          53
+        ],
+        "B": [
+          43,
+          46,
+          5,
+          36
+        ],
+        "H": [
+          60,
+          51
+        ]
+      },
+      "prediction": {
+        "min": 1.2348136735340631e-08,
+        "max": 2.3883131916591083e-07,
+        "mean": 5.7289761221730235e-08,
+        "std": 1.742792605719109e-08,
+        "l2": 3.06595644351067e-05,
+        "quantiles": {
+          "0.0": 1.2348136735340631e-08,
+          "0.001": 1.8776274400167382e-08,
+          "0.01": 2.5302533721571762e-08,
+          "0.1": 3.7222540427706005e-08,
+          "0.5": 5.5374346885628256e-08,
+          "0.9": 7.892803708386965e-08,
+          "0.99": 1.1194825788152231e-07,
+          "0.999": 1.5056202531127329e-07,
+          "1.0": 2.3883131916591083e-07
+        },
+        "axis_neighbor_mean_abs": {
+          "x": 4.342177804290325e-09,
+          "y": 4.526762562427815e-09,
+          "z": 4.86402810997294e-09
+        },
+        "fraction_below_1e_6": 1.0
+      },
+      "logits": {
+        "min": -18.209760665893555,
+        "max": -15.24750804901123,
+        "mean": -16.719417381602398,
+        "std": 0.29916306633481643,
+        "l2": 8561.711950041825,
+        "quantiles": {
+          "0.0": -18.209760665893555,
+          "0.001": -17.79067173576355,
+          "0.01": -17.492361278533934,
+          "0.1": -17.1063512802124,
+          "0.5": -16.70914936065674,
+          "0.9": -16.35472927093506,
+          "0.99": -16.005228900909422,
+          "0.999": -15.70889055347443,
+          "1.0": -15.24750804901123
+        }
+      },
+      "sigmoid_derivative": {
+        "min": 1.2348136735340631e-08,
+        "max": 2.3883126232249197e-07,
+        "mean": 5.728975603413455e-08,
+        "std": 1.742792354688387e-08,
+        "l2": 3.065956151996957e-05,
+        "quantiles": {
+          "0.0": 1.2348136735340631e-08,
+          "0.001": 1.8776274400167382e-08,
+          "0.01": 2.5302533721571762e-08,
+          "0.1": 3.7222536874992326e-08,
+          "0.5": 5.537434333291458e-08,
+          "0.9": 7.892802997844229e-08,
+          "0.99": 1.119482436706676e-07,
+          "0.999": 1.5056199688956386e-07,
+          "1.0": 2.3883126232249197e-07
+        }
+      },
+      "logit_fraction_below_minus10": 1.0,
+      "normal_vs_zero_measurement": {
+        "output_mean_abs": 3.351652722721754e-13,
+        "output_max_abs": 2.2453150450019166e-12,
+        "relative_l1": 5.850351953995414e-06,
+        "latent_difference_l2": 0.061223093420267105,
+        "latent_relative_l2": 0.00021472723165061325,
+        "geometry_path_mask_unchanged": true
+      },
+      "geometry_and_input_scale": {
+        "valid_rays": 6168,
+        "packed_real_rays": 6168,
+        "valid_zero_measurements": 0,
+        "positive_measurement_fraction": 1.0,
+        "raw_ppm_m": {
+          "min": 4.0438722153349625e-28,
+          "max": 31111.7890625,
+          "mean": 293.10168744696796,
+          "std": 1931.8984824092654,
+          "l2": 153461.03626381574,
+          "quantiles": {
+            "0.0": 4.0438722153349625e-28,
+            "0.001": 9.218318436728679e-28,
+            "0.01": 1.8288027556805586e-25,
+            "0.1": 6.146138066906821e-21,
+            "0.5": 1.1803594785119869e-17,
+            "0.9": 8.948362884009255e-13,
+            "0.99": 10783.706914062499,
+            "0.999": 24852.971351562494,
+            "1.0": 31111.7890625
+          }
+        },
+        "normalized_integral": {
+          "min": 1.2525585849678459e-32,
+          "max": 0.9636639952659607,
+          "mean": 0.009078601747510682,
+          "std": 0.05983908544443126,
+          "l2": 4.753338824593693,
+          "quantiles": {
+            "0.0": 1.2525585849678459e-32,
+            "0.001": 2.855304094924627e-32,
+            "0.01": 5.664577329003504e-30,
+            "0.1": 1.9037195162969319e-25,
+            "0.5": 3.6560736839990266e-22,
+            "0.9": 2.7716872992820454e-17,
+            "0.99": 0.33401712626218794,
+            "0.999": 0.7698018718957899,
+            "1.0": 0.9636639952659607
+          }
+        },
+        "direction_norm": {
+          "min": 0.9999999403953552,
+          "max": 1.0,
+          "mean": 0.9999999843257564,
+          "std": 2.6240728012208437e-08,
+          "l2": 78.53661443328544,
+          "quantiles": {
+            "0.0": 0.9999999403953552,
+            "0.001": 0.9999999403953552,
+            "0.01": 0.9999999403953552,
+            "0.1": 0.9999999403953552,
+            "0.5": 1.0,
+            "0.9": 1.0,
+            "0.99": 1.0,
+            "0.999": 1.0,
+            "1.0": 1.0
+          }
+        },
+        "path_length_m": {
+          "min": 0.0002037412632489577,
+          "max": 0.7619003653526306,
+          "mean": 0.43405020367472164,
+          "std": 0.22683203284766232,
+          "l2": 38.46309006682183,
+          "quantiles": {
+            "0.0": 0.0002037412632489577,
+            "0.001": 0.004888061871286481,
+            "0.01": 0.016541515309363604,
+            "0.1": 0.08914028406143189,
+            "0.5": 0.4841352254152298,
+            "0.9": 0.6521589457988739,
+            "0.99": 0.7594619297981262,
+            "0.999": 0.7614633040428161,
+            "1.0": 0.7619003653526306
+          }
+        },
+        "entry_min_m": [
+          -4.76837158203125e-07,
+          7.161498069763184e-05,
+          0.0040531158447265625
+        ],
+        "entry_max_m": [
+          0.6000003814697266,
+          0.5999908447265625,
+          0.6000003814697266
+        ],
+        "exit_min_m": [
+          -5.960464477539062e-07,
+          -3.5390257835388184e-08,
+          -8.344650268554688e-07
+        ],
+        "exit_max_m": [
+          0.6000004410743713,
+          0.6000000834465027,
+          0.5999374985694885
+        ],
+        "entry_exit_in_domain": true,
+        "all_tokens_finite": true,
+        "token_channels": 203,
+        "token_measurement": {
+          "min": 1.2525585849678459e-32,
+          "max": 0.9636639952659607,
+          "mean": 0.009078601747510682,
+          "std": 0.05983908544443126,
+          "l2": 4.753338824593693,
+          "quantiles": {
+            "0.0": 1.2525585849678459e-32,
+            "0.001": 2.855304094924627e-32,
+            "0.01": 5.664577329003504e-30,
+            "0.1": 1.9037195162969319e-25,
+            "0.5": 3.6560736839990266e-22,
+            "0.9": 2.7716872992820454e-17,
+            "0.99": 0.33401712626218794,
+            "0.999": 0.7698018718957899,
+            "1.0": 0.9636639952659607
+          }
+        },
+        "token_geometry": {
+          "min": -1.0000027418136597,
+          "max": 1.0000014305114746,
+          "mean": -0.016555030050436525,
+          "std": 0.6749092227850118,
+          "l2": 167.66721876469583,
+          "quantiles": {
+            "0.0": -1.0000027418136597,
+            "0.001": -1.0000020265579224,
+            "0.01": -1.0000008344650269,
+            "0.1": -0.985119777917862,
+            "0.5": 0.01632007397711277,
+            "0.9": 0.9999980926513672,
+            "0.99": 1.0000004768371582,
+            "0.999": 1.0000011920928955,
+            "1.0": 1.0000014305114746
+          }
+        },
+        "token_fourier": {
+          "min": -1.0,
+          "max": 1.0,
+          "mean": -0.01150381559469525,
+          "std": 0.7070132047339955,
+          "l2": 769.4985452755054,
+          "quantiles": {
+            "0.0": -1.0,
+            "0.001": -1.0,
+            "0.01": -1.0,
+            "0.1": -0.9510629177093506,
+            "0.5": -3.534944335115142e-05,
+            "0.9": 0.9510559439659119,
+            "0.99": 1.0,
+            "0.999": 1.0,
+            "1.0": 1.0
+          }
+        }
+      },
+      "loss_branch_gradients": {
+        "total": {
+          "loss": 0.17388437688350677,
+          "outer_weight": 1.0,
+          "parameter_gradients": {
+            "encoder": {
+              "l2": 0.000299049912482128,
+              "finite": true,
+              "parameters_with_gradient": 102,
+              "zero_gradient_parameters": 0
+            },
+            "learned_encoder_latents": {
+              "l2": 4.031499496594695e-06,
+              "finite": true,
+              "parameters_with_gradient": 1,
+              "zero_gradient_parameters": 0
+            },
+            "decoder": {
+              "l2": 0.0006879669988356799,
+              "finite": true,
+              "parameters_with_gradient": 19,
+              "zero_gradient_parameters": 0
+            },
+            "learned_output_query": {
+              "l2": 1.558197466000408e-05,
+              "finite": true,
+              "parameters_with_gradient": 1,
+              "zero_gradient_parameters": 0
+            },
+            "all": {
+              "l2": 0.0007501637785382149,
+              "finite": true,
+              "parameters_with_gradient": 122,
+              "zero_gradient_parameters": 0
+            }
+          },
+          "d_loss_d_prediction_A": {
+            "l2": 91.98737942795502,
+            "mean": -0.1742603801891294,
+            "sum": -45681.31310429914,
+            "positive_fraction": 0.015323638916015625,
+            "negative_fraction": 0.9846763610839844,
+            "zero_fraction": 0.0,
+            "logit_chain_l2": 5.508310382978374e-06,
+            "logit_chain_attenuation": 5.988115344988722e-08
+          },
+          "d_loss_d_prediction_B": {
+            "l2": 92.68281705086896,
+            "mean": 0.17564371149043195,
+            "sum": 46043.945104947794,
+            "positive_fraction": 0.9851264953613281,
+            "negative_fraction": 0.014873504638671875,
+            "zero_fraction": 0.0,
+            "logit_chain_l2": 5.550971057559383e-06,
+            "logit_chain_attenuation": 5.989212708665008e-08
+          }
+        },
+        "hold": {
+          "loss": 0.10856557637453079,
+          "outer_weight": 1.0,
+          "parameter_gradients": {
+            "encoder": {
+              "l2": 3.350933326799116e-06,
+              "finite": true,
+              "parameters_with_gradient": 102,
+              "zero_gradient_parameters": 0
+            },
+            "learned_encoder_latents": {
+              "l2": 3.319606978819185e-08,
+              "finite": true,
+              "parameters_with_gradient": 1,
+              "zero_gradient_parameters": 0
+            },
+            "decoder": {
+              "l2": 0.0003996312842346016,
+              "finite": true,
+              "parameters_with_gradient": 19,
+              "zero_gradient_parameters": 0
+            },
+            "learned_output_query": {
+              "l2": 9.25405212265211e-06,
+              "finite": true,
+              "parameters_with_gradient": 1,
+              "zero_gradient_parameters": 0
+            },
+            "all": {
+              "l2": 0.00039964533425918615,
+              "finite": true,
+              "parameters_with_gradient": 122,
+              "zero_gradient_parameters": 0
+            }
+          },
+          "d_loss_d_prediction_A": {
+            "l2": 0.2645013476126256,
+            "mean": 0.0004290436958722197,
+            "sum": 112.47123061072716,
+            "positive_fraction": 0.9204254150390625,
+            "negative_fraction": 0.0781402587890625,
+            "zero_fraction": 0.001434326171875,
+            "logit_chain_l2": 1.605020329226353e-08,
+            "logit_chain_attenuation": 6.06809887251304e-08
+          },
+          "d_loss_d_prediction_B": {
+            "l2": 0.2645013489670951,
+            "mean": 0.0004290436983721864,
+            "sum": 112.47123126607843,
+            "positive_fraction": 0.9204254150390625,
+            "negative_fraction": 0.0781402587890625,
+            "zero_fraction": 0.001434326171875,
+            "logit_chain_l2": 1.6054290196338272e-08,
+            "logit_chain_attenuation": 6.06964397687646e-08
+          }
+        },
+        "cross": {
+          "loss": 0.10886352509260178,
+          "outer_weight": 0.5,
+          "parameter_gradients": {
+            "encoder": {
+              "l2": 3.4437147822967764e-06,
+              "finite": true,
+              "parameters_with_gradient": 102,
+              "zero_gradient_parameters": 0
+            },
+            "learned_encoder_latents": {
+              "l2": 3.414690310886209e-08,
+              "finite": true,
+              "parameters_with_gradient": 1,
+              "zero_gradient_parameters": 0
+            },
+            "decoder": {
+              "l2": 0.00041030634628285714,
+              "finite": true,
+              "parameters_with_gradient": 19,
+              "zero_gradient_parameters": 0
+            },
+            "learned_output_query": {
+              "l2": 9.502580155996547e-06,
+              "finite": true,
+              "parameters_with_gradient": 1,
+              "zero_gradient_parameters": 0
+            },
+            "all": {
+              "l2": 0.0004103207990554472,
+              "finite": true,
+              "parameters_with_gradient": 122,
+              "zero_gradient_parameters": 0
+            }
+          },
+          "d_loss_d_prediction_A": {
+            "l2": 0.2627476401701011,
+            "mean": 0.00044246495769809926,
+            "sum": 115.98953387081053,
+            "positive_fraction": 0.9400672912597656,
+            "negative_fraction": 0.059932708740234375,
+            "zero_fraction": 0.0,
+            "logit_chain_l2": 1.5990000462467022e-08,
+            "logit_chain_attenuation": 6.085687563974009e-08
+          },
+          "d_loss_d_prediction_B": {
+            "l2": 0.2675083319186565,
+            "mean": 0.0004370642067434245,
+            "sum": 114.57375941254827,
+            "positive_fraction": 0.929962158203125,
+            "negative_fraction": 0.069183349609375,
+            "zero_fraction": 0.0008544921875,
+            "logit_chain_l2": 1.6286304667054e-08,
+            "logit_chain_attenuation": 6.08814856353944e-08
+          }
+        },
+        "observed": {
+          "loss": 0.10886351764202118,
+          "outer_weight": 0.1,
+          "parameter_gradients": {
+            "encoder": {
+              "l2": 3.445388529784531e-06,
+              "finite": true,
+              "parameters_with_gradient": 102,
+              "zero_gradient_parameters": 0
+            },
+            "learned_encoder_latents": {
+              "l2": 3.41679498934337e-08,
+              "finite": true,
+              "parameters_with_gradient": 1,
+              "zero_gradient_parameters": 0
+            },
+            "decoder": {
+              "l2": 0.00041030677604898493,
+              "finite": true,
+              "parameters_with_gradient": 19,
+              "zero_gradient_parameters": 0
+            },
+            "learned_output_query": {
+              "l2": 9.502597185288853e-06,
+              "finite": true,
+              "parameters_with_gradient": 1,
+              "zero_gradient_parameters": 0
+            },
+            "all": {
+              "l2": 0.0004103212428589115,
+              "finite": true,
+              "parameters_with_gradient": 122,
+              "zero_gradient_parameters": 0
+            }
+          },
+          "d_loss_d_prediction_A": {
+            "l2": 0.2675083306895699,
+            "mean": 0.00043706420451092293,
+            "sum": 114.57375882731138,
+            "positive_fraction": 0.929962158203125,
+            "negative_fraction": 0.069183349609375,
+            "zero_fraction": 0.0008544921875,
+            "logit_chain_l2": 1.6282118689514423e-08,
+            "logit_chain_attenuation": 6.0865837888275e-08
+          },
+          "d_loss_d_prediction_B": {
+            "l2": 0.26274764137325685,
+            "mean": 0.0004424649600171045,
+            "sum": 115.98953447872384,
+            "positive_fraction": 0.9400672912597656,
+            "negative_fraction": 0.059932708740234375,
+            "zero_fraction": 0.0,
+            "logit_chain_l2": 1.5994119457142278e-08,
+            "logit_chain_attenuation": 6.087255198010011e-08
+          }
+        },
+        "consistency": {
+          "loss": 1.3653872883878648e-05,
+          "outer_weight": 0.05,
+          "parameter_gradients": {
+            "encoder": {
+              "l2": 0.005961171618852317,
+              "finite": true,
+              "parameters_with_gradient": 102,
+              "zero_gradient_parameters": 0
+            },
+            "learned_encoder_latents": {
+              "l2": 8.046972111384529e-05,
+              "finite": true,
+              "parameters_with_gradient": 1,
+              "zero_gradient_parameters": 0
+            },
+            "decoder": {
+              "l2": 0.003749441510910051,
+              "finite": true,
+              "parameters_with_gradient": 19,
+              "zero_gradient_parameters": 0
+            },
+            "learned_output_query": {
+              "l2": 1.533983867751973e-05,
+              "finite": true,
+              "parameters_with_gradient": 1,
+              "zero_gradient_parameters": 0
+            },
+            "all": {
+              "l2": 0.007042751883259976,
+              "finite": true,
+              "parameters_with_gradient": 122,
+              "zero_gradient_parameters": 0
+            }
+          },
+          "d_loss_d_prediction_A": {
+            "l2": 1846.7192865387954,
+            "mean": -3.499087076955023,
+            "sum": -917264.6827012976,
+            "positive_fraction": 0.014781951904296875,
+            "negative_fraction": 0.9852180480957031,
+            "zero_fraction": 0.0,
+            "logit_chain_l2": 0.00011058000580593706,
+            "logit_chain_attenuation": 5.987916334224845e-08
+          },
+          "d_loss_d_prediction_B": {
+            "l2": 1846.6948915331068,
+            "mean": 3.499037962635354,
+            "sum": 917251.8076770823,
+            "positive_fraction": 0.9845962524414062,
+            "negative_fraction": 0.01540374755859375,
+            "zero_fraction": 0.0,
+            "logit_chain_l2": 0.00011060601679905354,
+            "logit_chain_attenuation": 5.989403951143742e-08
+          }
+        }
+      },
+      "near_zero_constant_field_probe": [
+        {
+          "constant_mass_fraction": 0.0,
+          "loss": {
+            "total": 0.173863023519516,
+            "hold": 0.10855279117822647,
+            "cross": 0.1088503748178482,
+            "observed": 0.1088503748178482,
+            "consistency": 0.0
+          },
+          "d_loss_d_constant_field": {
+            "total": -430.7339782714844,
+            "hold": -268.50146484375,
+            "cross": -270.3874816894531,
+            "observed": -270.387451171875,
+            "consistency": 0.0
+          },
+          "interpretation": "positive derivative means gradient descent pushes constant field lower; exact-zero absolute-value subgradient differs from small positive output"
+        },
+        {
+          "constant_mass_fraction": 1e-08,
+          "loss": {
+            "total": 0.1738666146993637,
+            "hold": 0.10855501890182495,
+            "cross": 0.10885265469551086,
+            "observed": 0.10885265469551086,
+            "consistency": 0.0
+          },
+          "d_loss_d_constant_field": {
+            "total": 360.805419921875,
+            "hold": 223.5845947265625,
+            "cross": 228.70138549804688,
+            "observed": 228.70138549804688,
+            "consistency": 0.0
+          },
+          "interpretation": "positive derivative means gradient descent pushes constant field lower; exact-zero absolute-value subgradient differs from small positive output"
+        },
+        {
+          "constant_mass_fraction": 1e-07,
+          "loss": {
+            "total": 0.17389927804470062,
+            "hold": 0.108575239777565,
+            "cross": 0.1088733896613121,
+            "observed": 0.1088733896613121,
+            "consistency": 0.0
+          },
+          "d_loss_d_constant_field": {
+            "total": 364.0180969238281,
+            "hold": 225.5094451904297,
+            "cross": 230.84774780273438,
+            "observed": 230.84774780273438,
+            "consistency": 0.0
+          },
+          "interpretation": "positive derivative means gradient descent pushes constant field lower; exact-zero absolute-value subgradient differs from small positive output"
+        },
+        {
+          "constant_mass_fraction": 1e-06,
+          "loss": {
+            "total": 0.1742284595966339,
+            "hold": 0.10877908766269684,
+            "cross": 0.10908227413892746,
+            "observed": 0.10908227413892746,
+            "consistency": 0.0
+          },
+          "d_loss_d_constant_field": {
+            "total": 366.6803283691406,
+            "hold": 227.04891967773438,
+            "cross": 232.71900939941406,
+            "observed": 232.71900939941406,
+            "consistency": 0.0
+          },
+          "interpretation": "positive derivative means gradient descent pushes constant field lower; exact-zero absolute-value subgradient differs from small positive output"
+        },
+        {
+          "constant_mass_fraction": 1e-05,
+          "loss": {
+            "total": 0.17755025625228882,
+            "hold": 0.11083533614873886,
+            "cross": 0.11119154095649719,
+            "observed": 0.11119154095649719,
+            "consistency": 0.0
+          },
+          "d_loss_d_constant_field": {
+            "total": 370.33953857421875,
+            "hold": 229.125,
+            "cross": 235.35751342773438,
+            "observed": 235.35751342773438,
+            "consistency": 0.0
+          },
+          "interpretation": "positive derivative means gradient descent pushes constant field lower; exact-zero absolute-value subgradient differs from small positive output"
+        }
+      ]
+    }
+  ],
+  "pairwise_case_outputs": [
+    {
+      "left": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet1_half",
+      "right": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w1_inlet1_half",
+      "prediction_mean_abs": 4.779488436967849e-12,
+      "prediction_max_abs": 4.3854697651113383e-11,
+      "relative_l1": 8.341391367139295e-05
+    },
+    {
+      "left": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet1_half",
+      "right": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w3_inlet1_half",
+      "prediction_mean_abs": 9.451604429666638e-12,
+      "prediction_max_abs": 8.86188900039997e-11,
+      "relative_l1": 0.00016495391901116818
+    },
+    {
+      "left": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w1_inlet1_half",
+      "right": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w3_inlet1_half",
+      "prediction_mean_abs": 1.0782047997481836e-11,
+      "prediction_max_abs": 1.0892620139202336e-10,
+      "relative_l1": 0.0001881684293039143
+    }
+  ],
+  "access": {
+    "gt_file_opened": false,
+    "gt_open_attempts": 0,
+    "forbidden_npy_attempts": 0,
+    "supervised_checkpoint_open_attempts": 0,
+    "projection_open_count": 9,
+    "unique_pool_a_projection_files": 3,
+    "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+    "audit_hook_inherited_by_workers": true
+  }
+}

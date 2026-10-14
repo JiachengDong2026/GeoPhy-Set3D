@@ -1,0 +1,28 @@
+{
+  "at": "2026-10-14T16:55:15.402206+08:00",
+  "classification": "Near-zero collapse with sigmoid saturation and insufficient measurement dependence; not merely slow learning. No confirmed implementation/gradient break found in finite checks.",
+  "raw_current_chunk_per_parameter_relative_only_pass": false,
+  "chunk_gradient_global_relative_l2": 9.693314840047638e-08,
+  "chunk_gradient_max_parameter_absolute_l2": 1.787162874564145e-11,
+  "relative_only_exceptions": [
+    {
+      "parameter": "decoder.cross_attention.0.module.q_norm.weight",
+      "full_gradient_l2": 2.8000021097406407e-11,
+      "difference_l2": 1.2403617492285956e-13,
+      "relative_l2": 0.00442986005229649,
+      "finite": true
+    },
+    {
+      "parameter": "decoder.cross_attention.0.module.q_norm.bias",
+      "full_gradient_l2": 1.480653669424024e-10,
+      "difference_l2": 7.85422859697356e-14,
+      "relative_l2": 0.00053045683532658,
+      "finite": true
+    }
+  ],
+  "explanation": "Two extremely small LayerNorm gradients (1e-11 to 1e-10) fail a pure relative threshold at absolute differences 8e-14 to 1e-13; preserve raw failure. Combined absolute/relative numerical evidence agrees with initial engineering tolerance, does not establish a training implementation error.",
+  "formal_run_untouched": true,
+  "optimizer_steps_diagnostic": 0,
+  "no_GT": true,
+  "original_results_preserved": true
+}
