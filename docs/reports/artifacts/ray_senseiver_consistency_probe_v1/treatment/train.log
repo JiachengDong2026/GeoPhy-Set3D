@@ -1,0 +1,66 @@
+/home/djc/projects/GeoPhy-Set3D/scripts/diagnose_ray_senseiver_learning.py:86: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  prediction_error=float((full-chunk).abs().max());relative_prediction=float((full-chunk).double().norm()/full.detach().double().norm().clamp_min(1e-30))
+treatment epoch=1/40 updates=4 H_L1=2.29424810 H_L2=0.95800833 mean=0.0015127081 reason=None seconds=8.52
+treatment epoch=2/40 updates=8 H_L1=2.24120994 H_L2=0.95599502 mean=0.0014524685 reason=None seconds=8.41
+treatment epoch=3/40 updates=12 H_L1=2.17676852 H_L2=0.95392825 mean=0.0013790851 reason=None seconds=8.34
+treatment epoch=4/40 updates=16 H_L1=2.10041908 H_L2=0.95202820 mean=0.0012919898 reason=None seconds=8.44
+treatment epoch=5/40 updates=20 H_L1=2.01356761 H_L2=0.95060622 mean=0.0011927418 reason=None seconds=20.06
+treatment epoch=6/40 updates=24 H_L1=1.91849098 H_L2=0.94999268 mean=0.0010836163 reason=None seconds=8.34
+treatment epoch=7/40 updates=28 H_L1=1.81559999 H_L2=0.95046276 mean=0.00096518098 reason=None seconds=8.39
+treatment epoch=8/40 updates=32 H_L1=1.70799817 H_L2=0.95225758 mean=0.00084082783 reason=None seconds=8.34
+treatment epoch=9/40 updates=36 H_L1=1.60012357 H_L2=0.95543311 mean=0.0007155467 reason=None seconds=8.46
+treatment epoch=10/40 updates=40 H_L1=1.49648523 H_L2=0.95980411 mean=0.00059470496 reason=None seconds=20.14
+treatment epoch=11/40 updates=44 H_L1=1.40134953 H_L2=0.96498006 mean=0.00048324639 reason=None seconds=8.36
+treatment epoch=12/40 updates=48 H_L1=1.31815807 H_L2=0.97043101 mean=0.00038534672 reason=None seconds=4.67
+treatment epoch=13/40 updates=52 H_L1=1.24895342 H_L2=0.97563377 mean=0.00030351531 reason=None seconds=1.73
+treatment epoch=14/40 updates=56 H_L1=1.19435657 H_L2=0.98017847 mean=0.00023857574 reason=None seconds=1.90
+treatment epoch=15/40 updates=60 H_L1=1.15385711 H_L2=0.98381127 mean=0.00019007363 reason=None seconds=6.91
+treatment epoch=16/40 updates=64 H_L1=1.12524641 H_L2=0.98651782 mean=0.00015558286 reason=None seconds=2.23
+treatment epoch=17/40 updates=68 H_L1=1.10545927 H_L2=0.98845780 mean=0.00013162371 reason=None seconds=2.27
+treatment epoch=18/40 updates=72 H_L1=1.09185915 H_L2=0.98982559 mean=0.00011508294 reason=None seconds=2.25
+treatment epoch=19/40 updates=76 H_L1=1.08247499 H_L2=0.99078601 mean=0.00010363194 reason=None seconds=2.39
+treatment epoch=20/40 updates=80 H_L1=1.07595227 H_L2=0.99146173 mean=9.5652109e-05 reason=None seconds=6.93
+treatment epoch=21/40 updates=84 H_L1=1.07138104 H_L2=0.99193924 mean=9.0049088e-05 reason=None seconds=2.24
+treatment epoch=22/40 updates=88 H_L1=1.06815322 H_L2=0.99227831 mean=8.6087206e-05 reason=None seconds=2.24
+treatment epoch=23/40 updates=92 H_L1=1.06585879 H_L2=0.99252008 mean=8.3269175e-05 reason=None seconds=2.34
+treatment epoch=24/40 updates=96 H_L1=1.06421987 H_L2=0.99269303 mean=8.1255774e-05 reason=None seconds=2.25
+treatment epoch=25/40 updates=100 H_L1=1.06304485 H_L2=0.99281691 mean=7.9813316e-05 reason=None seconds=6.82
+treatment epoch=26/40 updates=104 H_L1=1.06220141 H_L2=0.99290558 mean=7.877939e-05 reason=None seconds=2.22
+treatment epoch=27/40 updates=108 H_L1=1.06159677 H_L2=0.99296875 mean=7.8040483e-05 reason=None seconds=2.20
+treatment epoch=28/40 updates=112 H_L1=1.06116612 H_L2=0.99301325 mean=7.7517099e-05 reason=None seconds=2.26
+treatment epoch=29/40 updates=116 H_L1=1.06086422 H_L2=0.99304386 mean=7.7153735e-05 reason=None seconds=6.44
+treatment epoch=30/40 updates=120 H_L1=1.06065947 H_L2=0.99306390 mean=7.6911849e-05 reason=None seconds=20.07
+treatment epoch=31/40 updates=124 H_L1=1.06053050 H_L2=0.99307559 mean=7.6765563e-05 reason=None seconds=8.26
+treatment epoch=32/40 updates=128 H_L1=1.06046350 H_L2=0.99308034 mean=7.6698439e-05 reason=None seconds=8.32
+treatment epoch=33/40 updates=132 H_L1=1.06045027 H_L2=0.99307893 mean=7.6701202e-05 reason=None seconds=8.38
+treatment epoch=34/40 updates=136 H_L1=1.06048718 H_L2=0.99307162 mean=7.6770508e-05 reason=None seconds=8.28
+treatment epoch=35/40 updates=140 H_L1=1.06057421 H_L2=0.99305826 mean=7.690787e-05 reason=FAILED_TO_LEARN seconds=20.13
+{
+  "arm": "treatment",
+  "relative_l1": 0.0,
+  "consistency_weight": 0.0,
+  "completed_epochs": 35,
+  "updates": 140,
+  "reason": "FAILED_TO_LEARN",
+  "at": "2026-10-14T19:28:56.859849+08:00",
+  "elapsed_process_seconds": 266.83621108485386,
+  "total_epoch_seconds": 249.5422324151732,
+  "peak_gpu_allocated_bytes": 773926400,
+  "initial_hash": "a51ae38bb2d67202a4766de25c0e01bc9832fb8887756d2f7ebbee41a38fc5be",
+  "last_checkpoint": "/data/djc/GeoPhy-Set3D/outputs/checkpoints/ray_senseiver_consistency_probe_v1/treatment/last.pt",
+  "last_sha256": "448ef11e82b0b29e26be2ecc0d10909f575b649cb30c1b00a4142e18219bec71",
+  "epoch0_sha256": "950cb7be68e20bdccda7c9f8e002c71410a44b8ff3416c6384310730130b982a",
+  "access": {
+    "gt_file_opened": false,
+    "gt_open_attempts": 0,
+    "forbidden_npy_attempts": 0,
+    "supervised_checkpoint_open_attempts": 0,
+    "projection_open_count": 1824,
+    "unique_pool_a_projection_files": 8,
+    "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+    "audit_hook_inherited_by_workers": true
+  },
+  "no_GT": true,
+  "no_full_training_started": true
+}

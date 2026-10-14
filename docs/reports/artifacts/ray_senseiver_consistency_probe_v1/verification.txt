@@ -18,3 +18,9 @@ OK
 17 tests passed. Tests cover new control/output/all toy-model parameter equivalence, actual all-model parameter equivalence in stage1, sole consistency gradient difference, diagnostics excluded, fixed alpha analytic derivative FP32 tolerance, strict config, unchanged exit windows/dependence/L2 safeguards, own resume and stopped-run refusal, full-state next-update reproducibility, valid-zero inclusion, access-denial tests, full/chunk query gradients, geometry, official core compatibility.
 Fresh actual-model stage1: all8, no optimizer/steps, state unchanged, all grad buffers None, no forbidden access.
 Engineering smoke: fresh independent models per arm, 1 step each, all groups real update/gradient, H excluded, XYZ/full64^3, full valid ray geometry, state save/restore, query/chunk passed. Scientific training reinitializes both models.
+
+Final scientific and read-only audit, Asia/Shanghai 2026-10-14
+control: epochs=35, steps=140, reason=FAILED_TO_LEARN, last_sha256=9fc726dce275dbe444c5ed2750d44c8a1612e30bafc0e28b3cb14e826cd7d16c
+treatment: epochs=35, steps=140, reason=FAILED_TO_LEARN, last_sha256=448ef11e82b0b29e26be2ecc0d10909f575b649cb30c1b00a4142e18219bec71
+Both epoch0 states are original fresh scale initialization, zero updates and empty Adam state. Configuration/source/registration/checkpoint identities passed. Adam and scheduler exact steps; all 280 scientific updates/groups positive and finite; all full8 ABH geometry/valid-ray checks passed; all health chunk checks passed; exit events/counters replayed exactly. Historical numerical sources/artifacts and fixed-data hashes preserved. No engineering errors, OOM changes, forbidden scientific accesses or resumptions of stopped arms. Final audit optimizer_steps=0.
+Decision: NO-GO; descriptive label PARTIAL_LEARNING_EVIDENCE. No full training or search started. Scalar-only report rendered and curves inspected.

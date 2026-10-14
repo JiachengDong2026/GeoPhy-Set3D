@@ -29,6 +29,11 @@ def main():
             assert sha256(ck/arm/'last.pt')==complete['last_sha256']
             saved=torch.load(ck/arm/'last.pt',map_location='cpu',weights_only=False)
             initial=torch.load(ck/arm/'epoch0.pt',map_location='cpu',weights_only=False)
+            assert saved['config']==initial['config']==c and saved['arm']==initial['arm']==arm
+            assert saved['registration_sha256']==initial['registration_sha256']==sha256(out/'registration.json')
+            assert saved['source_manifest_sha256']==initial['source_manifest_sha256']==sha256(out/'source_manifest.json')
+            assert initial['epoch']==initial['updates']==initial['scheduler']['last_epoch']==0 and not initial['optimizer']['state']
+            assert saved['initial_hash']==initial['initial_hash']==reg['initial_hash']
             assert state_hash(initial['model'])==reg['initial_hash'];epoch0_hashes.append(state_hash(initial['model']))
             assert sha256(ck/arm/'epoch0.pt')==complete['epoch0_sha256']
             steps=sorted(set(int(v['step']) for v in saved['optimizer']['state'].values()))
@@ -43,7 +48,7 @@ def main():
             samples=fixed_samples(ds,inventory);geometry_checks=[]
             for i,sample in enumerate(samples):
                 b=move_dual_batch(dual_measurement_collate([sample]),c['training']['device'])
-                for subset in ['A','B']:
+                for subset in ['A','B','H']:
                     result=geometry(b[subset]);assert result['valid_rays']==result['packed_real_rays']==sum(r['valid_count'] for r in inventory[i]['subsets'][subset]['stations'])
                     assert result['entry_exit_in_domain'] and result['all_tokens_finite']
                     geometry_checks.append(dict(index=i,subset=subset,**result))
@@ -55,18 +60,18 @@ def main():
             assert len(observations)==saved['updates'] and [o['step'] for o in observations]==list(range(1,saved['updates']+1))
             assert all(all(v>0 for v in o['update_l2'].values()) and all(v>0 for v in o['post_clip_gradient_l2'].values()) for o in observations)
             assert all(h['chunk_check']['passed'] for h in saved['health'])
-            results[arm]=dict(passed=True,optimizer_state_steps=steps,scheduler_epoch=saved['epoch'],epoch0_state_hash=state_hash(initial['model']),last_hash=complete['last_sha256'],historical_and_probe_sources_unchanged=sources,
-                fixed_all8_inputs_exact_identity=True,valid_zero_measurements_retained=True,full8_AB_ray_geometry_checks=geometry_checks,exit_events_replayed_exactly=True,all_real_updates_and_gradient_groups_positive=True,all_chunk_checks_passed=True,access=guard.summary(),optimizer_steps_audit=0)
+            results[arm]=dict(passed=True,epoch0_zero_updates_and_empty_adam_state=True,registration_source_and_configuration_identity=True,optimizer_state_steps=steps,scheduler_epoch=saved['epoch'],epoch0_state_hash=state_hash(initial['model']),last_hash=complete['last_sha256'],historical_and_probe_sources_unchanged=sources,
+                fixed_all8_inputs_exact_identity=True,valid_zero_measurements_retained=True,full8_ABH_ray_geometry_checks=geometry_checks,exit_events_replayed_exactly=True,all_real_updates_and_gradient_groups_positive=True,all_chunk_checks_passed=True,access=guard.summary(),optimizer_steps_audit=0)
     assert len(set(epoch0_hashes))==1
     with (REPO/'docs/reports/artifacts/ray_senseiver_relative_probe_v1/epoch_scalars.csv').open() as f:
         prior={int(r['epoch']):r for r in csv.DictReader(f) if r['arm']=='treatment'}
-    current=json.loads((out/'control/history.json').read_text())
+    current=[r for r in json.loads((out/'control/history.json').read_text()) if r['epoch'] in prior]
     results['control']['prior_relative_off_fresh_control_scalar_replay']=dict(
         compared_epochs=len(current),max_H_L1_absolute_difference=max(abs(r['eval']['measurement']['heldout']['relative_l1']-float(prior[r['epoch']]['heldout_relative_l1'])) for r in current),
         max_H_L2_absolute_difference=max(abs(r['eval']['measurement']['heldout']['relative_l2']-float(prior[r['epoch']]['heldout_relative_l2'])) for r in current),
         explanation='Independent fresh replay, no old checkpoint opened. FP32 CUDA reductions can differ slightly; original scalar records retained unchanged.')
     target=REPO/'docs/reports/artifacts'/NAME/'final_integrity.json';target.write_text(json.dumps(results,indent=2,allow_nan=False)+'\n')
-    print(json.dumps({arm:{k:v for k,v in row.items() if k!='full8_AB_ray_geometry_checks'} for arm,row in results.items()},indent=2))
+    print(json.dumps({arm:{k:v for k,v in row.items() if k!='full8_ABH_ray_geometry_checks'} for arm,row in results.items()},indent=2))
 
 
 if __name__=='__main__':main()

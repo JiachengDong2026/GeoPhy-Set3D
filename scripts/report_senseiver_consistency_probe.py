@@ -14,7 +14,7 @@ REPORT=REPO/'docs/reports/ray_senseiver_consistency_probe_v1_zh.md'
 
 
 def read(p):return json.loads(p.read_text())
-def num(v):return f'{v:.8g}' if isinstance(v,(int,float)) else str(v)
+def num(v):return ('通过' if v else '未通过') if isinstance(v,bool) else f'{v:.8g}' if isinstance(v,(int,float)) else str(v)
 def table(headers,rows):return '\n'.join(['| '+' | '.join(headers)+' |','| '+' | '.join(['---']*len(headers))+' |']+['| '+' | '.join(num(x) for x in r)+' |' for r in rows])
 def average(v):return sum(v)/len(v)
 
@@ -162,9 +162,9 @@ def main():
             rows=[r for r in amplitude if r['alpha']==alpha and r['branch']==branch]
             amplitude_table.append([alpha,branch,average([r['loss'] for r in rows]),average([r['dL_dalpha'] for r in rows])])
     lines=[f'# Ray-Senseiver consistency开/关最后一次小预算对照：{label}',
-      f'**正式训练决策：'+('GO（仅冻结候选，未启动）' if go else 'NO-GO')+f'。描述标签 `{label}`。本轮实际执行全部预登记工作，H参与训练loss，仅固定8例训练子集可学习性，不是独立泛化验证。没有读取GT64/128、Val、Pool B或test，没有训练/重新评价Ours/DeepSets，没有启动长训练或新增搜索。',
+      f'**正式训练决策：'+('GO（仅冻结候选，未启动）' if go else 'NO-GO')+f'。** 描述标签 `{label}`。本轮实际执行全部预登记工作，H参与训练loss，仅固定8例训练子集可学习性，不是独立泛化验证。没有读取GT64/128、Val、Pool B或test，没有训练/重新评价Ours/DeepSets，没有启动长训练或新增搜索。',
       '## 唯一差异、初态和历史保护',
-      '[训练前协议](../ray_senseiver_consistency_probe_v1_protocol_zh.md)、[配置](../../configs/ray_senseiver_consistency_probe_v1.yaml)、[独立objective](../../src/geophy_set3d/training/senseiver_consistency_probe.py)、[入口](../../scripts/run_senseiver_consistency_probe.py)、[注册](artifacts/ray_senseiver_consistency_probe_v1/registration.json)。注册commit `9574f8e`，先提交后诊断/训练。两臂relative固定0，Control的原consistency权重.05、Treatment为0；hold1/cross.5/observed.1、SmoothL1 beta.01、epsilon、尺度、mask/归约、网络和几何全相同。Treatment仍计算relative与原consistency及两种total作诊断，但训练梯度只来自measurement SmoothL1。没有改原selfsup函数、FROZEN_LOSS或旧validator。',
+      '[训练前协议](../ray_senseiver_consistency_probe_v1_protocol_zh.md)、[配置](../../configs/ray_senseiver_consistency_probe_v1.yaml)、[独立objective](../../src/geophy_set3d/training/senseiver_consistency_probe.py)、[入口](../../scripts/run_senseiver_consistency_probe.py)、[注册](artifacts/ray_senseiver_consistency_probe_v1/registration.json)。注册commit `9574f8e`，诊断与smoke确认commit `a811e17`，先提交后科学训练。两臂relative固定0，Control的原consistency权重.05、Treatment为0；hold1/cross.5/observed.1、SmoothL1 beta.01、epsilon、尺度、mask/归约、网络和几何全相同。Treatment仍计算relative与原consistency及两种total作诊断，但训练梯度只来自measurement SmoothL1。没有改原selfsup函数、FROZEN_LOSS或旧validator。沿用日志字段measurement_relative_weighted仅指名义.1×原relative诊断，不是本轮实际梯度系数（actual_relative_weight始终0）。',
       f'固定source-index train前8例、Pool A、seed20261011、sampler epoch0、A3–5/B3–5/H2不交、连续2例batch。直接复用C_init={scale["C_init"]}、weight×.01、bias={scale["bias_logit"]}，无重估/训练权重读取；全部参数逐元素一致，fresh state SHA `{reg["initial_hash"]}`，与原登记一致。历史失败记录和GO/NO-GO结论保留，历史源码/数据/报告hash复核通过。',
       '## 零更新诊断与等价性',
       f'全部8例同一fresh预测图；只forward/autograd，optimizer未创建，0 step，model state不变，.grad全None，耗时{num(d["seconds"])}秒。[完整诊断JSON](artifacts/ray_senseiver_consistency_probe_v1/gradient_diagnosis.json.gz)、[梯度CSV](artifacts/ray_senseiver_consistency_probe_v1/fresh_branch_gradients.csv)、[dot/cosine及组内重构CSV](artifacts/ray_senseiver_consistency_probe_v1/branch_interactions.csv)。',
@@ -198,7 +198,7 @@ def main():
       table(['预登记GO条件','结果'],list(checks.items())),
       'Treatment最后3次健康H L1：'+str(result['last3_treatment_H'])+'。条件仅工程可学习性，不证明三维重建正确，也不要求达到Ours精度。',
       table(['臂','epoch总秒','进程总秒','峰值分配GiB'],[[arm,a['complete']['total_epoch_seconds'],a['complete']['elapsed_process_seconds'],a['complete']['peak_gpu_allocated_bytes']/2**30] for arm,a in arms.items()]),
-      '共享GPU环境，时间仅实际预算记录，不作受控性能比较。阶段一无更新，最终审计只读本轮epoch0/last。所有阶段实际仅8例Pool A projection，无GT/禁用NPY/外来checkpoint访问；TrainEightGuard继承summary文字含train/val，但实际allowlist已收紧到固定8例train。边界负测试是主动拒绝模拟访问，与科学run零违规分开。[smoke](artifacts/ray_senseiver_consistency_probe_v1/engineering_smoke.json)、[最终完整性审计](artifacts/ray_senseiver_consistency_probe_v1/final_integrity.json)、[测试记录](artifacts/ray_senseiver_consistency_probe_v1/verification.txt)。完整query/chunk输出和梯度一致性、XYZ轴序、全valid rays、所有组有限梯度/真实更新、自身状态恢复、退出计数与历史hash均通过。',
+      '共享GPU环境，时间仅实际预算记录，不作受控性能比较。阶段一无更新，最终审计只读本轮epoch0/last。所有阶段实际仅8例Pool A projection，无GT/禁用NPY/外来checkpoint访问；TrainEightGuard继承summary文字含train/val，但实际allowlist已收紧到固定8例train。边界负测试是主动拒绝模拟访问，与科学run零违规分开。[smoke](artifacts/ray_senseiver_consistency_probe_v1/engineering_smoke.json)、[最终完整性审计](artifacts/ray_senseiver_consistency_probe_v1/final_integrity.json)、[测试记录](artifacts/ray_senseiver_consistency_probe_v1/verification.txt)。每次完整262144-query输出形状与XYZ轴序，以及固定259个覆盖端点的query在chunk259/37下输出和全部参数/query梯度一致性通过；这是有限数值核验，不冒称对全部262144个query逐点作双份梯度比较。全valid rays、所有组有限梯度/真实更新、自身状态恢复、退出计数与历史hash均通过。',
       table(['臂','外部last checkpoint','last SHA256','epoch0 SHA256'],checkpointrows),
       'Git只保存代码/协议/配置/hash/标量/图表/报告，大checkpoint保留上述独立外部目录。',
       '## 结论与唯一后续任务',
@@ -206,7 +206,17 @@ def main():
     if go:
         lines.append('Treatment达到预登记工程GO，仅冻结该候选；唯一建议是重新登记该适配目标下的完整训练与独立测量选模，明确已不同于冻结基线。本轮未启动完整训练。')
     else:
-        lines.append('本轮没有达到有效学习GO，正式训练NO-GO。有限SmoothL1/L2改善若存在，只能记作指标改善，不能认定形成非平凡、测量相关输出。结束当前逐项loss排查；不再扫描beta/lr/relative/consistency，不延长预算，不启动300轮，不把失败Senseiver列入成功强基线主表。这是固定适配、数据与预算的局部结果，不能归为原Senseiver能力上限，也不能外推consistency对其他结构有害。唯一后续任务：独立登记输入表征与结构可学习性检查，判断测量信息能否通过当前ray-token编码和latent bottleneck被有效利用；本轮不实现任何该改动。')
+        lines.append('本轮没有达到有效学习GO，正式训练NO-GO。Treatment相对初态SmoothL1改善40.526%，H L2却恶化3.472%；相对本轮Control，两种H误差几乎相同。关闭后case间差异达到既定操作阈值（最大relative MA=.002348），normal-zero差也有增长（case0从1.41e−5升至1.11e−4），但3例都不足1e−3，绝对MA最高仅8.48e−9；不能把case差异直接归因于测量信息利用。两臂输出均仅约.049×C_init，无logit<−12，未触发严格塌缩条件，但持续整体压低。描述标签PARTIAL仅保留有限指标改善，不能认定形成有效测量相关输出。关闭consistency不足以解决当前适配的学习失败，也不能证明该分支没有任何间接作用。结束当前逐项loss排查；不再扫描beta/lr/relative/consistency，不延长预算，不启动300轮，不把失败Senseiver列入成功强基线主表。这是固定适配、数据与预算的局部结果，不能归为原Senseiver能力上限，也不能外推consistency对其他结构有害。唯一后续任务：独立登记输入表征与结构可学习性检查，判断测量信息能否通过当前ray-token编码和latent bottleneck被有效利用；本轮不实现任何该改动。')
+    cr=arms['control']['health'][-1]['diagnostic_cases'];tr=arms['treatment']['health'][-1]['diagnostic_cases']
+    cdep=[r['measurement_dependence']['relative_MA'] for r in cr];tdep=[r['measurement_dependence']['relative_MA'] for r in tr]
+    paired_h=next(h for h in arms['treatment']['health'] if h['epoch']==common)
+    paired_c=next(h for h in arms['control']['health'] if h['epoch']==common)
+    summary='实际结果：在共同epoch'+str(common)+'，Treatment H L1/L2='+num(metric(common_end['treatment'],'relative_l1'))+'/'+num(metric(common_end['treatment'],'relative_l2'))+'，Control='+num(metric(common_end['control'],'relative_l1'))+'/'+num(metric(common_end['control'],'relative_l2'))+'。关闭consistency后，固定3例有效测量依赖数='+str(sum(r['measurement_dependence']['relative_MA']>=1e-3 for r in paired_h['diagnostic_cases']))+'（Control='+str(sum(r['measurement_dependence']['relative_MA']>=1e-3 for r in paired_c['diagnostic_cases']))+'），最大case-pair相对差='+num(max(r['relative_MA'] for r in paired_h['case_differences']))+'（Control='+num(max(r['relative_MA'] for r in paired_c['case_differences']))+'）。共同终点输出mean为'+num(common_end['treatment']['output']['mean'])+'（Control='+num(common_end['control']['output']['mean'])+'）。这些数字同时约束指标变化、整体幅度变化和输入依赖的解释。'
+    lines.insert(2,summary)
+    lines.append('关于梯度机制：Control末轮固定3例consistency/Smooth梯度范数比，encoder='+num(dominance(cr,'encoder'))+'、latents='+num(dominance(cr,'latents'))+'；这说明该分支在这些参数组占较大范数，不代表方向一定相反。末轮encoder/latents cosine均值分别='+num(average([r['gradient_split']['interaction']['parameter_groups']['encoder']['cosine'] for r in cr]))+'/'+num(average([r['gradient_split']['interaction']['parameter_groups']['latents']['cosine'] for r in cr]))+'，输出空间cosine均值='+num(average([r['gradient_split']['interaction']['outputs']['cosine'] for r in cr]))+'。fresh α=1处consistency对共同幅度的导数均值仅约2.62e−8，measurement约.04278；α=.01处measurement约−.009125，consistency约+.0002467，未改变total导数符号。因此本有限探针不能把较大参数梯度直接解释为主要共同缩幅力，更不能宣称consistency是唯一失败原因。')
+    audit=read(ART/'final_integrity.json')
+    replay=audit['control']['prior_relative_off_fresh_control_scalar_replay']
+    lines.append('独立fresh Control对上轮相同科学配置的标量重放：共同'+str(replay['compared_epochs'])+'轮，H L1最大绝对差='+num(replay['max_H_L1_absolute_difference'])+'，H L2最大绝对差='+num(replay['max_H_L2_absolute_difference'])+'。同图objective等价核验与独立训练数值重放是不同证据；后者存在FP32 CUDA归约及后续优化轨迹微差，历史标量保持原样，未用旧结果充当本轮Control。')
     REPORT.write_text('\n\n'.join(lines)+'\n')
     print(json.dumps(result,indent=2),flush=True)
 

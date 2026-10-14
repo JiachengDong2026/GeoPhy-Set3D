@@ -1,10 +1,14 @@
 # GeoPhy-Set3D
 
-当前阶段：[Ray-Senseiver 测量loss梯度拆分与relative-L1开/关对照](docs/reports/ray_senseiver_relative_probe_v1_zh.md)已完成，正式训练决策 **NO-GO**。
+当前阶段：[Ray-Senseiver consistency 开/关最后一次小预算对照](docs/reports/ray_senseiver_consistency_probe_v1_zh.md)已完成，正式训练仍 **NO-GO**。
+两臂relative均为0，仅consistency权重.05/0；重新fresh训练均在35轮/140次更新触发 `FAILED_TO_LEARN`。Treatment H L1/L2=1.06057/0.99306（Control=1.06063/0.99308），SmoothL1较初态改善40.526%，但H L2恶化3.472%。case差异增加，测量依赖虽增加仍3例均未达1e−3；仅保留有限指标改善的 `PARTIAL_LEARNING_EVIDENCE`，不作为有效强基线。
+同图loss/全参数及输出梯度等价与唯一差异、17项测试、固定8例访问及最终checkpoint/更新/退出审计通过。只用原8例train，无GT/Val/Pool B/test；历史与冻结Ours/DeepSets保持。**本轮结束逐项loss排查，不追加搜索或长训练**。唯一后续建议：独立检查当前ray-token编码与latent bottleneck能否有效利用测量信息，本轮不实现。[预登记协议](docs/ray_senseiver_consistency_probe_v1_protocol_zh.md)。
+
+上一阶段：[Ray-Senseiver 测量loss梯度拆分与relative-L1开/关对照](docs/reports/ray_senseiver_relative_probe_v1_zh.md)已完成，正式训练决策 **NO-GO**。
 两臂均在35轮/140次更新触发 `FAILED_TO_LEARN`。关闭relative项后H L1/L2=1.06070/0.99307（Control=1.00554/0.99931），测量依赖仍不足。
 仅SmoothL1改善保留 `PARTIAL_LEARNING_EVIDENCE`，不视为有效基线或GO。近零常量方向诊断支持relative项压低预测的局部机制，但不能外推所有模型；全程只用原8例train，无GT/Val/Pool B/test、无新300轮或搜索。[独立协议](docs/ray_senseiver_relative_probe_v1_protocol_zh.md)。
 
-上一阶段：[Ray-Senseiver 输出初始化两臂探针（中文报告）](docs/reports/ray_senseiver_init_probe_v1_zh.md)已完成，结果 **NO-GO**。
+更早阶段：[Ray-Senseiver 输出初始化两臂探针（中文报告）](docs/reports/ray_senseiver_init_probe_v1_zh.md)已完成，结果 **NO-GO**。
 原近零塌缩 run 在113轮/9379次更新安全停止并完整归档；新 Control/Treatment 均在35轮/140次更新触发预登记 FAILED_TO_LEARN。
 测量尺度初始化将初态mean纠正至0.001558，但Treatment末轮训练H L1=1.00554、测量依赖不足；未达到严格塌缩阈值。
 全程无GT、Pool B或test，冻结Ours/DeepSets；本轮未启动新300轮或额外搜索。[协议与复现入口](docs/ray_senseiver_init_probe_v1_protocol_zh.md)。

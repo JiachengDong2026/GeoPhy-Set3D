@@ -1,0 +1,91 @@
+{
+  "classification": "PARTIAL_LEARNING_EVIDENCE",
+  "formal_training_recommendation": "NO-GO",
+  "go_checks": {
+    "last3_H_L1_below090": false,
+    "no_engineering_or_collapse": true,
+    "case_variation": true,
+    "measurement_dependence": false,
+    "gradients_updates_valid": true
+  },
+  "auxiliary_improvement_at_matched_budget": {
+    "H_L2": -0.03472459053670358,
+    "measurement_smooth": 0.4052631696072946
+  },
+  "matched_epoch": 35,
+  "matched_updates": 140,
+  "last3_treatment_H": [
+    {
+      "epoch": 25,
+      "H_L1": 1.0630448525062242
+    },
+    {
+      "epoch": 30,
+      "H_L1": 1.0606594666600395
+    },
+    {
+      "epoch": 35,
+      "H_L1": 1.0605742131244011
+    }
+  ],
+  "completed": {
+    "control": {
+      "arm": "control",
+      "relative_l1": 0.0,
+      "consistency_weight": 0.05,
+      "completed_epochs": 35,
+      "updates": 140,
+      "reason": "FAILED_TO_LEARN",
+      "at": "2026-10-14T19:24:00.840770+08:00",
+      "elapsed_process_seconds": 297.4489480187185,
+      "total_epoch_seconds": 279.22601676592603,
+      "peak_gpu_allocated_bytes": 773795328,
+      "initial_hash": "a51ae38bb2d67202a4766de25c0e01bc9832fb8887756d2f7ebbee41a38fc5be",
+      "last_checkpoint": "/data/djc/GeoPhy-Set3D/outputs/checkpoints/ray_senseiver_consistency_probe_v1/control/last.pt",
+      "last_sha256": "9fc726dce275dbe444c5ed2750d44c8a1612e30bafc0e28b3cb14e826cd7d16c",
+      "epoch0_sha256": "2a4d2a9729cc39a8075b6e79bac432e801164981285d69c8b462fb4122c50410",
+      "access": {
+        "gt_file_opened": false,
+        "gt_open_attempts": 0,
+        "forbidden_npy_attempts": 0,
+        "supervised_checkpoint_open_attempts": 0,
+        "projection_open_count": 1824,
+        "unique_pool_a_projection_files": 8,
+        "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+        "audit_hook_inherited_by_workers": true
+      },
+      "no_GT": true,
+      "no_full_training_started": true
+    },
+    "treatment": {
+      "arm": "treatment",
+      "relative_l1": 0.0,
+      "consistency_weight": 0.0,
+      "completed_epochs": 35,
+      "updates": 140,
+      "reason": "FAILED_TO_LEARN",
+      "at": "2026-10-14T19:28:56.859849+08:00",
+      "elapsed_process_seconds": 266.83621108485386,
+      "total_epoch_seconds": 249.5422324151732,
+      "peak_gpu_allocated_bytes": 773926400,
+      "initial_hash": "a51ae38bb2d67202a4766de25c0e01bc9832fb8887756d2f7ebbee41a38fc5be",
+      "last_checkpoint": "/data/djc/GeoPhy-Set3D/outputs/checkpoints/ray_senseiver_consistency_probe_v1/treatment/last.pt",
+      "last_sha256": "448ef11e82b0b29e26be2ecc0d10909f575b649cb30c1b00a4142e18219bec71",
+      "epoch0_sha256": "950cb7be68e20bdccda7c9f8e002c71410a44b8ff3416c6384310730130b982a",
+      "access": {
+        "gt_file_opened": false,
+        "gt_open_attempts": 0,
+        "forbidden_npy_attempts": 0,
+        "supervised_checkpoint_open_attempts": 0,
+        "projection_open_count": 1824,
+        "unique_pool_a_projection_files": 8,
+        "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+        "audit_hook_inherited_by_workers": true
+      },
+      "no_GT": true,
+      "no_full_training_started": true
+    }
+  },
+  "only_local_fixed_train_probe": true,
+  "full_training_started": false
+}
