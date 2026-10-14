@@ -19,11 +19,11 @@ G1–G5 各五 draw，input IDs 顺序及同 case/draw 跨组共同 H4 不变。
 不强制更改历史 deterministic 设置；batch1、原 view chunk2、两 CPU threads。
 
 顺序：normal 900 预测全部保存→独立进程读取 saved C0/C1 和 Val GT64→核对全部 normal C1
-十项指标复现旧900行→zero 900 与固定 shortcut 54 次→独立 saved-output GT64 评价→统计图表。
+十项指标复现旧900行→zero 900 与固定 shortcut 18 次→独立 saved-output GT64 评价→统计图表。
 normal 先以 case0/draw0 五组作为 smoke，这五条属于900条，不重算。
 zero/signflip/wrong_pairing 只使用已有 evaluation-only residual_mode；
-signflip/wrong_pairing 仅 Val 索引0/18/35、draw0、G1/G3/G5，各27次。
-总计划1854次 forward；C0 是同次 return_stages 的中间结果，不另运行 C0 模型。
+signflip/wrong_pairing 仅 Val 索引0/18/35、draw0、G1/G3/G5，各9次。
+总计划1818次 forward；C0 是同次 return_stages 的中间结果，不另运行 C0 模型。
 成功预测逐项原子保存并写 hash/计数；恢复仅计算缺项，已有完整预测/结果先核验后复用。
 推理进程拒绝所有 GT；独立 GT 评价拒绝 checkpoint/measurement；
 GT128、Pool B、final test、非 Val 内容与任何 optimizer step 均禁止。
@@ -84,3 +84,6 @@ C0 是联合训练中通过C1目标间接监督的中间输出，不是独立无
 zero/shortcut明细、幅度/几何统计、图表中文报告、状态及hash/访问/完整性/实际forward账本。
 必要新测试仅覆盖stage获取、mask归约、零分母、case聚合与访问边界；运行现有适用回归。
 只更新本轮README导航，不改历史报告/结论。完成后经本机7897代理推送main并停止。
+
+推理前预算勘误：18b4dec 中曾将3案例×3组×1draw误计为每模式27次；实际为9次，
+两种shortcut共18次，总1818次。子集与统计定义完全不变，尚未执行新推理。

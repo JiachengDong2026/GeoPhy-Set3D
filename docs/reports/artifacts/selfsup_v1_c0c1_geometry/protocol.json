@@ -73,7 +73,7 @@
     "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/geometry/train_geometry.npz": "83f583dcc38370e5c66873585c724ab116076d9a9f29f80f674c5c03c96fe3f9",
     "/home/djc/projects/GeoPhy-Set3D/configs/train_selfsup_oari_mrgr_v1.yaml": "58db50e0c6b5b99ca065f3df46580dd34555a8ba62022e08227edba7d0a8f62b",
     "/home/djc/projects/GeoPhy-Set3D/configs/diagnose_selfsup_v1_c0c1.yaml": "02c27bcd2e1066f8300c10910b28cdac862108fa328c3fc9776da206baf7a701",
-    "/home/djc/projects/GeoPhy-Set3D/docs/selfsup_v1_c0c1_geometry_protocol_zh.md": "93a3a0fa679eb8c89faf5d63194f84971808e73c5c1819ae08e91676d3eb8400"
+    "/home/djc/projects/GeoPhy-Set3D/docs/selfsup_v1_c0c1_geometry_protocol_zh.md": "49a58387ea15264767c94aa540ad3d36a39caee740c7ff78024ab9cce2e2036a"
   },
   "protected_source_sha256": {
     "src/geophy_set3d/__init__.py": "47441c8638d63363d06b204cb8d6b0e9a6524c9d598920036b9cd8cc3e9ff2b5",
@@ -165,9 +165,9 @@
   "planned_forward_counts": {
     "normal": 900,
     "zero": 900,
-    "signflip": 27,
-    "wrong_pairing": 27,
-    "total": 1854
+    "signflip": 9,
+    "wrong_pairing": 9,
+    "total": 1818
   },
   "registration_content_access": {
     "GT64": 0,
@@ -175,5 +175,10 @@
     "measurement": 0,
     "checkpoint_hash_only": true
   },
-  "source_manifest_required_before_inference": true
+  "source_manifest_required_before_inference": true,
+  "preinference_amendment": {
+    "previous_protocol_sha256": "4fab49dc1074479ab0791ee87826e98c008751f74657f770960118e7c5402d6a",
+    "reason": "Arithmetic correction only: 3 cases x 3 groups x draw0 = 9 per shortcut; no inference yet",
+    "at": "2026-10-14T13:04:57.202085+08:00"
+  }
 }
