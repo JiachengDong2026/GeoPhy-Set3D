@@ -24,6 +24,11 @@ class ThreeMethodStatisticsTests(unittest.TestCase):
             np.testing.assert_allclose([s.mean_delta,s.ci_low,s.ci_high],[old.mean_delta,old.ci_low,old.ci_high],rtol=1e-11,atol=1e-14)
         self.assertTrue((stats[stats.family=='auxiliary'][['mean_delta','ci_low','ci_high']].to_numpy()==0).all())
 
+    def test_zero_contrast_denominator(self):
+        from geophy_set3d.evaluation.ray_senseiver import summarize
+        value=summarize(np.ones(36),np.zeros(36),np.arange(36)[None],1e-8)
+        self.assertIsNone(value['relative_reduction']);self.assertEqual(value['mean_delta'],1.)
+
     def test_reject_physical_mutation_and_missing_draw(self):
         for field in ['complete_input_sha256','complete_H_sha256','input_identity_sha256','H_mask_sha256']:
             bad=self.new.copy();bad.loc[0,field]='changed'

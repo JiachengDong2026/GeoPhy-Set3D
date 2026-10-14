@@ -56,7 +56,7 @@ def case_means(paired):
 
 def summarize(a,b,ix,epsilon):
     delta=a-b;lo,hi=np.quantile(delta[ix].mean(1),[.025,.975])
-    return dict(left_mean=float(a.mean()),right_mean=float(b.mean()),mean_delta=float(delta.mean()),median_delta=float(np.median(delta)),ci_low=float(lo),ci_high=float(hi),left_wins=int((delta < -epsilon).sum()),right_wins=int((delta>epsilon).sum()),ties=int((abs(delta)<=epsilon).sum()),relative_reduction=float(1-a.mean()/b.mean()))
+    return dict(left_mean=float(a.mean()),right_mean=float(b.mean()),mean_delta=float(delta.mean()),median_delta=float(np.median(delta)),ci_low=float(lo),ci_high=float(hi),left_wins=int((delta < -epsilon).sum()),right_wins=int((delta>epsilon).sum()),ties=int((abs(delta)<=epsilon).sum()),relative_reduction=float(1-a.mean()/b.mean()) if b.mean()!=0 else None)
 
 
 def statistics(case,c):

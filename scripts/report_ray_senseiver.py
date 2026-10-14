@@ -110,6 +110,7 @@ def plots(c,out,case,stats,training,timing):
 
 def integrity(c,out):
     p=verify_registration(c)
+    for name,h in p['official_source']['sha256'].items():assert sha256(REPO/'third_party/senseiver'/name)==h,name
     assert snapshot(c['dataset']['root'])==json.loads((out/'dataset_before.json').read_text())
     for root,meta in json.loads((out/'history_before.json').read_text()).items():assert snapshot(root)==meta,root
     for path,h in p['protected_sources'].items():
@@ -180,7 +181,7 @@ G1–G4 macro 3D L1：Ours={macro['left_mean']:.6f}、Senseiver={macro['right_me
 
 endpoint-aligned XYZ [0,.6]^3、y为高度，全部262,144 query直接解码，FP32 [B,1,64,64,64]；缓存坐标与96通道Fourier，encoder只调用一次。chunk={c['runtime']['query_chunk_size']}，decoder non-reentrant activation checkpoint={c['runtime']['decoder_checkpoint']}，无detach、插值或query采样。attention仅关闭权重返回，完整保留网络数值机制。
 
-小fixture分块/非分块预测 atol2e−6/rtol2e−5，query/latent/所有decoder参数梯度 atol至3e−5/rtol2e−4检查通过，所有259个测试query收到非零梯度；官方core原注意力路径对比通过。真实最大A5/B5/H2、batch2完整forward/backward/step通过，encoder/preproc/learned latents/decoder均收到有限梯度，H只投影而不输入网络、A/B/H不交。view置换max差={smoke['permutation_max_abs']:.3g}，padding差={smoke['padding_max_abs']:.3g}，ray同步置换/全invalid/零有效值/真实entry-exit单位检查通过。smoke峰值={smoke['peak_gpu_bytes']/2**30:.3f}GiB，仅独立一步，正式fresh初始化。266项完整回归及2项三方法统计检查通过。
+小fixture分块/非分块预测 atol2e−6/rtol2e−5，query/latent/所有decoder参数梯度 atol至3e−5/rtol2e−4检查通过，所有259个测试query收到非零梯度；官方core原注意力路径对比通过。真实最大A5/B5/H2、batch2完整forward/backward/step通过，encoder/preproc/learned latents/decoder均收到有限梯度，H只投影而不输入网络、A/B/H不交。view置换max差={smoke['permutation_max_abs']:.3g}，padding差={smoke['padding_max_abs']:.3g}，ray同步置换/全invalid/零有效值/真实entry-exit单位检查通过。smoke峰值={smoke['peak_gpu_bytes']/2**30:.3f}GiB，仅独立一步，正式fresh初始化。266项完整回归及3项三方法统计检查通过。
 
 ## 3. 同协议的实际完整训练、冻结与访问边界
 
