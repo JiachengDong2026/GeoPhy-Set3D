@@ -1,6 +1,10 @@
 # GeoPhy-Set3D
 
-当前阶段：[Ray-Senseiver consistency 开/关最后一次小预算对照](docs/reports/ray_senseiver_consistency_probe_v1_zh.md)已完成，正式训练仍 **NO-GO**。
+当前阶段：[Ray-Senseiver 测量信号通路独立诊断](docs/reports/ray_senseiver_signal_path_v1_zh.md)已完成，正式训练仍 **NO-GO**。只读最新consistency Treatment的epoch0/last35，完成30次完整64³干预前向、6个成功259-query局部梯度图，0次optimizer更新；另保留1个工程异常中止局部图及两次版本化执行器修订。
+测量正确进入token，预处理与latent响应非零；末态置零测量的浓度relative MA仅1.77e−5–1.11e−4，错配也几乎不改变原A/H拟合。测量权重列未消失，latent响应较初态弱，sigmoid缩小绝对响应但相对浓度响应系数接近1，尚不能锁定唯一瓶颈。22/24个logit有限差分未通过，原值及访问审计局限完整保留；12项诊断/模型回归通过，参数/buffers/历史hash不变，无GT/Val/Pool B/test。[协议](docs/ray_senseiver_signal_path_v1_protocol_zh.md)、[入口](scripts/diagnose_senseiver_signal_path.py)、[标量及图表](docs/reports/artifacts/ray_senseiver_signal_path_v1/)。
+唯一后续任务建议：独立预登记固定同几何、真实测量均值的latent→标量读出可学习性对照，检验现有latent信息是否能被可靠利用；本轮未实现。完成后停止，不训练、不调loss、不扫描增益或继续搜索，不将当前失败适配解释为原Senseiver能力上限。
+
+上一阶段：[Ray-Senseiver consistency 开/关最后一次小预算对照](docs/reports/ray_senseiver_consistency_probe_v1_zh.md)已完成，正式训练仍 **NO-GO**。
 两臂relative均为0，仅consistency权重.05/0；重新fresh训练均在35轮/140次更新触发 `FAILED_TO_LEARN`。Treatment H L1/L2=1.06057/0.99306（Control=1.06063/0.99308），SmoothL1较初态改善40.526%，但H L2恶化3.472%。case差异增加，测量依赖虽增加仍3例均未达1e−3；仅保留有限指标改善的 `PARTIAL_LEARNING_EVIDENCE`，不作为有效强基线。
 同图loss/全参数及输出梯度等价与唯一差异、17项测试、固定8例访问及最终checkpoint/更新/退出审计通过。只用原8例train，无GT/Val/Pool B/test；历史与冻结Ours/DeepSets保持。**本轮结束逐项loss排查，不追加搜索或长训练**。唯一后续建议：独立检查当前ray-token编码与latent bottleneck能否有效利用测量信息，本轮不实现。[预登记协议](docs/ray_senseiver_consistency_probe_v1_protocol_zh.md)。
 
