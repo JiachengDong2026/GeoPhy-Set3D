@@ -1,0 +1,31 @@
+name: selfsup_v1_c0c1_geometry_diagnostic
+paths:
+  dataset: /data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1
+  historical: /data/djc/GeoPhy-Set3D/outputs/evaluations/geometry_sensitivity_v1
+  freeze_record: /data/djc/GeoPhy-Set3D/outputs/comparisons/selfsup_mrgr_v1/frozen_checkpoint.json
+  output: /data/djc/GeoPhy-Set3D/outputs/diagnostics/selfsup_v1_c0c1_geometry
+model_config: configs/train_selfsup_oari_mrgr_v1.yaml
+checkpoint_sha256: 1573cd84dffeabeb58fbbfb1afec9c9dc865a0a674e21229711bb25b22e3c026
+original_seed: 20261011
+bootstrap_seed: 2026101701
+bootstrap_samples: 10000
+reproduction_tolerance:
+  absolute: 1.0e-8
+  relative: 1.0e-5
+ratio_epsilon: 1.0e-12
+tie_epsilon: 1.0e-8
+representative_case_indices: [0, 18, 35]
+representative_draw: 0
+representative_groups: [G1, G3, G5]
+slice_y_index: 32
+geometry_descriptors:
+  - center_direction_score
+  - actual_ray_direction_score_sampled
+  - ray_tensor_lambda_min_over_max
+  - ray_tensor_lambda_mid_over_max
+  - mean_pairwise_distance_m
+  - horizontal_hull_area_m2
+  - station_azimuth_span_deg
+  - coarse_effective_rank
+  - coverage_fraction
+  - coverage_at_least_two_stations
