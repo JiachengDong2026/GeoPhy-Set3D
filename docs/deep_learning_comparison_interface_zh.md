@@ -24,3 +24,7 @@ PYTHONPATH=src /scratch/djc/envs/gas-torch/bin/python scripts/evaluate_deep_comp
 PYTHONPATH=src /scratch/djc/envs/gas-torch/bin/python scripts/evaluate_deep_comparison.py gt
 PYTHONPATH=src /scratch/djc/envs/gas-torch/bin/python scripts/report_deep_comparison.py
 ```
+
+## Ray-Senseiver-SS 独立扩展
+
+新增 `models/ray_senseiver_ss.py` 和 `training/ray_senseiver.py`，使用独立严格配置与完整射线 token/坐标解码，原 v1 与 DeepSets validator 保持历史白名单。运行 `train_ray_senseiver_selfsup.py smoke/train`、`evaluate_ray_senseiver.py selector/infer/gt/timing`、`audit_ray_senseiver.py`、`report_ray_senseiver.py`。详情见 [Senseiver 训练前协议](ray_senseiver_selfsup_v1_protocol_zh.md)。同信息核对使用完整measurement/geometry/path/view/ray/H tensor hash与旧冻结DeepSets保存身份，不要求Senseiver具有lifting mask。三方法统计在独立 evaluation/ray_senseiver.py，不改变历史统计文件。
