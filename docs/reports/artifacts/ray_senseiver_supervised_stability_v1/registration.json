@@ -1,0 +1,658 @@
+{
+  "config": {
+    "name": "ray_senseiver_supervised_stability_v1",
+    "dataset_root": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1",
+    "output_root": "/data/djc/GeoPhy-Set3D/outputs",
+    "seed": 20261011,
+    "device": "cuda:1",
+    "indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "station_ids": [
+      26,
+      27,
+      45,
+      42
+    ],
+    "model": "original_ray_senseiver_ss",
+    "runtime": {
+      "query_chunk_size": 16384,
+      "decoder_checkpoint": true
+    },
+    "optimizer": {
+      "lr": 0.0002,
+      "weight_decay": 0.0001,
+      "clip": 1.0,
+      "precision": "fp32"
+    },
+    "scheduler": {
+      "unit": "optimizer_update",
+      "T_max": 4000,
+      "eta_min": 2e-05
+    },
+    "budget": {
+      "max_updates": 4000,
+      "max_seconds": 1200,
+      "effective_batch": 2
+    },
+    "loss": {
+      "name": "per_sample_normalized_voxel_mse",
+      "denominator_floor": 1e-12
+    },
+    "initialization": {
+      "output_weight_factor": 0.01,
+      "GT_mean": 0.0013875673876921429,
+      "bias_logit": -6.578814614866246
+    },
+    "evaluation": {
+      "every": 100,
+      "interventions_every": 200,
+      "indices": [
+        0,
+        1,
+        2
+      ],
+      "donors": [
+        1,
+        2,
+        0
+      ]
+    },
+    "pass": {
+      "nmse": 0.2,
+      "relative_l1": 0.4,
+      "template_reduction": 0.3,
+      "minimum_dependent": 2,
+      "dependence_threshold": 0.001,
+      "wrong_error_increases_all3": true,
+      "consecutive_joint_checks": 3
+    },
+    "plateau": {
+      "minimum_updates": 1000,
+      "window": 200,
+      "improvement": 0.02,
+      "consecutive_checks": 2,
+      "check_every": 200
+    },
+    "next_formal_config": "configs/train_ray_senseiver_supervised_v1.yaml"
+  },
+  "base_head": "33c5785aa8dd8020152c3c407692e501a05d73e4",
+  "scale": {
+    "gt_all_voxel_mean": 0.0013875673876921429,
+    "bias_input": 0.0013875673876921429,
+    "clamp_applied": false,
+    "bias_logit": -6.578814614866246,
+    "output_weight_factor": 0.01
+  },
+  "initial_hash": "5e75616da51e5bdb699e795d42049083380d11fa376b49cd919855cf7f11e7d8",
+  "samples": [
+    {
+      "index": 0,
+      "source_index_row": 0,
+      "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet1_half",
+      "sample_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet1_half",
+      "frame": 60,
+      "time_s": 2.0,
+      "stations": [
+        26,
+        27,
+        45,
+        42
+      ],
+      "geometry_identity": "6c6ba3f1ad0940c6e5f4b8638681fd408a279f32de5f0d7d6fc45f90376378ef",
+      "input_identity": "c3b6f67c0dc6192b2601db59ec45ef36391935cb2ecc34ababa1aa6af55b2299",
+      "GT64_path": "samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet1_half/gt_volume_64.npy",
+      "valid_rays": 8359,
+      "valid_zero_rays": 0,
+      "GT": {
+        "nmse": 0.0,
+        "relative_l1": 0.0,
+        "relative_l2": 0.0,
+        "mean": 0.002085084321581366,
+        "peak": 0.4298523962497711,
+        "minimum": 0.0,
+        "spatial_std": 0.011961806033613865,
+        "gt_mean": 0.002085084321581366,
+        "gt_peak": 0.4298523962497711,
+        "gt_spatial_std": 0.011961806033613865,
+        "total_ratio": 1.0,
+        "plume_voxels": 4489,
+        "plume": {
+          "nmse": 0.0,
+          "relative_l1": 0.0,
+          "relative_l2": 0.0
+        }
+      },
+      "source_gt128_hash_from_metadata_only": "56e65a619c3cd130a29678b27d625219c57144ed1c09da06c2e493d66d3bb686"
+    },
+    {
+      "index": 1,
+      "source_index_row": 1,
+      "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w1_inlet1_half",
+      "sample_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w1_inlet1_half",
+      "frame": 60,
+      "time_s": 2.0,
+      "stations": [
+        26,
+        27,
+        45,
+        42
+      ],
+      "geometry_identity": "6c6ba3f1ad0940c6e5f4b8638681fd408a279f32de5f0d7d6fc45f90376378ef",
+      "input_identity": "94d7d44ba011d38d81a313f65d28442c1263a896cd10deb89c286659ce9f4817",
+      "GT64_path": "samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w1_inlet1_half/gt_volume_64.npy",
+      "valid_rays": 8359,
+      "valid_zero_rays": 49,
+      "GT": {
+        "nmse": 0.0,
+        "relative_l1": 0.0,
+        "relative_l2": 0.0,
+        "mean": 0.0009619300603745864,
+        "peak": 0.4914223253726959,
+        "minimum": 0.0,
+        "spatial_std": 0.00835761445519005,
+        "gt_mean": 0.0009619300603745864,
+        "gt_peak": 0.4914223253726959,
+        "gt_spatial_std": 0.00835761445519005,
+        "total_ratio": 1.0,
+        "plume_voxels": 1735,
+        "plume": {
+          "nmse": 0.0,
+          "relative_l1": 0.0,
+          "relative_l2": 0.0
+        }
+      },
+      "source_gt128_hash_from_metadata_only": "19ee638d0f24080dd0f4dde391880c0051c3007807532cb997fdd0ef18878d7b"
+    },
+    {
+      "index": 2,
+      "source_index_row": 2,
+      "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w3_inlet1_half",
+      "sample_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w3_inlet1_half",
+      "frame": 60,
+      "time_s": 2.0,
+      "stations": [
+        26,
+        27,
+        45,
+        42
+      ],
+      "geometry_identity": "6c6ba3f1ad0940c6e5f4b8638681fd408a279f32de5f0d7d6fc45f90376378ef",
+      "input_identity": "69c0575f62d7445323b0f310c3a7dbaac1cd7e8b1d2df661516a481e3e2d8fb5",
+      "GT64_path": "samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w3_inlet1_half/gt_volume_64.npy",
+      "valid_rays": 8359,
+      "valid_zero_rays": 1,
+      "GT": {
+        "nmse": 0.0,
+        "relative_l1": 0.0,
+        "relative_l2": 0.0,
+        "mean": 0.00040021192638710725,
+        "peak": 0.5152055025100708,
+        "minimum": 0.0,
+        "spatial_std": 0.006589492717527412,
+        "gt_mean": 0.00040021192638710725,
+        "gt_peak": 0.5152055025100708,
+        "gt_spatial_std": 0.006589492717527412,
+        "total_ratio": 1.0,
+        "plume_voxels": 855,
+        "plume": {
+          "nmse": 0.0,
+          "relative_l1": 0.0,
+          "relative_l2": 0.0
+        }
+      },
+      "source_gt128_hash_from_metadata_only": "3ebea14ff96baa60cfa766651250f214e7d960f1afdd284c543dbce84b70b590"
+    },
+    {
+      "index": 3,
+      "source_index_row": 3,
+      "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w0_inlet1_half",
+      "sample_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w0_inlet1_half",
+      "frame": 60,
+      "time_s": 2.0,
+      "stations": [
+        26,
+        27,
+        45,
+        42
+      ],
+      "geometry_identity": "6c6ba3f1ad0940c6e5f4b8638681fd408a279f32de5f0d7d6fc45f90376378ef",
+      "input_identity": "aa1e4a2f616a7dabb0fe60166df84680220a73fd04e3c40d29dbb99b45e22aa4",
+      "GT64_path": "samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w0_inlet1_half/gt_volume_64.npy",
+      "valid_rays": 8359,
+      "valid_zero_rays": 24,
+      "GT": {
+        "nmse": 0.0,
+        "relative_l1": 0.0,
+        "relative_l2": 0.0,
+        "mean": 0.0022315931828758256,
+        "peak": 0.43649640679359436,
+        "minimum": 0.0,
+        "spatial_std": 0.012393562394196521,
+        "gt_mean": 0.0022315931828758256,
+        "gt_peak": 0.43649640679359436,
+        "gt_spatial_std": 0.012393562394196521,
+        "total_ratio": 1.0,
+        "plume_voxels": 4779,
+        "plume": {
+          "nmse": 0.0,
+          "relative_l1": 0.0,
+          "relative_l2": 0.0
+        }
+      },
+      "source_gt128_hash_from_metadata_only": "f628df624bc87620522dcfeafc1ec056e6dbc00dfe386e9d7cde03e08c15cc27"
+    },
+    {
+      "index": 4,
+      "source_index_row": 4,
+      "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w1_inlet1_half",
+      "sample_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w1_inlet1_half",
+      "frame": 60,
+      "time_s": 2.0,
+      "stations": [
+        26,
+        27,
+        45,
+        42
+      ],
+      "geometry_identity": "6c6ba3f1ad0940c6e5f4b8638681fd408a279f32de5f0d7d6fc45f90376378ef",
+      "input_identity": "806676d1a542fc02c43351a43c665fe974c9055b5eed4c58bc11e0f82e97fda9",
+      "GT64_path": "samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w1_inlet1_half/gt_volume_64.npy",
+      "valid_rays": 8359,
+      "valid_zero_rays": 975,
+      "GT": {
+        "nmse": 0.0,
+        "relative_l1": 0.0,
+        "relative_l2": 0.0,
+        "mean": 0.0017787610262866083,
+        "peak": 0.4780805706977844,
+        "minimum": 0.0,
+        "spatial_std": 0.010523657253371205,
+        "gt_mean": 0.0017787610262866083,
+        "gt_peak": 0.4780805706977844,
+        "gt_spatial_std": 0.010523657253371205,
+        "total_ratio": 1.0,
+        "plume_voxels": 2357,
+        "plume": {
+          "nmse": 0.0,
+          "relative_l1": 0.0,
+          "relative_l2": 0.0
+        }
+      },
+      "source_gt128_hash_from_metadata_only": "8c90de351a6c508f8503af0cceee4be6e87c69af1626ea804f5d6c5402a565fd"
+    },
+    {
+      "index": 5,
+      "source_index_row": 5,
+      "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w3_inlet1_half",
+      "sample_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w3_inlet1_half",
+      "frame": 60,
+      "time_s": 2.0,
+      "stations": [
+        26,
+        27,
+        45,
+        42
+      ],
+      "geometry_identity": "6c6ba3f1ad0940c6e5f4b8638681fd408a279f32de5f0d7d6fc45f90376378ef",
+      "input_identity": "0f7c446cdd5639d6e98af64b53790469347cf415dfb9c4acc908f7485898290a",
+      "GT64_path": "samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w3_inlet1_half/gt_volume_64.npy",
+      "valid_rays": 8359,
+      "valid_zero_rays": 6959,
+      "GT": {
+        "nmse": 0.0,
+        "relative_l1": 0.0,
+        "relative_l2": 0.0,
+        "mean": 0.0006384257016346595,
+        "peak": 0.5037856101989746,
+        "minimum": 0.0,
+        "spatial_std": 0.007352047700896376,
+        "gt_mean": 0.0006384257016346595,
+        "gt_peak": 0.5037856101989746,
+        "gt_spatial_std": 0.007352047700896376,
+        "total_ratio": 1.0,
+        "plume_voxels": 1500,
+        "plume": {
+          "nmse": 0.0,
+          "relative_l1": 0.0,
+          "relative_l2": 0.0
+        }
+      },
+      "source_gt128_hash_from_metadata_only": "af5b212be89cec4b31ec59ba253269d354b36b3f7177c7f2695414d9a2869b23"
+    },
+    {
+      "index": 6,
+      "source_index_row": 6,
+      "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w0_inlet1_half",
+      "sample_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w0_inlet1_half",
+      "frame": 60,
+      "time_s": 2.0,
+      "stations": [
+        26,
+        27,
+        45,
+        42
+      ],
+      "geometry_identity": "6c6ba3f1ad0940c6e5f4b8638681fd408a279f32de5f0d7d6fc45f90376378ef",
+      "input_identity": "0ee9c81929a1d333a962385f5e815e503dd2b256917376594e43ebe2c46e9bd1",
+      "GT64_path": "samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w0_inlet1_half/gt_volume_64.npy",
+      "valid_rays": 8359,
+      "valid_zero_rays": 44,
+      "GT": {
+        "nmse": 0.0,
+        "relative_l1": 0.0,
+        "relative_l2": 0.0,
+        "mean": 0.002249594249073528,
+        "peak": 0.4380969703197479,
+        "minimum": 0.0,
+        "spatial_std": 0.01246532972499307,
+        "gt_mean": 0.002249594249073528,
+        "gt_peak": 0.4380969703197479,
+        "gt_spatial_std": 0.01246532972499307,
+        "total_ratio": 1.0,
+        "plume_voxels": 4831,
+        "plume": {
+          "nmse": 0.0,
+          "relative_l1": 0.0,
+          "relative_l2": 0.0
+        }
+      },
+      "source_gt128_hash_from_metadata_only": "9b1dcdd242c7104380978d1313084da64c9aeb146b155dc466cae039b18ac986"
+    },
+    {
+      "index": 7,
+      "source_index_row": 8,
+      "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w3_inlet1_half",
+      "sample_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w3_inlet1_half",
+      "frame": 60,
+      "time_s": 2.0,
+      "stations": [
+        26,
+        27,
+        45,
+        42
+      ],
+      "geometry_identity": "6c6ba3f1ad0940c6e5f4b8638681fd408a279f32de5f0d7d6fc45f90376378ef",
+      "input_identity": "875e437cffd7ff55fbdc5305c02b134591b8049d54b1d951e15073095eaced7d",
+      "GT64_path": "samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w3_inlet1_half/gt_volume_64.npy",
+      "valid_rays": 8359,
+      "valid_zero_rays": 104,
+      "GT": {
+        "nmse": 0.0,
+        "relative_l1": 0.0,
+        "relative_l2": 0.0,
+        "mean": 0.000754938633323463,
+        "peak": 0.48954176902770996,
+        "minimum": 0.0,
+        "spatial_std": 0.00777746999331004,
+        "gt_mean": 0.000754938633323463,
+        "gt_peak": 0.48954176902770996,
+        "gt_spatial_std": 0.00777746999331004,
+        "total_ratio": 1.0,
+        "plume_voxels": 1769,
+        "plume": {
+          "nmse": 0.0,
+          "relative_l1": 0.0,
+          "relative_l2": 0.0
+        }
+      },
+      "source_gt128_hash_from_metadata_only": "64ef8d9b6d742f70ebcc61a938137b4033f68b961c2d669d477f7d729fc0da3a"
+    }
+  ],
+  "data_sha256": {
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet1_half/projections_train.npy": "9522a8535f8aeb6debbfbd7463f4d43fbeba15edce93fbf77cd97fefe4e629b5",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet1_half/gt_volume_64.npy": "b2b22e39eaec3004cc40491f4572a305807ca7c986cc79929c3dac62cc434ba7",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet1_half/sample_meta.json": "3be1d030d53dbf0b7ca23d4332e1ca25a106b5fc652a23c827adb46d650c2419",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet1_half/frame_manifest.jsonl": "c4120132dda6d4b99749653ea2327aef19f3844e6f5155bbb5e8b2a7b91afed0",
+    "/data/djc/GeoPhy-Set3D/data/raw/Fluent/static_final_frame_partial_v1/metadata/case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet1_half.json": "fc8c21a7ac26e7983eba185783cc8f405719b9a41fea666a78a39192b52e9ffe",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w1_inlet1_half/projections_train.npy": "1ee605f404a1b087f7f5ccdeabdb1df83028adc8c5acf8626c1c28d9d42ef85f",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w1_inlet1_half/gt_volume_64.npy": "5c846532f427ea437edb797569e26608ce4cee4132eba6ad2e60cfdc2b6f1328",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w1_inlet1_half/sample_meta.json": "9815484073f1733d06f01a8873452c9b117a5b1e967002f3a5d563ab44558552",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w1_inlet1_half/frame_manifest.jsonl": "9e095c673279990f6e7822392b2a0ee4006ef6d06de2e6b3e096ae7fab22bb83",
+    "/data/djc/GeoPhy-Set3D/data/raw/Fluent/static_final_frame_partial_v1/metadata/case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w1_inlet1_half.json": "82735c05407a1bd3b3129de4fa95fafe8767747b7cde5f983275ccacc9c4397d",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w3_inlet1_half/projections_train.npy": "d92121094e98ea0070724f9d5dae3359bc5bb46bf61e0b73ae1894bb663fc4fa",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w3_inlet1_half/gt_volume_64.npy": "ca44a80543b0128a937115cb83e64ed1d2f9d298e77d4c3ef924247002fd560b",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w3_inlet1_half/sample_meta.json": "787ed4f230dffb7186d66c9371f36dc9f96af9839bb04f9c2ba2ad5471eadd91",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w3_inlet1_half/frame_manifest.jsonl": "2fde18780d65f999739298065d8eb1fe5b62c48f4ac5f2b0ccd7bed86a5fdd7c",
+    "/data/djc/GeoPhy-Set3D/data/raw/Fluent/static_final_frame_partial_v1/metadata/case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w3_inlet1_half.json": "f828e502e6fe549eaa52d9d45dec71e508f6d261f1e45341cd8a0198bcf41684",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w0_inlet1_half/projections_train.npy": "98f56cd81f3f0aca9e3d5d299322542d5228c840bad981e6f91ffe1cde6ac945",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w0_inlet1_half/gt_volume_64.npy": "bd020b706eb320e8a9afc16f846fae3351283dc6ee2de4768509d38bf81f5fb3",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w0_inlet1_half/sample_meta.json": "cc0fd18e32f96672ad4893d0b29d5d6e922acd41dc779deee0b8662cf5d7d6fd",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w0_inlet1_half/frame_manifest.jsonl": "61a391c15a8427d1d67a663bd470a6057d6095b8fe3238a68ecfeb27ae9d3316",
+    "/data/djc/GeoPhy-Set3D/data/raw/Fluent/static_final_frame_partial_v1/metadata/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w0_inlet1_half.json": "0e0ac159060d27e629ac530efe54868552b05704619db1ce3d9bb0d0508aaa48",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w1_inlet1_half/projections_train.npy": "37dd3c8f5e2ed22053f87812c051e37fc79a38c948236835aed66e56d8c55a46",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w1_inlet1_half/gt_volume_64.npy": "b8a106a1922c5a6a21483fb28379de60d3780f2b88f79fdd77cdabbffadb15d5",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w1_inlet1_half/sample_meta.json": "2b1e924f953a1e11fe42c654cbdc6af189dcc26073e7133e673ad37b71993437",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w1_inlet1_half/frame_manifest.jsonl": "c81a5e685882e2a6a0dcf8663748a43999e3fda0d761c0c616262352942ed2f2",
+    "/data/djc/GeoPhy-Set3D/data/raw/Fluent/static_final_frame_partial_v1/metadata/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w1_inlet1_half.json": "9b5d312dec5a64feb5248ab23546b3d89f84457fec46d4d13f74003279a4e9d0",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w3_inlet1_half/projections_train.npy": "20a7fdebfc5fd60b82083a5f431e5cd38ec84d47b90b456ac2db868d4e687298",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w3_inlet1_half/gt_volume_64.npy": "9c2a9ed1a41bf9963962c985f7569bdf22434ab2c0ed2beb17a3817ca32db7d7",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w3_inlet1_half/sample_meta.json": "baa5d50a35d5a02f06cf0ec66439d34ccad0288861ffc1866f024b255c17d2e3",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w3_inlet1_half/frame_manifest.jsonl": "efbad9e40d203e0ad3d050a1236cfdb02d4eb14b301b940157fe445b138ca402",
+    "/data/djc/GeoPhy-Set3D/data/raw/Fluent/static_final_frame_partial_v1/metadata/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w3_inlet1_half.json": "121fe9f2f038c75a0959acb3814288c779bad25e6fee394561eb287c20fd286f",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w0_inlet1_half/projections_train.npy": "1c63a623d85b8daf5a29d343cdab48aa91cd178c29d6ff9f74b421407479258f",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w0_inlet1_half/gt_volume_64.npy": "d470d834d0d24d2edd0083d1799418c0c1e6f835baeea740050c7a888098169a",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w0_inlet1_half/sample_meta.json": "46fd229f52ebcf733703f43ecdbf16a0139bb7c5cdae054251694299dddf5af8",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w0_inlet1_half/frame_manifest.jsonl": "fb083790ae2690eec35024533323093cb37ccb0c302b2e653cd7049b91c03bd0",
+    "/data/djc/GeoPhy-Set3D/data/raw/Fluent/static_final_frame_partial_v1/metadata/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w0_inlet1_half.json": "1c0642ef993d06f361b405b58a252b4526ed9246c1f92bdad43614e2aae35340",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w3_inlet1_half/projections_train.npy": "b323db3ccf6030440b388648fdefb6d6d9a3ca38fae9effdabf0d9f7f25e2204",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w3_inlet1_half/gt_volume_64.npy": "4c45644d4f945dce63163614b3f3126f1cfc29022c3c9a6dcecd4c4955b9d8aa",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w3_inlet1_half/sample_meta.json": "9a21057f1be770c6777c23a91ea4c645cda3f160bd5d6479be72f18abdab1e9c",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w3_inlet1_half/frame_manifest.jsonl": "0357254b626f7504f43219372c2f1bb3302eb0dddecfe952e8bb1a683a0510b1",
+    "/data/djc/GeoPhy-Set3D/data/raw/Fluent/static_final_frame_partial_v1/metadata/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w3_inlet1_half.json": "b22b674d90d164e31ee1221db7771f9dbc1eb86dc7efac866ed711f1deb2a2d5",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/source_index.jsonl": "cfc482fc84847c90620f0115edafbb12b2ad3cbd2c2ca21b6445ad0025924707",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/train_statistics.json": "7511c5c9035f645838e433db058c4f4c2fc5a95f7dbf03986481da1af62808d2",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/geometry/train_geometry.npz": "83f583dcc38370e5c66873585c724ab116076d9a9f29f80f674c5c03c96fe3f9",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/generation_config.yaml": "e0de352887ab918ed4a77a81cae5807f661ad912ca4c8f406ec2b774c1c1ef19"
+  },
+  "source_sha256": {
+    "configs/ray_senseiver_supervised_stability_v1.yaml": "0b4b9a46bebaf1af32ed6aaf23ed1bfd213443ed3bea3816c45aa8066ea5a3e9",
+    "configs/train_ray_senseiver_supervised_v1.yaml": "3d8c86a8ca480b6c5d15e57b7693281f1448f96ca8c581e8bf07d37e5ed6d737",
+    "docs/ray_senseiver_supervised_v1_protocol_zh.md": "f17597d561364b978aa1f8fc1e1a0ae9f40b05fb1f2a1abcddee8bcdea8fdf14",
+    "scripts/run_senseiver_supervised_probe.py": "bace36a537c0cb812ee0e127843302e3b8bdeb149b32c08af504c6658ccc3f71",
+    "scripts/run_senseiver_supervised_stability.py": "c2e505d81dc9442838c809d39a2635486ad422dda60c693bf394df145990df20",
+    "src/geophy_set3d/__init__.py": "47441c8638d63363d06b204cb8d6b0e9a6524c9d598920036b9cd8cc3e9ff2b5",
+    "src/geophy_set3d/data/build_utils.py": "0fbaa994ae1b3b82094fc687efc767e3ce019b7f28f0987e37e80efef1ba31be",
+    "src/geophy_set3d/data/collate.py": "64ba5c126d89e0e709eb7f002c791a32a896e8ef098128fd71cf10f6daf8e83e",
+    "src/geophy_set3d/data/generation.py": "36374efc91e0e27d00ed817109472cdb39f30e6cedcbced7c6bc6392746f703c",
+    "src/geophy_set3d/data/measurement_only.py": "8ac516e07b785ac82686306ded38bbe0e47622087318af2741731e5d4f1271b2",
+    "src/geophy_set3d/data/measurement_sampling.py": "88f6e05beb64111c1a63fab90825f0f68e6ae2772a92f0be6187d9e55cc7a693",
+    "src/geophy_set3d/data/projection_audit.py": "77b5d7afc44326ae00e676f41a3989244fa040e1020992fd5c2e5d0fc9c87e09",
+    "src/geophy_set3d/data/projection_pool_dataset.py": "2ff2426b94043c4d2487e1b47c27340599df798816187774be2a5a2d62e0ee8e",
+    "src/geophy_set3d/data/rich_measurement.py": "09648bd196db21be9e4f673da4157a53024145f8429af6846e780c960b298e26",
+    "src/geophy_set3d/data/validation.py": "76b1e84a737fcb740ab5bb5b83feecb86c76693968516a2efcbf24d84d192f14",
+    "src/geophy_set3d/data/view_sampling.py": "fc858a69533b41f67be5fd050ecd0dd6fdb253d86ae382e02591c2ee815e1eb8",
+    "src/geophy_set3d/diagnostics/senseiver_signal_path.py": "ec182c4003e0abb303a99bf74bb3cd3ae531543664b325929a9aa9658210f742",
+    "src/geophy_set3d/evaluation/__init__.py": "7e7c0e83968957f68b7808b2b644686a0a12f21bad15045831d70a52214a8338",
+    "src/geophy_set3d/evaluation/analysis.py": "199f1457d0978a606c761ad4d11ca1edd10f6aafa95e198bc1e7ec25021131ad",
+    "src/geophy_set3d/evaluation/b2_report.py": "fada1bbce57c3ffeb0056862e0756bbf63635764327b1b9c408f785c573916d1",
+    "src/geophy_set3d/evaluation/b3_report.py": "73fb688b46965b915ab8b8e602ee333995121261c94985e72a54a3d371b524af",
+    "src/geophy_set3d/evaluation/clustered_one_swap.py": "b506eca28a515b6026d3a75b57d3a15b2a177c092db209195cafd4e65fdace5b",
+    "src/geophy_set3d/evaluation/comparison_report.py": "2e44d97c482a08e7a8c97b141d4a30b72305fe831e0496661d6efe79944ad0e1",
+    "src/geophy_set3d/evaluation/deep_comparison.py": "d89dd67c0b7d3e19df5fd41dbd8411280141a616f5603896efb066cfc41c1389",
+    "src/geophy_set3d/evaluation/experiments.py": "5aedd0c55eec76e4b874222bc7b19578c1b7d8f48af657bdf67a2adf60041182",
+    "src/geophy_set3d/evaluation/figures.py": "816712bea9a5ac3bf35946eef78e8781cf20248f6d3bc427f6f8fb03b405486a",
+    "src/geophy_set3d/evaluation/geometry_augmentation_formal_stats.py": "2ecd585ec7f6dcf1fc2bf74022bda08062deb2de9e032c372bbb8924277c6e8d",
+    "src/geophy_set3d/evaluation/geometry_augmentation_sampler.py": "82214214c4576d4228dd7f668714ad83864536247f8a6dce6988c61b904f8b25",
+    "src/geophy_set3d/evaluation/geometry_catalog.py": "60eb3fb4506426de22dde50d274f9eb15c7779298d465c88bdca586f50872e2f",
+    "src/geophy_set3d/evaluation/geometry_sensitivity.py": "460817ff0b13ced548997a7dd691c647d8eb30e6ca9e0f6d2c6307c7eac73585",
+    "src/geophy_set3d/evaluation/geometry_strata.py": "cc3c9d9557b446ea419a4842ac447afe2b512d86be76521190a4c203abec86e5",
+    "src/geophy_set3d/evaluation/geometry_stratified_sampler.py": "976de22b042f7d392424965ce5a62ed24a0957e78bcab7ee493998e390feb0ba",
+    "src/geophy_set3d/evaluation/matched_control.py": "55eacbce1ded9de9c9344f4c32e1836d729ef229175080ac1048b9680cb37611",
+    "src/geophy_set3d/evaluation/measurement_consistency.py": "edee97bea059708eddcc772b3831858f918a1ccbcf4050f4c491d2aa768f9889",
+    "src/geophy_set3d/evaluation/measurement_diagnostics.py": "2b920ed3da6310f68193bb8ef5e047f51c67c39f7686c683f847fed8fc3cd382",
+    "src/geophy_set3d/evaluation/mrgr.py": "c796ede1a09fd06fae65c3d833184c9cfea5a0a1a37159dafa5f8187b3fa9c08",
+    "src/geophy_set3d/evaluation/mrgr_report.py": "409822580c09530d2272c796fd02704b02af45d4a0f397d4b1dc5a3a5fac671d",
+    "src/geophy_set3d/evaluation/oari_diagnostics.py": "ea656b350edd48da390281d4e25d5a3f56e9146b48a043c694a975d72c9cccfa",
+    "src/geophy_set3d/evaluation/oari_report.py": "a907c8912468605c3fa55b59bdb987ca2086e0a451ff4f24be429986e3e4d73e",
+    "src/geophy_set3d/evaluation/protocols.py": "60b4a82f96dfaec4947762855e6987a1fffedb987d96ab15dcdb2bd9e7caf878",
+    "src/geophy_set3d/evaluation/ray_senseiver.py": "22fc91e943fe45bbb43d7e07c9ccfa1c26cc24b7c06a1b706338483f3ea24b94",
+    "src/geophy_set3d/evaluation/report.py": "60799671d8f557c775490a2dd6755f18258cfa38ea755d19b0eec84cfe15067a",
+    "src/geophy_set3d/evaluation/research_integrity.py": "9a433d6ded5173fcc2c0921078693c849e490bc6a6e4c22647d0414bf1e68902",
+    "src/geophy_set3d/evaluation/rvtc_failure_diagnostics.py": "47d1f9f28445af6d29a198c3e1f3b3a151073ab722d21a8bb4c3527c5b4deed4",
+    "src/geophy_set3d/evaluation/selfsup_c0c1_diagnostic.py": "42fff49d6415869b7c91f213877428ef26c6d43ae1aeec68dd8238203361f665",
+    "src/geophy_set3d/evaluation/selfsup_report.py": "685f66b86bb233116a0bdbe8a2ff835d16e63780332609613b3aa1cf5289c78a",
+    "src/geophy_set3d/evaluation/selfsup_v2_integrity.py": "2aacd7d9220869a37bf214fcb512128211442bc67b274cc474d28c766ba05dde",
+    "src/geophy_set3d/evaluation/selfsup_v2_report.py": "96df2a594503353517849af5751c8921f1144c172218659825ac58782c56a677",
+    "src/geophy_set3d/evaluation/stratification.py": "de9ee3059ba4e59288021105671fdab907b670617212a7428d0e1ce03e43623f",
+    "src/geophy_set3d/evaluation/summary.py": "73a8acd82a6ba703665993280af31ac95daeae413b81ff078c5d932b678b0d68",
+    "src/geophy_set3d/evaluation/training_runs.py": "b2b9a3bffc3002d60d0f5896b3e8b7efefc3133fbf8238f67f4909a8c6e55cad",
+    "src/geophy_set3d/evaluation/view_selection.py": "32a56947b18b30bf788768c3a939ff1cf06694caf4939512713ad64b1e230b60",
+    "src/geophy_set3d/geometry/tdlas.py": "d641d3ebbb0fe288b9ae770b9bb5f1b5c5cd4ff3a4729235a161e74f78fa6dce",
+    "src/geophy_set3d/models/__init__.py": "54484529fa097a5a63b2bd982de29e01b29b88cfa7cc0b0fbd3151a5470e77f0",
+    "src/geophy_set3d/models/attention_fusion.py": "d349c05cb1565889ff83b0f391fff5882782e6525bc61481d3e2db9ceba4329e",
+    "src/geophy_set3d/models/blocks.py": "2842f04765a4c9ba7bc5ac04135ec8ddd8c7537745fc6f79b6c6ab41b3033223",
+    "src/geophy_set3d/models/decoder3d.py": "3aab7052dcc19f356fc2245ada14e8fe085b858b26c91cd180e358a4cc0691ac",
+    "src/geophy_set3d/models/encoder2d.py": "fd6f7e6f9d14573dcfb2d2b494941f83f63a269993f8bbae9616594a32443e14",
+    "src/geophy_set3d/models/fusion.py": "5a7ae6fd64daa283c15af3545311f75c58b774cb86294b2996bc3b098c3868d1",
+    "src/geophy_set3d/models/geolift_deepsets_sum.py": "e877158c6e0bcbecad2ef6bb6f852dc93e8077155e946d8232a63255a6c90e23",
+    "src/geophy_set3d/models/geolift_gca_res3d.py": "cde73cf1249ade86f54a3fcfc2ce5e7c8f85852cb836d356f3eed7cb74376c04",
+    "src/geophy_set3d/models/geolift_gcsi_res3d.py": "fcad0a6ff1daa02716f16d3c2661a1caa73e25fa915c061ae32d510418d084d1",
+    "src/geophy_set3d/models/geolift_mean_res3d.py": "119db246431a2b4612620afc29d819951d0ae21ab0ff08a8846f22c66f2a443a",
+    "src/geophy_set3d/models/geolift_oari_mrgr_res3d.py": "a095e2cf9bbd9e86fc0a999df4c7d7185fcb4133220ba6334211b91b70166c26",
+    "src/geophy_set3d/models/geolift_oari_mrgr_zero_residual.py": "cff44973dca6731ddcde04920eee7064c2ca7844a9fd74d3608d2a44163c1634",
+    "src/geophy_set3d/models/geolift_oari_res3d.py": "0c254b09b598c3f3bed1af29c7a17e3de26349024106c8849938ac8a2126b0ed",
+    "src/geophy_set3d/models/lifting.py": "0cf2fc39535fab45cf7e2f8bd8cdcac70c8ff3f830c816b936347cf7f3b39710",
+    "src/geophy_set3d/models/ray_relational_interaction.py": "25db37d18c84240bc86f5b0eeb1a0a009a9958dce8bd3f6875dcb92f30b1eac2",
+    "src/geophy_set3d/models/ray_senseiver_latent_residual.py": "ea02b34d4123891736628dfd25c3d2b1b0b32dbbbed244785460114124f94dd2",
+    "src/geophy_set3d/models/ray_senseiver_ss.py": "fa497b1a68d45bd20db0f7fd7118a4e7664c55c31b3c3a53b27b43b2ea5480cb",
+    "src/geophy_set3d/models/senseiver_core.py": "b45e02cde0e2f2597370b34596854ec1d8890ab5838d7c73968b50fee40f1da4",
+    "src/geophy_set3d/models/set_interaction.py": "1b80318623b8cd07f94bad70879e159af5f0cd54f083b172c8b4a8bbe0eaefb3",
+    "src/geophy_set3d/physics/projectors.py": "fe3475e29abbba0d3495be9fc69909f3b8b1d7e8d40c25aed683094198f6e776",
+    "src/geophy_set3d/physics/representation_capacity.py": "f0b3491204a172951bec0a1354f95933548672d75343ce2f24ad4d3d395ce92a",
+    "src/geophy_set3d/reconstruction/classical.py": "261530dc8296446203140f581f8e7b736aa0bcb4b98d5141158e24d2a49b1867",
+    "src/geophy_set3d/training/__init__.py": "d253aa4cda19ba45b2d472981e2410da0a7fd319f8509be5acd8ed2d037ff0ae",
+    "src/geophy_set3d/training/comparison.py": "b5028eca4f820f79b8c5eb9e17f6c143042805fd961db85955afb57e6881ecf3",
+    "src/geophy_set3d/training/deep_comparison.py": "75fd31230809ee3874c7a77ba5320c3d1f691d06e35c4cdf409e6e29fb54b07e",
+    "src/geophy_set3d/training/engine.py": "4491b17bcbc2dbb89d227086b53dfe84d21ed6c86ba1010b64358168f7bc4bb6",
+    "src/geophy_set3d/training/geometry_augmentation_formal.py": "b8b2aed8470acd8391876e1bce260a6e8727ef4c9bdd5e4026e4dcb181d0e9f8",
+    "src/geophy_set3d/training/gt_read_guard.py": "42bf7c374d0f297050e801f4b5baf9a544b731a46157f65862eeaa3b4b5cfe50",
+    "src/geophy_set3d/training/losses.py": "a6bec7ce5ee00fbe11d8d159add0d42243775b5d443c07a8e59dadee759b4c5e",
+    "src/geophy_set3d/training/matched_control.py": "0c807bacef0acca1362c3ce6b283bea2165e26b845c4b6bc88743ef0734ae319",
+    "src/geophy_set3d/training/measurement_engine.py": "373bc13981c1e4afd63f5959ea76528e6cc53ea30353b44272b6fee378c3ac85",
+    "src/geophy_set3d/training/measurement_runs.py": "d2c3fc98b593917419c2b74c454888dcdfa7ff1255f1d6adf112d6a2204c8e65",
+    "src/geophy_set3d/training/metrics.py": "e5244421a7cba81702873d0b69e882468a4ee97012676097545729a1fc31461a",
+    "src/geophy_set3d/training/mrgr.py": "098b6ca504d53eab4a01f3ce4f2ba7f5a7e1417c79ec144bc837cc8a242c1b53",
+    "src/geophy_set3d/training/projection_losses.py": "d64e4fd327bf68e4f18ee3f9278ef453363042a7a0deaa71fc4a91283f6f05ad",
+    "src/geophy_set3d/training/ray_senseiver.py": "5883cd2126ebd06e3e3eb5dc16348085ebb6d01ce9739f78cec8a253cf81140c",
+    "src/geophy_set3d/training/rvtc_matched.py": "c8236c8dddc66fdf11e083ed516bd7797aecbdc837c749202b2c41a343692866",
+    "src/geophy_set3d/training/selfsup.py": "03cdee12b66aa1f7fdbd6a265ac7a23397ae03cee13fd18b1d8d721b6a91d909",
+    "src/geophy_set3d/training/selfsup_v2.py": "f4bb9c0159e6c4acaef188c0627d4ddcaa667d3c6851bb2055e34dac395a668e",
+    "src/geophy_set3d/training/senseiver_consistency_probe.py": "10127e7ad6adba39e5501815a844b4f205346872cfd679143cac1be86769edda",
+    "src/geophy_set3d/training/senseiver_init_probe.py": "b58c33db663a35f55254bf859158ab432fac018efc8fa636edcda88898ce002e",
+    "src/geophy_set3d/training/senseiver_readout.py": "4a335738a6a3834c7b0a6bca4c60672ed0ed7afbb69d81e401cb523b736e37a1",
+    "src/geophy_set3d/training/senseiver_relative_probe.py": "f64076d1cd087a403ed3d07f5a540e46ab34a8723a93cf488015caa503e2ef12",
+    "src/geophy_set3d/training/senseiver_single_repair.py": "8556c260a913c8df05b6f41b93535c74e5b01d2c7b4650d1e0ee4e296ec30ea1",
+    "src/geophy_set3d/training/senseiver_supervised_probe.py": "e84b92c03548c391e158f7cc3e28df2dad41ed64705dbe4f8a02fa1d74f1d70f",
+    "src/geophy_set3d/training/senseiver_supervised_stability.py": "f9206a7c3a9d92d5a6eb7b59d07580986cb5cbafc18ddb3516771e905c0ca6fc",
+    "src/geophy_set3d/training/utils.py": "51f397ff01ed89b6b930fdc0fee436bf754bcc40c0eaa58f5b3e7c005d14a1ae",
+    "tests/test_senseiver_supervised_stability.py": "62de37bb28d0589591a51bf368fd13e195c5bef99baeb4033b3c59c6f5cbf381"
+  },
+  "historical_reports_sha256": {
+    "docs/reports/ray_senseiver_relative_probe_v1_zh.md": "684928ce2aaa1f2ad6209e495bfc7dc7fd95a31f83d36ea53e84d9b843895cf1",
+    "docs/reports/ray_senseiver_learning_diagnostic_zh.md": "7135f4eaf61221c2d4c8ae0a2a2755a88b643bf866c1d415c90a980c7995ddd8",
+    "docs/reports/ray_senseiver_consistency_probe_v1_zh.md": "70615c4be6b37d20dc6c36c31509ee3e785e7a4cd313362cb256bca378ee6e9b",
+    "docs/reports/ray_senseiver_signal_path_v1_zh.md": "b8e3baa7c3a7187060e57d315db29badff1b4f771aefd8ba475403e6a3e5beff",
+    "docs/reports/ray_senseiver_init_probe_v1_zh.md": "35e229a389705b4bd0cd46b2f6d082a3fbeb8b3ca53813dc6235064ee9d8aa7e",
+    "docs/reports/ray_senseiver_quick_repair_v1_zh.md": "c5c300503ffaa026f29c7385b06734cc344a630a20ee543b6a9d9aca8b2178da",
+    "docs/reports/ray_senseiver_supervised_probe_v1_zh.md": "4f77cdc821743270fb6bdcc4b45a75d538b76e0a9b322df2efde2a764da059ba"
+  },
+  "access": {
+    "policy": "Only registered train GT64 and Pool A; GT128/Val/test/Pool B/foreign weights forbidden",
+    "denied_attempts": [],
+    "reads": [
+      {
+        "category": "pool_A_geometry",
+        "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/geometry/train_geometry.npz",
+        "count": 2
+      },
+      {
+        "category": "projection",
+        "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet1_half/projections_train.npy",
+        "count": 4
+      },
+      {
+        "category": "projection",
+        "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w1_inlet1_half/projections_train.npy",
+        "count": 4
+      },
+      {
+        "category": "projection",
+        "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w3_inlet1_half/projections_train.npy",
+        "count": 4
+      },
+      {
+        "category": "projection",
+        "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w0_inlet1_half/projections_train.npy",
+        "count": 4
+      },
+      {
+        "category": "projection",
+        "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w1_inlet1_half/projections_train.npy",
+        "count": 4
+      },
+      {
+        "category": "projection",
+        "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w3_inlet1_half/projections_train.npy",
+        "count": 4
+      },
+      {
+        "category": "projection",
+        "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w0_inlet1_half/projections_train.npy",
+        "count": 4
+      },
+      {
+        "category": "projection",
+        "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w3_inlet1_half/projections_train.npy",
+        "count": 4
+      },
+      {
+        "category": "train_GT64",
+        "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet1_half/gt_volume_64.npy",
+        "count": 4
+      },
+      {
+        "category": "train_GT64",
+        "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w1_inlet1_half/gt_volume_64.npy",
+        "count": 4
+      },
+      {
+        "category": "train_GT64",
+        "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w3_inlet1_half/gt_volume_64.npy",
+        "count": 4
+      },
+      {
+        "category": "train_GT64",
+        "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w0_inlet1_half/gt_volume_64.npy",
+        "count": 4
+      },
+      {
+        "category": "train_GT64",
+        "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w1_inlet1_half/gt_volume_64.npy",
+        "count": 4
+      },
+      {
+        "category": "train_GT64",
+        "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w3_inlet1_half/gt_volume_64.npy",
+        "count": 4
+      },
+      {
+        "category": "train_GT64",
+        "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w0_inlet1_half/gt_volume_64.npy",
+        "count": 4
+      },
+      {
+        "category": "train_GT64",
+        "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w3_inlet1_half/gt_volume_64.npy",
+        "count": 4
+      }
+    ]
+  }
+}

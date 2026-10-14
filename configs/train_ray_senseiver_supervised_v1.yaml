@@ -1,0 +1,40 @@
+name: ray_senseiver_supervised_v1
+dataset_root: /data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1
+output_root: /data/djc/GeoPhy-Set3D/outputs
+seed: 20261011
+device: cuda:1
+model: original_ray_senseiver_ss
+train: {split: train, geometry_pool: train, min_input_views: 3, max_input_views: 6, hold_views: 0, shuffle: true, sampler_epoch: current_epoch_zero_based}
+validation: {split: val, geometry_pool: train, input_views: 4, hold_views: 0, sampler_epoch: 0}
+normalization: {method: linear_p99_5, statistics_file: train_statistics.json}
+runtime: {query_chunk_size: 16384, decoder_checkpoint: true}
+optimizer: {lr: 0.0002, weight_decay: 0.0001, clip: 1.0, precision: fp32}
+scheduler: {unit: epoch, T_max: 300, eta_min: 0.00002}
+budget: {max_epochs: 300, max_seconds: 7200, effective_batch: 2}
+loss: {name: per_sample_normalized_voxel_mse, denominator_floor: 1.0e-12}
+initialization: {output_weight_factor: 0.01, bias: logit_full_train_GT64_voxel_mean, clamp: [0.000001, 0.999999]}
+selector: mean_per_case_val_nmse
+health: {every_epochs: 20, train_indices: [0, 1, 2], fixed_stations: [26, 27, 45, 42], donors: [1, 2, 0], dependence_threshold: 0.001}
+stop:
+  no_learning_minimum_epoch: 30
+  no_learning_window: 10
+  no_learning_baseline: 0.98
+  no_learning_improvement: 0.02
+  significant_relative_improvement: 0.005
+  early_stop_minimum_epoch: 50
+  significant_patience: 30
+  stalled_without_dependence_minimum_epoch: 40
+  stalled_without_dependence_health_checks: 2
+comparison:
+  manifest: docs/reports/artifacts/deepsets_selfsup_v1/station_subsets.json
+  groups: [G1, G2, G3, G4, G5]
+  cases: 36
+  layouts_per_group: 5
+  rows: 900
+  bootstrap_samples: 10000
+  bootstrap_seed: 2026101801
+  representative_cases: [0, 18, 35]
+  representative_groups: [G1, G3, G5]
+  representative_draw: 0
+  timing_warmup: 10
+  timing_repeats: 30

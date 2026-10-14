@@ -1,0 +1,18 @@
+name: ray_senseiver_supervised_stability_v1
+dataset_root: /data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1
+output_root: /data/djc/GeoPhy-Set3D/outputs
+seed: 20261011
+device: cuda:1
+indices: [0, 1, 2, 3, 4, 5, 6, 7]
+station_ids: [26, 27, 45, 42]
+model: original_ray_senseiver_ss
+runtime: {query_chunk_size: 16384, decoder_checkpoint: true}
+optimizer: {lr: 0.0002, weight_decay: 0.0001, clip: 1.0, precision: fp32}
+scheduler: {unit: optimizer_update, T_max: 4000, eta_min: 0.00002}
+budget: {max_updates: 4000, max_seconds: 1200, effective_batch: 2}
+loss: {name: per_sample_normalized_voxel_mse, denominator_floor: 1.0e-12}
+initialization: {output_weight_factor: 0.01, GT_mean: 0.0013875673876921429, bias_logit: -6.578814614866246}
+evaluation: {every: 100, interventions_every: 200, indices: [0, 1, 2], donors: [1, 2, 0]}
+pass: {nmse: 0.2, relative_l1: 0.4, template_reduction: 0.3, minimum_dependent: 2, dependence_threshold: 0.001, wrong_error_increases_all3: true, consecutive_joint_checks: 3}
+plateau: {minimum_updates: 1000, window: 200, improvement: 0.02, consecutive_checks: 2, check_every: 200}
+next_formal_config: configs/train_ray_senseiver_supervised_v1.yaml
