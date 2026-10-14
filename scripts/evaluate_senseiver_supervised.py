@@ -41,7 +41,7 @@ def freeze(c):
     records=json.loads((REPO/c['comparison']['manifest']).read_text());assert len(records)==900
     assert sha256(REPO/c['comparison']['manifest'])==reg['comparison_manifest_sha256']
     assert sha256(MRGR['checkpoint'])==MRGR['sha256']
-    p=dict(config=c,models=dict(Senseiver=dict(checkpoint=str(path),sha256=result['sha256']),SupervisedMRGR=MRGR),manifest_sha256=reg['comparison_manifest_sha256'],sources={f:sha256(REPO/f) for f in ['scripts/evaluate_senseiver_supervised.py','src/geophy_set3d/evaluation/selfsup_c0c1_diagnostic.py','src/geophy_set3d/training/metrics.py']},references={str(p.relative_to(REPO)):sha256(p) for p in [DEEP/'paired_900.csv',DEEP/'deepsets_900.csv']},no_900_selection=True,tie_epsilon=1e-8)
+    p=dict(config=c,models=dict(Senseiver=dict(checkpoint=str(path),sha256=result['sha256']),SupervisedMRGR=MRGR),manifest_sha256=reg['comparison_manifest_sha256'],sources=reg['source_sha256']|{f:sha256(REPO/f) for f in ['scripts/evaluate_senseiver_supervised.py','src/geophy_set3d/evaluation/selfsup_c0c1_diagnostic.py','src/geophy_set3d/training/metrics.py',MRGR['config']]},references={str(p.relative_to(REPO)):sha256(p) for p in [DEEP/'paired_900.csv',DEEP/'deepsets_900.csv']},no_900_selection=True,tie_epsilon=1e-8)
     write_json(EV/'protocol.json',p);write_json(EV/'station_subsets.json',records);write_json(ART/'evaluation_protocol.json',p)
     print(json.dumps(dict(effective=effective,best_epoch=result['epoch'],val=replay['mean'])))
 
