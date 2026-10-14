@@ -1,0 +1,10 @@
+{
+  "registered_at": "2026-10-14T17:04:20.657534+08:00",
+  "issue": "Unused new GT entry inherited checkpoint hash read before read guard",
+  "affected": "Only future GT evaluation entry; no GT phase has run, no formal training/learning diagnosis impact",
+  "fix": "Guard GT from entry and skip checkpoint bytes in GT validation; selector/inference/independent audit still verify checkpoint SHA",
+  "scientific_changes": false,
+  "formal_training_modified": false,
+  "regression": "Two focused boundary tests deny checkpoint and measurement before saved-output evaluation",
+  "GT_execution_started": false
+}

@@ -2,7 +2,7 @@
   "sha256": {
     "configs/train_ray_senseiver_selfsup_v1.yaml": "91ea77ed89f3dc11c7b7dfdc9bfc915a83528ee04af198a5482fdf19ada7810b",
     "scripts/audit_ray_senseiver.py": "2586a88a7f1d3ab0513727a687f2daee74907f5f355ddfd6524fed7046a28eb7",
-    "scripts/evaluate_ray_senseiver.py": "06d227362699a8008bf9365898171d3648623c45c4aa6a911b0de0ef4372292c",
+    "scripts/evaluate_ray_senseiver.py": "fafc388da23c1f20ccaa9879b4d9e29b9ab4f100d08c2e269eeae2986651e3f9",
     "scripts/report_ray_senseiver.py": "eb85bf8ec0c3ebc7fa54642a11ea5c9f0f2070c27d02a3863e652128e8c883df",
     "scripts/train_ray_senseiver_selfsup.py": "756957b4f531df7ff0b017b697167d68ea3f9a2a66a30299d745d6147de10af4",
     "src/geophy_set3d/data/build_utils.py": "0fbaa994ae1b3b82094fc687efc767e3ce019b7f28f0987e37e80efef1ba31be",
@@ -89,9 +89,11 @@
     "src/geophy_set3d/training/selfsup_v2.py": "f4bb9c0159e6c4acaef188c0627d4ddcaa667d3c6851bb2055e34dac395a668e",
     "src/geophy_set3d/training/utils.py": "51f397ff01ed89b6b930fdc0fee436bf754bcc40c0eaa58f5b3e7c005d14a1ae",
     "tests/test_ray_senseiver.py": "d7ed0915870673b59e7d67c7b6057f74a243ed98f91d79b5c1d888599d3fd207",
-    "tests/test_ray_senseiver_statistics.py": "d3755f40a8b49bea6c6d77064607139b4e1397202119b86a4c44eeaa840a7d89"
+    "tests/test_ray_senseiver_statistics.py": "d3755f40a8b49bea6c6d77064607139b4e1397202119b86a4c44eeaa840a7d89",
+    "tests/test_ray_senseiver_evaluation_boundary.py": "f22179b1f10bfbb937bc3575af0db72ecd3cda92be40689ee43be75c58f3e051"
   },
   "scope": "frozen evaluation/report/independent audit and numerical dependencies",
   "engineering_amendment": "Before frozen prediction/GT: undefined relative reduction of zero G5-G1 denominator is null; paired delta/CI unchanged; verify pinned vendored originals.",
-  "user_requested_reporting_amendment": "During training, before GT: incorporate isolated no-GT learning diagnosis and explicit failed-baseline interpretation; no statistical/model/training change."
+  "user_requested_reporting_amendment": "During training, before GT: incorporate isolated no-GT learning diagnosis and explicit failed-baseline interpretation; no statistical/model/training change.",
+  "GT_boundary_amendment": "Before any selector/frozen inference/GT: GT process guarded from entry, verifies sealed metadata/output SHA, never reads checkpoint. Historical evaluator unchanged; formal training unaffected."
 }

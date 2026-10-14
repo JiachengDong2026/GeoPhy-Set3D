@@ -29,11 +29,11 @@ from diagnose_clustered_one_swap import dataset,target_gt
 def now():return datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=8))).isoformat()
 
 
-def verify(c):
+def verify(c, check_checkpoint=True):
     p=verify_registration(c);out=Path(c['comparison']['output']);freeze=json.loads((out/'frozen_best.json').read_text());complete=json.loads((out/'training_complete.json').read_text())
     assert complete['completed'] and complete['epochs']==freeze['completed_epochs']==300
     assert complete['optimizer_steps']==freeze['optimizer_steps']==24900 and not freeze['volumetric_gt_used']
-    assert sha256(freeze['checkpoint'])==freeze['sha256']
+    if check_checkpoint:assert sha256(freeze['checkpoint'])==freeze['sha256']
     manifest=json.loads((out/'evaluation_source_manifest.json').read_text())
     for path,h in manifest['sha256'].items():assert sha256(REPO/path)==h,path
     assert subprocess.check_output(['git','show','HEAD:docs/reports/artifacts/ray_senseiver_selfsup_v1/evaluation_source_manifest.json'],cwd=REPO)==(out/'evaluation_source_manifest.json').read_bytes()
@@ -137,7 +137,13 @@ def selector(c,device):
 
 
 def gt(c):
-    out,p,freeze=verify(c);complete=json.loads((out/'predictions_complete.json').read_text());assert complete['rows']==900
+    out=Path(c['comparison']['output'])
+    with DiagnosticReadGuard(c['dataset']['root'],[],out,'gt') as guard:
+        return gt_saved(c,guard)
+
+
+def gt_saved(c,guard):
+    out,p,freeze=verify(c,check_checkpoint=False);complete=json.loads((out/'predictions_complete.json').read_text());assert complete['rows']==900 and complete['checkpoint_sha256']==freeze['sha256']
     assert json.loads((out/'selector_replay.json').read_text())['passed']
     records=json.loads((out/'station_subsets.json').read_text());saved=rows_saved(out,records);assert len(saved)==900
     for r in records:assert sha256(out/'prediction_rows'/f'{row_token(r)}.json')==complete['prediction_rows_sha256'][row_token(r)]
@@ -146,16 +152,15 @@ def gt(c):
         print('Existing full GT results retained');return
     rows=[];torch.set_num_threads(2)
     write_json(out/'first_posthoc_gt_boundary.json',dict(at=now(),freeze_sha256=sha256(out/'frozen_best.json'),prediction_manifest_sha256=sha256(out/'predictions_complete.json'),training_epochs=300,optimizer_steps=24900))
-    with DiagnosticReadGuard(c['dataset']['root'],[],out,'gt') as guard:
-        ds=dataset(dict(dataset=c['dataset']['root'],original_seed=c['training']['seed']))
-        for index in range(36):
-            target=target_gt(ds,index)
-            for row in [x for x in saved if x['record']['case_index']==index]:
-                with np.load(row['prediction_file'],allow_pickle=False) as file:prediction=torch.from_numpy(file['prediction'].copy())[None,None]
-                m=VolumeMetrics();m.update(prediction,target,[row['record']['case_id']])
-                flat={**row['record'],**{k:v for k,v in row.items() if k not in ['record','prediction_file']},**{k:v for k,v in m.rows[0].items() if k!='case_id'}};rows.append(flat)
-            print(f'GT64 saved-output evaluation {index+1}/36',flush=True)
-        assert guard.counts['forbidden_attempts']==0;write_json(out/'gt_access.json',guard.summary())
+    ds=dataset(dict(dataset=c['dataset']['root'],original_seed=c['training']['seed']))
+    for index in range(36):
+        target=target_gt(ds,index)
+        for row in [x for x in saved if x['record']['case_index']==index]:
+            with np.load(row['prediction_file'],allow_pickle=False) as file:prediction=torch.from_numpy(file['prediction'].copy())[None,None]
+            m=VolumeMetrics();m.update(prediction,target,[row['record']['case_id']])
+            flat={**row['record'],**{k:v for k,v in row.items() if k not in ['record','prediction_file']},**{k:v for k,v in m.rows[0].items() if k!='case_id'}};rows.append(flat)
+        print(f'GT64 saved-output evaluation {index+1}/36',flush=True)
+    assert guard.counts['forbidden_attempts']==0;write_json(out/'gt_access.json',guard.summary())
     baseline=pd.DataFrame(rows);baseline.to_csv(out/'senseiver_900.csv',index=False)
     reference=pd.read_csv(Path(c['comparison']['deepsets_artifact'])/'paired_900.csv')
     deep=pd.read_csv(Path(c['comparison']['deepsets_artifact'])/'deepsets_900.csv')
