@@ -1,0 +1,473 @@
+{
+  "at": "2026-10-14T20:08:15.254526+08:00",
+  "config": {
+    "name": "ray_senseiver_signal_path_v1",
+    "source_config": "configs/ray_senseiver_consistency_probe_v1.yaml",
+    "output": "/data/djc/GeoPhy-Set3D/outputs/comparisons/ray_senseiver_signal_path_v1",
+    "device": "cuda:0",
+    "target_indices": [
+      0,
+      1,
+      2
+    ],
+    "wrong_source_indices": [
+      1,
+      2,
+      3
+    ],
+    "sampler_epoch": 0,
+    "modes": [
+      "normal",
+      "zero",
+      "wrong_case",
+      "gain_plus",
+      "gain_minus"
+    ],
+    "gains": {
+      "gain_plus": 1.01,
+      "gain_minus": 0.99
+    },
+    "checkpoints": {
+      "epoch0": {
+        "path": "/data/djc/GeoPhy-Set3D/outputs/checkpoints/ray_senseiver_consistency_probe_v1/treatment/epoch0.pt",
+        "sha256": "950cb7be68e20bdccda7c9f8e002c71410a44b8ff3416c6384310730130b982a",
+        "epoch": 0,
+        "updates": 0
+      },
+      "last": {
+        "path": "/data/djc/GeoPhy-Set3D/outputs/checkpoints/ray_senseiver_consistency_probe_v1/treatment/last.pt",
+        "sha256": "448ef11e82b0b29e26be2ecc0d10909f575b649cb30c1b00a4142e18219bec71",
+        "epoch": 35,
+        "updates": 140
+      }
+    },
+    "expected_full_forwards": 30,
+    "expected_local_graphs": 6,
+    "query_indices": "linspace_0_262143_259_long",
+    "probes": {
+      "seed": 20261015,
+      "count": 4,
+      "distribution": "Rademacher",
+      "normalization": "sum_sign_x_over_sqrt_numel"
+    },
+    "relative_rms_epsilon": 1e-12,
+    "finite_difference": {
+      "gain_step": 0.01,
+      "atol": 1e-07,
+      "rtol": 0.05
+    }
+  },
+  "source_config": {
+    "dataset": {
+      "root": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1"
+    },
+    "experiment": {
+      "name": "ray_senseiver_consistency_probe_v1",
+      "output_root": "/data/djc/GeoPhy-Set3D/outputs"
+    },
+    "loader": {
+      "num_workers": 0,
+      "persistent_workers": false,
+      "pin_memory": true
+    },
+    "loss": {
+      "hold": 1.0,
+      "cross": 0.5,
+      "observed": 0.1,
+      "consistency": 0.05,
+      "beta": 0.01,
+      "relative_l1": 0.0,
+      "relative_epsilon": 1e-06,
+      "measurement_scale": 32284.894580078173
+    },
+    "model": {
+      "name": "ray_senseiver_ss",
+      "num_latents": 64,
+      "latent_channels": 64,
+      "preproc_channels": 64,
+      "num_layers": 3,
+      "self_layers_per_block": 3,
+      "cross_heads": 4,
+      "self_heads": 4,
+      "decoder_channels": 64,
+      "decoder_heads": 4,
+      "output_query_size": 1,
+      "space_bands": 16,
+      "dropout": 0.0,
+      "output_resolution": 64,
+      "output_activation": "sigmoid"
+    },
+    "normalization": {
+      "method": "linear_p99_5",
+      "statistics_file": "train_statistics.json"
+    },
+    "optimizer": {
+      "lr": 0.0002,
+      "name": "adamw",
+      "weight_decay": 0.0001
+    },
+    "train": {
+      "split": "train",
+      "geometry_pool": "train",
+      "a_views": [
+        3,
+        5
+      ],
+      "b_views": [
+        3,
+        5
+      ],
+      "heldout_views": 2
+    },
+    "training": {
+      "batch_size": 2,
+      "device": "cuda:0",
+      "gradient_accumulation": 1,
+      "gradient_clip_norm": 1.0,
+      "max_epochs": 40,
+      "precision": "fp32",
+      "seed": 20261011
+    },
+    "scheduler": {
+      "name": "cosine",
+      "T_max": 300
+    },
+    "runtime": {
+      "query_chunk_size": 16384,
+      "decoder_checkpoint": true
+    },
+    "probe": {
+      "case_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "sampler_epoch": 0,
+      "shuffle": false,
+      "diagnostic_case_indices": [
+        0,
+        1,
+        2
+      ],
+      "health_every": 5,
+      "weight_factor": 0.01,
+      "logit_clamp": [
+        1e-06,
+        0.999999
+      ],
+      "dependence_epsilon": 1e-12
+    },
+    "intervention": {
+      "relative_l1": 0.0,
+      "control_consistency": 0.05,
+      "treatment_consistency": 0.0,
+      "amplitude_alphas": [
+        1.0,
+        0.1,
+        0.01
+      ]
+    }
+  },
+  "checkpoint_identity_sha256": "b8ca4790fef1199497be7445d16a1517cf2519a6b90b34ba004b2c8b3af7de3f",
+  "fixed_inputs_sha256": "0ab6aea5885c7720033ba5ca4f73e8c2b5f5dbb8312e444e1363868eae4dba48",
+  "inventory_sha256": "a7cfbedf6e7528715d2e79ed222d1efe246a76953415ac65756380e8391e7ae2",
+  "source_manifest_sha256": "3bb7a784139ffcdd13ca7494a109fcb7080a9b28b3a1f38e57c29e6db12937a5",
+  "projection_sha256": {
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet1_half/projections_train.npy": "9522a8535f8aeb6debbfbd7463f4d43fbeba15edce93fbf77cd97fefe4e629b5",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w1_inlet1_half/projections_train.npy": "1ee605f404a1b087f7f5ccdeabdb1df83028adc8c5acf8626c1c28d9d42ef85f",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w3_inlet1_half/projections_train.npy": "d92121094e98ea0070724f9d5dae3359bc5bb46bf61e0b73ae1894bb663fc4fa",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w0_inlet1_half/projections_train.npy": "98f56cd81f3f0aca9e3d5d299322542d5228c840bad981e6f91ffe1cde6ac945"
+  },
+  "metadata_sha256": {
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/source_index.jsonl": "cfc482fc84847c90620f0115edafbb12b2ad3cbd2c2ca21b6445ad0025924707",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/train_statistics.json": "7511c5c9035f645838e433db058c4f4c2fc5a95f7dbf03986481da1af62808d2",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/geometry/train_geometry.npz": "83f583dcc38370e5c66873585c724ab116076d9a9f29f80f674c5c03c96fe3f9"
+  },
+  "historical_sha256": {
+    "docs/reports/artifacts/ray_senseiver_consistency_probe_v1/measurement_output_curves.png": "f1e88e5ae6bc36a9f94135b3fafb6eb3c4a69a6bb8ec382bdcd0b3fd33088e7d",
+    "docs/reports/artifacts/ray_senseiver_consistency_probe_v1/both_objective_curves.png": "0cea641e59831884c73d975508525156155cace00e26f3274a49d9d0b51dc414",
+    "docs/reports/artifacts/ray_senseiver_consistency_probe_v1/fixed_inputs.json.gz": "1ff6290bfa6192bd05364c1ace8d5c0724d98dbdc4a4cc2cc73d626b093b16ac",
+    "docs/reports/artifacts/ray_senseiver_consistency_probe_v1/final_integrity.json": "2562611f2aeab52fb3fcaf7ee0c04fb5faba9500e7ca6c283e44667c067897e4",
+    "docs/reports/artifacts/ray_senseiver_consistency_probe_v1/source_manifest.json": "144449e487c5d5e893c369673a9d9837a5450568eee4cca2e844c8bfbdc7b77a",
+    "docs/reports/artifacts/ray_senseiver_consistency_probe_v1/registration.json": "c71cb199117163c9931fba65d629d956630d188ee8ce9d2b0dd9d87c34bb65eb",
+    "docs/reports/artifacts/ray_senseiver_consistency_probe_v1/common_amplitude.csv": "54ec7955a6ab37b1d65da3ff638e7e4e60cfd61ae075b5ffd05584e0f007e719",
+    "docs/reports/artifacts/ray_senseiver_consistency_probe_v1/scale.json": "94247c30e630bf43720e5453df557e8b6880dd3d5f7ae5741e1678b8e6099548",
+    "docs/reports/artifacts/ray_senseiver_consistency_probe_v1/engineering_smoke.json": "ec4a075c8af0a537b031d921dc2f30766ead8d8ef2b40d189792acf42c867aa5",
+    "docs/reports/artifacts/ray_senseiver_consistency_probe_v1/fresh_branch_gradients.csv": "51930060b8f5a11759940185a192cd2aff8614fce7398391e2c93aee31030fe0",
+    "docs/reports/artifacts/ray_senseiver_consistency_probe_v1/branch_gradient_curves.png": "0f0754130a31f1c80676e8cae2cb4e90c3458d171b36a48b1fa6bdf5bc05575a",
+    "docs/reports/artifacts/ray_senseiver_consistency_probe_v1/health_update_curves.png": "492a76985796f261633299fad766f035007ca8e4887455f68b0f229625eae831",
+    "docs/reports/artifacts/ray_senseiver_consistency_probe_v1/verification.txt": "acb6c1dcb727a89d21421093ebcbf7dce665d5329a579319298f752c12b18048",
+    "docs/reports/artifacts/ray_senseiver_consistency_probe_v1/loss_cost_curves.png": "aa61235b8bd3635171d09f60407535f4d684a330bb0d5bff677ed01179fa6e0f",
+    "docs/reports/artifacts/ray_senseiver_consistency_probe_v1/matched_comparison.json": "c5ad98a801c9e2191229c228a2782eaeb14b4b2a2c2e3b303d3b36523fd26196",
+    "docs/reports/artifacts/ray_senseiver_consistency_probe_v1/epoch_scalars.csv": "1e3577559377504b3a28d00a691a2c86a2f12b79304b42788c2cdaf0302affd1",
+    "docs/reports/artifacts/ray_senseiver_consistency_probe_v1/gradient_diagnosis.json.gz": "d81852a5f74c2583921117d5e78c104c8cc08414da080dcc28a74f78184ec6ec",
+    "docs/reports/artifacts/ray_senseiver_consistency_probe_v1/branch_interactions.csv": "e8d0367fb6a5af78747657a59a4f16a6c5a87932c648090c9ae0eb10255c650f",
+    "docs/reports/artifacts/ray_senseiver_consistency_probe_v1/decision.json": "aeeb6a32b104f65df6e2722e7f5edb362e276e725c1538e9ca11871f4eeb24cc",
+    "docs/reports/artifacts/ray_senseiver_consistency_probe_v1/initialization.json": "ca00c6d4388c7c2454f9d7dcf343aae793e57de4908bac97cd1e27ce427815f2",
+    "docs/reports/artifacts/ray_senseiver_consistency_probe_v1/control/health.json.gz": "0cf92c97e1ff79fd2443a5c275ee18c68ffd7b793403e1d60023a0e21d89c6e4",
+    "docs/reports/artifacts/ray_senseiver_consistency_probe_v1/control/complete.json.gz": "2a3258bd5ea67aa0e0ac885ee513bfc99d1fb5569532927ff2d0cdf57904f40d",
+    "docs/reports/artifacts/ray_senseiver_consistency_probe_v1/control/history.json.gz": "dd48cf8e0b8ee679789e9c538833b470d7738cede8edce5f8ca5aa7dda362d75",
+    "docs/reports/artifacts/ray_senseiver_consistency_probe_v1/control/access.json.gz": "ae6c28260ea11843f183e0c1041c6eff64b917b57f91a4132accba8f1aa42971",
+    "docs/reports/artifacts/ray_senseiver_consistency_probe_v1/control/environment.json.gz": "57cbc89369b43dce64207190ef60f87977a2c84a899d4bd097f6957667b536d3",
+    "docs/reports/artifacts/ray_senseiver_consistency_probe_v1/control/train.log": "64ccb083b480691c4d71fec5bc52b9c5406913c18dc5d73b576c70c9dbfd8bd2",
+    "docs/reports/artifacts/ray_senseiver_consistency_probe_v1/control/events.json.gz": "d16f0c6fb1b6d4226d03d4ac2c17fb97b644e091508c1f3c02f08fdd23069301",
+    "docs/reports/artifacts/ray_senseiver_consistency_probe_v1/treatment/health.json.gz": "21f76bcdd064d64e2122597f7f041adde382e62f65b747dc1767dbaa82f19edd",
+    "docs/reports/artifacts/ray_senseiver_consistency_probe_v1/treatment/complete.json.gz": "05abdc290b7e8c15d6752b539f494b2a4235c5b2d88553cbfe80686f6a4206f1",
+    "docs/reports/artifacts/ray_senseiver_consistency_probe_v1/treatment/history.json.gz": "ff2d1acaa0c9a95f873a4ad1344d872d8de964a9aae72d3c2f9b399ad0fc1b2b",
+    "docs/reports/artifacts/ray_senseiver_consistency_probe_v1/treatment/access.json.gz": "ae6c28260ea11843f183e0c1041c6eff64b917b57f91a4132accba8f1aa42971",
+    "docs/reports/artifacts/ray_senseiver_consistency_probe_v1/treatment/environment.json.gz": "1a6a0e1e351d30a2f4833feb19d48cd10131b0f9648238ddcbffd812c541988f",
+    "docs/reports/artifacts/ray_senseiver_consistency_probe_v1/treatment/train.log": "37d1582879b0e105a66c1660d851d8b0f6244d5c68abc0691e3e600f67ef52ff",
+    "docs/reports/artifacts/ray_senseiver_consistency_probe_v1/treatment/events.json.gz": "490fb34362df86a7dc7687c481cbbd7b4a5004d7b91c8714566dfafe07dcf509",
+    "docs/reports/ray_senseiver_learning_diagnostic_zh.md": "7135f4eaf61221c2d4c8ae0a2a2755a88b643bf866c1d415c90a980c7995ddd8",
+    "docs/reports/ray_senseiver_init_probe_v1_zh.md": "35e229a389705b4bd0cd46b2f6d082a3fbeb8b3ca53813dc6235064ee9d8aa7e",
+    "docs/reports/ray_senseiver_relative_probe_v1_zh.md": "684928ce2aaa1f2ad6209e495bfc7dc7fd95a31f83d36ea53e84d9b843895cf1",
+    "docs/reports/ray_senseiver_consistency_probe_v1_zh.md": "70615c4be6b37d20dc6c36c31509ee3e785e7a4cd313362cb256bca378ee6e9b",
+    "docs/ray_senseiver_init_probe_v1_protocol_zh.md": "391c16769ccfb5be5ffb96e0d22c7cae76fcdf34b52443da978a661c8924ce52",
+    "docs/ray_senseiver_relative_probe_v1_protocol_zh.md": "cf35864d2541cec06c49d256e22bbe751aeff1388e18c2faa0a96fded9ca8d07",
+    "docs/ray_senseiver_consistency_probe_v1_protocol_zh.md": "39722e0934a8b70cc821ad5f4a39876e63763c5d2db34fae41b2e5feca76d5ed"
+  },
+  "full_forward_plan": [
+    {
+      "id": "epoch0_case0_normal",
+      "checkpoint": "epoch0",
+      "index": 0,
+      "mode": "normal"
+    },
+    {
+      "id": "epoch0_case0_zero",
+      "checkpoint": "epoch0",
+      "index": 0,
+      "mode": "zero"
+    },
+    {
+      "id": "epoch0_case0_wrong_case",
+      "checkpoint": "epoch0",
+      "index": 0,
+      "mode": "wrong_case"
+    },
+    {
+      "id": "epoch0_case0_gain_plus",
+      "checkpoint": "epoch0",
+      "index": 0,
+      "mode": "gain_plus"
+    },
+    {
+      "id": "epoch0_case0_gain_minus",
+      "checkpoint": "epoch0",
+      "index": 0,
+      "mode": "gain_minus"
+    },
+    {
+      "id": "epoch0_case1_normal",
+      "checkpoint": "epoch0",
+      "index": 1,
+      "mode": "normal"
+    },
+    {
+      "id": "epoch0_case1_zero",
+      "checkpoint": "epoch0",
+      "index": 1,
+      "mode": "zero"
+    },
+    {
+      "id": "epoch0_case1_wrong_case",
+      "checkpoint": "epoch0",
+      "index": 1,
+      "mode": "wrong_case"
+    },
+    {
+      "id": "epoch0_case1_gain_plus",
+      "checkpoint": "epoch0",
+      "index": 1,
+      "mode": "gain_plus"
+    },
+    {
+      "id": "epoch0_case1_gain_minus",
+      "checkpoint": "epoch0",
+      "index": 1,
+      "mode": "gain_minus"
+    },
+    {
+      "id": "epoch0_case2_normal",
+      "checkpoint": "epoch0",
+      "index": 2,
+      "mode": "normal"
+    },
+    {
+      "id": "epoch0_case2_zero",
+      "checkpoint": "epoch0",
+      "index": 2,
+      "mode": "zero"
+    },
+    {
+      "id": "epoch0_case2_wrong_case",
+      "checkpoint": "epoch0",
+      "index": 2,
+      "mode": "wrong_case"
+    },
+    {
+      "id": "epoch0_case2_gain_plus",
+      "checkpoint": "epoch0",
+      "index": 2,
+      "mode": "gain_plus"
+    },
+    {
+      "id": "epoch0_case2_gain_minus",
+      "checkpoint": "epoch0",
+      "index": 2,
+      "mode": "gain_minus"
+    },
+    {
+      "id": "last_case0_normal",
+      "checkpoint": "last",
+      "index": 0,
+      "mode": "normal"
+    },
+    {
+      "id": "last_case0_zero",
+      "checkpoint": "last",
+      "index": 0,
+      "mode": "zero"
+    },
+    {
+      "id": "last_case0_wrong_case",
+      "checkpoint": "last",
+      "index": 0,
+      "mode": "wrong_case"
+    },
+    {
+      "id": "last_case0_gain_plus",
+      "checkpoint": "last",
+      "index": 0,
+      "mode": "gain_plus"
+    },
+    {
+      "id": "last_case0_gain_minus",
+      "checkpoint": "last",
+      "index": 0,
+      "mode": "gain_minus"
+    },
+    {
+      "id": "last_case1_normal",
+      "checkpoint": "last",
+      "index": 1,
+      "mode": "normal"
+    },
+    {
+      "id": "last_case1_zero",
+      "checkpoint": "last",
+      "index": 1,
+      "mode": "zero"
+    },
+    {
+      "id": "last_case1_wrong_case",
+      "checkpoint": "last",
+      "index": 1,
+      "mode": "wrong_case"
+    },
+    {
+      "id": "last_case1_gain_plus",
+      "checkpoint": "last",
+      "index": 1,
+      "mode": "gain_plus"
+    },
+    {
+      "id": "last_case1_gain_minus",
+      "checkpoint": "last",
+      "index": 1,
+      "mode": "gain_minus"
+    },
+    {
+      "id": "last_case2_normal",
+      "checkpoint": "last",
+      "index": 2,
+      "mode": "normal"
+    },
+    {
+      "id": "last_case2_zero",
+      "checkpoint": "last",
+      "index": 2,
+      "mode": "zero"
+    },
+    {
+      "id": "last_case2_wrong_case",
+      "checkpoint": "last",
+      "index": 2,
+      "mode": "wrong_case"
+    },
+    {
+      "id": "last_case2_gain_plus",
+      "checkpoint": "last",
+      "index": 2,
+      "mode": "gain_plus"
+    },
+    {
+      "id": "last_case2_gain_minus",
+      "checkpoint": "last",
+      "index": 2,
+      "mode": "gain_minus"
+    }
+  ],
+  "local_graph_plan": [
+    {
+      "id": "local_epoch0_case0",
+      "checkpoint": "epoch0",
+      "index": 0
+    },
+    {
+      "id": "local_epoch0_case1",
+      "checkpoint": "epoch0",
+      "index": 1
+    },
+    {
+      "id": "local_epoch0_case2",
+      "checkpoint": "epoch0",
+      "index": 2
+    },
+    {
+      "id": "local_last_case0",
+      "checkpoint": "last",
+      "index": 0
+    },
+    {
+      "id": "local_last_case1",
+      "checkpoint": "last",
+      "index": 1
+    },
+    {
+      "id": "local_last_case2",
+      "checkpoint": "last",
+      "index": 2
+    }
+  ],
+  "expected_complete_fields": 30,
+  "expected_local_sampled_graphs": 6,
+  "projector_calls_per_full": 2,
+  "optimizer_created": false,
+  "optimizer_steps": 0,
+  "access": {
+    "gt_file_opened": false,
+    "gt_open_attempts": 0,
+    "forbidden_npy_attempts": 0,
+    "supervised_checkpoint_open_attempts": 0,
+    "projection_open_count": 21,
+    "unique_pool_a_projection_files": 4,
+    "policy": "Only registered train0..3 Pool A files and exact Treatment epoch0/last; own diagnostic arrays; no GT/Val/PoolB/test/foreign weights",
+    "audit_hook_inherited_by_workers": true,
+    "checkpoint_opens": [
+      "/data/djc/GeoPhy-Set3D/outputs/checkpoints/ray_senseiver_consistency_probe_v1/treatment/epoch0.pt",
+      "/data/djc/GeoPhy-Set3D/outputs/checkpoints/ray_senseiver_consistency_probe_v1/treatment/epoch0.pt",
+      "/data/djc/GeoPhy-Set3D/outputs/checkpoints/ray_senseiver_consistency_probe_v1/treatment/last.pt",
+      "/data/djc/GeoPhy-Set3D/outputs/checkpoints/ray_senseiver_consistency_probe_v1/treatment/last.pt"
+    ]
+  },
+  "fixed_259_indices_sha256": "3f234a1d8c1a6f67bae317a9e92cb7641f890515e5c2cc13435605e14b190796",
+  "probe_definition": "four fixed Rademacher directions, phi=sum(s*x)/sqrt(N); seed+100*stage+probe; logit/concentration share signs; valid tokens only",
+  "finite_difference": "Use only saved gain+/-1% full-forward scalar projections; compare (phi_plus-phi_minus)/.02 against grad_phi_u dot u; atol1e-7+rtol.05*max(abs(FD),abs(AD)). Retain failures, no tolerance retuning.",
+  "boundary": "No training/optimizer/model or buffer changes, no GT/Val/Pool B/test/other weights. No architecture/gain/loss search; only one later hypothesis."
+}

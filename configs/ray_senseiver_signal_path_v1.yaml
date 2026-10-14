@@ -1,0 +1,26 @@
+name: ray_senseiver_signal_path_v1
+source_config: configs/ray_senseiver_consistency_probe_v1.yaml
+output: /data/djc/GeoPhy-Set3D/outputs/comparisons/ray_senseiver_signal_path_v1
+device: cuda:0
+target_indices: [0, 1, 2]
+wrong_source_indices: [1, 2, 3]
+sampler_epoch: 0
+modes: [normal, zero, wrong_case, gain_plus, gain_minus]
+gains: {gain_plus: 1.01, gain_minus: 0.99}
+checkpoints:
+  epoch0:
+    path: /data/djc/GeoPhy-Set3D/outputs/checkpoints/ray_senseiver_consistency_probe_v1/treatment/epoch0.pt
+    sha256: 950cb7be68e20bdccda7c9f8e002c71410a44b8ff3416c6384310730130b982a
+    epoch: 0
+    updates: 0
+  last:
+    path: /data/djc/GeoPhy-Set3D/outputs/checkpoints/ray_senseiver_consistency_probe_v1/treatment/last.pt
+    sha256: 448ef11e82b0b29e26be2ecc0d10909f575b649cb30c1b00a4142e18219bec71
+    epoch: 35
+    updates: 140
+expected_full_forwards: 30
+expected_local_graphs: 6
+query_indices: linspace_0_262143_259_long
+probes: {seed: 20261015, count: 4, distribution: Rademacher, normalization: sum_sign_x_over_sqrt_numel}
+relative_rms_epsilon: 1.0e-12
+finite_difference: {gain_step: 0.01, atol: 1.0e-7, rtol: 0.05}
