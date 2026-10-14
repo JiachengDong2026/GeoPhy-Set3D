@@ -1,0 +1,57 @@
+name: ray_senseiver_supervised_probe_v1
+dataset_root: /data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1
+output_root: /data/djc/GeoPhy-Set3D/outputs
+seed: 20261011
+device: cuda:1
+station_ids: [26, 27, 45, 42]
+case_indices: [0, 1, 2, 3, 4, 5, 6, 7]
+model: original_ray_senseiver_ss
+runtime:
+  query_chunk_size: 16384
+  decoder_checkpoint: true
+optimizer:
+  name: adamw
+  lr: 0.0002
+  weight_decay: 0.0001
+  clip: 1.0
+  precision: fp32
+  scheduler: none
+loss:
+  name: per_sample_normalized_voxel_mse
+  denominator_floor: 1.0e-12
+initialization:
+  output_weight_factor: 0.01
+  bias: logit_fit_gt_all_voxel_mean
+  clamp: [1.0e-6, 0.999999]
+evaluation:
+  every_updates: 100
+  intervention_every_updates: 200
+  intervention_indices: [0, 1, 2]
+  donors: [1, 2, 0]
+  dependence_threshold: 0.001
+  dependence_epsilon: 1.0e-12
+  plume_peak_fraction: 0.1
+  fixed_slice_index: 32
+stages:
+  A:
+    indices: [0]
+    effective_batch: 1
+    max_updates: 1000
+    max_seconds: 900
+    minimum_plateau_updates: 600
+    nmse_threshold: 0.1
+    relative_l1_threshold: 0.3
+  B:
+    indices: [0, 1, 2, 3, 4, 5, 6, 7]
+    effective_batch: 2
+    max_updates: 2000
+    max_seconds: 1800
+    minimum_plateau_updates: 1000
+    nmse_threshold: 0.2
+    relative_l1_threshold: 0.4
+    template_reduction: 0.3
+stopping:
+  consecutive_pass: 2
+  plateau_window: 200
+  plateau_relative_improvement: 0.02
+  consecutive_plateau: 2
