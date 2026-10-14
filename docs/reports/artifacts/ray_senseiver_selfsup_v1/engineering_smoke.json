@@ -1,0 +1,69 @@
+{
+  "passed": true,
+  "initial_state_sha256": "1fd1e876755be64371fa85c584410063b8f3b7f135f9ab7630e495ededf8e1e1",
+  "optimizer_steps": 1,
+  "max_views": {
+    "A": 5,
+    "B": 5,
+    "H": 2
+  },
+  "query_chunk_size": 16384,
+  "decoder_checkpoint": true,
+  "batch_size": 2,
+  "loss": 58.777462005615234,
+  "parts": {
+    "hold": 36.33116149902344,
+    "cross": 37.40914535522461,
+    "observed": 37.409996032714844,
+    "consistency": 0.014524407684803009
+  },
+  "all_gradients_finite": true,
+  "encoder_gradient_l1": 6086.0224609375,
+  "pre_clip_norm": 204.0111083984375,
+  "post_clip_norm": 1.0,
+  "permutation_max_abs": 1.1920928955078125e-07,
+  "padding_max_abs": 0.0,
+  "H_excluded_from_network": true,
+  "disjoint": true,
+  "invalid_nan_safe": true,
+  "all_padding_safe": true,
+  "resume_smoke_passed": true,
+  "peak_gpu_bytes": 777714176,
+  "seconds": 2.2582382657565176,
+  "identity": {
+    "name": "ray_senseiver_ss",
+    "model_config": {
+      "name": "ray_senseiver_ss",
+      "num_latents": 64,
+      "latent_channels": 64,
+      "preproc_channels": 64,
+      "num_layers": 3,
+      "self_layers_per_block": 3,
+      "cross_heads": 4,
+      "self_heads": 4,
+      "decoder_channels": 64,
+      "decoder_heads": 4,
+      "output_query_size": 1,
+      "space_bands": 16,
+      "dropout": 0.0,
+      "output_resolution": 64,
+      "output_activation": "sigmoid"
+    },
+    "parameter_count": 254913,
+    "fp32_parameter_bytes": 1019652,
+    "information": "full station measurements/valid rays/path/geometry, H excluded from network",
+    "labels": "no volumetric labels",
+    "selector": "mean held-out measurement relative L1"
+  },
+  "access": {
+    "gt_file_opened": false,
+    "gt_open_attempts": 0,
+    "forbidden_npy_attempts": 0,
+    "supervised_checkpoint_open_attempts": 0,
+    "projection_open_count": 6,
+    "unique_pool_a_projection_files": 2,
+    "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+    "audit_hook_inherited_by_workers": true
+  },
+  "formal_reinitialization_required": true
+}

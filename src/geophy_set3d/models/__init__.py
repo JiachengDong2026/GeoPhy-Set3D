@@ -12,6 +12,9 @@ __all__ = ['GeoLiftMeanRes3D', 'GeoLiftGCARes3D', 'GeoLiftGCSIRes3D', 'GeoLiftOA
 
 
 def build_model(config):
+    if config['model']['name'] == 'ray_senseiver_ss':
+        from .ray_senseiver_ss import RaySenseiverSS
+        return RaySenseiverSS(**config['runtime'])
     if config['model']['name'] == 'geolift_deepsets_sum':
         return GeoLiftDeepSetsSum(v_ref=config['model']['v_ref'])
     if config['model']['name'] == 'geolift_mean_res3d':
