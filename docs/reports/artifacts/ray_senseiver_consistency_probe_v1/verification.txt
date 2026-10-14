@@ -1,0 +1,20 @@
+Pre-science checks, Asia/Shanghai 2026-10-14
+Registered source commit: 9574f8e
+
+PYTHONPATH=src python -m unittest discover -s tests -p test_senseiver*probe.py
+.............
+----------------------------------------------------------------------
+Ran 13 tests in 39.155s
+
+OK
+
+PYTHONPATH=src python -m unittest discover -s tests -p test_ray_senseiver.py
+....
+----------------------------------------------------------------------
+Ran 4 tests in 1.397s
+
+OK
+
+17 tests passed. Tests cover new control/output/all toy-model parameter equivalence, actual all-model parameter equivalence in stage1, sole consistency gradient difference, diagnostics excluded, fixed alpha analytic derivative FP32 tolerance, strict config, unchanged exit windows/dependence/L2 safeguards, own resume and stopped-run refusal, full-state next-update reproducibility, valid-zero inclusion, access-denial tests, full/chunk query gradients, geometry, official core compatibility.
+Fresh actual-model stage1: all8, no optimizer/steps, state unchanged, all grad buffers None, no forbidden access.
+Engineering smoke: fresh independent models per arm, 1 step each, all groups real update/gradient, H excluded, XYZ/full64^3, full valid ray geometry, state save/restore, query/chunk passed. Scientific training reinitializes both models.
