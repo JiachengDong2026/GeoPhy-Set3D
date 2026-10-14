@@ -1,0 +1,176 @@
+{
+  "at": "2026-10-14T17:23:28.505567+08:00",
+  "config": {
+    "dataset": {
+      "root": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1"
+    },
+    "experiment": {
+      "name": "ray_senseiver_init_probe_v1",
+      "output_root": "/data/djc/GeoPhy-Set3D/outputs"
+    },
+    "loader": {
+      "num_workers": 0,
+      "persistent_workers": false,
+      "pin_memory": true
+    },
+    "loss": {
+      "hold": 1.0,
+      "cross": 0.5,
+      "observed": 0.1,
+      "consistency": 0.05,
+      "beta": 0.01,
+      "relative_l1": 0.1,
+      "relative_epsilon": 1e-06,
+      "measurement_scale": 32284.894580078173
+    },
+    "model": {
+      "name": "ray_senseiver_ss",
+      "num_latents": 64,
+      "latent_channels": 64,
+      "preproc_channels": 64,
+      "num_layers": 3,
+      "self_layers_per_block": 3,
+      "cross_heads": 4,
+      "self_heads": 4,
+      "decoder_channels": 64,
+      "decoder_heads": 4,
+      "output_query_size": 1,
+      "space_bands": 16,
+      "dropout": 0.0,
+      "output_resolution": 64,
+      "output_activation": "sigmoid"
+    },
+    "normalization": {
+      "method": "linear_p99_5",
+      "statistics_file": "train_statistics.json"
+    },
+    "optimizer": {
+      "lr": 0.0002,
+      "name": "adamw",
+      "weight_decay": 0.0001
+    },
+    "train": {
+      "split": "train",
+      "geometry_pool": "train",
+      "a_views": [
+        3,
+        5
+      ],
+      "b_views": [
+        3,
+        5
+      ],
+      "heldout_views": 2
+    },
+    "training": {
+      "batch_size": 2,
+      "device": "cuda:0",
+      "gradient_accumulation": 1,
+      "gradient_clip_norm": 1.0,
+      "max_epochs": 40,
+      "precision": "fp32",
+      "seed": 20261011
+    },
+    "scheduler": {
+      "name": "cosine",
+      "T_max": 300
+    },
+    "runtime": {
+      "query_chunk_size": 16384,
+      "decoder_checkpoint": true
+    },
+    "probe": {
+      "case_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "sampler_epoch": 0,
+      "shuffle": false,
+      "diagnostic_case_indices": [
+        0,
+        1,
+        2
+      ],
+      "health_every": 5,
+      "weight_factor": 0.01,
+      "logit_clamp": [
+        1e-06,
+        0.999999
+      ],
+      "dependence_epsilon": 1e-12
+    }
+  },
+  "metadata_sha256": {
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/source_index.jsonl": "cfc482fc84847c90620f0115edafbb12b2ad3cbd2c2ca21b6445ad0025924707",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/geometry/train_geometry.npz": "83f583dcc38370e5c66873585c724ab116076d9a9f29f80f674c5c03c96fe3f9",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/train_statistics.json": "7511c5c9035f645838e433db058c4f4c2fc5a95f7dbf03986481da1af62808d2"
+  },
+  "projection_sha256": {
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet1_half/projections_train.npy": "9522a8535f8aeb6debbfbd7463f4d43fbeba15edce93fbf77cd97fefe4e629b5",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w1_inlet1_half/projections_train.npy": "1ee605f404a1b087f7f5ccdeabdb1df83028adc8c5acf8626c1c28d9d42ef85f",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w3_inlet1_half/projections_train.npy": "d92121094e98ea0070724f9d5dae3359bc5bb46bf61e0b73ae1894bb663fc4fa",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w0_inlet1_half/projections_train.npy": "98f56cd81f3f0aca9e3d5d299322542d5228c840bad981e6f91ffe1cde6ac945",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w1_inlet1_half/projections_train.npy": "37dd3c8f5e2ed22053f87812c051e37fc79a38c948236835aed66e56d8c55a46",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w3_inlet1_half/projections_train.npy": "20a7fdebfc5fd60b82083a5f431e5cd38ec84d47b90b456ac2db868d4e687298",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w0_inlet1_half/projections_train.npy": "1c63a623d85b8daf5a29d343cdab48aa91cd178c29d6ff9f74b421407479258f",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w3_inlet1_half/projections_train.npy": "b323db3ccf6030440b388648fdefb6d6d9a3ca38fae9effdabf0d9f7f25e2204"
+  },
+  "artifact_sha256": {
+    "fixed_inputs.json.gz": "1ff6290bfa6192bd05364c1ace8d5c0724d98dbdc4a4cc2cc73d626b093b16ac",
+    "scale.json": "94247c30e630bf43720e5453df557e8b6880dd3d5f7ae5741e1678b8e6099548",
+    "initialization.json": "ad0a5ee4b38319f936894beebc3c11b39e38d1b60c77f0eb7f8d25d85bd79bed",
+    "source_manifest.json": "b877f6458a7f8cd548a20892e7ccf0ca625accc930c9078e5b481fb0156ef294"
+  },
+  "case_order": [
+    "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet1_half",
+    "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w1_inlet1_half",
+    "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w3_inlet1_half",
+    "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w0_inlet1_half",
+    "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w1_inlet1_half",
+    "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w3_inlet1_half",
+    "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w0_inlet1_half",
+    "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w3_inlet1_half"
+  ],
+  "batch_groups": [
+    [
+      0,
+      1
+    ],
+    [
+      2,
+      3
+    ],
+    [
+      4,
+      5
+    ],
+    [
+      6,
+      7
+    ]
+  ],
+  "initialization_hashes": {
+    "control": "1fd1e876755be64371fa85c584410063b8f3b7f135f9ab7630e495ededf8e1e1",
+    "treatment": "a51ae38bb2d67202a4766de25c0e01bc9832fb8887756d2f7ebbee41a38fc5be",
+    "fresh": "1fd1e876755be64371fa85c584410063b8f3b7f135f9ab7630e495ededf8e1e1",
+    "other_parameters_elementwise_equal": true,
+    "changed_parameters": [
+      "decoder.postproc.weight",
+      "decoder.postproc.bias"
+    ],
+    "nonzero_treatment_weight": 64,
+    "no_checkpoint_read": true
+  },
+  "boundaries": "Only first8 train/Pool A; no GT64/128, Val/test, Pool B, or foreign checkpoint. H excluded from network and scale, included in original loss. Fixed-subset H is not independent generalization validation.",
+  "exit_rule_interpretation": "Strict after epoch5 => eligible health at10,15,...; after20 =>25,30,...; consecutive eligible checks; window uses post-epoch full-subset H; earliest collapse15 / failure30.",
+  "go": "Treatment last3 health H each<.90; no engineering/collapse; at least one fixed diagnostic pair relative MA >=1e-3 (operational identifiable-case criterion); >=2 diagnostic cases relative MA >=1e-3 with eps1e-12; all3 gradient/update groups positive. No automatic 300-epoch launch.",
+  "smoke": "Separate temporary model/optimizer; each formal arm reinitialized from seed after smoke; no warm start",
+  "resume": "Each arm only own last.pt including model/optimizer/scheduler/RNG/update count/exit state; epoch0.pt archival only; no best selection",
+  "engineering_error": "Stop and save error and last valid atomic checkpoint; never silently modify scientific run"
+}
