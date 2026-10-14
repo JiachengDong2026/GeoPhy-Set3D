@@ -1,0 +1,96 @@
+dataset:
+  root: /data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1
+experiment:
+  name: ray_senseiver_selfsup_v1
+  output_root: /data/djc/GeoPhy-Set3D/outputs
+loader:
+  num_workers: 4
+  persistent_workers: true
+  pin_memory: true
+loss:
+  hold: 1.0
+  cross: 0.5
+  observed: 0.1
+  consistency: 0.05
+  beta: 0.01
+  relative_l1: 0.1
+  relative_epsilon: 1.0e-06
+  measurement_scale: 32284.894580078173
+model:
+  name: ray_senseiver_ss
+  num_latents: 64
+  latent_channels: 64
+  preproc_channels: 64
+  num_layers: 3
+  self_layers_per_block: 3
+  cross_heads: 4
+  self_heads: 4
+  decoder_channels: 64
+  decoder_heads: 4
+  output_query_size: 1
+  space_bands: 16
+  dropout: 0.0
+  output_resolution: 64
+  output_activation: sigmoid
+normalization:
+  method: linear_p99_5
+  statistics_file: train_statistics.json
+optimizer:
+  lr: 0.0002
+  name: adamw
+  weight_decay: 0.0001
+train:
+  split: train
+  geometry_pool: train
+  a_views:
+  - 3
+  - 5
+  b_views:
+  - 3
+  - 5
+  heldout_views: 2
+training:
+  batch_size: 2
+  device: cuda:0
+  early_stopping_patience: null
+  gradient_accumulation: 1
+  gradient_clip_norm: 1.0
+  max_epochs: 300
+  precision: fp32
+  seed: 20261011
+validation:
+  split: val
+  geometry_pool: train
+  a_views:
+  - 4
+  - 4
+  b_views:
+  - 4
+  - 4
+  heldout_views: 4
+scheduler:
+  name: cosine
+  T_max: 300
+comparison:
+  output: /data/djc/GeoPhy-Set3D/outputs/comparisons/ray_senseiver_selfsup_v1
+  reference_artifact: /home/djc/projects/GeoPhy-Set3D/docs/reports/artifacts/selfsup_v1_c0c1_geometry
+  reference_predictions: /data/djc/GeoPhy-Set3D/outputs/diagnostics/selfsup_v1_c0c1_geometry
+  bootstrap_seed: 2026101801
+  bootstrap_samples: 10000
+  tie_epsilon: 1.0e-08
+  timing_warmup: 10
+  timing_repeats: 30
+  representative_cases:
+  - 0
+  - 18
+  - 35
+  representative_groups:
+  - G1
+  - G3
+  - G5
+  representative_draw: 0
+  slice_y_index: 32
+  deepsets_artifact: /home/djc/projects/GeoPhy-Set3D/docs/reports/artifacts/deepsets_selfsup_v1
+runtime:
+  query_chunk_size: 16384
+  decoder_checkpoint: true
