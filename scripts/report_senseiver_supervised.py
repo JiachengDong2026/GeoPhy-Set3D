@@ -37,6 +37,14 @@ def main():
         s=pd.read_csv(B/'group_summary.csv');summary='\n五档900条评价已完成。下表先对每case的5layout平均，再对36case取均值。\n\n|方法|G1 L1|G2 L1|G3 L1|G4 L1|G5 L1|\n|---|---:|---:|---:|---:|---:|\n'
         for name in ['Senseiver','SupervisedMRGR','Ours','DeepSets']:
             v=s[(s.model==name)&(s.metric=='relative_l1')].set_index('group');summary+='|'+name+'|'+'|'.join(f'{v.loc[g,"mean"]:.6f}' for g in ['G1','G2','G3','G4','G5'])+'|\n'
+    if evaldone:
+        summary+='\n辅助指标、峰值、总量及观测误差（同一历史定义；完整五档/逐case/区间见CSV）。\n\n|组|方法|3D L2|峰值绝对误差|总量relative error|observed L1|held-out L1|\n|---|---|---:|---:|---:|---:|---:|\n'
+        for g in ['G1','G2','G3','G4','G5']:
+            for name in ['Senseiver','SupervisedMRGR','Ours','DeepSets']:
+                v=s[(s.model==name)&(s.group==g)].set_index('metric')
+                metrics=['relative_l2','peak_value_absolute_error','integrated_concentration_relative_error','observed_relative_l1','heldout_relative_l1']
+                summary+='|'+g+'|'+name+'|'+'|'.join(f'{v.loc[m,"mean"]:.6g}' for m in metrics)+'|\n'
+        summary+='\n[900配对明细](artifacts/ray_senseiver_supervised_v1/paired_900.csv)、[case×group均值](artifacts/ray_senseiver_supervised_v1/case_group_180.csv)、[配对差与95%区间](artifacts/ray_senseiver_supervised_v1/paired_statistics.csv)、[全部十指标汇总](artifacts/ray_senseiver_supervised_v1/group_summary.csv)。峰值和积分浓度proxy沿用质量分数指标，积分项不是kg甲烷质量。\n'
     reg=read(B/'registration.json');t=a['final'];checks=[r for r in ae if r['updates'] in [2000,2200,2400]]
     report=f'''# 有监督Ray-Senseiver稳定性、正式训练与冻结评价
 
@@ -71,7 +79,7 @@ def main():
         report+='|固定训练case|normal-zero absolute MA|relative MA|normal NMSE|wrong NMSE|\n|---:|---:|---:|---:|---:|\n'
         for d in frozen['health']['interventions']:report+=f"|{d['index']}|{d['absolute_MA']:.6g}|{d['relative_MA']:.6g}|{d['normal_nmse']:.6g}|{d['wrong_measurement_nmse']:.6g}|\n"
     report+='\n## 冻结比较、访问与局限\n'+summary
-    report+='\n监督Senseiver和监督MRGR使用训练GT及Val GT选模；Ours/DeepSets为冻结自监督参考，不能混为同标签排名。本轮900预测全部先落盘并hash封存，再独立GT64步骤沿用原VolumeMetrics及P_diff/K96观测指标；五档×五layout×36Val不变，case内先平均5draw，36case配对bootstrap10000次/seed2026101801。900条仍来自同一官方Val split，不是额外test集。新训练不读取test、Pool B、GT128，不改划分及冻结历史结果。GT128来源hash仅引用元数据。已知GT64与历史GT128投影离散化差异保留，不新增缩放、插值或重投影标签。\n\n'
+    report+='\n|方法|训练GT|选模GT／selector|训练目标|训练输入|预算与停止|\n|---|---|---|---|---|---|\n|监督Ray-Senseiver|166 train GT64|36 Val GT64／平均逐case NMSE|归一化voxel MSE|Pool A自然3–6站、epoch变化|本轮实际预算见上，预登记早停／300轮／2h|\n|冻结监督MRGR|166 train GT64|36 Val GT64／C1监督loss|SmoothL1(beta1)+.1relative L1|Pool A自然3–6站、epoch变化|300轮／24900更新，预算结束；best295|\n|冻结自监督Ours|无训练GT|无选模GT／Val held-out relative L1|原hold/cross/obs/consistency|A3–5/B3–5/H2，H不输入|300轮／24900更新，预算结束|\n|冻结自监督DeepSets|无训练GT|无选模GT／Val held-out relative L1|同冻结自监督Ours|A3–5/B3–5/H2，H不输入|300轮／24900更新，预算结束；best292|\n\n监督Senseiver和监督MRGR使用训练GT及Val GT选模；Ours/DeepSets为冻结自监督参考，不能混为同标签排名。本轮900预测全部先落盘并hash封存，再独立GT64步骤沿用原VolumeMetrics及P_diff/K96观测指标；五档×五layout×36Val不变，case内先平均5draw，36case配对bootstrap10000次/seed2026101801。900条仍来自同一官方Val split，不是额外test集。新训练不读取test、Pool B、GT128，不改划分及冻结历史结果。GT128来源hash仅引用元数据。已知GT64与历史GT128投影离散化差异保留，不新增缩放、插值或重投影标签。\n\n'
     report+='监督相关13项检查、原Ray-Senseiver4项、数据12项、采样3项回归通过；原始测试日志保留。历史FP32 consistency回归仍有1项失败，本轮未修改其函数/容差，不能称历史全部测试通过。共享GPU且仅单seed，计时不是独占设备基准；监督可学不证明原纯测量loss失败的唯一根因。\n\n'
     report+='下一步：'+('冻结本轮有监督候选和独立比较结果，研究是否需要更广的监督泛化验证；本轮不追加训练、结构或loss搜索。' if evaldone else '按当前已登记配置完成正式训练及条件冻结评价；未完成前保留运行状态，不据小样本拟合宣称成功独立基线。')+'\n'
     (REPO/'docs/reports/ray_senseiver_supervised_v1_zh.md').write_text(report)

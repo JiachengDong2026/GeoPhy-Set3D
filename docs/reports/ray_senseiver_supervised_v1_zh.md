@@ -26,12 +26,19 @@
 
 预算固定300epoch/7200秒；FP32 AdamW lr2e-4/wd1e-4/clip1，有效batch2，epoch cosine T_max300/eta_min2e-5。唯一selector=Val平均逐case NMSE，实际最低值保存best；独立0.5%显著改善计数至少50轮/30轮patience。每20轮固定train0/1/2同几何normal/zero/wrong干预；不使用900条结果选模。完整optimizer/scheduler/RNG/游标/退出计数和last保存在外部。
 
-当前完整4轮／332次更新，末轮train/Val NMSE=0.895886/0.904037。
+当前完整8轮／664次更新，末轮train/Val NMSE=0.862834/0.85118。
 
 ![正式曲线](artifacts/ray_senseiver_supervised_v1/formal_curves.png)
 
 
 ## 冻结比较、访问与局限
+
+|方法|训练GT|选模GT／selector|训练目标|训练输入|预算与停止|
+|---|---|---|---|---|---|
+|监督Ray-Senseiver|166 train GT64|36 Val GT64／平均逐case NMSE|归一化voxel MSE|Pool A自然3–6站、epoch变化|本轮实际预算见上，预登记早停／300轮／2h|
+|冻结监督MRGR|166 train GT64|36 Val GT64／C1监督loss|SmoothL1(beta1)+.1relative L1|Pool A自然3–6站、epoch变化|300轮／24900更新，预算结束；best295|
+|冻结自监督Ours|无训练GT|无选模GT／Val held-out relative L1|原hold/cross/obs/consistency|A3–5/B3–5/H2，H不输入|300轮／24900更新，预算结束|
+|冻结自监督DeepSets|无训练GT|无选模GT／Val held-out relative L1|同冻结自监督Ours|A3–5/B3–5/H2，H不输入|300轮／24900更新，预算结束；best292|
 
 监督Senseiver和监督MRGR使用训练GT及Val GT选模；Ours/DeepSets为冻结自监督参考，不能混为同标签排名。本轮900预测全部先落盘并hash封存，再独立GT64步骤沿用原VolumeMetrics及P_diff/K96观测指标；五档×五layout×36Val不变，case内先平均5draw，36case配对bootstrap10000次/seed2026101801。900条仍来自同一官方Val split，不是额外test集。新训练不读取test、Pool B、GT128，不改划分及冻结历史结果。GT128来源hash仅引用元数据。已知GT64与历史GT128投影离散化差异保留，不新增缩放、插值或重投影标签。
 
