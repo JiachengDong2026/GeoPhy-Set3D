@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/train_deepsets_selfsup.py", line 186, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/train_deepsets_selfsup.py", line 183, in main
+    if a.phase=='smoke':smoke(c)
+                        ^^^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/train_deepsets_selfsup.py", line 70, in smoke
+    assert grads['encoder.0.weight']>0 and grads['decoder.0.conv1.weight']>0
+                                           ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'decoder.0.conv1.weight'
