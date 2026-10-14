@@ -1,0 +1,22 @@
+name: ray_senseiver_quick_repair_v1
+source_config: configs/ray_senseiver_consistency_probe_v1.yaml
+device: cuda:0
+seed: 20261011
+readout:
+  fit_indices: [0, 1, 2, 3, 4, 5, 6, 7]
+  check_indices: [8, 9, 10, 11, 12, 13, 14, 15]
+  geometry_source: docs/reports/artifacts/ray_senseiver_selfsup_v1/geometry_layouts.json
+  geometry_id: V4-G1-d0
+  source_checkpoint: /data/djc/GeoPhy-Set3D/outputs/checkpoints/ray_senseiver_consistency_probe_v1/treatment/last.pt
+  checkpoint_sha256: 448ef11e82b0b29e26be2ecc0d10909f575b649cb30c1b00a4142e18219bec71
+  ridge_factor: 0.001
+  query_updates: 200
+  query_lr: 0.0002
+  query_weight_decay: 0.01
+reconstruction:
+  max_epochs: 80
+  max_updates: 320
+  relative_l1: 0.0
+  consistency: 0.0
+  health_every: 5
+  dependence_threshold: 0.001
