@@ -1,0 +1,17 @@
+saved epoch0_case0_wrong_case seconds=23.81
+saved epoch0_case0_gain_plus seconds=21.05
+saved epoch0_case0_gain_minus seconds=16.72
+Traceback (most recent call last):
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/diagnose_senseiver_signal_path.py", line 298, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/diagnose_senseiver_signal_path.py", line 296, in main
+    else:run(c,source)
+         ^^^^^^^^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/diagnose_senseiver_signal_path.py", line 270, in run
+    result=local_diagnosis(model,original,full_rows);ledger(out,identity,'returned',kind='local_sampled_graph')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/diagnose_senseiver_signal_path.py", line 194, in local_diagnosis
+    phi=(x*signs).sum()/math.sqrt(x.numel());g=torch.autograd.grad(phi,u,retain_graph=True)[0]
+                        ^^^^
+NameError: name 'math' is not defined. Did you mean: 'Path'? Or did you forget to import 'math'?

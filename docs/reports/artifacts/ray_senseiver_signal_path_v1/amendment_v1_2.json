@@ -1,0 +1,36 @@
+{
+  "version": "v1.2",
+  "at": "2026-10-14T20:16:58.265439+08:00",
+  "prior_commit": "dc2882a",
+  "prior_amendment_sha256": "7c8ee637c677a9e7bb5390c784c306f434b79e96b347ff6493f25956941f37dc",
+  "issue": "Missing math import in diagnostic scalar normalization; first sampled graph encoded/decoded259 queries then stopped BEFORE autograd.grad. No frozen model implementation error.",
+  "impact": "Five successful complete fields retained with original hashes, zero completed local gradient diagnostics at interruption; one local graph built and aborted, no .grad/optimizer/parameter/buffer writes.",
+  "fix": "Import standard math; add synthetic259-query local-entry regression. Permit one explicit retry only of local_epoch0_case0 after its preserved aborted event. Preserve total30 successful full forwards;6 completed sampled graphs,7 sampled graph starts including1 abort. Persist guard counters on future exits.",
+  "source_changes": {
+    "scripts/diagnose_senseiver_signal_path.py": {
+      "old_sha256": "53fd21292e66338931f8667db8171b3445f7fd022173b9dd391314d4e9b541ab",
+      "new_sha256": "8f1ff9402c6f548f52fdb556ef94ceb4e6bbb6baaeaddb07cd2999a37816dbe7"
+    },
+    "tests/test_senseiver_signal_path.py": {
+      "old_sha256": "ae712350b3818347a958e756bb62c3d2f87f2b50923685b51673b34cc73588b8",
+      "new_sha256": "410e33c2ba44e649754624f62c517d4e11c4d7a0fc89c2665c054566f85719a9"
+    }
+  },
+  "preserved_saved_records": {
+    "records/epoch0_case0_zero.json": "bc5ba330dd70aaa751ede7e0d592c645fb2247961c16a5913114907436e17387",
+    "records/epoch0_case0_normal.json": "dc3d38188bdee742b0b9ed3613acad0fb187e6fad5b388285c3d7719d4e75db8",
+    "records/epoch0_case0_wrong_case.json": "2fc1eca82583dcbbfb4d1e1bad8026bc7b3216064ce70e0603e9931d8327cc06",
+    "records/epoch0_case0_gain_plus.json": "cbf239a449583a69ca43701b36c1bc4351a2fc5639eca2667fc9606086045548",
+    "records/epoch0_case0_gain_minus.json": "e22c95f604219e1343eb63617963b7f27d6005a3660746d43e4ab4e13c5bcff7"
+  },
+  "preserved_ledger_prefix": "{\"id\": \"epoch0_case0_normal\", \"event\": \"started\", \"at\": \"2026-10-14T20:09:25.076445+08:00\", \"kind\": \"full\", \"checkpoint_sha256\": \"950cb7be68e20bdccda7c9f8e002c71410a44b8ff3416c6384310730130b982a\", \"index\": 0, \"mode\": \"normal\"}\n{\"id\": \"epoch0_case0_normal\", \"event\": \"returned\", \"at\": \"2026-10-14T20:09:28.392037+08:00\", \"kind\": \"full\"}\n{\"id\": \"epoch0_case0_normal\", \"event\": \"saved\", \"at\": \"2026-10-14T20:09:29.852539+08:00\", \"kind\": \"full\", \"record_sha256\": \"dc3d38188bdee742b0b9ed3613acad0fb187e6fad5b388285c3d7719d4e75db8\"}\n{\"id\": \"epoch0_case0_zero\", \"event\": \"started\", \"at\": \"2026-10-14T20:09:29.900636+08:00\", \"kind\": \"full\", \"checkpoint_sha256\": \"950cb7be68e20bdccda7c9f8e002c71410a44b8ff3416c6384310730130b982a\", \"index\": 0, \"mode\": \"zero\"}\n{\"id\": \"epoch0_case0_zero\", \"event\": \"returned\", \"at\": \"2026-10-14T20:09:32.098421+08:00\", \"kind\": \"full\"}\n{\"id\": \"epoch0_case0_zero\", \"event\": \"saved\", \"at\": \"2026-10-14T20:09:32.419921+08:00\", \"kind\": \"full\", \"record_sha256\": \"bc5ba330dd70aaa751ede7e0d592c645fb2247961c16a5913114907436e17387\"}\n{\"id\": \"epoch0_case0_wrong_case\", \"event\": \"started\", \"at\": \"2026-10-14T20:13:20.756244+08:00\", \"kind\": \"full\", \"checkpoint_sha256\": \"950cb7be68e20bdccda7c9f8e002c71410a44b8ff3416c6384310730130b982a\", \"index\": 0, \"mode\": \"wrong_case\"}\n{\"id\": \"epoch0_case0_wrong_case\", \"event\": \"returned\", \"at\": \"2026-10-14T20:13:44.277614+08:00\", \"kind\": \"full\"}\n{\"id\": \"epoch0_case0_wrong_case\", \"event\": \"saved\", \"at\": \"2026-10-14T20:13:44.602270+08:00\", \"kind\": \"full\", \"record_sha256\": \"2fc1eca82583dcbbfb4d1e1bad8026bc7b3216064ce70e0603e9931d8327cc06\"}\n{\"id\": \"epoch0_case0_gain_plus\", \"event\": \"started\", \"at\": \"2026-10-14T20:13:44.639950+08:00\", \"kind\": \"full\", \"checkpoint_sha256\": \"950cb7be68e20bdccda7c9f8e002c71410a44b8ff3416c6384310730130b982a\", \"index\": 0, \"mode\": \"gain_plus\"}\n{\"id\": \"epoch0_case0_gain_plus\", \"event\": \"returned\", \"at\": \"2026-10-14T20:14:05.469486+08:00\", \"kind\": \"full\"}\n{\"id\": \"epoch0_case0_gain_plus\", \"event\": \"saved\", \"at\": \"2026-10-14T20:14:05.741801+08:00\", \"kind\": \"full\", \"record_sha256\": \"cbf239a449583a69ca43701b36c1bc4351a2fc5639eca2667fc9606086045548\"}\n{\"id\": \"epoch0_case0_gain_minus\", \"event\": \"started\", \"at\": \"2026-10-14T20:14:05.773312+08:00\", \"kind\": \"full\", \"checkpoint_sha256\": \"950cb7be68e20bdccda7c9f8e002c71410a44b8ff3416c6384310730130b982a\", \"index\": 0, \"mode\": \"gain_minus\"}\n{\"id\": \"epoch0_case0_gain_minus\", \"event\": \"returned\", \"at\": \"2026-10-14T20:14:22.234835+08:00\", \"kind\": \"full\"}\n{\"id\": \"epoch0_case0_gain_minus\", \"event\": \"saved\", \"at\": \"2026-10-14T20:14:22.528273+08:00\", \"kind\": \"full\", \"record_sha256\": \"e22c95f604219e1343eb63617963b7f27d6005a3660746d43e4ab4e13c5bcff7\"}\n{\"id\": \"local_epoch0_case0\", \"event\": \"started\", \"at\": \"2026-10-14T20:14:22.566270+08:00\", \"kind\": \"local_sampled_graph\", \"sampled_queries\": 259}\n{\"id\": \"local_epoch0_case0\", \"event\": \"aborted\", \"at\": \"2026-10-14T20:16:58.265439+08:00\", \"kind\": \"local_sampled_graph\", \"reason\": \"NameError math before any autograd.grad; graph constructed, no gradients/steps; v1.2 explicit audited retry\"}\n",
+  "partial_log_sha256": "a31453927cdf7176210ed9334f55ba2bd11da2b4fb94eeb638c8a1f64cd5d8f4",
+  "expected_remaining_full_forwards": 25,
+  "expected_successful_full_forwards": 30,
+  "expected_successful_local_graphs": 6,
+  "expected_local_graph_starts": 7,
+  "expected_local_graph_aborts": 1,
+  "failed_attempt_probe_gradients": 0,
+  "optimizer_steps": 0,
+  "tests": "8 signal tests including actual local_autograd_entry synthetic4stage4probe test;4 original model regressions retained, total12."
+}

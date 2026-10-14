@@ -78,6 +78,19 @@ class SignalPathTests(unittest.TestCase):
         self.assertEqual(before,model_hashes(model));self.assertTrue(all(p.grad is None for p in model.parameters()))
         self.assertEqual(sum(len(m._forward_hooks)+len(m._forward_pre_hooks) for m in model.modules()),0)
 
+    def test_local_autograd_entry_has_four_stages_four_probes_without_updates(self):
+        from diagnose_senseiver_signal_path import local_diagnosis
+        from geophy_set3d.diagnostics.senseiver_signal_path import PROBE_STAGES
+        model=RaySenseiverSS().eval();before=model_hashes(model)
+        synthetic_rows={mode:dict(scalar_probes={stage:[0.]*4 for stage in PROBE_STAGES}) for mode in ['normal','gain_plus','gain_minus']}
+        result=local_diagnosis(model,synthetic(),synthetic_rows)
+        self.assertEqual(result['sampled_queries'],259)
+        for stage in PROBE_STAGES:
+            self.assertEqual(len(result['stages'][stage]),4)
+            self.assertTrue(any(r['gradient_l2']>0 for r in result['stages'][stage]))
+        self.assertEqual(before,model_hashes(model));self.assertTrue(all(p.grad is None for p in model.parameters()))
+        self.assertEqual(sum(len(m._forward_hooks)+len(m._forward_pre_hooks) for m in model.modules()),0)
+
     def test_source_measurement_selected_at_target_station_ids(self):
         from diagnose_senseiver_signal_path import aligned_source
         from geophy_set3d.training.selfsup import make_dataset

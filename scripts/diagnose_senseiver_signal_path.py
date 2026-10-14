@@ -4,6 +4,8 @@ import argparse
 import gzip
 import hashlib
 import json
+import math
+from contextlib import contextmanager
 from pathlib import Path
 import subprocess
 import sys
@@ -45,6 +47,16 @@ def config(path):
 def guard_for(c,source):
     root=Path(source['dataset']['root']);records=[json.loads(s) for s in (root/'source_index.jsonl').read_text().splitlines() if json.loads(s)['split']=='train']
     return SignalGuard(root,[v['path'] for v in c['checkpoints'].values()],records,c['output'])
+
+
+@contextmanager
+def audited_guard(c,source):
+    guard=guard_for(c,source)
+    try:
+        with guard:yield guard
+    finally:
+        session=Path(c['output'])/'access_sessions';session.mkdir(exist_ok=True)
+        write_json(session/(str(time.time_ns())+'.json'),dict(at=now(),access=guard.summary()))
 
 
 def checkpoint(c,source,key):
@@ -149,6 +161,16 @@ def verify(c,source):
             assert expected[p]==change['old_sha256'];expected[p]=change['new_sha256']
         assert (out/'forward_ledger.jsonl').read_bytes().startswith(amendment['preserved_ledger_prefix'].encode())
         for p,h in amendment['preserved_saved_records'].items():assert sha256(out/p)==h,p
+    second_path=out/'amendment_v1_2.json'
+    if second_path.exists():
+        second=json.loads(second_path.read_text())
+        assert subprocess.check_output(['git','show',f'HEAD:docs/reports/artifacts/{NAME}/amendment_v1_2.json'],cwd=REPO)==second_path.read_bytes()
+        assert second['prior_amendment_sha256']==sha256(amendment_path)
+        assert set(second['source_changes'])=={'scripts/diagnose_senseiver_signal_path.py','tests/test_senseiver_signal_path.py'}
+        for p,change in second['source_changes'].items():
+            assert expected[p]==change['old_sha256'];expected[p]=change['new_sha256']
+        assert (out/'forward_ledger.jsonl').read_bytes().startswith(second['preserved_ledger_prefix'].encode())
+        for p,h in second['preserved_saved_records'].items():assert sha256(out/p)==h,p
     for p,h in {**reg['historical_sha256'],**expected}.items():assert sha256(REPO/p)==h,p
     return reg
 
@@ -162,8 +184,10 @@ def ledger(out,identity,event,**extra):
 def check_not_repeated(out,identity):
     rows=[json.loads(s) for s in (out/'forward_ledger.jsonl').read_text().splitlines()] if (out/'forward_ledger.jsonl').exists() else []
     events=[r['event'] for r in rows if r['id']==identity]
+    aborted=identity=='local_epoch0_case0' and (out/'amendment_v1_2.json').exists()
     if events:
-        if events==['started','returned','saved']:
+        if aborted and events==['started','aborted']:return None
+        if events==['started','returned','saved'] or (aborted and events==['started','aborted','started','returned','saved']):
             record=json.loads((out/'records'/f'{identity}.json').read_text());last=next(r for r in reversed(rows) if r['id']==identity)
             assert sha256(out/'records'/f'{identity}.json')==last['record_sha256'];return record
         raise RuntimeError('Incomplete prior attempt requires explicit audit; successful forwards never repeated: '+identity)
@@ -214,7 +238,7 @@ def run(c,source):
     out=Path(c['output']);torch.set_num_threads(2);seed_everything(20261011);began=time.perf_counter()
     (out/'records').mkdir(exist_ok=True);(out/'arrays').mkdir(exist_ok=True)
     summary={}
-    with guard_for(c,source) as guard:
+    with audited_guard(c,source) as guard:
         reg=verify(c,source);ds=make_dataset(source);fixed,_=samples(ds);registered=json.loads((out/'fixed_inputs.json').read_text())
         for key in c['checkpoints']:
             saved=checkpoint(c,source,key);model=build_comparison_model(source);model.load_state_dict(saved['model']);del saved
@@ -279,12 +303,15 @@ def run(c,source):
             del model;torch.cuda.empty_cache()
         verify(c,source)
         rows=[json.loads(s) for s in (out/'forward_ledger.jsonl').read_text().splitlines()]
-        for entry in reg['full_forward_plan']+reg['local_graph_plan']:assert [r['event'] for r in rows if r['id']==entry['id']]==['started','returned','saved']
+        for entry in reg['full_forward_plan']+reg['local_graph_plan']:
+            expected_events=['started','returned','saved']
+            if entry['id']=='local_epoch0_case0' and (out/'amendment_v1_2.json').exists():expected_events=['started','aborted']+expected_events
+            assert [r['event'] for r in rows if r['id']==entry['id']]==expected_events
         summary.update(at=now(),full_forward_counts={event:sum(r['kind']=='full' and r['event']==event for r in rows) for event in ['started','returned','saved']},
-                       local_graph_counts={event:sum(r['kind']=='local_sampled_graph' and r['event']==event for r in rows) for event in ['started','returned','saved']},
-                       projector_calls=60,optimizer_created=False,optimizer_steps=0,seconds=time.perf_counter()-began,access=guard.summary(),source_history_data_hashes_unchanged=True,execution_version='v1.1' if (out/'amendment_v1_1.json').exists() else 'v1',
-                       prior_partial_attempt='Two saved full forwards reused after preregistered CPU/GPU unused normalized-field identity amendment; original guard counters not persisted on assertion, see engineering event evidence.')
-        assert summary['full_forward_counts']==dict(started=30,returned=30,saved=30) and summary['local_graph_counts']==dict(started=6,returned=6,saved=6)
+                       local_graph_counts={event:sum(r['kind']=='local_sampled_graph' and r['event']==event for r in rows) for event in ['started','returned','saved','aborted']},
+                       projector_calls=60,optimizer_created=False,optimizer_steps=0,seconds=time.perf_counter()-began,access=guard.summary(),source_history_data_hashes_unchanged=True,execution_version='v1.2' if (out/'amendment_v1_2.json').exists() else 'v1.1' if (out/'amendment_v1_1.json').exists() else 'v1',
+                       prior_partial_attempt='Two prior partial attempts retained: CPU/GPU unused normalized-field identity assertion, then missing math import before any gradient. Five complete fields reused; one sampled graph aborted before gradients. Original partial guard counters unavailable; no invented counters. v1.2 records guard exits even on exceptions.')
+        assert summary['full_forward_counts']==dict(started=30,returned=30,saved=30) and summary['local_graph_counts']==(dict(started=7,returned=6,saved=6,aborted=1) if (out/'amendment_v1_2.json').exists() else dict(started=6,returned=6,saved=6,aborted=0))
         assert not any(summary['access'][k] for k in ['gt_open_attempts','forbidden_npy_attempts','supervised_checkpoint_open_attempts'])
     write_json(out/'complete.json',summary);print(json.dumps(summary,indent=2),flush=True)
 
