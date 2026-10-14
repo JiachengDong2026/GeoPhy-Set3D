@@ -1,0 +1,31 @@
+diagnosed case=0 fresh+6 constants, no optimizer
+diagnosed case=1 fresh+6 constants, no optimizer
+diagnosed case=2 fresh+6 constants, no optimizer
+diagnosed case=3 fresh+6 constants, no optimizer
+diagnosed case=4 fresh+6 constants, no optimizer
+diagnosed case=5 fresh+6 constants, no optimizer
+diagnosed case=6 fresh+6 constants, no optimizer
+diagnosed case=7 fresh+6 constants, no optimizer
+{
+  "at": "2026-10-14T17:58:29.421783+08:00",
+  "initial_hash": "a51ae38bb2d67202a4766de25c0e01bc9832fb8887756d2f7ebbee41a38fc5be",
+  "model_unchanged": true,
+  "optimizer_created": false,
+  "optimizer_steps": 0,
+  "grad_buffers_none": true,
+  "seconds": 55.58672896306962,
+  "access": {
+    "gt_file_opened": false,
+    "gt_open_attempts": 0,
+    "forbidden_npy_attempts": 0,
+    "supervised_checkpoint_open_attempts": 0,
+    "projection_open_count": 24,
+    "unique_pool_a_projection_files": 8,
+    "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+    "audit_hook_inherited_by_workers": true
+  },
+  "group_threshold_normalized": 1e-06,
+  "positive_derivative": "gradient descent lowers constant concentration",
+  "relative_definition": "per-case sum valid abs residual / clamp_min(sum valid abs target,1e-6); not per-ray",
+  "groups_do_not_filter_training": true
+}
