@@ -154,7 +154,7 @@ def figures(c,out,normal,case,paired):
                         if col==0:ax.text(.02,.98,g,transform=ax.transAxes,va='top',color='white',bbox=dict(facecolor='black',alpha=.5))
                 fig.colorbar(con,ax=axes[:,:3],shrink=.7,label='CH4 mass fraction (shared)')
                 fig.colorbar(im,ax=axes[:,3],shrink=.7,label='Signed CH4 mass-fraction change')
-                title=f'fixed y-index {c["slice_y_index"]}, y = {(c["slice_y_index"]+.5)*.6/64:.5f} m' if view=='slice' else 'mean along height y (full volume)'
+                title=f'fixed y-index {c["slice_y_index"]}, y = {c["slice_y_index"]*.6/63:.5f} m' if view=='slice' else 'mean along height y (full volume)'
                 fig.suptitle(f'Original Val index {index}; draw0; {title}\nXYZ volume; y is height; geometry groups fixed before inference')
                 save(fig,f'fixed_case{index}_{view}')
         write_json(out/'figure_gt_access.json',audit.summary())
