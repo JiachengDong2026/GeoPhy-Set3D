@@ -66,9 +66,10 @@ def model_for(name,c,p,f,device):
 
 def infer(c):
     p,f,records=verify(c);device=c['device'];ref=pd.read_csv(DEEP/'deepsets_900.csv').set_index(['case_id','group','draw']);(EV/'case_images').mkdir(exist_ok=True);(EV/'prediction_rows').mkdir(exist_ok=True)
-    checkpoints=[v['checkpoint'] for v in p['models'].values()];ds=dataset(dict(dataset=c['dataset_root'],original_seed=c['seed']))
+    checkpoints=[v['checkpoint'] for v in p['models'].values()]
     for name in ['Senseiver','SupervisedMRGR']:
         with DiagnosticReadGuard(c['dataset_root'],checkpoints,EV,'inference') as guard:
+            ds=dataset(dict(dataset=c['dataset_root'],original_seed=c['seed']))
             model=model_for(name,c,p,f,device);before=state_hash(model.state_dict());started=time.perf_counter()
             with torch.no_grad():
                 for index in range(36):
@@ -102,8 +103,9 @@ def infer(c):
 
 def gt(c):
     p,f,records=verify(c,False);seal=json.loads((EV/'predictions_complete.json').read_text());assert seal['rows']==1800 and seal['protocol_sha256']==sha256(EV/'protocol.json')
-    frames={};ds=dataset(dict(dataset=c['dataset_root'],original_seed=c['seed']))
+    frames={}
     with DiagnosticReadGuard(c['dataset_root'],[],EV,'gt') as guard:
+        ds=dataset(dict(dataset=c['dataset_root'],original_seed=c['seed']))
         for name in ['Senseiver','SupervisedMRGR']:
             rows=[]
             for index in range(36):
