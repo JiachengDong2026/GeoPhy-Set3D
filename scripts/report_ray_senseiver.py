@@ -161,9 +161,11 @@ def report(c,out,case,stats,training,tails,contrasts,timing):
     moments=selector['validation']['output'];collapsed=(moments['std']<=1e-6 or moments['mean']<=1e-6 or moments['fraction_near_one']>=.01 or moments['case_to_case_mean_absolute_difference']<=1e-6)
     convergence='末30轮selector仍改善，有固定预算下未充分收敛迹象' if recent<prior and complete['best_epoch']>270 else '未观察到上述末期持续改善规则；这不证明全局最优或充分收敛'
     recommendation=('独立预注册一次 Ray-Senseiver 的初始化/优化数值诊断，先定位测量训练塌缩原因' if collapsed else '独立预注册一次跨 seed 的 Ours / Ray-Senseiver 同条件重复比较，检验单 seed 结论稳定性')
+    learning=json.loads((out/'learning_diagnostic'/'diagnosis.json').read_text())
+    learning_status='本run发生近零塌缩，是固定配置下的学习失败样本；本轮数值不能作为已训练成功的Senseiver强基线性能或原论文能力上限。' if collapsed else '本轮数值行为与第68轮学习状态诊断分别记录；只评价本固定配置，不外推原论文能力上限。'
     text=f'''# Ray-Senseiver-SS 射线积分、自监督适配与三方法冻结比较
 
-实际完整训练 **300 epochs / 24,900 updates**，Ours / DeepSets 保持冻结。{'; '.join(descriptions)}。
+实际完整训练 **300 epochs / 24,900 updates**，Ours / DeepSets 保持冻结。**{learning_status}** { '; '.join(descriptions)}。
 
 G1–G4 macro 3D L1：Ours={macro['left_mean']:.6f}、Senseiver={macro['right_mean']:.6f}，Δ={macro['mean_delta']:.6f}，逐项95%CI=[{macro['ci_low']:.6f},{macro['ci_high']:.6f}]。G5绝对 L1：Ours={primary.loc['G5'].left_mean:.6f}、Senseiver={primary.loc['G5'].right_mean:.6f}。结果为本轮固定配置的实测，不外推原 Senseiver 论文理论能力。
 
@@ -198,6 +200,8 @@ endpoint-aligned XYZ [0,.6]^3、y为高度，全部262,144 query直接解码，F
 best Val输出min/max/mean/std={moments['min']:.6g}/{moments['max']:.6g}/{moments['mean']:.6g}/{moments['std']:.6g}，近1占比={moments['fraction_near_one']:.6g}，case间MA差={moments['case_to_case_mean_absolute_difference']:.6g}。按预定数值规则（mean/std/case差>1e−6且near1<.01）塌缩={collapsed}。这些是数值证据，不能将低测量误差单独视为正确三维重建证明；如果出现塌缩如实保留，不改配置制造优势。
 
 selector前一个30轮均值={prior:.8f}，最后30轮={recent:.8f}，末轮={training[-1]['val']['measurement']['heldout']['relative_l1']:.8f}；{convergence}。同AdamW/lr/预算不保证对所有架构最优。按300轮停止，未追加训练。
+
+用户要求补充的[独立无GT学习状态诊断](ray_senseiver_learning_diagnostic_zh.md)读取第{learning['snapshot_epoch']}轮自身checkpoint：固定3个train case，logits中位数约−16.71、所有logits<−10，测量置零的输出relative变化仅5.85e−6–5.75e−5；当前encoder/latents/decoder梯度有限非零，259query整体分块梯度relative差9.69e−8。两个极小LayerNorm梯度未通过纯相对阈值，原始记录和绝对差解释完整保留，未证实正式实现错误。常量场探针显示三个case的正近零场方向测量loss导数为正，提供塌缩线索；不单独证明唯一原因。诊断/初态补查实际0 optimizer step，共14次完整模型forward，另一次encoder加两次259query梯度一致性解码，原formal run/配置/selector未改。
 
 ![训练曲线](artifacts/ray_senseiver_selfsup_v1/figures/training_measurement_curves.png)
 
