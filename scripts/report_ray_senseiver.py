@@ -118,7 +118,11 @@ def integrity(c,out):
     raw=json.loads((Path(c['comparison']['reference_predictions'])/'inventory_before.json').read_text())['gt128_metadata']
     for path,meta in raw.items():
         st=Path(path).stat();assert dict(size=st.st_size,mtime_ns=st.st_mtime_ns,inode=st.st_ino)==meta
-    for ref in [p['reference_checkpoint'],p['deepsets_checkpoint']]:assert sha256(ref['checkpoint'])==ref['sha256']
+    # GT-consuming reporting does not reopen checkpoint bytes; GT-free timing verified all three.
+    timing=json.loads((out/'timing.json').read_text())
+    assert timing['checkpoint_sha256_verified']['Ours']==p['reference_checkpoint']['sha256']
+    assert timing['checkpoint_sha256_verified']['DeepSets']==p['deepsets_checkpoint']['sha256']
+    assert timing['checkpoint_sha256_verified']['Senseiver']==json.loads((out/'frozen_best.json').read_text())['sha256']
     sessions=[json.loads(l) for l in (out/'access_sessions.jsonl').read_text().splitlines()]
     assert all(s['forbidden_attempts']==0 and not s['failed'] for s in sessions)
     audit=json.loads((out/'training_access_audit.json').read_text());assert all(audit[k]==0 for k in ['gt_open_attempts','forbidden_npy_attempts','supervised_checkpoint_open_attempts'])
@@ -183,7 +187,7 @@ G1–G4 macro 3D L1：Ours={macro['left_mean']:.6f}、Senseiver={macro['right_me
 
 endpoint-aligned XYZ [0,.6]^3、y为高度，全部262,144 query直接解码，FP32 [B,1,64,64,64]；缓存坐标与96通道Fourier，encoder只调用一次。chunk={c['runtime']['query_chunk_size']}，decoder non-reentrant activation checkpoint={c['runtime']['decoder_checkpoint']}，无detach、插值或query采样。attention仅关闭权重返回，完整保留网络数值机制。
 
-小fixture分块/非分块预测 atol2e−6/rtol2e−5，query/latent/所有decoder参数梯度 atol至3e−5/rtol2e−4检查通过，所有259个测试query收到非零梯度；官方core原注意力路径对比通过。真实最大A5/B5/H2、batch2完整forward/backward/step通过，encoder/preproc/learned latents/decoder均收到有限梯度，H只投影而不输入网络、A/B/H不交。view置换max差={smoke['permutation_max_abs']:.3g}，padding差={smoke['padding_max_abs']:.3g}，ray同步置换/全invalid/零有效值/真实entry-exit单位检查通过。smoke峰值={smoke['peak_gpu_bytes']/2**30:.3f}GiB，仅独立一步，正式fresh初始化。266项完整回归及3项三方法统计检查通过。
+小fixture分块/非分块预测 atol2e−6/rtol2e−5，query/latent/所有decoder参数梯度 atol至3e−5/rtol2e−4检查通过，所有259个测试query收到非零梯度；官方core原注意力路径对比通过。真实最大A5/B5/H2、batch2完整forward/backward/step通过，encoder/preproc/learned latents/decoder均收到有限梯度，H只投影而不输入网络、A/B/H不交。view置换max差={smoke['permutation_max_abs']:.3g}，padding差={smoke['padding_max_abs']:.3g}，ray同步置换/全invalid/零有效值/真实entry-exit单位检查通过。smoke峰值={smoke['peak_gpu_bytes']/2**30:.3f}GiB，仅独立一步，正式fresh初始化。266项完整回归、3项三方法统计和2项saved-output访问边界检查通过。
 
 ## 3. 同协议的实际完整训练、冻结与访问边界
 
@@ -193,7 +197,7 @@ endpoint-aligned XYZ [0,.6]^3、y为高度，全部262,144 query直接解码，F
 
 正式初态hash与独立smoke初态一致，未读取smoke/旧/监督权重；本次恢复记录见observer和access审计，只支持本run last.pt完整model/optimizer/scheduler/RNG恢复。完整300轮166cases每轮恰好一次、实际83steps与最终AdamW状态step24900由独立审计核对；历史station digest一致={complete['all_historical_station_digests_equal']}。历史Ours缺少完整逐步optimizer trace，不声称严格随机化训练配对或逐步数值重放。
 
-训练与selector禁读GT64/GT128/foreign checkpoint尝试均0。完成300与best冻结后先selector replay，再900完整体积保存/hash封存，再独立saved-output Val GT64评价（36例）；后者不读取measurement/checkpoint。GT128、Pool B、final test未读。数据/历史两模型checkpoint和输出metadata、冻结数值源码hash均核对，见[integrity.json](artifacts/ray_senseiver_selfsup_v1/integrity.json)与[independent_audit.json](artifacts/ray_senseiver_selfsup_v1/independent_audit.json)。大体积与权重仅在外部独立目录。
+训练与selector禁读GT64/GT128/foreign checkpoint尝试均0。完成300与best冻结后先selector replay，再900完整体积保存/hash封存，再独立saved-output Val GT64评价（36例）；后者从入口即受guard保护，连公共验证都只读封存清单而不读取measurement/checkpoint；该访问边界在实际执行前独立登记修正，见gt_boundary_amendment.json。GT128、Pool B、final test未读。数据/历史两模型checkpoint和输出metadata、冻结数值源码hash均核对，见[integrity.json](artifacts/ray_senseiver_selfsup_v1/integrity.json)与[independent_audit.json](artifacts/ray_senseiver_selfsup_v1/independent_audit.json)。大体积与权重仅在外部独立目录。
 
 ## 4. 数值行为与固定预算收敛
 

@@ -204,7 +204,7 @@ def timing(c,device):
         write_json(out/'timing.json',dict(at=now(),device=device,gpu=torch.cuda.get_device_name(device),shared_gpu=True,gpu_before=gpu_before,gpu_after=subprocess.check_output(['nvidia-smi','--query-gpu=index,memory.used,utilization.gpu','--format=csv'],text=True),
                     batch=1,precision='FP32',TF32=False,warmup=10,repeats=30,actual_model_forwards=dict(Ours=360,DeepSets=360,Senseiver=360),runtime=c['runtime'],includes_ours_internal_projector=True,
                     peak_memory_definition='CUDA max allocated minus other co-resident model tensors; same-process allocator/library state may remain',identities=identities,
-                    checkpoint_bytes=dict(Ours=Path(oursfreeze['checkpoint']).stat().st_size,DeepSets=Path(deepfreeze['checkpoint']).stat().st_size,Senseiver=Path(freeze['checkpoint']).stat().st_size),rows=rows,access=guard.summary()))
+                    checkpoint_sha256_verified=dict(Ours=oursfreeze['sha256'],DeepSets=deepfreeze['sha256'],Senseiver=freeze['sha256']),checkpoint_bytes=dict(Ours=Path(oursfreeze['checkpoint']).stat().st_size,DeepSets=Path(deepfreeze['checkpoint']).stat().st_size,Senseiver=Path(freeze['checkpoint']).stat().st_size),rows=rows,access=guard.summary()))
 
 
 def main():
