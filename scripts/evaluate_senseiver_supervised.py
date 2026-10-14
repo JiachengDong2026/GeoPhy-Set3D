@@ -41,7 +41,7 @@ def freeze(c):
     records=json.loads((REPO/c['comparison']['manifest']).read_text());assert len(records)==900
     assert sha256(REPO/c['comparison']['manifest'])==reg['comparison_manifest_sha256']
     assert sha256(MRGR['checkpoint'])==MRGR['sha256']
-    p=dict(config=c,models=dict(Senseiver=dict(checkpoint=str(path),sha256=result['sha256']),SupervisedMRGR=MRGR),manifest_sha256=reg['comparison_manifest_sha256'],sources={f:sha256(REPO/f) for f in ['scripts/evaluate_senseiver_supervised.py','src/geophy_set3d/evaluation/selfsup_c0c1_diagnostic.py','src/geophy_set3d/training/metrics.py']},references={str(p.relative_to(REPO)):sha256(p) for p in [DEEP/'paired_900.csv',DEEP/'deepsets_900.csv']},no_900_selection=True)
+    p=dict(config=c,models=dict(Senseiver=dict(checkpoint=str(path),sha256=result['sha256']),SupervisedMRGR=MRGR),manifest_sha256=reg['comparison_manifest_sha256'],sources={f:sha256(REPO/f) for f in ['scripts/evaluate_senseiver_supervised.py','src/geophy_set3d/evaluation/selfsup_c0c1_diagnostic.py','src/geophy_set3d/training/metrics.py']},references={str(p.relative_to(REPO)):sha256(p) for p in [DEEP/'paired_900.csv',DEEP/'deepsets_900.csv']},no_900_selection=True,tie_epsilon=1e-8)
     write_json(EV/'protocol.json',p);write_json(EV/'station_subsets.json',records);write_json(ART/'evaluation_protocol.json',p)
     print(json.dumps(dict(effective=effective,best_epoch=result['epoch'],val=replay['mean'])))
 
@@ -139,7 +139,7 @@ def gt(c):
         for metric in METRICS:
             for name in names:
                 a=cf[name+'_'+metric].to_numpy();summary.append(dict(group=group,model=name,metric=metric,mean=float(a.mean()),median=float(np.median(a)),p90=float(np.quantile(a,.9)),maximum=float(a.max())))
-            for name in names[1:]:statistics.append(dict(group=group,metric=metric,left='Senseiver',right=name,**summarize(cf['Senseiver_'+metric].to_numpy(),cf[name+'_'+metric].to_numpy(),ix,1e-6)))
+            for name in names[1:]:statistics.append(dict(group=group,metric=metric,left='Senseiver',right=name,**summarize(cf['Senseiver_'+metric].to_numpy(),cf[name+'_'+metric].to_numpy(),ix,1e-8)))
     pd.DataFrame(statistics).to_csv(ART/'paired_statistics.csv',index=False);pd.DataFrame(summary).to_csv(ART/'group_summary.csv',index=False)
     write_json(ART/'evaluation_complete.json',dict(rows=900,models=4,cases=36,case_groups=180,paired_sha256=sha256(ART/'paired_900.csv'),best_sha256=f['sha256'],no_epoch_reselection=True,bootstrap_samples=10000,bootstrap_seed=c['comparison']['bootstrap_seed']))
 

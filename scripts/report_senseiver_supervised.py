@@ -76,7 +76,7 @@ def main():
 
 ## 正式监督实验
 
-使用官方166train/36Val、Pool A，原ViewSampler训练3–6站并逐epoch变化，Val固定4站/epoch0；GT64质量分数、XYZ/y-height、[0,.6]³及原预处理不变。全valid rays含精确零、完整262144 query，单进程可审计加载。GT仅用于监督loss与评价，不进入网络。原始RaySenseiverSS，没有全局残差/lifting/OARI/GCA/MRGR/3D卷积。与监督MRGR的输入采样一致，但本轮逐样本归一化voxel MSE不同于其SmoothL1+.1relative-L1，不能称全部训练条件相同或纯架构因果。
+使用官方166train/36Val、Pool A，原ViewSampler训练3–6站并逐epoch变化，Val固定4站/epoch0；GT64质量分数、XYZ/y-height、[0,.6]³及原预处理不变。全valid rays含精确零、完整262144 query，单进程可审计加载；train曲线为逐批更新前的在线统计，Val为每轮结束后完整固定输入评价。GT仅用于监督loss与评价，不进入网络。原始RaySenseiverSS，没有全局残差/lifting/OARI/GCA/MRGR/3D卷积。与监督MRGR的输入采样一致，但本轮逐样本归一化voxel MSE不同于其SmoothL1+.1relative-L1，不能称全部训练条件相同或纯架构因果。
 
 '''
     report+=f"初始化只用完整train GT均值{reg['scale']['gt_all_voxel_mean']:.17g}，bias={reg['scale']['bias_logit']:.12g}，weight×.01；无截断，初态hash `{reg['initial_hash']}`。从fresh开始，不使用稳定性、smoke、历史失败或其他模型权重。\n\n"
@@ -96,7 +96,7 @@ def main():
         report+='|固定训练case|normal-zero absolute MA|relative MA|normal NMSE|wrong NMSE|\n|---:|---:|---:|---:|---:|\n'
         for d in frozen['health']['interventions']:report+=f"|{d['index']}|{d['absolute_MA']:.6g}|{d['relative_MA']:.6g}|{d['normal_nmse']:.6g}|{d['wrong_measurement_nmse']:.6g}|\n"
     report+='\n## 冻结比较、访问与局限\n'+summary
-    report+='\n|方法|训练GT|选模GT／selector|训练目标|训练输入|预算与停止|\n|---|---|---|---|---|---|\n|监督Ray-Senseiver|166 train GT64|36 Val GT64／平均逐case NMSE|归一化voxel MSE|Pool A自然3–6站、epoch变化|本轮实际预算见上，预登记早停／300轮／2h|\n|冻结监督MRGR|166 train GT64|36 Val GT64／C1监督loss|SmoothL1(beta1)+.1relative L1|Pool A自然3–6站、epoch变化|300轮／24900更新，预算结束；best295|\n|冻结自监督Ours|无训练GT|无选模GT／Val held-out relative L1|原hold/cross/obs/consistency|A3–5/B3–5/H2，H不输入|300轮／24900更新，预算结束|\n|冻结自监督DeepSets|无训练GT|无选模GT／Val held-out relative L1|同冻结自监督Ours|A3–5/B3–5/H2，H不输入|300轮／24900更新，预算结束；best292|\n\n监督Senseiver和监督MRGR使用训练GT及Val GT选模；Ours/DeepSets为冻结自监督参考，不能混为同标签排名。本轮900预测全部先落盘并hash封存，再独立GT64步骤沿用原VolumeMetrics及P_diff/K96观测指标；五档×五layout×36Val不变，case内先平均5draw，36case配对bootstrap10000次/seed2026101801。900条仍来自同一官方Val split，不是额外test集。新训练不读取test、Pool B、GT128，不改划分及冻结历史结果。GT128来源hash仅引用元数据。已知GT64与历史GT128投影离散化差异保留，不新增缩放、插值或重投影标签。\n\n'
+    report+='\n|方法|训练GT|选模GT／selector|训练目标|训练输入|预算与停止|\n|---|---|---|---|---|---|\n|监督Ray-Senseiver|166 train GT64|36 Val GT64／平均逐case NMSE|归一化voxel MSE|Pool A自然3–6站、epoch变化|本轮实际预算见上，预登记早停／300轮／2h|\n|冻结监督MRGR|166 train GT64|36 Val GT64／C1监督loss|SmoothL1(beta1)+.1relative L1|Pool A自然3–6站、epoch变化|300轮／24900更新，预算结束；best295|\n|冻结自监督Ours|无训练GT|无选模GT／Val held-out relative L1|原hold/cross/obs/consistency|A3–5/B3–5/H2，H不输入|300轮／24900更新，预算结束|\n|冻结自监督DeepSets|无训练GT|无选模GT／Val held-out relative L1|同冻结自监督Ours|A3–5/B3–5/H2，H不输入|300轮／24900更新，预算结束；best292|\n\n监督Senseiver和监督MRGR使用训练GT及Val GT选模；Ours/DeepSets为冻结自监督参考，不能混为同标签排名。本轮900预测全部先落盘并hash封存，再独立GT64步骤沿用原VolumeMetrics及P_diff/K96观测指标；五档×五layout×36Val不变，case内先平均5draw，36case配对bootstrap10000次/seed2026101801、沿用tie epsilon=1e-8。900条仍来自同一官方Val split，不是额外test集。新训练不读取test、Pool B、GT128，不改划分及冻结历史结果。GT128来源hash仅引用元数据。已知GT64与历史GT128投影离散化差异保留，不新增缩放、插值或重投影标签。\n\n'
     report+='监督相关13项检查、原Ray-Senseiver4项、数据12项、采样3项、独立评价边界2项，共34项适用检查通过；原始测试日志保留。历史FP32 consistency回归仍有1项失败，本轮未修改其函数/容差，不能称历史全部测试通过。共享GPU且仅单seed，计时不是独占设备基准；监督可学不证明原纯测量loss失败的唯一根因。\n\n'
     report+='下一步：'+('冻结本轮有监督候选和独立比较结果，研究是否需要更广的监督泛化验证；本轮不追加训练、结构或loss搜索。' if evaldone else '按当前已登记配置完成正式训练及条件冻结评价；未完成前保留运行状态，不据小样本拟合宣称成功独立基线。')+'\n'
     (REPO/'docs/reports/ray_senseiver_supervised_v1_zh.md').write_text(report)
