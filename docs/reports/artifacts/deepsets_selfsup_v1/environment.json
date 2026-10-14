@@ -1,0 +1,35 @@
+{
+  "torch_version": "2.11.0+cu128",
+  "numpy_version": "2.5.3",
+  "cuda_version": "12.8",
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "git_commit": "77c595a99c5fa4d0203c40cb3bc38f10e17f9cd2",
+  "git_dirty": false,
+  "seed": 20261011,
+  "precision": "fp32",
+  "test_used": false,
+  "identity": {
+    "name": "geolift_deepsets_sum",
+    "model_config": {
+      "feature_channels": 32,
+      "input_channels": 3,
+      "lift_resolution": 32,
+      "name": "geolift_deepsets_sum",
+      "output_activation": "sigmoid",
+      "output_resolution": 64,
+      "v_ref": 4
+    },
+    "parameter_count": 306625,
+    "fp32_parameter_bytes": 1226500,
+    "information": "full station measurements/valid rays/path/geometry, H excluded from network",
+    "labels": "no volumetric labels",
+    "selector": "mean held-out measurement relative L1"
+  },
+  "initial_state_sha256": "56e43c54fe633c49c280075fd5bb5247b993a779e48111433fcec0636445eee2",
+  "initialization": "fresh independent random seed; no weights read",
+  "TF32": false,
+  "cudnn_benchmark": false,
+  "cudnn_deterministic": false,
+  "deterministic_algorithms": false,
+  "effective_batch": 2
+}

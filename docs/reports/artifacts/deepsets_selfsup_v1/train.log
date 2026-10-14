@@ -1,0 +1,343 @@
+/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/measurement_consistency.py:17: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  return dict(relative_l1=float(d.abs().sum()/y.abs().sum().clamp_min(1e-6)),
+DeepSets 1/300 steps=83 trainH=6.260431 valH=1.964935 best=1.964935 seconds=29.81
+DeepSets 2/300 steps=166 trainH=1.407866 valH=1.022900 best=1.022900 seconds=16.14
+DeepSets 3/300 steps=249 trainH=0.915944 valH=0.813512 best=0.813512 seconds=16.22
+DeepSets 4/300 steps=332 trainH=0.681541 valH=0.631115 best=0.631115 seconds=17.28
+DeepSets 5/300 steps=415 trainH=0.545278 valH=0.454908 best=0.454908 seconds=16.07
+DeepSets 6/300 steps=498 trainH=0.488937 valH=0.430435 best=0.430435 seconds=16.61
+DeepSets 7/300 steps=581 trainH=0.415400 valH=0.418148 best=0.418148 seconds=15.94
+DeepSets 8/300 steps=664 trainH=0.354207 valH=0.330632 best=0.330632 seconds=16.55
+DeepSets 9/300 steps=747 trainH=0.347961 valH=0.298750 best=0.298750 seconds=16.26
+DeepSets 10/300 steps=830 trainH=0.306793 valH=0.263012 best=0.263012 seconds=16.20
+DeepSets 11/300 steps=913 trainH=0.289301 valH=0.268874 best=0.263012 seconds=15.75
+DeepSets 12/300 steps=996 trainH=0.271376 valH=0.284432 best=0.263012 seconds=15.99
+DeepSets 13/300 steps=1079 trainH=0.254692 valH=0.229936 best=0.229936 seconds=16.60
+DeepSets 14/300 steps=1162 trainH=0.259559 valH=0.274998 best=0.229936 seconds=16.44
+DeepSets 15/300 steps=1245 trainH=0.236537 valH=0.218326 best=0.218326 seconds=15.89
+DeepSets 16/300 steps=1328 trainH=0.226266 valH=0.204280 best=0.204280 seconds=15.73
+DeepSets 17/300 steps=1411 trainH=0.210680 valH=0.198494 best=0.198494 seconds=15.77
+DeepSets 18/300 steps=1494 trainH=0.215584 valH=0.203853 best=0.198494 seconds=15.86
+DeepSets 19/300 steps=1577 trainH=0.207351 valH=0.183270 best=0.183270 seconds=16.40
+DeepSets 20/300 steps=1660 trainH=0.204884 valH=0.191233 best=0.183270 seconds=16.13
+DeepSets 21/300 steps=1743 trainH=0.199612 valH=0.216428 best=0.183270 seconds=16.44
+DeepSets 22/300 steps=1826 trainH=0.188655 valH=0.170672 best=0.170672 seconds=16.95
+DeepSets 23/300 steps=1909 trainH=0.182629 valH=0.167414 best=0.167414 seconds=15.80
+DeepSets 24/300 steps=1992 trainH=0.181145 valH=0.174920 best=0.167414 seconds=15.85
+DeepSets 25/300 steps=2075 trainH=0.183238 valH=0.158619 best=0.158619 seconds=16.40
+DeepSets 26/300 steps=2158 trainH=0.177375 valH=0.158734 best=0.158619 seconds=16.51
+DeepSets 27/300 steps=2241 trainH=0.181416 valH=0.156757 best=0.156757 seconds=16.35
+DeepSets 28/300 steps=2324 trainH=0.165436 valH=0.146825 best=0.146825 seconds=16.22
+DeepSets 29/300 steps=2407 trainH=0.165897 valH=0.146831 best=0.146825 seconds=16.26
+DeepSets 30/300 steps=2490 trainH=0.160031 valH=0.156763 best=0.146825 seconds=15.92
+DeepSets 31/300 steps=2573 trainH=0.168769 valH=0.150443 best=0.146825 seconds=16.46
+DeepSets 32/300 steps=2656 trainH=0.161011 valH=0.148686 best=0.146825 seconds=16.71
+DeepSets 33/300 steps=2739 trainH=0.156873 valH=0.138612 best=0.138612 seconds=15.97
+DeepSets 34/300 steps=2822 trainH=0.158676 valH=0.141319 best=0.138612 seconds=16.11
+DeepSets 35/300 steps=2905 trainH=0.154121 valH=0.143130 best=0.138612 seconds=16.39
+DeepSets 36/300 steps=2988 trainH=0.149939 valH=0.168331 best=0.138612 seconds=15.92
+DeepSets 37/300 steps=3071 trainH=0.148561 valH=0.134518 best=0.134518 seconds=16.19
+DeepSets 38/300 steps=3154 trainH=0.143464 valH=0.144341 best=0.134518 seconds=16.22
+DeepSets 39/300 steps=3237 trainH=0.149291 valH=0.133691 best=0.133691 seconds=15.85
+DeepSets 40/300 steps=3320 trainH=0.138060 valH=0.128152 best=0.128152 seconds=16.11
+DeepSets 41/300 steps=3403 trainH=0.141918 valH=0.126874 best=0.126874 seconds=15.97
+DeepSets 42/300 steps=3486 trainH=0.133322 valH=0.130123 best=0.126874 seconds=16.46
+DeepSets 43/300 steps=3569 trainH=0.136875 valH=0.148174 best=0.126874 seconds=16.10
+DeepSets 44/300 steps=3652 trainH=0.133614 valH=0.147701 best=0.126874 seconds=15.92
+DeepSets 45/300 steps=3735 trainH=0.130021 valH=0.159790 best=0.126874 seconds=16.14
+DeepSets 46/300 steps=3818 trainH=0.132165 valH=0.136145 best=0.126874 seconds=16.36
+DeepSets 47/300 steps=3901 trainH=0.132064 valH=0.116811 best=0.116811 seconds=16.39
+DeepSets 48/300 steps=3984 trainH=0.128666 valH=0.128891 best=0.116811 seconds=16.28
+DeepSets 49/300 steps=4067 trainH=0.138944 valH=0.132229 best=0.116811 seconds=15.95
+DeepSets 50/300 steps=4150 trainH=0.134810 valH=0.124439 best=0.116811 seconds=15.84
+DeepSets 51/300 steps=4233 trainH=0.128503 valH=0.131253 best=0.116811 seconds=15.94
+DeepSets 52/300 steps=4316 trainH=0.131582 valH=0.125695 best=0.116811 seconds=15.69
+DeepSets 53/300 steps=4399 trainH=0.127606 valH=0.117646 best=0.116811 seconds=15.71
+DeepSets 54/300 steps=4482 trainH=0.126005 valH=0.119009 best=0.116811 seconds=17.03
+DeepSets 55/300 steps=4565 trainH=0.127275 valH=0.118704 best=0.116811 seconds=16.33
+DeepSets 56/300 steps=4648 trainH=0.115888 valH=0.117383 best=0.116811 seconds=15.92
+DeepSets 57/300 steps=4731 trainH=0.125803 valH=0.152117 best=0.116811 seconds=15.96
+DeepSets 58/300 steps=4814 trainH=0.112264 valH=0.133752 best=0.116811 seconds=16.07
+DeepSets 59/300 steps=4897 trainH=0.128397 valH=0.113583 best=0.113583 seconds=15.77
+DeepSets 60/300 steps=4980 trainH=0.128986 valH=0.113077 best=0.113077 seconds=15.91
+DeepSets 61/300 steps=5063 trainH=0.111041 valH=0.113182 best=0.113077 seconds=15.31
+DeepSets 62/300 steps=5146 trainH=0.121821 valH=0.108676 best=0.108676 seconds=15.47
+DeepSets 63/300 steps=5229 trainH=0.128412 valH=0.108650 best=0.108650 seconds=15.92
+DeepSets 64/300 steps=5312 trainH=0.112739 valH=0.124426 best=0.108650 seconds=16.09
+DeepSets 65/300 steps=5395 trainH=0.114689 valH=0.111051 best=0.108650 seconds=15.72
+DeepSets 66/300 steps=5478 trainH=0.118458 valH=0.119002 best=0.108650 seconds=15.89
+DeepSets 67/300 steps=5561 trainH=0.120750 valH=0.120370 best=0.108650 seconds=16.29
+DeepSets 68/300 steps=5644 trainH=0.109120 valH=0.114793 best=0.108650 seconds=16.74
+DeepSets 69/300 steps=5727 trainH=0.107505 valH=0.104678 best=0.104678 seconds=16.10
+DeepSets 70/300 steps=5810 trainH=0.113283 valH=0.127334 best=0.104678 seconds=16.12
+DeepSets 71/300 steps=5893 trainH=0.105772 valH=0.107577 best=0.104678 seconds=16.34
+DeepSets 72/300 steps=5976 trainH=0.106558 valH=0.106169 best=0.104678 seconds=16.34
+DeepSets 73/300 steps=6059 trainH=0.105547 valH=0.102641 best=0.102641 seconds=16.10
+DeepSets 74/300 steps=6142 trainH=0.114121 valH=0.108328 best=0.102641 seconds=15.93
+DeepSets 75/300 steps=6225 trainH=0.107051 valH=0.125454 best=0.102641 seconds=15.62
+DeepSets 76/300 steps=6308 trainH=0.109802 valH=0.104494 best=0.102641 seconds=15.32
+DeepSets 77/300 steps=6391 trainH=0.102463 valH=0.097079 best=0.097079 seconds=15.55
+DeepSets 78/300 steps=6474 trainH=0.098557 valH=0.106304 best=0.097079 seconds=15.45
+DeepSets 79/300 steps=6557 trainH=0.095376 valH=0.133991 best=0.097079 seconds=15.77
+DeepSets 80/300 steps=6640 trainH=0.102382 valH=0.109962 best=0.097079 seconds=16.19
+DeepSets 81/300 steps=6723 trainH=0.096613 valH=0.104497 best=0.097079 seconds=17.59
+DeepSets 82/300 steps=6806 trainH=0.102147 valH=0.101560 best=0.097079 seconds=16.90
+DeepSets 83/300 steps=6889 trainH=0.100893 valH=0.097010 best=0.097010 seconds=15.66
+DeepSets 84/300 steps=6972 trainH=0.095970 valH=0.103991 best=0.097010 seconds=15.80
+DeepSets 85/300 steps=7055 trainH=0.096706 valH=0.096670 best=0.096670 seconds=15.73
+DeepSets 86/300 steps=7138 trainH=0.098273 valH=0.102445 best=0.096670 seconds=15.78
+DeepSets 87/300 steps=7221 trainH=0.109379 valH=0.097381 best=0.096670 seconds=15.93
+DeepSets 88/300 steps=7304 trainH=0.104326 valH=0.094483 best=0.094483 seconds=15.94
+DeepSets 89/300 steps=7387 trainH=0.105060 valH=0.112655 best=0.094483 seconds=15.94
+DeepSets 90/300 steps=7470 trainH=0.091178 valH=0.094299 best=0.094299 seconds=15.98
+DeepSets 91/300 steps=7553 trainH=0.095588 valH=0.096774 best=0.094299 seconds=15.74
+DeepSets 92/300 steps=7636 trainH=0.090017 valH=0.096866 best=0.094299 seconds=15.94
+DeepSets 93/300 steps=7719 trainH=0.101066 valH=0.094022 best=0.094022 seconds=16.02
+DeepSets 94/300 steps=7802 trainH=0.093227 valH=0.093930 best=0.093930 seconds=15.74
+DeepSets 95/300 steps=7885 trainH=0.093501 valH=0.103535 best=0.093930 seconds=15.66
+DeepSets 96/300 steps=7968 trainH=0.093057 valH=0.097977 best=0.093930 seconds=15.83
+DeepSets 97/300 steps=8051 trainH=0.095178 valH=0.099721 best=0.093930 seconds=15.97
+DeepSets 98/300 steps=8134 trainH=0.095936 valH=0.098466 best=0.093930 seconds=16.18
+DeepSets 99/300 steps=8217 trainH=0.091854 valH=0.095594 best=0.093930 seconds=15.66
+DeepSets 100/300 steps=8300 trainH=0.090060 valH=0.093615 best=0.093615 seconds=16.30
+DeepSets 101/300 steps=8383 trainH=0.094182 valH=0.091301 best=0.091301 seconds=16.12
+DeepSets 102/300 steps=8466 trainH=0.084759 valH=0.092559 best=0.091301 seconds=16.98
+DeepSets 103/300 steps=8549 trainH=0.089371 valH=0.094129 best=0.091301 seconds=16.19
+DeepSets 104/300 steps=8632 trainH=0.090803 valH=0.092905 best=0.091301 seconds=15.86
+DeepSets 105/300 steps=8715 trainH=0.090658 valH=0.092310 best=0.091301 seconds=16.28
+DeepSets 106/300 steps=8798 trainH=0.097068 valH=0.089817 best=0.089817 seconds=16.25
+DeepSets 107/300 steps=8881 trainH=0.087001 valH=0.087704 best=0.087704 seconds=16.25
+DeepSets 108/300 steps=8964 trainH=0.092082 valH=0.092553 best=0.087704 seconds=16.07
+DeepSets 109/300 steps=9047 trainH=0.084649 valH=0.090162 best=0.087704 seconds=16.07
+DeepSets 110/300 steps=9130 trainH=0.087783 valH=0.092138 best=0.087704 seconds=16.25
+DeepSets 111/300 steps=9213 trainH=0.091703 valH=0.101590 best=0.087704 seconds=16.09
+DeepSets 112/300 steps=9296 trainH=0.088143 valH=0.087258 best=0.087258 seconds=16.70
+DeepSets 113/300 steps=9379 trainH=0.085836 valH=0.087946 best=0.087258 seconds=16.15
+DeepSets 114/300 steps=9462 trainH=0.086780 valH=0.091442 best=0.087258 seconds=16.23
+DeepSets 115/300 steps=9545 trainH=0.088122 valH=0.089457 best=0.087258 seconds=16.38
+DeepSets 116/300 steps=9628 trainH=0.083173 valH=0.096349 best=0.087258 seconds=16.27
+DeepSets 117/300 steps=9711 trainH=0.095511 valH=0.092457 best=0.087258 seconds=16.51
+DeepSets 118/300 steps=9794 trainH=0.092225 valH=0.089940 best=0.087258 seconds=16.05
+DeepSets 119/300 steps=9877 trainH=0.080737 valH=0.081570 best=0.081570 seconds=15.76
+DeepSets 120/300 steps=9960 trainH=0.081477 valH=0.088760 best=0.081570 seconds=15.73
+DeepSets 121/300 steps=10043 trainH=0.080978 valH=0.088738 best=0.081570 seconds=15.81
+DeepSets 122/300 steps=10126 trainH=0.079427 valH=0.091075 best=0.081570 seconds=15.58
+DeepSets 123/300 steps=10209 trainH=0.083415 valH=0.085558 best=0.081570 seconds=15.81
+DeepSets 124/300 steps=10292 trainH=0.080502 valH=0.090743 best=0.081570 seconds=16.04
+DeepSets 125/300 steps=10375 trainH=0.081800 valH=0.084386 best=0.081570 seconds=16.21
+DeepSets 126/300 steps=10458 trainH=0.085040 valH=0.090545 best=0.081570 seconds=16.14
+DeepSets 127/300 steps=10541 trainH=0.092195 valH=0.085769 best=0.081570 seconds=16.10
+DeepSets 128/300 steps=10624 trainH=0.083525 valH=0.084027 best=0.081570 seconds=16.00
+DeepSets 129/300 steps=10707 trainH=0.079793 valH=0.084641 best=0.081570 seconds=15.88
+DeepSets 130/300 steps=10790 trainH=0.083971 valH=0.094264 best=0.081570 seconds=15.85
+DeepSets 131/300 steps=10873 trainH=0.079323 valH=0.080146 best=0.080146 seconds=15.83
+DeepSets 132/300 steps=10956 trainH=0.081881 valH=0.087387 best=0.080146 seconds=16.10
+DeepSets 133/300 steps=11039 trainH=0.082699 valH=0.083498 best=0.080146 seconds=16.16
+DeepSets 134/300 steps=11122 trainH=0.084985 valH=0.079763 best=0.079763 seconds=16.31
+DeepSets 135/300 steps=11205 trainH=0.077164 valH=0.080324 best=0.079763 seconds=16.33
+DeepSets 136/300 steps=11288 trainH=0.075719 valH=0.086161 best=0.079763 seconds=16.12
+DeepSets 137/300 steps=11371 trainH=0.077186 valH=0.082286 best=0.079763 seconds=16.55
+DeepSets 138/300 steps=11454 trainH=0.089052 valH=0.079802 best=0.079763 seconds=16.37
+DeepSets 139/300 steps=11537 trainH=0.078219 valH=0.081845 best=0.079763 seconds=16.62
+DeepSets 140/300 steps=11620 trainH=0.074755 valH=0.084243 best=0.079763 seconds=15.90
+DeepSets 141/300 steps=11703 trainH=0.072319 valH=0.076416 best=0.076416 seconds=16.25
+DeepSets 142/300 steps=11786 trainH=0.078498 valH=0.083150 best=0.076416 seconds=16.02
+DeepSets 143/300 steps=11869 trainH=0.075588 valH=0.079401 best=0.076416 seconds=15.79
+DeepSets 144/300 steps=11952 trainH=0.078236 valH=0.078324 best=0.076416 seconds=16.48
+DeepSets 145/300 steps=12035 trainH=0.071760 valH=0.081162 best=0.076416 seconds=15.83
+DeepSets 146/300 steps=12118 trainH=0.075293 valH=0.076567 best=0.076416 seconds=16.01
+DeepSets 147/300 steps=12201 trainH=0.073861 valH=0.081189 best=0.076416 seconds=16.04
+DeepSets 148/300 steps=12284 trainH=0.076131 valH=0.077892 best=0.076416 seconds=16.14
+DeepSets 149/300 steps=12367 trainH=0.069968 valH=0.076526 best=0.076416 seconds=16.13
+DeepSets 150/300 steps=12450 trainH=0.073077 valH=0.079104 best=0.076416 seconds=16.52
+DeepSets 151/300 steps=12533 trainH=0.074564 valH=0.078876 best=0.076416 seconds=16.18
+DeepSets 152/300 steps=12616 trainH=0.072851 valH=0.086826 best=0.076416 seconds=16.05
+DeepSets 153/300 steps=12699 trainH=0.081307 valH=0.078312 best=0.076416 seconds=16.07
+DeepSets 154/300 steps=12782 trainH=0.075292 valH=0.082878 best=0.076416 seconds=15.50
+DeepSets 155/300 steps=12865 trainH=0.075221 valH=0.077653 best=0.076416 seconds=16.43
+DeepSets 156/300 steps=12948 trainH=0.074837 valH=0.074531 best=0.074531 seconds=15.28
+DeepSets 157/300 steps=13031 trainH=0.070735 valH=0.075320 best=0.074531 seconds=15.97
+DeepSets 158/300 steps=13114 trainH=0.069754 valH=0.075837 best=0.074531 seconds=16.33
+DeepSets 159/300 steps=13197 trainH=0.081822 valH=0.074143 best=0.074143 seconds=16.38
+DeepSets 160/300 steps=13280 trainH=0.068575 valH=0.088661 best=0.074143 seconds=16.38
+DeepSets 161/300 steps=13363 trainH=0.077597 valH=0.075185 best=0.074143 seconds=16.03
+DeepSets 162/300 steps=13446 trainH=0.072305 valH=0.072513 best=0.072513 seconds=16.28
+DeepSets 163/300 steps=13529 trainH=0.069143 valH=0.072290 best=0.072290 seconds=16.58
+DeepSets 164/300 steps=13612 trainH=0.069985 valH=0.077241 best=0.072290 seconds=16.91
+DeepSets 165/300 steps=13695 trainH=0.069653 valH=0.074356 best=0.072290 seconds=16.79
+DeepSets 166/300 steps=13778 trainH=0.068178 valH=0.073046 best=0.072290 seconds=15.94
+DeepSets 167/300 steps=13861 trainH=0.066878 valH=0.075172 best=0.072290 seconds=16.10
+DeepSets 168/300 steps=13944 trainH=0.071930 valH=0.076848 best=0.072290 seconds=16.13
+DeepSets 169/300 steps=14027 trainH=0.065609 valH=0.072143 best=0.072143 seconds=16.46
+DeepSets 170/300 steps=14110 trainH=0.068458 valH=0.072395 best=0.072143 seconds=16.18
+DeepSets 171/300 steps=14193 trainH=0.070401 valH=0.074221 best=0.072143 seconds=16.09
+DeepSets 172/300 steps=14276 trainH=0.070860 valH=0.072711 best=0.072143 seconds=16.34
+DeepSets 173/300 steps=14359 trainH=0.069988 valH=0.075662 best=0.072143 seconds=16.06
+DeepSets 174/300 steps=14442 trainH=0.070636 valH=0.073514 best=0.072143 seconds=16.42
+DeepSets 175/300 steps=14525 trainH=0.065570 valH=0.070521 best=0.070521 seconds=16.52
+DeepSets 176/300 steps=14608 trainH=0.066907 valH=0.071134 best=0.070521 seconds=16.48
+DeepSets 177/300 steps=14691 trainH=0.063972 valH=0.070318 best=0.070318 seconds=16.02
+DeepSets 178/300 steps=14774 trainH=0.065827 valH=0.073765 best=0.070318 seconds=15.98
+DeepSets 179/300 steps=14857 trainH=0.066980 valH=0.072914 best=0.070318 seconds=15.81
+DeepSets 180/300 steps=14940 trainH=0.066624 valH=0.074136 best=0.070318 seconds=15.84
+DeepSets 181/300 steps=15023 trainH=0.069804 valH=0.074371 best=0.070318 seconds=16.12
+DeepSets 182/300 steps=15106 trainH=0.066006 valH=0.070236 best=0.070236 seconds=16.16
+DeepSets 183/300 steps=15189 trainH=0.069924 valH=0.070513 best=0.070236 seconds=16.29
+DeepSets 184/300 steps=15272 trainH=0.062008 valH=0.070205 best=0.070205 seconds=15.95
+DeepSets 185/300 steps=15355 trainH=0.069351 valH=0.074519 best=0.070205 seconds=16.03
+DeepSets 186/300 steps=15438 trainH=0.068885 valH=0.073760 best=0.070205 seconds=16.22
+DeepSets 187/300 steps=15521 trainH=0.065950 valH=0.070008 best=0.070008 seconds=15.91
+DeepSets 188/300 steps=15604 trainH=0.063473 valH=0.070682 best=0.070008 seconds=16.29
+DeepSets 189/300 steps=15687 trainH=0.068386 valH=0.075306 best=0.070008 seconds=15.66
+DeepSets 190/300 steps=15770 trainH=0.062902 valH=0.074693 best=0.070008 seconds=15.43
+DeepSets 191/300 steps=15853 trainH=0.062440 valH=0.068703 best=0.068703 seconds=15.59
+DeepSets 192/300 steps=15936 trainH=0.064332 valH=0.071324 best=0.068703 seconds=16.63
+DeepSets 193/300 steps=16019 trainH=0.061774 valH=0.069062 best=0.068703 seconds=15.79
+DeepSets 194/300 steps=16102 trainH=0.061824 valH=0.071403 best=0.068703 seconds=16.01
+DeepSets 195/300 steps=16185 trainH=0.067264 valH=0.071522 best=0.068703 seconds=15.98
+DeepSets 196/300 steps=16268 trainH=0.061847 valH=0.070342 best=0.068703 seconds=16.19
+DeepSets 197/300 steps=16351 trainH=0.065068 valH=0.067485 best=0.067485 seconds=15.95
+DeepSets 198/300 steps=16434 trainH=0.063715 valH=0.068286 best=0.067485 seconds=15.88
+DeepSets 199/300 steps=16517 trainH=0.059437 valH=0.067445 best=0.067445 seconds=16.09
+DeepSets 200/300 steps=16600 trainH=0.058620 valH=0.068245 best=0.067445 seconds=15.90
+DeepSets 201/300 steps=16683 trainH=0.060993 valH=0.068025 best=0.067445 seconds=16.49
+DeepSets 202/300 steps=16766 trainH=0.061326 valH=0.067527 best=0.067445 seconds=16.24
+DeepSets 203/300 steps=16849 trainH=0.064535 valH=0.070168 best=0.067445 seconds=16.74
+DeepSets 204/300 steps=16932 trainH=0.062319 valH=0.066664 best=0.066664 seconds=16.49
+DeepSets 205/300 steps=17015 trainH=0.064566 valH=0.068455 best=0.066664 seconds=16.57
+DeepSets 206/300 steps=17098 trainH=0.060531 valH=0.070386 best=0.066664 seconds=16.79
+DeepSets 207/300 steps=17181 trainH=0.062151 valH=0.067012 best=0.066664 seconds=16.35
+DeepSets 208/300 steps=17264 trainH=0.060523 valH=0.065879 best=0.065879 seconds=15.45
+DeepSets 209/300 steps=17347 trainH=0.060739 valH=0.067586 best=0.065879 seconds=15.77
+DeepSets 210/300 steps=17430 trainH=0.057086 valH=0.069905 best=0.065879 seconds=15.79
+DeepSets 211/300 steps=17513 trainH=0.060716 valH=0.066876 best=0.065879 seconds=15.27
+DeepSets 212/300 steps=17596 trainH=0.060399 valH=0.065794 best=0.065794 seconds=16.16
+DeepSets 213/300 steps=17679 trainH=0.061820 valH=0.066240 best=0.065794 seconds=15.85
+DeepSets 214/300 steps=17762 trainH=0.059884 valH=0.066099 best=0.065794 seconds=15.82
+DeepSets 215/300 steps=17845 trainH=0.057218 valH=0.067551 best=0.065794 seconds=16.07
+DeepSets 216/300 steps=17928 trainH=0.062425 valH=0.066502 best=0.065794 seconds=16.02
+DeepSets 217/300 steps=18011 trainH=0.059608 valH=0.066141 best=0.065794 seconds=16.21
+DeepSets 218/300 steps=18094 trainH=0.060262 valH=0.066775 best=0.065794 seconds=16.01
+DeepSets 219/300 steps=18177 trainH=0.057641 valH=0.064818 best=0.064818 seconds=16.15
+DeepSets 220/300 steps=18260 trainH=0.057994 valH=0.068535 best=0.064818 seconds=15.92
+DeepSets 221/300 steps=18343 trainH=0.061904 valH=0.070629 best=0.064818 seconds=16.01
+DeepSets 222/300 steps=18426 trainH=0.060672 valH=0.064944 best=0.064818 seconds=15.94
+DeepSets 223/300 steps=18509 trainH=0.059004 valH=0.065573 best=0.064818 seconds=16.01
+DeepSets 224/300 steps=18592 trainH=0.058079 valH=0.064887 best=0.064818 seconds=15.75
+DeepSets 225/300 steps=18675 trainH=0.058153 valH=0.065066 best=0.064818 seconds=15.92
+DeepSets 226/300 steps=18758 trainH=0.056713 valH=0.064424 best=0.064424 seconds=16.80
+DeepSets 227/300 steps=18841 trainH=0.055469 valH=0.065039 best=0.064424 seconds=16.56
+DeepSets 228/300 steps=18924 trainH=0.059225 valH=0.064635 best=0.064424 seconds=16.30
+DeepSets 229/300 steps=19007 trainH=0.055169 valH=0.063997 best=0.063997 seconds=15.79
+DeepSets 230/300 steps=19090 trainH=0.058697 valH=0.064528 best=0.063997 seconds=16.20
+DeepSets 231/300 steps=19173 trainH=0.056541 valH=0.064395 best=0.063997 seconds=15.84
+DeepSets 232/300 steps=19256 trainH=0.058183 valH=0.064727 best=0.063997 seconds=15.86
+DeepSets 233/300 steps=19339 trainH=0.059917 valH=0.063463 best=0.063463 seconds=15.79
+DeepSets 234/300 steps=19422 trainH=0.057112 valH=0.064880 best=0.063463 seconds=16.31
+DeepSets 235/300 steps=19505 trainH=0.059000 valH=0.064080 best=0.063463 seconds=15.68
+DeepSets 236/300 steps=19588 trainH=0.058228 valH=0.064040 best=0.063463 seconds=16.02
+DeepSets 237/300 steps=19671 trainH=0.054240 valH=0.063194 best=0.063194 seconds=16.08
+DeepSets 238/300 steps=19754 trainH=0.057833 valH=0.063474 best=0.063194 seconds=15.96
+DeepSets 239/300 steps=19837 trainH=0.057575 valH=0.062543 best=0.062543 seconds=15.90
+DeepSets 240/300 steps=19920 trainH=0.060027 valH=0.063591 best=0.062543 seconds=15.63
+DeepSets 241/300 steps=20003 trainH=0.054118 valH=0.062763 best=0.062543 seconds=15.99
+DeepSets 242/300 steps=20086 trainH=0.056989 valH=0.063267 best=0.062543 seconds=16.31
+DeepSets 243/300 steps=20169 trainH=0.055502 valH=0.062376 best=0.062376 seconds=15.80
+DeepSets 244/300 steps=20252 trainH=0.054764 valH=0.063335 best=0.062376 seconds=15.80
+DeepSets 245/300 steps=20335 trainH=0.056603 valH=0.063200 best=0.062376 seconds=15.96
+DeepSets 246/300 steps=20418 trainH=0.055694 valH=0.063107 best=0.062376 seconds=16.08
+DeepSets 247/300 steps=20501 trainH=0.057269 valH=0.062107 best=0.062107 seconds=16.03
+DeepSets 248/300 steps=20584 trainH=0.055644 valH=0.062407 best=0.062107 seconds=15.96
+DeepSets 249/300 steps=20667 trainH=0.058376 valH=0.062714 best=0.062107 seconds=15.91
+DeepSets 250/300 steps=20750 trainH=0.053244 valH=0.061933 best=0.061933 seconds=16.07
+DeepSets 251/300 steps=20833 trainH=0.055284 valH=0.062394 best=0.061933 seconds=15.96
+DeepSets 252/300 steps=20916 trainH=0.056359 valH=0.063078 best=0.061933 seconds=15.92
+DeepSets 253/300 steps=20999 trainH=0.053881 valH=0.062271 best=0.061933 seconds=15.71
+DeepSets 254/300 steps=21082 trainH=0.053304 valH=0.062928 best=0.061933 seconds=16.38
+DeepSets 255/300 steps=21165 trainH=0.056334 valH=0.062551 best=0.061933 seconds=16.00
+DeepSets 256/300 steps=21248 trainH=0.056888 valH=0.062499 best=0.061933 seconds=15.07
+DeepSets 257/300 steps=21331 trainH=0.053116 valH=0.061789 best=0.061789 seconds=15.46
+DeepSets 258/300 steps=21414 trainH=0.053796 valH=0.062185 best=0.061789 seconds=16.74
+DeepSets 259/300 steps=21497 trainH=0.056786 valH=0.062678 best=0.061789 seconds=16.63
+DeepSets 260/300 steps=21580 trainH=0.054057 valH=0.061531 best=0.061531 seconds=15.78
+DeepSets 261/300 steps=21663 trainH=0.056616 valH=0.062623 best=0.061531 seconds=16.03
+DeepSets 262/300 steps=21746 trainH=0.055211 valH=0.061921 best=0.061531 seconds=15.90
+DeepSets 263/300 steps=21829 trainH=0.056230 valH=0.061580 best=0.061531 seconds=16.15
+DeepSets 264/300 steps=21912 trainH=0.055001 valH=0.061622 best=0.061531 seconds=15.68
+DeepSets 265/300 steps=21995 trainH=0.056706 valH=0.061576 best=0.061531 seconds=16.13
+DeepSets 266/300 steps=22078 trainH=0.053394 valH=0.061704 best=0.061531 seconds=15.95
+DeepSets 267/300 steps=22161 trainH=0.052031 valH=0.061372 best=0.061372 seconds=15.81
+DeepSets 268/300 steps=22244 trainH=0.054214 valH=0.061185 best=0.061185 seconds=16.00
+DeepSets 269/300 steps=22327 trainH=0.055192 valH=0.061279 best=0.061185 seconds=16.06
+DeepSets 270/300 steps=22410 trainH=0.054111 valH=0.061112 best=0.061112 seconds=16.47
+DeepSets 271/300 steps=22493 trainH=0.054035 valH=0.061203 best=0.061112 seconds=16.49
+DeepSets 272/300 steps=22576 trainH=0.054630 valH=0.061364 best=0.061112 seconds=15.96
+DeepSets 273/300 steps=22659 trainH=0.053679 valH=0.061305 best=0.061112 seconds=16.39
+DeepSets 274/300 steps=22742 trainH=0.056168 valH=0.061531 best=0.061112 seconds=17.24
+DeepSets 275/300 steps=22825 trainH=0.053041 valH=0.061078 best=0.061078 seconds=16.57
+DeepSets 276/300 steps=22908 trainH=0.058525 valH=0.061062 best=0.061062 seconds=16.60
+DeepSets 277/300 steps=22991 trainH=0.054743 valH=0.061129 best=0.061062 seconds=16.43
+DeepSets 278/300 steps=23074 trainH=0.052486 valH=0.061115 best=0.061062 seconds=16.15
+DeepSets 279/300 steps=23157 trainH=0.055552 valH=0.060993 best=0.060993 seconds=16.00
+DeepSets 280/300 steps=23240 trainH=0.053295 valH=0.060977 best=0.060977 seconds=16.14
+DeepSets 281/300 steps=23323 trainH=0.050991 valH=0.061035 best=0.060977 seconds=15.93
+DeepSets 282/300 steps=23406 trainH=0.055700 valH=0.060943 best=0.060943 seconds=16.51
+DeepSets 283/300 steps=23489 trainH=0.053473 valH=0.060844 best=0.060844 seconds=15.50
+DeepSets 284/300 steps=23572 trainH=0.055427 valH=0.060844 best=0.060844 seconds=15.87
+DeepSets 285/300 steps=23655 trainH=0.053145 valH=0.060873 best=0.060844 seconds=15.78
+DeepSets 286/300 steps=23738 trainH=0.055133 valH=0.060811 best=0.060811 seconds=16.73
+DeepSets 287/300 steps=23821 trainH=0.053442 valH=0.060829 best=0.060811 seconds=15.82
+DeepSets 288/300 steps=23904 trainH=0.051841 valH=0.060761 best=0.060761 seconds=15.85
+DeepSets 289/300 steps=23987 trainH=0.053974 valH=0.060795 best=0.060761 seconds=15.57
+DeepSets 290/300 steps=24070 trainH=0.053486 valH=0.060840 best=0.060761 seconds=16.05
+DeepSets 291/300 steps=24153 trainH=0.052479 valH=0.060761 best=0.060761 seconds=15.95
+DeepSets 292/300 steps=24236 trainH=0.054387 valH=0.060729 best=0.060729 seconds=15.92
+DeepSets 293/300 steps=24319 trainH=0.052407 valH=0.060757 best=0.060729 seconds=16.25
+DeepSets 294/300 steps=24402 trainH=0.052772 valH=0.060762 best=0.060729 seconds=15.95
+DeepSets 295/300 steps=24485 trainH=0.050779 valH=0.060749 best=0.060729 seconds=15.82
+DeepSets 296/300 steps=24568 trainH=0.052293 valH=0.060753 best=0.060729 seconds=15.71
+DeepSets 297/300 steps=24651 trainH=0.055753 valH=0.060751 best=0.060729 seconds=15.67
+DeepSets 298/300 steps=24734 trainH=0.055345 valH=0.060751 best=0.060729 seconds=15.65
+DeepSets 299/300 steps=24817 trainH=0.053038 valH=0.060750 best=0.060729 seconds=16.04
+DeepSets 300/300 steps=24900 trainH=0.055820 valH=0.060750 best=0.060729 seconds=15.93
+{
+  "completed": true,
+  "epochs": 300,
+  "optimizer_steps": 24900,
+  "steps_per_epoch": 83,
+  "best_epoch": 292,
+  "best_val_heldout_relative_l1": 0.06072932818975515,
+  "total_epoch_seconds": 4840.007293926552,
+  "mean_epoch_seconds": 16.13335764642184,
+  "peak_gpu_allocated_bytes": 2699810304,
+  "all_historical_station_digests_equal": true,
+  "access": {
+    "gt_file_opened": false,
+    "gt_open_attempts": 0,
+    "forbidden_npy_attempts": 0,
+    "supervised_checkpoint_open_attempts": 0,
+    "projection_open_count": 182124,
+    "unique_pool_a_projection_files": 202,
+    "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+    "audit_hook_inherited_by_workers": true
+  },
+  "identity": {
+    "name": "geolift_deepsets_sum",
+    "model_config": {
+      "feature_channels": 32,
+      "input_channels": 3,
+      "lift_resolution": 32,
+      "name": "geolift_deepsets_sum",
+      "output_activation": "sigmoid",
+      "output_resolution": 64,
+      "v_ref": 4
+    },
+    "parameter_count": 306625,
+    "fp32_parameter_bytes": 1226500,
+    "information": "full station measurements/valid rays/path/geometry, H excluded from network",
+    "labels": "no volumetric labels",
+    "selector": "mean held-out measurement relative L1"
+  },
+  "stopping_reason": "full preregistered budget; no early stopping"
+}

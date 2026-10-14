@@ -1,0 +1,65 @@
+{
+  "at": "2026-10-14T15:13:27.753088+08:00",
+  "passed": true,
+  "reference": 0.06072932818975515,
+  "replayed": 0.06072932818975515,
+  "validation": {
+    "loss": {
+      "total": 0.02073744172230363,
+      "hold": 0.009833250155982872,
+      "cross": 0.00973220389439828,
+      "observed": 0.008451141365286376,
+      "consistency": 0.10385951234234704
+    },
+    "measurement": {
+      "heldout": {
+        "relative_l1": 0.06072932818975515,
+        "relative_l2": 0.06978974879982114
+      },
+      "cross": {
+        "relative_l1": 0.060164294204399775,
+        "relative_l2": 0.06969356796319989
+      },
+      "observed": {
+        "relative_l1": 0.05349886407236823,
+        "relative_l2": 0.062226732718120036
+      }
+    },
+    "output": {
+      "min": 1.1659370691141646e-10,
+      "max": 0.8730161786079407,
+      "mean": 0.003648855425126385,
+      "std": 0.016293405710190587,
+      "fraction_near_one": 0.0,
+      "case_to_case_mean_absolute_difference": 0.004486544922526393
+    },
+    "gradient_norm_max": 0.0,
+    "case_station_digest": "8ee6f530b867b124624aa6ad2f4830f3deecd56744882c7f471ef8235d7b44ef",
+    "sample_count": 36,
+    "gt_used": false,
+    "seconds": 1.7903814343735576
+  },
+  "actual_model_forwards": 36,
+  "predicted_case_volumes": 72,
+  "batch_size": 2,
+  "access": {
+    "val_pool_a_projection_opens": 108,
+    "val_gt64_opens": 0,
+    "checkpoint_opens": 1,
+    "geometry_opens": 1,
+    "forbidden_attempts": 0,
+    "gt128_attempts": 0,
+    "foreign_checkpoint_attempts": 0,
+    "dataset_write_attempts": 0,
+    "pool_b_attempts": 0,
+    "nonval_or_unknown_npy_attempts": 0,
+    "checkpoint_write_attempts": 0,
+    "geometry_only": false,
+    "unique_val_gt64_files": 0,
+    "unique_val_pool_a_projections": 36,
+    "optimizer_created": false,
+    "optimizer_steps": 0,
+    "policy": "Inference: Val Pool A + original checkpoint, no GT. GT: saved outputs + Val GT64, no checkpoint/measurement. Neither: GT128/Pool B/test/writes.",
+    "phase": "inference"
+  }
+}
