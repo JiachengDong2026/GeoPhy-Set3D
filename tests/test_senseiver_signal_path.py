@@ -36,6 +36,18 @@ class SignalPathTests(unittest.TestCase):
         bad=dict(source,input_valid_ray=~source['input_valid_ray'])
         with self.assertRaises(ValueError):intervene(original,'wrong_case',bad)
 
+    @unittest.skipUnless(torch.cuda.is_available(),'CUDA transfer identity check')
+    def test_registered_cpu_values_transfer_exactly_and_keep_gpu_geometry(self):
+        from diagnose_senseiver_signal_path import execution_input
+        from geophy_set3d.training.ray_senseiver import tensor_identity
+        cpu=synthetic();source=dict(cpu,input_projection_raw=cpu['input_projection_raw']*1.3)
+        gpu={k:v.cuda() if isinstance(v,torch.Tensor) else v for k,v in cpu.items()}
+        for mode in ['normal','zero','wrong_case','gain_plus','gain_minus']:
+            registered=intervene(cpu,mode,source);actual=execution_input(gpu,registered)
+            self.assertEqual(tensor_identity(*[registered[k] for k in sorted(registered) if isinstance(registered[k],torch.Tensor)]),tensor_identity(*[actual[k] for k in sorted(actual) if isinstance(actual[k],torch.Tensor)]))
+            for k in gpu:
+                if k not in ['input_projection_raw','input_projection']:self.assertIs(actual[k],gpu[k])
+
     def test_real_raw_field_gradient_and_no_buffers_written(self):
         original=synthetic();b,u=differentiable_input(original);tokens,_,_=ray_tokens(b)
         g=torch.autograd.grad(tokens[...,0].sum(),u)[0]

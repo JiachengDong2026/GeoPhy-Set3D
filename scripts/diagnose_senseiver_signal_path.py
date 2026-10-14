@@ -79,6 +79,15 @@ def aligned_source(ds,sample,source_index):
     return projection_pool_collate([aligned])
 
 
+def execution_input(original,registered_cpu):
+    """Transfer registered measurement bits; preserve all existing geometry objects."""
+    result=dict(original)
+    for key in ['input_projection_raw','input_projection']:
+        result[key]=registered_cpu[key].to(original['input_projection_raw'].device)
+    assert all(result[k] is v for k,v in original.items() if k not in ['input_projection_raw','input_projection'])
+    return result
+
+
 def prepare(c,source,path):
     out=Path(c['output']);out.mkdir(parents=True,exist_ok=True);ART.mkdir(parents=True,exist_ok=True)
     if (out/'registration.json').exists():raise FileExistsError('No repeated registration')
@@ -129,7 +138,18 @@ def verify(c,source):
     for n in ['registration.json','checkpoint_identity.json','fixed_inputs.json','original_fixed_inventory.json.gz','source_manifest.json']:
         assert subprocess.check_output(['git','show',f'HEAD:docs/reports/artifacts/{NAME}/{n}'],cwd=REPO)==(out/n).read_bytes()
     for p,h in {**reg['metadata_sha256'],**reg['projection_sha256']}.items():assert sha256(p)==h,p
-    for p,h in {**reg['historical_sha256'],**json.loads((out/'source_manifest.json').read_text())['sha256']}.items():assert sha256(REPO/p)==h,p
+    expected=json.loads((out/'source_manifest.json').read_text())['sha256']
+    amendment_path=out/'amendment_v1_1.json'
+    if amendment_path.exists():
+        amendment=json.loads(amendment_path.read_text())
+        assert subprocess.check_output(['git','show',f'HEAD:docs/reports/artifacts/{NAME}/amendment_v1_1.json'],cwd=REPO)==amendment_path.read_bytes()
+        assert amendment['original_registration_sha256']==sha256(out/'registration.json') and amendment['original_source_manifest_sha256']==sha256(out/'source_manifest.json')
+        assert set(amendment['source_changes'])=={'scripts/diagnose_senseiver_signal_path.py','tests/test_senseiver_signal_path.py'}
+        for p,change in amendment['source_changes'].items():
+            assert expected[p]==change['old_sha256'];expected[p]=change['new_sha256']
+        assert (out/'forward_ledger.jsonl').read_bytes().startswith(amendment['preserved_ledger_prefix'].encode())
+        for p,h in amendment['preserved_saved_records'].items():assert sha256(out/p)==h,p
+    for p,h in {**reg['historical_sha256'],**expected}.items():assert sha256(REPO/p)==h,p
     return reg
 
 
@@ -202,17 +222,19 @@ def run(c,source):
             hooks_before=sum(len(m._forward_hooks)+len(m._forward_pre_hooks) for m in model.modules())
             for i in range(3):
                 batch=move_dual_batch(dual_measurement_collate([fixed[i]]),c['device']);original=batch['A']
-                wrong={k:v.to(c['device']) if isinstance(v,torch.Tensor) else v for k,v in aligned_source(ds,fixed[i],i+1).items()}
+                cpu_input=dual_measurement_collate([fixed[i]])['A'];wrong_cpu=aligned_source(ds,fixed[i],i+1)
+                registered_variants={mode:intervene(cpu_input,mode,wrong_cpu) for mode in c['modes']}
                 baseline=None;full_rows={}
                 for mode in c['modes']:
                     identity=f'{key}_case{i}_{mode}';previous=check_not_repeated(out,identity)
                     if previous is not None:
+                        assert previous['model_identity']==initial
                         full_rows[mode]=previous
                         if mode=='normal':
                             assert sha256(out/previous['baseline_arrays'])==previous['baseline_sha256']
                             with np.load(out/previous['baseline_arrays'],allow_pickle=False) as data:baseline={k:data[k] for k in data.files}
                         continue
-                    inp=intervene(original,mode,wrong)
+                    inp=execution_input(original,registered_variants[mode])
                     assert tensor_identity(*[inp[k] for k in sorted(inp) if isinstance(inp[k],torch.Tensor)])==registered[i]['modes'][mode]
                     ledger(out,identity,'started',kind='full',checkpoint_sha256=c['checkpoints'][key]['sha256'],index=i,mode=mode)
                     t=time.perf_counter();torch.cuda.reset_peak_memory_stats(c['device'])
@@ -260,7 +282,8 @@ def run(c,source):
         for entry in reg['full_forward_plan']+reg['local_graph_plan']:assert [r['event'] for r in rows if r['id']==entry['id']]==['started','returned','saved']
         summary.update(at=now(),full_forward_counts={event:sum(r['kind']=='full' and r['event']==event for r in rows) for event in ['started','returned','saved']},
                        local_graph_counts={event:sum(r['kind']=='local_sampled_graph' and r['event']==event for r in rows) for event in ['started','returned','saved']},
-                       projector_calls=60,optimizer_created=False,optimizer_steps=0,seconds=time.perf_counter()-began,access=guard.summary(),source_history_data_hashes_unchanged=True)
+                       projector_calls=60,optimizer_created=False,optimizer_steps=0,seconds=time.perf_counter()-began,access=guard.summary(),source_history_data_hashes_unchanged=True,execution_version='v1.1' if (out/'amendment_v1_1.json').exists() else 'v1',
+                       prior_partial_attempt='Two saved full forwards reused after preregistered CPU/GPU unused normalized-field identity amendment; original guard counters not persisted on assertion, see engineering event evidence.')
         assert summary['full_forward_counts']==dict(started=30,returned=30,saved=30) and summary['local_graph_counts']==dict(started=6,returned=6,saved=6)
         assert not any(summary['access'][k] for k in ['gt_open_attempts','forbidden_npy_attempts','supervised_checkpoint_open_attempts'])
     write_json(out/'complete.json',summary);print(json.dumps(summary,indent=2),flush=True)

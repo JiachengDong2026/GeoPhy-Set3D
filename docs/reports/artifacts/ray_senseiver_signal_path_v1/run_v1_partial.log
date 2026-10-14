@@ -1,0 +1,13 @@
+saved epoch0_case0_normal seconds=3.94
+saved epoch0_case0_zero seconds=2.48
+Traceback (most recent call last):
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/diagnose_senseiver_signal_path.py", line 275, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/diagnose_senseiver_signal_path.py", line 273, in main
+    else:run(c,source)
+         ^^^^^^^^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/diagnose_senseiver_signal_path.py", line 216, in run
+    assert tensor_identity(*[inp[k] for k in sorted(inp) if isinstance(inp[k],torch.Tensor)])==registered[i]['modes'][mode]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError
