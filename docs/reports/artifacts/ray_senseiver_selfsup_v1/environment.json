@@ -1,0 +1,43 @@
+{
+  "torch_version": "2.11.0+cu128",
+  "numpy_version": "2.5.3",
+  "cuda_version": "12.8",
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "git_commit": "d34f97b586bea35c7cbbb704d25ee67beb999187",
+  "git_dirty": false,
+  "seed": 20261011,
+  "precision": "fp32",
+  "test_used": false,
+  "identity": {
+    "name": "ray_senseiver_ss",
+    "model_config": {
+      "name": "ray_senseiver_ss",
+      "num_latents": 64,
+      "latent_channels": 64,
+      "preproc_channels": 64,
+      "num_layers": 3,
+      "self_layers_per_block": 3,
+      "cross_heads": 4,
+      "self_heads": 4,
+      "decoder_channels": 64,
+      "decoder_heads": 4,
+      "output_query_size": 1,
+      "space_bands": 16,
+      "dropout": 0.0,
+      "output_resolution": 64,
+      "output_activation": "sigmoid"
+    },
+    "parameter_count": 254913,
+    "fp32_parameter_bytes": 1019652,
+    "information": "full station measurements/valid rays/path/geometry, H excluded from network",
+    "labels": "no volumetric labels",
+    "selector": "mean held-out measurement relative L1"
+  },
+  "initial_state_sha256": "1fd1e876755be64371fa85c584410063b8f3b7f135f9ab7630e495ededf8e1e1",
+  "initialization": "fresh independent random seed; no weights read",
+  "TF32": false,
+  "cudnn_benchmark": false,
+  "cudnn_deterministic": false,
+  "deterministic_algorithms": false,
+  "effective_batch": 2
+}

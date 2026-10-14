@@ -1,0 +1,265 @@
+{
+  "status": [
+    "FAILED_LEARNING",
+    "NEAR_ZERO_COLLAPSE",
+    "EARLY_TERMINATED"
+  ],
+  "actual_completed_epochs": 113,
+  "actual_optimizer_steps": 9379,
+  "planned_epochs": 300,
+  "planned_updates": 24900,
+  "completed_original_budget": false,
+  "stopped_at": "2026-10-14T17:09:25.585846+08:00",
+  "reason": "Explicit user request supersedes prior full-budget instruction after no-GT collapse diagnosis",
+  "stop_boundary": {
+    "pid": 3494065,
+    "command": "/scratch/djc/envs/gas-torch/bin/python scripts/train_ray_senseiver_selfsup.py train ",
+    "observed_completed_epoch": 113,
+    "completed_log_line": "Ray-Senseiver-SS 113/300 steps=9379 trainH=1.000001 valH=1.000001 best=1.000001 seconds=29.05",
+    "at": "2026-10-14T17:09:25.585846+08:00",
+    "signal": "SIGSTOP immediately after flushed completed-epoch line",
+    "reason": "User-authorized FAILED_LEARNING / NEAR_ZERO_COLLAPSE / EARLY_TERMINATED; original 300-epoch requirement superseded",
+    "other_jobs_untouched": true
+  },
+  "last": {
+    "path": "/data/djc/GeoPhy-Set3D/outputs/checkpoints/ray_senseiver_selfsup_v1/last.pt",
+    "sha256": "567ec1f88bdaa1e78cd14665727ee353add0cd1ce457256ff9bb963b95e367b9",
+    "epoch": 113,
+    "steps": 9379
+  },
+  "best": {
+    "path": "/data/djc/GeoPhy-Set3D/outputs/checkpoints/ray_senseiver_selfsup_v1/best.pt",
+    "sha256": "c2a748696a806aba28f9483679edead0a69bb986b8e04ce7e123f2985a12ad91",
+    "epoch": 113,
+    "steps": 9379,
+    "heldout_relative_l1": 1.000000950284751
+  },
+  "last_complete_log": {
+    "epoch": 112,
+    "train": {
+      "loss": {
+        "total": 0.30808626797543953,
+        "hold": 0.192424499126802,
+        "cross": 0.19276952887155924,
+        "observed": 0.19276952887155924,
+        "consistency": 1.0588435499637152e-06
+      },
+      "measurement": {
+        "heldout": {
+          "relative_l1": 1.000000968749123,
+          "relative_l2": 0.9999992987883594
+        },
+        "cross": {
+          "relative_l1": 1.0000009818539848,
+          "relative_l2": 0.9999993006965453
+        },
+        "observed": {
+          "relative_l1": 1.0000009818542916,
+          "relative_l2": 0.9999993006965793
+        }
+      },
+      "output": {
+        "min": 1.7635698457141302e-09,
+        "max": 4.3049933395877815e-08,
+        "mean": 9.145211035576793e-09,
+        "std": 3.0705321871552256e-09,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.1295625738084814e-12
+      },
+      "gradient_norm_max": 6.718449003528804e-05,
+      "case_station_digest": "93b13d9da1e19079ac11b2009bbd022fa64ce2e17b9be342051099bb6ad1c819",
+      "sample_count": 166,
+      "gt_used": false,
+      "seconds": 27.410471621900797
+    },
+    "val": {
+      "loss": {
+        "total": 0.29993650648328996,
+        "hold": 0.187664947575993,
+        "cross": 0.18711918840805689,
+        "observed": 0.18711918840805689,
+        "consistency": 8.991787360122948e-07
+      },
+      "measurement": {
+        "heldout": {
+          "relative_l1": 1.000000950284751,
+          "relative_l2": 0.9999993039928312
+        },
+        "cross": {
+          "relative_l1": 1.0000009407842003,
+          "relative_l2": 0.9999993056516215
+        },
+        "observed": {
+          "relative_l1": 1.0000009407824901,
+          "relative_l2": 0.9999993056524565
+        }
+      },
+      "output": {
+        "min": 1.763465595772118e-09,
+        "max": 4.1655766835901886e-08,
+        "mean": 9.062613708859462e-09,
+        "std": 3.043377938450335e-09,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 1.1774998836221184e-12
+      },
+      "gradient_norm_max": 0.0,
+      "case_station_digest": "8ee6f530b867b124624aa6ad2f4830f3deecd56744882c7f471ef8235d7b44ef",
+      "sample_count": 36,
+      "gt_used": false,
+      "seconds": 1.6176225892268121
+    },
+    "learning_rate": 0.0001387515586452104,
+    "seconds": 29.048666302114725,
+    "gpu_peak_allocated_bytes": 779597824,
+    "optimizer_steps": 9379,
+    "optimizer_steps_this_epoch": 83,
+    "post_clip_gradient_norm_max": 6.718449003528804e-05,
+    "case_order_sha256": "958f243793497a713fb30de728e82a88d79ab455e6bd5c9d5f4aa8a2f8f4b43d",
+    "historical_station_digest_equal": true,
+    "best": 1.000000950284751,
+    "is_best": true
+  },
+  "config": {
+    "dataset": {
+      "root": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1"
+    },
+    "experiment": {
+      "name": "ray_senseiver_selfsup_v1",
+      "output_root": "/data/djc/GeoPhy-Set3D/outputs"
+    },
+    "loader": {
+      "num_workers": 4,
+      "persistent_workers": true,
+      "pin_memory": true
+    },
+    "loss": {
+      "hold": 1.0,
+      "cross": 0.5,
+      "observed": 0.1,
+      "consistency": 0.05,
+      "beta": 0.01,
+      "relative_l1": 0.1,
+      "relative_epsilon": 1e-06,
+      "measurement_scale": 32284.894580078173
+    },
+    "model": {
+      "name": "ray_senseiver_ss",
+      "num_latents": 64,
+      "latent_channels": 64,
+      "preproc_channels": 64,
+      "num_layers": 3,
+      "self_layers_per_block": 3,
+      "cross_heads": 4,
+      "self_heads": 4,
+      "decoder_channels": 64,
+      "decoder_heads": 4,
+      "output_query_size": 1,
+      "space_bands": 16,
+      "dropout": 0.0,
+      "output_resolution": 64,
+      "output_activation": "sigmoid"
+    },
+    "normalization": {
+      "method": "linear_p99_5",
+      "statistics_file": "train_statistics.json"
+    },
+    "optimizer": {
+      "lr": 0.0002,
+      "name": "adamw",
+      "weight_decay": 0.0001
+    },
+    "train": {
+      "split": "train",
+      "geometry_pool": "train",
+      "a_views": [
+        3,
+        5
+      ],
+      "b_views": [
+        3,
+        5
+      ],
+      "heldout_views": 2
+    },
+    "training": {
+      "batch_size": 2,
+      "device": "cuda:0",
+      "early_stopping_patience": null,
+      "gradient_accumulation": 1,
+      "gradient_clip_norm": 1.0,
+      "max_epochs": 300,
+      "precision": "fp32",
+      "seed": 20261011
+    },
+    "validation": {
+      "split": "val",
+      "geometry_pool": "train",
+      "a_views": [
+        4,
+        4
+      ],
+      "b_views": [
+        4,
+        4
+      ],
+      "heldout_views": 4
+    },
+    "scheduler": {
+      "name": "cosine",
+      "T_max": 300
+    },
+    "comparison": {
+      "output": "/data/djc/GeoPhy-Set3D/outputs/comparisons/ray_senseiver_selfsup_v1",
+      "reference_artifact": "/home/djc/projects/GeoPhy-Set3D/docs/reports/artifacts/selfsup_v1_c0c1_geometry",
+      "reference_predictions": "/data/djc/GeoPhy-Set3D/outputs/diagnostics/selfsup_v1_c0c1_geometry",
+      "bootstrap_seed": 2026101801,
+      "bootstrap_samples": 10000,
+      "tie_epsilon": 1e-08,
+      "timing_warmup": 10,
+      "timing_repeats": 30,
+      "representative_cases": [
+        0,
+        18,
+        35
+      ],
+      "representative_groups": [
+        "G1",
+        "G3",
+        "G5"
+      ],
+      "representative_draw": 0,
+      "slice_y_index": 32,
+      "deepsets_artifact": "/home/djc/projects/GeoPhy-Set3D/docs/reports/artifacts/deepsets_selfsup_v1"
+    },
+    "runtime": {
+      "query_chunk_size": 16384,
+      "decoder_checkpoint": true
+    }
+  },
+  "source_manifest_sha256": "52319d697f62167cf653f14d6a032c669865109acc255d2c6748ec0cf3e2631d",
+  "protocol_sha256": "eb5df93974255355a323cff73883f0c199f26c10972862e62b1afe5a80da46ba",
+  "metadata_sha256": {
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/source_index.jsonl": "cfc482fc84847c90620f0115edafbb12b2ad3cbd2c2ca21b6445ad0025924707",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/train_statistics.json": "7511c5c9035f645838e433db058c4f4c2fc5a95f7dbf03986481da1af62808d2"
+  },
+  "access": {
+    "gt_file_opened": false,
+    "gt_open_attempts": 0,
+    "forbidden_npy_attempts": 0,
+    "supervised_checkpoint_open_attempts": 0,
+    "projection_open_count": 0,
+    "unique_pool_a_projection_files": 0,
+    "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+    "audit_hook_inherited_by_workers": true
+  },
+  "no_900_inference_or_GT": true,
+  "cancelled_followup": "Original run selector/900 predictions/GT comparison/cost pipeline; no followup evaluator was running",
+  "checkpoint_originals_retained": true,
+  "supervisor_observer": {
+    "pid": 3494065,
+    "started_at": "2026-10-14T16:13:59.251208+08:00",
+    "completed": false,
+    "exit_code": -15,
+    "wall_seconds": 3390.336700439453
+  }
+}
