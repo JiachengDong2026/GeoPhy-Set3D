@@ -164,7 +164,7 @@ def timing(c,device):
     with DiagnosticReadGuard(c['dataset']['root'],[freeze['checkpoint'],oursfreeze['checkpoint']],out,'inference') as guard:
         assert sha256(oursfreeze['checkpoint'])==oursfreeze['sha256']
         cfg=oursfreeze['config'];ck=torch.load(oursfreeze['checkpoint'],map_location=device,weights_only=False);assert ck['config']==cfg
-        ours=build_model(cfg).to(device);ours.load_state_dict(ck['model']);ours.eval();models={'Ours':ours,'DeepSets':load_baseline(c,freeze,device)}
+        ours=build_model(cfg).to(device);ours.load_state_dict(ck['model']);ours.eval();del ck;models={'Ours':ours,'DeepSets':load_baseline(c,freeze,device)}
         ds=dataset(dict(dataset=c['dataset']['root'],original_seed=c['training']['seed']));rows=[]
         gpu_before=subprocess.check_output(['nvidia-smi','--query-gpu=index,memory.used,utilization.gpu','--format=csv'],text=True)
         with torch.no_grad():
