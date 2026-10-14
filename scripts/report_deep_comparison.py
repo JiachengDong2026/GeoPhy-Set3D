@@ -111,21 +111,21 @@ def integrity(c,out):
     assert all(audits[k]['forbidden_attempts']==0 for k in ['inference_access.json','gt_access.json','figure_gt_access.json'])
     value=dict(passed=True,dataset_metadata_unchanged=True,historical_metadata_unchanged=True,protected_source_hashes_unchanged_except_additive_registry=True,
                GT128_metadata_unchanged_contents_not_read=True,reference_checkpoint_unchanged=True,epochs=300,optimizer_steps=24900,
-               historical_station_digests_match=all(r['historical_station_digest_equal'] for r in rows),forward_counts=dict(main_deepsets=900,selector_deepsets=72,timing_deepsets=360,timing_ours=360),
-               smoke_successful_model_forwards=7,smoke_optimizer_steps=1,smoke_failed_attempt_optimizer_steps=0,formal_smoke_initial_state_equal=True,
+               historical_station_digests_match=all(r['historical_station_digest_equal'] for r in rows),forward_counts=dict(main_deepsets=900,selector_deepsets=36,timing_deepsets=360,timing_ours=360,formal_training_batch2_calls=49800,formal_validation_batch2_calls=10800),
+               smoke_successful_model_forwards=7,smoke_optimizer_steps=1,smoke_failed_attempt_optimizer_steps=0,smoke_failed_attempt_model_forwards=2,selector_case_volumes=72,formal_smoke_initial_state_equal=True,
                regression='259 pretraining tests plus 3 comparison-statistics tests',boundaries=audits)
     write_json(out/'integrity.json',value);return value
 
 
 def report(c,out,case,stats,training,tails,contrasts,integ):
-    t=json.loads((out/'training_complete.json').read_text());freeze=json.loads((out/'frozen_best.json').read_text());timing=json.loads((out/'timing.json').read_text());selector=json.loads((out/'selector_replay.json').read_text())
+    observer=json.loads((out/'training_process_observer.json').read_text());t=json.loads((out/'training_complete.json').read_text());freeze=json.loads((out/'frozen_best.json').read_text());timing=json.loads((out/'timing.json').read_text());selector=json.loads((out/'selector_replay.json').read_text())
     primary=stats[stats.metric=='relative_l1'].set_index('group').loc[GROUPS]
     bestgroups=[g for g in GROUPS if primary.loc[g].mean_delta<0];worse=[g for g in GROUPS if primary.loc[g].mean_delta>0]
     definite=[g for g in GROUPS if primary.loc[g].ci_high<0];uncertain=[g for g in GROUPS if primary.loc[g].ci_low<=0<=primary.loc[g].ci_high]
     ref='/data/djc/GeoPhy-Set3D/outputs/logs/selfsup_oari_mrgr_v1/training_summary.json';reftrain=json.loads(Path(ref).read_text())
     metricrows=[]
     for g in GROUPS:
-        r=primary.loc[g];metricrows.append([g,f'{r.ours_mean:.6f}',f'{r.deepsets_mean:.6f}',f'{r.mean_delta:.6f}',f'{r.median_delta:.6f}',f'[{r.ci_low:.6f}, {r.ci_high:.6f}]',f'{r.ours_wins}/{r.deepsets_wins}/{r.ties}',f'{100*r.ours_relative_error_reduction:.2f}%'])
+        r=primary.loc[g];metricrows.append([g,f'{r.ours_mean:.6f}',f'{r.deepsets_mean:.6f}',f'{r.mean_delta:.6f}',f'{r.median_delta:.6f}',f'[{r.ci_low:.6f}, {r.ci_high:.6f}]',f'{int(r.ours_wins)}/{int(r.deepsets_wins)}/{int(r.ties)}',f'{100*r.ours_relative_error_reduction:.2f}%'])
     recent=[r['val']['measurement']['heldout']['relative_l1'] for r in training[-30:]];previous=[r['val']['measurement']['heldout']['relative_l1'] for r in training[-60:-30]]
     bestoutput=selector['validation']['output'];notcollapsed=(bestoutput['std']>1e-6 and bestoutput['mean']>1e-6 and bestoutput['fraction_near_one']<.01 and bestoutput['case_to_case_mean_absolute_difference']>1e-6)
     cost=[]
@@ -135,7 +135,7 @@ def report(c,out,case,stats,training,tails,contrasts,integ):
     secondary=[]
     for m in ['relative_l2','observed_relative_l1','heldout_relative_l1','peak_value_absolute_error','integrated_concentration_relative_error']:
         for g in GROUPS:
-            r=stats[(stats.group==g)&(stats.metric==m)].iloc[0];secondary.append([g,m,f'{r.ours_mean:.7g}',f'{r.deepsets_mean:.7g}',f'{r.mean_delta:.7g}',f'[{r.ci_low:.7g}, {r.ci_high:.7g}]',f'{r.ours_wins}/{r.deepsets_wins}/{r.ties}'])
+            r=stats[(stats.group==g)&(stats.metric==m)].iloc[0];secondary.append([g,m,f'{r.ours_mean:.7g}',f'{r.deepsets_mean:.7g}',f'{r.mean_delta:.7g}',f'[{r.ci_low:.7g}, {r.ci_high:.7g}]',f'{int(r.ours_wins)}/{int(r.deepsets_wins)}/{int(r.ties)}'])
     tailrows=[]
     for m in ['relative_l1','relative_l2']:
         for g in GROUPS:
@@ -163,7 +163,7 @@ Deep Sets原论文：Zaheer et al., https://arxiv.org/abs/1703.06114 。已读�
 
 独立临时模型A5/B5/H2、batch2真实forward/backward/AdamW一步通过，shape/range/有限梯度/置换/padding/全invalid及H排除均通过；置换最大差1.6391e−6，padding差0，峰值2.495GiB。首个检查在step前因诊断梯度字典键笔误终止；更正键后重启fresh smoke，没有科学设定更改，原日志保留。正式模型重新seed随机初始化，初态SHA=`56e43c54fe633c49c280075fd5bb5247b993a779e48111433fcec0636445eee2`，不读取smoke/监督/旧训练权重。
 
-完成166 cases×300 epochs，每轮83次step，总24,900；FP32、batch2/accum1、seed20261011、AdamW lr2e−4/wd1e−4、clip1、cosine T_max300，无early stop和搜索。DeepSets训练+Val逐epoch墙钟合计{t['total_epoch_seconds']/3600:.3f}h，平均{t['mean_epoch_seconds']:.3f}s/epoch，训练峰值{t['peak_gpu_allocated_bytes']/2**30:.3f}GiB；共享RTX4090，非独占benchmark。AdamW真实step计数及clip后norm已记录，没有NaN/Inf中断。
+完成166 cases×300 epochs，每轮83次step，总24,900；FP32、batch2/accum1、seed20261011、AdamW lr2e−4/wd1e−4、clip1、cosine T_max300，无early stop和搜索。DeepSets训练+Val逐epoch墙钟合计{t['total_epoch_seconds']/3600:.3f}h，平均{t['mean_epoch_seconds']:.3f}s/epoch，完整训练进程墙钟{observer['wall_seconds']/3600:.3f}h（观察误差至多1秒），训练峰值{t['peak_gpu_allocated_bytes']/2**30:.3f}GiB；共享RTX4090，非独占benchmark。AdamW真实step计数及clip后norm已记录，没有NaN/Inf中断。
 
 best第{t['best_epoch']}轮，natural Val平均held-out relative L1={t['best_val_heldout_relative_l1']:.8f}。best SHA256=`{freeze['sha256']}`，路径`{freeze['checkpoint']}`。完整预算结束后冻结，独立measurement-only selector重放={selector['replayed']:.8f}，容差abs1e−8+rel1e−5通过。
 
@@ -181,7 +181,7 @@ best Val输出min/max/mean/std={bestoutput['min']:.6g}/{bestoutput['max']:.6g}/{
 
 ## 3. G1–G5主终点：同输入3D relative L1
 
-原900条V4布局全部复用，input IDs及顺序、measurement/path/geometry、valid/view/lifting visibility masks和共同H4身份匹配。Ours采用最新normal C1已验证完整标量，原checkpoint SHA=`1573cd84dffeabeb58fbbfb1afec9c9dc865a0a674e21229711bb25b22e3c026`；此前900行十指标复现通过，本輪未重跑900个Ours结果。DeepSets900次独立冻结推理，先保存预测/identity hash再评价GT64。
+原900条V4布局全部复用，input IDs及顺序、measurement/path/geometry、valid/view/lifting visibility masks和共同H4身份匹配。Ours采用最新normal C1已验证完整标量，原checkpoint SHA=`1573cd84dffeabeb58fbbfb1afec9c9dc865a0a674e21229711bb25b22e3c026`；此前900行十指标复现通过，本轮未重跑900个Ours结果。DeepSets900次独立冻结推理，先保存预测/identity hash再评价GT64。
 
 先同case/group平均五layout，再36case配对bootstrap10,000次、seed2026101801；Δ=Ours−DeepSets，负值有利Ours。下表CI逐项95%，**未校正同时覆盖率**；本轮不计算p值、不作多重检验显著性断言。胜/负/平阈值|Δ|≤1e−8。900条、ray、voxel不作为独立样本。
 
@@ -241,7 +241,7 @@ tail基于36个case/group五layout均值；逐layout900行保留用于描述，�
 
 ## 交付与访问边界
 
-实际正式预算300epochs/24,900steps；主预测900、selector replay72、成本DeepSets360/Ours360；成功独立smoke七次forward/一步，不计正式预算。完整现有回归259项通过，新增独立配对统计三项通过。历史源码（除新增注册）、dataset、旧输出/checkpoint metadata/hash核验通过；GT128仅核对冻结metadata，内容未读。
+实际正式预算300epochs/24,900steps；主预测900、selector replay36次batch2前向/72个case预测、成本DeepSets360/Ours360；成功独立smoke七次batch2 forward/一步，失败检查两次batch2 forward/零步，不计正式预算；正式train/Val分别49,800/10,800次batch2 model调用。完整现有回归259项通过，新增独立配对统计三项通过。历史源码（除新增注册）、dataset、旧输出/checkpoint metadata/hash核验通过；GT128仅核对冻结metadata，内容未读。
 
 配置 `configs/train_deepsets_selfsup_v1.yaml`；训练入口 `scripts/train_deepsets_selfsup.py`；统一接口 `src/geophy_set3d/training/deep_comparison.py`；独立评价 `scripts/evaluate_deep_comparison.py`；报告入口 `scripts/report_deep_comparison.py`。标量/图/协议/审计在本报告同目录artifacts；大预测与checkpoint仅外部目录`{out}`和`/data/djc/GeoPhy-Set3D/outputs/checkpoints/deepsets_selfsup_v1`，不提交Git。
 '''

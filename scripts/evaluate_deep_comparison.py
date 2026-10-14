@@ -121,10 +121,10 @@ def selector(c,device):
     with DiagnosticReadGuard(c['dataset']['root'],[freeze['checkpoint']],out,'inference') as guard:
         model=load_baseline(c,freeze,device);ds=make_dataset(c,validation=True)
         runconfig=dict(c,training=dict(c['training'],device=device),loader=dict(num_workers=0,persistent_workers=False,pin_memory=True))
-        result=run_epoch(model,make_loader(ds,runconfig),runconfig)
+        loader=make_loader(ds,runconfig);result=run_epoch(model,loader,runconfig)
         expected=json.loads((out/'training_complete.json').read_text())['best_val_heldout_relative_l1']
         assert np.isclose(selection_metric(result),expected,atol=1e-8,rtol=1e-5)
-        write_json(out/'selector_replay.json',dict(at=now(),passed=True,reference=expected,replayed=selection_metric(result),validation=result,actual_model_forwards=72,access=guard.summary()))
+        write_json(out/'selector_replay.json',dict(at=now(),passed=True,reference=expected,replayed=selection_metric(result),validation=result,actual_model_forwards=2*len(loader),predicted_case_volumes=2*len(ds),batch_size=runconfig['training']['batch_size'],access=guard.summary()))
 
 
 def gt(c):
