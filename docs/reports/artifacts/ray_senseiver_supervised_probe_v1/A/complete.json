@@ -1,0 +1,192 @@
+{
+  "stage": "A",
+  "reason": "PASSED",
+  "updates": 500,
+  "elapsed_seconds": 116.46411871304736,
+  "initial_hash": "695a6f3d6d834cd12088fedda583f9154b6ee52503af8a0e6b6dfcee2b0313cf",
+  "final_hash": "69bde7804ea4d7fe1e7e092c1848c9eb7171bba237bb3ad2592b2b82a6894757",
+  "last_sha256": "1cab951a59c9d8afe3ec09b066a1fcacee159551c1bb0edae60227297097e9d1",
+  "checkpoint": "/data/djc/GeoPhy-Set3D/outputs/comparisons/ray_senseiver_supervised_probe_v1/checkpoints/A/last.pt",
+  "epoch0_sha256": "13248f13f8490d0a67a93d68b0a49f7444fe958fe6cdf79b2abe137f5cf35ea7",
+  "final": {
+    "updates": 500,
+    "mean": {
+      "nmse": 0.03243462494753246,
+      "relative_l1": 0.2646415946140014,
+      "relative_l2": 0.1800961547272247
+    },
+    "cases": [
+      {
+        "index": 0,
+        "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet1_half",
+        "nmse": 0.03243462494753246,
+        "relative_l1": 0.2646415946140014,
+        "relative_l2": 0.1800961547272247,
+        "mean": 0.0020129095814902676,
+        "peak": 0.41504552960395813,
+        "minimum": 7.207070666481741e-06,
+        "spatial_std": 0.011286741196197896,
+        "gt_mean": 0.0020850843215813666,
+        "gt_peak": 0.4298523962497711,
+        "gt_spatial_std": 0.011961806033622914,
+        "total_ratio": 0.9653852175933296,
+        "plume_voxels": 4489,
+        "plume": {
+          "nmse": 0.012550644891017216,
+          "relative_l1": 0.0881098206921464,
+          "relative_l2": 0.1120296607645369
+        }
+      }
+    ],
+    "logit_quantiles": {
+      "0.0": -11.84044075012207,
+      "0.01": -11.729235782623292,
+      "0.5": -10.449161529541016,
+      "0.99": -2.8434632825851436,
+      "1.0": -0.34314584732055664
+    },
+    "fraction_logit_below_minus12": 0.0,
+    "mean_sigmoid_derivative": 0.0018814672496770615,
+    "query_count_per_case": 262144,
+    "complete_query_finite": true,
+    "seconds": 0.19131533335894346,
+    "last_update_gradients": {
+      "encoder": 0.9351047204148106,
+      "latents": 0.07747472289203905,
+      "decoder": 3.475504673662094
+    },
+    "last_parameter_updates": {
+      "encoder": 0.0019789584680320257,
+      "latents": 0.0001176661728710107,
+      "decoder": 0.003163292960561139
+    }
+  },
+  "references": {
+    "zero": {
+      "mean": {
+        "nmse": 1.0,
+        "relative_l1": 1.0,
+        "relative_l2": 1.0
+      },
+      "cases": [
+        {
+          "index": 0,
+          "nmse": 1.0,
+          "relative_l1": 1.0,
+          "relative_l2": 1.0,
+          "mean": 0.0,
+          "peak": 0.0,
+          "minimum": 0.0,
+          "spatial_std": 0.0,
+          "gt_mean": 0.002085084321581366,
+          "gt_peak": 0.4298523962497711,
+          "gt_spatial_std": 0.011961806033613865,
+          "total_ratio": 0.0,
+          "plume_voxels": 4489,
+          "plume": {
+            "nmse": 1.0,
+            "relative_l1": 1.0,
+            "relative_l2": 1.0
+          }
+        }
+      ]
+    },
+    "uniform": {
+      "mean": {
+        "nmse": 0.9705113854786157,
+        "relative_l1": 1.8638385031466325,
+        "relative_l2": 0.9851453626133636
+      },
+      "cases": [
+        {
+          "index": 0,
+          "nmse": 0.9705113854786157,
+          "relative_l1": 1.8638385031466325,
+          "relative_l2": 0.9851453626133636,
+          "mean": 0.002085084095597267,
+          "peak": 0.002085084095597267,
+          "minimum": 0.002085084095597267,
+          "spatial_std": 0.0,
+          "gt_mean": 0.002085084321581366,
+          "gt_peak": 0.4298523962497711,
+          "gt_spatial_std": 0.011961806033613865,
+          "total_ratio": 0.9999998916187242,
+          "plume_voxels": 4489,
+          "plume": {
+            "nmse": 0.9591983915619737,
+            "relative_l1": 0.9716182053280646,
+            "relative_l2": 0.9793867425904712
+          }
+        }
+      ]
+    },
+    "mean_template": {
+      "mean": {
+        "nmse": 0.0,
+        "relative_l1": 0.0,
+        "relative_l2": 0.0
+      },
+      "cases": [
+        {
+          "index": 0,
+          "nmse": 0.0,
+          "relative_l1": 0.0,
+          "relative_l2": 0.0,
+          "mean": 0.002085084321581366,
+          "peak": 0.4298523962497711,
+          "minimum": 0.0,
+          "spatial_std": 0.011961806033613865,
+          "gt_mean": 0.002085084321581366,
+          "gt_peak": 0.4298523962497711,
+          "gt_spatial_std": 0.011961806033613865,
+          "total_ratio": 1.0,
+          "plume_voxels": 4489,
+          "plume": {
+            "nmse": 0.0,
+            "relative_l1": 0.0,
+            "relative_l2": 0.0
+          }
+        }
+      ]
+    }
+  },
+  "peak_gpu_bytes": 219383808,
+  "training_head": "357e5aed2cf1f24aa090da6fde9fcbe31f7ce2a6",
+  "access": {
+    "policy": "Only registered train GT64 and Pool A; GT128/Val/test/Pool B/foreign weights forbidden",
+    "denied_attempts": [],
+    "reads": [
+      {
+        "category": "own_array",
+        "path": "/data/djc/GeoPhy-Set3D/outputs/comparisons/ray_senseiver_supervised_probe_v1/A/final_volumes.npz",
+        "count": 1
+      },
+      {
+        "category": "own_checkpoint",
+        "path": "/data/djc/GeoPhy-Set3D/outputs/comparisons/ray_senseiver_supervised_probe_v1/checkpoints/A/epoch0.pt",
+        "count": 1
+      },
+      {
+        "category": "own_checkpoint",
+        "path": "/data/djc/GeoPhy-Set3D/outputs/comparisons/ray_senseiver_supervised_probe_v1/checkpoints/A/last.pt",
+        "count": 1
+      },
+      {
+        "category": "pool_A_geometry",
+        "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/geometry/train_geometry.npz",
+        "count": 2
+      },
+      {
+        "category": "projection",
+        "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet1_half/projections_train.npy",
+        "count": 4
+      },
+      {
+        "category": "train_GT64",
+        "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet1_half/gt_volume_64.npy",
+        "count": 4
+      }
+    ]
+  },
+  "supervised_diagnostic": true
+}

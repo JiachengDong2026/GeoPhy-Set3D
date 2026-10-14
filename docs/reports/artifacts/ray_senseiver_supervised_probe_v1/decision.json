@@ -1,0 +1,41 @@
+{
+  "decision": "A_PASSED_B_NOT_PASSED",
+  "stages": {
+    "A": {
+      "reason": "PASSED",
+      "updates": 500,
+      "elapsed_seconds": 116.46411871304736,
+      "mean": {
+        "nmse": 0.03243462494753246,
+        "relative_l1": 0.2646415946140014,
+        "relative_l2": 0.1800961547272247
+      },
+      "checkpoint": "/data/djc/GeoPhy-Set3D/outputs/comparisons/ray_senseiver_supervised_probe_v1/checkpoints/A/last.pt",
+      "checkpoint_sha256": "1cab951a59c9d8afe3ec09b066a1fcacee159551c1bb0edae60227297097e9d1",
+      "initial_hash": "695a6f3d6d834cd12088fedda583f9154b6ee52503af8a0e6b6dfcee2b0313cf",
+      "training_head": "357e5aed2cf1f24aa090da6fde9fcbe31f7ce2a6",
+      "peak_gpu_bytes": 219383808
+    },
+    "B": {
+      "reason": "BUDGET_EXHAUSTED_UNRESOLVED",
+      "updates": 2000,
+      "elapsed_seconds": 451.3909964472987,
+      "mean": {
+        "nmse": 0.07147350796326685,
+        "relative_l1": 0.3962665089999438,
+        "relative_l2": 0.26531970894083046
+      },
+      "checkpoint": "/data/djc/GeoPhy-Set3D/outputs/comparisons/ray_senseiver_supervised_probe_v1/checkpoints/B/last.pt",
+      "checkpoint_sha256": "79b1e9e01597bd965e20c5e9c16dcaf499a4947503ccefd2ec0a30d3d51c85f8",
+      "initial_hash": "5e75616da51e5bdb699e795d42049083380d11fa376b49cd919855cf7f11e7d8",
+      "training_head": "357e5aed2cf1f24aa090da6fde9fcbe31f7ce2a6",
+      "peak_gpu_bytes": 322220544
+    }
+  },
+  "stop_here": true,
+  "no_full_training": true,
+  "no_additional_repair": true,
+  "not_a_selfsupervised_baseline": true,
+  "posthoc_model_forwards": 0,
+  "posthoc_optimizer_steps": 0
+}

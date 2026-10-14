@@ -1,6 +1,9 @@
 # GeoPhy-Set3D
 
-当前阶段：[Ray-Senseiver快速定位与单次修复闭环](docs/reports/ray_senseiver_quick_repair_v1_zh.md)已完成，**修复失败归档，正式训练NO-GO**。固定四站16例冻结latent读出中，岭回归/query头检查MSE=1.32e−8/2.39e−5（常量4.97e−4），两者均可读；随后只新增4096参数的全局latent解码残差，重新fresh对照。Control35轮/140步、Treatment30轮/120步均FAILED_TO_LEARN；共同e30 H L1=1.06066→1.03528，但L2=.99306→.99587，测量依赖3例均未达1e−3，不能作为有效修复。
+当前阶段：[Ray-Senseiver训练集GT64有监督可学性诊断](docs/reports/ray_senseiver_supervised_probe_v1_zh.md)已实际完成。原始结构单例500步连续通过（NMSE=.03243、三维relative L1=.26464）；八例2000步终点NMSE=.07147、L1=.39627，较平均模板降低90.19%，3个固定case测量依赖全部达标且错配增大GT误差。但1900步L1=.57105，尚未连续两次通过，按预算归档 **BUDGET_EXHAUSTED_UNRESOLVED**，不登记正式训练候选。保留积极条件学习证据，不宣称架构不可学；暂停当前Senseiver路线，沿用冻结DeepSets作为独立学习基线，不追加修复、补步或长训练。
+本轮仅登记train前8例/Pool A及其GT64，原始254913参数、完整64³、单一归一化监督MSE、固定LR、fresh初始化；无GT128/Val/test/Pool B、外来权重或阶段A warm start。新增5项及原模型4项测试通过，历史consistency的1项FP32回归失败继续保留。**有监督诊断不进入纯自监督榜单，权重不得用于后续标称无GT的训练。** [协议](docs/ray_senseiver_supervised_probe_v1_protocol_zh.md)、[配置](configs/ray_senseiver_supervised_probe_v1.yaml)、[入口](scripts/run_senseiver_supervised_probe.py)、[标量/图/访问与退出审计](docs/reports/artifacts/ray_senseiver_supervised_probe_v1/)。
+
+上一阶段：[Ray-Senseiver快速定位与单次修复闭环](docs/reports/ray_senseiver_quick_repair_v1_zh.md)已完成，**修复失败归档，正式训练NO-GO**。固定四站16例冻结latent读出中，岭回归/query头检查MSE=1.32e−8/2.39e−5（常量4.97e−4），两者均可读；随后只新增4096参数的全局latent解码残差，重新fresh对照。Control35轮/140步、Treatment30轮/120步均FAILED_TO_LEARN；共同e30 H L1=1.06066→1.03528，但L2=.99306→.99587，测量依赖3例均未达1e−3，不能作为有效修复。
 参数共享初态/完整query/真实更新/退出和访问审计通过，无GT64/128、Val、Pool B或test，无历史/读出/smoke权重warm start。新增7项及原模型4项测试通过；旧consistency幅度回归仍有1项FP32数值失败，原日志和有限float64核验保留，不改旧函数或容差。[协议](docs/ray_senseiver_quick_repair_v1_protocol_zh.md)、[唯一设计](docs/ray_senseiver_quick_repair_v1_design_zh.md)、[训练入口](scripts/run_senseiver_single_repair.py)、[结果与决策](docs/reports/artifacts/ray_senseiver_quick_repair_v1/)。本轮停止；唯一后续选择是暂停当前适配路线、沿用已冻结可学习的Ours/DeepSets作为比较对象，不追加结构/loss搜索或300轮。
 
 上一阶段：[Ray-Senseiver 测量信号通路独立诊断](docs/reports/ray_senseiver_signal_path_v1_zh.md)已完成，正式训练仍 **NO-GO**。只读最新consistency Treatment的epoch0/last35，完成30次完整64³干预前向、6个成功259-query局部梯度图，0次optimizer更新；另保留1个工程异常中止局部图及两次版本化执行器修订。
