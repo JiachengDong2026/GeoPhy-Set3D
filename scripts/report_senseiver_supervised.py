@@ -56,9 +56,12 @@ def main():
             summary+=f'|{name}|{historical["identities"][name]["parameter_count"]}|{np.median(values):.6g}|历史冻结实测，硬件负载不匹配|\n'
         summary+='\n同一计时方法不等于同一资源竞争条件，不据跨日期计时比值归因架构；本轮显存及每次原始时间见[timing.json](artifacts/ray_senseiver_supervised_v1/timing.json)。\n'
     reg=read(B/'registration.json');t=a['final'];checks=[r for r in ae if r['updates'] in [2000,2200,2400]]
+    headline=('监督稳定可学性已验证，形成了有测量依赖的有监督独立参考；但精度明显低于监督MRGR及自监督Ours/DeepSets，不作为竞争性强基线。正式训练按2小时上限停止，best已冻结并完成900条比较。下一步保留冻结参考，暂停当前适配的追加训练与局部修复。' if evaldone else '八样本稳定性已通过，正式监督实验与条件冻结评价按登记执行；尚未完成的阶段不报告为成功基线。')
     report=f'''# 有监督Ray-Senseiver稳定性、正式训练与冻结评价
 
-八样本监督稳定性已经验证，原始254913参数结构在2000/2200/2400步连续通过联合门槛。{state} {'已冻结有效监督候选并完成独立900条评价；比较结果见下文。' if evaldone else '尚未完成冻结900条评价，不报告成功基线排名。'}{comparison_intro} {'下一步仅冻结本次结论与候选，不自动追加配置或训练。' if complete else '下一步按已登记配置继续正式训练，完成后条件冻结评价。'}历史纯自监督REPAIR_FAILED_NO_GO保持，不将本轮监督结果纳入纯自监督榜单。
+{headline}
+
+八样本监督稳定性已经验证，原始254913参数结构在2000/2200/2400步连续通过联合门槛。{state}{comparison_intro} 历史纯自监督REPAIR_FAILED_NO_GO保持，不将本轮监督结果纳入纯自监督榜单。
 
 ## 实际执行与阶段A
 
@@ -91,13 +94,23 @@ def main():
             for d in h['interventions']:report+=f'|{h["epoch"]}|{d["index"]}|{d["normal_nmse"]:.6g}|{d["relative_MA"]:.6g}|{d["absolute_MA"]:.6g}|{d["wrong_minus_normal_nmse"]:.6g}|\n'
         report+='\n'
     if complete:report+=f"实际停止{complete['reason']}，{complete['epochs']}轮/{complete['updates']}更新/{complete['elapsed_seconds']:.2f}秒。best epoch={complete['best_epoch']}，SHA256 `{complete['best_sha256']}`，路径 `{complete['best_checkpoint']}`。\n\n"
+    if complete:
+        steps=read(B/'steps.json.gz');laststep=steps[-1];partial=complete['updates']-83*complete['epochs']
+        report+=f'完整轮数为{complete["epochs"]}，另有下一轮{partial}次更新。最后更新开始于t={laststep["elapsed_seconds"]-laststep["seconds"]:.3f}s，完成于t={laststep["elapsed_seconds"]:.3f}s，均在7200s前；其后仅必要保存与标量封存，总墙钟{complete["elapsed_seconds"]:.3f}s。末次实际lr={laststep["lr"]:.10g}，未到300轮终端lr。预算退出不代表收敛，禁止补步续跑。\n\n'
+    if (B/'integrity.json').exists():
+        integrity=read(B/'integrity.json')
+        report+='[最终完整性审计](artifacts/ray_senseiver_supervised_v1/integrity.json)通过：全部完整epoch各166个不同train case，每更新有效batch2、3–6站、完整262144 query；更新连续、原始模型依赖及历史报告hash保持，训练禁读尝试为0。两模型推理GT读取均为0；独立GT评价的measurement/checkpoint读取均为0。\n\n|参数组|全部更新中的最小梯度L2|最小真实更新L2|\n|---|---:|---:|\n'
+        for g in ['encoder','latents','decoder']:report+=f'|{g}|{integrity["minimum_group_gradient_and_update_l2"]["gradient_l2"][g]:.6g}|{integrity["minimum_group_gradient_and_update_l2"]["update_l2"][g]:.6g}|\n'
+        report+='\n'
     if frozen:
         report+=f"冻结门槛effective_learning={frozen['effective_learning']}，Val selector重放NMSE={frozen['selector_replay']['mean']['nmse']:.8f}；三组梯度和真实更新有效={frozen['valid_gradient_updates']}。\n\n"
         report+='|固定训练case|normal-zero absolute MA|relative MA|normal NMSE|wrong NMSE|\n|---:|---:|---:|---:|---:|\n'
         for d in frozen['health']['interventions']:report+=f"|{d['index']}|{d['absolute_MA']:.6g}|{d['relative_MA']:.6g}|{d['normal_nmse']:.6g}|{d['wrong_measurement_nmse']:.6g}|\n"
     report+='\n## 冻结比较、访问与局限\n'+summary
+    if evaldone:
+        report+='\n配对统计：15个五档×参考L1比较的差值95%区间均高于0，均值劣于三个参考；G1–G4对每参考均为0胜/36负。G5对DeepSets为11胜/25负，均值差+0.120872，95%CI[0.048566,0.196118]；不能写成所有case均更差。统计未校正多重比较，单seed与同一Val家族限制外推。\n'
     report+='\n|方法|训练GT|选模GT／selector|训练目标|训练输入|预算与停止|\n|---|---|---|---|---|---|\n|监督Ray-Senseiver|166 train GT64|36 Val GT64／平均逐case NMSE|归一化voxel MSE|Pool A自然3–6站、epoch变化|本轮实际预算见上，预登记早停／300轮／2h|\n|冻结监督MRGR|166 train GT64|36 Val GT64／C1监督loss|SmoothL1(beta1)+.1relative L1|Pool A自然3–6站、epoch变化|300轮／24900更新，预算结束；best295|\n|冻结自监督Ours|无训练GT|无选模GT／Val held-out relative L1|原hold/cross/obs/consistency|A3–5/B3–5/H2，H不输入|300轮／24900更新，预算结束|\n|冻结自监督DeepSets|无训练GT|无选模GT／Val held-out relative L1|同冻结自监督Ours|A3–5/B3–5/H2，H不输入|300轮／24900更新，预算结束；best292|\n\n监督Senseiver和监督MRGR使用训练GT及Val GT选模；Ours/DeepSets为冻结自监督参考，不能混为同标签排名。本轮900预测全部先落盘并hash封存，再独立GT64步骤沿用原VolumeMetrics及P_diff/K96观测指标；五档×五layout×36Val不变，case内先平均5draw，36case配对bootstrap10000次/seed2026101801、沿用tie epsilon=1e-8。900条仍来自同一官方Val split，不是额外test集。新训练不读取test、Pool B、GT128，不改划分及冻结历史结果。GT128来源hash仅引用元数据。已知GT64与历史GT128投影离散化差异保留，不新增缩放、插值或重投影标签。\n\n'
-    report+='监督相关13项检查、原Ray-Senseiver4项、数据12项、采样3项、独立评价边界2项，共34项适用检查通过；原始测试日志保留。历史FP32 consistency回归仍有1项失败，本轮未修改其函数/容差，不能称历史全部测试通过。共享GPU且仅单seed，计时不是独占设备基准；监督可学不证明原纯测量loss失败的唯一根因，也不代表原论文Senseiver实验的完全复现。\n\n'
-    report+='下一步：'+('冻结本轮有监督候选和独立比较结果，研究是否需要更广的监督泛化验证；本轮不追加训练、结构或loss搜索。' if evaldone else '按当前已登记配置完成正式训练及条件冻结评价；未完成前保留运行状态，不据小样本拟合宣称成功独立基线。')+'\n'
+    report+='监督相关13项检查、原Ray-Senseiver4项、数据12项、采样3项、独立评价边界2项，共34项适用检查通过；原始测试日志保留。历史FP32 consistency回归仍有1项失败，本轮未修改其函数/容差，不能称历史全部测试通过。共享GPU且仅单seed，计时不是独占设备基准；监督可学不证明原纯测量loss失败的唯一根因，也不代表原论文Senseiver实验的完全复现。本轮checkpoint使用训练GT并经Val GT选模，不得用于之后标称无GT的训练或纯自监督排名。\n\n'
+    report+='下一步：'+('保留本轮冻结模型与900条结果作为当前适配/预算下的有监督独立参考；主比较沿用冻结监督MRGR和自监督Ours/DeepSets，暂停给当前Ray-Senseiver适配追加预算或局部修复。不将该单seed、有预算上限的结果外推为Senseiver架构能力上限。' if evaldone else '按当前已登记配置完成正式训练及条件冻结评价；未完成前保留运行状态，不据小样本拟合宣称成功独立基线。')+'\n'
     (REPO/'docs/reports/ray_senseiver_supervised_v1_zh.md').write_text(report)
 if __name__=='__main__':main()
