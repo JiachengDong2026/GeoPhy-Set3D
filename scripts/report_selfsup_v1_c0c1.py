@@ -143,6 +143,9 @@ def figures(c,out,normal,case,paired):
             delta_max=max(float(np.abs(b-a).max()) for _,a,b in data);delta_max=max(delta_max,1e-12)
             for view in ['slice','ymean']:
                 def project(v):return (v[:,c['slice_y_index'],:].T if view=='slice' else v.mean(axis=1).T)
+                # Shared scale of displayed fields, rather than the unprojected voxel peak.
+                maximum=max(float(project(gt).max()),*(float(project(v).max()) for _,a,b in data for v in [a,b]))
+                delta_max=max(max(float(np.abs(project(b-a)).max()) for _,a,b in data),1e-12)
                 fig,axes=plt.subplots(3,4,figsize=(13,10),layout='constrained')
                 for row,(g,a,b) in enumerate(data):
                     for col,v in enumerate([gt,a,b,b-a]):

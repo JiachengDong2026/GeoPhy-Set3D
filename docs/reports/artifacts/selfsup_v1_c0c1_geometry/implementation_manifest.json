@@ -5,7 +5,7 @@
   "source_sha256": {
     "src/geophy_set3d/evaluation/selfsup_c0c1_diagnostic.py": "42fff49d6415869b7c91f213877428ef26c6d43ae1aeec68dd8238203361f665",
     "scripts/diagnose_selfsup_v1_c0c1.py": "c577cb7d7c5bed0d591ee02efe31ac2f47f3118094525336f586b5c5d49ea46c",
-    "scripts/report_selfsup_v1_c0c1.py": "1b36264842b49af05320aaf0de6fbd948839b63968e40df8e311a3c6a6bbe68c",
+    "scripts/report_selfsup_v1_c0c1.py": "99c2eb49a9efedb96c5b4e0a6465574cece9d4caf221cf89c46c53d4491e6866",
     "tests/test_selfsup_c0c1_diagnostic.py": "7d450016efe8eaee343a307d90b547fa1b73547807f37cd1403f6999f8ccc1c0"
   },
   "registration_commit": "d83f480eada1aa655c5d101e71731cecfbd03ae2",
@@ -15,5 +15,11 @@
     "reason": "Correct plot y-coordinate label to original endpoint-aligned linspace(0,0.6,64): index32=32*0.6/63; no prediction, slice selection, statistics or numerical change",
     "normal_prediction_rows_complete": 900,
     "normal_reproduction_passed": true
+  },
+  "display_scale_amendment": {
+    "previous_manifest_sha256": "4eeb413b76b1d7feca4d78bebebadbe7faf9f71b268deffb2281a6a768d20ebe",
+    "original_report_source_sha256": "1b36264842b49af05320aaf0de6fbd948839b63968e40df8e311a3c6a6bbe68c",
+    "reason": "Readability-only shared display color scales: joint maximum of displayed GT/C0/C1 fields per case and view; symmetric maximum of displayed signed corrections; fixed cases, layouts, slice/ymean operations and all statistics unchanged",
+    "after_all_1818_predictions_saved": true
   }
 }
