@@ -1,0 +1,189 @@
+{
+  "protocol": "plan_a_operator_v1",
+  "seed": 20261015,
+  "provenance": "Synthetic analytic fields and geometry only; no dataset, CFD or GT files opened.",
+  "environment": {
+    "python": "3.12.15",
+    "torch": "2.11.0+cu128",
+    "cuda_runtime": "12.8",
+    "gpu": "NVIDIA GeForce RTX 4090"
+  },
+  "numerical": [
+    {
+      "device": "cpu",
+      "dtype": "torch.float64",
+      "grid_size": 7,
+      "views": 2,
+      "samples_per_ray": 96,
+      "valid_rays": 6,
+      "finite_difference_h": 1e-06,
+      "jvp_h_scan": {
+        "0.0001": 6.016611049830395e-09,
+        "1e-05": 5.9667788925924e-11,
+        "1e-06": 5.712343288929369e-11,
+        "1e-07": 5.999478141482496e-10
+      },
+      "checks": {
+        "forward_vs_legacy_relative_l2": {
+          "error": 8.562123437871152e-17,
+          "tolerance": 1e-10,
+          "passed": true
+        },
+        "constant_max_relative_l2": {
+          "error": 1.2652173622185898e-16,
+          "tolerance": 1e-10,
+          "passed": true
+        },
+        "chi_prime_relative_l2": {
+          "error": 1.131127696212952e-16,
+          "tolerance": 1e-10,
+          "passed": true
+        },
+        "chi_second_relative_l2": {
+          "error": 1.6654139854175922e-16,
+          "tolerance": 1e-10,
+          "passed": true
+        },
+        "jvp_finite_difference_relative_l2": {
+          "error": 5.712343288929369e-11,
+          "tolerance": 1e-05,
+          "passed": true
+        },
+        "transpose_identity_relative": {
+          "error": 1.232908726685947e-16,
+          "tolerance": 1e-10,
+          "passed": true
+        },
+        "vjp_vs_autograd_relative_l2": {
+          "error": 2.2016758875055556e-16,
+          "tolerance": 1e-10,
+          "passed": true
+        },
+        "residual_gradient_vs_autograd_relative_l2": {
+          "error": 2.3886899514272836e-16,
+          "tolerance": 1e-10,
+          "passed": true
+        },
+        "hessian_vs_autograd_relative_l2": {
+          "error": 3.925087633122475e-16,
+          "tolerance": 1e-10,
+          "passed": true
+        },
+        "hessian_finite_difference_relative_l2": {
+          "error": 2.811769677530542e-10,
+          "tolerance": 1e-05,
+          "passed": true
+        },
+        "no_grad_residual_gradient_relative_l2": {
+          "error": 0.0,
+          "tolerance": 1e-10,
+          "passed": true
+        }
+      },
+      "passed": true
+    },
+    {
+      "device": "cuda",
+      "dtype": "torch.float32",
+      "grid_size": 7,
+      "views": 2,
+      "samples_per_ray": 96,
+      "valid_rays": 6,
+      "finite_difference_h": 0.001,
+      "jvp_h_scan": {
+        "0.0001": 0.00036511663715537275,
+        "1e-05": 0.004588805508219382,
+        "1e-06": 0.058128959659001694,
+        "1e-07": 0.4779957110981087
+      },
+      "checks": {
+        "forward_vs_legacy_relative_l2": {
+          "error": 7.655655744795534e-08,
+          "tolerance": 1e-05,
+          "passed": true
+        },
+        "constant_max_relative_l2": {
+          "error": 7.331894892501267e-08,
+          "tolerance": 1e-05,
+          "passed": true
+        },
+        "chi_prime_relative_l2": {
+          "error": 9.494489108220641e-08,
+          "tolerance": 1e-05,
+          "passed": true
+        },
+        "chi_second_relative_l2": {
+          "error": 1.1960648951929514e-07,
+          "tolerance": 1e-05,
+          "passed": true
+        },
+        "jvp_finite_difference_relative_l2": {
+          "error": 6.383399059129811e-05,
+          "tolerance": 0.002,
+          "passed": true
+        },
+        "transpose_identity_relative": {
+          "error": 0.0,
+          "tolerance": 1e-05,
+          "passed": true
+        },
+        "vjp_vs_autograd_relative_l2": {
+          "error": 1.1616481539222839e-07,
+          "tolerance": 1e-05,
+          "passed": true
+        },
+        "residual_gradient_vs_autograd_relative_l2": {
+          "error": 1.4942994851587168e-07,
+          "tolerance": 1e-05,
+          "passed": true
+        },
+        "hessian_vs_autograd_relative_l2": {
+          "error": 1.0276344711477464e-07,
+          "tolerance": 1e-05,
+          "passed": true
+        },
+        "hessian_finite_difference_relative_l2": {
+          "error": 0.00017862358214946073,
+          "tolerance": 0.002,
+          "passed": true
+        },
+        "no_grad_residual_gradient_relative_l2": {
+          "error": 1.0134737697995678e-07,
+          "tolerance": 1e-05,
+          "passed": true
+        }
+      },
+      "passed": true
+    }
+  ],
+  "performance": {
+    "device": "cuda",
+    "dtype": "torch.float32",
+    "grid_size": 64,
+    "views": 4,
+    "image_hw": [
+      64,
+      64
+    ],
+    "samples_per_ray": 96,
+    "ray_chunk": 256,
+    "valid_rays": 8773,
+    "cached_cpu_bytes": 80957244,
+    "cpu_cache_budget_bytes": 536870912,
+    "peak_cuda_allocated_bytes": 10657280,
+    "forward_vs_legacy_relative_l2": 3.9677211487931657e-07,
+    "forward_vs_legacy_max_abs_ppm_m": 0.044921875,
+    "forward_vs_legacy_tolerance": 1e-05,
+    "passed": true,
+    "context": "torch.no_grad; wall-clock single calls, includes chunk CPU/device transfers",
+    "timings": {
+      "prepare_cold_seconds": 0.18936449196189642,
+      "prepare_cached_seconds": 0.010659795720130205,
+      "forward_seconds": 0.46309569338336587,
+      "jvp_seconds": 0.45063631096854806,
+      "vjp_seconds": 0.45213303389027715,
+      "coverage_seconds": 0.4544009421952069
+    }
+  },
+  "passed": true
+}

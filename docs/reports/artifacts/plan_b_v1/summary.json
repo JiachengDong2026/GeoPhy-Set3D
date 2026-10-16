@@ -1,0 +1,162 @@
+{
+  "created_utc": "2026-10-15T14:32:12.055552+00:00",
+  "experiments": {
+    "scheme_b_smoke": {
+      "run": "outputs/research/scheme_b_smoke",
+      "acceptance": {
+        "stage": "smoke",
+        "synthetic": false,
+        "passed": false,
+        "completed": true,
+        "criteria": {
+          "finite": true,
+          "heldout_better_than_zero": false,
+          "train_loss_decreases": true,
+          "heldout_improves_initial": true,
+          "nonzero_gradient": true,
+          "output_changes_across_cases": true,
+          "measurement_dependence": true,
+          "no_gt_reads": true,
+          "no_forbidden_reads": true,
+          "expected_updates": true
+        },
+        "best_heldout_relative_l1": 246.73651864250076,
+        "zero_heldout_relative_l1": 1.0,
+        "initial_heldout_relative_l1": 259.3242529986168
+      },
+      "updates": 20,
+      "train_loss_first": 57.05550765991211,
+      "train_loss_last": 53.13400077819824,
+      "train_seconds_per_update_mean": 2.9623504901770503,
+      "train_seconds_per_update_median": 2.921897330787033,
+      "train_seconds_per_update_range": [
+        2.085599670186639,
+        3.6637706542387605
+      ],
+      "validation_seconds_per_case_mean": 0.7317814839771017,
+      "peak_allocated_gib": 0.4361233711242676,
+      "gt_read_audit": {
+        "gt_file_opened": false,
+        "gt_open_attempts": 0,
+        "forbidden_npy_attempts": 0,
+        "supervised_checkpoint_open_attempts": 0,
+        "projection_open_count": 259,
+        "unique_pool_a_projection_files": 4,
+        "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+        "audit_hook_inherited_by_workers": true
+      },
+      "source_sha256": "884f9340d9d18c5a4f2a8a02b1d99f1840ce69df2f8b421f3124b7e187b2522a"
+    },
+    "scheme_b_smoke_calibrated": {
+      "run": "outputs/research/scheme_b_smoke_calibrated",
+      "acceptance": {
+        "stage": "smoke",
+        "synthetic": false,
+        "passed": false,
+        "completed": true,
+        "criteria": {
+          "finite": true,
+          "heldout_better_than_zero": false,
+          "train_loss_decreases": true,
+          "heldout_improves_initial": true,
+          "nonzero_gradient": true,
+          "output_changes_across_cases": true,
+          "measurement_dependence": true,
+          "no_gt_reads": true,
+          "no_forbidden_reads": true,
+          "expected_updates": true
+        },
+        "best_heldout_relative_l1": 2.781772594461078,
+        "zero_heldout_relative_l1": 1.0,
+        "initial_heldout_relative_l1": 3.0361472414513506
+      },
+      "updates": 20,
+      "train_loss_first": 0.6571539789438248,
+      "train_loss_last": 0.5904700756072998,
+      "train_seconds_per_update_mean": 2.936972239916213,
+      "train_seconds_per_update_median": 2.9253774553071707,
+      "train_seconds_per_update_range": [
+        1.6652326728217304,
+        3.8120893337763846
+      ],
+      "validation_seconds_per_case_mean": 0.804160098079592,
+      "peak_allocated_gib": 0.4361233711242676,
+      "gt_read_audit": {
+        "gt_file_opened": false,
+        "gt_open_attempts": 0,
+        "forbidden_npy_attempts": 0,
+        "supervised_checkpoint_open_attempts": 0,
+        "projection_open_count": 1087,
+        "unique_pool_a_projection_files": 168,
+        "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+        "audit_hook_inherited_by_workers": true
+      },
+      "source_sha256": "c0e824d8e45a44fd744a9f2b3cc031a16574e1adbe35a03c2120f6148bee742f"
+    },
+    "scheme_b_gate_calibrated": {
+      "run": "outputs/research/scheme_b_gate_calibrated",
+      "acceptance": {
+        "stage": "gate",
+        "synthetic": false,
+        "passed": false,
+        "completed": true,
+        "criteria": {
+          "finite": true,
+          "heldout_better_than_zero": false,
+          "train_loss_decreases": true,
+          "heldout_improves_initial": true,
+          "nonzero_gradient": true,
+          "output_changes_across_cases": true,
+          "measurement_dependence": true,
+          "no_gt_reads": true,
+          "no_forbidden_reads": true,
+          "expected_updates": true
+        },
+        "best_heldout_relative_l1": 1.7829462673456151,
+        "zero_heldout_relative_l1": 1.0,
+        "initial_heldout_relative_l1": 2.200097174406987
+      },
+      "updates": 40,
+      "train_loss_first": 0.781655004248023,
+      "train_loss_last": 0.626888245344162,
+      "train_seconds_per_update_mean": 2.7991510575753638,
+      "train_seconds_per_update_median": 2.8638726440258324,
+      "train_seconds_per_update_range": [
+        2.354053722403478,
+        3.1061850138939917
+      ],
+      "validation_seconds_per_case_mean": 0.7808248509885743,
+      "peak_allocated_gib": 0.4376254081726074,
+      "gt_read_audit": {
+        "gt_file_opened": false,
+        "gt_open_attempts": 0,
+        "forbidden_npy_attempts": 0,
+        "supervised_checkpoint_open_attempts": 0,
+        "projection_open_count": 1249,
+        "unique_pool_a_projection_files": 174,
+        "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+        "audit_hook_inherited_by_workers": true
+      },
+      "source_sha256": "c0e824d8e45a44fd744a9f2b3cc031a16574e1adbe35a03c2120f6148bee742f"
+    }
+  },
+  "cpu_tests": {
+    "passed": 30,
+    "skipped_gpu_optin": 1
+  },
+  "gpu_tests": {
+    "passed": 1,
+    "device": "physical_gpu_2"
+  },
+  "parameter_count": 239809,
+  "a_source_integrity": {
+    "source_sha256": "22735837b8d9b2dde944c0330d5f6b07a4f0c5acbda796ae284b0a83108e39ed",
+    "changed_frozen_files": [],
+    "new_src_files": [],
+    "passed": true
+  },
+  "b_source_unchanged_since_calibrated_experiments": true,
+  "formal_training_started": false,
+  "decision": "NO-GO for B formal training: heldout relative L1 remains worse than zero",
+  "gpu_snapshot_end": "index, name, uuid, utilization.gpu [%], memory.used [MiB], memory.total [MiB]\n0, NVIDIA GeForce RTX 4090, GPU-37424437-e208-62d1-e617-53c421c94a49, 97 %, 6051 MiB, 24564 MiB\n1, NVIDIA GeForce RTX 4090, GPU-cd80a78f-7d90-c291-4680-4895db9aac8b, 100 %, 11288 MiB, 24564 MiB\n2, NVIDIA GeForce RTX 4090, GPU-d3da1ea7-9229-8f8a-5054-854962d4b6b7, 45 %, 6986 MiB, 24564 MiB\n3, NVIDIA GeForce RTX 4090, GPU-fdd41417-bc2c-971b-b84d-6464cf7c5749, 67 %, 5788 MiB, 24564 MiB\n"
+}

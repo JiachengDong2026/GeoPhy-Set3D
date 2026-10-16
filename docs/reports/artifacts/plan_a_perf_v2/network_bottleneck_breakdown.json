@@ -1,0 +1,55 @@
+{
+  "source_trace": "outputs/research/plan_a_perf_v2/selected_speed.trace.json",
+  "method": "Disjoint GPU kernel durations linked to CPU op by External id, then convolution module inferred from recorded weight/input shapes. GPU kernel sums are not wall time; excludes memcpy/memset. Shared GPU profile; no new training.",
+  "total_kernel_seconds": 2.180633519,
+  "groups": {
+    "other": {
+      "kernel_us": 168816.41099999993,
+      "kernel_count": 19225,
+      "kernel_seconds": 0.16881641099999994,
+      "percent_of_kernel_time": 7.741622309713744
+    },
+    "initializer_2d_encoder/forward": {
+      "kernel_us": 279.64400000000006,
+      "kernel_count": 52,
+      "kernel_seconds": 0.00027964400000000006,
+      "percent_of_kernel_time": 0.012823979708806815
+    },
+    "group_norm": {
+      "kernel_us": 185622.99599999972,
+      "kernel_count": 1472,
+      "kernel_seconds": 0.18562299599999973,
+      "percent_of_kernel_time": 8.512342600563304
+    },
+    "initializer_3d_decoder/forward": {
+      "kernel_us": 22093.931999999997,
+      "kernel_count": 48,
+      "kernel_seconds": 0.022093931999999997,
+      "percent_of_kernel_time": 1.0131886815227844
+    },
+    "shared_prior_64cubed/forward": {
+      "kernel_us": 228258.24200000003,
+      "kernel_count": 128,
+      "kernel_seconds": 0.22825824200000003,
+      "percent_of_kernel_time": 10.467519645606254
+    },
+    "shared_prior_64cubed/backward": {
+      "kernel_us": 1094471.2190000005,
+      "kernel_count": 256,
+      "kernel_seconds": 1.0944712190000006,
+      "percent_of_kernel_time": 50.190516171736434
+    },
+    "initializer_3d_decoder/backward": {
+      "kernel_us": 479815.6219999999,
+      "kernel_count": 96,
+      "kernel_seconds": 0.47981562199999994,
+      "percent_of_kernel_time": 22.003496590295228
+    },
+    "initializer_2d_encoder/backward": {
+      "kernel_us": 1275.4530000000002,
+      "kernel_count": 76,
+      "kernel_seconds": 0.0012754530000000002,
+      "percent_of_kernel_time": 0.05849002085343072
+    }
+  }
+}

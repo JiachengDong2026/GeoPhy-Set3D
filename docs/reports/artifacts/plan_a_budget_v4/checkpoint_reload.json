@@ -1,0 +1,211 @@
+{
+  "passed": true,
+  "field_shape": [
+    1,
+    1,
+    64,
+    64,
+    64
+  ],
+  "field_dtype": "float32",
+  "field_min": 0.0,
+  "field_max": 0.09122806787490845,
+  "reprojection_shape": [
+    1,
+    4,
+    1,
+    64,
+    64
+  ],
+  "engineering_checkpoint": true,
+  "gt_access": {
+    "gt_file_opened": false,
+    "gt_open_attempts": 0,
+    "forbidden_npy_attempts": 0,
+    "supervised_checkpoint_open_attempts": 0,
+    "projection_open_count": 3,
+    "unique_pool_a_projection_files": 1,
+    "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+    "audit_hook_inherited_by_workers": true
+  },
+  "reconstruction": {
+    "field_variable": "methane_mass_fraction",
+    "axes": "XYZ",
+    "domain_m": [
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.6,
+        0.6,
+        0.6
+      ]
+    ],
+    "provenance": {
+      "method": "SetUnrolled3D",
+      "checkpoint_hash": "9ccb054339bf2d997526600e64151529ee73366bdd7f3dc2c2088d94b360060a",
+      "config_hash": "2ba4d0ebd040f731f4dc09b3715a2f058239f4e5a5f8b9a93d3b76dfefea80e6"
+    },
+    "input_sha256": "7b29321f3674681d1dcd799db9ebf2db3b6cbb0793ef8d685d53dc1b6d15c589",
+    "stage": "smoke",
+    "engineering_checkpoint": true,
+    "timing": {
+      "load_s": 1.7205859180539846,
+      "reconstruct_s": 6.457258543930948,
+      "project_s": 0.004250041674822569
+    },
+    "diagnostics": {
+      "steps": [
+        {
+          "E": [
+            0.3682056963443756
+          ],
+          "update_norm": [
+            14.739712715148926
+          ],
+          "physical_step_norm": [
+            7.337958812713623
+          ],
+          "feedback_norm": [
+            0.0
+          ],
+          "signal_saturation_fraction": [
+            0.0
+          ],
+          "prior_norm": [
+            1.2912715673446655
+          ],
+          "tau": 0.5004900693893433,
+          "clip_fraction": [
+            0.05686187744140625
+          ],
+          "physical_clip_fraction": [
+            0.035274505615234375
+          ],
+          "prior_clip_fraction": [
+            0.05686187744140625
+          ],
+          "near_zero_fraction": [
+            0.056873321533203125
+          ],
+          "near_one_fraction": [
+            0.0
+          ]
+        },
+        {
+          "E": [
+            0.08329857140779495
+          ],
+          "update_norm": [
+            7.1209893226623535
+          ],
+          "physical_step_norm": [
+            3.3946421146392822
+          ],
+          "feedback_norm": [
+            0.0
+          ],
+          "signal_saturation_fraction": [
+            0.0
+          ],
+          "prior_norm": [
+            1.2800801992416382
+          ],
+          "tau": 0.5004873871803284,
+          "clip_fraction": [
+            0.15438461303710938
+          ],
+          "physical_clip_fraction": [
+            0.1313018798828125
+          ],
+          "prior_clip_fraction": [
+            0.15438461303710938
+          ],
+          "near_zero_fraction": [
+            0.15439987182617188
+          ],
+          "near_one_fraction": [
+            0.0
+          ]
+        },
+        {
+          "E": [
+            0.014374827966094017
+          ],
+          "update_norm": [
+            2.9090559482574463
+          ],
+          "physical_step_norm": [
+            1.3232758045196533
+          ],
+          "feedback_norm": [
+            0.0
+          ],
+          "signal_saturation_fraction": [
+            0.0
+          ],
+          "prior_norm": [
+            1.1925510168075562
+          ],
+          "tau": 0.5004793405532837,
+          "clip_fraction": [
+            0.2814445495605469
+          ],
+          "physical_clip_fraction": [
+            0.193695068359375
+          ],
+          "prior_clip_fraction": [
+            0.2814445495605469
+          ],
+          "near_zero_fraction": [
+            0.2815208435058594
+          ],
+          "near_one_fraction": [
+            0.0
+          ]
+        },
+        {
+          "E": [
+            0.0020130632910877466
+          ],
+          "update_norm": [
+            0.8981265425682068
+          ],
+          "physical_step_norm": [
+            0.349605530500412
+          ],
+          "feedback_norm": [
+            0.0
+          ],
+          "signal_saturation_fraction": [
+            0.0
+          ],
+          "prior_norm": [
+            1.2704116106033325
+          ],
+          "tau": 0.5004643201828003,
+          "clip_fraction": [
+            0.6443634033203125
+          ],
+          "physical_clip_fraction": [
+            0.3591156005859375
+          ],
+          "prior_clip_fraction": [
+            0.6443634033203125
+          ],
+          "near_zero_fraction": [
+            0.6444244384765625
+          ],
+          "near_one_fraction": [
+            0.0
+          ]
+        }
+      ],
+      "iterations": 4,
+      "status": "ok"
+    },
+    "gt_read": false
+  }
+}

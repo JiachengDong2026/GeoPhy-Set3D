@@ -1,0 +1,51 @@
+{
+  "decision": "NO_GO",
+  "checks": {
+    "Control": {
+      "g5_at_least_5pct": false,
+      "g5_ci_below_zero": false,
+      "ordinary_within_3pct": true,
+      "g5_heldout_within_3pct": true
+    },
+    "Original": {
+      "g5_at_least_5pct": false,
+      "g5_ci_below_zero": false,
+      "ordinary_within_3pct": true,
+      "g5_heldout_within_3pct": true
+    }
+  },
+  "main": [
+    {
+      "group": "ordinary_macro",
+      "stage": "C1",
+      "metric": "relative_l1",
+      "comparison": "Treatment-Control",
+      "before": 0.09062629707225164,
+      "after": 0.09062114555676154,
+      "delta": -5.151515490090928e-06,
+      "ci_low": -8.008526250771328e-06,
+      "ci_high": -2.4074045637147422e-06,
+      "ratio": 0.9999431565047174,
+      "reduction": 5.6843495282565826e-05,
+      "wins": 26,
+      "losses": 10,
+      "ties": 0
+    },
+    {
+      "group": "G5",
+      "stage": "C1",
+      "metric": "relative_l1",
+      "comparison": "Treatment-Control",
+      "before": 0.29397339225534336,
+      "after": 0.29394998713742254,
+      "delta": -2.3405117920754443e-05,
+      "ci_low": -6.690606463782499e-05,
+      "ci_high": 1.0887958423641482e-05,
+      "ratio": 0.999920383549881,
+      "reduction": 7.96164501190022e-05,
+      "wins": 18,
+      "losses": 18,
+      "ties": 0
+    }
+  ]
+}

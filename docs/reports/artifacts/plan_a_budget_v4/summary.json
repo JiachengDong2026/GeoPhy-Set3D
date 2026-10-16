@@ -1,0 +1,303 @@
+{
+  "protocol": "scheme_a_budget_v4",
+  "selected": "epochs_wide.json",
+  "full_epochs": {
+    "epochs_coarseprior.json": {
+      "path": "outputs/research/plan_a_budget_v4/epochs_coarseprior.json",
+      "status": "passed",
+      "epoch_seconds": [
+        124.0626625190489,
+        80.89969177311286,
+        81.97636668710038
+      ],
+      "mean_seconds": 95.64624032642071,
+      "warm_mean_seconds": 81.43802923010662,
+      "mean_extrapolation_300h": 7.970520027201726,
+      "cold_plus_299_max_warm_hours": 6.843054528322795,
+      "effective_update_seconds": [
+        1.273778293466936,
+        0.8365592664017915,
+        0.8404982923361731
+      ],
+      "peak_allocated_gib": 2.6340818405151367,
+      "all_epochs_complete": true,
+      "all_249_updates_finite": true,
+      "all_202_cases_per_epoch": true,
+      "no_forbidden_reads": true,
+      "source_sha256": "f6c938c2ad2698ee5d81e99537fece6b5b8b245509509e5da1fabbcd6eca6de9",
+      "parameter_count": 354335,
+      "architecture": {
+        "decoder": "historical",
+        "prior": "multiscale_v1"
+      },
+      "runtime": {
+        "network_layout": "contiguous",
+        "cudnn_autotune": true,
+        "compile_prior": true,
+        "network_precision": "bf16"
+      },
+      "model": {
+        "name": "set_unrolled3d",
+        "variant": "A2",
+        "steps": 4,
+        "samples": 96,
+        "ray_chunk": 1024,
+        "prior_width": 16,
+        "prior_amplitude": 0.02,
+        "lift_resolution": 32,
+        "output_resolution": 64,
+        "preconditioner": "geometry",
+        "checkpoint_prior": false
+      },
+      "geometry_cache": {
+        "cpu_budget_mib": 512,
+        "cuda_budget_mib": 512
+      }
+    },
+    "epochs_coarseprior_cache1536.json": {
+      "path": "outputs/research/plan_a_budget_v4/epochs_coarseprior_cache1536.json",
+      "status": "passed",
+      "epoch_seconds": [
+        70.57449486572295,
+        49.93499674461782,
+        46.61790140578523
+      ],
+      "mean_seconds": 55.70913100537533,
+      "warm_mean_seconds": 48.276449075201526,
+      "mean_extrapolation_300h": 4.642427583781278,
+      "cold_plus_299_max_warm_hours": 4.166982922640681,
+      "effective_update_seconds": [
+        0.7884115127184574,
+        0.5387175407945123,
+        0.5104339571658477
+      ],
+      "peak_allocated_gib": 3.3668527603149414,
+      "all_epochs_complete": true,
+      "all_249_updates_finite": true,
+      "all_202_cases_per_epoch": true,
+      "no_forbidden_reads": true,
+      "source_sha256": "59dc6340a55241df3432642717aa7301933f404ab31605a65831a9f68d072151",
+      "parameter_count": 354335,
+      "architecture": {
+        "decoder": "historical",
+        "prior": "multiscale_v1"
+      },
+      "runtime": {
+        "network_layout": "contiguous",
+        "cudnn_autotune": true,
+        "compile_prior": true,
+        "network_precision": "bf16"
+      },
+      "model": {
+        "name": "set_unrolled3d",
+        "variant": "A2",
+        "steps": 4,
+        "samples": 96,
+        "ray_chunk": 1024,
+        "prior_width": 16,
+        "prior_amplitude": 0.02,
+        "lift_resolution": 32,
+        "output_resolution": 64,
+        "preconditioner": "geometry",
+        "checkpoint_prior": false
+      },
+      "geometry_cache": {
+        "cpu_budget_mib": 1536,
+        "cuda_budget_mib": 1536
+      }
+    },
+    "epochs_coarseprior_cache1536_chunk4096.json": {
+      "path": "outputs/research/plan_a_budget_v4/epochs_coarseprior_cache1536_chunk4096.json",
+      "status": "passed",
+      "epoch_seconds": [
+        64.5681263548322,
+        37.70686907693744,
+        36.99312851577997
+      ],
+      "mean_seconds": 46.422707982516535,
+      "warm_mean_seconds": 37.349998796358705,
+      "mean_extrapolation_300h": 3.8685589985430444,
+      "cold_plus_299_max_warm_hours": 3.149700550099757,
+      "effective_update_seconds": [
+        0.7259337400108665,
+        0.4136334085803344,
+        0.4022605752415327
+      ],
+      "peak_allocated_gib": 3.4257798194885254,
+      "all_epochs_complete": true,
+      "all_249_updates_finite": true,
+      "all_202_cases_per_epoch": true,
+      "no_forbidden_reads": true,
+      "source_sha256": "59dc6340a55241df3432642717aa7301933f404ab31605a65831a9f68d072151",
+      "parameter_count": 354335,
+      "architecture": {
+        "decoder": "historical",
+        "prior": "multiscale_v1"
+      },
+      "runtime": {
+        "network_layout": "contiguous",
+        "cudnn_autotune": true,
+        "compile_prior": true,
+        "network_precision": "bf16"
+      },
+      "model": {
+        "name": "set_unrolled3d",
+        "variant": "A2",
+        "steps": 4,
+        "samples": 96,
+        "ray_chunk": 4096,
+        "prior_width": 16,
+        "prior_amplitude": 0.02,
+        "lift_resolution": 32,
+        "output_resolution": 64,
+        "preconditioner": "geometry",
+        "checkpoint_prior": false
+      },
+      "geometry_cache": {
+        "cpu_budget_mib": 1536,
+        "cuda_budget_mib": 1536
+      }
+    },
+    "epochs_wide.json": {
+      "path": "outputs/research/plan_a_budget_v4/epochs_wide.json",
+      "status": "passed",
+      "epoch_seconds": [
+        63.570426447782665,
+        38.15986968996003,
+        37.67207283107564
+      ],
+      "mean_seconds": 46.46745632293945,
+      "warm_mean_seconds": 37.915971260517836,
+      "mean_extrapolation_300h": 3.8722880269116207,
+      "cold_plus_299_max_warm_hours": 3.187047628818287,
+      "effective_update_seconds": [
+        0.7170466732806021,
+        0.4167880360598126,
+        0.4104201772070703
+      ],
+      "peak_allocated_gib": 3.7735228538513184,
+      "all_epochs_complete": true,
+      "all_249_updates_finite": true,
+      "all_202_cases_per_epoch": true,
+      "no_forbidden_reads": true,
+      "source_sha256": "22735837b8d9b2dde944c0330d5f6b07a4f0c5acbda796ae284b0a83108e39ed",
+      "parameter_count": 488919,
+      "architecture": {
+        "decoder": "historical",
+        "prior": "multiscale_wide_v1"
+      },
+      "runtime": {
+        "network_layout": "contiguous",
+        "cudnn_autotune": true,
+        "compile_prior": true,
+        "network_precision": "bf16"
+      },
+      "model": {
+        "name": "set_unrolled3d",
+        "variant": "A2",
+        "steps": 4,
+        "samples": 96,
+        "ray_chunk": 4096,
+        "prior_width": 32,
+        "prior_amplitude": 0.02,
+        "lift_resolution": 32,
+        "output_resolution": 64,
+        "preconditioner": "geometry",
+        "checkpoint_prior": false
+      },
+      "geometry_cache": {
+        "cpu_budget_mib": 1536,
+        "cuda_budget_mib": 1536
+      }
+    }
+  },
+  "single_epoch_screening": {
+    "full_epoch_w16_light.json": {
+      "seconds": 110.3607524833642,
+      "parameters": 134454
+    },
+    "full_epoch_a2_bf16.json": {
+      "seconds": 117.69572217855603,
+      "parameters": 481014
+    },
+    "full_epoch_w16.json": {
+      "seconds": 124.71202886104584,
+      "parameters": 352358
+    }
+  },
+  "historical_single_epoch_seconds": 157.9110636599362,
+  "acceptance": {
+    "smoke": {
+      "stage": "smoke",
+      "synthetic": false,
+      "passed": true,
+      "criteria": {
+        "finite": true,
+        "heldout_better_than_zero": true,
+        "heldout_improves_initial": true,
+        "nonzero_gradient": true,
+        "output_changes_across_cases": true,
+        "measurement_dependence": true,
+        "no_gt_reads": true,
+        "no_forbidden_reads": true,
+        "expected_updates": true
+      },
+      "best_heldout_relative_l1": 0.8478221934095848,
+      "zero_heldout_relative_l1": 1.0,
+      "initial_heldout_relative_l1": 103.87942348131956
+    },
+    "gate": {
+      "stage": "gate",
+      "synthetic": false,
+      "passed": true,
+      "criteria": {
+        "finite": true,
+        "heldout_better_than_zero": true,
+        "heldout_improves_initial": true,
+        "nonzero_gradient": true,
+        "output_changes_across_cases": true,
+        "measurement_dependence": true,
+        "no_gt_reads": true,
+        "no_forbidden_reads": true,
+        "expected_updates": true
+      },
+      "best_heldout_relative_l1": 0.28313840643140986,
+      "zero_heldout_relative_l1": 1.0,
+      "initial_heldout_relative_l1": 71.37736282148201
+    }
+  },
+  "rejected_narrow_smoke": {
+    "stage": "smoke",
+    "synthetic": false,
+    "passed": false,
+    "criteria": {
+      "finite": true,
+      "heldout_better_than_zero": false,
+      "heldout_improves_initial": true,
+      "nonzero_gradient": true,
+      "output_changes_across_cases": true,
+      "measurement_dependence": true,
+      "no_gt_reads": true,
+      "no_forbidden_reads": true,
+      "expected_updates": true
+    },
+    "best_heldout_relative_l1": 1.2967740894953481,
+    "zero_heldout_relative_l1": 1.0,
+    "initial_heldout_relative_l1": 103.87942349504416
+  },
+  "checks": {
+    "formal_preflight": true,
+    "checkpoint_reload": true,
+    "source_identity_matches": true,
+    "model_identity_matches": true,
+    "target_under_5h_mean": true,
+    "target_under_5h_warm_projection": true,
+    "complete": true,
+    "finite_gradients": true,
+    "no_forbidden_reads": true,
+    "smoke_passed": true,
+    "gate_passed": true
+  },
+  "scope": "Implementation and bounded engineering/measurement-learning validation only; no 300-epoch formal job or final-test/3D-GT evaluation",
+  "limitations": "Shared GPU, measured 3 epochs only. Cost estimates, not a guaranteed 300-epoch duration. New architecture/BF16 are not numerically equivalent to original A2 and volumetric accuracy remains unverified."
+}

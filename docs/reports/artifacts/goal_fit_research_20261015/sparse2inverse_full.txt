@@ -1,0 +1,323 @@
+Sparse2Inverse: Self-supervised inversion of sparse-view CT data
+Report GitHub Issue
+×
+Title:
+Content selection saved. Describe the issue below:
+Description:
+Submit without GitHub
+Submit in GitHub
+arXiv is now an independent nonprofit!
+Learn more
+×
+Back to arXiv
+Why HTML?
+Report Issue
+Back to Abstract
+Download PDF
+Abstract
+1 Introduction
+2 Related Work
+2.1 Self-supervise denoising
+2.2 Self-supervised image reconstruction
+Image and projection domain methods
+Noise2Inverse
+Extensions
+MRI-reconstruction
+3 Method
+3.1 Problem Formulation
+3.2 Proposed Sparse2Inverse
+Network architecture
+Self-supervised loss
+3.3 Comparison to Noise2Inverse
+4 Experiments
+5 Conclusion
+References
+License: CC BY 4.0
+arXiv:2402.16921v1 [eess.IV] 26 Feb 2024
+Sparse2Inverse: Self-supervised inversion of
+sparse-view CT data
+Nadja Gruber
+††thanks: Corresponding author: nadja.gruber@uibk.ac.at††thanks: Department of Mathematics, University of Innsbruck, Austria††thanks: VASCage-Research Centre on Vascular Ageing and Stroke, Innsbruck, Austria
+Johannes Schwab
+††thanks: MRC Laboratory of Molecular Biology, Cambridge, UK
+Elke Gizewski
+††thanks: Department of Neuroradiology, Medical University of Innsbruck, Austria
+Markus Haltmeier 22footnotemark:
+2
+Abstract
+Sparse-view computed tomography (CT) enables fast and low-dose CT imaging, an essential feature for patient-save medical imaging and rapid non-destructive testing. In sparse-view CT, only a few projection views are acquired, causing standard reconstructions to suffer from severe artifacts and noise. To address these issues, we propose a self-supervised image reconstruction strategy. Specifically, in contrast to the established Noise2Inverse, our proposed training strategy uses a loss function in the projection domain, thereby bypassing the otherwise prescribed nullspace component. We demonstrate the effectiveness of the proposed method in reducing stripe-artifacts and noise, even from highly sparse data.
+1 Introduction
+Image reconstruction from sparse CT measurements suffers from data incompleteness and a large null space, resulting in severe non-uniqueness. In addition, the inversion is unstable, causing noise in the data to be amplified during the reconstruction process. These issues result in reconstructed images containing severe streak-artifacts and noise. Although conventional filtered back projection (FBP) is fast and accurate for full data, it produces low-quality images dominated by noise and artifacts in sparse-view CT. This highlights the importance of regularization that incorporates specific prior knowledge for high-quality reconstruction. Recently, machine learning methods have significantly improved reconstruction quality and have gained considerable popularity in this context [9, 1, 15, 12].
+Classical variational and iterative reconstruction methods allow for the efficient incorporation of hand-crafted priors such as smoothness or total variation [14]. While accurate in many scenarios, they rely on idealized prior assumptions, are time consuming, and are highly sensitive to the choice of regularization parameters. Recently, deep learning methods have gained popularity because they naturally adapt to the available image structure and produce high quality reconstructions. However, these methods typically require supervised training data with specific input-target pairs tailored to a particular tomographic setting.
+Self-supervised learning combines the advantages of both iterative and learning-based methods and has recently become an important direction in deep learning and image processing. It overcomes the need for data annotation while exploiting the power of learnable neural networks. Self-supervised methods developed for denoising tasks exploit inherent structure and redundancy in the data to remove noise from signals and images. Self-supervised methods can also be extended to reconstruct missing or corrupted parts of a signal or image, where the goal is to fill in missing information or to restore the original signal from noisy or incomplete observations.
+Existing studies on self-supervised CT image reconstruction operate either entirely in the image domain [7] or entirely in the data domain [19, 18]. Methods that operate only in the image domain do not perform well for operators with a large null space, such as sparse-view CT. On the other hand, methods that operate only in the data domain may not perform optimally because convolutional neural networks are built for image structure rather than projection data.
+In this work, we propose a self-supervised learning strategy for image reconstruction in sparse-view CT. Our method allows the CNN to operate in the image domain and combine it with a loss in the data domain. In contrast to Noise2Inverse, our method can handle a large null space, allowing the simultaneous removal of noise and streak-artifacts while maintaining data consistency.
+2 Related Work
+2.1 Self-supervise denoising
+In [8], the authors introduce Noise2Noise, a self-supervised denoising methods using only noisy image pairs (xt⊙δt,1,xt⊙δt,2)(x_{t}\odot\delta_{t,1},x_{t}\odot\delta_{t,2}) for i=1,…,Ni=1,\dots,N. They showed that training solely with corrupted images, assuming independent and additive noise, achieves results comparable to noisy-clean pairs.
+However, obtaining multiple instances of a signal with different noise may also be challenging in practice.
+This limitation was eliminated with Noise2Self [2], which enables self-supervised training with only noisy measurements.
+In Noise2Self, pixels from the input image are (randomly) masked out and the neural network is trained to predict values of the masked pixels from the noisy unmasked pixels.
+Training a neural network using the Noise2Self strategy approximates training with ground truth targets if the noise has mean zero and is element-wise independent across different pixels in the image.
+2.2 Self-supervised image reconstruction
+Training without the requirement of clean targets is also valuable for image reconstruction problems of the form y=A​x⊙δy=Ax\odot\delta such as CT or MRI reconstruction. In this section we review existing approaches that are relevant for our strategy.
+Image and projection domain methods
+Natural self-supervised strategies for image reconstruction are to apply Noise2Self either in the image domain or in the data domain. In image domain methods, a reconstruction operator BB such as Filtered Backprojection (FBP) is applied in a first step, and then Noise2Self is applied, treating B​A​xBAx as the ground truth and B​δB\delta as the reconstructed noise. However, B​δB\delta is statistically coupled, which severely degrades Noise2Self. Another option is to use self-supervised training schemes in the data domain [19, 18] where the noise is statistically independent. Since neural networks tend to perform better on real images than on sinograms, this degrades performance. In addition, both methods are unable to handle image components orthogonal to the nullspace of AA.
+Noise2Inverse
+Some drawbacks of image and projection domain methods are addressed by Noise2Inverse [7], which extends Noise2Self to image reconstruction in the case of complete data. Here, the data is split in the projection domain, where the noise is statistically independent, and a network is trained in the reconstruction domain.
+Noise2Inverse aims to remove measurement noise, but is not designed to remove artifacts resulting from under-sampling in the case of sparse data. The reason for this is that the targets in this framework are defined using FBP and thus still fix the nullspace component of the reconstructions.
+Extensions
+In [4], the authors propose a self-supervised learning strategy for the inverse problem, assuming that the underlying signal distribution is invariant to the action of a group of transformations. In [16], the authors proposed an adaptation of the Noise2Self strategy that operates in the data domain combined with a differentiable learnable backprojection. In contrast to this approach, we adapt the sampling strategy proposed in [7] to the sparse data case combined with a different training loss.
+MRI-reconstruction
+Closely related to our work are methods for self-supervised MRI reconstruction from sparsely sampled and noisy data [17, 11, 10, 3]. However, while the Fourier transform of MRI is an isometry, the Radon transform used in sparse-view CT lacks this property. In addition, the sampling pattern used in these MRI studies is Cartesian (with the exception of [3]), whereas the sparse CT data is related to radial MRI data.
+3 Method
+In this section we describe the proposed self-supervised learning strategy for sparse-view CT reconstruction. For the sake of simplicity, we consider the parallel beam geometry in 2D. However, the overall concept can easily be extended to more general geomeries in 2D or 3D.
+3.1 Problem Formulation
+Let x∈X=ℝmx\in X=\mathbb{R}^{m} represent a discretized ground-truth image and denote by y=AΣ​x⊙δ∈Yy=A_{\Sigma}x\odot\delta\in Y the noisy sparse view CT data at equidistant angles Σ≔{σ1,…,σl}\Sigma\coloneqq\{\sigma_{1},\dots,\sigma_{l}\} on the semicircle corresponding to normal vectors of the measurement lines.
+Here ⊙δ\odot\delta denotes impact of measurement noise which might be non-additive. We consider the situation, where the Radon data are available only for a small number of directions, meaning that Σ\Sigma only has a few elements.
+Following the self-supervised learning paradigm we assume that we are given a collection of noisy data
+ytδ=AΣ​xt⊙δt for ​t=1,…,N\displaystyle y_{t}^{\delta}=A_{\Sigma}x_{t}\odot\delta_{t}\quad\text{ for }t=1,\dots,N
+(1)
+without access to the clean and artifact-free ground truth images xt∈Xx_{t}\in X. The aim is to construct a reconstruction operator R:Y→XR\colon Y\to X using (1), mapping noisy sparse data to reconstructions close to unknown ground-truth images.
+3.2 Proposed Sparse2Inverse
+Network architecture
+For given numbers k,p∈ℕk,p\in\mathbb{N} we define subsets of projection directions Θi={σj∣j​mod⁡k=i}\Theta_{i}=\{\sigma_{j}\mid j\operatorname{mod}k=i\}, consider the partition 𝚯≔{Θ1,…,Θk}\boldsymbol{\Theta}\coloneqq\{\Theta_{1},\ldots,\Theta_{k}\} and we use ℐ\mathcal{I} to denote the collection of all subsets I⊂𝚯I\subset\boldsymbol{\Theta} with pp elements. Further let AΘA_{\Theta} and BΘB_{\Theta} denote the Radon transform and corresponding FBP with directions in Θ\Theta and write MΘ​yM_{\Theta}y for the restriction of data yy to directions in Θ\Theta.
+Inspired by [7] we take the desired reconstruction operator as a parameterized network of the form
+Rψ​(yδ)\displaystyle R_{\psi}(y^{\delta})
+≔1|ℐ|​∑I∈ℐRψ,I​(yδ)\displaystyle\coloneqq\frac{1}{|\mathcal{I}|}\sum_{I\in\mathcal{I}}R_{\psi,I}(y^{\delta})
+(2)
+Rψ,I​(yδ)\displaystyle R_{\psi,I}(y^{\delta})
+≔Φψ​(1p​∑Θ∈IBΘ​(MΘ​yδ)),\displaystyle\coloneqq\Phi_{\psi}\left(\frac{1}{p}\sum_{\Theta\in I}B_{\Theta}(M_{\Theta}y^{\delta})\right)\,,
+(3)
+where Φψ:X→X\Phi_{\psi}\colon X\to X is a neural network parametrized by ψ\psi,
+The final reconstructions at inference are taken as Rψ∗​(yδ)R_{\psi^{*}}(y^{\delta}) where ψ∗\psi^{*} optimizes the loss defined next.
+Self-supervised loss
+The proposed strategy, and its comparison with the classic Noise2Inverse approach is visualized in Figure 1. Note that opposed to Noise2Inverse, we use a loss in the projection domain instead of a loss in the image domain. More precisely, for Sparse2Inverse we construct the network parameters as ψ∗∈arg​minψ⁡ℒY​(ϕ)\psi^{\ast}\in\argmin_{\psi}\mathcal{L}_{Y}(\phi) using the loss
+ℒY​(ϕ)=∑t=1N∑I∈ℐ∥A(⋃I)C​(Rψ,I​(ytδ))−M(⋃I)C​ytδ∥22.\displaystyle\mathcal{L}_{Y}(\phi)=\sum_{t=1}^{N}\sum_{I\in\mathcal{I}}\lVert A_{(\bigcup I)^{C}}(R_{\psi,I}(y^{\delta}_{t}))-M_{(\bigcup I)^{C}}y^{\delta}_{t}\rVert_{2}^{2}.\,
+(4)
+Thus, we apply the neural network in the reconstruction domain, and evaluate the loss in the projection domain for angles not belonging to any of the sets in II for any partition I∈ℐI\in\mathcal{I} and any training data.
+Figure 1:
+The proposed training strategy of Sparse2Inverse, in comparison with the classic Noise2Inverse approach [7]. Both methods start with an initial data splitting in the projection domain, where the noise is pixel-wise independent. The neural network takes the mean sub-reconstruction as input, and the target is defined by the remaining data. Unlike the classic approach, where the loss is computed in the reconstruction domain, our strategy applies the Radon transform and computes the loss in the data domain. The effectiveness of this approach is evident in the curves on the right.
+3.3 Comparison to Noise2Inverse
+Note that due to the large nullspace of the sparse-view forward operator, our loss (4) significantly differs from the Noise2Inverse loss
+ℒX​(ϕ)=∑i=1N∑I∈ℐ∥Rψ,I​(ytδ)−B(⋃I)C​M(⋃I)C​ytδ∥22.\displaystyle\mathcal{L}_{X}(\phi)=\sum_{i=1}^{N}\sum_{I\in\mathcal{I}}\lVert R_{\psi,I}(y^{\delta}_{t})-B_{(\bigcup{I})^{C}}M_{(\bigcup{I})^{C}}y^{\delta}_{t}\rVert_{2}^{2}\,.
+(5)
+This discrepancy can be attributed to the fact that opposed to (4), the loss (5) targets B(⋃I)C​A(⋃I)CB_{(\bigcup{I})^{C}}A_{(\bigcup{I})^{C}} and thus learns streak-artifacts due to Σ\Sigma.
+More formally, this behaviour of Noise2Inverse method can be summarized as follows:
+Any ground truth image xx, can be decomposed as
+x=x∗+v,x=x^{\ast}+v, with v∈𝒩⁡(AΘ)v\in\mathcal{N}(A_{\Theta}) and x∗∈ℛ⁡(AΘT)x^{\ast}\in\mathcal{R}(A_{\Theta}^{T}). The minimum norm solution of a noise-free equation yields BΘ​(y)=x∗B_{\Theta}(y)=x^{\ast}.
+Looking at the Noise2Inverse approach [7], where the loss is computed in the reconstuction doamin,
+there is no chance for the network to learn the correct nullspace component vv as it is fixed to v=0v=0.
+The target therefore specifies a fixed nullspace element, which the neural network ΦΨ\Phi_{\Psi} aims to learn.
+In the Sparse2Inverse approach, despite the neural network being fed images containing artifacts from the FBP, the optimization process of the Convolutional Neural Network (CNN) may converge to a solution with fewer artifacts that still adequately explains the measured data. Consequently, compared to the reconstruction domain loss, there is no inherent motivation for the network to alter the solution and prefer an alternative one.
+4 Experiments
+The source code, data, and experiments are accessible on GitHub11
+1
+https://github.com/Nadja1611/Self-supervised-image-reconstruction-for-Sparse-view-CT.git. Our proposed method is evaluated on two datasets: a subset of 32 images from the CBCT Walnut dataset (Cone-Beam X-Ray CT Data Collection Designed for Machine Learning) [5] and 30 images from the Chest CT-Scan Images Dataset22
+2
+https://www.kaggle.com/datasets/mohamedhanyyy/chest-ctscan-images. We employed the UNet architecture [13], with an image resolution of 336×336336\times 336, and uniformly distributed projections between 0 and π\pi. The neural network was trained for 2000 epochs using the Adam optimizer with a learning rate of 0.0002. Our method was compared with Noise2Inverse [7], FBP, and total variation minimization (TV). For the implementation of [7], we utilized the same UNet architecture and a learning rate of 0.0001.
+Walnuts (Photon count 1000)
+16 angles
+32 angles
+64 angles
+SSIM
+PSNR
+SSIM
+PSNR
+SSIM
+PSNR
+FBP
+0.100
+7.743
+0.082
+9.712
+0.156
+18.231
+TV
+0.650
+17.882
+0.788
+20.867
+0.838
+22.606
+Noise2Inverse [7]
+0.408
+15.402
+0.500
+18.800
+0.736
+21.793
+Proposed
+0.650
+19.103
+0.798
+22.347
+0.857
+24.373
+Table 1: Evaluation metrics SSIM and PSNR of the reconstructions obtained on the Walnut dataset for the different methods.
+lung CT (Photon count 3000)
+16 angles
+32 angles
+64 angles
+SSIM
+PSNR
+SSIM
+PSNR
+SSIM
+PSNR
+FBP
+0.054
+10.574
+0.117
+14.176
+0.220
+17.552
+TV
+0.905
+29.201
+0.925
+30.613
+0.935
+31.627
+Noise2Inverse [7]
+0.586
+25.775
+0.673
+28.356
+0.743
+30.663
+Proposed
+0.860
+28.088
+0.928
+31.394
+0.956
+34.006
+Table 2: Evaluation metrics SSIM and PSNR of the reconstructions obtained on the lung CT data for the different methods.
+Projection images underwent Poisson noise corruption with photon counts of 1000 (walnuts) and 3000 (lung CTs), following the methodology outlined in [7]. The sinograms were subsequently divided into four parts (denoted as k=4k=4). For the implementation of FBP and TV, we utilized tomosipo [6] and leveraged LION33
+3
+https://github.com/CambridgeCIA/LION/tree/main for specifying the CT geometry.
+Figure 2: Comparison of the reconstructions obtained from the four different methods on the two different datasets for different numbers of projection angles. We clearly see the streak-artifacts present in the classic Noise2Inverse reconstructions.
+In the assessment and comparison phase, we employed the Structural Similarity Index (SSIM) and Peak Signal to Noise Ratio (PSNR). To optimize the total variation (TV) minimization process, we conducted a grid search for the optimal regularization parameters λ\lambda for SSIM and PSNR. During the training of the proposed method and the classic Noise2Inverse approach, evaluation metrics were computed using the ground truth image, and reconstructions were selected to maximize SSIM and PSNR. Although the ground truth was used in this work we made the observation that SSIM and PSNR improve until the end of the training.
+We further note that, during training we have observed that the SSIM of the classic Noise2Inverse reaches its maximum at a quite early point of training, and the results at that point have less artifacts than later, when the training loss is minimized. This is also underlined on the right side of Figure 1.
+Figure 2 shows the reconstructions obtained from the different methods and three sparse view geometries. We observe that compared with the classical Noise2Inverse [7], the proposed approach leads to reconstructions with less streak-artifacts and finer details. In addition, the smoothing effect of the results is lower compared to [7], and additionally, we observe that for more views also the reconstructions obtained from [7] have fewer artifacts as the network may have problem in learning high-frequency artifacts.
+5 Conclusion
+In this work, we propose Sparse2Inverse, a self-supervised method for the reconstruction from sparse-view CT data. We present a strategy, where the neural network operates in the reconstruction domain, while the loss is computed in the projection domain, and show its superiority for severely undersampled data in comparison with the classic Noise2Inverse approach [7] and classical reconstruction algorithms like FBP and TV minimization.
+References
+[1]
+Simon Arridge, Peter Maass, Ozan Öktem, and Carola-Bibiane Schönlieb.
+Solving inverse problems using data-driven models.
+Acta Numerica, 28:1–174, 2019.
+[2]
+Joshua Batson and Loic Royer.
+Noise2self: Blind denoising by self-supervision.
+In International Conference on Machine Learning, pages 524–533. PMLR, 2019.
+[3]
+Moritz Blumenthal, Guanxiong Luo, Martin Schilling, Markus Haltmeier, and Martin Uecker.
+Nlinv-net: Self-supervised end-2-end learning for reconstructing undersampled radial cardiac real-time data.
+In ISMRM annual meeting, 2022.
+[4]
+Dongdong Chen, Julián Tachella, and Mike E Davies.
+Equivariant imaging: Learning beyond the range space.
+In Proceedings of the IEEE/CVF International Conference on Computer Vision, pages 4379–4388, 2021.
+[5]
+Henri Der Sarkissian, Felix Lucka, Maureen van Eijnatten, Giulia Colacicco, Sophia Bethany Coban, and Kees Joost Batenburg.
+A cone-beam x-ray computed tomography data collection designed for machine learning.
+Scientific data, 6(1):215, 2019.
+[6]
+Allard Hendriksen, Dirk Schut, Willem Jan Palenstijn, Nicola Viganò, Jisoo Kim, Daniël Pelt, Tristan van Leeuwen, and K. Joost Batenburg.
+Tomosipo: Fast, flexible, and convenient 3D tomography for complex scanning geometries in Python.
+Optics Express, Oct 2021.
+[7]
+Allard Adriaan Hendriksen, Daniël Maria Pelt, and K Joost Batenburg.
+Noise2inverse: Self-supervised deep convolutional denoising for tomography.
+IEEE Transactions on Computational Imaging, 6:1320–1335, 2020.
+[8]
+Jaakko Lehtinen, Jacob Munkberg, Jon Hasselgren, Samuli Laine, Tero Karras, Miika Aittala, and Timo Aila.
+Noise2noise: Learning image restoration without clean data.
+arXiv preprint arXiv:1803.04189, 2018.
+[9]
+Housen Li, Johannes Schwab, Stephan Antholzer, and Markus Haltmeier.
+Nett: Solving inverse problems with deep neural networks.
+Inverse Problems, 36(6):065005, 2020.
+[10]
+Charles Millard and Mark Chiew.
+Clean self-supervised mri reconstruction from noisy, sub-sampled training data with robust ssdu.
+Authorea Preprints, 2023.
+[11]
+Charles Millard and Mark Chiew.
+A theoretical framework for self-supervised mr image reconstruction using sub-sampling via variable density noisier2noise.
+IEEE transactions on computational imaging, 2023.
+[12]
+Yaniv Romano, Michael Elad, and Peyman Milanfar.
+The little engine that could: Regularization by denoising (red).
+SIAM Journal on Imaging Sciences, 10(4):1804–1844, 2017.
+[13]
+Olaf Ronneberger, Philipp Fischer, and Thomas Brox.
+U-net: Convolutional networks for biomedical image segmentation.
+In Medical Image Computing and Computer-Assisted Intervention–MICCAI 2015: 18th International Conference, Munich, Germany, October 5-9, 2015, Proceedings, Part III 18, pages 234–241. Springer, 2015.
+[14]
+Otmar Scherzer, Markus Grasmair, Harald Grossauer, Markus Haltmeier, and Frank Lenzen.
+Variational methods in imaging, volume 167.
+Springer, 2009.
+[15]
+Johannes Schwab, Stephan Antholzer, and Markus Haltmeier.
+Deep null space learning for inverse problems: convergence analysis and rates.
+Inverse Problems, 35(2):025008, 2019.
+[16]
+Mehmet Ozan Unal, Metin Ertas, and Isa Yildirim.
+Self-supervised training for low-dose ct reconstruction.
+In 2021 IEEE 18th International Symposium on Biomedical Imaging (ISBI), pages 69–72. IEEE, 2021.
+[17]
+Burhaneddin Yaman, Seyed Amir Hossein Hosseini, Steen Moeller, Jutta Ellermann, Kâmil Uğurbil, and Mehmet Akçakaya.
+Self-supervised learning of physics-guided reconstruction neural networks without fully sampled reference data.
+Magnetic resonance in medicine, 84(6):3172–3191, 2020.
+[18]
+Zhicheng Zhang, Xiaokun Liang, Wei Zhao, and Lei Xing.
+Noise2context: Context-assisted learning 3d thin-layer for low-dose ct.
+Medical Physics, 48(10):5794–5803, 2021.
+[19]
+Long Zhou, Xiaozhuang Wang, Min Hou, Ping Li, Chunlong Fu, Yanjun Ren, Tingting Shao, Xi Hu, Jihong Sun, and Hongwei Ye.
+Low-dose ct reconstruction by self-supervised learning in the projection domain.
+arXiv preprint arXiv:2203.06824, 2022.
+Experimental support, please
+view the build logs
+for errors. Generated by
+L
+A
+T
+E
+xml
+.
+Instructions for reporting errors
+We are continuing to improve HTML versions of papers, and your feedback helps enhance accessibility and mobile
+support. To report errors in the HTML that will help us improve conversion and rendering, choose any of the
+methods listed below:
+Click the "Report Issue" (
+) button, located in the page header.
+Tip: You can select the relevant text first, to include it in your report.
+Our team has already identified the following issues. We appreciate your time reviewing and reporting rendering errors we
+may not have found yet. Your efforts will help us improve the HTML versions for all readers, because disability
+should not be a barrier to accessing research. Thank you for your continued support in championing open access for
+all.
+Have a free development cycle? Help support accessibility at arXiv! Our collaborators at LaTeXML maintain a list of packages that need conversion, and welcome developer contributions.
+We gratefully acknowledge support from
+our major funders,
+member institutions, ,
+and all contributors.
+About
+·
+Help
+·
+Contact
+·
+Subscribe
+·
+Copyright
+·
+Privacy
+·
+Accessibility
+·
+Operational Status (opens in new tab)
+Major funding support from

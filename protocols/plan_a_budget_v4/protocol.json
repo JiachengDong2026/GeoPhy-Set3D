@@ -1,0 +1,38 @@
+{
+  "protocol": "scheme_a_budget_v4",
+  "purpose": "300 epochs per seed in <=5 hours on one RTX 4090; bounded validation only this session",
+  "baseline": "Original A2 / runtime v3 remains unchanged",
+  "candidate": {
+    "prior": "MultiScalePrior width32 on pooled32^3 plus width32 spatial64^3 local branch",
+    "decoder": "historical",
+    "network_precision": "bf16",
+    "physical_and_parameter_precision": "fp32",
+    "steps": 4,
+    "samples": 96,
+    "lift_resolution": 32,
+    "output_resolution": 64,
+    "geometry_cache": {
+      "cpu_budget_mib": 1536,
+      "cuda_budget_mib": 1536
+    },
+    "ray_chunk": 4096,
+    "architecture": "multiscale_wide_v1"
+  },
+  "unchanged": [
+    "166 train / 36 validation cases",
+    "83 updates per complete epoch",
+    "A/B/H measurement objective and sampling",
+    "full differentiable physical residual gradient; no detach",
+    "no GT/no final test/no external checkpoints"
+  ],
+  "acceptance": "Independent real 2-case/20-update smoke and 16train/8val/40-update gate; no equivalence to FP32 or claim of full volumetric accuracy",
+  "timing": "3 consecutive complete epochs including validation, scheduler, diagnostics and two complete checkpoints each epoch; shared GPU load sampled",
+  "formal_training_started": false,
+  "geometry_working_set_gib": 1.2187013626098633,
+  "additional_timing_candidate": "ray_chunk4096 versus1024, no change to quadrature count",
+  "rejected_narrow_prior_smoke": {
+    "best_heldout_relative_l1": 1.2967740894953481,
+    "passed": false,
+    "reason": "not better than zero after20updates; criteria unchanged"
+  }
+}

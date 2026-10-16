@@ -1,0 +1,1335 @@
+1Introduction.
+Report GitHub Issue
+×
+Title:
+Content selection saved. Describe the issue below:
+Description:
+Submit without GitHub
+Submit in GitHub
+arXiv is now an independent nonprofit!
+Learn more
+×
+Back to arXiv
+Why HTML?
+Report Issue
+Back to Abstract
+Download PDF
+Abstract
+1 Introduction.
+2 A Class of Inverse Problems.
+2.1 Mathematical Framework.
+2.2 Calderón Problem (EIT).
+2.3 Inverse Wave Scattering.
+2.4 Radiative Transport and Optical Imaging.
+2.5 Seismic Imaging.
+3 Neural Inverse Operators.
+3.1 Learning Task and Challenges.
+3.2 Existing Operator Learning Architectures.
+3.3 A Motivating (Formal) Calculation.
+3.4 The Architecture.
+4 Empirical Results.
+4.1 Calderón Problem for EIT.
+4.2 Inverse Wave Scattering.
+4.3 Radiative Transport Equation and Optical Imaging.
+4.4 Seismic Imaging.
+4.5 Robustness and Computational Efficiency of NIO.
+5 Related Work.
+6 Discussion.
+References
+A Depiction of PDE Inverse Problems.
+B Proof of Formula () in Main Text.
+C Mathematical Description of Heart and Lungs Phantom
+D Architecture and Training Details
+D.1 Architecture Details
+D.1.1 Feed Forward Dense Neural Networks
+D.1.2 Fully Convolutional Neural Network
+D.1.3 DeepONet
+D.1.4 Fourier Neural Operator
+D.1.5 Neural Inverse Operator
+D.2 Training Details
+D.2.1 Sensitivity to Initialization of the Trainable Parameters
+D.2.2 Sensitivity to the Number of Training Samples
+E Further Experimental Results
+E.1 Illustration of Results reported in Table .
+E.2 Robustness of Reconstruction to Λa\Lambda_{a}-Discretizazion.
+E.3 Robustness of Reconstruction to Noise
+E.4 Robustness of Reconstructions to Varying Grid Sizes.
+E.5 Robustness of Reconstruction to Random Sensors Location.
+E.6 Out-of-Distribution Reconstruction.
+E.7 Ablation Studies.
+E.8 Comparison Standard Numerical Methods for Inverse Problems
+E.8.1 Calderón Problem Heart&Lungs
+E.8.2 Inverse Wave Scattering
+E.8.3 Seismic Imaging
+License: arXiv.org perpetual non-exclusive license
+arXiv:2301.11167v2 [cs.LG] 03 Jun 2023
+marginparsep has been altered.
+topmargin has been altered.
+marginparpush has been altered.
+The page layout violates the ICML style.
+Please do not change the page layout, or include packages like geometry,
+savetrees, or fullpage, which change it for you.
+We’re not able to reliably undo arbitrary changes to the style. Please remove
+the offending package(s), or layout-changing commands and try again.
+Neural Inverse Operators for Solving PDE Inverse Problems
+Roberto Molinaro 1
+Yunan Yang 2
+Björn Engquist 3
+Siddhartha Mishra 1 4
+††footnotetext: 1Seminar for Applied Mathematics (SAM), ETH, Zürich.
+2Institute for Theoretical Studies (ITS), ETH Zürich.
+3Department of Mathematics and the Oden Institute, The University of Texas at Austin, USA.
+4ETH AI Center, ETH, Zürich.
+Correspondence to: Roberto Molinaro <roberto.molinaro@sam.math.ethz.ch>.
+Abstract
+A large class of inverse problems for PDEs are only well-defined as mappings from operators to functions. Existing operator learning frameworks map functions to functions and need to be modified to learn inverse maps from data. We propose a novel architecture termed Neural Inverse Operators (NIOs) to solve these PDE inverse problems. Motivated by the underlying mathematical structure, NIO is based on a suitable composition of DeepONets and FNOs to approximate mappings from operators to functions. A variety of experiments are presented to demonstrate that NIOs significantly outperform baselines and solve PDE inverse problems robustly, accurately and are several orders of magnitude faster than existing direct and PDE-constrained optimization methods.
+1 Introduction.
+Partial differential equations (PDEs) are ubiquitous as mathematical models in the sciences and engineering Evans (2010). Often, solving PDEs entails solving the so-called forward problem. That is, given inputs such as initial and boundary conditions, coefficients, and sources, compute (observables of) the solution of the PDE. However, in many important contexts in applications, one is instead interested in solving the so-called inverse problem Isakov (2017). That is, given measurements of (observables of) the solution of a PDE, infer the underlying inputs.
+A large class of such inverse problems takes the following abstract form: given observables as operators (mappings between function spaces), infer the underlying input coefficient (functions) of the associated PDE. A prototypical example is the well-studied Calderón Problem Uhlmann (2009) that arises in electrical impedance tomography (EIT) in medical imaging. Here, the observable is the Dirichlet-to-Neumann (DtN) operator that maps the voltage on the boundary to the current, and one is interested in inferring the underlying conductivity field. A related example is inverse wave scattering for geophysical applications. Other examples include optical tomography Lai et al. (2019) where the observable is the so-called Albedo operator, and one needs to infer the scattering and absorption coefficients of the underlying medium. Another prominent example arises in seismic imaging in geophysics Yilmaz (2011) where the observable is the source-to-receiver (StR) operator, and the task at hand is to infer the underlying sub-surface properties such as wave velocity or material density. In many of these examples, the solution to the resulting inverse problem is unique and stable if and only if the inverse problem is posed as a mapping from operators to functions.
+Given the nonlinear nature of most of these inverse problems, analytical solution formulas are not available except in some simple cases. Instead, iterative numerical algorithms based on
+the PDE-constrained optimization are commonly used to approximate the solution Chavent (2010). These algorithms repeatedly apply the forward and adjoint PDE solvers to converge to the unknown coefficient. However, a large number of iterations might be necessary, which leads to prohibitively high computational costs as numerous calls to PDE solvers are very expensive, particularly in two and three space dimensions. Moreover, these iterative algorithms can be sensitive to the choice of initial coefficient. Given these factors, the design of alternative approaches to solving inverse problems is imperative.
+Data-driven approximation of PDEs is rapidly emerging as a powerful paradigm. Most of the available results pertain to forward problems for PDEs. A particularly popular framework is operator learning, where one seeks to learn the underlying forward solution operator of the PDE from data. Existing approaches to operator learning include Deep operator networks (DeepONet) Lu et al. (2021); Mao et al. (2020); Cai et al. (2021) and their variants, as well as the so-called neural operators Kovachki et al. (2021b), which include the widely used Fourier Neural Operators (FNO) and its variants Li et al. (2021b); Pathak et al. (2022). Graph neural network-based algorithms Boussif et al. (2022); Brandstetter et al. (2022) are also emerging as an alternative.
+Given the widespread success of operator learning and other deep learning-based algorithms in the context of forward problems for PDEs, it is natural to investigate their utility in learning the solutions of the corresponding inverse problems from data. However, this task is very challenging as existing operator learning algorithms map functions to functions. On the other hand, the aforementioned inverse problems are only well-defined as maps from operators to functions. Hence, one needs non-trivial modifications of existing operator learning architectures to handle inverse problems. This is precisely the rationale for the current paper, where our main contributions are the following.
+•
+Motivated by the underlying mathematical structure of the considered class of inverse problems, we propose a novel architecture, termed as Neural Inverse Operators (NIOs), for learning solutions of these inverse problems from data. NIOs compose (stack) two existing architectures, DeepONet and FNO, in order to map operators to functions.
+•
+We test NIOs extensively on a suite of problems, including the Calderón problem in EIT, inverse wave scattering for object detection, reconstructing the absorption and scattering coefficients in optical tomography, and seismic wave migration to infer sub-surface properties. We show that NIO significantly outperforms baselines on all these benchmarks.
+•
+Given the inherent sensitivity of PDE inverse problems to noise and perturbations, we also demonstrate empirically that NIO is robust with respect to these factors as well as to the number and location of sensors and underlying grid resolutions. Moreover, we also show that, unlike baselines, NIO can handle fluctuations in the number of input measurements as well as generalize out-of-distribution without any significant loss of accuracy. Furthermore, NIO is found to be several orders of magnitude faster while still being more accurate than traditional PDE-constrained optimization methods.
+Thus, we propose a new learning framework for the fast, robust and accurate solution of PDE inverse problems.
+2 A Class of Inverse Problems.
+2.1 Mathematical Framework.
+Let D⊂ℝdD\subset\mathbb{R}^{d} be a bounded open set, with (smooth) boundary ∂D\partial D. Let T>0T>0 and Ω=D\Omega=D or Ω=D×(0,T)\Omega=D\times(0,T), depending on whether the PDE is time-(in)dependent. Correspondingly, ∂Ω=∂D\partial\Omega=\partial D or ∂Ω=∂D×(0,T)\partial\Omega=\partial D\times(0,T), respectively.
+Let a∈𝒜⁡(D)a\in\mathcal{A}(D), with 𝒜\mathcal{A} denoting a suitable function space over DD, be a coefficient. Then, an abstract PDE can be written as
+𝒟a​(u)=s,ℬ⁡(u)=g,\mathcal{D}_{a}(u)=s,\quad\mathcal{B}(u)=g,
+(1)
+where u∈𝒰⁡(Ω)u\in\mathcal{U}(\Omega) is the solution, s∈𝒮⁡(Ω)s\in\mathcal{S}(\Omega) is the source term and g∈𝒢⁡(∂Ω)g\in\mathcal{G}(\partial\Omega) is the boundary condition, for the PDE (1). Here, 𝒟a:𝒰↦ℱ\mathcal{D}_{a}:\mathcal{U}\mapsto\mathcal{F} and ℬ:𝒰↦𝒢\mathcal{B}:\mathcal{U}\mapsto\mathcal{G} are the differential and boundary operators, respectively and 𝒰,𝒮,𝒢\mathcal{U},\mathcal{S},\mathcal{G} are suitable function spaces, defined over their respective domains.
+The forward problem for the abstract PDE (1) amounts to the following: given the coefficient a∈𝒜a\in\mathcal{A}, source term s∈𝒮s\in\mathcal{S} and boundary condition g∈𝒢g\in\mathcal{G}, find the solution u∈𝒰u\in\mathcal{U} of the PDE (1). Often, one is interested in not only the solution itself but also observables of the solution, which can be measured in practice. Since measurements are usually easier to perform at boundaries, a particularly relevant class of such observables are given by the following boundary observation operator,
+Λa:𝒢⁡(∂Ω)↦ℋ⁡(∂Ω),\Lambda_{a}:\mathcal{G}(\partial\Omega)\mapsto\mathcal{H}(\partial\Omega),
+(2)
+which maps the boundary data g∈𝒢⁡(∂Ω)g\in\mathcal{G}(\partial\Omega) to a measurement Λa​(g)=h⁡(u)∈ℋ⁡(∂Ω)\Lambda_{a}(g)=h(u)\in\mathcal{H}(\partial\Omega), a function space on ∂Ω\partial\Omega.
+Thus, for a fixed coefficient aa (and source ss), solving the forward problem amounts to solving the PDE (1), with a given boundary data gg to obtain the solution uu and then post-processing uu to compute the boundary observation operator h​(u)=Λa​(g)h(u)=\Lambda_{a}(g). Hence, one can rewrite the forward problem associated with the PDE (1) to obtain the map,
+ℱ:𝒜⁡(D)↦ℒ⁡(𝒢⁡(∂Ω),ℋ⁡(∂Ω)),a↦ℱ⁡(a)=Λa,\mathcal{F}:\mathcal{A}(D)\mapsto\mathcal{L}\left(\mathcal{G}(\partial\Omega),\mathcal{H}(\partial\Omega)\right),~a\mapsto\mathcal{F}(a)=\Lambda_{a},
+(3)
+where Λa\Lambda_{a} is the boundary observation operator (2) and ℒ⁡(X,Y)\mathcal{L}(X,Y) denotes continuous operators between function spaces XX and YY.
+In practice, one is often interested in the inverse problem associated with the PDE (1). For instance, in tomography (imaging), one needs to infer the unknown coefficient aa from some measurements of the solution uu. In general, this problem is ill-posed, and a single instance (or small number) of boundary conditions gg and measurements h⁡(u)h(u) of the corresponding solutions uu, do not suffice in inferring the underlying coefficient aa. Instead, many deep mathematical results have provided suitable frameworks where such inverse problems can be well-posed. The inverse map for the forward problem (3) takes the form
+ℱ−1:ℒ⁡(𝒢⁡(∂Ω),ℋ⁡(∂Ω))↦𝒜⁡(D),Λa↦a=ℱ−1​(Λa),\mathcal{F}^{-1}:\mathcal{L}\left(\mathcal{G}(\partial\Omega),\mathcal{H}(\partial\Omega)\right)\mapsto\mathcal{A}(D),~\Lambda_{a}\mapsto a=\mathcal{F}^{-1}(\Lambda_{a}),
+(4)
+The rigorous guarantee of the existence and, more importantly, the uniqueness of this inverse map ℱ−1\mathcal{F}^{-1}, for a large class of PDEs, is a crowning achievement of the mathematical theory of inverse problems Isakov (2017). Moreover, one can also show Lipschitz or Hölder-stability of the inverse problem by proving estimates of the form,
+‖ℱ−1​(a)−ℱ−1​(a¯)‖ℒ∼‖a−a¯‖𝒜α,0<α≤1.\|\mathcal{F}^{-1}(a)-\mathcal{F}^{-1}(\overline{a})\|_{\mathcal{L}}\sim\|a-\overline{a}\|_{\mathcal{A}}^{\alpha},0<\alpha\leq 1.
+(5)
+In some cases, the right-hand side of the above stability estimate is replaced by a logarithm of ‖a−a¯‖𝒜\|a-\overline{a}\|_{\mathcal{A}}, which only guarantees (weak) logarithmic stability.
+After presenting this abstract framework, we provide four concrete examples of PDE inverse problems (see SM Figures 4-14 for illustrations) to which this abstract framework applies.
+2.2 Calderón Problem (EIT).
+Let the coefficient 0<a∈C2​(D)0<a\in C^{2}(D) represent the conductivity of the underlying medium (domain D⊂ℝdD\subset\mathbb{R}^{d}) and the associated PDE (1) is the following elliptic equation,
+−∇⋅(a(z)∇u)=0,\displaystyle-\nabla\cdot\Big(a(z)\nabla u\Big)=0,
+z∈D,\displaystyle z\in D,
+(6)
+u⁡(z)=g⁡(z),\displaystyle u(z)=g(z),
+z∈∂D,\displaystyle z\in\partial D,
+with Dirichlet boundary value g∈H12​(∂D)g\in H^{\frac{1}{2}}(\partial D) representing the voltage and the current source term is s=0s=0. The associated boundary observation operator Λa\Lambda_{a} is the well-known Dirichlet-to-Neumann (DtN) map,
+Λa:H1/2(∂D)↦H−1/2(∂D),\displaystyle\Lambda_{a}:H^{1/2}(\partial D)\mapsto H^{-1/2}(\partial D),
+(7)
+Λa[g]=a∂u∂ν|∂D,∀g∈H1/2(∂D),\displaystyle\Lambda_{a}[g]=a\frac{\partial u}{\partial\nu}\Big|_{\partial D},~\forall g\in H^{1/2}(\partial D),
+which maps the input voltage gg into the current a(z)∂u∂ν=a∇u⋅νa(z)\frac{\partial u}{\partial\nu}=a\,\nabla u\cdot\nu (with ν\nu being the unit outward normal vector) at the boundary and uu is the solution of (6).
+The inverse problem, often referred to as the Calderón problem, constitutes the basis of EIT Uhlmann (2009). It aims to find the conductivity aa of the medium, given different measurements of the DtN (voltage-to-current) pairs. Thus, this inverse problem falls into the considered abstract formalism and the inverse map (4) is given by,
+ℱ−1:ℒ(H1/2(∂D),H−1/2(∂D))↦C2(D),\displaystyle\mathcal{F}^{-1}:\mathcal{L}\left(H^{1/2}(\partial D),H^{-1/2}(\partial D)\right)\mapsto C^{2}(D),
+(8)
+ℱ−1:Λa↦a=ℱ−1​(Λa),\displaystyle\mathcal{F}^{-1}:\Lambda_{a}\mapsto a=\mathcal{F}^{-1}(\Lambda_{a}),
+with ℒ⁡(⋅,⋅)\mathcal{L}(\cdot,\cdot) denoting the corresponding bounded linear operators. This inverse problem is shown to be well-defined and (logarithmic-) stable Clop et al. (2010).
+2.3 Inverse Wave Scattering.
+In many applications of interest, wave propagation in the frequency domain is used to infer material properties of the medium, modelled by the squared slowness 0<a∈L∞​(D)0<a\in L^{\infty}(D). The associated PDE is the Helmholtz equation,
+−Δ​u−ω2​a​(z)​u=0,\displaystyle-\Delta u-\omega^{2}a(z)u=0,
+z∈D,\displaystyle z\in D,
+(9)
+u⁡(z)=g⁡(z),\displaystyle u(z)=g(z),
+z∈∂D,\displaystyle z\in\partial D,
+for some frequency ω\omega and Dirichlet boundary condition g∈H12​(∂D)g\in H^{\frac{1}{2}}(\partial D). The resulting boundary observation operator is again the Dirichlet-to-Neumann (DtN) map
+Λa:H1/2(∂D)↦H−1/2(∂D),\displaystyle\Lambda_{a}:H^{1/2}(\partial D)\mapsto H^{-1/2}(\partial D),
+(10)
+Λa[g]=∂u∂ν|∂D,∀g∈H1/2(∂D),\displaystyle\Lambda_{a}[g]=\frac{\partial u}{\partial\nu}\Big|_{\partial D},~\forall g\in H^{1/2}(\partial D),
+where uu is the solution to (9) with the coefficient aa. The corresponding inverse problem amounts to inferring the wave coefficient aa from the DtN map (10). Thus, it can be formulated similar to the inverse map (8). Its well-posedness and stability have been demonstrated for the Helmholtz equation in Nachman (1988) and references therein.
+2.4 Radiative Transport and Optical Imaging.
+In optical imaging or tomography, the material properties of the medium D⊂ℝdD\subset\mathbb{R}^{d} are expressed in terms of the scattering and absorption coefficients, 0≤a,σa∈C⁡(D)0\leq a,\sigma_{a}\in C(D). The associated PDE is the well-known radiative transport equation (RTE) for the particle density u⁡(z,v)u(z,v) at location z∈Dz\in D and velocity v∈V⊂ℝdv\in V\subset\mathbb{R}^{d}, given by
+v⋅∇zu​(z,v)+σa​(z)​u​(z,v)=1ε​a​(z)​𝒬​[u],\displaystyle v\cdot\nabla_{z}u(z,v)+\sigma_{a}(z)u(z,v)=\frac{1}{\varepsilon}a(z)\mathcal{Q}[u],
+z∈D,\displaystyle z\in D,
+(11)
+u⁡(z,v)=ϕ⁡(z,v),\displaystyle u(z,v)=\phi(z,v),
+z∈Γ−,\displaystyle z\in\Gamma_{-},
+where 𝒬⁡[u]=∫k⁡(v,v′)​u​(z,v′)​d​v′−u⁡(z,v)\mathcal{Q}[u]=\int k(v,v^{\prime})u(z,v^{\prime})dv^{\prime}-u(z,v) is the collision term, ε\varepsilon is the Knudsen number, Γ±={(z,v)∈∂D×V:±nz⋅v≥0}\Gamma_{\pm}=\{(z,v)\in\partial D\times V:\pm\,n_{z}\cdot v\geq 0\} are the inflow (outflow) boundaries and nzn_{z} is the unit outer normal vector at z∈∂Dz\in\partial D. Thus, the input to this problem is provided by the particle density, uΓ−∈L1​(∂D)u_{\Gamma_{-}}\in L^{1}(\partial D), prescribed on the inflow boundary. The associated boundary observation operator Λa\Lambda_{a} defined in (2) is the so-called Albedo operator,
+Λa:L1​(Γ−)↦L1​(Γ+),Λa:u|Γ−=ϕ↦u|Γ+,\Lambda_{a}:L^{1}(\Gamma_{-})\mapsto L^{1}(\Gamma_{+}),~\Lambda_{a}:u\big|_{\Gamma_{-}}=\phi\mapsto u\big|_{\Gamma_{+}},
+(12)
+that maps the incident boundary values on Γ−\Gamma_{-} to the observed boundary values on the outflow boundary Γ+\Gamma_{+}.
+The corresponding inverse problem aims to infer the medium properties characterized by the scattering and absorption coefficients a,σaa,\sigma_{a} from the measurements of the Albedo operator. It leads to the following inverse map,
+ℱ−1:ℒ⁡(L1​(Γ−),L1​(Γ+))↦C⁡(D),\displaystyle\mathcal{F}^{-1}:\mathcal{L}\left(L^{1}(\Gamma_{-}),L^{1}(\Gamma_{+})\right)\mapsto C(D),
+(13)
+ℱ−1:Λa↦a=ℱ−1​(Λa).\displaystyle\mathcal{F}^{-1}:\Lambda_{a}\mapsto a=\mathcal{F}^{-1}(\Lambda_{a}).
+The well-posedness and Lipschitz-stability of this inverse map were shown in Bal & Jollivet (2008).
+2.5 Seismic Imaging.
+Seismic imaging is widely used in geophysics to infer and reconstruct sub-surface material properties for various applications such as CO2\text{CO}_{2} storage monitoring and seismic hazard assessment. Given a domain D⊂ℝdD\subset\mathbb{R}^{d}, we are interested in reconstructing the velocity coefficient 0<a∈L∞​(D)0<a\in L^{\infty}(D) by sending in acoustic waves from the top boundary into the medium and measuring the response in the time domain. The associated PDE is the acoustic wave equation,
+ut​t(t,z)+a2(z)Δu=s,(z,t)∈D×[0,T],\displaystyle u_{tt}(t,z)+a^{2}(z)\Delta u=s,~(z,t)\in D\times[0,T],
+(14)
+with a time-dependent source term ss. Here, uu is the pressure variation. The wave equation is supplemented with zero initial conditions, i.e., u⁡(⋅,0)=ut​(⋅,0)=0u(\cdot,0)=u_{t}(\cdot,0)=0 and suitable boundary conditions. In particular, sources are placed on a subset of the boundary and it is common to consider point sources s⁡(t,z)=g⁡(t)​δS​(z)s(t,z)=g(t)\delta_{S}(z) with g⁡(t)∈L2​([0,T])g(t)\in L^{2}([0,T]) and δS​(z)\delta_{S}(z) being the Dirac measure concentrated on a set S⊂∂DS\subset\partial D. These waves are transmitted, reflected, and refracted through the medium. Under certain assumptions (see Sec. 2.3 in Symes (2009)), the effective source ss can be treated as in L2​([0,T]×D)L^{2}([0,T]\times D), which ensures the well-posedness of the PDE. The resulting signal is recorded at a set of receivers ℛ⊂∂D\mathcal{R}\subset\partial D on the boundary that take continuous measurement in time [0,T][0,T]. The boundary observation operator (2) for this wave inverse problem is the Source-to-Receiver (StR) operator,
+Λa:L2​([0,T]×D)↦L2​([0,T],Xℛ),\displaystyle\Lambda_{a}:L^{2}([0,T]\times D)\mapsto L^{2}([0,T];X_{\mathcal{R}}),
+(15)
+Λa:s↦u|[0,T]×ℛ,\displaystyle\Lambda_{a}:s\mapsto u\big|_{[0,T]\times\mathcal{R}},
+where XℛX_{\mathcal{R}} is the metric space for the (discrete) set ℛ\mathcal{R}. The inverse problem that underpins seismic imaging is
+ℱ−1:\displaystyle\mathcal{F}^{-1}:
+ℒ⁡(L2​([0,T]×D),L2​([0,T],Xℛ))↦L∞​(D),\displaystyle\mathcal{L}\left(L^{2}([0,T]\times D),L^{2}([0,T];X_{\mathcal{R}})\right)\mapsto L^{\infty}(D),
+(16)
+ℱ−1:\displaystyle\mathcal{F}^{-1}:
+Λa↦a=ℱ−1​(Λa),\displaystyle\Lambda_{a}\mapsto a=\mathcal{F}^{-1}(\Lambda_{a}),
+with Λa\Lambda_{a} being the StR operator (15). Thus, seismic imaging aims to infer the subsurface spatial medium properties from spatial-temporal StR signals. This process is also termed as migration, or Full waveform Inversion (FWI) in the literature Deng et al. (2021). There have been studies on the well-posedness of the inverse problem for the wave equation (14) Liu & Oksanen (2016); Stefanov et al. (2016); Caday et al. (2019) although they do not directly apply to the setting considered here.
+3 Neural Inverse Operators.
+In this section, we present the neural network architecture for the proposed Neural Inverse Operators (NIOs).
+3.1 Learning Task and Challenges.
+All four examples described in the previous section were particular instances of the abstract framework summarized in (4). Thus, the solution of the inverse problem (4) boils down to inferring (learning) the inverse map ℱ−1\mathcal{F}^{-1} from relevant data. Given sufficient training data in the form of pairs (Λa,ℱ−1​(Λa))\left(\Lambda_{a},\mathcal{F}^{-1}(\Lambda_{a})\right) (or given the injectivity of the forward map, data in the form of pairs (a,Λa)\left(a,\Lambda_{a}\right)), we aim to learn the inverse map ℱ−1\mathcal{F}^{-1} and evaluate it on test (unseen) data. This task is very challenging on account of the following factors:
+1.
+The inputs to the inverse map ℱ−1\mathcal{F}^{-1} (4) are specified on the boundaries ∂Ω\partial\Omega whereas the output is the coefficient aa, defined in the interior of the underlying domain DD. Thus, there is a mismatch in the domains of the inputs and outputs for the inverse map ℱ−1\mathcal{F}^{-1}.
+2.
+The learning task requires us to learn mappings from operators to functions for ℱ−1\mathcal{F}^{-1} defined in (4).
+3.
+In general, the inverse map ℱ−1\mathcal{F}^{-1} (4) may only be weakly stable, for instance, either in terms of small values of the Hölder exponent α\alpha in (5) or even only logarithmic-stable. In these cases, the learning task can be very sensitive to noises from the input, and additional regularization terms might be necessary.
+3.2 Existing Operator Learning Architectures.
+Before proposing a suitable architectures for learning the inverse map ℱ−1\mathcal{F}^{-1} (4), we briefly summarize existing operator learning architectures to examine whether they can be useful in this context. To this end, let D⊂ℝdx,U⊂ℝduD\subset\mathbb{R}^{d_{x}},U\subset\mathbb{R}^{d_{u}} and 𝒳=𝒳⁡(D)\mathcal{X}=\mathcal{X}(D) and 𝒴=𝒴⁡(U)\mathcal{Y}=\mathcal{Y}(U) be suitable function spaces. Then, a DeepONet Lu et al. (2021) is the operator, 𝒩DON:𝒳→𝒴\mathcal{N}^{\mathrm{DON}}:\mathcal{X}\to\mathcal{Y}, given by
+𝒩DON​(u¯)​(y)=∑k=1pβk​(u¯)​τk​(y),u¯∈𝒳,y∈U,\mathcal{N}^{\mathrm{DON}}(\overline{u})(y)=\sum_{k=1}^{p}\beta_{k}(\overline{u})\tau_{k}(y),\quad\overline{u}\in\mathcal{X},\;y\in U,
+(17)
+where the branch-net 𝜷\bm{\beta} is a neural network that maps ℰ⁡(u¯)=(u¯​(x1),…,u¯​(xm))∈ℝm\mathcal{E}(\overline{u})=(\overline{u}(x_{1}),\dots,\overline{u}(x_{m}))\in\mathbb{R}^{m}, evaluations of the input u¯\overline{u} at sensor points 𝒙:=(x1,…,xm)∈D\bm{x}:=(x_{1},\dots,x_{m})\in D, to ℝp\mathbb{R}^{p}:
+𝜷:ℝm→ℝp,ℰ⁡(u¯)↦(β1​(ℰ⁡(u¯)),…,βp​(ℰ⁡(u¯))CLOSE,\displaystyle\bm{\beta}:\mathbb{R}^{m}\to\mathbb{R}^{p},~\mathcal{E}(\overline{u})\mapsto(\beta_{1}(\mathcal{E}(\overline{u})),\dots,\beta_{p}(\mathcal{E}(\overline{u})),
+(18)
+and the trunk-net 𝝉⁡(y)=(τ1​(y),…,τp​(y))\bm{\tau}(y)=(\tau_{1}(y),\dots,\tau_{p}(y)) is another neural network mapping,
+𝝉:U→ℝp,y↦(τ1​(y),…,τp​(y)).\displaystyle\bm{\tau}:U\to\mathbb{R}^{p},\quad y\mapsto(\tau_{1}(y),\dots,\tau_{p}(y)).
+(19)
+Thus, a DeepONet combines the branch net (as coefficient functions) and trunk net (as basis functions) to create a mapping between functions.
+On the other hand, a Fourier neural operator (FNO) 𝒩FNO\mathcal{N}^{\mathrm{FNO}} (Li et al., 2021a) is a composition
+𝒩FNO:𝒳↦𝒴:𝒩FNO=Q∘ℒT∘⋯∘ℒ1∘R.\mathcal{N}^{\mathrm{FNO}}:\mathcal{X}\mapsto\mathcal{Y}:\quad\mathcal{N}^{\mathrm{FNO}}=Q\circ\mathcal{L}_{T}\circ\dots\circ\mathcal{L}_{1}\circ R.
+(20)
+For simplicity let us define ℳ=Q∘ℒT∘⋯∘ℒ1\mathcal{M}=Q\circ\mathcal{L}_{T}\circ\dots\circ\mathcal{L}_{1}, and 𝒩FNO=ℳ∘R\mathcal{N}^{\mathrm{FNO}}=\mathcal{M}\circ R, where R:(x,u¯)↦R⁡(u¯​(x),x)R:(x,\overline{u})\mapsto R(\overline{u}(x),x) is a “lifting operator” represented by a linear transformation R:ℝdu×d→ℝdvR:\mathbb{R}^{{d_{u}}\times d}\to\mathbb{R}^{d_{v}} where du{d_{u}} is the number of components of the input function, dd is the dimension of the domain and dvd_{v} is the “lifting dimension” (a hyperparameter). The operator QQ is a nonlinear projection, instantiated by a shallow neural network, such that vT+1​(x)↦𝒩FNO​(u¯)​(x)=Q⁡(vT+1​(x))v^{T+1}(x)\mapsto\mathcal{N}^{\mathrm{FNO}}(\overline{u})(x)=Q\left(v^{T+1}(x)\right). Each hidden layer ℒℓ:vℓ​(x)↦vℓ+1​(x)\mathcal{L}_{\ell}:v^{\ell}(x)\mapsto v^{\ell+1}(x) is of the form
+vℓ+1​(x)=σ⁡(Wℓ⋅vℓ​(x)+bℓ​(x)+(Kℓ​vℓ)​(x)),v^{\ell+1}(x)=\sigma\left(W_{\ell}\cdot v^{\ell}(x)+b_{\ell}(x)+\left(K_{\ell}v^{\ell}\right)(x)\right),
+with Wℓ∈ℝdv×dvW_{\ell}\in\mathbb{R}^{d_{v}\times d_{v}} a weight matrix (residual connection), bℓ​(x)∈ℝdvb_{\ell}(x)\in\mathbb{R}^{d_{v}} a bias function, σ\sigma an activation function, and the non-local Fourier layer,
+Kℓ​vℓ=ℱN−1​(Pℓ​(k)⋅ℱN​vℓ​(k)),K_{\ell}v^{\ell}=\mathcal{F}_{N}^{-1}\left(P_{\ell}(k)\cdot\mathcal{F}_{N}v^{\ell}(k)\right),
+where ℱN​vℓ​(k)\mathcal{F}_{N}v^{\ell}(k) denotes the (truncated)-Fourier coefficients of the discrete Fourier transform (DFT) of vℓ​(x)v^{\ell}(x), computed based on the given NN grid values in each direction. Here, Pℓ​(k)∈ℂdv×dvP_{\ell}(k)\in\mathbb{C}^{d_{v}\times d_{v}} is a complex Fourier multiplication matrix indexed by k∈ℤdk\in\mathbb{Z}^{d}, and ℱN−1\mathcal{F}_{N}^{-1} denotes the inverse DFT.
+Both operator learning frameworks (DeepONet and FNO) and their variants map functions to functions. Hence, they cannot directly be used to learn the inverse map ℱ−1\mathcal{F}^{-1} (4), which maps operators to functions. Therefore, we need to modify and adapt these architectures to learn the inverse map. The following sections present our proposed approach.
+3.3 A Motivating (Formal) Calculation.
+We start by providing a heuristic motivation for our proposed architecture to learn the inverse map (4). To this end and for definiteness, we consider the inverse wave scattering problem for the Helmholtz equation (9), presented in section 2.3. Given the domain D⊂ℝdD\subset\mathbb{R}^{d}, we consider the following eigenvalue problem with Neumann boundary conditions,
+−Δ​φk\displaystyle-\Delta\varphi_{k}
+=λkφk,∀z∈D.\displaystyle=\lambda_{k}\varphi_{k},\quad\forall z\in D.
+(21)
+∂φk∂ν|∂D\displaystyle\frac{\partial\varphi_{k}}{\partial\nu}\big|_{\partial D}
+=0,∫Dφkdz=0.\displaystyle=0,\quad\int\limits_{D}\varphi_{k}dz=0.
+By standard PDE theory Evans (2010), there exist eigenvalues 0≤λk∈ℝ0\leq\lambda_{k}\in\mathbb{R} for k∈ℕk\in\mathbb{N}, and the corresponding eigenfunctions {φk}\{\varphi_{k}\} form an orthonormal basis for L2​(D)L^{2}(D). We fix K∈ℕK\in\mathbb{N} sufficiently large and without loss of generality, we assume ω=1\omega=1 in the Helmholtz equation (9) to consider the following Dirichlet boundary value problems,
+−Δ​uk−a⁡(z)​uk=0,\displaystyle-\Delta u_{k}-a(z)u_{k}=0,
+z∈D,1≤k≤K,\displaystyle z\in D,~1\leq k\leq K,
+(22)
+u​(z)=gk​(z),\displaystyle u(z)=g_{k}(z),
+z∈∂D,\displaystyle z\in\partial D,
+where gk=φk|∂Dg_{k}=\varphi_{k}\big|_{\partial D}. Using (21) and (22), we prove in SM B, the following formal representation formula for all 1≤k≤K1\leq k\leq K,
+∫Da​uk​φk​𝑑z=∫Dλk​uk​φk​𝑑z−∫∂Dgk​∂uk∂ν​𝑑σ​(z).\int\limits_{D}au_{k}\varphi_{k}dz=\int\limits_{D}\lambda_{k}u_{k}\varphi_{k}dz-\int\limits_{\partial D}g_{k}\frac{\partial u_{k}}{\partial\nu}d\sigma(z).
+(23)
+The formula (23) can be used to construct an approximation to the coefficient a∈L2​(D)a\in L^{2}(D) in the following manner. Writing a≈∑ℓ=1Kaℓ​φℓa\approx\sum\limits_{\ell=1}^{K}a_{\ell}\varphi_{\ell} (using the orthonormality of φ\varphi’s) for KK sufficiently large, we can evaluate the coefficients aℓa_{\ell} by solving the following Matrix equation for A={aℓ}ℓ=1KA=\{a_{\ell}\}_{\ell=1}^{K},
+𝐂​A\displaystyle{\bf C}A
+=B,𝐂k​ℓ=∫Dukφkφldx,∀k,l,\displaystyle=B,~{\bf C}_{k\ell}=\int\limits_{D}u_{k}\varphi_{k}\varphi_{l}dx,\quad\forall k,l,
+(24)
+Bk\displaystyle B_{k}
+=∫Dλk​uk​φk​dz+∫∂Dgk​∂uk∂ν​dσ​(z),∀k.\displaystyle=\int\limits_{D}\lambda_{k}u_{k}\varphi_{k}dz+\int\limits_{\partial D}g_{k}\frac{\partial u_{k}}{\partial\nu}d\sigma(z),\forall k.
+Further setting Ψk=∂uk∂ν\Psi_{k}=\frac{\partial u_{k}}{\partial\nu}, we observe that the formal approximation of the coefficient aa relies on the following building blocks,
+•
+Basis Construction: The operations ℬk:z↦(φk​(z),λk)\mathcal{B}_{k}:z\mapsto\left(\varphi_{k}(z),\lambda_{k}\right), 1≤k≤K1\leq k\leq K, that form a basis. Note that they are independent of the coefficient aa.
+•
+PDE Solve: The operation ℰk:(gk,Ψk)↦({ujk}j=1K,∫∂Dgk​Ψk​𝑑σ​(z))\mathcal{E}_{k}:(g_{k},\Psi_{k})\mapsto\big(\{u^{k}_{j}\}_{j=1}^{K},\int\limits_{\partial D}g_{k}\Psi_{k}d\sigma(z)\big) that amounts to (approximately) inferring the coefficients of the solution uku_{k} of the Helmholtz equation (22), given the Dirichlet gkg_{k} and Neumann Ψk\Psi_{k} boundary values. A part of the right-hand side term BkB_{k} is also appended to this operation. Once the coefficients ujku^{k}_{j} are computed, the approximation uku_{k} to the solution of (22) is readily computed in terms of the basis {φk}\{\varphi_{k}\} by setting uk≈∑j=1Kujk​φju_{k}\approx\sum\limits_{j=1}^{K}u^{k}_{j}\varphi_{j}.
+•
+Mode Mixing: The previous two operations were restricted to individual modes, i.e., to each kk, for 1≤k≤K1\leq k\leq K. However, to construct the coefficients 𝐂k​l{\bf C}_{kl} in (24), we need to mix different modes. One way to do so is through multiplication. We denote this operation by
+ℳ:({φk}k=1K,{uk}k=1K)↦({uk​φk​φℓ}k,ℓ=1K,{λk​uk​φk}k=1K)\mathcal{M}:\left(\{\varphi_{k}\}_{k=1}^{K},\{u_{k}\}_{k=1}^{K}\right)\mapsto\left(\{u_{k}\varphi_{k}\varphi_{\ell}\}_{k,\ell=1}^{K},\{\lambda_{k}u_{k}\varphi_{k}\}_{k=1}^{K}\right).
+•
+Matrix Inversion: In the final step, we need to build the Matrix 𝐂{\bf C} in (24) and (approximately) invert it. This operation can be summarized by ℐ:({uk​φk​φℓ}k,ℓ=1K,{λk​uk​φk}k=1K)↦∑j=1Kaj​φj\mathcal{I}:\left(\{u_{k}\varphi_{k}\varphi_{\ell}\}_{k,\ell=1}^{K},\{\lambda_{k}u_{k}\varphi_{k}\}_{k=1}^{K}\right)\mapsto\sum_{j=1}^{K}a_{j}\varphi_{j}, with A={aj}A=\{a_{j}\} being the solution of (24).
+Figure 1: Schematic representation of Neural Inverse Operator (NIO) architecture, with RR given by equation (27), and Randomized Batching.
+3.4 The Architecture.
+The formal approximation of the inverse map ℱ−1\mathcal{F}^{-1} (4) for the Helmholtz equation by formulas (23)-(24) cannot be directly used in practice as one cannot solve the PDE (22) without knowing the coefficient aa. However, the building blocks enumerated above motivate either an iterative fixed-point procedure or, in our case, a learning algorithm approximating ℱ−1\mathcal{F}^{-1} from data. To this end, we observe that the basis construction z↦φk​(z)z\mapsto\varphi_{k}(z) amounts to a particular instantiation of a trunk-net (19) of a DeepONet. Similarly, the PDE solve map ℰk:(gk,Ψk)↦{ujk}j=1K\mathcal{E}_{k}:(g_{k},\Psi_{k})\mapsto\{u^{k}_{j}\}_{j=1}^{K} is a particular instance of the application of a branch-net (18) of a DeepONet. Moreover, they can be combined in a DeepONet (17) to approximate the solutions uku_{k} of the PDE (22). However, a DeepONet (17) is linear in its trunk-net basis functions and thus cannot represent the nonlinear mode mixing operator ℳ\mathcal{M}. Instead, one can do so by passing the outputs of the DeepONet to the nonlinear layers of an FNO (20), which also performs the final inversion operator ℐ\mathcal{I}.
+These heuristic considerations are generalized to the abstract formalism of the inverse problem (4) and motivate us to propose the composition (stacking) of DeepONets and FNO to result in the following map,
+𝒩N​I​O:(z{Ψℓ}ℓ=1L)​⟼τ,β​({τk​(z)}k=1p{βk}k=1p)​…\displaystyle\mathcal{N}_{NIO}:\begin{pmatrix}z\\
+\{\Psi_{\ell}\}_{\ell=1}^{L}\end{pmatrix}\overset{\tau,\beta}{\longmapsto}\begin{pmatrix}\{\tau_{k}(z)\}_{k=1}^{p}\\
+\{\beta_{k}\}_{k=1}^{p}\end{pmatrix}\ldots
+(25)
+…​⟼𝒩D​O​N​{fℓ​(z)}ℓ=1L​⟼𝑅​h​(z)​⟼ℳ​a∗​(z),\displaystyle\ldots\overset{\mathcal{N}^{DON}}{\longmapsto}\{f_{\ell}(z)\}_{\ell=1}^{L}\overset{R}{\longmapsto}h(z)\overset{\mathcal{M}}{\longmapsto}a^{\ast}(z),
+for approximating the abstract inverse map ℱ−1\mathcal{F}^{-1} (4).
+Here, the linear map RR can be explicitly defined as
+h⁡(z)=R⁡(f1,…,fL,z)=\displaystyle h(z)=R(f_{1},\dots,f_{L},z)=
+1L​∑ℓ=1LDℓ​fℓ+E​z,\displaystyle\frac{1}{L}\sum_{\ell=1}^{L}D_{\ell}f_{\ell}+Ez,
+(26)
+with E,Dℓ∈ℝdvE,D_{\ell}\in\mathbb{R}^{d_{v}}. In other words, the inputs z∈Dz\in D and Ψℓ=Λa​(gℓ)\Psi_{\ell}=\Lambda_{a}(g_{\ell}) (2), for 1≤ℓ≤L1\leq\ell\leq L, are fed into the trunk- and branch-nets of a DeepONet 𝒩D​O​N\mathcal{N}^{DON} (17), respectively, to create LL representations {fℓ}ℓ=1L\{f_{\ell}\}_{\ell=1}^{L}, defined in the interior of the underlying domain. These representations are first linearly transformed through RR yielding h⁡(z)h(z), and finally mixed by the nonlinear component ℳ\mathcal{M} of FNO resulting in an approximation of the underlying coefficient a∗a^{\ast}.
+We observe that the DeepONet 𝒩D​O​N\mathcal{N}^{DON} in 𝒩N​I​O\mathcal{N}^{NIO} (25) is flexible enough to handle inputs defined on the boundary, i.e., Ψℓ\Psi_{\ell}, and produce outputs fℓf_{\ell}, defined on the interior of the underlying domain.
+It is important to note that the model takes only zz and {Ψℓ}ℓ=1L\{\Psi_{\ell}\}_{\ell=1}^{L} as input, rather than zz and the input-output pair {(gℓ,Ψℓ)}ℓ=1L\{(g_{\ell},\Psi_{\ell})\}_{\ell=1}^{L}. This choice is motivated by the following consideration: let us define μg\mu_{g} as the underlying measure (distribution) on the boundary data gg, where gℓ∼μgg_{\ell}\sim\mu_{g}, and μΨ=Λa​#​μg\mu_{\Psi}=\Lambda_{a}\#\mu_{g} represents the pushforward measure given the boundary operator Λa\Lambda_{a}. Hence, Ψℓ∼μΨ\Psi_{\ell}\sim\mu_{\Psi} for all ℓ=1,…,L\ell=1,...,L, with {Ψℓ}ℓ=1L\{\Psi_{\ell}\}_{\ell=1}^{L} representing the empirical distribution approximating μΨ\mu_{\Psi}. This, together with the injectivity of the boundary observation operator (2), implies that {Ψℓ}ℓ=1L\{\Psi_{\ell}\}_{\ell=1}^{L} suffices to provide statistical information about the operator Λa\Lambda_{a} given μg\mu_{g} satisfying certain properties.
+We denote LL as the number of samples discretizing the measure μΨ\mu_{\Psi} or, with abuse of notation, the operator Λa\Lambda_{a}.
+The construction above addresses point (1) in Section 3.1.
+However, it does not necessarily satisfy point (2) in its current form. For the model to effectively process μΨ\mu_{\Psi} as the input rather than a particular discrete realization of it, the following desirable properties should be met:
+•
+The architecture should exhibit invariance under permutations of the input measurements {Ψℓ}ℓ=1L\{\Psi_{\ell}\}_{\ell=1}^{L} as they are i.i.d. samples of μΨ\mu_{\Psi}.
+•
+The learning framework must be able to handle an empirical measure of the distribution μΨ\mu_{\Psi} with an arbitrary sample size L~\tilde{L}. In particular, the input sample size at the training and testing stages could be different.
+•
+The performance of the model should be independent of the sample size L~\tilde{L} used to discretize μΨ\mu_{\Psi}.
+To address the first two points, we can modify the architecture by redefining the linear transformation RR as follows:
+h⁡(z)=R⁡(f1,…,fL,z)=DL​∑ℓ=1Lfℓ+E​z,E,D∈ℝdvh(z)=R(f_{1},\dots,f_{L},z)=\frac{D}{L}\sum_{\ell=1}^{L}f_{\ell}+Ez,\quad E,D\in\mathbb{R}^{d_{v}}
+(27)
+To ensure the performance is independent of L~\tilde{L}, a naive and inefficient approach would involve constructing all possible permutations of {Ψℓ}ℓ=1L\{\Psi_{\ell}\}_{\ell=1}^{L} with size L^\widehat{L} for all L^=2,…,L\widehat{L}=2,\ldots,L and providing them as input to the model. However, inspired by the well-known bagging algorithm widely used in machine learning, we propose an efficient and novel method to tackle this point which we term randomized batching. In this approach, given the sequence {Ψℓ}ℓ=1L\{\Psi_{\ell}\}_{\ell=1}^{L}, during each training iteration, an integer number L^\widehat{L} is randomly drawn from the set {2,…,L}\{2,\ldots,L\}. Then, L^\widehat{L} samples are randomly picked from {Ψℓ}ℓ=1L\{\Psi_{\ell}\}_{\ell=1}^{L} and the new sequence {Ψk}k=1L^\{\Psi_{k}\}_{k=1}^{\widehat{L}} are fed into the model at each iteration during training.
+We refer to the architecture (25) with the linear transformation RR given in (27), and incorporating the randomized batching algorithm, as Neural Inverse Operator (see Figure 1 for a schematic representation of the architecture).
+4 Empirical Results.
+We empirically test NIO on benchmark PDE inverse problems below. The exact details of the training, as well as the architecture and hyperparameter choices, are presented in SM D.
+As baselines in the following experiments, we choose two models. First, we consider a DeepONet with a CNN as the branch net in (17), which performs mixing of the input function within the branch itself
+𝒩D​O​N​e​t:(z{Ψℓ}ℓ=1L)​⟼τ,βc​o​n​({τk​(z)}k=1p{βk}k=1p)​⟼𝒩D​O​N​a∗​(z).\displaystyle\mathcal{N}_{DONet}:\begin{pmatrix}z\\
+\{\Psi_{\ell}\}_{\ell=1}^{L}\end{pmatrix}\overset{\tau,\beta_{con}}{\longmapsto}\begin{pmatrix}\{\tau_{k}(z)\}_{k=1}^{p}\\
+\{\beta_{k}\}_{k=1}^{p}\end{pmatrix}\overset{\mathcal{N}^{DON}}{\longmapsto}a^{\ast}(z).
+(28)
+Second, we consider a fully convolutional image-to-image neural network architecture (details in SM D.1). A variant of this architecture was already used in seismic imaging (full waveform inversion) in Deng et al. (2021). We have extended this architecture significantly to apply it to the abstract inverse problem (4).
+4.1 Calderón Problem for EIT.
+We start with the Calderón problem for the elliptic equation (6) on the computational domain D=[0,1]2D=[0,1]^{2}, with source s=0s=0. The training (and test) data are generated by sampling from a probability distribution on the conductivity coefficient aa. Once a sample conductivity is drawn, a set of Dirichlet boundary conditions {gℓ}ℓ=1L\{g_{\ell}\}_{\ell=1}^{L} are drawn from a probability distribution on the boundary values. For each gℓg_{\ell}, the underlying elliptic equation is solved numerically with a standard five-point finite difference scheme and the current, Ψℓ=a​∂u∂ν\Psi_{\ell}=a\frac{\partial u}{\partial\nu}, is evaluated on the boundary. We choose the boundary data gℓg_{\ell}, for 1≤ℓ≤L=201\leq\ell\leq L=20 as the boundary values of cos⁡(ω⁡(x​cos⁡(θℓ)+y​sin⁡(θℓ)))\cos(\omega(x\cos(\theta_{\ell})+y\sin(\theta_{\ell}))), with θℓ=2​π​ℓ20\theta_{\ell}=\frac{2\pi\ell}{20}. For the coefficient aa, we sample from trigonometric functions by setting a⁡(x,y)=exp⁡(∑k=1mck​sin⁡(k​π​x)​sin⁡(k​π​y)),a(x,y)=\exp\big(\sum_{k=1}^{m}c_{k}\sin(k\pi x)\sin(k\pi y)\big), with m=mod(m¯)m=\mod(\overline{m}) where m¯∼𝒰⁡([1,5])\overline{m}\sim\mathcal{U}([1,5]) and {ck}∼𝒰⁡([−1,1]m)\{c_{k}\}\sim\mathcal{U}([-1,1]^{m}).
+All the models are trained with 40964096 training coefficient samples, and the relative (percentage) test errors (with respect to 20482048 test samples) in both L1L^{1} and L2L^{2} norms for NIO (and the baselines) are presented in Table 1. As the table shows, NIO is the best-performing model, outperforming the next-best FCNN model by almost halving the errors. Moreover, the total errors are very small (<1%<1\%) with NIO.
+As a second experiment for EIT, we consider a more practical example suggested in Muller & Siltanen (2012), where the authors model the EIT imaging of the heart and lungs of a patient using electrodes on the body. This discontinuous heart and lungs phantom is depicted in SM Figure 6. The underlying domain is the unit circle, and the elliptic equation (6) is solved with a standard finite element scheme. The boundary conditions are given by gℓ​(θ)=12​π​exp⁡(i​2​π​θ​fℓ)g_{\ell}(\theta)=\frac{1}{2\pi}\exp(i2\pi\theta f_{\ell}), with ℓ=1,…,32\ell=1,\ldots,32 and f=[−16,…,−1,1,14,15,16]f=[-16,\ldots,-1,1,14,15,16]. The coefficient aa is modelled by adding 8%8\% white noise to the location, shape, and conductivity of the configuration of heart and lungs shown in SM Figure 6. The input of the learning operators is obtained by computing the Fourier transform at frequencies ff of the difference between the Neumann trace of the PDE solution with the coefficient aa and the one with the unit coefficient a=1a=1. Again, the results presented in Table 1 and 2 show that NIO is the best-performing model and yields very low reconstruction errors, solving this practical problem with high accuracy. In contrast, a traditional direct method such as the D-bar method Muller & Siltanen (2012) has a larger error of 8.75%8.75\% for this numerical inversion test (see SM Section E.8 for details).
+Figure 2: Inverse Wave Scttering. Left Panel: testing median L1L^{1}-error VS number of input samples L~\tilde{L} (left: L~<L\tilde{L}<L, right: L~>L\tilde{L}>L). The black dot represents the number of training samples LL. Right Panel: ground truth (left), NIO reconstruction (middle), and reconstruction with the PDE constrained optimization method (right) for an out-of-distribution test sample
+4.2 Inverse Wave Scattering.
+In this problem, the Helmholtz equation (9) is considered on the domain D=[0,1]2D=[0,1]^{2}, and the task is to learn coefficients sampled from a distribution,
+a⁡(x,y)=∑k=1mexp⁡(−c​(x−c1,k)4−c​(y−c2,k)4),a(x,y)=\sum_{k=1}^{m}\exp\big(-c(x-c_{1,k})^{4}-c(y-c_{2,k})^{4}\big),
+with c=2×104/3c=2\times 10^{4}/3. It
+represents a homogeneous medium with square-shaped inclusions, randomly spread in the domain (see SM Figure 8). Here, m=mod(m¯)m=\mod(\overline{m}), m¯∼𝒰⁡([1,4])\overline{m}\sim\mathcal{U}([1,4]) and {(c1,k,c2,k)}∼𝒰⁡([0,1]m×2)\{(c_{1,k},c_{2,k})\}\sim\mathcal{U}([0,1]^{m\times 2}). For each draw of the coefficient, 2020 Dirichlet boundary values are prescribed, exactly as in the EIT experiment with trigonometric coefficients. The corresponding (approximate) solutions of the Helmholtz equation (9) are computed with a central finite difference scheme, and the Neumann trace is evaluated to represent the DtN map. We train the models with 40964096 training samples and present the relative (median) test errors, on a test set of 16001600 samples, in Table 1. Again, NIO is the best-performing model, beating the next-best FCNN by a significant margin.
+4.3 Radiative Transport Equation and Optical Imaging.
+Next, we consider the radiative transport equation (11) in the domain X×VX\times V, where X=[0,1]X=[0,1] and V=[−1,1]V=[-1,1], with ε=1\varepsilon=1. Consequently, Γ−={(0,v),v∈[0,1]}∪{(1,v),v∈[−1,0]}\Gamma_{-}=\{(0,v),v\in[0,1]\}\cup\{(1,v),v\in[-1,0]\}. The task is to infer the absorption and scattering coefficients from the Albedo operator (12). To this end, we fix k⁡(v,v′)=1k(v,v^{\prime})=1, σa=1−a\sigma_{a}=1-a in (11) and draw the absorption coefficient aa from the distribution, a(x)=cχ[−1/2,1/2](rx−x0)+1a(x)=c\chi_{[-1/2,1/2]}(rx-x_{0})+1, with χ\chi denoting the characteristic function
+and with c∼𝒰⁡([0.5,1])c\sim\mathcal{U}([0.5,1]), x0∼𝒰⁡([0,1])x_{0}\sim\mathcal{U}([0,1]) and r∼𝒰⁡([0,0.8])r\sim\mathcal{U}([0,0.8]). Once the coefficient is drawn, boundary conditions on the inflow boundary Γ−\Gamma_{-} are imposed by setting ϕℓ​(0,v)=exp⁡(−200​(v−vℓ)2)\phi_{\ell}(0,v)=\exp{\big(-200\left(v-v_{\ell}\right)^{2}\big)}, and ϕℓ​(1,v)=0\phi_{\ell}(1,v)=0, if vℓ>0v_{\ell}>0, and ϕℓ​(0,v)=0\phi_{\ell}(0,v)=0, and ϕℓ​(1,v)=exp⁡(−200​(v−vℓ)2)\phi_{\ell}(1,v)=\exp{\big(-200\left(v-v_{\ell}\right)^{2}\big)}, if vℓ<0v_{\ell}<0, with vℓv_{\ell} being the ℓ\ell-th quadrature point used to approximate the integral term in (11), 1≤ℓ≤321\leq\ell\leq 32. Then, the radiative transport equation is approximated with a finite-element method, and the resulting solution uℓu_{\ell} is evaluated at the outflow boundary Γ+\Gamma_{+} as the output of the Albedo operator (12). All the models are trained on 40964096 training samples, and the relative median test errors on a test set of 20482048 samples are presented in Table 1, demonstrating that NIO significantly outperforms both FCNN and DeepONet, also in this case, resulting in low test errors even for the underlying discontinuous absorption coefficient.
+4.4 Seismic Imaging.
+In the final test, we model seismic imaging by considering the acoustic wave equation (14) in the space-time domain [0,1]2×[0,T][0,1]^{2}\times[0,T] and the task at hand is to learn the underlying squared-slowness coefficients aa from the source-to-receiver map (15). To this end, we choose two types of coefficients from Deng et al. (2021), the so-called Style-A and CurveVel-A datasets. For each medium, waves are generated at source locations (xsℓ,0)(x_{s_{\ell},0}) on the vertical boundary, for ℓ=1,…,5\ell=1,\ldots,5. The corresponding acoustic wave equation is solved with a finite difference scheme, and the temporal data is recorded at receivers on the vertical boundary. We follow Deng et al. (2021) and train all the models with 5500055000 and 2200022000 training samples for the Style-A and CurveVel-A datasets, respectively, and present the resulting (median) relative test errors, on a test set of 70007000 and 60006000 samples, in Table 1. We observe from the table that even for this problem, NIO is either outperforming or on par with FCNN. This is particularly noteworthy as the FCNN architecture was demonstrated to be one of the states of the art on this problem in Deng et al. (2021) among several machine learning models.
+4.5 Robustness and Computational Efficiency of NIO.
+In the SM E, we provide further details on the performance of NIO and its comparison to the considered baselines in terms of several factors. Here, we present a succinct summary of these results. First, inverse problems are characterized by sensitivity to perturbations of different types. Hence, it is imperative to test the robustness of the proposed NIO framework to these factors. To this end, we start with adding noise to the inputs of each of the benchmarks at test time and present the resulting test errors in SM Table 8 to observe that NIO (as well as the baselines) are not sensitive to this noise.
+Next, in SM Table 9, we plot the test errors for the models when the underlying grid resolution is varied at test time to observe that NIO is not sensitive to the input grid resolution. Finally, in SM Table 10, we present errors when the locations of input sensors are chosen randomly at test time, in contrast to sensors located on a uniform grid at training, to see that NIO is also robust to this variation. However, these factors are less salient in this context than the discretization of the input boundary observation operator. The key element of this discretization is the number of input samples. As argued in the previous section, NIO has been constructed to be independent of the number of samples that discretize the boundary observation operator. We test this behavior for the inverse wave scattering problem (see SM E.2 for other benchmarks) and present the errors in Figure 2, where the number of input samples at the testing stage are decreased (left) and increased (right) at test time. We clearly see that NIO is very robust to this fluctuation, completely contrasting to the baselines whose performance deteriorates, and the test errors increase by almost an order of magnitude. This demonstrates that NIO genuinely learns the underlying inverse map rather than just a discrete representation of it. Finally, in SM E.6, it is shown that NIO generalizes very well out-of-distribution for a variety of problems, outperforming baselines considerably.
+We conclude this section by comparing NIO with the well-established PDE-constrained optimization algorithms. To this end, we consider an out-of-distribution example for the inverse wave scattering benchmark and compare the results of NIO and PDE-constrained optimization (see details in SM E.8) in Figure 2 (Right) to observe that NIO is much more accurate in reconstructing the scatterers than PDE-constrained optimization. The L1L^{1}-test errors are 2.3%2.3\% for NIO and 11.1%11.1\% for PDE-constrained optimization. Moreover, it took less than 11 sec of inference time for NIO (on a CPU) compared to a single GPU training time of 8.58.5 hours for the PDE-constrained optimization problem. Thus, this experiment demonstrates the real efficiency of NIO as it is 55 times more accurate while being 44 orders of magnitude faster than the PDE-constrained optimization algorithm.
+5 Related Work.
+Existing methods for solving the class of PDE inverse problems considered here include the so-called Direct Methods, such as the D-bar method Isaacson et al. (2004) for EIT and the so-called Imaging condition Claerbout (1985) for seismic inversion. Iterative methods approximating fixed points Bakushinsky & Kokurin (2005) are also used, including the very popular gradient-based PDE-constrained optimization methods Chavent (2010). Another approach falls in the category of Bayesian formulation of inverse problems Tarantola (2005); Stuart (2010), which also quantifies the uncertainty of the solution. Finally, directly learning some PDE inverse operators from data has been considered in Maarten et al. (2022) and references therein.
+Table 1: Relative median L1L^{1}-error and L2L^{2}-error computed over testing samples for different benchmarks and models with the best performing model highlighted in bold.
+DONet
+FCNN
+NIO
+L1↓L^{1}\downarrow
+L2↓L^{2}\downarrow
+L1↓L^{1}\downarrow
+L2↓L^{2}\downarrow
+L1↓L^{1}\downarrow
+L2↓L^{2}\downarrow
+Calderón Problem
+Trigonometric
+1.97%
+2.36%
+1.49%
+1.82%
+0.85%
+1.05%
+Calderón Problem
+Heart&Lungs
+0.95%
+3.69%
+0.27%
+1.62%
+0.18%
+1.16%
+Inverse Wave Scattering
+3.83%
+7.41%
+2.53%
+7.55%
+1.07%
+2.94%
+Radiative transport
+2.35%
+4.35%
+1.46%
+3.71%
+1.1%
+2.9%
+Seismic Imaging
+CurveVel - A
+3.98%
+5.86%
+2.65%
+5.05%
+2.71%
+4.71%
+Seismic Imaging
+Style - A
+3.82%
+5.17%
+3.12%
+4.63%
+3.04%
+4.36%
+6 Discussion.
+For PDEs, written in the abstract form (1), we consider a large class of inverse problems that are only well-defined when the underlying inverse operator (4), maps an operator (the boundary observation operator (2)) to the underlying coefficient (a function). The resulting inverse problem amounts to inferring the unknown coefficient aa from data pairs (Λa,ℱ−1​(Λa))(\Lambda_{a},\mathcal{F}^{-1}(\Lambda_{a})) representing the observation operator. Existing operator learning frameworks such as DeepONets (17) and FNOs (20) only map functions to functions. Hence, one needs to adapt them to be able to learn mappings between operators and functions in order to solve the inverse problem (4). To this end, we have proposed a novel architecture, termed Neural Inverse Operators (NIO), based on a composition of DeepONets and FNOs, augmented with suitable architectural priors (definition of RR in (27)), and trained with randomized batching, to guarantee invariance of the generalization error to the different discretization of the input operator. Our architecture is motivated by the underlying structure of the inverse map. We tested the NIO on a variety of benchmark inverse problems. These include the Calderón Problem in electrical impedance tomography, inverse wave scattering modelled with the Helmholtz equation, optical imaging using the radiative transport equation, and seismic imaging with the acoustic wave equation. For all these problems, NIO outperformed baselines significantly and provided accurate and, more importantly, robust approximations to the unknown coefficients with small errors (see SM E). Finally, a series of experiments were also presented to demonstrate that NIO is robust with respect to various factors such as varying sensor locations, grid resolutions, noise, and discretizations of the input operator while being able to generalize out-of-distribution and being more accurate and much faster than direct and PDE constrained optimization algorithms. As this is the first paper where an end-to-end machine learning framework is proposed for learning maps between operators and functions, various extensions are possible. For instance, other architectures, such as recently proposed LOCA Kissas et al. (2022), VIDON Prasthofer et al. (2022), or graph-based approaches Boussif et al. (2022); Brandstetter et al. (2022), can be adapted in this context. Problems in higher-dimensional (particularly with seismic) imaging need to be considered to explore how NIOs scale with increasing problem size. Finally, approximation bounds and universality results, in the spirit of Lanthaler et al. (2022); Kovachki et al. (2021a) need to be derived in order to place NIOs on a solid theoretical footing.
+Acknowledgements
+We would like to express our deepest gratitude to Nicholas Nelsen and Tobias Rohner for their constructive feedbacks.
+References
+Bakushinsky & Kokurin (2005)
+Bakushinsky, A. B. and Kokurin, M. Y.
+Iterative methods for approximate solution of inverse
+problems, volume 577.
+Springer Science & Business Media, 2005.
+Bal & Jollivet (2008)
+Bal, G. and Jollivet, A.
+Stability estimates in stationary inverse transport.
+Inverse Problems & Imaging, 2(4):427,
+2008.
+Boussif et al. (2022)
+Boussif, O., Assouline, D., Benabbou, L., and Bengio, Y.
+MAgNet: Mesh Agnostic Neural PDE solver.
+arXiv preprint arXiv:2210.05495, 2022.
+Brandstetter et al. (2022)
+Brandstetter, J., Worrall, D. E., and Welling, M.
+Message Passsing Neural PDE solvers.
+arXiv preprint arXiv:2202.03376, 2022.
+Caday et al. (2019)
+Caday, P., de Hoop, M. V., Katsnelson, V., and Uhlmann, G.
+Scattering control for the wave equation with unknown wave speed.
+Archive for Rational Mechanics and Analysis, 231(1):409–464, 2019.
+Cai et al. (2021)
+Cai, S., Wang, Z., Lu, L., Zaki, T. A., and Karniadakis, G. E.
+DeepM&Mnet: Inferring the electroconvection multiphysics fields
+based on operator approximation by neural networks.
+Journal of Computational Physics, 436:110296, 2021.
+Chavent (2010)
+Chavent, G.
+Nonlinear least squares for inverse problems: theoretical
+foundations and step-by-step guide for applications.
+Springer Science & Business Media, 2010.
+Claerbout (1985)
+Claerbout, J. F.
+Imaging the earth’s interior, volume 1.
+Blackwell scientific publications Oxford, 1985.
+Clop et al. (2010)
+Clop, A., Faraco, D., and Ruiz, A.
+Stability of Calderón’s inverse conductivity problem in the
+plane for discontinuous conductivities.
+Inverse Problems & Imaging, 4(1):49,
+2010.
+Deng et al. (2021)
+Deng, C., Feng, S., Wang, H., Zhang, X., Jin, P., Feng, Y., Zeng, Q., Chen, Y.,
+and Lin, Y.
+OpenFWI: Large-Scale Multi-Structural Benchmark Datasets for Seismic
+Full Waveform Inversion.
+arXiv preprint arXiv:2111.02926, 2021.
+Evans (2010)
+Evans, L. C.
+Partial differential equations, volume 19.
+American Mathematical Soc., 2010.
+Goodfellow et al. (2016)
+Goodfellow, I., Bengio, Y., and Courville, A.
+Deep learning.
+MIT press, 2016.
+Isaacson et al. (2004)
+Isaacson, D., Mueller, J. L., Newell, J. C., and Siltanen, S.
+Reconstructions of chest phantoms by the D-bar method for electrical
+impedance tomography.
+IEEE Transactions on medical imaging, 23(7):821–828, 2004.
+Isakov (2017)
+Isakov, V.
+Inverse Problems for Partial Differential Equations.
+Springer, 2017.
+Kissas et al. (2022)
+Kissas, G., Seidman, J. H., Guilhoto, L. F., Preciado, V. M., Pappas, G. J.,
+and Perdikaris, P.
+Learning operators with coupled attention.
+Journal of Machine Learning Research, 23(215):1–63, 2022.
+Kovachki et al. (2021a)
+Kovachki, N., Lanthaler, S., and Mishra, S.
+On universal approximation and error bounds for Fourier Neural
+Operators.
+Journal of Machine Learning Research, 22:Art–No,
+2021a.
+Kovachki et al. (2021b)
+Kovachki, N., Li, Z., Liu, B., Azizzadensheli, K., Bhattacharya, K., Stuart,
+A., and Anandkumar, A.
+Neural operator: Learning maps between function spaces.
+arXiv preprint arXiv:2108.08481v3, 2021b.
+Lai et al. (2019)
+Lai, R.-Y., Li, Q., and Uhlmann, G.
+Inverse problems for the stationary transport equation in the
+diffusion scaling.
+SIAM Journal on Applied Mathematics, 79(6):2340–2358, 2019.
+Lanthaler et al. (2022)
+Lanthaler, S., Mishra, S., and Karniadakis, G. E.
+Error estimates for DeepONets: A deep learning framework in
+infinite dimensions.
+Transactions of Mathematics and Its Applications, 6(1):tnac001, 2022.
+Li et al. (2021a)
+Li, Z., Kovachki, N. B., Azizzadenesheli, K., Liu, B., Bhattacharya, K.,
+Stuart, A., and Anandkumar, A.
+Fourier neural operator for parametric partial differential
+equations.
+In International Conference on Learning Representations,
+2021a.
+Li et al. (2021b)
+Li, Z., Zheng, H., Kovachki, N., Jin, D., Chen, H., Liu, B., Azizzadenesheli,
+K., and Anandkumar, A.
+Physics-informed neural operator for learning partial differential
+equations.
+arXiv preprint arXiv:2111.03794, 2021b.
+Liu & Oksanen (2016)
+Liu, S. and Oksanen, L.
+A Lipschitz stable reconstruction formula for the inverse problem
+for the wave equation.
+Transactions of the American Mathematical Society,
+368(1):319–335, 2016.
+Lu et al. (2021)
+Lu, L., Jin, P., Pang, G., Zhang, Z., and Karniadakis, G. E.
+Learning nonlinear operators via DeepONet based on the universal
+approximation theorem of operators.
+Nature Machine Intelligence, 3(3):218–229, 2021.
+Maarten et al. (2022)
+Maarten, V., Lassas, M., and Wong, C. A.
+Deep learning architectures for nonlinear operator functions and
+nonlinear inverse problems.
+Mathematical Statistics and Learning, 4(1):1–86, 2022.
+Mao et al. (2020)
+Mao, Z., Lu, L., Marxen, O., Zaki, T., and Karniadakis, G. E.
+DeepMandMnet for hypersonics: Predicting the coupled flow and
+finite-rate chemistry behind a normal shock using neural-network
+approximation of operators.
+Preprint, available from arXiv:2011.03349v1, 2020.
+Muller & Siltanen (2012)
+Muller, J. and Siltanen, S.
+Linear and nonlinear inverse problems with practical
+applications.
+SIAM, 2012.
+Nachman (1988)
+Nachman, A.
+Reconstructions from boundary measurements.
+Ann. Math., 128(3):531–576, 1988.
+Pathak et al. (2022)
+Pathak, J., Subramanian, S., Harrington, P., Raja, S., Chattopadhyay, A.,
+Mardani, M., Kurth, T., Hall, D., Li, Z., Azizzadenesheli, K., Hassanzadeh,
+p., Kashinath, K., and Anandkumar, A.
+Fourcastnet: A global data-driven high-resolution weather model
+using adaptive Fourier neural operators.
+arXiv preprint arXiv:2202.11214, 2022.
+Prasthofer et al. (2022)
+Prasthofer, M., De Ryck, T., and Mishra, S.
+Variable input deep operator networks.
+arXiv preprint arXiv:2205.11404, 2022.
+Stefanov et al. (2016)
+Stefanov, P., Uhlmann, G., and Vasy, A.
+On the stable recovery of a metric from the hyperbolic DN map with
+incomplete data.
+Inverse Problems & Imaging, 10(4):1141,
+2016.
+Stuart (2010)
+Stuart, A. M.
+Inverse problems: a Bayesian perspective.
+Acta numerica, 19:451–559, 2010.
+Symes (2009)
+Symes, W. W.
+The seismic reflection inverse problem.
+Inverse problems, 25(12):123008, 2009.
+Tarantola (2005)
+Tarantola, A.
+Inverse problem theory and methods for model parameter
+estimation.
+SIAM, 2005.
+Uhlmann (2009)
+Uhlmann, G.
+Electrical impedance tomography and Calderón’s problem.
+Inverse problems, 25(12):123011, 2009.
+Yilmaz (2011)
+Yilmaz, O.
+Seismic Data Analysis.
+Society for exploration geophysicists, 2011.
+Supplementary Material for:
+Neural Inverse Operators for solving PDE Inverse problems.
+Appendix A Depiction of PDE Inverse Problems.
+In the following figures, we illustrate the different PDE inverse problems considered in the main text.
+(a)
+(b)
+(c)
+(d)
+(e)
+(f)
+Λa\Lambda_{a}Λa\Lambda_{a}Λa\Lambda_{a}
+ℱ−1\mathcal{F}^{-1}
+(g) aa
+Figure 4: Illustration of a typical input (left) and output (right) sample for the Calderón Problem for EIT with trigonometric coefficients. The input is the Dirichlet-to-Neumann (DtN) map (7), represented here by three Dirichlet Boundary conditions (Voltage) to Current pairs, and the output is the conductivity coefficient aa.
+(a)
+(b)
+(c)
+(d)
+(e)
+(f)
+Λa\Lambda_{a}Λa\Lambda_{a}Λa\Lambda_{a}
+ℱ−1\mathcal{F}^{-1}
+(g) aa
+Figure 6: Illustration of EIT for the discontinuous heart-lung Phantom of Muller & Siltanen (2012). Left: Input through the DtN (voltage-to-current) map. Right: Conductivity field showing the Phantom of the heart and lungs.
+(a)
+(b)
+(c)
+(d)
+(e)
+(f)
+Λa\Lambda_{a}Λa\Lambda_{a}Λa\Lambda_{a}
+ℱ−1\mathcal{F}^{-1}
+(g) aa
+Figure 8: Illustration of detection of inclusions through the Inverse Wave Scattering with the Helmholtz equation. Left: Input represented through 3 samples for the DtN map. Right: Coefficient aa.
+(a)
+(b)
+(c)
+(d)
+(e)
+(f)
+Λa\Lambda_{a}Λa\Lambda_{a}Λa\Lambda_{a}
+ℱ−1\mathcal{F}^{-1}
+(g) aa
+Figure 10: Illustration of Optimal Imaging through the Radiative Transport Equation. Left: Input is the Albedo operator (12) illustrated with three mappings between the inflow and outflow boundaries. Right: Output is the Scattering coefficient.
+(a)
+(b)
+(c)
+(d)
+(e)
+(f)
+Λa\Lambda_{a}Λa\Lambda_{a}Λa\Lambda_{a}
+ℱ−1\mathcal{F}^{-1}
+(g) aa
+Figure 12: Illustration of Seismic Imaging. Left: Input is Source-to-Receiver map (15) between Incident waves generated at Sources to Temporal signals recorder at Receivers. Right: Output is the velocity coefficient, corresponding to Style A dataset of Deng et al. (2021).
+(a)
+(b)
+(c)
+(d)
+(e)
+(f)
+Λa\Lambda_{a}Λa\Lambda_{a}Λa\Lambda_{a}
+ℱ−1\mathcal{F}^{-1}
+(g) aa
+Figure 14: Illustration of Seismic Imaging. Left: Input is Source-to-Receiver map (15) between Incident waves generated at Sources to Temporal signals recorder at Receivers. Right: Output is the velocity coefficient, corresponding to CurveVel A dataset of Deng et al. (2021)
+Appendix B Proof of Formula (23) in Main Text.
+Below, we prove the representation formula (23) in the main text.
+Proof.
+Multiplying uku_{k} (the solution of (22)) to Eqn (21) and integrating over space, we obtain,
+∫Duk​Δ​φk​𝑑z+λk​∫Dφk​𝑑z=0\int\limits_{D}u_{k}\Delta\varphi_{k}dz+\lambda_{k}\int\limits_{D}\varphi_{k}dz=0
+Integrating by parts in the above equation and using the Gauss-Green formula yields,
+−∫D⟨∇uk,∇φk⟩dz+∫∂Duk∂φk∂ν⏟=0ds(z)+λk∫Dukφkdz=0.-\int\limits_{D}\langle\nabla u_{k},\nabla\varphi_{k}\rangle dz+\int\limits_{\partial D}u_{k}\underbrace{\frac{\partial\varphi_{k}}{\partial\nu}}_{=0}ds(z)+\lambda_{k}\int\limits_{D}u_{k}\varphi_{k}dz=0.
+(29)
+Note that the Neumann boundary conditions from (21) in the above.
+Similarly, multiplying the solution φk\varphi_{k} of the Neumann problem (21) to the Eqn (22) and repeating the above integration parts yields,
+−∫D⟨∇uk,∇φk⟩dz+∫∂Dgk∂uk∂νds(z)+∫Da(z)ukφkdz=0.-\int\limits_{D}\langle\nabla u_{k},\nabla\varphi_{k}\rangle dz+\int\limits_{\partial D}g_{k}\frac{\partial u_{k}}{\partial\nu}ds(z)+\int\limits_{D}a(z)u_{k}\varphi_{k}dz=0.
+(30)
+Formula (23) follows by subtracting (29) from (30).
+∎
+Appendix C Mathematical Description of Heart and Lungs Phantom
+To describe the phantom for the heart and lungs, we define the following sets of points on the domain DD:
+sh={(x,y)∈Ds.teh,1​(x−ch,1)2+eh,2​(y−ch,2)2<0.2}\displaystyle s_{h}=\left\{(x,y)\in D~\text{s.t}~\sqrt{e_{h,1}(x-c_{h,1})^{2}+e_{h,2}(y-c_{h,2})^{2}}<0.2\right\}
+(31)
+sl1={(x,y)∈Ds.tel1,1​((cos⁡(α)​x1+sin⁡(α)​x2)−cl1,1)2+el1,2​((−sin⁡(α)​x+cos⁡(α)​y)−cl1,2)2<0.5}\displaystyle s_{l_{1}}=\left\{(x,y)\in D~\text{s.t}~\sqrt{e_{l_{1},1}\left(\left(\cos(\alpha)x_{1}+\sin(\alpha)x_{2}\right)-c_{l_{1},1}\right)^{2}+e_{l_{1},2}\left(\left(-\sin(\alpha)x+\cos(\alpha)y\right)-c_{l_{1},2}\right)^{2}}<0.5\right\}
+sl2={(x,y)∈Ds.tel2,1​((cos⁡(α)​x1+sin⁡(α)​x2)−cl2,1)2+el2,2​((−sin⁡(α)​x+cos⁡(α)​y)−cl2,2)2<0.4}\displaystyle s_{l_{2}}=\left\{(x,y)\in D~\text{s.t}~\sqrt{e_{l_{2},1}\left(\left(\cos(\alpha)x_{1}+\sin(\alpha)x_{2}\right)-c_{l_{2},1}\right)^{2}+e_{l_{2},2}\left(\left(-\sin(\alpha)x+\cos(\alpha)y\right)-c_{l_{2},2}\right)^{2}}<0.4\right\}
+Here, eh,1=0.8e_{h,1}=0.8, eh,2=1e_{h,2}=1, el1,1=3e_{l_{1},1}=3, el1,2=1e_{l_{1},2}=1, el2,1=3e_{l_{2},1}=3, and el2,2=1e_{l_{2},2}=1 represent the eccentricities of the ellipses describing the heart and lungs. The center locations of the heart and lungs are given by ch,1=−0.1c_{h,1}=-0.1, ch,2=0.4c_{h,2}=0.4, cl1,1=0.5c_{l_{1},1}=0.5, cl1,2=0.2c_{l_{1},2}=0.2, cl2,1=−0.6c_{l_{2},1}=-0.6, and cl2,2=0.1c_{l_{2},2}=0.1 and the orientation of the lungs by α=π7\alpha=\frac{\pi}{7}.
+Then the body conductivity is defined as,
+a⁡(x,y)={ah(x,y)∈shal1(x,y)∈sl1al2(x,y)∈sl2abelsea(x,y)=\begin{cases}a_{h}&(x,y)\in s_{h}\\
+a_{l_{1}}&(x,y)\in s_{l_{1}}\\
+a_{l_{2}}&(x,y)\in s_{l_{2}}\\
+a_{b}&\text{else}\end{cases}
+with ah=2a_{h}=2, al1=al2=0.7a_{l_{1}}=a_{l_{2}}=0.7, ab=1a_{b}=1.
+The training coefficients are obtained by adding 8%8\% white noise to all the parameters above. Specifically, given y=[eh,1,eh,2,el1,1,el1,2,el2,1,el2,2,ch,1,ch,2,cl1,1,cl1,2,cl2,1,cl2,2,ah,al1,al2]y=[e_{h,1},e_{h,2},e_{l_{1},1},e_{l_{1},2},e_{l_{2},1},e_{l_{2},2},c_{h,1},c_{h,2},c_{l_{1},1},c_{l_{1},2},c_{l_{2},1},c_{l_{2},2},a_{h},a_{l_{1}},a_{l_{2}}], we define the perturbed version of the parameter vector yy as y~=y⁡(1+0.08​ξ)\tilde{y}=y(1+0.08\xi), where ξ∼𝒩⁡(0,1)\xi\sim\mathcal{N}(0,1) is a random variable drawn from the standard normal distribution.
+The coefficient is then defined as:
+a~​(x,y)={a~h(x,y)∈s~ha~l1(x,y)∈s~l1a~l2(x,y)∈s~l2a~belse\tilde{a}(x,y)=\begin{cases}\tilde{a}_{h}&(x,y)\in\tilde{s}_{h}\\
+\tilde{a}_{l_{1}}&(x,y)\in\tilde{s}_{l_{1}}\\
+\tilde{a}_{l_{2}}&(x,y)\in\tilde{s}_{l_{2}}\\
+\tilde{a}_{b}&\text{else}\end{cases}
+where s~h\tilde{s}_{h}, s~l1\tilde{s}_{l_{1}} and s~l2\tilde{s}_{l_{2}} are defined as above, but with the parameters replaced by their corresponding perturbed values in y~\tilde{y}.
+Appendix D Architecture and Training Details
+Below, details concerning the model architectures and training are discussed.
+The implementation of the experiments of the paper is realized within the PyTorch framework and available at
+■\blacksquare
+https://github.com/mroberto166/nio.git
+D.1 Architecture Details
+D.1.1 Feed Forward Dense Neural Networks
+Given an input y∈ℝmy\in\mathbb{R}^{m}, a feed-forward neural network (also termed as a multi-layer perceptron) transforms it to an output, through a layer of units (neurons) which compose of either affine-linear maps between units (in successive layers) or scalar nonlinear activation functions within units Goodfellow et al. (2016), resulting in the representation,
+uθ​(y)=CLt∘σ∘CLt−1​…∘σ∘C2∘σ∘C1​(y).u_{\theta}(y)=C_{L_{t}}\circ\sigma\circ C_{{L_{t}}-1}\ldots\circ\sigma\circ C_{2}\circ\sigma\circ C_{1}(y).
+(32)
+Here, ∘\circ refers to the composition of functions, and σ\sigma is a scalar (nonlinear) activation function.
+For any 1≤ℓ≤Lt1\leq\ell\leq L_{t}, we define
+Cℓ​zℓ=Wℓ​zℓ+bℓ,for​Wℓ∈ℝdℓ+1×dℓ,zℓ∈ℝdℓ,bℓ∈ℝdℓ+1,C_{\ell}z_{\ell}=W_{\ell}z_{\ell}+b_{\ell},~{\rm for}~W_{\ell}\in\mathbb{R}^{d_{\ell+1}\times d_{\ell}},z_{\ell}\in\mathbb{R}^{d_{\ell}},b_{\ell}\in\mathbb{R}^{d_{\ell+1}},
+(33)
+and denote,
+θ={Wℓ,bℓ}ℓ=1Lt,\theta=\{W_{\ell},b_{\ell}\}_{\ell=1}^{L_{t}},
+(34)
+to be the concatenated set of (tunable) weights for the network.
+Thus, in the machine learning terminology, a feed-forward neural network (32) consists of an input layer, an output layer, and LtL_{t} hidden layers with dℓd_{\ell} neurons, 1<ℓ<Lt1<\ell<L_{t}. In all numerical experiments, the trunk net of DeepONet is a feed-forward neural network. Moreover, we consider a uniform number of neurons across all the layers of the network
+dℓ=dℓ−1=dd_{\ell}=d_{\ell-1}=d, 1<ℓ<Lt1<\ell<L_{t}.
+D.1.2 Fully Convolutional Neural Network
+Fully convolutional neural networks are a special class of convolutional networks which can be evaluated for virtually any resolution of the input. We use them as a strong baseline for PDE inverse problems in the results presented in Table 1. The networks consist of an encoder and decoder, both defined by a composition of linear and nonlinear transformations:
+Eθe​(y)\displaystyle E_{\theta_{e}}(y)
+=CLe∘σ∘CL−1e​…∘σ∘C2e∘σ∘C1e​(y),\displaystyle=C^{e}_{L}\circ\sigma\circ C^{e}_{L-1}\ldots\circ\sigma\circ C^{e}_{2}\circ\sigma\circ C^{e}_{1}(y),
+(35)
+Dθd​(z)\displaystyle D_{\theta_{d}}(z)
+=CLd∘σ∘CL−1d​…∘σ∘C2d∘σ∘C1d​(z),\displaystyle=C^{d}_{L}\circ\sigma\circ C^{d}_{L-1}\ldots\circ\sigma\circ C^{d}_{2}\circ\sigma\circ C^{d}_{1}(z),
+uθ​(y)\displaystyle u_{\theta}(y)
+=Dθd∘Eθe​(y).\displaystyle=D_{\theta_{d}}\circ E_{\theta_{e}}(y).
+The affine transformation CℓC_{\ell} commonly corresponds to a convolution operation in the encoder and transposed convolution (also known as deconvolution) in the decoder.
+The (de)convolution is performed with a kernel Wℓ∈ℝkℓ×kℓW_{\ell}\in\mathbb{R}^{k_{\ell}\times k_{\ell}}, stride ss, and padding pp. It takes as input a tensor zℓ∈ℝwℓ×hℓ×cℓz_{\ell}\in\mathbb{R}^{w_{\ell}\times h_{\ell}\times c_{\ell}} with cℓc_{\ell} being the number of input channels, and computes zℓ+1∈ℝwℓ+1×hℓ+1×cℓ+1z_{\ell+1}\in\mathbb{R}^{w_{\ell+1}\times h_{\ell+1}\times c_{\ell+1}}. Therefore, a (de)convolutional affine transformation can be uniquely identified with the tuple (kℓ,s,p,cℓ,cℓ+1)(k_{\ell},s,p,c_{\ell},c_{\ell+1}).
+A visual representation of the convolutional architectures used for the benchmark problems is depicted in Figures 15, 16, 17,18. The convolutional block (or transposed convolution block) is the composition of a convolution (or transposed convolution) operation, batch normalization, and activation function (Leaky ReLU). The cropping operation involves adding negative padding to the edges of a tensor to achieve the desired output width and height. The number of channels cc is selected with cross-validation. The architecture used for seismic imagining is referred to as InversionNet in Deng et al. (2021).
+Figure 15: Schematic representation of the Fully-Convolutional Neural Network (FCNN) architecture used for the Calderón problem with Trigononmetric coefficients and for the Inverse Wave Scattering with Helmholtz Equation.
+Figure 16: Schematic representation of the Fully-Convolutional Neural Network architecture used for the optical imaging for the Calderón Problem with Heart&Lungs phantom.
+Figure 17: Schematic representation of the Fully-Convolutional Neural Network architecture used for the optical imaging for the radiative transport Equation.
+Figure 18: Schematic representation of the Fully-Convolutional Neural Network architecture used for the seismic imaging problems.
+Figure 19: Schematic representation of the NIO-BranchNet architecture used for the Calderón problem with Trigononmetric coefficients and for the Inverse Wave Scattering with Helmholtz Equation
+Figure 20: Schematic representation of the NIO-BranchNet architecture used for the optical Imaging with Radiative transport Equation and Calderón Problem with Heart&Lungs phantom.
+Figure 21: Schematic representation of the NIO-BranchNet architecture used for the seismic imaging.
+D.1.3 DeepONet
+The architectures of the branch and trunk are chosen according to the benchmark addressed.
+In particular, we employ standard feed-forward neural networks as trunk-net in all the experiments. In contrast, the branch is obtained as a composition of the encoder of the fully convolutional networks depicted in figures 15, 16 17 and 18, and a linear transformation from ℝn\mathbb{R}^{n} to ℝp\mathbb{R}^{p}, where nn denotes the number of channels in the last layer of the encoder and pp the number of basis functions. Moreover, c=32c=32 for the seismic imaging and c=64c=64 for all the other benchmarks.
+Hence, the architecture of the branch is fixed. The number of the trunk hidden layers LtL_{t}, units dd, and pp are chosen through cross-validation. On the other hand, the activation function σ\sigma is chosen to be a leaky ReLU for both the branch and the trunk.
+D.1.4 Fourier Neural Operator
+We use the implementation of the FNO model provided by the authors of Li et al. (2021a).
+Specifically, the projection QQ to the target space is performed by a shallow neural network with a single hidden layer with 128128 neurons and G​e​L​UGeLU activation function. The same activation function is also used for all the Fourier layers.
+Moreover, bℓ​(x)=0b_{\ell}(x)=0, for all ℓ=1,…,T\ell=1,\ldots,T and the weight matrix WℓW_{\ell} used in the residual connection derives from a convolutional layer defined by (kℓ=1,s=1,p=0,cℓ=dv,cℓ+1=dv)(k_{\ell}=1,s=1,p=0,c_{\ell}=d_{v},c_{\ell+1}=d_{v}), for all 1<ℓ<T1<\ell<T.
+D.1.5 Neural Inverse Operator
+In all numerical experiments, the proposed architecture is constructed by combining the DeepONet and Fourier Neural Operator by means of the lifting operator RR defined in equation (27).
+The implementation of DeepONet follows the same description as outlined in Section D.1.3. However, the branch structure differs from the encoder structure depicted in figures 15, 16, 17, and 18. In the proposed NIO architecture, the channel mixing is performed downstream through the operator ℳ\mathcal{M}. Specific details regarding the branch-net architectures used in NIO for the benchmark problems can be found in Figures 19, 20, and 21. For instance, for the seismic imaging, the branch architecture is the same as the encoder shown in Figure 18, but only a single input channel is used instead of five, following the same rationale as mentioned above.
+Overall, the model includes the following hyperparameters: the number of layers LtL_{t} and neurons dd of the DeepONet trunk, the number of basis functions pp, and the lifting dimension dvd_{v}, the number of Fourier layers TT and number of (truncated)-Fourier coefficients kk, of FNO.
+D.2 Training Details
+The training of the models, including the baselines, is performed with the ADAM optimizer, with a learning rate η\eta for 1000 epochs (250 epochs in the Seismic imaging problem) and minimizing the L1L^{1}-loss function. We also use a step learning rate scheduler and reduce the learning rate of each parameter group by a factor γ\gamma every epoch. We train the models in mini-batches of size 256256, and a weight decay of magnitude ww is used. Moreover, the input and output data are transformed with a suitable map before training. Observe that the testing error reported in Table 1 has been obtained on the non-transformed output data.
+We consider two different data transformations to preprocess the data:
+1.
+MinMax. This transformation involves scaling both the inputs and outputs to a range between -1 and 1:
+f~=2​f−mM−m−1,\tilde{f}=2\frac{{f}-m}{M-m}-1,
+(36)
+where MM and mm are the maximum and the minimum value of ff across all the training samples.
+2.
+log-MinMax. This transformation is specifically used for Seismic Imaging problems. The input data are transformed according to the following equation:
+f~=log⁡(|f|)​sign​(f),\tilde{f}=\log\left(\left|{f}\right|\right)\text{sign}\left({f}\right),
+(37)
+and then, the obtained input and output scaled between −1-1 and 11.
+All the parameters mentioned above, including the type of data transformation (Identity, MinMax, log-MinMax, are chosen through cross-validation.
+At every epoch, the relative L1L^{1} error is computed on the validation set, and the set of trainable parameters resulting in the lowest error during the entire process is saved for testing. Early stopping is used to interrupt the training if the best validation error does not improve after 5050 epochs.
+The cross-validation is performed by running a random search over a chosen range of hyperparameters values and selecting the configuration, realizing the lowest relative L1L^{1} error on the validation set. Overall, 50 hyperparameter configurations are tested for NIO and 30 for the baselines. The model size (minimum and maximum number of trainable parameters) covered in this search are reported in Table 2.
+The results of the random search, i.e., the best-performing hyperparameter configurations for each model and each benchmark, are reported in tables 3, 4, and 5.
+The FCNN hyperparameters reported in the table for the seismic imaging problem are those used in Deng et al. (2021).
+Calderón
+Problem
+Trigonometric
+Calderón
+Problem
+Heart&Lungs
+Inverse Wave
+Scattering
+Radiative
+Transport
+Seismic
+Imaging
+CurveVel - A
+Seismic
+Imaging
+Style - A
+DONet
+4.6M
+9.07M
+4.6M
+9.07M
+9.54M
+14.01M
+9.54M
+14.01M
+12.01M
+15.85M
+12.01M
+15.85M
+FCNN
+1.07M
+68.32M
+1.07M
+68.32M
+4.31M
+275.37M
+2.48M
+39.53M
+24.4M
+24.4M
+24.4M
+24.4M
+NIO
+7.95M
+27.79M
+10.6M
+50.76M
+7.95M
+27.79M
+9.6M
+10.3M
+13.07M
+32.91M
+13.07M
+32.91M
+Table 2: Minimum (Top sub-row) and maximum (Bottom sub-row) number of trainable parameters among the random-search hyperparameters configurations for all the models in every problem reported in Table 1 in the main text.
+η\eta
+γ\gamma
+ww
+Data Trans
+pp
+LtL_{t}
+dd
+Trainable
+Params
+Calderón Problem
+Trigonometric
+0.001
+1.0
+0.0
+Identity
+25
+8
+200
+4.84M
+Calderón Problem
+Heart&Lungs
+0.001
+1.0
+0.0
+MinMax
+100
+15
+500
+13.1M
+Inverse Wave Scattering
+0.001
+1.0
+1e-06
+Identity
+1000
+12
+500
+8.32M
+Radiative transport
+0.001
+1.0
+0.0
+MinMax
+100
+15
+500
+13.1M
+Seismic Imaging
+CurveVel - A
+0.001
+0.98
+1e-06
+log-MinMax
+400
+12
+500
+15.09M
+Seismic Imaging
+Style - A
+0.001
+0.98
+1e-06
+log-MinMax
+400
+12
+500
+15.09M
+Table 3: DeepONet best-performing hyperparameters configuration for different benchmark problems.
+η\eta
+γ\gamma
+ww
+Data Trans
+cc
+Trainable
+Params
+Calderón Problem
+Trigonometric
+0.001
+1.0
+0.0
+MinMax
+16
+1.07M
+Calderón Problem
+Heart&Lungs
+0.001
+1.0
+0.0
+MinMax
+128
+275.37M
+Inverse Wave Scattering
+0.001
+1.0
+0.0
+MinMax
+128
+68.32M
+Radiative transport
+0.001
+1.0
+1e-06
+MinMax
+16
+2.48M
+Seismic Imaging
+CurveVel - A
+0.001
+1
+1e-04
+log-MinMax
+64
+24.4M
+Seismic Imaging
+Style - A
+0.001
+1
+1e-04
+log-MinMax
+64
+24.4M
+Table 4: Fully convolutional neural network best-performing hyperparameters configuration for different benchmark problems.
+η\eta
+γ\gamma
+ww
+Data Trans
+pp
+LtL_{t}
+dd
+kk
+dvd_{v}
+LL
+Trainable
+Params
+Calderón Problem
+Trigonometric
+0.001
+1.0
+1e-06
+Identity
+100
+8
+100
+25
+32
+4
+12.06M
+Calderón Problem
+Heart&Lungs
+0.001
+1.0
+1e-06
+MinMax
+100
+8
+100
+25
+32
+4
+14.74M
+Inverse Wave Scattering
+0.001
+0.98
+0.0
+Identity
+100
+8
+200
+16
+64
+4
+15.57M
+Radiative transport
+0.001
+0.98
+1e-06
+MinMax
+400
+4
+100
+32
+64
+4
+10.3M
+Seismic Imaging
+CurveVel - A
+0.001
+0.98
+1e-06
+MinMax
+25
+4
+200
+16
+32
+3
+16.49M
+Seismic Imaging
+Style - A
+0.001
+0.98
+1e-06
+log-MinMax
+100
+8
+200
+16
+64
+2
+16.49M
+Table 5: Neural Inverse Operator best-performing hyperparameters configuration for different benchmark problems.
+D.2.1 Sensitivity to Initialization of the Trainable Parameters
+Next, we consider the best performing NIO model corresponding to the hyperparameters reported in Table 5. We then train the model again using multiple initializations of the model parameters, and each model is trained a total of 10 times. Table 6 presents the means and standard deviations of the 10 test median errors for various benchmark experiments.
+From the results shown in Table 6, we observe that NIO demonstrates remarkable robustness with respect to random initializations, exhibiting a significantly low standard deviation to mean ratio for the chosen benchmarks. However, it should be noted that the Calderón problem with trigonometric functions is an exception to this trend, as it appears to be quite sensitive to different initializations of the model parameters.
+Calderón
+Problem
+Trigonometric
+Calderón
+Problem
+Heart&Lungs
+Inverse Wave
+Scattering
+Radiative
+Transport
+1.03±0.45%1.03\pm 0.45\%
+0.19±0.03%0.19\pm 0.03\%
+1.08±0.16%1.08\pm 0.16\%
+1.14±0.18%1.14\pm 0.18\%
+Table 6: Means ±\pm standard deviations of relative median L1L^{1} test errors computed over 10 different NIO retrainings for different benchmarks.
+D.2.2 Sensitivity to the Number of Training Samples
+Once again, we revisit the best-performing NIO architectures for different benchmark problems and focus on varying the number of training samples and retraining the selected models accordingly. We then plot in Figure22 the median of the testing error as we change the cardinality of the training set. We observe that even for 512 training samples, the accuracy of the models, except for the Inverse Wave Scattering, remains very satisfactory. It should be observed that the number of training samples used in the benchmarks is very small compared to the state-of-the-art data-driven models used in this context.
+(a) Calderón Problem Trigonometric
+(b) Calderón Problem Heart&Lungs
+(c) Inverse Wave Scattering
+(d) Radiative transport
+Figure 22: Median of the L1L^{1}-error computed over testing samples VS number of training samples for different benchmarks with NIO.
+Appendix E Further Experimental Results
+E.1 Illustration of Results reported in Table 1.
+(a) Test Sample 1
+(b) Test Sample 2
+Figure 23: Exact and predicted coefficients for two different test samples (Rows) for the Calderón problem with Trigonometric coefficients. Left Column: Ground Truth. Middle Column: NIO reconstruction. Right Column: FCNN Reconstruction.
+(a) Test Sample 1
+(b) Test Sample 2
+Figure 24: Exact and predicted coefficients for two different test samples (Rows) for the Calderón problem with Heart&Lungs Phantom. Left Column: Ground Truth. Middle Column: NIO reconstruction. Right Column: FCNN Reconstruction.
+(a) Test Sample 1
+(b) Test Sample 2
+Figure 25: Exact and predicted coefficients for two different test samples (Rows) for the Inverse Wave Scattering with Helmholtz Equation. Left Column: Ground Truth. Middle Column: NIO reconstruction. Right Column: FCNN Reconstruction.
+(a) Test Sample 1
+(b) Test Sample 2
+Figure 26: Exact and predicted absorption coefficients for two different test samples, obtained with optical imaging for the radiative transport Equation.
+(a) Test Sample 1
+(b) Test Sample 2
+Figure 27: Exact and predicted coefficients for two different test samples (Rows) for the Seismic Imaging with the acoustic wave equation with CurveVel A data set. Left Column: Ground Truth. Middle Column: NIO reconstruction. Right Column: FCNN Reconstruction.
+(a) Test Sample 1
+(b) Test Sample 2
+Figure 28: Exact and predicted coefficients for two different test samples (Rows) for the Seismic Imaging with the acoustic wave equation with Style A data set. Left Column: Ground Truth. Middle Column: NIO reconstruction. Right Column: FCNN Reconstruction.
+We start by elaborating on the results obtained on the benchmarks and presented in Table 1. In Figure 23, we show two randomly drawn test samples for the Calderón Problem for inferring conductivity with trigonometric coefficients by EIT. For both these test samples, we see that NIO (and FCNN) can accurately approximate the ground truth without any visible artifacts. This observation correlates with very small test errors with NIO. At least for these two samples, there appears to be little visible difference between NIO and FCNN. Nevertheless, the results from Table 1 demonstrate that NIO outperforms FCNN considerably on this problem by almost halving the test error.
+Next, in Figure 32, we focus on the discontinuous heart-lungs Phantom inferred with EIT. Also, in this case, there is no visual difference between the NIO and FCNN, which are both very accurate in reconstructing the ground truth, and this is indeed consistent with the very low generalization error achieved by both models.
+In Figure 25, we plot the results of two randomly chosen test samples for the inverse wave scattering problem and compare the ground truth with the reconstruction with NIO and FCNN. In the first sample (top row), both models accurately reconstruct the ground truth coefficient with very little visible difference between the competing models. In contrast, in the second sample, the reconstruction with NIO and FCNN are noticeable differences. In particular, FCNN cannot reconstruct the small rectangular scatterer (at the top right of the square domain), whereas NIO can reconstruct it. This possibly explains why NIO is significantly more accurate (see Table 1) for this experiment in reconstructing scatterers.
+In Figure 26, we plot two randomly chosen test samples to recover the absorption coefficient with optical imaging for the Radiative transport equation (11). The ground truth and reconstructions obtained with NIO and FCNN are shown. For the first test sample, both models can provide an accurate reconstruction with a sharp resolution of the discontinuities in the absorption coefficient. On the other hand, for the second sample (Figure 26 Right), we see that FCNN gets the correct location but the wrong magnitude of the discontinuity, whereas NIO can approximate both accurately, probably accounting for the significant gain in accuracy on this problem (see Table 1 of main text).
+In Figures 27 and 28, we show two randomly chosen test samples for Seismic imaging of the subsurface property (squared slowness) by the acoustic wave equation (14), corresponding to the CurveVel-A and Style A datasets (considered in Deng et al. (2021)), respectively. Both figures show that NIO and FCNN reconstruct the coefficient reasonably accurately, although slight differences exist between the models. Nevertheless, coupled with quantitative results from Table 1, we can conclude that NIO is at least on par with FCNN, which was shown to be one of the state-of-the-art models in this context in Deng et al. (2021).
+DONet
+FCNN
+NIO
+L1↓L^{1}\downarrow
+L2↓L^{2}\downarrow
+L1↓L^{1}\downarrow
+L2↓L^{2}\downarrow
+L1↓L^{1}\downarrow
+L2↓L^{2}\downarrow
+Calderón Problem
+Trigonometric
+1.3%
+3.19%
+1.58%
+3.75%
+1.08%
+2.24%
+1.33%
+2.7%
+0.56%
+1.21%
+0.7%
+1.47%
+Calderón Problem
+Heart&Lungs
+0.87%
+1.42%
+3.32%
+4.11%
+0.25%
+0.44%
+1.37%
+3.5%
+0.16%
+0.2%
+0.88%
+1.53%
+Inverse Wave Scattering
+2.28%
+5.55%
+4.37%
+11.0%
+0.84%
+4.98%
+2.08%
+13.47%
+0.3%
+2.15%
+1.08%
+5.92%
+Radiative transport
+1.56%
+3.38%
+2.72%
+6.5%
+1.0%
+2.26%
+2.02%
+6.0%
+0.74%
+1.63%
+1.82%
+4.86%
+Seismic Imaging
+CurveVel - A
+3.25%
+4.93%
+4.79%
+7.4%
+2.01%
+3.53%
+3.98%
+6.52%
+2.16%
+3.36%
+3.83%
+5.81%
+Seismic Imaging
+Style - A
+2.97%
+4.88%
+4.02%
+6.61%
+2.39%
+4.1%
+3.49%
+6.09%
+2.4%
+3.83%
+3.4%
+5.6%
+Table 7: 0.25 and 0.75 quantiles of the relative L1L^{1}-error and L2L^{2}-error computed over testing samples for different benchmarks and models.
+E.2 Robustness of Reconstruction to Λa\Lambda_{a}-Discretizazion.
+As outlined in Section 3.4, one crucial property that the model should exhibit is robustness to the number of samples L~\tilde{L} used to approximate the pushforward measure μΨ\mu_{\Psi}. To assess this, we conduct two different experiments.
+In the first experiment, we consider the test set used to compute the errors reported in the main table 1 and consisting of input-output pairs ({Ψℓ}ℓ=1L,a)(\{\Psi_{\ell}\}_{\ell=1}^{L},a).
+For each model (NIO and baselines) and each benchmark, we construct a new test set by picking at random L~\tilde{L} samples from {Ψℓ}ℓ=1L\{\Psi_{\ell}\}_{\ell=1}^{L}, L~≤L\tilde{L}\leq L and compute the corresponding testing error. As a remark, it should be noted that NIO can be evaluated directly for any input {Ψk}k=1L~\{\Psi_{k}\}_{k=1}^{\tilde{L}}, without no change in the architecture. On the other hand, in order to even evaluate the baselines, interpolation (we chose to use the nearest interpolation) must be used to obtain inputs consisting of exactly LL samples.
+In Figure 29, we plot the median L1L^{1}-error obtained as a function of the number of samples L~\tilde{L} for different models and benchmarks. We observe that the performance of NIO remains invariant with respect to L~\tilde{L}, with the testing error only showing a slight increase as L~\tilde{L} decreases, which is typically expected since the approximation of the measure μΨ\mu_{\Psi} by the empirical distribution becomes less accurate as the number of samples decreases. In contrast, the performance of the baselines deteriorates even when the number of samples L~\tilde{L} is extremely close to the training set size. This demonstrates that the baselines are not invariant to permutations of the samples {Ψℓ}ℓ=1L\{\Psi_{\ell}\}_{\ell=1}^{L}.
+Next, we consider the Calderón problem with trigonometric functions and the inverse wave scattering problem. We generate a new testing set from scratch, consisting of input-output pairs ({Ψℓ}ℓ=1L,a)(\{\Psi_{\ell}\}_{\ell=1}^{L},a), where L=100L=100 (compared to the L=20L=20 samples used for model training). We then conduct the same experiments as before and present the results in Figure 30. These results further reinforce the fact that NIO exhibits invariance with respect to the discretization of the input measure μΨ\mu_{\Psi}.
+(a) Calderón Problem Trigonometric
+(b) Calderón Problem Heart&Lungs
+(c) Inverse Wave Scattering
+(d) Radiative transport
+(e) Seismic Imaging CurveVel - A
+(f) Seismic Imaging StyleVel - A
+Figure 29: Median of the L1L^{1}-error computed over testing samples ({Ψk}k=1L~,a)(\{\Psi_{k}\}_{k=1}^{\tilde{L}},a) VS L~\tilde{L} for different benchmarks with different models (L~<L\tilde{L}<L).
+(a) Calderón Problem Trigonometric
+(b) Inverse Wave Scattering
+Figure 30: Median of the L1L^{1}-error computed over testing samples ({Ψk}k=1L~,a)(\{\Psi_{k}\}_{k=1}^{\tilde{L}},a) VS L~\tilde{L} for different benchmarks with different models (L~\tilde{L} spans the entire range 10-100).
+E.3 Robustness of Reconstruction to Noise
+Inverse problems, such as the abstract PDE inverse problem (4), can be very sensitive to noise as the stability estimate (5) indicates, and reconstruction methods have to show some robustness with respect to noisy measurements in order to be practically useful. To test the robustness of NIO (and competing models) to noise, we take all the benchmark test problems reported in Table 1 of the main text and add 1%1\% noise to the inputs to each model at test time. Table 8 presents the resulting test errors. This table shows that NIO (as well as DOnet and FCNN) is very robust to this measurement noise.
+Furthermore, upon closer examination of the results, it is evident that the models displaying the highest robustness with respect to additional noise are those trained using the log-MinMax data scaling transformation. To validate this observation, we consider the inverse wave scattering problem and train NIO with the hyperparameters reported in Table 5, but employing the log-MinMax scaling of the data. Additionally, instead of monitoring the validation error computed on the noiseless data, we monitor the validation error computed on data corrupted by 10%10\% noise and interrupt the training based on this metric. The final median testing error on 1%1\%-noisy data is 1.64%1.64\%, two times lower than the value reported in Table 8. Moreover, the testing error on the noise-free data only marginally increased to 1.61%1.61\%. These findings suggest that utilizing log-MinMax scaling and potentially monitoring the validation error on the corrupted data can significantly enhance the model’s robustness to noise, with minimal loss in performance on the noise-free data.
+DONet
+FCNN
+NIO
+Calderón Problem
+Trigonometric
+2.02%
+1.51%
+0.91%
+Calderón Problem
+Heart&Lungs
+0.95%
+0.27%
+0.18%
+Inverse Wave Scattering
+3.83%
+2.54%
+3.72%
+Radiative transport
+2.38%
+1.47%
+1.1%
+Seismic Imaging
+CurveVel - A
+3.98%
+2.65%
+2.73%
+Seismic Imaging
+Style - A
+3.82%
+3.13%
+3.09%
+Table 8: Median of the relative L1L^{1}-error computed over 1%1\%-noisy testing samples for different benchmarks with different models.
+E.4 Robustness of Reconstructions to Varying Grid Sizes.
+Although the inputs and outputs to the inverse problem (4) are continuous objects in principle, in practice, one has to deal with discretized versions of both inputs and outputs. This is true when the ground truth is generated by numerical simulations and observed through other forms of measurement. It is highly desirable that an operator learning algorithm be robust to the resolutions at which it is tested; see Kovachki et al. (2021b) for further discussion on this topic. To test if the proposed NIO architecture is robust with respect to resolution, we focus on the inverse wave scattering with the Helmholtz equation example, where NIO was trained with data obtained from a finite difference scheme on a uniform 70×7070\times 70 grid. To test the robustness with respect to resolution, we use this trained model to also infer at two different resolutions, namely at 50×5050\times 50 and 100×100100\times 100, and present the results, together with DeepONet and FCNN baselines in Table 9 to observe that NIO (and the baselines) is robust to varying resolutions.
+DONet
+FCNN
+NIO
+Resolution
+50×5050\times 50
+100×100100\times 100
+50×5050\times 50
+100×100100\times 100
+50×5050\times 50
+100×100100\times 100
+Inverse Wave Scattering
+3.74%
+3.63%
+1.81%
+1.66%
+0.93%
+0.95%
+Table 9: Relative median L1L^{1}-error computed over testing samples generated at different resolutions (grid sizes).
+E.5 Robustness of Reconstruction to Random Sensors Location.
+While training data typically assumes equidistant placement of sensors along the boundaries of the square domain (as they are synthetically generated using standard numerical methods), real-world scenarios often involve sensors located randomly along the boundaries. Hence, the learning model must exhibit robustness to these random sensor placements.
+Our experiments to assess this robustness focus on two specific problems: the Calderón problem with trigonometric function and inverse wave scattering. We perform testing with input data obtained from 200200 sensors randomly distributed along the domain boundary. Observe that the training data accounts for 272272 sensors. Therefore, before feeding the data to NIO (and baselines), we interpolate it onto the original equispaced set of points. For both problems, we examine the L1L^{1} error, as presented in Table 10.
+The results show that the L1L^{1}-error increases only to 1.18%1.18\% and 1.43%1.43\%, compared to the original setup where the errors were 0.86%0.86\% and 1.11%1.11\%, respectively. These findings underscore the NIO model’s ability to maintain robust performance even when the boundary sensors are placed at different locations.
+DONet
+FCNN
+NIO
+L1↓L^{1}\downarrow
+L1↓L^{1}\downarrow
+L1↓L^{1}\downarrow
+Calderón Problem Trigonometric
+3.39%
+1.88%
+1.18%
+Inverse Wave Scattering
+3.84%
+2.53%
+1.43%
+Table 10: Relative median L1L^{1}-error computed over testing samples with random location of the boundary measurements with different models and different benchmarks.
+E.6 Out-of-Distribution Reconstruction.
+In addition to in-distribution testing, we also consider an out-of-distribution testing task. This will enable us to evaluate the ability of the models to generalize to inputs (and outputs) that possess different features from the training ones.
+First, we considered the Calderón Problem (Trigonometric) benchmark. The coefficients in the training distribution were sampled from the exponential of a sum of sines, with up to 4 frequency modes (up to 8​π8\pi). We now test with the following distributions:
+•
+Distribution A:
+a⁡(x,y)=exp⁡(∑k=16ck​sin⁡(k​π​x)​sin⁡(k​π​y)/k32)a(x,y)=\exp\big(\sum_{k=1}^{6}c_{k}\sin(k\pi x)\sin(k\pi y)/k^{\frac{3}{2}}\big)
+•
+Distribution B:
+a⁡(x,y)=exp⁡(∑k=16ck​sin⁡(k​π​x)​sin⁡(k​π​y)/k)a(x,y)=\exp\big(\sum_{k=1}^{6}c_{k}\sin(k\pi x)\sin(k\pi y)/k\big)
+Here, ck{c_{k}} is a uniformly distributed random variable in the range [0,1]m[0,1]^{m}. The coefficients include up to 66 frequency modes, with different decays of the higher order modes (1.51.5 and 11). Thus, at test time, the model now has to infer data with significantly higher frequencies than the training data.
+Next, we consider the Calderon problem of the Heart and Lungs. Here, the training distribution was based on a normally distributed perturbation of the Heart and Lungs Phantom, with the amplitude of the perturbation being at most 8%8\% of the Phantom values (See SM 6). At test time, we now consider perturbations with amplitudes being 12%12\% of the Phantom values, thus sampling from a different distribution. For instance, this higher amplitude could model individuals with some diseases. Note that even higher variations are probably unrealistic as this problem models body organs and one has to restrict to some biological constraints.
+As a third benchmark, we consider the inverse scattering problem. Here, the training distribution was of a coefficient that consisted of between 1-4 scatterers, of identical shape, whose locations were randomly chosen (See SM 8). We chose to test this model now on two different test distributions
+•
+Distribution A:
+a⁡(x,y)=∑k=15exp⁡(−c​(x−c1,k)4−c​(y−c2,k)4)a(x,y)=\sum_{k=1}^{5}\exp\big(-c(x-c_{1,k})^{4}-c(y-c_{2,k})^{4}\big). In this case, we use a family of coefficients with a fixed number of inclusions equal to five.
+•
+Distribution B: a⁡(x,y)=∑k=1mexp⁡(−bk4​(x−c1,k)4−bk4​(y−c2,k)4),a(x,y)=\sum_{k=1}^{m}\exp\big(-b_{k}^{4}(x-c_{1,k})^{4}-b_{k}^{4}(y-c_{2,k})^{4}\big),
+with bk∼𝒰⁡[5,15]b_{k}\sim\mathcal{U}[5,15], m=mod(m¯)m=\mod(\overline{m}), m∼𝒰⁡([1,4])m\sim\mathcal{U}([1,4]) and {(c1,k,c2,k)}∼𝒰⁡([0,1]m×2)\{(c_{1,k},c_{2,k})\}\sim\mathcal{U}([0,1]^{m\times 2}). This corresponds to a medium with one to four scatterers with varying shapes.
+The relative median L1L^{1} error for different models and different out-of-distribution testing is reported in Table 11. We observe that NIO generalizes well to unseen data, with test errors increasing at most by approximately a factor of 44, and still outperforms the baselines in all cases.
+DONet
+FCNN
+NIO
+L1↓L^{1}\downarrow
+L1↓L^{1}\downarrow
+L1↓L^{1}\downarrow
+Calderón Problem
+Trigonometric Distribution A
+1.37%
+1.27%
+1.2%
+Calderón Problem Trigonometric
+Distribution B
+1.62%
+1.28%
+0.91%
+Calderón Problem
+Heart&Lungs
+1.05%
+0.28%
+0.19%
+Inverse Wave Scattering
+Distribution A
+4.61%
+3.84%
+3.0%
+Inverse Wave Scattering
+Distribution B
+8.61%
+8.98%
+4.54%
+Table 11: Relative median L1L^{1}-error computed over out-of-distribution test samples with different models and different benchmarks.
+E.7 Ablation Studies.
+(a) Calderón Problem Trigonometric
+(b) Calderón Problem Heart&Lungs
+(c) Inverse Wave Scattering
+(d) Radiative Transport
+Figure 31: Median of the L1L^{1}-error computed over testing samples ({Ψk}k=1L~,a)(\{\Psi_{k}\}_{k=1}^{\tilde{L}},a), VS L~\tilde{L} for different benchmarks with different models (NIO and ablations).
+We conduct two ablation studies focusing on two key elements of the Neural Inverse Operator. Firstly, we focus on the architecture shown in Figure 1, where we remove the nonlinear part ℳ\mathcal{M} of FNO and set dv=1d_{v}=1. In this case, we have:
+a∗​(z)=R⁡(f1,…,fL,z)=DL​∑ℓ=1Lfℓ+E​z,a^{\ast}(z)=R(f_{1},\dots,f_{L},z)=\frac{D}{L}\sum_{\ell=1}^{L}f_{\ell}+Ez,
+(38)
+where EE and DD are real-valued parameters. With these experiments, we aim to assess if the channels’ mixing realized with ℳ\mathcal{M} could improve the model’s performance. Secondly, we examine the influence of randomized batching by training NIO without including the algorithm.
+In order to maintain consistency, we use the same hyperparameter configurations for the ablation models as those of the best-performing NIO models (refer to Table 5 for the specific values).
+The ablation study is being carried out for the Calderón problem with trigonometric function and heart&lungs Phantom, inverse wave scattering, and radiative transport. We consider the same experimental setup outlined in Section E.2 and report the corresponding results in Figure 31. The figure shows that the nonlinear term ℳ\mathcal{M} and randomized batching significantly improve the model’s performance. For the Calderón problem with trigonometric coefficients, removing ℳ\mathcal{M} resulted in a nearly 2-times increase of the generalization error. On the other hand, for the remaining problems, the improvement is considerably more relevant, up to a factor of six for the inverse wave scattering.
+It should be noted that in all experiments, only between L=20L=20 and L=32L=32 boundary measurements are used for training. In this scenario, the limited measurement data represents a bottleneck in accurately reconstructing the target coefficient. With a larger number, the nonlinear part may lead to an even greater reduction in the generalization error.
+Regarding randomized batching, the improvements for the Calderón problem and radiative transport are substantial, ranging from 5 to 10 times compared to the ablated version. On the other hand, the improvements are more modest for the Inverse Wave Scattering, and the algorithm does not appear to considerably enhance generalization. However, these results are particularly impressive on account of the virtually zero cost associated with the randomized batching algorithm.
+E.8 Comparison Standard Numerical Methods for Inverse Problems
+In this section, we compare the performance of the proposed architecture, in terms of accuracy and inference time, with standard numerical methods, particularly PDE-constrained optimization techniques.
+E.8.1 Calderón Problem Heart&Lungs
+We begin by considering the Calderón problem for the discontinuous heart-lungs Phantom and conduct a comparative analysis between the proposed approach and the well-known D-bar method Muller & Siltanen (2012), which is commonly employed in the context of EIT. In Figure 6, we present the ground truth along with the NIO reconstruction for a randomly selected set of test samples. For comparison, we also include the reconstruction obtained using the D-bar method. As the figure shows, NIO reconstructs the ground truth to very high accuracy, consistent with the very small errors presented in Table 1.
+On the other hand, the D-bar method is relatively inaccurate and provides a blurred and diffusive reconstruction of the shapes. In fact, the L1L^{1}-test error for the D-bar method is an unacceptably high 8.75%8.75\%, compared to the almost 0.15%0.15\% test error with NIO. This is even more impressive when one looks at the run times. The D-bar method takes approximately 22 hours to run for a single sample, whereas the inference time for NIO is only 0.10.1 seconds (on CPU). Thus, we can provide a method which two orders of magnitude more accurate while being four orders of magnitude faster to run. This highlights the massive gain in performance with machine learning-based methods, such as NIO, compared to traditional direct methods.
+E.8.2 Inverse Wave Scattering
+Next, we investigate the Inverse Wave Scattering problem and compare the NIO reconstruction with the results obtained through PDE-constrained optimization. We examine an out-of-distribution (Distribution A) test sample to accomplish this.
+For PDE-constrained optimization, we employ a feed-forward neural network with trainable parameters θ\theta that parameterizes the coefficient aa. The neural network architecture follows the form specified in Equation 32, with LL layers, dd neurons, and activation function σ\sigma. The model parameters θ\theta are initialized randomly, and the Helmholtz equation (9) is numerically solved for L=20L=20 realizations of the boundary conditions gℓg_{\ell}, where ℓ=1,…,L\ell=1,...,L and the L2L^{2}-loss
+J⁡(θ)=∑ℓ=1L‖Ψℓ−Ψ~ℓ‖22J(\theta)=\sum_{\ell=1}^{L}||\Psi_{\ell}-\tilde{\Psi}_{\ell}||^{2}_{2}
+(39)
+computed. Here, Ψ~ℓ\tilde{\Psi}_{\ell}, ℓ=1,…,L\ell=1,...,L denotes the target data. The trainable network parameters are updated using LBFG in the direction of the gradient of J⁡(θ)J(\theta). The process is iterated until convergence (1000 iterations, corresponding to 1000×201000\times 20 PDE solves).
+Observe that the hyperparameters of the network are chosen through a random search by picking the one minimizing J⁡(θ)J(\theta).
+The reconstructed coefficient obtained through PDE-constrained optimization, along with the NIO prediction obtained by directly feeding the model with Ψ~ℓ\tilde{\Psi}_{\ell} for ℓ=1,…,L\ell=1,\ldots,L, are depicted in the right panel of Figure 2. The NIO reconstruction is significantly more accurate than the one obtained with PDE-constrained optimization, further reinforced by the corresponding L1L^{1}-error, equal to 2.3%2.3\% and 11.1%11.1\%, respectively.
+The corresponding total time required to reconstruct the coefficient, amounts to less than 11 second (on CPU) for NIO and 8.5 hours for the traditional method. It is worth noting that the finite difference (FD) solver employed for solving the equation is implemented on GPU within the PyTorch framework. By solving the PDE in parallel for L=20L=20 boundary measurements on 20 different GPUs, the computation time could potentially be reduced to 30 minutes, which is still three orders of magnitude slower than NIO’s inference.
+Finally, an alternative approach would be to replace the forward solver with a learning model instead of directly learning the inverse map. Although the surrogate model might achieve low errors in learning the forward map (compared to the inverse map), the inference time for the model could be approximately 0.10.1 seconds (on a CPU). If we require 10001000 calls to the model for the optimization process, this will result in an overall inference time that is two orders of magnitude longer than NIO. Moreover, the reconstruction accuracy cannot surpass that obtained using the FD forward solver, which is already four times worse than the accuracy achieved with NIO.
+E.8.3 Seismic Imaging
+We also tested the PDE-constrained optimization method in the context of Seismic imaging with the CurveVel-A dataset. Unlike the NIO approach, in the PDE-constrained optimization approach, we first discretize the velocity coefficient a⁡(z)a(z) using a piecewise-constant parameterization, denoting the parameters as θ\theta.
+We then solve the wave equation (14) using the finite difference method. The method is thus naturally dependent on the discretization of a⁡(z)a(z) and the PDE solver used to evaluate the source-to-receiver operator. We use the same experimental setup as provided in Deng et al. (2021). A similar squared L2L^{2} loss to (39) is used as the objective function to measure the mismatch between the observed data and the simulated receiver data based on the current prediction of a⁡(z)a(z). We also solve a corresponding adjoint wave equation whose solution is used to compute the gradient of the objective function J⁡(θ)J(\theta) with respect to θ\theta. We use the standard gradient descent method to perform the optimization. Each gradient evaluation requires two time-dependent PDE solves, which is the most expensive part of this PDE-constrained optimization approach.
+The method leads to errors (in L1L^{1}) 2.52.5-44 times larger than CNIO for the same test sample while taking approximately 3030 minutes of run-time on an 8-core M1-chip CPU. Figure 33 depicts the results for two test samples. The L1L^{1}-error achieved with NIO is 2.03%2.03\% and 4.84%4.84\% for samples 1 and 2, respectively, whereas the ones obtained with PDE-constrained optimization are 5.05%5.05\% and 16.9%16.9\%.
+(a) Test Sample 1
+(b) Test Sample 2
+Figure 32: Exact and predicted coefficients for two different test samples (Rows) for the Calderón problem with Trigononmetric -coefficients. Left Column: Ground Truth. Middle Column: NIO reconstruction. Right Column: Reconstruction with the D-bar Direct method of Muller & Siltanen (2012).
+(a) Test Sample 1
+(b) Test Sample 2
+Figure 33: Exact and predicted coefficients for two different test samples (Rows) for the Curve Vel family. Left Column: Ground Truth. Middle Column: NIO reconstruction. Right Column: Reconstruction with the PDE-constrained optimization method.
+Experimental support, please
+view the build logs
+for errors. Generated by
+L
+A
+T
+E
+xml
+.
+Instructions for reporting errors
+We are continuing to improve HTML versions of papers, and your feedback helps enhance accessibility and mobile
+support. To report errors in the HTML that will help us improve conversion and rendering, choose any of the
+methods listed below:
+Click the "Report Issue" (
+) button, located in the page header.
+Tip: You can select the relevant text first, to include it in your report.
+Our team has already identified the following issues. We appreciate your time reviewing and reporting rendering errors we
+may not have found yet. Your efforts will help us improve the HTML versions for all readers, because disability
+should not be a barrier to accessing research. Thank you for your continued support in championing open access for
+all.
+Have a free development cycle? Help support accessibility at arXiv! Our collaborators at LaTeXML maintain a list of packages that need conversion, and welcome developer contributions.
+We gratefully acknowledge support from
+our major funders,
+member institutions, ,
+and all contributors.
+About
+·
+Help
+·
+Contact
+·
+Subscribe
+·
+Copyright
+·
+Privacy
+·
+Accessibility
+·
+Operational Status (opens in new tab)
+Major funding support from

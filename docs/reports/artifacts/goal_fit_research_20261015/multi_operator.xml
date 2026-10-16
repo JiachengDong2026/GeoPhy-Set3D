@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/US4f4choY7ip6XDJWj6yEkDEyrE</id>
+  <title>arXiv Query: search_query=(all:"multi-operator" OR all:"multiple operators") AND (all:"unsupervised" OR all:"self-supervised")&amp;id_list=&amp;start=0&amp;max_results=8</title>
+  <updated>2026-10-15T05:29:16Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=(all:%22multi-operator%22+OR+all:%22multiple+operators%22)+AND+(all:%22unsupervised%22+OR+all:%22self-supervised%22)&amp;start=0&amp;max_results=8&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>8</opensearch:itemsPerPage>
+  <opensearch:totalResults>7</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2508.01211v1</id>
+    <title>Multi-Operator Few-Shot Learning for Generalization Across PDE Families</title>
+    <updated>2025-08-02T06:00:01Z</updated>
+    <link href="https://arxiv.org/abs/2508.01211v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2508.01211v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Learning solution operators for partial differential equations (PDEs) has become a foundational task in scientific machine learning. However, existing neural operator methods require abundant training data for each specific PDE and lack the ability to generalize across PDE families. In this work, we propose MOFS: a unified multimodal framework for multi-operator few-shot learning, which aims to generalize to unseen PDE operators using only a few demonstration examples. Our method integrates three key components: (i) multi-task self-supervised pretraining of a shared Fourier Neural Operator (FNO) encoder to reconstruct masked spatial fields and predict frequency spectra, (ii) text-conditioned operator embeddings derived from statistical summaries of input-output fields, and (iii) memory-augmented multimodal prompting with gated fusion and cross-modal gradient-based attention. We adopt a two-stage training paradigm that first learns prompt-conditioned inference on seen operators and then applies end-to-end contrastive fine-tuning to align latent representations across vision, frequency, and text modalities. Experiments on PDE benchmarks, including Darcy Flow and Navier Stokes variants, demonstrate that our model outperforms existing operator learning baselines in few-shot generalization. Extensive ablations validate the contributions of each modality and training component. Our approach offers a new foundation for universal and data-efficient operator learning across scientific domains.</summary>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-08-02T06:00:01Z</published>
+    <arxiv:primary_category term="cs.LG"/>
+    <author>
+      <name>Yile Li</name>
+    </author>
+    <author>
+      <name>Shandian Zhe</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2201.12151v4</id>
+    <title>Unsupervised Learning From Incomplete Measurements for Inverse Problems</title>
+    <updated>2022-09-28T07:25:59Z</updated>
+    <link href="https://arxiv.org/abs/2201.12151v4" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2201.12151v4" rel="related" type="application/pdf" title="pdf"/>
+    <summary>In many real-world inverse problems, only incomplete measurement data are available for training which can pose a problem for learning a reconstruction function. Indeed, unsupervised learning using a fixed incomplete measurement process is impossible in general, as there is no information in the nullspace of the measurement operator. This limitation can be overcome by using measurements from multiple operators. While this idea has been successfully applied in various applications, a precise characterization of the conditions for learning is still lacking. In this paper, we fill this gap by presenting necessary and sufficient conditions for learning the underlying signal model needed for reconstruction which indicate the interplay between the number of distinct measurement operators, the number of measurements per operator, the dimension of the model and the dimension of the signals. Furthermore, we propose a novel and conceptually simple unsupervised learning loss which only requires access to incomplete measurement data and achieves a performance on par with supervised learning when the sufficient condition is verified. We validate our theoretical bounds and demonstrate the advantages of the proposed unsupervised loss compared to previous methods via a series of experiments on various imaging inverse problems, such as accelerated magnetic resonance imaging, compressed sensing and image inpainting.</summary>
+    <category term="stat.ML" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="eess.IV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2022-01-28T14:36:47Z</published>
+    <arxiv:primary_category term="stat.ML"/>
+    <arxiv:journal_ref>NeurIPS 2022</arxiv:journal_ref>
+    <author>
+      <name>Julián Tachella</name>
+    </author>
+    <author>
+      <name>Dongdong Chen</name>
+    </author>
+    <author>
+      <name>Mike Davies</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2601.10269v1</id>
+    <title>Early Fault Detection on CMAPSS with Unsupervised LSTM Autoencoders</title>
+    <updated>2026-01-15T10:38:14Z</updated>
+    <link href="https://arxiv.org/abs/2601.10269v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2601.10269v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>This paper introduces an unsupervised health-monitoring framework for turbofan engines that does not require run-to-failure labels. First, operating-condition effects in NASA CMAPSS sensor streams are removed via regression-based normalisation; then a Long Short-Term Memory (LSTM) autoencoder is trained only on the healthy portion of each trajectory. Persistent reconstruction error, estimated using an adaptive data-driven threshold, triggers real-time alerts without hand-tuned rules. Benchmark results show high recall and low false-alarm rates across multiple operating regimes, demonstrating that the method can be deployed quickly, scale to diverse fleets, and serve as a complementary early-warning layer to Remaining Useful Life models.</summary>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-01-15T10:38:14Z</published>
+    <arxiv:primary_category term="cs.LG"/>
+    <author>
+      <name>P. Sánchez</name>
+    </author>
+    <author>
+      <name>K. Reyes</name>
+    </author>
+    <author>
+      <name>B. Radu</name>
+    </author>
+    <author>
+      <name>E. Fernández</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2606.04901v2</id>
+    <title>CLIF: Cross-layer LEO-ISL Fingerprinting for Physical and Network Attack Detection in Dense LEO Constellations</title>
+    <updated>2026-06-04T01:10:39Z</updated>
+    <link href="https://arxiv.org/abs/2606.04901v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2606.04901v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Low-Earth Orbit (LEO) mega-constellations such as Starlink by SpaceX and Kuiper by Amazon rely on optical Inter-Satellite Links (ISLs) for autonomous mesh routing to provide low-latency telecommunication, Internet of Things (IoT), and security services globally. As commercial operators and governments deploy increasingly dense constellations and form multi-operator peering coalitions, ISL integrity becomes critical to both commercial availability and national security. However, there is a lack of real-world data for LEO constellations and existing real-time security approaches focus strictly on physical layer security, leaving blind spots in the coverage of network-layer and composite attacks. In this paper, we present a cross-layer, lightweight behavioral fingerprinting framework that fuses onboard physical-layer measurements with network-layer data to detect anomalies at low computational overhead. We construct an orbital simulation covering the first shells of Starlink (1,584 satellites), Kuiper (1,156 satellites), and a joint multi-operator peering scenario (2,740 satellites), injecting ten attack types that span spoofing, traffic manipulation, and routing subversion at varying severity. We evaluate three unsupervised, per-satellite detectors among which our Mahalanobis-distance-based detector achieves 99.5% recall on Starlink, 99.4% on Kuiper, and 94.8\% on the multi-operator constellation, while maintaining False Positive Rates (FPR) below 0.7%. Our results demonstrate that cross-layer feature fusion is not only necessary for comprehensive security of LEO constellations but highly cost-effective for large-scale networks while fitting into the strict onboard energy budgets of resource-constrained satellites.</summary>
+    <category term="cs.CR" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-06-03T14:01:27Z</published>
+    <arxiv:primary_category term="cs.CR"/>
+    <author>
+      <name>Varun Kohli</name>
+    </author>
+    <author>
+      <name>Arijit Bhattacharjee</name>
+    </author>
+    <author>
+      <name>Samar Shailendra</name>
+    </author>
+    <author>
+      <name>Biplab Sikdar</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/1912.01917v1</id>
+    <title>Surrogate Modeling of Aerodynamic Simulations for Multiple Operating Conditions Using Machine Learning</title>
+    <updated>2019-12-04T12:10:37Z</updated>
+    <link href="https://arxiv.org/abs/1912.01917v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/1912.01917v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>This article presents an original methodology for the prediction of steady turbulent aerodynamic fields. Due to the important computational cost of high-fidelity aerodynamic simulations, a surrogate model is employed to cope with the significant variations of several inflow conditions. Specifically, the Local Decomposition Method presented in this paper has been derived to capture nonlinear behaviors resulting from the presence of continuous and discontinuous signals. A combination of unsupervised and supervised learning algorithms is coupled with a physical criterion. It decomposes automatically the input parameter space, from a limited number of high-fidelity simulations, into subspaces. These latter correspond to different flow regimes. A measure of entropy identifies the subspace with the expected strongest non-linear behavior allowing to perform an active resampling on this low-dimensional structure. Local reduced-order models are built on each subspace using Proper Orthogonal Decomposition coupled with a multivariate interpolation tool. The methodology is assessed on the turbulent two-dimensional flow around the RAE2822 transonic airfoil. It exhibits a significant improvement in term of prediction accuracy for the Local Decomposition Method compared with the classical method of surrogate modeling for cases with different flow regimes.</summary>
+    <category term="physics.flu-dyn" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="physics.comp-ph" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="physics.data-an" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2019-12-04T12:10:37Z</published>
+    <arxiv:primary_category term="physics.flu-dyn"/>
+    <arxiv:journal_ref>AIAA Journal Volume 56, Number 9, September 2018</arxiv:journal_ref>
+    <author>
+      <name>Romain Dupuis</name>
+    </author>
+    <author>
+      <name>Jean-Christophe Jouhaud</name>
+    </author>
+    <author>
+      <name>Pierre Sagaut</name>
+    </author>
+    <arxiv:doi>10.2514/1.J056405</arxiv:doi>
+    <link rel="related" href="https://doi.org/10.2514/1.J056405" title="doi"/>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2511.20480v1</id>
+    <title>Ranking-Enhanced Anomaly Detection Using Active Learning-Assisted Attention Adversarial Dual AutoEncoders</title>
+    <updated>2025-11-25T16:42:12Z</updated>
+    <link href="https://arxiv.org/abs/2511.20480v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2511.20480v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Advanced Persistent Threats (APTs) pose a significant challenge in cybersecurity due to their stealthy and long-term nature. Modern supervised learning methods require extensive labeled data, which is often scarce in real-world cybersecurity environments. In this paper, we propose an innovative approach that leverages AutoEncoders for unsupervised anomaly detection, augmented by active learning to iteratively improve the detection of APT anomalies. By selectively querying an oracle for labels on uncertain or ambiguous samples, we minimize labeling costs while improving detection rates, enabling the model to improve its detection accuracy with minimal data while reducing the need for extensive manual labeling. We provide a detailed formulation of the proposed Attention Adversarial Dual AutoEncoder-based anomaly detection framework and show how the active learning loop iteratively enhances the model. The framework is evaluated on real-world imbalanced provenance trace databases produced by the DARPA Transparent Computing program, where APT-like attacks constitute as little as 0.004\% of the data. The datasets span multiple operating systems, including Android, Linux, BSD, and Windows, and cover two attack scenarios. The results have shown significant improvements in detection rates during active learning and better performance compared to other existing approaches.</summary>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CR" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.NE" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-11-25T16:42:12Z</published>
+    <arxiv:primary_category term="cs.LG"/>
+    <author>
+      <name>Sidahmed Benabderrahmane</name>
+    </author>
+    <author>
+      <name>James Cheney</name>
+    </author>
+    <author>
+      <name>Talal Rahwan</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2401.04351v1</id>
+    <title>A Change Point Detection Integrated Remaining Useful Life Estimation Model under Variable Operating Conditions</title>
+    <updated>2024-01-09T04:35:17Z</updated>
+    <link href="https://arxiv.org/abs/2401.04351v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2401.04351v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>By informing the onset of the degradation process, health status evaluation serves as a significant preliminary step for reliable remaining useful life (RUL) estimation of complex equipment. This paper proposes a novel temporal dynamics learning-based model for detecting change points of individual devices, even under variable operating conditions, and utilises the learnt change points to improve the RUL estimation accuracy. During offline model development, the multivariate sensor data are decomposed to learn fused temporal correlation features that are generalisable and representative of normal operation dynamics across multiple operating conditions. Monitoring statistics and control limit thresholds for normal behaviour are dynamically constructed from these learnt temporal features for the unsupervised detection of device-level change points. The detected change points then inform the degradation data labelling for training a long short-term memory (LSTM)-based RUL estimation model. During online monitoring, the temporal correlation dynamics of a query device is monitored for breach of the control limit derived in offline training. If a change point is detected, the device's RUL is estimated with the well-trained offline model for early preventive action. Using C-MAPSS turbofan engines as the case study, the proposed method improved the accuracy by 5.6\% and 7.5\% for two scenarios with six operating conditions, when compared to existing LSTM-based RUL estimation models that do not consider heterogeneous change points.</summary>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="eess.SP" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2024-01-09T04:35:17Z</published>
+    <arxiv:comment>Accepted in Control Engineering Practice Journal with DOI: https://doi.org/10.1016/j.conengprac.2023.105840</arxiv:comment>
+    <arxiv:primary_category term="cs.LG"/>
+    <author>
+      <name>Anushiya Arunan</name>
+    </author>
+    <author>
+      <name>Yan Qin</name>
+    </author>
+    <author>
+      <name>Xiaoli Li</name>
+    </author>
+    <author>
+      <name>Chau Yuen</name>
+    </author>
+    <arxiv:doi>10.1016/j.conengprac.2023.105840</arxiv:doi>
+    <link rel="related" href="https://doi.org/10.1016/j.conengprac.2023.105840" title="doi"/>
+  </entry>
+</feed>

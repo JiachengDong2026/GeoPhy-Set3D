@@ -1,0 +1,27 @@
+{
+  "registered_utc": "2026-10-15T17:06:04.861202+00:00",
+  "authorization": "User: 好的开始吧。; previous authorization GPU1 and 300 epochs, single seed performance runtime",
+  "protocol": "scheme_b_continuous_measurement_only_perf_v2",
+  "source_sha256": "654b1746945028af5b6951f5e08d25b07f42216543a388e55fbf0ebdad2d2879",
+  "policy_sha256": "239fd5c51aba8d8d8270e6fb6470ad0932386c21ca706fdaaa1a809582321a9f",
+  "policy_note": "Explicitly derive guide G6 qualification separately; retain strict acceptance_result.json and all historical failures unchanged. G7 still requires better-than-zero.",
+  "supersedes": "registration.json acceptance_policy for formal qualification only; previous performance source_checked.json remains historical",
+  "physical_gpu": 1,
+  "gpu_uuid": "GPU-cd80a78f-7d90-c291-4680-4895db9aac8b",
+  "config": "configs/research/scheme_b_perf_v2_formal_seed20261011_gpu1.yaml",
+  "config_sha256": "aed856813b67ef372621ff3ea832e0aa42e426f8a8e24cf4cb6f5017baeaca9b",
+  "max_epochs": 300,
+  "seed": 20261011,
+  "train_cases": 166,
+  "val_cases": 36,
+  "initialization": "Fresh full166 train projection pooled chi bias; no warmstart from gate or historical weights",
+  "phases": [
+    "fresh same-source smoke20 updates",
+    "fresh same-source gate16train/8val30epochs240updates",
+    "fresh formal166train/36val300epochs24900updates"
+  ],
+  "old_frozen_sources_unchanged": {
+    "plan_a_budget_v4/source_frozen.json": "22735837b8d9b2dde944c0330d5f6b07a4f0c5acbda796ae284b0a83108e39ed",
+    "plan_b_v1/source_checked.json": "c0e824d8e45a44fd744a9f2b3cc031a16574e1adbe35a03c2120f6148bee742f"
+  }
+}

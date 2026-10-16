@@ -1,5 +1,15 @@
 # GeoPhy-Set3D
 
+新增方案 A（集合初始化＋显式物理展开）独立实现与复现入口，支持 A0/A1/A2/A3 及参数匹配 A-control；配置、训练/续训、推理与冻结评价见 [中文实现与验收说明](docs/plan_a_implementation_zh.md)。工程验收和正式训练状态以该说明及实际运行产物为准，下面的历史阶段记录继续保留。
+
+方案 A 性能优化 v2：固定案例完整更新实测约 5.75 倍加速；真实 166/36 train/val 一轮约 5.58 分钟，300 轮线性估算约 28 小时/种子。以上为共享单张 RTX 4090 的测量；优化方式、数值核验和适用限制见 [性能优化说明](docs/plan_a_performance_v2_zh.md) 与 [测速报告](docs/reports/plan_a_perf_v2_zh.md)。正式长训练未启动。
+
+追加方案 A 执行优化 v3：独立启动器支持保持 FP32 的先验编译＋cuDNN 自动算法选择，smoke20/gate16 均通过；负载降低后的同阶段复测为普通 FP32 1.51 秒、组合配置 1.16 秒/更新。完整166/36一轮2.63分钟，按当前较轻共享负载估算300轮约13.16小时/种子，不能将相对旧28小时的全部差异归因于优化。TF32/BF16 另列为降精度实验候选，未替换默认精度。配置、来源隔离和完整证据见 [第二轮优化说明](docs/plan_a_runtime_v3_zh.md) 与 [实验报告](docs/reports/plan_a_runtime_v3_zh.md)，未启动正式长训练。
+
+方案 A 五小时预算 v4：多尺度三维先验＋BF16网络/FP32物理＋完整几何缓存，独立smoke/gate通过；共享单张RTX 4090完整轮次实测约38秒，300轮估算约3.2–3.9小时/种子，含每轮验证与检查点。保留K4/Q96/64³与原始损失，三维精度仍待正式验证；见[预算版本说明](docs/plan_a_budget_v4_zh.md)与[实测报告](docs/reports/plan_a_budget_v4_zh.md)。已按用户要求启动seed20261011的300轮任务，实际状态以运行目录为准。
+
+方案 B 首版：32³集合条件特征＋61维连续坐标MLP＋Q96直接连续射线积分，支持训练/续训及64³、128³测量重建。CPU30项及GPU专项通过；16案例40更新的留出relative-L1从2.200降到1.783，仍差于零预测1.0，学习gate未通过，未启动B正式训练。B代码独立于A冻结源码；见[设计与接口说明](docs/plan_b_implementation_zh.md)和[验收报告](docs/reports/plan_b_v1_zh.md)。
+
 当前阶段：[有监督Ray-Senseiver稳定性与正式基线](docs/reports/ray_senseiver_supervised_v1_zh.md)已实际完成稳定性验证、正式训练、冻结及900条对比。八例在2000/2200/2400步连续通过，终点NMSE=.054545、L1=.317464；正式fresh训练完成187轮+下一轮59更新（共15580步），按2小时墙钟停止，收尾保存后7209.69秒，末次更新在7199.39秒内完成。best第187轮Val NMSE=.286811、L1=.638421；三例测量依赖全部有效，错配均增大GT误差。**监督可学已验证，但当前适配不具竞争性强基线精度，不再追加训练/修复。** 冻结900条G1/G5 L1：Senseiver=.647051/.739676、监督MRGR=.055386/.374038、自监督Ours=.088386/.298018、DeepSets=.135463/.618805。保留为有监督独立参考，不能纳入纯自监督排名；不同loss/selector/实际预算不能只归因架构。原始254913参数/完整64³保持，34项适用检查及最终访问/源码/更新审计通过，历史自监督失败与旧FP32 consistency回归失败保留。[协议](docs/ray_senseiver_supervised_v1_protocol_zh.md)、[正式配置](configs/train_ray_senseiver_supervised_v1.yaml)、[训练](scripts/train_ray_senseiver_supervised.py)、[冻结评价](scripts/evaluate_senseiver_supervised.py)、[最终审计](docs/reports/artifacts/ray_senseiver_supervised_v1/integrity.json)、[900配对结果](docs/reports/artifacts/ray_senseiver_supervised_v1/paired_900.csv)。
 
 上一阶段（历史结论，当前授权已保留监督候选）：[Ray-Senseiver训练集GT64有监督可学性诊断](docs/reports/ray_senseiver_supervised_probe_v1_zh.md)已实际完成。原始结构单例500步连续通过（NMSE=.03243、三维relative L1=.26464）；八例2000步终点NMSE=.07147、L1=.39627，较平均模板降低90.19%，3个固定case测量依赖全部达标且错配增大GT误差。但1900步L1=.57105，尚未连续两次通过，按预算归档 **BUDGET_EXHAUSTED_UNRESOLVED**，不登记正式训练候选。保留积极条件学习证据，不宣称架构不可学；暂停当前Senseiver路线，沿用冻结DeepSets作为独立学习基线，不追加修复、补步或长训练。

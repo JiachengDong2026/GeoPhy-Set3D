@@ -1,0 +1,1193 @@
+ELIPPS: Exact Learning for Inverse Problems from Partial Self-supervision
+Report GitHub Issue
+×
+Title:
+Content selection saved. Describe the issue below:
+Description:
+Submit without GitHub
+Submit in GitHub
+arXiv is now an independent nonprofit!
+Learn more
+×
+Back to arXiv
+Why HTML?
+Report Issue
+Back to Abstract
+Download PDF
+Abstract
+1 Introduction
+Self-supervised reconstruction:
+Partial self-supervision:
+Main contributions:
+2 Incomplete Self-Supervised Learning
+2.1 Preliminaries
+2.2 Measurement Self-supervision
+2.3 Self-supervised image reconstruction
+2.4 Architectural freedom
+2.5 Summary of the method
+3 Experiments
+3.1 Dataset and Acquisition Model
+3.2 D4D_{4}-Equivariance and Explicit Operator Relations
+Radon transform and orthogonal transforms:
+D4D_{4} instantiation:
+Verification of Condition :
+3.3 Observation and Masking
+Acquisition model:
+Poisson noise and the log transform:
+From subsampled data to full-size inputs:
+Supervision mask PSP_{S}:
+Coverage of the supervision set:
+Verification of Condition :
+What augmentation does and does not change:
+Relation to the noise model:
+3.4 Implementation Details
+Equivariant architecture:
+3.5 Compared Methods
+3.6 Results
+3.7 Ablation Study: Effect of D4D_{4} Data Augmentation
+3.8 Scope of the experimental study
+4 Conclusion
+References
+License: arXiv.org perpetual non-exclusive license
+arXiv:2609.23683v2 [math.NA] 22 Sep 2026
+ELIPPS: Exact Learning for Inverse Problems
+from Partial Self-supervision
+Benjamin Walder
+Affiliation: Department of Mathematics, University of Innsbruck, Innsbruck, Austria
+Markus Haltmeier
+Affiliation: Department of Mathematics, University of Innsbruck, Innsbruck, Austria
+Lukas Neumann
+Affiliation: Institute of Basic Sciences in Engineering Science, University of Innsbruck, Innsbruck, Austria
+Nadja Gruber
+Affiliation: Department of Computer Science, University of Innsbruck, Innsbruck, Austria
+Gyeongha Hwang
+††thanks: Corresponding author: ghhwang@yu.ac.kr
+Affiliation: Department of Mathematics, Yeungnam University, Gyeongsan, Republic of Korea
+September 2026
+Abstract
+In undersampled inverse problems (such as sparse-view computed tomography), only a small number of measurements are collected, which reduces radiation exposure and acquisition time and cost, and can also address the inaccessibility of certain acquisition arrangements. Most learning-based methods for such problems require supervision in the form of fully sampled measurements and ground-truth images, which are costly or even infeasible to acquire. To overcome this issue, we propose Exact Learning for Inverse Problems from Partial Self-supervision (ELIPPS), an incomplete self-supervised training paradigm for undersampled inverse problems that requires neither ground-truth images nor fully sampled measurements. ELIPPS learns solely from incomplete forward measurements on a fixed incomplete supervision set. Our theory shows that when the data distribution is invariant under certain transformations, minimizing a masked empirical risk is equivalent to minimizing the full self-supervised risk, i.e. the risk against the complete, noise-free measurement. The equivalence is exact for arbitrary equivariant hypothesis classes and holds for signal-dependent noise such as the pre-log Poisson statistics of low-dose tomography, and for the log-transformed count model up to a quantifiable bias. When the underlying coverage condition is only approximately satisfied on a discrete grid, we give a stability estimate in terms of the associated frame constants and the irreducible error of the inverse problem. We realize ELIPPS for computed tomography by exploiting rotation and reflection invariance. In our experiments, ELIPPS substantially outperforms naive masked supervision and reaches the same order of accuracy as a reference model trained with full clean measurements.
+Keywords: self-supervised learning, inverse problems, equivariance,
+computed tomography, sparse-view reconstruction, conditional expectation.
+Mathematics Subject Classification: 65R32, 68T07, 94A08, 44A12.
+1 Introduction
+We study undersampled discrete inverse problems in which an unknown signal x∈ℝNx\in\mathbb{R}^{N} is observed through incomplete and noisy indirect measurements. Let A:ℝN→ℝMA:\mathbb{R}^{N}\to\mathbb{R}^{M} denote the full forward operator. For I⊆{1,…,M}I\subseteq\{1,\dots,M\}, let PI:ℝM→ℝIP_{I}:\mathbb{R}^{M}\to\mathbb{R}^{I} be the subsampling operator that selects the coordinates indexed by II, defined by PI​z=(zi)i∈IP_{I}z=(z_{i})_{i\in I}. Denote the subsampled forward operator by AI:=PI​AA_{I}:=P_{I}A. The undersampled inverse problem reads
+yI=AI​x+ϵI,y_{I}=A_{I}x+\epsilon_{I},
+(1.1)
+where ϵI∈ℝI\epsilon_{I}\in\mathbb{R}^{I} is additive measurement noise. The objective is to recover the underlying image xx from the incompletely sampled measurements yI∈ℝIy_{I}\in\mathbb{R}^{I}. Problem (1.1) is challenging due to both the ill-posedness of inverting AA and the incompleteness of the sampling process.
+A prominent example for (1.1) is sparse-view computed tomography (CT), where the full forward operator AA corresponds to the Radon transform mapping an image to its projection measurements (sinogram). In practical CT systems, measurements are often incomplete or limited due to sparse-view acquisition, detector subsampling, or low-dose scanning, which are commonly employed to reduce radiation exposure and acquisition time. These constraints make the reconstruction problem severely ill-posed and can introduce strong artifacts when classical reconstruction methods are applied directly.
+Self-supervised reconstruction:
+Learning-based reconstruction methods have achieved remarkable performance for inverse problems, including (1.1). Most approaches are supervised and assume access to paired training data (yI,x)(y_{I},x). In practice, collecting xx is challenging; typically even during training one only has access to additional measurements yS=AS​x+ϵSy_{S}=A_{S}x+\epsilon_{S}, where S⊆{1,…,M}S\subseteq\{1,\dots,M\} is the supervision set and AS=PS​AA_{S}=P_{S}A. Inspired by self-supervised learning for denoising [1, 2, 3], several self-supervised strategies have been proposed that use only measurements of ySy_{S}. Self-supervised reconstruction methods can be roughly classified into: (i) methods with full self-supervision (AS=AA_{S}=A; at least in expectation), e.g., [4, 5, 6]; and (ii) methods with sparse self-supervision (AS=AIA_{S}=A_{I}), e.g., [7, 8, 9, 10]. The setting studied in this paper is a third class, partial self-supervision, in which AS=PS​AA_{S}=P_{S}A for a supervision set SS that is fixed across acquisitions. Full self-supervision requires additional scans, higher radiation dose, or sensing configurations unavailable at deployment. Training with sparse self-supervision suffers from incomplete coverage of the data distribution, which can induce non-uniqueness and reliance on implicit priors. A recurring mechanism in this literature is measurement splitting: the acquired data are divided
+into an input part and a target part, and the network is trained to predict the latter from the
+former. This is the idea behind self-supervised reconstruction in MRI [11] and its
+analysis via variable-density resampling [6], and it is the
+measurement-domain counterpart of training against a second noisy realization as in Noise2Noise
+[12]. What distinguishes our setting from all of the
+above is that the split is neither random nor varying: the index sets II and SS are fixed once and
+for all by the acquisition.
+A different line of research that leverages invariance is equivariant imaging (EI) [13, 14], which learns a reconstruction from the undersampled
+measurements yIy_{I} by enforcing equivariance of the measurement–reconstruction pipeline through an
+additional training penalty. Equivariant splitting [15] uses invariance of the signal distribution to
+reinterpret a single measurement as a measurement of a transformed signal through a transformed
+operator; see [16] for a comprehensive account of this field. Our setting differs from this line of work in two main respects. First, we assume partial self-supervision (1.2) on a fixed, deterministic supervision set SS, as opposed to unsupervised losses or random measurement splits, whose analysis requires sufficient diversity of the sampling patterns. Fixed SS reflects acquisition designs in which the retained measurement subset is determined by the hardware and identical across samples. Second, we do not promote equivariance through a penalty term but enforce it exactly by architectural symmetrization. Under a frame-type coverage condition we prove that the partially self-supervised risk and the full self-supervised risk are equivalent (Theorem 2.11), and we analyse when restricting the hypothesis class in this way costs nothing.
+Partial self-supervision:
+We propose an incomplete self-supervised setting for (1.1). For a fixed set S⊆{1,…,M}S\subseteq\left\{1,\dots,M\right\} we assume training data
+(yI,yS)=(AI​x+ϵI,AS​x+ϵS),(y_{I},y_{S})=\bigl(A_{I}x+\epsilon_{I},\,A_{S}x+\epsilon_{S}\bigr),
+(1.2)
+i.e., pairs of undersampled measurements yIy_{I} on the fixed set II as in (1.1) together with an incomplete measurement AS​x+ϵSA_{S}x+\epsilon_{S} on the fixed set SS. Such partial self-supervision arises when the retained subset of measurements is fixed by the acquisition
+design. In CT practice this is the case, for instance, when the set of projection angles is
+restricted by hardware, acquisition-time or dose constraints, or when a fixed, deliberately chosen
+part of the detector is read out at full resolution while the remainder is not. In all of these
+cases fully sampled reference measurements are unavailable even at training time, so that neither
+supervised learning nor full self-supervision is applicable.
+detector, productiondetector, calibrationdetectordistanceconveyorttpartX-ray sourceSS: fine in β\beta, part of the fanβ\betacalibration scanII: coarse in β\beta, whole fanβ\betattproduction scan
+Figure 1.1: In-line industrial CT. Source and detector are fixed and the part is carried past them on
+a conveyor, so that the belt position tt takes the role of the view direction and the position
+β\beta on the detector line that of the detector coordinate. Production (solid): detector close,
+coarse in β\beta over the whole fan, giving yIy_{I}. Calibration (dashed): detector moved back,
+fine in β\beta over part of the fan, giving ySy_{S}.
+As a concrete application, consider in-line industrial CT as illustrated in Figure 1.1. Here II and SS are separated by the acquisition itself rather than by a choice of dose. Source and
+detector are fixed and the part is carried past them on a conveyor, so that the belt position takes
+the role of the view direction and the position on the detector line that of the detector coordinate. Moving the detector away from the source leaves the number of detector elements
+unchanged but narrows the fan they cover, so that the same line samples a smaller part of the fan
+more finely. In production the detector sits close, giving a coarse measurement yIy_{I} over the whole
+fan; for calibration or first-article inspection it is moved back once, giving a fine measurement
+ySy_{S} over part of it. Both sets are fixed by the machine settings and neither contains the other.
+Parts that pass through both settings provide the training pairs (1.2); at deployment
+only yIy_{I} exists. Parts arrive in arbitrary in-plane orientation, so that the invariance of the
+signal distribution is a property of the application rather than one enforced by augmentation.
+Learning under partial self-supervision is underdetermined: a regression loss that penalizes
+discrepancies only on the observed subset defined by PSP_{S} leaves the other coordinates
+unconstrained. As a result, models trained with naive self-supervision produce reconstructions that
+are locally consistent but globally inconsistent or artifact-prone. While [17] showed
+that noise-free inpainting (A=IdA=\operatorname{Id} and ϵI=0\epsilon_{I}=0) can be solved from incomplete supervision
+(1.2), by exploiting equivariance of the restoration map that fills in the missing
+data, the general case of incomplete, indirect observations with noise remains open. The step from
+that setting to the present one is not merely one of generality. With A=IdA=\operatorname{Id} the measurement and
+image domains coincide and the initial reconstruction is the identity, so that neither the interplay
+between transformations of the two domains nor the question of whether the admitted class of
+image-domain restoration maps is rich enough arises. Moreover, with AA ill-posed, noise is a major source of difficulty: the amplification of small
+perturbations makes the inverse problem challenging, and a noise-free model would miss this issue. The
+target of the masked regression is then no longer the clean signal: without noise the conditional
+expectation coincides with XX wherever the observation determines it, with noise it does not.
+Main contributions:
+We propose ELIPPS for (1.1) with incomplete self-supervised data (1.2). Our approach leverages invariance properties of the signal class together with intertwining relations of the forward map AA to enforce equivariance of the learned reconstruction with respect to known transformations. The key result shows that, over an equivariant function class, minimizing the partially
+self-supervised risk 𝔼⁡[∥PS​g​(YI)−YS∥22]\mathbb{E}\bigl[\lVert P_{S}\,g(Y_{I})-Y_{S}\rVert_{2}^{2}\bigr] is equivalent to minimizing the full self-supervised risk 𝔼⁡[∥g⁡(YI)−A​X∥22]\mathbb{E}\bigl[\lVert g(Y_{I})-AX\rVert_{2}^{2}\bigr]. This enables globally consistent learning from partial self-supervision. We instantiate the approach for CT using detector upscaling (subsampling along the detector axis) and sparse-view reconstruction (subsampling along the angular axis).
+Specific results:
+(i) A framework built on invariances of the signal class and intertwining relations of the forward operator, with a proof that masked regression over an equivariant class is equivalent to the full self-supervised risk (Theorem 2.11). ((ii) A characterization of the admissible supervision sets: a coverage condition on the transformed copies of SS is necessary as well as sufficient for the two risks to be proportional, and it bounds how small SS can be by the number of transformations and by the stabilizers of the action (Propositions 2.14 and 2.15). (iii) A network construction that enforces equivariance by design and applies to any modality whose
+forward operator intertwines with the transformations (Theorem 2.20), with a proof that
+this restriction does not change the minimizer (Theorem 2.23,
+Corollary 2.28), a counterexample showing which property of the initial
+reconstruction cannot be dropped (Remark 2.27), and an exact expression for what is lost when that property fails (Proposition 2.25).
+(iv) An exactness result for arbitrary equivariant hypothesis classes, which separates the correctness of the training criterion from the expressivity of the architecture (Corollary 2.13), and a stability estimate for an only approximately satisfied coverage condition (Theorem 2.17). (v) The combination of these results into the statement used in practice, namely that the minimizer over the trained architecture class is the conditional expectation (Corollary 2.29) and that the learned reconstruction agrees with the minimum mean squared error estimator up to ker⁡(A)\ker(A) (Corollary 2.30), together with a practical training objective and implementation (Section 2.5, equation (2.5)), realized for CT under low-dose Poisson noise and severe undersampling, reaching the accuracy of a reference model trained with full clean measurements (Section 3, Table 3.1). (vi) An ablation on the role of the symmetry of the training distribution (Section 3.7, Table 3.2).
+Figure 1.2 summarizes the training setup and the reconstruction pipeline.
+xxA​xAxyIy_{I}x0x^{0}fθf_{\theta}x^\hat{x}A​x^A\hat{x}AAPIP_{I}+ϵI+\,\epsilon_{I}BIB_{I}AAySy_{S}‖PS​A​x^−yS‖22\bigl\|P_{S}A\hat{x}-y_{S}\bigr\|_{2}^{2}PSP_{S}+ϵS+\,\epsilon_{S}fθ=1L​∑ℓ=1LSℓ−1∘Φθ∘Sℓ\displaystyle f_{\theta}=\tfrac{1}{L}\sum_{\ell=1}^{L}S_{\ell}^{-1}\circ\Phi_{\theta}\circ S_{\ell}unknownnever observedreconstructionat test timetraining loss
+Figure 1.2: Overview of ELIPPS. Only the undersampled measurement yI=PI​A​x+ϵIy_{I}=P_{I}Ax+\epsilon_{I} and yS=PS​A​x+ϵSy_{S}=P_{S}Ax+\epsilon_{S} on a fixed supervision set SS are available during training. Neither the image xx nor the
+full measurement A​xAx is ever observed. The reconstruction network is the group-averaged
+image-space network fθf_{\theta}, applied to an initial reconstruction x0=BI​(yI)x^{0}=B_{I}(y_{I}), and the
+loss compares its re-projection only on SS. Theorem 2.11 and
+Corollary 2.29 show that minimizing this masked loss over the resulting equivariant
+class recovers 𝔼⁡[A​X∣YI]\mathbb{E}[AX\mid Y_{I}], and Corollary 2.30 that x^\hat{x} agrees with the minimum mean
+squared error estimate of xx given yIy_{I} up to the null space of AA.
+2 Incomplete Self-Supervised Learning
+In this section we introduce and analyze Exact Learning for Inverse Problems from Partial
+Self-supervision (ELIPPS) for solving (1.1) using partial self-supervision
+(1.2). We adopt a probabilistic setting on a common probability space
+(Ω,ℱ,ℙ)(\Omega,\mathcal{F},\mathbb{P}): the unknown image xx is the realization of a random vector (RV)
+XX with unknown distribution; the observed subsampled measurements are YI=AI​X+ϵIY_{I}=A_{I}X+\epsilon_{I}
+and the supervision measurement is YS=AS​X+ϵSY_{S}=A_{S}X+\epsilon_{S}. All expectations are taken with
+respect to the joint distribution induced by (1.1) and (1.2). For RVs Y,ZY,Z we write Y=dZY\stackrel{{\scriptstyle d}}{{=}}Z for equality in distribution and Y=ZY=Z for
+almost sure equality (unless indicated otherwise, almost surely always refers to
+ℙ\mathbb{P}).
+Throughout, we write ℝI\mathbb{R}^{I} for the coordinate space indexed by II and identify
+ℝI≃ℝI×{0}⊆ℝM\mathbb{R}^{I}\simeq\mathbb{R}^{I}\times\{0\}\subseteq\mathbb{R}^{M}, so that the orthogonal
+projector PIP_{I} acts as a binary masking operator on ℝM\mathbb{R}^{M}, zeroing out the coordinates
+outside II; analogously for SS.
+2.1 Preliminaries
+Let T:ℝM→ℝMT:\mathbb{R}^{M}\to\mathbb{R}^{M} be an invertible linear map. The first key ingredient of ELIPPS is invariance of the underlying signal class.
+Definition 2.1 (TT-invariant RV).
+Let T:ℝM→ℝMT:\mathbb{R}^{M}\to\mathbb{R}^{M} be an invertible linear map. A RV YY on ℝM\mathbb{R}^{M} is said to be invariant with respect to TT (or TT-invariant, in distribution) if
+Y=dT⁡(Y)Y\stackrel{{\scriptstyle d}}{{=}}T(Y).
+Note that Y=dT⁡(Y)Y\stackrel{{\scriptstyle d}}{{=}}T(Y) is much weaker than Y=T⁡(Y)Y=T(Y). Consider a
+distribution of images that is invariant under a rotation TT by 90∘90^{\circ}, for instance because
+every orientation of every image occurs with the same probability. Then Y=dT⁡(Y)Y\stackrel{{\scriptstyle d}}{{=}}T(Y),
+whereas T⁡(Y)=YT(Y)=Y would require every single image to be unchanged by the rotation, which holds
+only for rotationally symmetric images. We write πY\pi_{Y} for the law of YY, i.e. πY​(E)=ℙ⁡(Y∈E)\pi_{Y}(E)=\mathbb{P}(Y\in E) for Borel sets E⊆ℝME\subseteq\mathbb{R}^{M}. In this notation the
+TT-invariance of YY reads πT⁡(Y)=πY\pi_{T(Y)}=\pi_{Y}, or equivalently
+ℙ⁡(Y∈E)=ℙ⁡(T⁡(Y)∈E)\mathbb{P}(Y\in E)=\mathbb{P}(T(Y)\in E) for all EE Borel.
+Definition 2.2 (Joint TT-invariance).
+Let Y,ZY,Z be RVs on ℝM\mathbb{R}^{M}. The pair (Z,Y)(Z,Y) is said to be jointly TT-invariant in distribution if (Z,Y)=d(T⁡(Z),T⁡(Y))(Z,Y)\stackrel{{\scriptstyle d}}{{=}}(T(Z),T(Y)).
+Besides invariance of the of RVs, we also use invariance of the sampling set II.
+Definition 2.3 (TT-invariant subsampling).
+We say that the sampling set I⊆{1,…,M}I\subseteq\{1,\dots,M\} is TT-invariant if
+PI​T=T​PIP_{I}T=TP_{I}.
+Remark 2.4.
+The commutation PI​T=T​PIP_{I}T=TP_{I} holds precisely when TT is block-diagonal with respect to
+ℝM=ℝI×ℝJ\mathbb{R}^{M}=\mathbb{R}^{I}\times\mathbb{R}^{J} with J={1,…,M}∖IJ=\{1,\dots,M\}\setminus I; that is,
+when TT maps the observed coordinates among themselves and likewise the unobserved ones. For a
+permutation TT this means that II is a union of cycles of TT, and then so is JJ automatically;
+this is how PI​T=T​PIP_{I}T=TP_{I} is verified in Section 3. For the main results it
+suffices to assume joint invariance directly, without the commutativity. We state the latter
+explicitly because it is what the sufficient condition of Lemma 2.5 and the
+sample-wise identity of Proposition 2.14 use.
+Lemma 2.5 (Sufficient conditions for joint invariance).
+Let YY be a RV on ℝM\mathbb{R}^{M}, let I⊆{1,…,M}I\subseteq\{1,\dots,M\}, and let
+YI=PI​Y+ϵIY_{I}=P_{I}Y+\epsilon_{I} with ϵI\epsilon_{I} independent of YY. Assume that YY and ϵI\epsilon_{I} are
+TT-invariant and that II is a TT-invariant sampling set. Then the pair (YI,Y)(Y_{I},Y) is jointly
+TT-invariant.
+Proof.
+Since ϵI\epsilon_{I} is independent of YY and TT is deterministic, T​ϵIT\epsilon_{I} is independent of
+T​YTY. Both pairs (Y,ϵI)(Y,\epsilon_{I}) and (T​Y,T​ϵI)(TY,T\epsilon_{I}) therefore have product laws, and their
+marginals agree because Y=dT​YY\stackrel{{\scriptstyle d}}{{=}}TY and ϵI=dT​ϵI\epsilon_{I}\stackrel{{\scriptstyle d}}{{=}}T\epsilon_{I}; hence
+(Y,ϵI)=d(T​Y,T​ϵI)(Y,\epsilon_{I})\stackrel{{\scriptstyle d}}{{=}}(TY,T\epsilon_{I}). Applying the measurable map
+(y,e)↦(PI​y+e,y)(y,e)\mapsto(P_{I}y+e,\,y) to both sides gives
+(YI,Y)=d(PI​(T​Y)+T​ϵI,T​Y)(Y_{I},Y)\stackrel{{\scriptstyle d}}{{=}}\bigl(P_{I}(TY)+T\epsilon_{I},\,TY\bigr). Since II is TT-invariant and
+TT is linear, PI​(T​Y)+T​ϵI=T⁡(PI​Y+ϵI)=T​YIP_{I}(TY)+T\epsilon_{I}=T(P_{I}Y+\epsilon_{I})=TY_{I}, which is the claim.
+∎
+Definition 2.6 (Equivariance).
+A function f:ℝM→ℝMf\colon\mathbb{R}^{M}\to\mathbb{R}^{M} is called TT-equivariant, for an invertible
+linear map TT, if f∘T=T∘ff\circ T=T\circ f. For a finite family 𝒯=(Tℓ)ℓ=1L\mathcal{T}=(T_{\ell})_{\ell=1}^{L} of
+invertible linear maps, ff is called 𝒯\mathcal{T}-equivariant if it is TℓT_{\ell}-equivariant for every
+ℓ=1,…,L\ell=1,\dots,L. The set of all measurable 𝒯\mathcal{T}-equivariant functions
+f:ℝM→ℝMf\colon\mathbb{R}^{M}\to\mathbb{R}^{M} is denoted by Equi⁡(ℝM,𝒯)\Equi(\mathbb{R}^{M};\mathcal{T}).
+The conditional expectation 𝔼⁡[Y∣YI]\mathbb{E}[Y\mid Y_{I}] depends on YIY_{I} only through the
+σ\sigma-algebra σ⁡(YI)=YI−1​(ℬ)\sigma(Y_{I})=Y_{I}^{-1}(\mathcal{B}) it generates. It is a random variable of
+the form h⁡(YI)h(Y_{I}) for a Borel function hh on ℝM\mathbb{R}^{M}, named Borel version of the regression function, written as h⁡(y)=𝔼⁡[Y∣YI=y]h(y)=\mathbb{E}[Y\mid Y_{I}=y], and determined only up to
+πYI\pi_{Y_{I}}-null sets. Notice that the equivariance induced by joint invariance is a property of hh rather
+than of 𝔼⁡[Y∣YI]\mathbb{E}[Y\mid Y_{I}]: since TT is invertible, σ⁡(T​YI)=σ⁡(YI)\sigma(TY_{I})=\sigma(Y_{I}), so
+nothing is gained at the level of the conditional expectation.
+Lemma 2.7 (Joint invariance implies equivariance of the regression function).
+Let (YI,Y)(Y_{I},Y) be jointly TT-invariant and square-integrable, and let
+h:ℝM→ℝMh\colon\mathbb{R}^{M}\to\mathbb{R}^{M} be a Borel version of the regression function h⁡(y)=𝔼⁡[Y∣YI=y]h(y)=\mathbb{E}[Y\mid Y_{I}=y]. Then h⁡(T​y)=T​h​(y)h(Ty)=T\,h(y) for πYI​-almost every ​y∈ℝM\pi_{Y_{I}}\text{-almost every }y\in\mathbb{R}^{M}.
+Proof.
+Since TT is deterministic and linear, a version of the regression function of T​YTY given T​YITY_{I}
+is y↦T​h​(T−1​y)y\mapsto T\,h(T^{-1}y); indeed, for every bounded Borel φ\varphi,
+𝔼⁡[T​Y​φ​(T​YI)]=T​𝔼​[Y​φ​(T​YI)]=T​𝔼​[h⁡(YI)​φ​(T​YI)]=𝔼⁡[T​h​(T−1​(T​YI))​φ​(T​YI)].\mathbb{E}\bigl[TY\,\varphi(TY_{I})\bigr]=T\,\mathbb{E}\bigl[Y\,\varphi(TY_{I})\bigr]=T\,\mathbb{E}\bigl[h(Y_{I})\,\varphi(TY_{I})\bigr]=\mathbb{E}\bigl[Th(T^{-1}(TY_{I}))\,\varphi(TY_{I})\bigr].
+By joint TT-invariance, (T​YI,T​Y)=d(YI,Y)(TY_{I},TY)\stackrel{{\scriptstyle d}}{{=}}(Y_{I},Y), so the two pairs have the same
+regression function up to a πYI\pi_{Y_{I}}-null set; in particular πT​YI=πYI\pi_{TY_{I}}=\pi_{Y_{I}} and
+h⁡(y)=T​h​(T−1​y)h(y)=T\,h(T^{-1}y) for πYI\pi_{Y_{I}}-almost every y∈ℝMy\in\mathbb{R}^{M}
+which is the assertion after replacing yy by T​yTy.
+∎
+Lemma 2.7 determines hh only up to a πYI\pi_{Y_{I}}-null set, whereas
+Theorem 2.11 below minimizes over the class of everywhere defined equivariant maps. The
+gap is closed by symmetrization, which also explains why 𝒯\mathcal{T} is required to be a group
+(see Condition (A5) below).
+Lemma 2.8 (Globally equivariant version).
+Let 𝒯=(Tℓ)ℓ=1L\mathcal{T}=(T_{\ell})_{\ell=1}^{L} be a finite group of invertible linear maps, let (YI,Y)(Y_{I},Y) be jointly TℓT_{\ell}-invariant for every ℓ\ell, and let hh be a Borel
+version of the regression function of YY given YIY_{I}. Then h~:=1L​∑ℓ=1LTℓ−1∘h∘Tℓ\tilde{h}:=\frac{1}{L}\sum_{\ell=1}^{L}T_{\ell}^{-1}\circ h\circ T_{\ell} is 𝒯\mathcal{T}-equivariant and satisfies h~=h\tilde{h}=h
+πYI\pi_{Y_{I}}-almost everywhere; in particular h~​(YI)=𝔼⁡[Y∣YI]\tilde{h}(Y_{I})=\mathbb{E}[Y\mid Y_{I}] almost surely
+and h~∈Equi⁡(ℝM,𝒯)\tilde{h}\in\Equi(\mathbb{R}^{M};\mathcal{T}).
+Proof.
+Fix kk. Since 𝒯\mathcal{T} is a group, ℓ↦Tℓ​Tk\ell\mapsto T_{\ell}T_{k} permutes 𝒯\mathcal{T}, hence Tk−1∘h~∘Tk=1L​∑ℓ=1L(Tℓ​Tk)−1∘h∘(Tℓ​Tk)=h~T_{k}^{-1}\circ\tilde{h}\circ T_{k}=\frac{1}{L}\sum_{\ell=1}^{L}(T_{\ell}T_{k})^{-1}\circ h\circ(T_{\ell}T_{k})=\tilde{h}, so h~∘Tk=Tk∘h~\tilde{h}\circ T_{k}=T_{k}\circ\tilde{h} everywhere. By Lemma 2.7 each
+summand Tℓ−1h(Tℓ⋅)T_{\ell}^{-1}h(T_{\ell}\,\cdot\,) agrees with hh outside a πYI\pi_{Y_{I}}-null set, using that
+πYI\pi_{Y_{I}} is TℓT_{\ell}-invariant; a finite union of null sets is null, so h~=h\tilde{h}=h
+πYI\pi_{Y_{I}}-a.e.
+∎
+By Lemmas 2.7 and 2.8, the optimal predictor
+y↦𝔼⁡[Y∣YI=y]y\mapsto\mathbb{E}[Y\mid Y_{I}=y] admits a 𝒯\mathcal{T}-equivariant version; that is, applying TT
+before or after denoising and upsampling yields the same result.
+2.2 Measurement Self-supervision
+We target the image restoration problem (1.1) of reconstructing a signal or image X∈ℝNX\in\mathbb{R}^{N} from incomplete, noisy, indirect observations. We consider a random setting with deterministic design and partial self-supervision (1.2). The method and main results are derived under the following assumptions.
+Condition 2.9.
+Assume the following hold:
+(A1)
+A:ℝN→ℝMA\colon\mathbb{R}^{N}\to\mathbb{R}^{M} is a fixed potentially nonlinear forward map.
+(A2)
+I,S⊆{1,…,M}I,S\subseteq\{1,\dots,M\} are fixed subsampling (input) and supervision index sets.
+(A3)
+The data are generated according to the partial self-supervision model (1.2).
+(A4)
+XX, ϵI\epsilon_{I} and ϵS\epsilon_{S} are square-integrable, and 𝔼[ϵS∣X,ϵI]=0\mathbb{E}[\epsilon_{S}\mid X,\epsilon_{I}]=0.
+(A5)
+𝒯=(Tℓ)ℓ=1L\mathcal{T}=(T_{\ell})_{\ell=1}^{L} is a finite group of invertible linear operators on ℝM\mathbb{R}^{M}, of order LL.
+(A6)
+For every ℓ\ell, the pair (YI,A​X)(Y_{I},AX) is jointly TℓT_{\ell}-invariant.
+(A7)
+There exists c>0c>0 such that for all v∈ℝM:∑ℓ=1L‖PS​Tℓ​v‖22=c​‖v‖22v\in\mathbb{R}^{M}\colon\sum_{\ell=1}^{L}\|P_{S}\,T_{\ell}v\|_{2}^{2}=c\,\|v\|_{2}^{2}.
+Remark 2.10 (On the noise assumption (A4)).
+The usual assumption in this context, that ϵS\epsilon_{S} be zero-mean and independent of
+(X,ϵI)(X,\epsilon_{I}), implies (A4), but not conversely. In particular, (A4) requires the
+noise neither to be additive nor signal-independent nor identically distributed across
+coordinates, and it imposes no assumption whatsoever on the joint law of XX and ϵI\epsilon_{I}.
+It is satisfied whenever the supervision measurement is an unbiased acquisition that is
+conditionally independent of the input acquisition given the signal: if
+𝔼⁡[YS∣X]=AS​X\mathbb{E}[Y_{S}\mid X]=A_{S}X and YSY_{S} is conditionally independent of ϵI\epsilon_{I} given
+XX, then the latter gives 𝔼[YS∣X,ϵI]=𝔼[YS∣X]\mathbb{E}[Y_{S}\mid X,\epsilon_{I}]=\mathbb{E}[Y_{S}\mid X], whence
+𝔼[ϵS∣X,ϵI]=𝔼[YS−ASX∣X,ϵI]=𝔼[YS∣X]−ASX=0\mathbb{E}[\epsilon_{S}\mid X,\epsilon_{I}]=\mathbb{E}[Y_{S}-A_{S}X\mid X,\epsilon_{I}]=\mathbb{E}[Y_{S}\mid X]-A_{S}X=0.
+This covers signal-dependent noise, in particular Poisson statistics, and requires no Gaussian
+approximation. It does require the supervision measurement to be unbiased, which is not
+automatic: if the sinogram is formed from photon counts by a log transform, a systematic bias
+enters. Remark 2.12 below shows that such a bias propagates in a controlled way.
+Note that Condition (A4) implies that the supervision measurement must not
+reuse the noise of the input measurement. Physically this leaves two options: either two
+conditionally independent acquisitions of the same object, in the spirit of Noise2Noise
+[12], or a single acquisition split into two independent parts, achieved for
+photon counts by Poisson thinning at unchanged total dose. A disjoint design
+I∩S=∅I\cap S=\emptyset would also suffice, but (A7) forces SS to meet every orbit
+while PI​Tℓ=Tℓ​PIP_{I}T_{\ell}=T_{\ell}P_{I} forces II to be a union of orbits, so the two sets must
+overlap; see Section 3.
+Throughout, every minimization over a class of maps is understood to range over those gg in the class for which g⁡(YI)g(Y_{I}) is square-integrable. Identities between minimizers are understood in the usual
+L2L^{2} sense: the arg​min\argmin is the set of minimizers of the stated risk, all of whose elements
+agree πYI\pi_{Y_{I}}-almost everywhere, and an equation of the form
+𝔼⁡[A​X∣YI]=arg​min⁡(⋅)\mathbb{E}[AX\mid Y_{I}]=\argmin(\cdot) asserts that every minimizer gg satisfies
+g⁡(YI)=𝔼⁡[A​X∣YI]g(Y_{I})=\mathbb{E}[AX\mid Y_{I}] almost surely. Whether the minimum is attained is addressed by
+Lemma 2.8 and, for the constrained classes of Sections 2.3
+and 2.4, by Corollary 2.28.
+Theorem 2.11 (Exact learning from partial self-supervision).
+Suppose Condition 2.9 holds. Then, over the equivariant function class Equi⁡(ℝM,𝒯)\Equi(\mathbb{R}^{M};\mathcal{T}), minimizing the partially self-supervised noisy-target risk recovers the clean conditional expectation:
+𝔼⁡[A​X∣YI]=arg​ming∈Equi⁡(ℝM,𝒯)⁡𝔼​[∥PS​g​(YI)−YS∥22].\mathbb{E}[AX\mid Y_{I}]=\argmin_{g\in\Equi(\mathbb{R}^{M};\mathcal{T})}\;\mathbb{E}\bigl[\lVert P_{S}\,g(Y_{I})-Y_{S}\rVert_{2}^{2}\bigr].
+Proof.
+Let Z=𝔼⁡[A​X∣YI]Z=\mathbb{E}[AX\mid Y_{I}]; by Lemmas 2.7 and 2.8 (applied with Y=A​XY=AX) it is attained by a map in Equi⁡(ℝM,𝒯)\Equi(\mathbb{R}^{M};\mathcal{T}). For any square-integrable g:ℝM→ℝMg:\mathbb{R}^{M}\to\mathbb{R}^{M}, expand the noisy-target risk:
+𝔼⁡[∥PS​g​(YI)−YS∥22]=𝔼⁡[∥PS​g​(YI)−PS​A​X∥22]+𝔼⁡[∥ϵS∥22]−2​𝔼​[⟨PS​(g⁡(YI)−A​X),ϵS⟩].\mathbb{E}\bigl[\lVert P_{S}g(Y_{I})-Y_{S}\rVert_{2}^{2}\bigr]=\mathbb{E}\bigl[\lVert P_{S}g(Y_{I})-P_{S}AX\rVert_{2}^{2}\bigr]+\mathbb{E}\bigl[\lVert\epsilon_{S}\rVert_{2}^{2}\bigr]-2\,\mathbb{E}\!\left[\langle P_{S}(g(Y_{I})-AX),\epsilon_{S}\rangle\right].
+Since g⁡(YI)−A​Xg(Y_{I})-AX is σ⁡(X,ϵI)\sigma(X,\epsilon_{I})-measurable, conditioning on (X,ϵI)(X,\epsilon_{I}) and using (A4) shows that the cross term vanishes. Since 𝔼⁡[∥ϵS∥22]\mathbb{E}\bigl[\lVert\epsilon_{S}\rVert_{2}^{2}\bigr] does not depend on gg, minimizing the masked noisy risk is equivalent to minimizing the masked clean risk 𝔼⁡[∥PS​g​(YI)−PS​A​X∥22]\mathbb{E}\bigl[\lVert P_{S}g(Y_{I})-P_{S}AX\rVert_{2}^{2}\bigr].
+Let gg be 𝒯\mathcal{T}-equivariant and define R=g⁡(YI)−A​XR=g(Y_{I})-AX. By equivariance, g⁡(Tℓ​YI)−Tℓ​A​X=Tℓ​Rg(T_{\ell}Y_{I})-T_{\ell}AX=T_{\ell}R; by joint invariance (Condition (A6)), 𝔼⁡[∥PS​R∥22]=𝔼⁡[∥PS​Tℓ​R∥22]\mathbb{E}\bigl[\lVert P_{S}R\rVert_{2}^{2}\bigr]=\mathbb{E}\bigl[\lVert P_{S}T_{\ell}R\rVert_{2}^{2}\bigr] for all ℓ\ell. Averaging over ℓ\ell and using Condition (A7) yields
+𝔼⁡[∥PS​g​(YI)−PS​A​X∥22]=1L​𝔼​[∑ℓ=1L‖PS​Tℓ​R‖22]=cL​𝔼​[∥R∥22]=cL​𝔼​[∥g⁡(YI)−A​X∥22].\mathbb{E}\bigl[\lVert P_{S}g(Y_{I})-P_{S}AX\rVert_{2}^{2}\bigr]=\frac{1}{L}\,\mathbb{E}\!\left[\sum_{\ell=1}^{L}\|P_{S}T_{\ell}R\|_{2}^{2}\right]=\frac{c}{L}\,\mathbb{E}\bigl[\lVert R\rVert_{2}^{2}\bigr]=\frac{c}{L}\,\mathbb{E}\bigl[\lVert g(Y_{I})-AX\rVert_{2}^{2}\bigr].
+Therefore, within Equi⁡(ℝM,𝒯)\Equi(\mathbb{R}^{M};\mathcal{T}), the masked clean risk is strictly proportional to the full clean risk, and both are minimized by Z=𝔼⁡[A​X∣YI]Z=\mathbb{E}[AX\mid Y_{I}].
+∎
+Remark 2.12 (Biased supervision).
+Suppose that instead of (A4) the supervision noise satisfies
+𝔼[ϵS∣X,ϵI]=PSβ(X)\mathbb{E}[\epsilon_{S}\mid X,\epsilon_{I}]=P_{S}\,\beta(X) for a measurable bias map
+β:ℝN→ℝM\beta\colon\mathbb{R}^{N}\to\mathbb{R}^{M}, and that the pair (YI,A​X+β⁡(X))(Y_{I},AX+\beta(X)) is jointly
+TℓT_{\ell}-invariant for every ℓ\ell (which holds, for instance, when β\beta acts
+coordinatewise on A​xAx and the TℓT_{\ell} are coordinate permutations). Writing
+ϵS=PS​β​(X)+η\epsilon_{S}=P_{S}\beta(X)+\eta with 𝔼[η∣X,ϵI]=0\mathbb{E}[\eta\mid X,\epsilon_{I}]=0 and repeating the
+proof of Theorem 2.11 with A​XAX replaced by A​X+β⁡(X)AX+\beta(X) gives
+arg​ming∈Equi⁡(ℝM,𝒯)⁡𝔼​[∥PS​g​(YI)−YS∥22]=𝔼⁡[AX+β⁡(X)|YI].\argmin_{g\in\Equi(\mathbb{R}^{M};\mathcal{T})}\mathbb{E}\bigl[\lVert P_{S}g(Y_{I})-Y_{S}\rVert_{2}^{2}\bigr]=\mathbb{E}\bigl[AX+\beta(X)\,\big|\,Y_{I}\bigr].
+The minimizer of the partially self-supervised risk is therefore again a conditional
+expectation, now of the biased quantity A​X+β⁡(X)AX+\beta(X) instead of A​XAX: the learned predictor
+inherits the bias of the supervision measurement and nothing else. Its deviation from
+𝔼⁡[A​X∣YI]\mathbb{E}[AX\mid Y_{I}] is 𝔼⁡[β⁡(X)∣YI]\mathbb{E}[\beta(X)\mid Y_{I}], whose L2L^{2} norm is at most
+‖β⁡(X)‖L2\|\beta(X)\|_{L^{2}} because conditional expectation is an L2L^{2} contraction. The latter can be
+estimated from a concrete acquisition model; see Section 3.
+The proof gives more than the statement of Theorem 2.11: on the whole equivariant class the two risks differ only by a positive factor and an additive constant, which yields an exactness statement independent of any modelling assumption.
+Corollary 2.13 (Exactness within arbitrary equivariant subclasses).
+Suppose Condition 2.9 holds and let 𝒞⊆Equi⁡(ℝM;𝒯)\mathcal{C}\subseteq\Equi(\mathbb{R}^{M};\mathcal{T}) be an arbitrary nonempty class of
+square-integrable equivariant maps. Then
+arg​ming∈𝒞⁡𝔼​[∥PS​g​(YI)−YS∥22]=arg​ming∈𝒞⁡𝔼​[∥g⁡(YI)−𝔼⁡[AX∣YI]∥22],\argmin_{g\in\mathcal{C}}\mathbb{E}\bigl[\lVert P_{S}\,g(Y_{I})-Y_{S}\rVert_{2}^{2}\bigr]=\argmin_{g\in\mathcal{C}}\mathbb{E}\bigl[\lVert g(Y_{I})-\mathbb{E}[AX\mid Y_{I}]\rVert_{2}^{2}\bigr],
+i.e. training on partially self-supervised, noisy data over 𝒞\mathcal{C} returns the best
+L2L^{2}-approximation of 𝔼⁡[A​X∣YI]\mathbb{E}[AX\mid Y_{I}] available in 𝒞\mathcal{C}.
+Proof.
+Write Z=𝔼⁡[A​X∣YI]Z=\mathbb{E}[AX\mid Y_{I}]. By the two displays in the proof of Theorem 2.11,
+every g∈Equi⁡(ℝM,𝒯)g\in\Equi(\mathbb{R}^{M};\mathcal{T}) satisfies
+𝔼⁡[∥PS​g​(YI)−YS∥22]=cL​𝔼​[∥g⁡(YI)−A​X∥22]+𝔼⁡[∥ϵS∥22]\mathbb{E}\bigl[\lVert P_{S}g(Y_{I})-Y_{S}\rVert_{2}^{2}\bigr]=\frac{c}{L}\,\mathbb{E}\bigl[\lVert g(Y_{I})-AX\rVert_{2}^{2}\bigr]+\mathbb{E}\bigl[\lVert\epsilon_{S}\rVert_{2}^{2}\bigr]. Since g⁡(YI)g(Y_{I}) is σ⁡(YI)\sigma(Y_{I})-measurable and 𝔼⁡[A​X−Z∣YI]=0\mathbb{E}[AX-Z\mid Y_{I}]=0, the Pythagoras
+identity for conditional expectations gives 𝔼⁡[∥g⁡(YI)−A​X∥22]=𝔼⁡[∥g⁡(YI)−Z∥22]+𝔼⁡[∥A​X−Z∥22]\mathbb{E}\bigl[\lVert g(Y_{I})-AX\rVert_{2}^{2}\bigr]=\mathbb{E}\bigl[\lVert g(Y_{I})-Z\rVert_{2}^{2}\bigr]+\mathbb{E}\bigl[\lVert AX-Z\rVert_{2}^{2}\bigr], and the last term does not depend on gg. The two objectives therefore differ by the positive
+factor c/Lc/L and an additive constant, which do not change the set of minimizers.
+∎
+Corollary 2.13 makes ELIPPS robust with respect to modelling choices. Whatever the hypothesis class, minimizing the partially self-supervised risk over an equivariant class is therefore always equivalent to minimizing the full self-supervised risk over the same class. Assumptions beyond Condition 2.9, in particular those of Section 2.4, are never needed for the correctness of the training objective; they only decide whether 𝔼⁡[A​X∣YI]\mathbb{E}[AX\mid Y_{I}] lies in the class.
+Theorem 2.11 is a statement about expectations. When the training set is closed under the group action, a purely deterministic statement is available as well: on the orbit of a single
+sample, the masked loss and the full unmasked loss coincide.
+Proposition 2.14 (Orbit identity).
+Let 𝒯\mathcal{T} satisfy (A7), let PI​Tℓ=Tℓ​PIP_{I}T_{\ell}=T_{\ell}P_{I} for every
+ℓ\ell, and let g∈Equi⁡(ℝM,𝒯)g\in\Equi(\mathbb{R}^{M};\mathcal{T}). For a measurement vector
+y∈ℝMy\in\mathbb{R}^{M} put yI=PI​yy_{I}=P_{I}y, and consider the orbit of yy under 𝒯\mathcal{T} with the associated
+input and supervision data yI(ℓ)=PI​Tℓ​yy_{I}^{(\ell)}=P_{I}T_{\ell}y and yS(ℓ)=PS​Tℓ​yy_{S}^{(\ell)}=P_{S}T_{\ell}y. Then
+∑ℓ=1L‖PS​g​(yI(ℓ))−yS(ℓ)‖22=c​‖g⁡(yI)−y‖22.\sum_{\ell=1}^{L}\bigl\|P_{S}\,g\bigl(y_{I}^{(\ell)}\bigr)-y_{S}^{(\ell)}\bigr\|_{2}^{2}\;=\;c\,\bigl\|g(y_{I})-y\bigr\|_{2}^{2}.
+Proof.
+Since PIP_{I} commutes with TℓT_{\ell} we have yI(ℓ)=Tℓ​PI​y=Tℓ​yIy_{I}^{(\ell)}=T_{\ell}P_{I}y=T_{\ell}y_{I}, and
+equivariance of gg gives g⁡(yI(ℓ))=Tℓ​g​(yI)g(y_{I}^{(\ell)})=T_{\ell}\,g(y_{I}). Hence
+PS​g​(yI(ℓ))−yS(ℓ)=PS​Tℓ​vP_{S}g(y_{I}^{(\ell)})-y_{S}^{(\ell)}=P_{S}T_{\ell}v with v=g⁡(yI)−yv=g(y_{I})-y, and summing over ℓ\ell
+and using (A7) yields ∑ℓ‖PS​Tℓ​v‖22=c​‖v‖22\sum_{\ell}\|P_{S}T_{\ell}v\|_{2}^{2}=c\|v\|_{2}^{2}.
+∎
+The identity in Proposition 2.14 is exact and finite: it involves no probability distribution, no invariance
+assumption on the data and no expectation. If the training set is closed under the group
+action, the empirical masked risk over the orbit-closed set therefore equals cc times the
+empirical full risk over the original samples, for every equivariant candidate.
+Enlarging the training set by the group is thus not a way of obtaining more data but the
+finite realization of the coverage condition (A7), which the next proposition
+turns into a characterization. Theorem 2.11 is the expectation version of the same
+mechanism. There the noise contributes a cross term that vanishes only in the mean, which is
+precisely where (A4) and the joint invariance (A6) enter.
+Proposition 2.15 (Characterization of the coverage condition).
+Let 𝒯=(Tℓ)ℓ=1L\mathcal{T}=(T_{\ell})_{\ell=1}^{L} be a finite set of invertible linear maps, not necessarily a
+group, and let S⊆{1,…,M}S\subseteq\{1,\dots,M\}. Then (A7) holds, that is
+∑ℓ∥PS​Tℓ​v∥22=c​∥v∥22\sum_{\ell}\lVert P_{S}T_{\ell}v\rVert_{2}^{2}=c\,\lVert v\rVert_{2}^{2} for every v∈ℝMv\in\mathbb{R}^{M}, if and
+only if
+∑ℓ=1LTℓ⊤​PS​Tℓ=c​Id.\sum_{\ell=1}^{L}T_{\ell}^{\!\top}P_{S}\,T_{\ell}=c\,\operatorname{Id}.
+(2.1)
+Proof.
+For every vv we have
+∑ℓ∥PS​Tℓ​v∥22=∑ℓ⟨Tℓ⊤​PS⊤​PS​Tℓ​v,v⟩=⟨∑ℓTℓ⊤​PS​Tℓ​v,v⟩\sum_{\ell}\lVert P_{S}T_{\ell}v\rVert_{2}^{2}=\sum_{\ell}\langle T_{\ell}^{\!\top}P_{S}^{\!\top}P_{S}T_{\ell}\,v,v\rangle=\langle\sum_{\ell}T_{\ell}^{\!\top}P_{S}T_{\ell}\,v,v\rangle,
+because PS⊤​PS=PSP_{S}^{\!\top}P_{S}=P_{S} for an orthogonal projection. A symmetric matrix is determined
+by its quadratic form, so this equals c​∥v∥22c\lVert v\rVert_{2}^{2} for all vv if and only if
+(2.1) holds.
+∎
+In the language of frame theory, (2.1) states that the rows of the maps
+(PS​Tℓ)ℓ=1L(P_{S}T_{\ell})_{\ell=1}^{L} form a tight frame of ℝM\mathbb{R}^{M} with frame constant cc. For
+orthogonal TℓT_{\ell}, taking traces gives |S|=c​M/L\lvert S\rvert=c\,M/L, which is the quantitative content
+of the condition: the supervision set must contain a fraction c/Lc/L of all measurements, so the achievable compression is bounded by LL. Under Condition 2.9, where 𝒯\mathcal{T} is a group, LL is its order; for the dihedral group D4D_{4} used in Section 3 this is a factor of eight.
+Whether c=1c=1 is attainable depends on the action. If the TℓT_{\ell} are permutations and a
+coordinate ii is fixed by kk of them, then every coordinate that SS reaches in the same orbit
+contributes kk to the multiplicity of ii, so tightness forces c≥kc\geq k and hence
+|S|≥k​M/L\lvert S\rvert\geq k\,M/L. Only a free action, in which no coordinate is fixed by a nontrivial group
+element, admits c=1c=1 and |S|=M/L\lvert S\rvert=M/L. On a discrete grid the reflection axes of D4D_{4}
+produce fixed coordinates; the weighted formulation of Remark 2.16 removes the
+obstruction by counting them with the reciprocal of their multiplicity.
+Conversely, the condition tells us how to choose SS: as a fundamental domain of the group action,
+which is a design decision rather than something found in the data.
+Remark 2.16 (Weighted supervision masks).
+Let W∈ℝM×MW\in\mathbb{R}^{M\times M} be a diagonal matrix with nonnegative entries supported in SS,
+and replace (A7) by the weighted coverage condition
+∑ℓ=1L‖W1/2​PS​Tℓ​v‖22=c​‖v‖22for all ​v∈ℝM.\sum_{\ell=1}^{L}\bigl\|W^{1/2}P_{S}\,T_{\ell}v\bigr\|_{2}^{2}=c\,\|v\|_{2}^{2}\qquad\text{for all }v\in\mathbb{R}^{M}.
+(A7W)
+Then Theorem 2.11 and Corollary 2.13 remain valid verbatim for the
+weighted risk 𝔼⁡[∥W1/2​(PS​g​(YI)−YS)∥22]\mathbb{E}\bigl[\lVert W^{1/2}(P_{S}g(Y_{I})-Y_{S})\rVert_{2}^{2}\bigr]. Indeed, the only property of PSP_{S}
+used in the proofs is that it is a fixed deterministic linear map, so that
+R=dTℓ​RR\stackrel{{\scriptstyle d}}{{=}}T_{\ell}R implies 𝔼⁡[∥W1/2​PS​R∥22]=𝔼⁡[∥W1/2​PS​Tℓ​R∥22]\mathbb{E}\bigl[\lVert W^{1/2}P_{S}R\rVert_{2}^{2}\bigr]=\mathbb{E}\bigl[\lVert W^{1/2}P_{S}T_{\ell}R\rVert_{2}^{2}\bigr].
+The additional freedom is useful on discrete grids, where the group action typically has fixed
+points and an unweighted mask can be a fundamental domain only up to those fixed points; see
+Section 3.
+Condition (A7) requires the transformed supervision sets to cover the measurement
+domain exactly. On a discrete grid this can fail by a small amount. The following stability estimate shows that the conclusion of Theorem 2.11 survives on the part of the measurement domain that is covered at all, no matter how unevenly.
+Theorem 2.17 (Stability under approximate coverage).
+Suppose Condition 2.9 holds with (A7) replaced by the following
+one-sided condition: there exist a constant c1>0c_{1}>0 and an orthogonal coordinate projection QQ
+on ℝM\mathbb{R}^{M} such that
+c1​‖Q​v‖22≤∑ℓ=1L‖PS​Tℓ​v‖22for all ​v∈ℝM.c_{1}\|Qv\|_{2}^{2}\;\leq\;\sum_{\ell=1}^{L}\|P_{S}\,T_{\ell}v\|_{2}^{2}\qquad\text{for all }v\in\mathbb{R}^{M}.
+(2.2)
+Let Z=𝔼⁡[A​X∣YI]Z=\mathbb{E}[AX\mid Y_{I}] and let g^∈Equi⁡(ℝM,𝒯)\hat{g}\in\Equi(\mathbb{R}^{M};\mathcal{T}) be a
+δ\delta-minimizer of the partially self-supervised risk, i.e. 𝔼⁡[∥PS​g^​(YI)−YS∥22]≤infg𝔼⁡[∥PS​g​(YI)−YS∥22]+δ\mathbb{E}\bigl[\lVert P_{S}\hat{g}(Y_{I})-Y_{S}\rVert_{2}^{2}\bigr]\leq\inf_{g}\mathbb{E}\bigl[\lVert P_{S}g(Y_{I})-Y_{S}\rVert_{2}^{2}\bigr]+\delta
+for some δ≥0\delta\geq 0. Then
+𝔼⁡[∥Q⁡(g^​(YI)−Z)∥22]≤Lc1​δ.\mathbb{E}\bigl[\lVert Q\bigl(\hat{g}(Y_{I})-Z\bigr)\rVert_{2}^{2}\bigr]\;\leq\;\frac{L}{c_{1}}\,\delta.
+In particular, for δ=0\delta=0 the conditional expectation ZZ is identified exactly on the range of QQ.
+Proof.
+Write MS:=∑ℓ=1LTℓ⊤​PS​TℓM_{S}:=\sum_{\ell=1}^{L}T_{\ell}^{\!\top}P_{S}\,T_{\ell}, so that
+∑ℓ‖PS​Tℓ​v‖22=⟨MS​v,v⟩\sum_{\ell}\|P_{S}T_{\ell}v\|_{2}^{2}=\langle M_{S}v,v\rangle and (2.2) reads
+c1​‖Q​v‖22≤⟨MS​v,v⟩c_{1}\|Qv\|_{2}^{2}\leq\langle M_{S}v,v\rangle. For g∈Equi⁡(ℝM,𝒯)g\in\Equi(\mathbb{R}^{M};\mathcal{T}) put
+Rg=g⁡(YI)−A​XR_{g}=g(Y_{I})-AX and Dg=g⁡(YI)−ZD_{g}=g(Y_{I})-Z. As in the proof of Theorem 2.11 the
+noisy-target risk equals 𝔼⁡[∥PS​Rg∥22]+𝔼⁡[∥ϵS∥22]\mathbb{E}\bigl[\lVert P_{S}R_{g}\rVert_{2}^{2}\bigr]+\mathbb{E}\bigl[\lVert\epsilon_{S}\rVert_{2}^{2}\bigr] and Rg=dTℓ​RgR_{g}\stackrel{{\scriptstyle d}}{{=}}T_{\ell}R_{g} for
+every ℓ\ell, so
+L​𝔼​[∥PS​Rg∥22]=𝔼⁡[∑ℓ‖PS​Tℓ​Rg‖22]=𝔼⁡[⟨MS​Rg,Rg⟩].L\,\mathbb{E}\bigl[\lVert P_{S}R_{g}\rVert_{2}^{2}\bigr]\;=\;\mathbb{E}\Bigl[\textstyle\sum_{\ell}\|P_{S}T_{\ell}R_{g}\|_{2}^{2}\Bigr]\;=\;\mathbb{E}\bigl[\langle M_{S}R_{g},R_{g}\rangle\bigr].
+Decompose Rg=Dg+(Z−A​X)R_{g}=D_{g}+(Z-AX). Since DgD_{g} is σ⁡(YI)\sigma(Y_{I})-measurable, so is MS​DgM_{S}D_{g}, and
+𝔼⁡[Z−A​X∣YI]=0\mathbb{E}[Z-AX\mid Y_{I}]=0, so the cross term vanishes and
+𝔼⁡[⟨MS​Rg,Rg⟩]=𝔼⁡[⟨MS​Dg,Dg⟩]+𝔼⁡[⟨MS​(Z−A​X),Z−A​X⟩]\mathbb{E}\bigl[\langle M_{S}R_{g},R_{g}\rangle\bigr]=\mathbb{E}\bigl[\langle M_{S}D_{g},D_{g}\rangle\bigr]+\mathbb{E}\bigl[\langle M_{S}(Z-AX),Z-AX\rangle\bigr],
+where the second term does not depend on gg. The risk is therefore, up to an additive constant, a
+quadratic form in DgD_{g} alone. By Lemma 2.8, applied with Y=A​XY=AX, the value
+ZZ is attained within Equi⁡(ℝM,𝒯)\Equi(\mathbb{R}^{M};\mathcal{T}), and there Dg=0D_{g}=0, so δ\delta-minimality of
+g^\hat{g} gives 𝔼⁡[⟨MS​Dg^,Dg^⟩]≤L​δ\mathbb{E}[\langle M_{S}D_{\hat{g}},D_{\hat{g}}\rangle]\leq L\delta. The lower bound
+in (2.2) now yields
+c1​𝔼​[∥Q​Dg^∥22]≤𝔼⁡[⟨MS​Dg^,Dg^⟩]≤L​δc_{1}\,\mathbb{E}\bigl[\lVert QD_{\hat{g}}\rVert_{2}^{2}\bigr]\leq\mathbb{E}[\langle M_{S}D_{\hat{g}},D_{\hat{g}}\rangle]\leq L\delta,
+which is the assertion.
+∎
+The proof applies (A7) only to the residual R=g⁡(YI)−A​XR=g(Y_{I})-AX, so requiring it on ran(A)\range(A) suffices for the factorized class of Section 2.3. This is a genuine weakening whenever AA has a nontrivial cokernel, but not for the discretization of Section 3, where ran(A)=ℝM\range(A)=\mathbb{R}^{M} is expected. The estimate depends on the multiplicities only through the lower bound c1c_{1}: uneven overlap of the images Tℓ​(S)T_{\ell}(S) reweights the risk but does not move its minimizer, and the conditional expectation is still identified exactly wherever (A7) fails only in this way. What cannot be repaired is a coordinate reached by no image at all, which is why QQ appears in the statement.
+2.3 Self-supervised image reconstruction
+We realize the optimal predictor of Theorem 2.11 as gθ=A∘fθ∘Bg_{\theta}=A\circ f_{\theta}\circ B with an image-space network fθ:ℝN→ℝNf_{\theta}\colon\mathbb{R}^{N}\to\mathbb{R}^{N}, a fixed initial reconstruction B:ℝM→ℝNB\colon\mathbb{R}^{M}\to\mathbb{R}^{N} such as filtered backprojection, and the forward operator. 𝒯\mathcal{T}-equivariance of gθg_{\theta} is enforced through intertwining relations between the measurement-space transforms 𝒯\mathcal{T} and the image-space transforms 𝒮\mathcal{S}, together with symmetric averaging of fθf_{\theta} in image space.
+Condition 2.18.
+Let 𝒯=(Tℓ)ℓ=1L∈GL​(ℝM)L\mathcal{T}=(T_{\ell})_{\ell=1}^{L}\in\mathrm{GL}(\mathbb{R}^{M})^{L} and 𝒮=(Sℓ)ℓ=1L∈GL​(ℝN)L\mathcal{S}=(S_{\ell})_{\ell=1}^{L}\in\mathrm{GL}(\mathbb{R}^{N})^{L} be finite families of invertible linear operators satisfying:
+1.
+(Intertwining with AA) For all ℓ∈{1,…​L}\ell\in\{1,\dots L\}:
+Tℓ∘A=A∘SℓT_{\ell}\circ A\;=\;A\circ S_{\ell}
+2.
+(Intertwining of BB) For all ℓ∈{1,…​L}\ell\in\{1,\dots L\}:
+B∘Tℓ=Sℓ∘BB\circ T_{\ell}\;=\;S_{\ell}\circ B
+3.
+(Group structure) 𝒮=(Sℓ)ℓ=1L\mathcal{S}=(S_{\ell})_{\ell=1}^{L} is a finite group of order LL.
+Condition 2.18 is naturally satisfied in tomographic problems with known symmetries such as the Radon transform, where rotations in image space correspond to translations of the sinogram.
+Remark 2.19 (Two opposite uses of a symmetry group).
+Methods that learn from yIy_{I} alone use the invariance of the signal distribution to read the same
+data as a measurement of a transformed signal through a transformed operator. For that mechanism to supply information, the forward operator must not commute with the group, since otherwise all virtual operators share the null space of AA [18, 16]. Condition 2.18
+asks for the intertwining Tℓ​A=A​SℓT_{\ell}A=AS_{\ell} to hold exactly, so we are in the regime that
+excludes it. There is no contradiction: here the supervision comes from ySy_{S}, and the group is not
+asked to produce new information but to transport the supervision that exists on SS across the
+measurement domain, which is what (A7) formalizes. Consistently, we make no claim about
+the null space; Corollary 2.30 identifies the reconstruction only modulo ker⁡(A)\ker(A).
+Theorem 2.20.
+For given linear B:ℝM→ℝNB\colon\mathbb{R}^{M}\to\mathbb{R}^{N}, let 𝒯=(Tℓ)ℓ=1L\mathcal{T}=(T_{\ell})_{\ell=1}^{L} and 𝒮=(Sℓ)ℓ=1L\mathcal{S}=(S_{\ell})_{\ell=1}^{L} satisfy Condition 2.18. For any measurable Φ:ℝN→ℝN\Phi\colon\mathbb{R}^{N}\to\mathbb{R}^{N}, define
+f\displaystyle f
+:ℝN→ℝN,f≔1L​∑ℓ=1LSℓ−1∘Φ∘Sℓ,\displaystyle\colon\mathbb{R}^{N}\to\mathbb{R}^{N},\qquad f\coloneqq\frac{1}{L}\sum_{\ell=1}^{L}S_{\ell}^{-1}\circ\Phi\circ S_{\ell},
+(2.3)
+g\displaystyle g
+:ℝM→ℝM,g≔A∘f∘B.\displaystyle\colon\mathbb{R}^{M}\to\mathbb{R}^{M},\qquad g\coloneqq A\circ f\circ B\,.
+(2.4)
+Then ff, and gg are 𝒮\mathcal{S}-equivariant and 𝒯\mathcal{T}-equivariant, respectively.
+Proof.
+Fix k∈{1,…,L}k\in\{1,\dots,L\}. Using the intertwining relations Tk​A=A​SkT_{k}A=AS_{k} and B​Tk=Sk​BBT_{k}=S_{k}B (Condition 2.18), we have
+Tk∘g\displaystyle T_{k}\circ g
+=Tk∘(A∘f∘B)=A∘(Sk∘f)∘B,\displaystyle=T_{k}\circ(A\circ f\circ B)=A\circ(S_{k}\circ f)\circ B,
+g∘Tk\displaystyle g\circ T_{k}
+=(A∘f∘B)∘Tk=A∘(f∘Sk)∘B.\displaystyle=(A\circ f\circ B)\circ T_{k}=A\circ(f\circ S_{k})\circ B.
+Hence, it suffices to show that ff commutes with every SkS_{k}. Since 𝒮\mathcal{S} is a group,
+Sk−1∈𝒮S_{k}^{-1}\in\mathcal{S} and the assignment ℓ↦m⁡(ℓ)\ell\mapsto m(\ell) defined by
+Sm⁡(ℓ)=Sℓ∘Sk−1S_{m(\ell)}=S_{\ell}\circ S_{k}^{-1} is a bijection of {1,…,L}\{1,\dots,L\}. Using first the identity
+Sk∘Sℓ−1∘Φ∘Sℓ=((Sℓ∘Sk−1)−1∘Φ∘(Sℓ∘Sk−1))∘SkS_{k}\circ S_{\ell}^{-1}\circ\Phi\circ S_{\ell}=\bigl((S_{\ell}\circ S_{k}^{-1})^{-1}\circ\Phi\circ(S_{\ell}\circ S_{k}^{-1})\bigr)\circ S_{k},
+which holds term by term, and then this reindexing, we obtain
+Sk∘f=1L​∑ℓ=1LSk∘(Sℓ−1∘Φ∘Sℓ)=1L​∑ℓ=1L((Sℓ∘Sk−1)−1∘Φ∘(Sℓ∘Sk−1))∘Sk=1L​∑m=1L(Sm−1∘Φ∘Sm)∘Sk=f∘Sk,S_{k}\circ f=\frac{1}{L}\sum_{\ell=1}^{L}S_{k}\circ(S_{\ell}^{-1}\circ\Phi\circ S_{\ell})\\
+=\frac{1}{L}\sum_{\ell=1}^{L}\bigl((S_{\ell}\circ S_{k}^{-1})^{-1}\circ\Phi\circ(S_{\ell}\circ S_{k}^{-1})\bigr)\circ S_{k}=\frac{1}{L}\sum_{m=1}^{L}(S_{m}^{-1}\circ\Phi\circ S_{m})\circ S_{k}=f\circ S_{k}\,,
+which concludes the proof.
+∎
+The averaging in (2.3) is the classical Reynolds operator, and its use to
+render a network equivariant is standard; it appears in the learning literature as group or frame
+averaging [19, 20, 21] and, for imaging, in test-time symmetrization of
+plug-and-play denoisers [22]. What is specific here is not the averaging itself but its
+combination with the forward operator and the initial reconstruction, together with the statement
+that the resulting restriction of the hypothesis class costs nothing
+(Theorem 2.23 and Corollary 2.28). No architectural constraints on Φ\Phi are required; equivariance is enforced purely by the symmetrization. Thus, Φ\Phi can be any CNN operating in image space. In practice, BB can be chosen as a standard analytic or approximate inverse (for example FBP for the Radon transform), which typically intertwines with rotations and reflections.
+2.4 Architectural freedom
+Realizing gθ=A∘fθ∘Bg_{\theta}=A\circ f_{\theta}\circ B guarantees the equivariance of the network by
+construction. In this subsection we show that this comes at no cost: the restriction to the factorized class leaves the solution of the minimization problem unchanged.
+Definition 2.21 (Right-inverse and least-squares right-inverse).
+Let A:ℝN→ℝMA\colon\mathbb{R}^{N}\to\mathbb{R}^{M} be a linear operator and Pran(A):ℝM→ℝMP_{\range(A)}\colon\mathbb{R}^{M}\to\mathbb{R}^{M} the orthogonal projection onto the range of AA. An operator B:ℝM→ℝNB\colon\mathbb{R}^{M}\to\mathbb{R}^{N} is called a right-inverse of AA if A​B​y=yABy=y for all y∈ran(A)y\in\range(A) and a least-squares right-inverse of AA if, in addition, A​B​y=Pran(A)​(y)ABy=P_{\range(A)}(y) for all y∈ℝMy\in\mathbb{R}^{M}.
+For a least-squares right-inverse, B​yBy is a least-squares solution of the equation A​x=yAx=y for every y∈ℝMy\in\mathbb{R}^{M}, since ‖A⁡(B​y)−y‖2=‖Pran(A)​(y)−y‖2=minx⁡‖A​x−y‖2\|A(By)-y\|_{2}=\|P_{\range(A)}(y)-y\|_{2}=\min_{x}\|Ax-y\|_{2}. The Moore-Penrose pseudoinverse A†A^{\dagger} is the canonical example. We emphasize that a least-squares right-inverse prescribes the behavior of A​BAB on all of ℝM\mathbb{R}^{M}, but does not require BB to map into ker⁡(A)⟂\ker(A)^{\perp}.
+Condition 2.22.
+Let A:ℝN→ℝMA\colon\mathbb{R}^{N}\to\mathbb{R}^{M} be a linear operator and PIP_{I} be a projection operator on ℝM\mathbb{R}^{M}. Let further XX be a square-integrable RV on ℝN\mathbb{R}^{N}. Assume the following hold:
+1.
+BI:ℝM→ℝNB_{I}\colon\mathbb{R}^{M}\to\mathbb{R}^{N} is a least-squares right-inverse of PI∘AP_{I}\circ A.
+2.
+ϵI\epsilon_{I} denotes a RV on ℝI\mathbb{R}^{I} independent of A​XAX, with ϵ∥≔Pran(PI​A)​(ϵI)\epsilon_{\parallel}\coloneqq P_{\range(P_{I}A)}(\epsilon_{I}) and
+ϵ⟂≔Pran(PI​A)⟂​(ϵI)\epsilon_{\perp}\coloneqq P_{\range(P_{I}A)^{\perp}}(\epsilon_{I}) independent of each other.
+Note that AA is not assumed to be injective; injectivity is needed only for the image-domain
+statement in Corollary 2.30. Condition 2.22.2 is satisfied for i.i.d. Gaussian noise, for which orthogonal projections onto complementary subspaces are independent. For non-Gaussian noise, uncorrelatedness of ϵ∥\epsilon_{\parallel} and ϵ⟂\epsilon_{\perp} does not imply their independence in general. In particular, the Poisson noise used in our experiments satisfies the condition only
+approximately: even in a high-dose regime, where it is well approximated by an additive Gaussian,
+the variance depends on the signal, so that ϵI\epsilon_{I} is not independent of A​XAX;
+see Section 3.
+Theorem 2.23.
+Assume Condition 2.22 holds, and denote by
+Fac(A,BI):={A∘f∘BI:f:ℝN→ℝN measurable}\Fac(A,B_{I}):=\bigl\{A\circ f\circ B_{I}\;:\;f\colon\mathbb{R}^{N}\to\mathbb{R}^{N}\text{ measurable}\bigr\}
+the class of all factorized reconstruction maps. Then minimizing the full self-supervised risk over Fac⁡(A,BI)\Fac(A,B_{I}) recovers the conditional expectation:
+𝔼⁡[A​X∣YI]=arg​ming∈Fac⁡(A,BI)⁡𝔼​[∥g⁡(YI)−AX∥22].\mathbb{E}[AX\mid Y_{I}]=\argmin_{g\in\Fac(A,B_{I})}\mathbb{E}\bigl[\lVert g(Y_{I})-AX\rVert_{2}^{2}\bigr].
+Proof.
+Write arg​ming∈Fac⁡(A,BI)⁡𝔼​[∥g⁡(YI)−AX∥22]=A∘f∗∘BI\argmin_{g\in\Fac(A,B_{I})}\mathbb{E}\bigl[\lVert g(Y_{I})-AX\rVert_{2}^{2}\bigr]=A\circ f^{*}\circ B_{I} with f∗=arg​minf⁡𝔼​[∥Af⁡(BI​(YI))−AX∥22]f^{*}=\argmin_{f}\mathbb{E}\bigl[\lVert Af(B_{I}(Y_{I}))-AX\rVert_{2}^{2}\bigr], the right-hand sides being representatives of the respective arg​min\argmin sets.
+The objective depends on ff only through the composed map A∘fA\circ f. As ff ranges over all
+measurable maps ℝN→ℝN\mathbb{R}^{N}\to\mathbb{R}^{N}, the quantity A​f​(BI​(YI))Af(B_{I}(Y_{I})) ranges over all
+σ⁡(BI​(YI))\sigma(B_{I}(Y_{I}))-measurable, square-integrable RVs with values in ran(A)\range(A).
+Since ran(A)\range(A) is a linear subspace and A​XAX takes values in it, so does
+𝔼⁡[A​X∣BI​(YI)]\mathbb{E}[AX\mid B_{I}(Y_{I})]. Projection in L2L^{2} onto the σ⁡(BI​(YI))\sigma(B_{I}(Y_{I}))-measurable random
+vectors therefore gives
+arg​minu​σ​(BI​(YI))​-meas.,u∈ran(A)⁡𝔼​[‖u−AX‖22]=𝔼⁡[AX∣BI​(YI)],\argmin_{u\;\sigma(B_{I}(Y_{I}))\text{-meas.},\;u\in\range(A)}\mathbb{E}\bigl[\|u-AX\|_{2}^{2}\bigr]=\mathbb{E}[AX\mid B_{I}(Y_{I})],
+and this value is attained by f∗=A†𝔼[AX∣BI(YI)=⋅]f^{\ast}=A^{\dagger}\,\mathbb{E}[AX\mid B_{I}(Y_{I})=\,\cdot\,], with
+A†A^{\dagger} the Moore–Penrose pseudoinverse, since A​A†=Pran(A)AA^{\dagger}=P_{\range(A)} acts as the
+identity on ran(A)\range(A). Hence any minimizer satisfies A∘f∗∘BI​(YI)=𝔼⁡[A​X∣BI​(YI)]almost surelyA\circ f^{*}\circ B_{I}(Y_{I})=\mathbb{E}[AX\mid B_{I}(Y_{I})]\quad\text{almost surely}. No injectivity of AA is used; without it f∗f^{\ast} is determined only up to ker⁡(A)\ker(A), which is Corollary 2.30. It remains to show 𝔼⁡[A​X∣BI​(YI)]=𝔼⁡[A​X∣YI]\mathbb{E}[AX\mid B_{I}(Y_{I})]=\mathbb{E}[AX\mid Y_{I}].
+Since A​XAX is independent of ϵI\epsilon_{I} and ϵ∥\epsilon_{\parallel} is independent of ϵ⟂\epsilon_{\perp}, the triple (A​X,ϵ∥,ϵ⟂)(AX,\epsilon_{\parallel},\epsilon_{\perp}) has a product law. Hence ϵ⟂\epsilon_{\perp} is independent of (A​X,ϵ∥)(AX,\epsilon_{\parallel}), therefore also of (A​X,PI​(A​X)+ϵ∥)(AX,P_{I}(AX)+\epsilon_{\parallel}), and
+𝔼[AX∣YI]=𝔼[AX∣PI(AX)+ϵ∥,ϵ⟂]=𝔼[AX∣PI(AX)+ϵ∥]=𝔼[AX∣Pran(PI​A)(YI)].\mathbb{E}[AX\mid Y_{I}]=\mathbb{E}[AX\mid P_{I}(AX)+\epsilon_{\parallel},\epsilon_{\perp}]=\mathbb{E}[AX\mid P_{I}(AX)+\epsilon_{\parallel}]=\mathbb{E}[AX\mid P_{\range(P_{I}A)}(Y_{I})].
+The least-squares right-inverse property 2.22.1 implies σ⁡(Pran(PI​A)​(YI))⊆σ⁡(BI​(YI))⊆σ⁡(YI)\sigma(P_{\range(P_{I}A)}(Y_{I}))\subseteq\sigma(B_{I}(Y_{I}))\subseteq\sigma(Y_{I}), since Pran(PI​A)​(YI)=(PI​A)​BI​(YI)P_{\range(P_{I}A)}(Y_{I})=(P_{I}A)\,B_{I}(Y_{I}) is a measurable function of BI​(YI)B_{I}(Y_{I}). This is where the least-squares property is needed: YIY_{I} lies outside ran(PI​A)\range(P_{I}A) because of ϵ⟂\epsilon_{\perp}, and the standard right-inverse property would not suffice (Remark 2.27). Thus 𝔼⁡[A​X∣YI]\mathbb{E}[AX\mid Y_{I}] is σ⁡(BI​(YI))\sigma(B_{I}(Y_{I}))-measurable, and the tower property yields
+𝔼⁡[A​X∣BI​(YI)]=𝔼⁡[𝔼⁡[A​X∣YI]|BI​(YI)]=𝔼⁡[A​X∣YI]\mathbb{E}[AX\mid B_{I}(Y_{I})]=\mathbb{E}\bigl[\,\mathbb{E}[AX\mid Y_{I}]\;\big|\;B_{I}(Y_{I})\bigr]=\mathbb{E}[AX\mid Y_{I}],
+which completes the proof.
+∎
+Remark 2.24 (Minimal condition on BIB_{I}).
+The least-squares right-inverse property 2.22.1 enters the proof only
+through the inclusion σ⁡(Pran(PI​A)​(YI))⊆σ⁡(BI​(YI))\sigma(P_{\range(P_{I}A)}(Y_{I}))\subseteq\sigma(B_{I}(Y_{I})), which together
+with 2.22.2 gives
+𝔼⁡[A​X∣BI​(YI)]=𝔼⁡[A​X∣YI]\mathbb{E}[AX\mid B_{I}(Y_{I})]=\mathbb{E}[AX\mid Y_{I}]. The minimal condition for that identity
+is that BI​(YI)B_{I}(Y_{I}) be a sufficient statistic for A​XAX, i.e. that A​XAX and YIY_{I} be conditionally
+independent given BI​(YI)B_{I}(Y_{I}): BIB_{I} must not discard information about A​XAX contained in YIY_{I}.
+The next proposition quantifies what an inexact initial reconstruction costs, complementing Theorem 2.17, which measures an inexact coverage condition.
+Proposition 2.25 (The price of the factorized class).
+Let AA be linear, let BI:ℝM→ℝNB_{I}\colon\mathbb{R}^{M}\to\mathbb{R}^{N} be measurable and let
+Z=𝔼⁡[A​X∣YI]Z=\mathbb{E}[AX\mid Y_{I}]. Then
+ming∈Fac⁡(A,BI)⁡𝔼⁡[∥g⁡(YI)−A​X∥22]−ming​σ​(YI)​-meas.⁡𝔼⁡[∥g⁡(YI)−A​X∥22]=𝔼⁡[∥Z−𝔼⁡[Z|BI​(YI)]∥22].\min_{g\in\Fac(A,B_{I})}\mathbb{E}\bigl[\lVert g(Y_{I})-AX\rVert_{2}^{2}\bigr]\;-\;\min_{g\;\sigma(Y_{I})\text{-meas.}}\mathbb{E}\bigl[\lVert g(Y_{I})-AX\rVert_{2}^{2}\bigr]\;=\;\mathbb{E}\bigl[\lVert Z-\mathbb{E}\bigl[Z\bigm|B_{I}(Y_{I})\bigr]\rVert_{2}^{2}\bigr].
+The restriction to Fac⁡(A,BI)\Fac(A,B_{I}) thus costs exactly the part of ZZ that BI​(YI)B_{I}(Y_{I}) does not
+determine, and nothing when BI​(YI)B_{I}(Y_{I}) is sufficient for A​XAX.
+Proof.
+By the argument in the proof of Theorem 2.23, which uses no property of BIB_{I}, every
+minimizer over Fac⁡(A,BI)\Fac(A,B_{I}) satisfies A​f∗​(BI​(YI))=𝔼⁡[A​X∣BI​(YI)]Af^{\ast}(B_{I}(Y_{I}))=\mathbb{E}[AX\mid B_{I}(Y_{I})]
+almost surely, and since σ⁡(BI​(YI))⊆σ⁡(YI)\sigma(B_{I}(Y_{I}))\subseteq\sigma(Y_{I}) the tower property gives
+𝔼⁡[A​X∣BI​(YI)]=𝔼⁡[Z∣BI​(YI)]\mathbb{E}[AX\mid B_{I}(Y_{I})]=\mathbb{E}[Z\mid B_{I}(Y_{I})]. The Pythagoras identity for conditional
+expectations applied twice yields 𝔼⁡[∥g⁡(YI)−A​X∥22]=𝔼⁡[∥g⁡(YI)−Z∥22]+σ2\mathbb{E}\bigl[\lVert g(Y_{I})-AX\rVert_{2}^{2}\bigr]=\mathbb{E}\bigl[\lVert g(Y_{I})-Z\rVert_{2}^{2}\bigr]+\sigma^{2} with σ2=𝔼⁡[∥A​X−Z∥22]\sigma^{2}=\mathbb{E}\bigl[\lVert AX-Z\rVert_{2}^{2}\bigr] for every σ⁡(YI)\sigma(Y_{I})-measurable gg. Taking g=𝔼⁡[Z∣BI​(YI)]g=\mathbb{E}[Z\mid B_{I}(Y_{I})] and g=Zg=Z and
+subtracting gives the claim.
+∎
+Remark 2.26 (What the criterion targets).
+All results of this section identify the conditional expectation, that is, the minimum mean squared
+error estimator. This is the estimator that maximizes PSNR, and it is the natural target for a
+criterion built on a squared loss, but it is a choice rather than a necessity: the conditional
+expectation averages over all images consistent with YIY_{I} and is therefore systematically
+smoothing. Where low-contrast detectability rather than mean squared error is the quantity of
+interest, a different criterion, and correspondingly a different notion of optimality, would be
+appropriate. The equivalence between the partially self-supervised and the full self-supervised risk established here is independent of that choice in the following sense: it compares two ways of estimating the same objective, and any weighted quadratic objective would give the same argument. The equivalence established here is independent of that choice: it compares two ways of estimating the same objective, and any weighted quadratic objective gives the same argument.
+Remark 2.27 (Necessity of the least-squares property).
+If BB does not control (PI​A)​B(P_{I}A)B outside ran(PI​A)\range(P_{I}A), then B⁡(YI)B(Y_{I}) can contain less information about PI​(A​X)P_{I}(AX) than YIY_{I}, and Theorem 2.23 fails. Let
+A=(10),PI=I2,B⁡(x1,x2)=x1+x2.A=\begin{pmatrix}1\\
+0\end{pmatrix},\qquad P_{I}=I_{2},\qquad B(x_{1},x_{2})=x_{1}+x_{2}.
+Then PI​A​X=A​X=(X,0)⊤P_{I}AX=AX=(X,0)^{\top}, and BB is a right-inverse of PI​AP_{I}A in the standard sense, since (PI​A)​B​y=y(P_{I}A)By=y for all y=(y1,0)⊤∈ran(PI​A)y=(y_{1},0)^{\top}\in\range(P_{I}A). However, BB is not a least-squares right-inverse: for y=(0,y2)⊤∉ran(PI​A)y=(0,y_{2})^{\top}\not\in\range(P_{I}A) we have (PI​A)​B​y=(y2,0)⊤≠0=Pran(PI​A)​(y)(P_{I}A)By=(y_{2},0)^{\top}\neq 0=P_{\range(P_{I}A)}(y).
+Consider the observation model
+YI=A​X+ϵ=(X+ϵ1,ϵ2)⊤Y_{I}=AX+\epsilon=(X+\epsilon_{1},\epsilon_{2})^{\top}, where X,ϵ1,ϵ2X,\epsilon_{1},\epsilon_{2} are independent standard Gaussian random variables. Then YIY_{I} contains the two independent noisy observations
+X+ϵ1X+\epsilon_{1} and ϵ2\epsilon_{2}, whereas B⁡(YI)=X+ϵ1+ϵ2B(Y_{I})=X+\epsilon_{1}+\epsilon_{2} only contains their sum. Consequently, 𝔼⁡[A​X∣YI]≠𝔼⁡[A​X∣B⁡(YI)]\mathbb{E}[AX\mid Y_{I}]\neq\mathbb{E}[AX\mid B(Y_{I})].
+For the Radon transform the FBP is not a right-inverse of PI∘AP_{I}\circ A, not even in the standard sense: restricting AA by PIP_{I}, or merely discretizing it, removes information, so that PI​A​B​(y)≠yP_{I}AB(y)\neq y in general even for y∈ran(PI​A)y\in\range(P_{I}A).
+Combining Theorem 2.23 with the equivariant construction of Section 2.3 closes the gap between the generic equivariant class of Theorem 2.11 and the architecture used in practice.
+Corollary 2.28 (Equivariant architectures suffice).
+Assume Conditions 2.9, 2.18 (with B=BIB=B_{I}), and 2.22 hold, and denote by
+Equi(A,BI;𝒮):={A∘f∘BI:f:ℝN→ℝN measurable and 𝒮-equivariant}\Equi(A,B_{I};\mathcal{S}):=\bigl\{A\circ f\circ B_{I}\;:\;f\colon\mathbb{R}^{N}\to\mathbb{R}^{N}\text{ measurable and }\mathcal{S}\text{-equivariant}\bigr\}
+the equivariant subclass. Then minimizing the full self-supervised risk over Equi⁡(A,BI,𝒮)\Equi(A,B_{I};\mathcal{S}) recovers the conditional expectation:
+𝔼⁡[A​X∣YI]=arg​ming∈Equi⁡(A,BI,𝒮)⁡𝔼​[∥g⁡(YI)−AX∥22].\mathbb{E}[AX\mid Y_{I}]=\argmin_{g\in\Equi(A,B_{I};\mathcal{S})}\mathbb{E}\bigl[\lVert g(Y_{I})-AX\rVert_{2}^{2}\bigr].
+Proof.
+Let f∗f^{*} be the minimizer from the proof of Theorem 2.23, so that g∗≔A∘f∗∘BIg^{*}\coloneqq A\circ f^{*}\circ B_{I} satisfies g∗​(YI)=𝔼⁡[A​X∣YI]g^{*}(Y_{I})=\mathbb{E}[AX\mid Y_{I}] almost surely, and define the symmetrization
+f~≔1L​∑ℓ=1LSℓ−1∘f∗∘Sℓ\tilde{f}\coloneqq\frac{1}{L}\sum_{\ell=1}^{L}S_{\ell}^{-1}\circ f^{*}\circ S_{\ell},
+which is 𝒮\mathcal{S}-equivariant by Theorem 2.20 (applied with Φ=f∗\Phi=f^{*}). The intertwining relations of Condition 2.18 give A​Sℓ−1=Tℓ−1​AAS_{\ell}^{-1}=T_{\ell}^{-1}A and Sℓ​BI=BI​TℓS_{\ell}B_{I}=B_{I}T_{\ell}, hence
+A∘f~∘BI=1L​∑ℓ=1L(A​Sℓ−1)∘f∗∘(Sℓ​BI)=1L​∑ℓ=1LTℓ−1∘(A∘f∗∘BI)∘Tℓ=1L​∑ℓ=1LTℓ−1∘g∗∘Tℓ.A\circ\tilde{f}\circ B_{I}=\frac{1}{L}\sum_{\ell=1}^{L}(AS_{\ell}^{-1})\circ f^{*}\circ(S_{\ell}B_{I})=\frac{1}{L}\sum_{\ell=1}^{L}T_{\ell}^{-1}\circ(A\circ f^{*}\circ B_{I})\circ T_{\ell}=\frac{1}{L}\sum_{\ell=1}^{L}T_{\ell}^{-1}\circ g^{*}\circ T_{\ell}.
+By (A6) and Lemma 2.7 (with Y=A​XY=AX), g∗g^{*} is TℓT_{\ell}-equivariant πYI\pi_{Y_{I}}-a.e., so Tℓ−1∘g∗∘Tℓ=g∗T_{\ell}^{-1}\circ g^{*}\circ T_{\ell}=g^{*} πYI\pi_{Y_{I}}-a.e. for every ℓ\ell and hence A∘f~∘BI​(YI)=𝔼⁡[A​X∣YI]A\circ\tilde{f}\circ B_{I}(Y_{I})=\mathbb{E}[AX\mid Y_{I}] almost surely. The minimal value of Theorem 2.23 is therefore attained within Equi⁡(A,BI,𝒮)⊆Fac⁡(A,BI)\Equi(A,B_{I};\mathcal{S})\subseteq\Fac(A,B_{I}). A pointwise equivariant representative is provided by Lemma 2.8.
+∎
+Corollary 2.29 (Main result).
+Assume Conditions 2.9, 2.18 (with B=BIB=B_{I}) and 2.22 hold. Then
+𝔼⁡[A​X∣YI]=arg​ming∈Equi⁡(A,BI,𝒮)⁡𝔼​[∥PS​g​(YI)−YS∥22].\mathbb{E}[AX\mid Y_{I}]=\argmin_{g\in\Equi(A,B_{I};\mathcal{S})}\mathbb{E}\bigl[\lVert P_{S}\,g(Y_{I})-Y_{S}\rVert_{2}^{2}\bigr].
+Proof.
+By Theorem 2.20, every g=A∘f∘BIg=A\circ f\circ B_{I} with 𝒮\mathcal{S}-equivariant ff is
+𝒯\mathcal{T}-equivariant, hence Equi⁡(A,BI,𝒮)⊆Equi⁡(ℝM;𝒯)\Equi(A,B_{I};\mathcal{S})\subseteq\Equi(\mathbb{R}^{M};\mathcal{T}). By
+Corollary 2.13 applied to 𝒞=Equi⁡(A,BI,𝒮)\mathcal{C}=\Equi(A,B_{I};\mathcal{S}), minimizing the
+partially self-supervised noisy risk over this class is equivalent to minimizing
+𝔼⁡[∥g⁡(YI)−𝔼⁡[A​X∣YI]∥22]\mathbb{E}\bigl[\lVert g(Y_{I})-\mathbb{E}[AX\mid Y_{I}]\rVert_{2}^{2}\bigr] over the same class. By
+Corollary 2.28 the value 𝔼⁡[A​X∣YI]\mathbb{E}[AX\mid Y_{I}] is attained within
+Equi⁡(A,BI,𝒮)\Equi(A,B_{I};\mathcal{S}), so this minimum equals zero and is attained precisely at
+𝔼⁡[A​X∣YI]\mathbb{E}[AX\mid Y_{I}].
+∎
+Corollary 2.29 closes the chain from the training objective to the optimal predictor:
+no ground-truth image, no fully sampled measurement and no noise-free target enters, and yet the
+minimizer over the trained architecture class is the conditional expectation given the
+undersampled data. The following corollary transfers the statement from the measurement domain,
+in which the loss is formulated, to the image domain, in which reconstructions are evaluated.
+Corollary 2.30 (Image-domain optimality up to the null space).
+Under the assumptions of Corollary 2.29, let g∗=A∘f∗∘BIg^{\ast}=A\circ f^{\ast}\circ B_{I} be a
+minimizer of the partially self-supervised risk over Equi⁡(A,BI,𝒮)\Equi(A,B_{I};\mathcal{S}). Then the learned
+reconstruction map satisfies
+Pker⁡(A)⟂​f∗​(BI​(YI))=Pker⁡(A)⟂​𝔼​[X∣YI]almost surely.P_{\ker(A)^{\perp}}f^{\ast}\bigl(B_{I}(Y_{I})\bigr)=P_{\ker(A)^{\perp}}\,\mathbb{E}[X\mid Y_{I}]\qquad\text{almost surely}.
+If in addition AA is injective, then f∗​(BI​(YI))=𝔼⁡[X∣YI]f^{\ast}(B_{I}(Y_{I}))=\mathbb{E}[X\mid Y_{I}] almost surely, i.e. ELIPPS training returns the minimum mean squared error estimator of the image given the
+undersampled measurements.
+Proof.
+By Corollary 2.29 and linearity of AA,
+A​f∗​(BI​(YI))=𝔼⁡[A​X∣YI]=A​𝔼​[X∣YI]Af^{\ast}(B_{I}(Y_{I}))=\mathbb{E}[AX\mid Y_{I}]=A\,\mathbb{E}[X\mid Y_{I}] almost surely, so the
+difference f∗​(BI​(YI))−𝔼⁡[X∣YI]f^{\ast}(B_{I}(Y_{I}))-\mathbb{E}[X\mid Y_{I}] lies in ker⁡(A)\ker(A); applying
+Pker⁡(A)⟂P_{\ker(A)^{\perp}} gives the first claim, and injectivity means ker⁡(A)={0}\ker(A)=\{0\}.
+∎
+Remark 2.31 (The null space is not identified by the risk alone).
+Corollary 2.30 is sharp: the training risk depends on A​f∘BIAf\circ B_{I} only, so no criterion of this form determines the component in ker⁡(A)\ker(A). For the discretized Radon transform of Section 3, which maps 3612=130 321361^{2}=130\,321 pixels to 128×361=46 208128\times 361=46\,208 measurements, the image-domain statement therefore holds only modulo ker⁡(A)\ker(A). What constrains that component in practice is the hypothesis class: the equivariance of fθf_{\theta}, the choice of BIB_{I} and the implicit bias of the network. Combining the sensing theorems of [18, 13] with the present setting is a natural next step.
+Remark 2.32 (Biased supervision within the factorized class).
+For the constrained class Equi⁡(A,BI,𝒮)\Equi(A,B_{I};\mathcal{S}), Remark 2.12 needs one qualification: its elements take values in ran(A)\range(A), whereas 𝔼⁡[A​X+β⁡(X)∣YI]\mathbb{E}[AX+\beta(X)\mid Y_{I}] need not, so the attainability step of Corollary 2.29 may fail. Consistency is unaffected, since by Corollary 2.13 training returns the L2L^{2}-projection of the shifted target onto the realized class. The qualification is vacuous when ran(A)=ℝM\range(A)=\mathbb{R}^{M}, the expected situation in Section 3.
+Remark 2.33 (Role of Condition 2.22).
+The two conditions play different roles. Condition 2.9 concerns the training criterion: by Corollary 2.13 it makes the partially self-supervised risk rank equivariant candidates exactly as the full self-supervised risk does, for every hypothesis class. Condition 2.22 concerns the hypothesis class: it keeps the optimum from being excluded by the factorized architecture. If it is violated, training still returns the best approximation of 𝔼⁡[A​X∣YI]\mathbb{E}[AX\mid Y_{I}] within the realized class, so misspecification causes an approximation error, never an inconsistent target. The experiments in Section 3 operate in that regime.
+Remark 2.34 (The two requirements on BIB_{I} are compatible).
+Condition 2.18.2 and Condition 2.22.1 constrain the same
+operator, and it is not immediate that they can be met at once. They can, and the Moore–Penrose
+pseudoinverse of the subsampled forward operator is the canonical example. Assume the TℓT_{\ell} and
+SℓS_{\ell} are orthogonal, Tℓ​A=A​SℓT_{\ell}A=AS_{\ell}, and PI​Tℓ=Tℓ​PIP_{I}T_{\ell}=T_{\ell}P_{I}, and put
+M:=PI​AM:=P_{I}A. Then
+M​Sℓ=PI​A​Sℓ=PI​Tℓ​A=Tℓ​PI​A=Tℓ​M,MS_{\ell}=P_{I}AS_{\ell}=P_{I}T_{\ell}A=T_{\ell}P_{I}A=T_{\ell}M,
+so M=Tℓ​M​Sℓ−1M=T_{\ell}MS_{\ell}^{-1}. Since (U​M​V)†=V∗​M†​U∗(UMV)^{\dagger}=V^{\ast}M^{\dagger}U^{\ast} for unitary
+U,VU,V, this gives M†=Sℓ​M†​Tℓ−1M^{\dagger}=S_{\ell}M^{\dagger}T_{\ell}^{-1}, that is
+M†​Tℓ=Sℓ​M†M^{\dagger}T_{\ell}=S_{\ell}M^{\dagger}. Hence BI:=(PI​A)†B_{I}:=(P_{I}A)^{\dagger} intertwines as required by
+Condition 2.18.2 The same argument covers truncated Krylov methods on the normal equations, since M⊤​M​Sℓ=Sℓ​M⊤​MM^{\!\top}MS_{\ell}=S_{\ell}M^{\!\top}M. In Section 3 the TℓT_{\ell} are signed coordinate permutations and the SℓS_{\ell} coordinate permutations, so the assumptions of Corollary 2.29 are jointly satisfiable; the FBP used there gives up 1 for computational convenience, which by Remark 2.33 costs accuracy and not consistency.
+2.5 Summary of the method
+Suppose the image model satisfies Conditions 2.9 and 2.22 with transforms satisfying Condition 2.18, and let (Φθ)θ∈Θ(\Phi_{\theta})_{\theta\in\Theta} be any image-space network. According to Theorem 2.20 the functions fθ=1L​∑ℓSℓ−1∘Φθ∘Sℓf_{\theta}=\tfrac{1}{L}\sum_{\ell}S_{\ell}^{-1}\circ\Phi_{\theta}\circ S_{\ell} and gθ=A∘fθ∘Bg_{\theta}=A\circ f_{\theta}\circ B are 𝒮\mathcal{S}- and 𝒯\mathcal{T}-equivariant, respectively. By Theorem 2.23 and Corollary 2.28 this restriction costs nothing when BB is a least-squares right-inverse of PI∘AP_{I}\circ A, and Corollary 2.29 gives the statement used in practice: the minimizer of the partially self-supervised noisy risk over this class is 𝔼⁡[A​X∣YI]\mathbb{E}[AX\mid Y_{I}], and by Corollary 2.30 the reconstruction fθ∘Bf_{\theta}\circ B agrees with the minimum mean squared error estimator up to ker⁡(A)\ker(A). For an approximate inverse such as the FBP, Remark 2.33 shows that only the expressivity of the class is affected, not the correctness of the criterion. The training itself uses only the partial self-supervision data (1.2), through
+ℒ𝒯​(θ)=𝔼⁡[∥PS∘gθ​(YI)−YS∥22]=𝔼⁡[∥AS∘fθ∘B⁡(YI)−YS∥22].\mathcal{L}_{\mathcal{T}}(\theta)=\mathbb{E}\bigl[\lVert P_{S}\circ g_{\theta}(Y_{I})-Y_{S}\rVert_{2}^{2}\bigr]=\mathbb{E}\bigl[\lVert A_{S}\circ f_{\theta}\circ B(Y_{I})-Y_{S}\rVert_{2}^{2}\bigr].
+(2.5)
+At test time, the reconstruction is simply obtained by the learned reconstruction maps fθ∘Bf_{\theta}\circ B.
+3 Experiments
+This section evaluates ELIPPS under severe partial self-supervision and low-dose noise. We consider two instantiations of the undersampled inverse problem (1.1) in CT, which differ only in the axis along which the sinogram is subsampled:
+•
+Detector Upscaling: only a subset of detector bins is observed; the goal is to recover the full-resolution measurement and a corresponding reconstruction.
+•
+Sparse-View Reconstruction: only a subset of projection angles is observed; the goal is to recover a high-quality reconstruction from angularly undersampled measurements.
+In both settings, we instantiate the transformation families 𝒯\mathcal{T} and 𝒮\mathcal{S} of Section 2.2 via the eight symmetries of the dihedral group
+D4={Id,r,r2,r3,σ,r​σ,r2​σ,r3​σ},D_{4}=\{\operatorname{Id},\,r,\,r^{2},\,r^{3},\,\sigma,\,r\sigma,\,r^{2}\sigma,\,r^{3}\sigma\},
+(3.1)
+where rr is the rotation by 90∘90^{\circ} and σ\sigma the reflection about the vertical image axis.
+The group D4D_{4} acts on the image domain by rotations and reflections of the pixel grid and, via the intertwining relation with the Radon transform, on the measurement domain by permutations of the sinogram coordinates. This makes the abstract framework of Section 2.2 fully explicit: we verify Conditions 2.9 and 2.18 for this instantiation below.
+3.1 Dataset and Acquisition Model
+We use a 1%1\% subset of the LoDoPaB dataset [23], consisting of 358358 training and 3535 test images. Unless stated otherwise (see the ablation in Section 3.7), the training set is augmented by the full D4D_{4} group, yielding an 8×8\times larger training set whose empirical distribution is D4D_{4}-invariant by construction.
+All images are resized to 361×361361\times 361 pixels and multiplied by a circular disk mask restricting the reconstruction to the field of view. Here 361361 is the side length of the
+grid, so the image has 3612=130 321361^{2}=130\,321 pixels. Both the side length and the number of detector
+bins are odd, so that a single central pixel and a single central detector bin exist and are fixed
+by the discrete D4D_{4} action; this is what makes the rotations and reflections exact permutations
+of the grids. The circular field of view is the disc inscribed in that grid and is therefore 361361
+pixels across. The disk mask is D4D_{4}-invariant and therefore compatible with the invariance assumptions of Condition 2.9.
+We adopt a parallel-beam geometry with Nθ=128N_{\theta}=128 projection angles on the endpoint-exclusive
+grid θj=j​π/Nθ\theta_{j}=j\pi/N_{\theta}, j=0,…,Nθ−1j=0,\dots,N_{\theta}-1, and Ns=361N_{s}=361 detector bins, yielding
+dense sinograms of size 128×361128\times 361. The angular spacing π/Nθ\pi/N_{\theta} is chosen such that π/2\pi/2 is an integer multiple of it, which is what makes the rotations of D4D_{4} exact permutations of the sinogram grid; this fails, for instance, for Nθ=129N_{\theta}=129. To simulate low-dose acquisition we use the count model of the LoDoPaB benchmark. With base photon count λ=1000\lambda=1000 and attenuation factor μ=2.76\mu=2.76, the dimensionless product of the linear attenuation coefficient of the LoDoPaB forward model with the field of view under our normalization of A​xAx, the detected counts along each ray are
+N∼𝒫⁡(λ​e−μ​A​x),yδ=−1μ​log⁡(max⁡{N,1}/λ),N\sim\mathcal{P}\bigl(\lambda\,e^{-\mu Ax}\bigr),\qquad y^{\delta}=-\tfrac{1}{\mu}\,\log\bigl(\max\{N,1\}/\lambda\bigr),
+(3.2)
+where the clipping of the counts from below keeps the logarithm well defined. All Poisson-corrupted
+sinograms below are generated by (3.2).
+3.2 D4D_{4}-Equivariance and Explicit Operator Relations
+We now instantiate 𝒯=(Tℓ)ℓ=18\mathcal{T}=(T_{\ell})_{\ell=1}^{8} in the measurement domain and the corresponding image-domain transforms 𝒮=(Sℓ)ℓ=18\mathcal{S}=(S_{\ell})_{\ell=1}^{8}, and verify the intertwining relations of Condition 2.18.
+Radon transform and orthogonal transforms:
+Let the parallel-beam Radon transform be discretized as
+A∈ℝ(Nθ​Ns)×(Nx​Ny)A\in\mathbb{R}^{(N_{\theta}N_{s})\times(N_{x}N_{y})}, so that A​x∈ℝNθ×NsAx\in\mathbb{R}^{N_{\theta}\times N_{s}}
+is the sinogram of x∈ℝNx×Nyx\in\mathbb{R}^{N_{x}\times N_{y}}. Let Q∈O⁡(2)Q\in O(2) map the image grid onto
+itself, so that i↦Q−1​ii\mapsto Q^{-1}i is a permutation of the pixel indices, and write SQS_{Q} for the
+corresponding permutation matrix, (SQ​x)i=xQ−1​i(S_{Q}x)_{i}=x_{Q^{-1}i}. Assume further that QQ maps the
+sinogram grid onto itself, through nθ′=Q⊤​nθn_{\theta^{\prime}}=Q^{\top}n_{\theta} with
+nθ=(cos⁡θ,sin⁡θ)⊤n_{\theta}=(\cos\theta,\sin\theta)^{\top} and, whenever θ′∉[0,π)\theta^{\prime}\notin[0,\pi), the Radon symmetry
+(A​x)θ+π,s=(A​x)θ,−s(Ax)_{\theta+\pi,\,s}=(Ax)_{\theta,\,-s}; write TQT_{Q} for the resulting permutation matrix. A
+change of variables in the continuous Radon transform then gives
+A​SQ=TQ​A.AS_{Q}=T_{Q}A.
+(3.3)
+Both assumptions hold for the elements of D4D_{4} with the grid sizes fixed above, since Ns=361N_{s}=361 is odd and π/2\pi/2 is an integer multiple of π/Nθ\pi/N_{\theta} with Nθ=128N_{\theta}=128.
+D4D_{4} instantiation:
+Let D4⊆O⁡(2)D_{4}\subseteq O(2) consist of the four rotations Rk​π/2R_{k\pi/2} and the four reflections
+Rk​π/2​FR_{k\pi/2}F, k∈{0,1,2,3}k\in\{0,1,2,3\}, where
+Rα=(cos⁡α−sin⁡αsin⁡αcos⁡α),F=(−1001).R_{\alpha}=\begin{pmatrix}\cos\alpha&-\sin\alpha\\
+\sin\alpha&\cos\alpha\end{pmatrix},\qquad F=\begin{pmatrix}-1&0\\
+0&1\end{pmatrix}.
+Each element maps both grids onto itself, so that (3.3) applies.
+Indexing them as Q1,…,Q8Q_{1},\dots,Q_{8} and writing Sℓ:=SQℓS_{\ell}:=S_{Q_{\ell}} and Tℓ:=TQℓT_{\ell}:=T_{Q_{\ell}} gives
+the families 𝒮\mathcal{S} and 𝒯\mathcal{T} of Condition 2.18. A rotation by k​π/2k\pi/2 shifts the angular
+axis, a reflection reverses it:
+(Tk​y)θ,s=yθ−k​π/2,s(T_{k}\,y)_{\theta,s}=y_{\theta-k\pi/2,\;s} and (Tk+4​y)θ,s=yπ−θ+k​π/2,s(T_{k+4}\,y)_{\theta,s}=y_{\pi-\theta+k\pi/2,\;s}. Any index that leaves [0,π)[0,\pi) is brought back by yθ+π,s=yθ,−sy_{\theta+\pi,\,s}=y_{\theta,\,-s}, which flips the detector axis. All indices are modulo the grid size.
+Verification of Condition 2.18:
+The relations above yield the intertwining Tℓ​A=A​SℓT_{\ell}A=AS_{\ell} for ℓ=1,…,8\ell=1,\dots,8, i.e., Condition 2.18.1. Since (Sℓ)ℓ=18(S_{\ell})_{\ell=1}^{8} is the permutation representation of D4D_{4} and hence a group of order eight, Condition 2.18.3 holds as well. Finally, the filtered backprojection intertwines with rotations and reflections of the image grid, since both the backprojection and the (radially symmetric) filtering step commute with the induced sinogram permutations; this gives B​Tℓ=Sℓ​BBT_{\ell}=S_{\ell}B and thus Condition 2.18.2.
+3.3 Observation and Masking
+Acquisition model:
+For each training sample, we generate two conditionally independent noisy full sinograms according
+to (3.2), written 𝒫1​(A​x)\mathcal{P}_{1}(Ax) and 𝒫2​(A​x)\mathcal{P}_{2}(Ax) for brevity, and apply
+the input and supervision sampling operators separately:
+yIδ=PI(𝒫1(Ax)),ySδ=PS(𝒫2(Ax)),𝒫1⟂𝒫2∣x.y_{I}^{\delta}=P_{I}\left(\mathcal{P}_{1}(Ax)\right),\qquad y_{S}^{\delta}=P_{S}\left(\mathcal{P}_{2}(Ax)\right),\qquad\mathcal{P}_{1}\perp\mathcal{P}_{2}\mid x.
+(3.4)
+Here II denotes the task-dependent input sampling set, while SS is the fixed supervision set
+defined below. Because the input and supervision measurements are generated from independent Poisson
+realizations, their conditional independence is preserved even when I∩S≠∅I\cap S\neq\varnothing. As
+shown in Remark 2.10, this conditional independence is the structure required by
+(A4), and it is compatible with signal-dependent noise; the remaining discrepancy in our
+simulation is the bias of the log transform, quantified below. Only PIP_{I} of the first realization and PSP_{S} of the second are ever used, so the training acquisition is cheaper than two full scans. The relevant count is projections rather than measurements, since a projection irradiates the whole slice: for detector upscaling the input uses all 128128 angles and the supervision a further 3232, i.e. 1.251.25 times the deployment scan, whereas for sparse-view reconstruction the input and supervision angles overlap in only 88 of 3232, so that 6464 projections are needed and the factor is exactly two. A disjoint design I∩S=∅I\cap S=\emptyset would give the conditional centring of
+(A4) from a single scan, because Poisson noise is independent across detector
+coordinates, but it is incompatible with the remaining assumptions: if PI​Tℓ=Tℓ​PIP_{I}T_{\ell}=T_{\ell}P_{I} for
+every ℓ\ell, then II is a union of 𝒯\mathcal{T}-orbits, while (A7) applied to v=epv=e_{p} for
+p∈Ip\in I gives ∑ℓ‖PS​Tℓ​ep‖22=c>0\sum_{\ell}\|P_{S}T_{\ell}e_{p}\|_{2}^{2}=c>0 and hence Tℓ​p∈ST_{\ell}\,p\in S for some
+ℓ\ell; since Tℓ​pT_{\ell}\,p lies in the orbit of pp, it lies in II, so that
+I∩S≠∅I\cap S\neq\emptyset. The two structural assumptions of Condition 2.9 therefore
+force the input and supervision sets to overlap.
+What does realize partial self-supervision from a single scan, at unchanged total photon budget and
+also on an overlap, is Poisson thinning: splitting the detected count NN as N=N1+N2N=N_{1}+N_{2} with
+N1|N∼Bin⁡(N,1/2)N_{1}\mid N\sim\mathrm{Bin}(N,1/2) yields two exactly independent Poisson variables of half the
+rate, from which yIδy_{I}^{\delta} and ySδy_{S}^{\delta} are formed by (3.2) with λ\lambda
+replaced by λ/2\lambda/2. The reported experiments use (3.4), which has the same structure at the increased dose quantified above. Thinning halves the counts in both measurements and therefore changes
+the operating point of every method compared, so all baselines would have to be retrained; we
+describe it as the dose-neutral realization of the setting rather than reporting it here.
+Poisson noise and the log transform:
+Under the count model (3.2) the supervision measurement is not unbiased: a
+second-order expansion of the logarithm around the mean count gives
+𝔼⁡[yδ|x]=A​x+β⁡(x),β⁡(x)≈12​μ​λeff​(x),λeff​(x)=λ​e−μ​A​x,\mathbb{E}\bigl[y^{\delta}\bigm|x\bigr]=Ax+\beta(x),\qquad\beta(x)\approx\frac{1}{2\mu\,\lambda_{\mathrm{eff}}(x)},\qquad\lambda_{\mathrm{eff}}(x)=\lambda\,e^{-\mu Ax},
+so that (A4) holds only up to β\beta. The clipping of zero counts is inactive at this dose: the smallest effective count is λ​e−μ≈63\lambda e^{-\mu}\approx 63, so that ℙ⁡(N=0)\mathbb{P}(N=0) is of order 10−2810^{-28} and no zero count occurs anywhere in the data; it is retained for numerical safety and starts to contribute below λ≈200\lambda\approx 200. The bias is largest where the expected count is smallest. On the data set used here the
+sinograms are normalized by their maximum, so that A​x∈[0,1]Ax\in[0,1] with mean 0.360.36 on the
+training and 0.440.44 on the test split; the corresponding effective counts are
+λeff≈370\lambda_{\mathrm{eff}}\approx 370 and ≈290\approx 290, giving
+β≈4.9⋅10−4\beta\approx 4.9\cdot 10^{-4} and β≈6.2⋅10−4\beta\approx 6.2\cdot 10^{-4}. For the most strongly
+attenuated rays, with λeff=λ​e−μ≈63\lambda_{\mathrm{eff}}=\lambda e^{-\mu}\approx 63, it reaches
+β≈2.9⋅10−3\beta\approx 2.9\cdot 10^{-3}; the normalization makes this worst case attained. Even the worst case is more than two orders of magnitude below
+the attenuation values it perturbs. By Remark 2.12 this does not invalidate the training criterion: Theorem 2.11
+then identifies 𝔼⁡[A​X+β⁡(X)∣YI]\mathbb{E}[AX+\beta(X)\mid Y_{I}] rather than 𝔼⁡[A​X∣YI]\mathbb{E}[AX\mid Y_{I}], so the bias
+of the supervision measurement is inherited by the learned predictor. For the architecture actually
+trained this holds verbatim as long as 𝔼⁡[β⁡(X)∣YI]\mathbb{E}[\beta(X)\mid Y_{I}] lies in ran(A)\range(A), which is
+expected here because AA maps 130 321130\,321 pixels to 46 20846\,208 measurements and is therefore expected
+to have full row rank; otherwise the target is the L2L^{2}-projection of
+𝔼⁡[A​X+β⁡(X)∣YI]\mathbb{E}[AX+\beta(X)\mid Y_{I}] onto the realized class, and the deviation from
+𝔼⁡[A​X∣YI]\mathbb{E}[AX\mid Y_{I}] stays bounded by ‖𝔼⁡[β⁡(X)∣YI]‖\|\mathbb{E}[\beta(X)\mid Y_{I}]\|.
+The exactness is thus a property of (A4), which the pre-log Poisson model satisfies exactly and the count model (3.2) up to the bias just quantified; a bias-corrected target removes it entirely.
+Both tasks use this same noisy acquisition model and differ only in the axis along which the input sinogram yIδy_{I}^{\delta} is subsampled:
+•
+Detector Upscaling: the detector coordinate ss is subsampled with stride 44;
+•
+Sparse-View Reconstruction: the angular coordinate θ\theta is subsampled with stride 44.
+From subsampled data to full-size inputs:
+Throughout Section 2.2, yIy_{I} is identified with its zero-embedding in ℝM\mathbb{R}^{M}. In the implementation we replace zero-filling by a linear extension operator E:ℝI→ℝME\colon\mathbb{R}^{I}\to\mathbb{R}^{M}, which interpolates linearly along the subsampled axis (ss for detector upscaling, θ\theta for sparse-view reconstruction). The initial reconstruction is x0=B⁡(E⁡(yIδ))x^{0}=B\bigl(E(y_{I}^{\delta})\bigr) with BB the filtered backprojection. Hence B∘EB\circ E plays the role of the initial
+reconstruction map BIB_{I} in Condition 2.22. Since BI=B∘EB_{I}=B\circ E, the intertwining
+requirement of Condition 2.18.2 must be verified for EE as well as for BB. It
+holds: the retained index sets are the stride-44 lattices
+{0,4,…,124}\{0,4,\dots,124\} in θ\theta and {0,4,…,360}\{0,4,\dots,360\} in ss, and both are invariant under the
+index maps induced by D4D_{4}, namely the angular shift by 6464 grid points (a rotation by π/2\pi/2 on the
+grid θj=j​π/128\theta_{j}=j\pi/128), the angular reversal
+j↦128−jj\mapsto 128-j and the detector reversal i↦360−ii\mapsto 360-i, because 128128 and 360360 are divisible
+by 44. Linear interpolation along a subsampled axis uses a symmetric two-point stencil with weights
+depending only on the distance to the neighbouring retained indices, and these distances are
+preserved by shifts and reversals of the lattice; hence EE commutes with the induced
+permutations and E∘Tℓ=Tℓ∘EE\circ T_{\ell}=T_{\ell}\circ E on ℝI\mathbb{R}^{I}. Combined with
+B​Tℓ=Sℓ​BBT_{\ell}=S_{\ell}B this gives BI​Tℓ=Sℓ​BIB_{I}T_{\ell}=S_{\ell}B_{I}. As discussed in Remark 2.27, FBP-based maps are not least-squares right-inverses of PI∘AP_{I}\circ A (not even right-inverses in the standard sense), so Condition 2.22.1 is satisfied only approximately in our experiments; the results below indicate that the method is robust with respect to this violation.
+Supervision mask PSP_{S}:
+The supervision set SS selects one quarter of the projection angles and one half of the detector bins,
+S=Θ0×S0,Θ0={θ:θ∈[0,π/4)},S0={s:s≥0},S=\Theta_{0}\times S_{0},\qquad\Theta_{0}=\{\theta:\theta\in[0,\pi/4)\},\qquad S_{0}=\{s:s\geq 0\},
+covering an area fraction of |S|/(Nθ​Ns)=(32/128)×(181/361)≈1/8|S|/(N_{\theta}N_{s})=(32/128)\times(181/361)\approx 1/8
+of the sinogram, and the transformed sets {Tℓ​(S)}ℓ=18\{T_{\ell}(S)\}_{\ell=1}^{8} cover the sinogram grid up to the exceptional set determined below.
+Coverage of the supervision set:
+On the discrete grid, the covering by {Tℓ​(S)}ℓ=18\{T_{\ell}(S)\}_{\ell=1}^{8} is not exactly one-to-one,
+because the D4D_{4}-action has fixed points. This is visible already at the level of cardinalities:
+8​|S|=8⋅32⋅181=46 3368\,|S|=8\cdot 32\cdot 181=46\,336, whereas the grid has Nθ​Ns=128⋅361=46 208N_{\theta}N_{s}=128\cdot 361=46\,208
+points. Writing
+n⁡(θ,s):=#⁡{ℓ:(θ,s)∈Tℓ​(S)},∑ℓ=18‖PS​Tℓ​v‖22=∑θ,sn⁡(θ,s)​vθ,s2,n(\theta,s):=\#\{\ell:(\theta,s)\in T_{\ell}(S)\},\qquad\sum_{\ell=1}^{8}\|P_{S}T_{\ell}v\|_{2}^{2}=\sum_{\theta,s}n(\theta,s)\,v_{\theta,s}^{2},
+an explicit evaluation of the eight permutations gives n≡1n\equiv 1 on 96.6%96.6\% of the grid,
+together with the following exceptional set: the two projection angles θ∈{0,π/2}\theta\in\{0,\pi/2\} and
+the central detector column s=0s=0 are covered twice, and their intersection four times, because
+they are fixed by a reflection; the orbit θ∈{π/4,3​π/4}\theta\in\{\pi/4,3\pi/4\} is not covered at all,
+because it is disjoint from the half-open sector Θ0=[0,π/4)\Theta_{0}=[0,\pi/4), and on those two lines
+s=0s=0 is of course not covered either. Explicitly, n≡1n\equiv 1 on 44 64044\,640 coordinates,
+n=2n=2 on 844844, n=4n=4 on 22 and n=0n=0 on 722722, which sums to 8​|S|=46 3368\,|S|=46\,336. Condition (A7) therefore holds in the approximate form (2.2) with c1=1c_{1}=1, c2=4c_{2}=4 and QQ the coordinate projection onto the complement of the two uncovered angular lines. Theorem 2.17 applies with c1=1c_{1}=1 and therefore identifies 𝔼⁡[A​X∣YI]\mathbb{E}[AX\mid Y_{I}] exactly on the range of QQ, that is on 45 48645\,486 of the 46 20846\,208 sinogram coordinates, or 98.4%98.4\%; the uneven multiplicities on the fixed lines reweight the risk but do not move its minimizer. On the two uncovered angular lines the masked risk is entirely unconstrained, so whatever accuracy is observed there is due to the hypothesis class rather than to the training criterion.
+Figure 3.1 shows the eight images Tℓ​(S)T_{\ell}(S) together with the exceptional set. Up to that set they tile the sinogram domain, each point being covered exactly once; this is what (A7) asks for. Exact coverage is restored within the weighted formulation of Remark 2.16: taking the
+closed sector Θ0=[0,π/4]\Theta_{0}=[0,\pi/4] and the diagonal weight W(θ,s)=a⁡(θ)​b​(s)W_{(\theta,s)}=a(\theta)\,b(s) with
+a⁡(θ)=1/2a(\theta)=1/2 for θ∈{0,π/4}\theta\in\{0,\pi/4\} and a≡1a\equiv 1 otherwise, and b⁡(0)=1/2b(0)=1/2 and
+b≡1b\equiv 1 otherwise, one obtains
+∑ℓ=18‖W1/2​PS​Tℓ​v‖22=‖v‖22\sum_{\ell=1}^{8}\|W^{1/2}P_{S}T_{\ell}v\|_{2}^{2}=\|v\|_{2}^{2} for every vv, i.e. (A7W)
+with c=1c=1. The experiments reported below use the unweighted mask PSP_{S} with the half-open
+sector; the two formulations differ on 3.4%3.4\% of the sinogram coordinates.
+𝐒\mathbf{S}r3​σr^{3}\sigmar3r^{3}σ\sigmar2r^{2}r​σr\sigmarrr2​σr^{2}\sigmaθ\theta00π/4\pi/4π/2\pi/23​π/43\pi/4π\piss−smax-s_{\max}00smaxs_{\max}supervision set S=Θ0×S0S=\Theta_{0}\times S_{0}covered twice (fixed by a reflection)not covered: θ∈{π/4, 3​π/4}\theta\in\{\pi/4,\,3\pi/4\}
+Figure 3.1: The eight images Tℓ​(S)T_{\ell}(S) of the supervision set (blue) under the discrete
+D4D_{4}-action on the sinogram domain [0,π)×[−smax,smax][0,\pi)\times[-s_{\max},s_{\max}], each labelled by the
+group element that produces it (rr a rotation by 90∘90^{\circ}, σ\sigma a reflection). Together
+they cover the domain, up to the two exceptional sets marked in the legend: the lines drawn in
+orange are covered twice, the dotted lines not at all. The exact multiplicities and their
+consequences are discussed in Section 3.
+Verification of Condition 2.9:
+Augmenting the training distribution by D4D_{4} makes it invariant by construction, so that
+Sℓ​X=dXS_{\ell}X\stackrel{{\scriptstyle d}}{{=}}X for ℓ=1,…,8\ell=1,\dots,8 holds exactly for the distribution the network
+is trained on, and Theorem 2.11 identifies the conditional expectation for that
+distribution. By the intertwining relation,
+Tℓ​A​X=A⁡(Sℓ​X)=dA​XT_{\ell}AX=A(S_{\ell}X)\stackrel{{\scriptstyle d}}{{=}}AX,
+so A​XAX is TℓT_{\ell}-invariant. Since each TℓT_{\ell} is a coordinate permutation and Poisson noise acts independently per coordinate, the Poisson corruption is conditionally equivariant,
+Tℓ​𝒫​(A​x)|A​x=d𝒫⁡(Tℓ​A​x)|Tℓ​A​xT_{\ell}\,\mathcal{P}(Ax)\ \big|\ Ax\ \stackrel{{\scriptstyle d}}{{=}}\ \mathcal{P}(T_{\ell}Ax)\ \big|\ T_{\ell}Ax.
+Moreover, the grid sizes Nθ=128N_{\theta}=128 and Ns=361N_{s}=361 are chosen such that the stride-44 subsampling lattice is preserved by the D4D_{4}-action, hence Tℓ​PI=PI​TℓT_{\ell}P_{I}=P_{I}T_{\ell}. Combining these properties yields
+(Tℓ​yIδ,Tℓ​A​x)=d(yIδ,A​x),\bigl(T_{\ell}\,y_{I}^{\delta},\;T_{\ell}\,Ax\bigr)\ \stackrel{{\scriptstyle d}}{{=}}\ \bigl(y_{I}^{\delta},\;Ax\bigr),
+i.e. the joint invariance (A6). The coverage condition (A7) holds with c=1c=1 in the weighted form (A7W), and in the approximate form (2.2) for the unweighted mask actually used.
+What augmentation does and does not change:
+Augmentation enforces (A6) rather than verifying it, and the two levels at which this matters should be separated. On the level of distributions, writing πX\pi_{X} for the law of the images in the data set and π¯X:=18​∑ℓ=18πSℓ​(X)\bar{\pi}_{X}:=\frac{1}{8}\sum_{\ell=1}^{8}\pi_{S_{\ell}(X)} for its D4D_{4}-symmetrization,
+the distribution the network is trained on is π¯X\bar{\pi}_{X}, so the
+results of Section 2.2 identify the conditional expectation under π¯X\bar{\pi}_{X}. If the underlying
+population is not D4D_{4}-invariant, and clinical CT images do have a canonical orientation, this need
+not coincide with the conditional expectation under πX\pi_{X}; evaluation on the original test images is
+therefore a generalization test beyond the invariance assumption rather than an instance of it.
+On the level of the training objective, however, no such gap arises. Since the augmented training
+set is closed under the group action, Proposition 2.14 applies to each original image
+separately: for every equivariant candidate, the masked loss summed over the eight augmented copies
+of an image equals cc times the full, unmasked loss on that image. The empirical objective
+being minimized is thus exactly the full self-supervised empirical objective on the 358358 original
+images, up to the noise cross term that vanishes in the mean. Augmentation is therefore not a distortion of the training target but the finite mechanism that realizes the coverage condition; what it changes is the population to which the estimator is optimal.
+Relation to the noise model:
+The conditional independence of the two acquisitions is what brings the setup close to (A4); no Gaussian approximation of the Poisson statistics is used anywhere in the analysis.
+What is satisfied only approximately is Condition 2.22: the FBP-based initial
+reconstruction is not a least-squares right-inverse of PI∘AP_{I}\circ A (Remark 2.27),
+and the noise decomposition 2.22.2 holds exactly for i.i.d. Gaussian
+rather than for Poisson noise. By Remark 2.33 this does not affect the correctness of the
+training criterion; it only means that 𝔼⁡[A​X∣YI]\mathbb{E}[AX\mid Y_{I}] need not lie in the realized
+hypothesis class, in which case training returns its best approximation therein. Together with the
+coverage defect quantified above, the experiments therefore serve as a robustness study for
+precisely those quantities that the theory identifies as the sources of approximation error:
+ELIPPS reaches, despite both violations, the same order of accuracy as the supervised reference model; the precise reading of that comparison is discussed in Section 3.6.
+3.4 Implementation Details
+All learned models use a U-Net backbone Φθ\Phi_{\theta} with base width 3232 and three down-/up-sampling stages. We train with Adam (learning rate 10−410^{-4}), gradient clipping ‖∇θℒ‖2≤1\|\nabla_{\theta}\mathcal{L}\|_{2}\leq 1, and batch size 88. Training runs for 10001000 epochs (20002000 for the ablation of Section 3.7), and
+the reported figures are those of the weights after the final epoch. No model selection is performed: the data set is split into training and test images
+only, so selecting a checkpoint by test performance would tune on the test set, and we therefore do
+not do it. Test evaluation is carried out every 1010 epochs for monitoring only.
+Equivariant architecture:
+Following Theorem 2.20, the reconstruction network is the D4D_{4}-symmetrized image-space network
+fθ=18​∑ℓ=18Sℓ−1∘Φθ∘Sℓ,x^=fθ​(x0)=fθ​(B⁡(E⁡(yIδ))),f_{\theta}=\frac{1}{8}\sum_{\ell=1}^{8}S_{\ell}^{-1}\circ\Phi_{\theta}\circ S_{\ell},\qquad\hat{x}=f_{\theta}(x^{0})=f_{\theta}\bigl(B(E(y_{I}^{\delta}))\bigr),
+which is 𝒮\mathcal{S}-equivariant by construction. Training minimizes the empirical counterpart of the partially self-supervised risk (2.5),
+ℒ⁡(θ)=∑training pairs‖PS​A​fθ​(B⁡(E⁡(yIδ)))−ySδ‖22.\mathcal{L}(\theta)=\sum_{\text{training pairs}}\bigl\|P_{S}\,Af_{\theta}\bigl(B(E(y_{I}^{\delta}))\bigr)-y_{S}^{\delta}\bigr\|_{2}^{2}.
+3.5 Compared Methods
+No existing self-supervised method addresses the setting (1.2) with a fixed supervision set: full self-supervision requires measurements unavailable here, while sparse self-supervision and equivariant imaging use yIy_{I} alone and cannot exploit ySy_{S}. A direct comparison would either grant them data they cannot use or deprive ELIPPS of the data that defines its setting. We therefore compare against the reference points proper to this setting:
+1.
+FBP: the model-based reconstruction xFBP=x0=B⁡(E⁡(yIδ))x^{\mathrm{FBP}}=x^{0}=B\bigl(E(y_{I}^{\delta})\bigr), followed by disk masking and clamping to [0,1][0,1].
+2.
+Naive learned refinement: a plain (non-symmetrized) U-Net refinement of xFBPx^{\mathrm{FBP}}, trained with the masked sinogram loss
+ℒnaive​(θ)=∑‖PS​A​Φθ​(x0)−ySδ‖22\mathcal{L}_{\mathrm{naive}}(\theta)=\sum\|P_{S}\,A\Phi_{\theta}(x^{0})-y_{S}^{\delta}\|_{2}^{2},
+i.e., the same supervision data as ELIPPS but without equivariant symmetrization.
+3.
+Naive learned refinement with D4D_{4} test-time augmentation: the same
+non-symmetrized network as in 2., but evaluated as
+18​∑ℓSℓ−1​Φθ​(Sℓ​x0)\tfrac{1}{8}\sum_{\ell}S_{\ell}^{-1}\Phi_{\theta}(S_{\ell}x^{0}), i.e. averaged over the eight
+group elements at test time only. Since the symmetrized network fθf_{\theta} is simultaneously
+an eight-fold ensemble at inference, this baseline separates the effect of enforcing
+equivariance during training from the generic averaging that symmetrization also
+provides at test time.
+4.
+Fully supervised reference: an oracle model trained with full clean sinograms (PS=IdP_{S}=\operatorname{Id}, noise-free targets), minimizing ∑‖A​Φθ​(x0)−A​x‖22\sum\|A\Phi_{\theta}(x^{0})-Ax\|_{2}^{2}. We call this model supervised for brevity; note that its targets are the clean full measurements A​xAx rather than ground-truth images, so in the taxonomy of Section 1 it is the full self-supervised oracle, which is the strongest reference available in the measurement domain.
+It is a reference point, not an upper bound: optimization, architecture and sample size need not order the two models in either direction.
+3.6 Results
+Table 3.1 reports the quantitative performance on both tasks. The proposed equivariant model outperforms the naive refinement baseline by a wide margin and achieves performance close to that of the fully supervised model.
+For detector upscaling, ELIPPS obtains 31.2631.26 dB PSNR and 0.8230.823 SSIM, compared with 31.4731.47 dB and 0.8270.827 for the supervised model. For sparse-view reconstruction, ELIPPS achieves 30.7930.79 dB PSNR and 0.8160.816 SSIM, compared with 31.0731.07 dB and 0.8200.820 for the supervised model. Thus, ELIPPS remains close to the fully supervised reference, with PSNR gaps of only 0.210.21 dB and 0.280.28 dB for detector upscaling and sparse-view reconstruction, respectively. The comparison with the
+test-time-augmented baseline separates the two mechanisms at work: averaging the naive model over
+the group at inference already gains 0.800.80 dB and 0.620.62 dB over the plain naive model, while
+enforcing equivariance during training adds a further 1.491.49 dB and 1.301.30 dB on top of that. The
+larger part of the margin is therefore due to the training criterion and not to the eight-fold
+ensemble that symmetrization also provides at test time. Supervision over only 1/81/8 of the sinogram, combined with the D4D_{4} symmetry, thus suffices to
+recover globally consistent measurements, in accordance with Theorem 2.11. These numbers
+establish the order of accuracy reached under partial self-supervision; they come from a single training
+run per configuration, so the comparison should be read at that resolution rather than as a ranking
+to within hundredths of a decibel.
+The evolution of the test-set metrics over training is shown in
+Figs. 3.2 and 3.3.
+For both tasks, ELIPPS consistently outperforms the naive learned baseline
+and approaches the fully supervised reference. The curves also show that
+the reported final-epoch values are representative of the performance
+reached near the end of training.
+(a) PSNR.
+(b) SSIM.
+Figure 3.2: Test-set performance versus training epoch for detector
+upscaling with D4D_{4} augmentation.
+(a) PSNR.
+(b) SSIM.
+Figure 3.3: Test-set performance versus training epoch for sparse-view
+reconstruction with D4D_{4} augmentation.
+Figure 3.4 shows qualitative comparisons: relative to FBP and naive refinement, ELIPPS produces fewer artifacts and sharper structures.
+Table 3.1: Quantitative comparison (PSNR in dB, SSIM) on the test set for
+Detector Upscaling and Sparse-View Reconstruction. All learned methods are
+reported at the final evaluation after 1000 training epochs. Entries are
+mean ±\pm sample standard deviation over the 35 test images.
+Detector Upscaling
+Sparse-View Recon.
+Method
+PSNR ↑\uparrow
+SSIM ↑\uparrow
+PSNR ↑\uparrow
+SSIM ↑\uparrow
+FBP
+24.34±2.0924.34\pm 2.09
+0.497±0.0740.497\pm 0.074
+16.19±2.2216.19\pm 2.22
+0.286±0.0300.286\pm 0.030
+Naive Learned
+28.97±2.1428.97\pm 2.14
+0.744±0.0840.744\pm 0.084
+28.87±2.1828.87\pm 2.18
+0.746±0.0830.746\pm 0.083
+Naive Learned + D4D_{4} TTA
+29.77±2.1429.77\pm 2.14
+0.770±0.0820.770\pm 0.082
+29.49±2.2529.49\pm 2.25
+0.765±0.0850.765\pm 0.085
+ELIPPS
+31.26±2.45¯\underline{31.26\pm 2.45}
+0.823±0.093¯\underline{0.823\pm 0.093}
+30.79±2.55¯\underline{30.79\pm 2.55}
+0.816±0.095¯\underline{0.816\pm 0.095}
+Supervised
+31.47±2.5031.47\pm 2.50
+0.827±0.0940.827\pm 0.094
+31.07±2.6031.07\pm 2.60
+0.820±0.0950.820\pm 0.095
+Figure 3.4: Visual comparison for Detector Upscaling (top) and Sparse-View Reconstruction (bottom).
+3.7 Ablation Study: Effect of D4D_{4} Data Augmentation
+The theory of Section 2.2 requires the D4D_{4}-invariance of the data distribution, which we enforced above by explicit D4D_{4} augmentation. To assess the role of this augmentation, we repeat the training on the same 1%1\% LoDoPaB subset without D4D_{4} augmentation. In this setting, the invariance assumption (A6) is no longer enforced exactly, and the network must rely on the architectural equivariance and the physics-driven loss alone to generalize across unobserved regions. Training runs for 20002000 epochs and test evaluation is performed every 1010 epochs. The budget therefore differs from the 10001000 epochs used for the main results, so the two tables are not a like-for-like comparison; the ablation should be read as evidence that the architectural prior remains effective without symmetry-balanced data, not as a measurement of the size of the effect.
+Performance remains stable (Table 3.2): relative to the D4D_{4}-augmented setting ELIPPS loses 0.520.52 dB for detector upscaling and 0.810.81 dB for sparse-view reconstruction, with gaps to the reference of 0.190.19 and 0.440.44 dB, while still outperforming the naive baseline by a wide margin. Architectural equivariance therefore acts as a regularizer even when the training data are not symmetry-balanced.
+Figures 3.5 and 3.6 qualify these numbers. Without augmentation the ELIPPS curves peak at roughly 900900 to 12001200 epochs and then decline slowly, whereas the reference stays flat, so the fixed budget of 20002000 epochs lies past the maximum and part of the gap above follows from the budget rather than from the method. We report the final-epoch value nonetheless, since with no validation set selecting the peak would be selection on the test set. We do not interpret the decline: these are single runs on 358358 images, and ordinary overfitting is as plausible as any consequence of the violated (A6).
+(a) PSNR.
+(b) SSIM.
+Figure 3.5: Test-set performance versus training epoch for detector
+upscaling without D4D_{4} augmentation.
+(a) PSNR.
+(b) SSIM.
+Figure 3.6: Test-set performance versus training epoch for sparse-view
+reconstruction without D4D_{4} augmentation.
+Figure 3.7 corroborates this: the equivariant model shows reduced aliasing and preserves structural detail.
+Table 3.2: Ablation without D4D_{4} data augmentation (PSNR in dB, SSIM).
+All learned methods are reported at the final evaluation after 2000 training
+epochs. Entries are mean ±\pm sample standard deviation over the 35 test
+images.
+Detector Upscaling
+Sparse-View Recon.
+Method
+PSNR ↑\uparrow
+SSIM ↑\uparrow
+PSNR ↑\uparrow
+SSIM ↑\uparrow
+FBP
+24.34±2.0924.34\pm 2.09
+0.497±0.0740.497\pm 0.074
+16.19±2.2216.19\pm 2.22
+0.286±0.0300.286\pm 0.030
+Naive Learned
+28.46±2.1128.46\pm 2.11
+0.726±0.0810.726\pm 0.081
+28.34±2.1328.34\pm 2.13
+0.733±0.0810.733\pm 0.081
+Naive Learned + D4D_{4} TTA
+29.15±2.1029.15\pm 2.10
+0.751±0.0800.751\pm 0.080
+28.86±2.2128.86\pm 2.21
+0.750±0.0830.750\pm 0.083
+ELIPPS
+30.74±2.36¯\underline{30.74\pm 2.36}
+0.808±0.090¯\underline{0.808\pm 0.090}
+29.98±2.37¯\underline{29.98\pm 2.37}
+0.797±0.092¯\underline{0.797\pm 0.092}
+Supervised
+30.93±2.4030.93\pm 2.40
+0.819±0.0930.819\pm 0.093
+30.42±2.4630.42\pm 2.46
+0.809±0.0940.809\pm 0.094
+Figure 3.7: Visual comparison without D4 augmentation for Detector Upscaling (top) and Sparse-View Reconstruction (bottom).
+3.8 Scope of the experimental study
+Section 3 establishes a principle rather than a benchmark ranking: a reconstruction network can be trained from a fixed, incomplete supervision set alone and still reach the accuracy of a model trained with full clean measurements. The two instantiations were chosen so that this effect is visible rather than entangled with architecture search, and together with the reference points that bracket the setting they show that supervision on one eighth of the sinogram suffices.
+We are not aware of another method that learns from partial self-supervision in the sense of
+(1.2), that is, from a supervision set that is fixed across acquisitions. Existing
+approaches either require ground-truth images or fully sampled measurements, or they learn from
+several distinct measurement operators [24], or from the
+undersampled measurement yIy_{I} alone, without any supervision set; the latter, including equivariant
+imaging and equivariant splitting, operate under the opposite requirement on the symmetry group
+discussed in Remark 2.19 and would, in the regime considered here, be deprived of the
+mechanism they rely on. A comparison with either family therefore answers a different question. The closest relative is [17], which the present framework generalizes from direct, noise-free observation to indirect, noisy and undersampled measurements.
+Two aspects delimit what these numbers support. The study uses 358358 training and 3535 test images from a 1%1\% subset of LoDoPaB with one run per configuration, which fixes the resolution at which the comparison is meaningful; and the input and supervision sinograms come from two conditionally independent Poisson realizations, costing between 1.251.25 and 22 times the deployment scan depending on the task, so the protocol demonstrates the learning principle rather than a dose-neutral single-scan implementation, for which Poisson thinning is the natural variant.
+Two properties of the construction are design principles rather than artefacts of this data set, and carry over to any modality whose forward operator intertwines with a finite symmetry group. The supervision set enters through its orbit, so what makes learning from one eighth of the measurements possible is the covering property of Proposition 2.15; SS is chosen by design and, by the same proposition, cannot be smaller, the eighth being attainable because the weighted mask makes the action effectively free. And since the training set is closed under the group action, Proposition 2.14 applies sample by sample: the masked loss minimized here is, for every equivariant candidate, the full unmasked loss on the original images.
+4 Conclusion
+We introduced ELIPPS, a self-supervised training paradigm for undersampled inverse problems that
+requires neither ground-truth images nor fully sampled measurements: training uses only
+undersampled inputs together with incomplete measurements on a fixed supervision set. Two
+structural properties render this seemingly ill-posed problem well-posed, invariance of the data
+distribution under a family of transformations and intertwining of these transformations with the
+forward operator. Over the induced equivariant class the partially self-supervised risk is
+proportional to the full self-supervised risk, equivariance can be enforced architecturally at no
+cost when the initial reconstruction is a least-squares right-inverse of the subsampled forward
+operator, and the minimizer over the trained architecture class is the conditional expectation,
+which in the image domain is the minimum mean squared error estimator up to ker⁡(A)\ker(A). Over an
+arbitrary equivariant class the two risks have the same minimizers, so misspecification causes an
+approximation error but never an inconsistent training target; and uneven coverage leaves the conditional expectation identified exactly wherever the transformed supervision sets reach at all. For CT with the dihedral group D4D_{4}, supervision on one eighth of the sinogram
+brings both detector upscaling and sparse-view reconstruction to the same order of accuracy as a
+reference model trained on full clean measurements.
+Several directions remain. The equivalence of the two risks requires only conditionally centered
+supervision noise, which covers pre-log Poisson statistics exactly and the log-transformed count
+model up to a quantifiable bias; the analysis of the factorized architecture, in contrast, uses an
+independence structure that is exact only for i.i.d. Gaussian noise, and the FBP is not a
+least-squares right-inverse. Quantitative estimates for approximate right-inverses and for
+approximate independence are an open question. The conditional centering is also what forces the
+two acquisitions, and blind-spot architectures achieve the same independence from a single
+measurement, at the price of a network constraint that would have to be made compatible with the
+equivariance imposed here. Further directions include nonlinear forward operators, learned initial
+reconstructions, continuous symmetry groups, and other modalities such as magnetic resonance
+imaging or photoacoustic tomography.
+Acknowledgements
+The authors thank the developers of the LoDoPaB-CT benchmark for making the dataset publicly
+available. This research received no specific grant from any funding agency in the public,
+commercial or not-for-profit sectors.
+The authors used Anthropic Claude (Opus 5, Fable 5 and Fable 5.1) and OpenAI ChatGPT (GPT-5.5 and
+GPT-5.6) for language editing and reformulation, for suggestions on the organization and
+presentation of the manuscript, for plausibility checks of the exposition and of individual proof
+steps, for drafting parts of the manuscript, for assistance with the implementation of the code and
+with the generation of the figures, and in a small number of places for a first formulation of a
+statement and its proof. All such material was reworked and verified in full by the authors, as were
+all bibliographic entries, which were checked against the primary sources. All definitions,
+statements, proofs and numerical results are the responsibility of the authors, who have verified
+each of them and take full responsibility for the content of this work.
+Author contributions
+B. Walder contributed to the theoretical development and drafted parts of the manuscript.
+M. Haltmeier supervised the project, guided the theoretical development, and wrote the manuscript
+in its present form. L. Neumann contributed to the conception of the study, to the motivation of
+the setting, and to the theoretical presentation. N. Gruber contributed to the initial development
+of the method and to the presentation of the numerical section. G. Hwang implemented the software
+and the numerical experiments, contributed to the theoretical development, and wrote the first draft
+of the manuscript. All authors commented on the manuscript and approved the final version.
+Data and code availability
+The LoDoPaB-CT dataset used in this study is publicly available [23]. The
+code implementing the proposed method and reproducing all reported experiments will be made
+publicly available in a repository upon publication.
+References
+[1]
+Joshua Batson and Loic Royer.
+Noise2self: Blind denoising by self-supervision.
+In Proceedings of the 36th International Conference on Machine
+Learning, volume 97 of Proceedings of Machine Learning Research, pages
+524–533, 2019.
+[2]
+Alexander Krull, Tim-Oliver Buchholz, and Florian Jug.
+Noise2void-learning denoising from single noisy images.
+In Proceedings of the IEEE/CVF conference on computer vision and
+pattern recognition, pages 2129–2137, 2019.
+[3]
+Nick Moran, Dan Schmidt, Yu Zhong, and Patrick Coady.
+Noisier2noise: Learning to denoise from unpaired noisy data.
+In Proceedings of the IEEE/CVF conference on computer vision and
+pattern recognition, pages 12064–12072, 2020.
+[4]
+Allard Adriaan Hendriksen, Daniël Maria Pelt, and K Joost Batenburg.
+Noise2inverse: Self-supervised deep convolutional denoising for
+tomography.
+IEEE Transactions on Computational Imaging, 6:1320–1335, 2020.
+[5]
+Tatiana A Bubba, Matteo Santacesaria, and Andrea Sebastiani.
+Tomoselfdeq: Self-supervised deep equilibrium learning for
+sparse-angle ct reconstruction.
+In International Conference on Scale Space and Variational
+Methods in Computer Vision, pages 334–346. Springer, 2025.
+[6]
+Charles Millard and Mark Chiew.
+A theoretical framework for self-supervised mr image reconstruction
+using sub-sampling via variable density noisier2noise.
+IEEE transactions on computational imaging, 9:707–720, 2023.
+[7]
+Nadja Gruber, Johannes Schwab, Markus Haltmeier, Ander Biguri, Clemens Dlaska,
+and Gyeongha Hwang.
+Noisier2inverse: Self-supervised learning for image reconstruction
+with correlated noise.
+IEEE Access, 13:139445–139459, 2025.
+[8]
+Nadja Gruber, Johannes Schwab, Elke Gizewski, and Markus Haltmeier.
+Sparse2inverse: Self-supervised inversion of sparse-view ct data.
+arXiv:2402.16921, 2024.
+Proceedings of the CT Meeting 2024.
+[9]
+Mehmet Ozan Unal, Metin Ertas, and Isa Yildirim.
+Proj2proj: self-supervised low-dose ct reconstruction.
+PeerJ Computer Science, 10:e1849, 2024.
+[10]
+Dirk Elias Schut, Adriaan Graas, Robert van Liere, and Tristan van Leeuwen.
+Equivariance2inverse: A practical self-supervised ct reconstruction
+method benchmarked on real, limited-angle, and blurred data.
+IEEE Transactions on Computational Imaging, 12:800–811, 2026.
+[11]
+Burhaneddin Yaman, Seyed Amir Hossein Hosseini, Steen Moeller, Jutta Ellermann,
+Kamil Uğurbil, and Mehmet Akçakaya.
+Self-supervised learning of physics-guided reconstruction neural
+networks without fully sampled reference data.
+Magnetic Resonance in Medicine, 84(6):3172–3191, 2020.
+[12]
+Jaakko Lehtinen, Jacob Munkberg, Jon Hasselgren, Samuli Laine, Tero Karras,
+Miika Aittala, and Timo Aila.
+Noise2noise: Learning image restoration without clean data.
+In Proceedings of the 35th International Conference on Machine
+Learning, volume 80 of Proceedings of Machine Learning Research, pages
+2965–2974, 2018.
+[13]
+Dongdong Chen, Julián Tachella, and Mike E. Davies.
+Equivariant imaging: Learning beyond the range space.
+In Proceedings of the IEEE/CVF International Conference on
+Computer Vision (ICCV), pages 4379–4388, 2021.
+[14]
+Dongdong Chen, Julián Tachella, and Mike E. Davies.
+Robust equivariant imaging: A fully unsupervised framework for
+learning to image from noisy and partial measurements.
+In Proceedings of the IEEE/CVF Conference on Computer Vision and
+Pattern Recognition (CVPR), 2022.
+[15]
+Victor Sechaud, Jérémy Scanvic, Quentin Barthélemy, Patrice Abry,
+and Julián Tachella.
+Equivariant splitting: Self-supervised learning from incomplete data.
+In International Conference on Learning Representations (ICLR),
+2026.
+arXiv:2510.00929.
+[16]
+Julián Tachella and Mike Davies.
+Self-supervised learning from noisy and incomplete data.
+Foundations and Trends in Signal Processing, 20(2):85–184, 04
+2026.
+[17]
+Benjamin Walder, Daniel Toader, Robert Nuster, Günther Paltauf, Peter
+Burgholzer, Gregor Langer, Lukas Krainer, and Markus Haltmeier.
+Locally-supervised global image restoration.
+Inverse Problems, 42(6):065003, 2026.
+[18]
+Julián Tachella, Dongdong Chen, and Mike E. Davies.
+Sensing theorems for unsupervised learning in linear inverse
+problems.
+Journal of Machine Learning Research, 24(39):1–45, 2023.
+[19]
+Taco S. Cohen and Max Welling.
+Group equivariant convolutional networks.
+In Proceedings of the 33rd International Conference on Machine
+Learning, volume 48 of Proceedings of Machine Learning Research, pages
+2990–2999, 2016.
+[20]
+Omri Puny, Matan Atzmon, Heli Ben-Hamu, Ishan Misra, Aditya Grover, Edward J.
+Smith, and Yaron Lipman.
+Frame averaging for invariant and equivariant network design.
+In International Conference on Learning Representations (ICLR),
+2022.
+[21]
+Akiyoshi Sannai, Makoto Kawano, and Wataru Kumagai.
+Invariant and equivariant Reynolds networks.
+Journal of Machine Learning Research, 25(42):1–36, 2024.
+[22]
+Matthieu Terris, Thomas Moreau, Nelly Pustelnik, and Julián Tachella.
+Equivariant plug-and-play image reconstruction.
+In IEEE/CVF Conference on Computer Vision and Pattern
+Recognition (CVPR), pages 25255–25264, 2024.
+[23]
+Johannes Leuschner, Maximilian Schmidt, Daniel Otero Baguer, and Peter Maass.
+Lodopab-ct, a benchmark dataset for low-dose computed tomography
+reconstruction.
+Scientific Data, 8(1):109, 2021.
+[24]
+Julián Tachella, Dongdong Chen, and Mike E. Davies.
+Unsupervised learning from incomplete measurements for inverse
+problems.
+In Advances in Neural Information Processing Systems,
+volume 35, pages 4983–4995, 2022.
+Experimental support, please
+view the build logs
+for errors. Generated by
+L
+A
+T
+E
+xml
+.
+Instructions for reporting errors
+We are continuing to improve HTML versions of papers, and your feedback helps enhance accessibility and mobile
+support. To report errors in the HTML that will help us improve conversion and rendering, choose any of the
+methods listed below:
+Click the "Report Issue" (
+) button, located in the page header.
+Tip: You can select the relevant text first, to include it in your report.
+Our team has already identified the following issues. We appreciate your time reviewing and reporting rendering errors we
+may not have found yet. Your efforts will help us improve the HTML versions for all readers, because disability
+should not be a barrier to accessing research. Thank you for your continued support in championing open access for
+all.
+Have a free development cycle? Help support accessibility at arXiv! Our collaborators at LaTeXML maintain a list of packages that need conversion, and welcome developer contributions.
+We gratefully acknowledge support from
+our major funders,
+member institutions, ,
+and all contributors.
+About
+·
+Help
+·
+Contact
+·
+Subscribe
+·
+Copyright
+·
+Privacy
+·
+Accessibility
+·
+Operational Status (opens in new tab)
+Major funding support from

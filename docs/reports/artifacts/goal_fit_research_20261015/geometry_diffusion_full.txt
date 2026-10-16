@@ -1,0 +1,2366 @@
+Geometry-Aware Diffusion Approximate Posterior Sampling for Sparse-View and Limited-Angle CT
+Report GitHub Issue
+×
+Title:
+Content selection saved. Describe the issue below:
+Description:
+Submit without GitHub
+Submit in GitHub
+arXiv is now an independent nonprofit!
+Learn more
+×
+Back to arXiv
+Why HTML?
+Report Issue
+Back to Abstract
+Download PDF
+Abstract
+1 Introduction
+Contributions.
+2 Related Work
+Diffusion priors for inverse problems.
+Riemannian MCMC methods.
+Diffusion models for incomplete-view CT.
+Data consistency and range–null-space methods.
+3 Method
+3.1 Problem Formulation and Posterior Geometry
+3.2 Geometry-Aware Diffusion Sampling via a Pullback Metric
+Pullback metric on image space.
+Pullback-Preconditioned Langevin Dynamics.
+Diffusion-score approximation.
+Geometry-preconditioned update.
+Matrix-free implementation via conjugate gradient.
+3.3 Orthogonal Direct Sum Decomposition
+3.4 Data Consistency via Riemannian Gradient Projection
+3.5 Approximately Null-Space-Restricted Stochastic Sampling
+Exact null-space invariance.
+Approximate null-space perturbation.
+Sampling update.
+3.6 Overall Algorithm
+4 Experiments
+4.1 Reconstruction Performance
+4.1.1 Quantitative Benchmark Comparison
+Evaluation protocol.
+4.1.2 Qualitative Comparison across Acquisition Degradations
+4.2 Empirical Sample-Variability Analysis
+4.3 Geometry-aware analysis
+4.3.1 Regularized Range–Null Component Analysis
+4.3.2 Geometry-Aware Posterior Variability Analysis
+4.3.3 Effect of Pullback-Metric Preconditioning
+4.3.4 Effect of Signal-Dependent Precision Weighting
+5 Conclusion and Future Work
+References
+A Theoretical Support
+A.1 Gaussian Approximation of CT Measurements
+A.1.1 Poisson photon-counting model
+A.1.2 Gaussian approximation of Poisson counts
+A.1.3 Propagation through the logarithmic transform
+A.1.4 Post-log covariance and likelihood
+A.1.5 Fixed effective precision
+Validity regime.
+A.2 Orthogonal Decomposition of the Image Space
+A.3 Posterior Geometry Under Incomplete-View CT
+A.4 Projection Operators and Conjugate Gradient Computation
+Regularized range and null filters.
+A.4.1 Matrix-free computation via conjugate gradient
+Image-space system.
+Measurement-space system.
+A.5 Pullback Metric and Preconditioned Langevin Dynamics
+A.5.1 Fokker–Planck equation and invariance
+A.5.2 Discrete-time approximation and matrix-free noise
+B Extra Experimental Results
+B.1 Single-Image Quantitative Comparison
+B.2 Sample-Variability Maps for Baseline Methods
+License: arXiv.org perpetual non-exclusive license
+arXiv:2610.08866v1 [eess.IV] 05 Oct 2026
+Geometry-Aware Diffusion Approximate Posterior Sampling for Sparse-View and Limited-Angle CT
+Honglei Brinkmann
+Carola-Bibiane Schönlieb
+Ander Biguri
+Affiliation: Department of Applied Mathematics and Theoretical Physics, University of Cambridge, Cambridge, UK.
+Abstract
+Sparse-view computed tomography (CT) reduces radiation dose and acquisition time and may mitigate motion artifacts. However, angular undersampling provides insufficient information to determine the image uniquely and stably. Limited-angle CT, arising from restricted angular coverage, produces strongly directional information loss associated with the missing angular range. In both settings, image directions may be strongly observed, weakly constrained, or unobservable, leading to severe ill-posedness and reconstruction ambiguity. Existing diffusion-based approaches incorporate measurement information through likelihood guidance, data-consistency operations, or range–null-space corrections. However, they do not generally use the continuously varying measurement sensitivity of the acquisition to jointly shape both reconstruction updates and stochastic exploration.
+We propose a geometry-aware diffusion-guided stochastic reconstruction framework for sparse-view and limited-angle CT. Its central component is a regularized noise-weighted pullback metric constructed from the CT forward operator and measurement-noise covariance. This metric continuously adapts both the measurement-aware update and stochastic exploration according to directional measurement sensitivity, suppressing changes along strongly constrained directions while permitting greater exploration along weakly constrained and unobservable directions. We complement this geometry-aware update with a regularized data-consistency correction and approximately null-space-restricted stochastic perturbations, implemented matrix-free using forward and backprojection operations together with conjugate-gradient solves. Experiments on sparse-view, noisy, and limited-angle CT demonstrate competitive reconstruction quality, strong measurement consistency, and spatially resolved empirical uncertainty estimates.
+1 Introduction
+Reducing radiation dose and acquisition time remains a central objective in CT and motivates sparse-view imaging, in which projections are acquired at only a small number of angles. Limited-angle CT arises from a different acquisition constraint: projections are unavailable over a contiguous angular range because of physical or geometric restrictions. Although the two settings produce different patterns of information loss, both leave many image directions unobservable or weakly constrained. Depending on the acquisition geometry and discretization, the corresponding forward operator may be rank deficient or severely ill-conditioned, resulting in an exact null space or a collection of directions that have only a small effect on the measurements.
+From an inverse-problem perspective, this loss of information creates intrinsic ambiguity. Different images may produce identical noiseless measurements or measurement differences too small to distinguish from noise. The measured sinogram therefore cannot uniquely and stably determine the unknown image, and prior information or regularization is required to obtain a plausible reconstruction [52, 3].
+Classical CT reconstruction methods include analytical methods such as filtered back projection (FBP) [26] and iterative methods such as ART [16], SART [2], and statistical model-based iterative reconstruction [13, 49]. Under incomplete acquisition, iterative methods commonly combine a data-fidelity term with regularization based on assumptions such as image smoothness, sparsity, or piecewise constancy. Representative examples include total-variation and other sparsity-promoting formulations [41, 12]. Although these methods improve stability, their performance depends on the selected regularizer, and overly restrictive regularization may remove fine anatomical structures, particularly under severe angular undersampling [63, 50]. Moreover, these methods usually produce a single reconstruction and do not quantify the uncertainty in image components that are weakly constrained or unobservable from the measurements [25, 47].
+Between classical regularization and fully learned reconstruction, plug-and-play priors [54] and regularization by denoising [37] incorporate an external denoiser into an iterative reconstruction algorithm. These frameworks are not inherently learning-based, because the denoiser may be either handcrafted or learned.
+More recently, learning-based methods have introduced data-driven image models into CT reconstruction. Representative approaches include supervised reconstruction networks [24], unrolled reconstruction networks [1], deep image priors [53, 33], and implicit neural representations [42, 44]. The latter two
+approaches optimize a network for the observed data and therefore do not necessarily require paired training images.
+These methods can achieve strong reconstruction quality
+[40]. However, supervised methods require representative training data and may be sensitive to changes in anatomy, acquisition geometry, or noise level. Methods such as deep image priors and implicit neural representations do not require training on an external dataset. Instead, they represent the unknown image with a neural network whose parameters are fitted directly to each input sinogram through the CT forward model. Moreover, many of these approaches return a single reconstruction and do not directly characterize ambiguity caused by missing or noisy measurements.
+Diffusion and score-based models learn distributions of clean images and can therefore provide learned prior information for inverse problems. At each diffusion timestep, a pretrained diffusion model estimates the score of the noisy-image distribution obtained from clean CT images. This score provides a time-dependent learned prior direction that guides reconstruction toward plausible clean images. Measurement information can then be incorporated through conditional reverse transitions, likelihood-gradient guidance, or explicit data-consistency operations [46, 27, 7]. For example, DDRM constructs operator-conditioned reverse transitions for linear inverse problems [27]; DPS incorporates the
+measurement likelihood through gradient guidance [7]; DDS incorporates conjugate-gradient data-consistency updates into diffusion sampling [8]; and ReSample applies an optimization-based hard data-consistency step followed by stochastic resampling [43].
+Diffusion models have also been applied to incomplete-view CT through sinogram restoration, image-domain degradation models, likelihood-guided sampling, and iterative data-consistency corrections [60, 6, 32, 17].
+A related family of methods exploits range–null-space structure, separating image components that affect the measured sinogram from components that are invisible to the acquisition. DDNM [57] uses a pseudoinverse to impose data consistency on the measurement-sensitive range-space component of each
+diffusion estimate while retaining null-space content predicted by the diffusion model. RN-SDE [18] and its noise-aware extension RNSD+ [19] use a trained diffusion process to recover information missing from limited-angle measurements and repeatedly correct
+the component that is visible in the acquired data. The conditional score-based null-space (CSN) model [62] similarly uses a score model to estimate missing image information while using an iterative least-squares step to enforce agreement with the measured projections. Like DDNM, these methods use range–null-space-based corrections that treat the data-visible and measurement-invisible components separately: measurement information corrects the range-space component, whereas the learned diffusion model estimates or retains the complementary null-space component.
+In contrast, our method does not make a binary range–null-space separation its primary sampling mechanism. It uses a regularized noise-weighted pullback metric to continuously adapt both guided updates and stochastic exploration across image directions according to their measurement sensitivity. Approximate null-space exploration and regularized data-consistency correction are complementary components of this geometry-aware framework.
+Although these methods improve incomplete-view CT reconstruction, they do
+not fully account for the fact that incomplete measurements constrain some
+image directions strongly, other directions only weakly, and exact
+null-space directions not at all. Existing methods use the forward operator
+through likelihood guidance, data-consistency optimization, or separate
+range–null-space corrections. However, they do not generally use the same continuously varying measurement sensitivity to govern both the measurement-aware update and
+stochastic exploration.
+In this work, we develop a geometry-aware diffusion-guided stochastic
+reconstruction framework for sparse-view and limited-angle CT. Its central
+component is a regularized noise-weighted pullback metric constructed from
+the CT forward operator and measurement-noise covariance. The metric
+continuously adapts the measurement-aware update and stochastic exploration
+according to the sensitivity of each image direction to the acquired data:
+directions that strongly affect the measured sinogram receive smaller
+updates and less stochastic variation, whereas weakly constrained directions
+receive relatively greater exploration. The framework additionally includes
+approximate null-space exploration and regularized data-consistency
+correction, both evaluated matrix-free through forward and backprojection
+operations together with conjugate-gradient solves.
+Contributions.
+The main contributions of this work are as follows:
+•
+We propose a geometry-aware diffusion-guided stochastic
+reconstruction framework for sparse-view and limited-angle CT, combining a
+learned image prior with a noise-weighted measurement likelihood. Its central
+component is a regularized noise-weighted pullback metric that continuously
+adapts both the measurement-aware update and stochastic exploration
+according to directional measurement sensitivity.
+•
+We complement the whole-space metric update with approximate
+null-space exploration and a regularized data-consistency correction.
+All required inverse actions are evaluated matrix-free using forward and
+backprojection operations together with conjugate-gradient solves, without
+explicitly forming a Moore–Penrose pseudoinverse.
+•
+We demonstrate that the proposed framework achieves competitive
+reconstruction quality, strong agreement with the measured data, and
+spatially resolved empirical uncertainty estimates under sparse-view, noisy,
+and limited-angle CT acquisition.
+The remainder of this paper is organized as follows.
+Section 2 reviews diffusion-based inverse-problem methods
+and incomplete-view CT approaches, positioning the proposed framework within
+the existing literature. Section 3 first formulates the
+incomplete-view CT posterior and its directional measurement geometry, and
+then develops the proposed pullback-metric sampling framework, its
+data-consistency correction, and approximate null-space exploration.
+Section 4 evaluates reconstruction quality, measurement
+consistency, empirical sample variability, and the individual roles of the
+geometry-aware components. Section 5 concludes the paper.
+The appendices A provide supporting derivations, implementation details, and
+supplementary experimental results.
+2 Related Work
+Diffusion priors for inverse problems.
+Diffusion and score-based generative models provide learned image priors for ill-posed inverse problems. The score-based SDE framework formulates generation as a reverse-time stochastic process and provides a general basis for incorporating measurement information during sampling [46]. DDRM constructs operator-conditioned reverse transitions for linear inverse problems [27], whereas DPS
+uses approximate likelihood-gradient guidance for noisy linear and nonlinear inverse problems [7]. MCG and Π\PiGDM refine conditional-score guidance through manifold-constrained and pseudoinverse-inspired constructions, respectively [9, 45]. Other approaches combine pretrained diffusion models with optimization or consistency operations, including DDS,
+ReSample, PSLD, and DMPlug [8, 43, 38, 56].
+Riemannian MCMC methods.
+Riemannian Langevin methods form a class of Markov chain Monte Carlo (MCMC) methods in which a metric determines how far the sampler moves and how much random perturbation it adds in different parameter-space directions [15]. Thus, they provide a general principle for using geometry to shape both deterministic and stochastic sampling components. Our framework uses this principle in a different setting: diffusion-guided reconstruction from incomplete CT measurements. Rather than constructing a general state-dependent posterior metric, we derive a noise-weighted pullback geometry from the CT forward operator and measurement-noise covariance. This geometry represents the directional sensitivity of the particular CT acquisition and is used to adapt the measurement-aware update and stochastic exploration during reconstruction.
+Diffusion models for incomplete-view CT.
+Several diffusion models have been developed specifically for sparse-view and limited-angle CT. CT-SDM models view reduction through a deterministic sinogram-domain degradation process, whereas CvG-Diff learns to reverse image-domain artifacts caused by angular undersampling
+[60, 6]. Other methods use sinogram-domain generation, spatial-frequency representations, projection conditioning, or physics-informed score models
+[32, 17, 35, 20]. These approaches show that diffusion priors can effectively reduce incomplete-view artifacts. They typically encode the acquisition geometry through a learned degradation, restoration, or conditioning process. In
+contrast, our framework incorporates the CT forward operator and measurement-noise model directly into the reconstruction dynamics. The resulting noise-weighted pullback geometry continuously adapts both the measurement-aware update and stochastic exploration according to directional measurement sensitivity.
+Data consistency and range–null-space methods.
+Explicit data-consistency operations are widely used in diffusion-guided reconstruction. DDS combines diffusion sampling with conjugate-gradient data-consistency updates, while ReSample alternates diffusion generation, optimization-based consistency correction, and resampling
+[8, 43]. These operations can reduce disagreement with the acquired data. However, by themselves, they do not provide a common continuously varying noise-weighted
+geometry for both the measurement-aware reconstruction update and stochastic exploration across strongly and weakly observed image directions.
+A related family of methods uses range–null-space structure. For each diffusion estimate, DDNM uses the acquired measurements and a pseudoinverse to correct the image content that affects the measurements. It retains the remaining measurement-invisible content from the diffusion model [57]. RN-SDE uses a conditional mean-reverting diffusion process to reconstruct limited-angle CT images and repeatedly applies a range–null-space correction: the data-visible content is adjusted using the acquired measurements, while the missing content is inferred by the learned model [18]. Its extension RNSD+ addresses noisy limited-angle CT by treating missing views as a sinogram-inpainting problem and introducing a noise-aware
+rectification mechanism [19]. Similarly, CSN combines conditional score-based reconstruction with iterative least-squares data consistency so that missing information is estimated principally in the null space [62]. These methods conceptually treat data-visible and measurement-invisible components separately.
+In contrast, our framework does not first decompose each diffusion estimate into range-space and null-space components in order to construct its primary sampling update. Instead, the main diffusion-guided update is defined over the whole image space and is continuously adapted by a regularized noise-weighted pullback metric. We then use complementary range–null-space-inspired operations: a regularized data-consistency
+correction modifies the measurement-sensitive component, whereas an approximately null-space-restricted perturbation promotes additional exploration in weakly constrained and unobservable directions. Thus, range–null-space structure is used in supporting data-consistency and null-space-exploration steps rather than as a binary decomposition underlying the main update.
+3 Method
+In sparse-view and limited-angle CT, the measurements constrain some image directions more, while other directions are less constrained or unobservable. We therefore propose a diffusion-score-guided stochastic reconstruction framework that uses the CT forward operator and noise covariance to adapt both the direction and scale of each sampling update according to noise-weighted measurement sensitivity. The framework reduces the measurement residual through a regularized data-consistency correction. At the same time it concentrates stochastic exploration along weakly constrained and unobservable directions, where reconstruction ambiguity remains.
+The proposed method is presented in six parts. We first introduce the forward model, the noise-weighted posterior, and the resulting anisotropy between strongly observed, weakly constrained, and unobservable image directions in Section 3.1. Section 3.2 uses this geometry to construct pullback-metric-preconditioned Langevin dynamics in place of standard isotropic sampling. Section 3.3 describes the orthogonal decomposition of the image space into range-space (containing directions that affect the measurements) and null-space (containing directions that are invisible to the forward operator). Section 3.4 introduces a regularized Riemannian data-consistency correction that avoids requiring an explicitly available generalized inverse. Section 3.5 introduces approximately null-space-restricted stochastic perturbations that promote exploration along weakly constrained and unobservable image directions while suppressing changes in the measured sinogram.
+Finally, Section 3.6 combines all components into an iterative sampling procedure that (i) preconditions diffusion updates using the measurement-induced pullback metric, (ii) reduces the measurement residual through a regularized data-consistency correction, and (iii) controls stochastic exploration according to the measurement sensitivity of different image directions, thus supporting spatial uncertainty estimation.
+3.1 Problem Formulation and Posterior Geometry
+In the context of CT reconstruction, our goal is to recover images from projection measurements acquired through a forward operator. The CT measurements constrain different image directions to different degrees: some directions strongly affect the measured sinogram, whereas others are weakly constrained or completely unobservable. We formulate sparse-view and limited-angle CT reconstruction as Bayesian inference. A posterior formulation combines the information provided by the measurements with a learned image prior and allows the remaining ambiguity to be represented by multiple reconstruction samples.
+We consider sparse-view and limited-angle CT reconstruction under the linear forward model:
+y=AΩ​x+ε,y\;=\;A_{\Omega}x+\varepsilon,
+(1)
+where x∈ℝnx\in\mathbb{R}^{n} denotes the unknown image, AΩ∈ℝm×nA_{\Omega}\in\mathbb{R}^{m\times n} is the forward operator restricted to a subset of view angles Ω\Omega,
+y∈ℝmy\in\mathbb{R}^{m} is the measured log-sinogram. The measurement error is modeled as
+ε∼𝒩⁡(0,Σ),\varepsilon\sim\mathcal{N}(0,\Sigma),
+where Σ∈ℝm×m\Sigma\in\mathbb{R}^{m\times m} is the measurement-noise covariance matrix and Σ≻0\Sigma\succ 0.
+Remark.
+Origin of the Gaussian noise model.
+Under the idealized Beer–Lambert model, the expected photon count at detector bin ii is [48, 58]
+λi=I0​e−(AΩ​x)i,\lambda_{i}\;=\;I_{0}\,e^{-(A_{\Omega}x)_{i}},
+(2)
+where I0I_{0} is the incident photon count. The detected count is modeled as
+Yi∼Poisson⁡(λi).Y_{i}\sim\operatorname{Poisson}(\lambda_{i}).
+For sufficiently large transmitted counts, applying the logarithmic transform to the photon measurements gives the approximate post-log Gaussian model
+y≈AΩ​x+ε,ε∼𝒩⁡(0,Σ),Σ=diag​(1λi)i=1m.y\;\approx\;A_{\Omega}x+\varepsilon,\qquad\varepsilon\sim\mathcal{N}(0,\Sigma),\qquad\Sigma\;=\;\mathrm{diag}\!\left(\tfrac{1}{\lambda_{i}}\right)_{i=1}^{m}.
+(3)
+Thus, highly attenuated rays have lower transmitted photon counts and larger log-domain noise variance. The ideal count-based plug-in precision is
+λ^i=I0​e−yi\widehat{\lambda}_{i}=I_{0}e^{-y_{i}}. In practice, we use the stabilized, normalized, and clipped effective precision described in Appendix A.1.
+Sparse-view CT acquires projections at fewer angular views while typically retaining the full angular coverage, whereas limited-angle CT restricts the angular range over which projections are acquired. Let AΩ∈ℝm×nA_{\Omega}\in\mathbb{R}^{m\times n}, where nn is the dimension of the image space and mm is the dimension of the measurement space. Depending on the acquisition geometry and discretization, AΩA_{\Omega} may be rank deficient or severely ill-conditioned.
+The null-space of the forward operator is
+𝒩⁡(AΩ)={v∈ℝn:AΩ​v=0}.\mathcal{N}(A_{\Omega})\;=\;\left\{v\in\mathbb{R}^{n}:A_{\Omega}v=0\right\}.
+(4)
+By the rank–nullity theorem,
+dim𝒩⁡(AΩ)=n−rank⁡(AΩ).\dim\mathcal{N}(A_{\Omega})\;=\;n-\operatorname{rank}(A_{\Omega}).
+(5)
+When m<nm<n, we have rank⁡(AΩ)≤m<n\operatorname{rank}(A_{\Omega})\leq m<n, so a nontrivial null-space is guaranteed. For any v∈𝒩⁡(AΩ)v\in\mathcal{N}(A_{\Omega}),
+AΩ​(x+v)=AΩ​x.A_{\Omega}(x+v)\;=\;A_{\Omega}x.
+(6)
+Thus, an image change along vv is completely invisible to the forward operator.
+In the presence of measurement noise, however, directions outside the exact null space may produce sinogram changes that are difficult to distinguish from noise. Under the Gaussian measurement model, the likelihood is
+p(y∣x)∝exp(−12‖Σ−1/2(AΩx−y)‖22).p(y\mid x)\propto\exp\left(-\frac{1}{2}\left\|\Sigma^{-1/2}(A_{\Omega}x-y)\right\|_{2}^{2}\right).
+(7)
+The covariance Σ\Sigma accounts for the different noise levels of the sinogram measurements.
+Let p0​(x)p_{0}(x) denote the learned distribution of clean CT images. Bayes’ rule gives
+p(x∣y)∝p0(x)exp(−12‖Σ−1/2(AΩx−y)‖22).p(x\mid y)\propto p_{0}(x)\exp\left(-\frac{1}{2}\left\|\Sigma^{-1/2}(A_{\Omega}x-y)\right\|_{2}^{2}\right).
+(8)
+The posterior combines the learned image prior with noise-weighted measurement information [47]. Posterior
+sampling therefore uses the prior to explore image components that are unobservable or only weakly constrained by the measurements.
+To quantify the measurement sensitivity along a unit-norm direction
+v∈ℝnv\in\mathbb{R}^{n}, ‖v‖2=1\|v\|_{2}=1, consider the perturbed image x+a​vx+av,
+where a∈ℝa\in\mathbb{R} controls the perturbation magnitude. The second derivative of the negative log-likelihood Φ(x):=12‖Σ−1/2(AΩx−y)‖22\Phi(x):=\frac{1}{2}\left\|\Sigma^{-1/2}(A_{\Omega}x-y)\right\|_{2}^{2} with respect to aa is
+d2d​a2Φ(x+av)=v⊤AΩ⊤Σ−1AΩv=‖Σ−1/2AΩv‖22.\frac{d^{2}}{da^{2}}\Phi(x+av)\;=\;v^{\top}A_{\Omega}^{\top}\Sigma^{-1}A_{\Omega}v\;=\;\left\|\Sigma^{-1/2}A_{\Omega}v\right\|_{2}^{2}.
+(9)
+This quantity is the likelihood curvature along vv and measures how
+strongly the direction affects the measurements relative to the noise.
+Directions with
+AΩ​v≠0A_{\Omega}v\neq 0 but small
+∥Σ−1/2AΩv∥2\|\Sigma^{-1/2}A_{\Omega}v\|_{2} are mathematically observable but difficult to estimate reliably from noisy measurements. We refer to these directions as effective null-space directions. Therefore, the exact null-space describes completely unobservable directions, whereas the effective null-space additionally captures directions that are only weakly
+observable relative to the noise.
+Because the quantity in Equation (9)
+depends on the perturbation direction vv, we can see that the likelihood induces an anisotropic geometry: strongly observed, weakly constrained, and unobservable directions receive different amounts of measurement information. The total posterior uncertainty is determined jointly by this measurement information and the learned prior, since the prior may still constrain directions that are invisible to the forward operator.
+Under a Laplace approximation around a posterior mode x⋆x^{\star}, the posterior is locally approximated by a Gaussian whose precision is the Hessian of the negative log-posterior:
+Hpost​(x⋆)=Hprior​(x⋆)+AΩ⊤​Σ−1​AΩ,H_{\mathrm{post}}(x^{\star})\;=\;H_{\mathrm{prior}}(x^{\star})+A_{\Omega}^{\top}\Sigma^{-1}A_{\Omega},
+(10)
+where
+Hprior​(x⋆)=−∇x2​log⁡p0​(x⋆)H_{\mathrm{prior}}(x^{\star})\;=\;-\nabla_{x}^{2}\log p_{0}(x^{\star})
+is the local curvature contributed by the prior. For any
+v∈𝒩⁡(AΩ)v\in\mathcal{N}(A_{\Omega}),
+v⊤​Hpost​(x⋆)​v=v⊤​Hprior​(x⋆)​v,v^{\top}H_{\mathrm{post}}(x^{\star})v\;=\;v^{\top}H_{\mathrm{prior}}(x^{\star})v,
+(11)
+because the measurement contribution vanishes along vv. For a weakly constrained direction, the measurement contribution in Equation (9) is nonzero but small. A formal statement and proof are provided in Appendix A.3,
+Proposition 3. This measurement-induced geometry motivates the geometry-aware sampling framework developed in the following subsection, which adapts the sampling dynamics to the noise-weighted sensitivity of different image directions.
+3.2 Geometry-Aware Diffusion Sampling via a Pullback Metric
+As discussed in Section 3.1, the likelihood constrains different image directions to different degrees. It provides strong information along well-observed directions, limited information along weakly constrained directions, and no direct information along exact null-space directions. Standard isotropic Langevin dynamics [29], which combine gradient-based drift with Gaussian noise for posterior sampling [36], do not account for these differences because their stochastic term has the same variance in every image direction. We therefore construct a Riemannian metric from the CT forward operator and effective noise precision to adapt both the deterministic and stochastic updates to measurement sensitivity.
+To construct the metric, consider a small image perturbation
+δ​x∈ℝn\delta x\in\mathbb{R}^{n}. Under the linear forward model, it produces the measurement perturbation
+δ​y=AΩ​δ​x.\delta y\;=\;A_{\Omega}\delta x.
+The Gaussian likelihood in (7) is
+p⁡(y∣x)∝exp⁡(−12​(AΩ​x−y)⊤​Σ−1​(AΩ​x−y)).p(y\mid x)\;\propto\;\exp\left(-\frac{1}{2}(A_{\Omega}x-y)^{\top}\Sigma^{-1}(A_{\Omega}x-y)\right).
+Here, Σ\Sigma denotes the measurement-noise covariance used during
+reconstruction, estimated as described in Appendix A.1. Its inverse Σ−1≻0\Sigma^{-1}\succ 0 is called the precision matrix. Because Σ−1\Sigma^{-1} is symmetric positive definite, it defines an inner product on the measurement space 𝒴=(ℝm,⟨⋅,⋅⟩𝒴)\mathcal{Y}=(\mathbb{R}^{m},\langle\cdot,\cdot\rangle_{\mathcal{Y}})
+⟨u,v⟩𝒴:=u⊤​Σ−1​v,u,v∈ℝm.\langle u,v\rangle_{\mathcal{Y}}\;:=\;u^{\top}\Sigma^{-1}v,\qquad u,v\in\mathbb{R}^{m}.
+(12)
+Under the conditionally independent noise model used in this work, Σ−1\Sigma^{-1} is diagonal, so the inner product can be written as
+⟨u,v⟩𝒴=∑i=1m(Σ−1)i​i​ui​vi.\langle u,v\rangle_{\mathcal{Y}}\;=\;\sum_{i=1}^{m}(\Sigma^{-1})_{ii}u_{i}v_{i}.
+(13)
+Each diagonal entry (Σ−1)i​i(\Sigma^{-1})_{ii} represents the effective precision of measurement bin ii. Measurements with higher precision receive greater weight, whereas noisier measurements with lower precision receive less weight. Thus, ∥⋅∥𝒴\|\cdot\|_{\mathcal{Y}} measures a sinogram perturbation relative to the reliability of the measurements.
+Pullback metric on image space.
+The inner product ⟨⋅,⋅⟩𝒴\langle\cdot,\cdot\rangle_{\mathcal{Y}} defines a geometry on the measurement space ℝm\mathbb{R}^{m}, but the unknown image xx lives in the image space ℝn\mathbb{R}^{n}. To transfer this geometry to the image space, we use the concept of a pullback metric [30, 11], a standard construction in differential geometry that transports a metric from one space to another via a smooth map. Given a small image
+perturbation δ​x∈ℝn\delta x\in\mathbb{R}^{n}, the forward operator AΩA_{\Omega} maps it to the corresponding measurement perturbation δ​y=AΩ​δ​x∈ℝm\delta y=A_{\Omega}\,\delta x\in\mathbb{R}^{m}. The significance of δ​x\delta x in image space can then be assessed by measuring the significance of its image δ​y\delta y in measurement space under ⟨⋅,⋅⟩𝒴\langle\cdot,\cdot\rangle_{\mathcal{Y}}. Pulling the measurement-space inner product back through AΩA_{\Omega} gives
+⟨δ​x1,δ​x2⟩G:=⟨AΩ​δ​x1,AΩ​δ​x2⟩𝒴=δ​x1⊤​G​δ​x2,G=AΩ⊤​Σ−1​AΩ.\langle\delta x_{1},\delta x_{2}\rangle_{G}\;:=\;\langle A_{\Omega}\delta x_{1},A_{\Omega}\delta x_{2}\rangle_{\mathcal{Y}}\;=\;\delta x_{1}^{\top}G\delta x_{2},\qquad G=A_{\Omega}^{\top}\Sigma^{-1}A_{\Omega}.
+(14)
+This bilinear form measures image perturbations according to how strongly and reliably they affect the measured sinogram. The matrix GG is symmetric positive semi-definite (a pullback pseudo-metric on the image space), not a genuine Riemannian metric. It is singular whenever
+𝒩⁡(AΩ)\mathcal{N}(A_{\Omega}) is nontrivial, because
+G​v= 0for every ​v∈𝒩⁡(AΩ).Gv\;=\;0\qquad\text{for every }v\in\mathcal{N}(A_{\Omega}).
+We therefore define the regularized metric
+Gγ=AΩ⊤​Σ−1​AΩ+γ​I,γ>0,G_{\gamma}\;=\;A_{\Omega}^{\top}\Sigma^{-1}A_{\Omega}\;+\;\gamma I,\qquad\gamma>0,
+(15)
+The regularization shifts every eigenvalue of GG by γ\gamma, making GγG_{\gamma} symmetric positive definite. Directions with data-dependent eigenvalues much larger than γ\gamma are only slightly affected and retain their measurement-dependent weighting. Along exact null-space directions, the measurement-induced term vanishes because the measurements contribute no information. Only the isotropic Euclidean regularization γ​I\gamma I remains. By contrast, weakly constrained
+directions retain a small measurement-dependent contribution together with this regularization.
+Having defined the measurement-induced metric GγG_{\gamma}, we now
+incorporate it into posterior sampling. Langevin dynamics provide a natural framework because they combine gradient-based guidance toward a target density with stochastic exploration. We first consider an ideal continuous-time process with access to the exact posterior score and then derive the practical diffusion-guided approximation used in our algorithm.
+Pullback-Preconditioned Langevin Dynamics.
+Let Xτ∈ℝnX_{\tau}\in\mathbb{R}^{n} denote the random image state at continuous
+sampling time τ\tau, and let π⁡(x)=p⁡(x∣y)\pi(x)=p(x\mid y) be the target posterior
+density. Standard isotropic overdamped Langevin dynamics combine
+deterministic drift along the gradient of the log-target density with
+isotropic Brownian noise [36]:
+d​Xτ=∇log⁡π​(Xτ)​d​τ+2​d​Wτ,dX_{\tau}\;=\;\nabla\log\pi(X_{\tau})\,d\tau+\sqrt{2}\,dW_{\tau},
+(16)
+where WτW_{\tau} is an nn-dimensional standard Brownian motion. The first term is the deterministic drift, while the second is the stochastic term. Over a small time interval Δ​τ\Delta\tau, the stochastic term contributes a Gaussian increment with covariance 2​Δ​τ​In2\Delta\tau I_{n}, where In∈ℝn×nI_{n}\in\mathbb{R}^{n\times n} is the identity matrix on the image space. It therefore applies the same variance in every image direction.
+The process is constructed to have π\pi as an invariant density: if
+X0X_{0} has density π\pi, then XτX_{\tau} has the same density for every
+τ≥0\tau\geq 0, as verified below.
+To incorporate the measurement geometry, we precondition both the drift and
+the stochastic term using Gγ−1G_{\gamma}^{-1}:
+dXτ=Gγ−1∇logπ(Xτ)dτ+2​Gγ−1dWτ.dX_{\tau}\;=\;G_{\gamma}^{-1}\nabla\log\pi(X_{\tau})\,d\tau+\sqrt{2G_{\gamma}^{-1}}\,dW_{\tau}.
+(17)
+The first term is the
+geometry-preconditioned drift, while the second is the geometry-shaped
+stochastic term. These dynamics suppress variation along directions with
+high noise-weighted measurement sensitivity and permit larger updates along
+weakly constrained and unobservable directions.
+To ensure that the geometry-aware preconditioning changes the sampling
+dynamics without changing the target posterior, we verify that π\pi
+remains an invariant density of the ideal continuous process.
+Let ρτ​(x)\rho_{\tau}(x) denote the probability density of XτX_{\tau}. For a
+stochastic differential equation of the form
+d​Xτ=b⁡(Xτ)​d​τ+B​d​Wτ,dX_{\tau}\;=\;b(X_{\tau})\,d\tau+B\,dW_{\tau},
+where b:ℝn→ℝnb:\mathbb{R}^{n}\to\mathbb{R}^{n} is the drift function and
+B∈ℝn×nB\in\mathbb{R}^{n\times n} is a constant diffusion matrix, the
+corresponding Fokker–Planck equation is [34]
+∂τρτ=−∇⋅(bρτ)+12∇⋅(BB⊤∇ρτ).\partial_{\tau}\rho_{\tau}\;=\;-\nabla\!\cdot\left(b\,\rho_{\tau}\right)+\frac{1}{2}\nabla\!\cdot\left(BB^{\top}\nabla\rho_{\tau}\right).
+For Equation (17),
+b(x)=Gγ−1∇logπ(x),BB⊤= 2Gγ−1.b(x)\;=\;G_{\gamma}^{-1}\nabla\log\pi(x),\qquad BB^{\top}\;=\;2G_{\gamma}^{-1}.
+Substituting these expressions gives
+∂τρτ\displaystyle\partial_{\tau}\rho_{\tau}
+=−∇⋅(Gγ−1ρτ∇logπ)+∇⋅(Gγ−1∇ρτ).\displaystyle\;=\;-\nabla\!\cdot\left(G_{\gamma}^{-1}\rho_{\tau}\nabla\log\pi\right)+\nabla\!\cdot\left(G_{\gamma}^{-1}\nabla\rho_{\tau}\right).
+To test stationarity, set ρτ=π\rho_{\tau}=\pi. Since
+∇logπ=∇ππ,andπ∇logπ=∇π,\nabla\log\pi\;=\;\frac{\nabla\pi}{\pi},\qquad\text{and}\qquad\pi\nabla\log\pi\;=\;\nabla\pi,
+we obtain
+∂τρτ|ρτ=π=−∇⋅(Gγ−1∇π)+∇⋅(Gγ−1∇π)= 0.\displaystyle\left.\partial_{\tau}\rho_{\tau}\right|_{\rho_{\tau}=\pi}\;=\;-\nabla\!\cdot\left(G_{\gamma}^{-1}\nabla\pi\right)+\nabla\!\cdot\left(G_{\gamma}^{-1}\nabla\pi\right)\;=\;0.
+Therefore, if X0X_{0} has density π\pi, then XτX_{\tau} has density π\pi
+for every τ≥0\tau\geq 0. Hence, π\pi is an invariant density of the ideal
+continuous dynamics. A formal statement and the corresponding conditions are provided in Appendix A.5.
+Diffusion-score approximation.
+The ideal dynamics in Equation (17) require the exact posterior score. From the posterior factorization, this score has the
+form
+∇log⁡π​(x)=∇log⁡p0​(x)−∇Φ​(x),\nabla\log\pi(x)\;=\;\nabla\log p_{0}(x)-\nabla\Phi(x),
+where the data-fidelity gradient ∇Φ​(x)\nabla\Phi(x) can be evaluated from the known forward operator, measured sinogram, and fixed noise precision, whereas the clean-image prior score ∇log⁡p0​(x)\nabla\log p_{0}(x) is not available analytically. We use a denoising diffusion probabilistic model (DDPM) [23] pretrained on clean CT images. During pretraining, Gaussian noise is added to the images at different diffusion timesteps, and the model learns to predict the added noise. During reconstruction, the model parameters remain fixed, and the predicted noise is used to estimate the image-prior score that guides the reconstruction toward plausible CT
+images.
+Let x(k)x^{(k)} denote the current reconstruction at sampling iteration kk, and let tkt_{k} be the corresponding DDPM timestep. For simplicity, all image variables below are expressed in the normalized intensity range used during diffusion-model training.
+At each iteration, we treat x(k)x^{(k)} as the current estimate of the clean image and apply the standard DDPM forward-noising equation:
+xtk(k)=α¯tk​x(k)+1−α¯tk​ϵ(k),ϵ(k)∼𝒩⁡(0,In),x_{t_{k}}^{(k)}\;=\;\sqrt{\bar{\alpha}_{t_{k}}}\,x^{(k)}+\sqrt{1-\bar{\alpha}_{t_{k}}}\,\epsilon^{(k)},\qquad\epsilon^{(k)}\sim\mathcal{N}(0,I_{n}),
+(18)
+where α¯tk\bar{\alpha}_{t_{k}} is the cumulative product of the DDPM noise schedule up to timestep tkt_{k}. The variable xtk(k)x_{t_{k}}^{(k)} is the noisy image supplied to the pretrained diffusion model.
+For an ϵ\epsilon-prediction DDPM, the network ϵθ​(xtk(k),tk)\epsilon_{\theta}(x_{t_{k}}^{(k)},t_{k}) predicts the Gaussian noise contained in xtk(k)x_{t_{k}}^{(k)}. The corresponding score estimate is [23, 46]
+s(k)=−ϵθ​(xtk(k),tk)1−α¯tk,s^{(k)}\;=\;-\frac{\epsilon_{\theta}(x_{t_{k}}^{(k)},t_{k})}{\sqrt{1-\bar{\alpha}_{t_{k}}}},
+(19)
+which approximates
+∇xtk​log​ptk​(xtk(k))\nabla_{x_{t_{k}}}\log p_{t_{k}}(x_{t_{k}}^{(k)}). This score supplies the learned image-prior direction at noise level tkt_{k}.
+The data-fidelity gradient is evaluated at the current reconstruction
+x(k)x^{(k)}:
+g(k):=∇Φ​(x(k))=AΩ⊤​Σ−1​(AΩ​x(k)−y),g^{(k)}\;:=\;\nabla\Phi(x^{(k)})\;=\;A_{\Omega}^{\top}\Sigma^{-1}\left(A_{\Omega}x^{(k)}-y\right),
+(20)
+where
+Φ⁡(x)=12​(AΩ​x−y)⊤​Σ−1​(AΩ​x−y).\Phi(x)\;=\;\frac{1}{2}(A_{\Omega}x-y)^{\top}\Sigma^{-1}(A_{\Omega}x-y).
+(21)
+We combine the DDPM score and data-fidelity gradient as
+r(k)=λk​s(k)−μk​g(k),r^{(k)}\;=\;\lambda_{k}s^{(k)}-\mu_{k}g^{(k)},
+(22)
+where λk\lambda_{k} and μk\mu_{k} control the relative strengths of the learned prior and measurement guidance. The DDPM score is evaluated at the noisy image xtk(k)x_{t_{k}}^{(k)}, whereas the data-fidelity gradient is evaluated at the current reconstruction x(k)x^{(k)}. Therefore, r(k)r^{(k)} is used as a practical combined guidance direction rather than an exact diffusion-time posterior score.
+Geometry-preconditioned update.
+The pullback-metric-preconditioned direction u(k)u^{(k)} is obtained by solving
+Gγ​u(k)=r(k),Gγ=AΩ⊤​Σ−1​AΩ+γ​In.G_{\gamma}u^{(k)}\;=\;r^{(k)},\qquad G_{\gamma}\;=\;A_{\Omega}^{\top}\Sigma^{-1}A_{\Omega}+\gamma I_{n}.
+(23)
+The current reconstruction is then updated according to
+x~(k)=x(k)+αk​u(k),x~(k)←x~(k)+νG(k),νG(k)∼𝒩⁡(0,2​αk​Gγ−1),\tilde{x}^{(k)}\;=\;x^{(k)}+\alpha_{k}u^{(k)},\qquad\tilde{x}^{(k)}\leftarrow\tilde{x}^{(k)}+\nu_{G}^{(k)},\qquad\nu_{G}^{(k)}\sim\mathcal{N}\!\left(0,2\alpha_{k}G_{\gamma}^{-1}\right),
+(24)
+where αk>0\alpha_{k}>0 is the sampling step size. The deterministic term αk​u(k)\alpha_{k}u^{(k)} combines the learned DDPM prior with the
+noise-weighted data-fidelity gradient, while νG(k)\nu_{G}^{(k)} provides metric-shaped stochastic exploration.
+Because the evolving reconstruction x(k)x^{(k)} is not itself maintained as a DDPM noisy state, we apply the forward-noising equation before each score evaluation. This produces an input whose noise level is consistent with the assigned DDPM timestep tkt_{k}. The resulting score provides annealed prior guidance, ranging from coarse structure at high noise levels to finer
+details at low noise levels. This procedure differs from a standard DDPM reverse trajectory, since a newly noised state is constructed from the current reconstruction at each iteration.
+Matrix-free implementation via conjugate gradient.
+The preconditioned direction in (23) is computed by
+solving a linear system of the general form
+Gγ​u=r,G_{\gamma}u\;=\;r,
+(25)
+where r∈ℝnr\in\mathbb{R}^{n} is known and
+u=Gγ−1​r∈ℝnu=G_{\gamma}^{-1}r\in\mathbb{R}^{n} is the unknown. We solve this via the conjugate gradient (CG) method [22, 21] (Appendix A.4.1), which avoids forming
+Gγ∈ℝn×nG_{\gamma}\in\mathbb{R}^{n\times n} explicitly. CG requires only matrix-vector products with GγG_{\gamma}. Expanding the definition Gγ=AΩ⊤​Σ−1​AΩ+γ​IG_{\gamma}=A_{\Omega}^{\top}\Sigma^{-1}A_{\Omega}+\gamma I
+and applying it to a search direction pp gives
+Gγ​p\displaystyle G_{\gamma}p
+=(AΩ⊤​Σ−1​AΩ+γ​I)​p\displaystyle\;=\;\bigl(A_{\Omega}^{\top}\Sigma^{-1}A_{\Omega}+\gamma I\bigr)p
+=AΩ⊤​Σ−1​AΩ​p+γ​p\displaystyle\;=\;A_{\Omega}^{\top}\Sigma^{-1}A_{\Omega}p+\gamma p
+=AΩ⊤​(Σ−1​(AΩ​p))+γ​p.\displaystyle\;=\;A_{\Omega}^{\top}\bigl(\Sigma^{-1}(A_{\Omega}p)\bigr)+\gamma p.
+(26)
+Each CG iteration requires one forward projection and one backprojection, together with diagonal precision weighting. Since Gγ≻0G_{\gamma}\succ 0, the linear system has a unique solution and is suitable for conjugate gradient. In exact arithmetic, CG recovers this solution in at most nn iterations. In practice, it is terminated when the residual falls below a prescribed tolerance. The regularization parameter γ\gamma bounds the smallest eigenvalue away from zero and improves numerical conditioning.
+To sample
+νG(k)∼𝒩⁡(0,2​αk​Gγ−1)\nu_{G}^{(k)}\sim\mathcal{N}(0,2\alpha_{k}G_{\gamma}^{-1})
+matrix-free, draw independent standard Gaussian vectors
+ξ(k)∼𝒩⁡(0,Im)\xi^{(k)}\sim\mathcal{N}(0,I_{m}) in measurement space and
+c(k)∼𝒩⁡(0,In)c^{(k)}\sim\mathcal{N}(0,I_{n}) in image space, and form
+w(k)=AΩ⊤Σ−1/2ξ(k)+γc(k)∼𝒩(0,Gγ).w^{(k)}\;=\;A_{\Omega}^{\top}\Sigma^{-1/2}\xi^{(k)}+\sqrt{\gamma}\,c^{(k)}\sim\mathcal{N}(0,G_{\gamma}).
+(27)
+Solving
+Gγ​z(k)=w(k)G_{\gamma}z^{(k)}=w^{(k)}
+and setting
+νG(k)=2​αk​z(k)\nu_{G}^{(k)}=\sqrt{2\alpha_{k}}\,z^{(k)}
+gives
+νG(k)∼𝒩⁡(0,2​αk​Gγ−1)\nu_{G}^{(k)}\sim\mathcal{N}(0,2\alpha_{k}G_{\gamma}^{-1}). This covariance is exact when the linear system is solved exactly. With a finite CG tolerance, the generated covariance approximates 2​αk​Gγ−12\alpha_{k}G_{\gamma}^{-1}, with accuracy determined by the linear-solve residual. The full correctness proof is given in Appendix A.5, Lemma 2.
+The update (24) is anisotropic because the
+measurement-induced metric preconditions both the deterministic direction and the stochastic covariance. It suppresses stochastic variation and prior-driven updates along strongly observed directions while allowing greater variation along weakly constrained and unobservable directions. The resulting variability is determined jointly by the measurement
+geometry and the learned prior. The regularized data-consistency correction and additional approximately null-space-restricted perturbations are introduced in Sections 3.4 and
+3.5, respectively.
+3.3 Orthogonal Direct Sum Decomposition
+To exploit the geometric structure of AΩA_{\Omega} explicitly, we need a precise definition of how image space splits into measurement-constrained and measurement-invisible directions. The orthogonal direct sum decomposition[39, 4, 5] provides this definition, and the two subspaces identified by it will correspond directly to the two components of the sampling process in Sections 3.4
+and 3.5.
+The forward operator maps the image space to the measurement space:
+AΩ:ℝn→ℝm.A_{\Omega}:\mathbb{R}^{n}\rightarrow\mathbb{R}^{m}.
+(28)
+Accordingly, ℛ⁡(AΩ)⊆ℝm\mathcal{R}(A_{\Omega})\subseteq\mathbb{R}^{m} lies in the measurement space and describes sinograms that can be produced by the forward model. To describe measurement-sensitive directions in the image
+space, we instead use ℛ⁡(AΩ⊤)⊆ℝn\mathcal{R}(A_{\Omega}^{\top})\subseteq\mathbb{R}^{n}.
+Proposition 1 (Orthogonal decomposition).
+For any AΩ∈ℝm×nA_{\Omega}\in\mathbb{R}^{m\times n}, the image space admits the orthogonal direct-sum decomposition
+ℝn=ℛ⁡(AΩ⊤)⊕𝒩⁡(AΩ).\mathbb{R}^{n}\;=\;\mathcal{R}(A_{\Omega}^{\top})\oplus\mathcal{N}(A_{\Omega}).
+(29)
+Equivalently,
+ℛ⁡(AΩ⊤)=𝒩​(AΩ)⟂.\mathcal{R}(A_{\Omega}^{\top})\;=\;\mathcal{N}(A_{\Omega})^{\perp}.
+(30)
+Here, ℛ⁡(AΩ⊤)\mathcal{R}(A_{\Omega}^{\top}) contains image directions that can affect the measurements, whereas 𝒩⁡(AΩ)\mathcal{N}(A_{\Omega}) contains directions that are invisible to the forward operator. A proof is provided in Appendix A.2.
+Consequently, every image x∈ℝnx\in\mathbb{R}^{n} has a unique decomposition
+x=xR+xN,xR∈ℛ⁡(AΩ⊤),xN∈𝒩⁡(AΩ).x\;=\;x_{R}+x_{N},\qquad x_{R}\in\mathcal{R}(A_{\Omega}^{\top}),\qquad x_{N}\in\mathcal{N}(A_{\Omega}).
+(31)
+Because AΩ​xN=0A_{\Omega}x_{N}=0, the predicted sinogram depends only on the range-space component:
+AΩ​x=AΩ​xR.A_{\Omega}x\;=\;A_{\Omega}x_{R}.
+(32)
+If the equation AΩ​x=yA_{\Omega}x=y is feasible, then every exactly measurement-consistent image can be written as
+x=xdc+v,xdc∈ℛ⁡(AΩ⊤),v∈𝒩⁡(AΩ),x\;=\;x_{\mathrm{dc}}+v,\qquad x_{\mathrm{dc}}\in\mathcal{R}(A_{\Omega}^{\top}),\qquad v\in\mathcal{N}(A_{\Omega}),
+(33)
+where xdcx_{\mathrm{dc}} is the unique range-space component satisfying AΩ​xdc=yA_{\Omega}x_{\mathrm{dc}}=y. The measurements therefore determine the range-space component under the exact feasible constraint, while the null-space component remains unidentifiable from the measurements alone.
+Under the noisy likelihood used in this work, the distinction is not strictly binary. The likelihood provides no information along exact null-space directions, but it may provide only weak information along directions associated with small noise-weighted singular values. Moreover, the learned prior can influence both range-space and null-space components. The decomposition in (31) therefore
+describes exact algebraic observability, while the pullback metric also accounts for continuously varying measurement sensitivity.
+This structure motivates the two subsequent components of the method. The regularized data-consistency correction in
+Section 3.4 acts along
+ℛ⁡(AΩ⊤)\mathcal{R}(A_{\Omega}^{\top}), while the stochastic perturbation in Section 3.5 concentrates variation along weakly constrained and unobservable directions.
+3.4 Data Consistency via Riemannian Gradient Projection
+Although the geometry-aware update incorporates the measurements through the data-fidelity gradient, one Langevin update can move it away from measurement consistency. We therefore seek a correction x+x^{+} that remains close to the intermediate estimate x~\tilde{x} while reducing its mismatch with the measured sinogram yy.
+Define the data-fidelity functional and its Euclidean gradient:
+Φ⁡(x)=12​(AΩ​x−y)⊤​Σ−1​(AΩ​x−y),∇Φ​(x)=AΩ⊤​Σ−1​(AΩ​x−y).\Phi(x)\;=\;\tfrac{1}{2}(A_{\Omega}x-y)^{\top}\Sigma^{-1}(A_{\Omega}x-y),\qquad\nabla\Phi(x)\;=\;A_{\Omega}^{\top}\Sigma^{-1}(A_{\Omega}x-y).
+(34)
+Under the pullback metric Gγproj=AΩ⊤​Σ−1​AΩ+γproj​IG_{\gamma_{\mathrm{proj}}}=A_{\Omega}^{\top}\Sigma^{-1}A_{\Omega}+\gamma_{\mathrm{proj}}I,
+the Riemannian gradient of Φ\Phi is
+gradGγprojΦ(x)=Gγproj−1∇Φ(x)=Gγproj−1AΩ⊤Σ−1(AΩx−y).\operatorname{grad}_{G_{\gamma_{\mathrm{proj}}}}\Phi(x)\;=\;{G^{-1}_{\gamma_{\mathrm{proj}}}}\nabla\Phi(x)\;=\;{G^{-1}_{\gamma_{\mathrm{proj}}}}A_{\Omega}^{\top}\Sigma^{-1}(A_{\Omega}x-y).
+(35)
+We use a separate regularization parameter γproj>0\gamma_{\mathrm{proj}}>0 for the data-consistency correction.
+This parameter controls the trade-off between measurement agreement and numerical stability. It is distinct from the pullback-metric parameter γ\gamma used in the diffusion update and the null-space parameter γnull\gamma_{\mathrm{null}} used in Section 3.5.
+For sparse-view and limited-angle CT, AΩA_{\Omega} may be rank deficient or
+severely ill-conditioned. We therefore formulate data consistency directly as the regularized proximity problem
+x+=arg⁡minx​{12​‖x−x~‖22+τ2​‖AΩ​x−y‖Σ2},‖v‖Σ2:=v⊤​Σ−1​v,x^{+}\;=\;\arg\min_{x}\left\{\tfrac{1}{2}\|x-\tilde{x}\|_{2}^{2}+\tfrac{\tau}{2}\|A_{\Omega}x-y\|_{\Sigma}^{2}\right\},\qquad\|v\|_{\Sigma}^{2}:=v^{\top}\Sigma^{-1}v,
+(36)
+where τ>0\tau>0 controls the strength of data consistency.
+To obtain the minimizer, we define
+J⁡(x)=12​‖x−x~‖22+τ2​(AΩ​x−y)⊤​Σ−1​(AΩ​x−y).J(x)\;=\;\tfrac{1}{2}\|x-\tilde{x}\|_{2}^{2}+\tfrac{\tau}{2}(A_{\Omega}x-y)^{\top}\Sigma^{-1}(A_{\Omega}x-y).
+(37)
+Differentiating J⁡(x)J(x) with respect to xx gives
+∇J​(x)=x−x~+τ​AΩ⊤​Σ−1​(AΩ​x−y).\nabla J(x)\;=\;x-\tilde{x}+\tau A_{\Omega}^{\top}\Sigma^{-1}(A_{\Omega}x-y).
+(38)
+At the minimum x=x+x=x^{+}, this gradient is zero. Therefore,
+x+−x~+τ​AΩ⊤​Σ−1​(AΩ​x+−y)= 0.x^{+}-\tilde{x}+\tau A_{\Omega}^{\top}\Sigma^{-1}(A_{\Omega}x^{+}-y)\;=\;0.
+(39)
+Rearranging the terms gives
+(In+τ​AΩ⊤​Σ−1​AΩ)​x+=x~+τ​AΩ⊤​Σ−1​y.\left(I_{n}+\tau A_{\Omega}^{\top}\Sigma^{-1}A_{\Omega}\right)x^{+}\;=\;\tilde{x}+\tau A_{\Omega}^{\top}\Sigma^{-1}y.
+(40)
+Setting γproj=1/τ\gamma_{\mathrm{proj}}=1/\tau and rearranging yields
+x+=x~−Gγproj−1​AΩ⊤​Σ−1​(AΩ​x~−y),Gγproj=AΩ⊤​Σ−1​AΩ+γproj​In.x^{+}\;=\;\tilde{x}-{G^{-1}_{\gamma_{\mathrm{proj}}}}A_{\Omega}^{\top}\Sigma^{-1}(A_{\Omega}\tilde{x}-y),\qquad{G_{\gamma_{\mathrm{proj}}}}=A_{\Omega}^{\top}\Sigma^{-1}A_{\Omega}+\gamma_{\mathrm{proj}}I_{n}.
+(41)
+Equation (41) is also one unit
+Riemannian-gradient step,
+x+=x~−gradGγproj⁡Φ⁡(x~),x^{+}\;=\;\tilde{x}-\operatorname{grad}_{G_{\gamma_{\mathrm{proj}}}}\Phi(\tilde{x}),
+(42)
+so the data-consistency correction and the Langevin drift use the same pullback geometry. Since Gγproj{G_{\gamma_{\mathrm{proj}}}} is symmetric positive definite for every γproj>0\gamma_{\mathrm{proj}}>0, the correction is well-defined regardless of the rank of AΩA_{\Omega}. For finite γproj\gamma_{\mathrm{proj}}, it improves measurement consistency but does not generally enforce AΩ​x+=yA_{\Omega}x^{+}=y exactly.
+The term Gγproj−1​AΩ⊤​Σ−1​(AΩ​x~−y){G^{-1}_{\gamma_{\mathrm{proj}}}}A_{\Omega}^{\top}\Sigma^{-1}(A_{\Omega}\tilde{x}-y) in the update (41) lies in ℛ⁡(AΩ⊤)\mathcal{R}(A_{\Omega}^{\top}) by construction, so the update modifies only the measurement-sensitive component of x~\tilde{x} while leaving its null-space component intact. This is complementary to the geometry-aware diffusion update, in which the projection enforces near-hard measurement fidelity, while the diffusion dynamics govern prior-driven reconstruction and uncertainty exploration in the null-space.
+Remark (Regularized data consistency under noisy measurements).
+For a measured sinogram yy, define the exact consistency set
+𝒞y:={x∈ℝn:AΩ​x=y}.\mathcal{C}_{y}\;:=\;\left\{x\in\mathbb{R}^{n}:A_{\Omega}x=y\right\}.
+(43)
+This set is nonempty if and only if
+y∈ℛ⁡(AΩ)y\in\mathcal{R}(A_{\Omega}). When it is nonempty,
+𝒞y\mathcal{C}_{y} is a closed affine subspace of ℝn\mathbb{R}^{n},
+rather than a curved manifold. If y∉ℛ⁡(AΩ)y\notin\mathcal{R}(A_{\Omega}),
+then no image can reproduce the measured sinogram exactly.
+Under the noisy measurement model y=AΩ​x⋆+εy=A_{\Omega}x^{\star}+\varepsilon, exact consistency may be infeasible
+because the noise realization ε\varepsilon need not lie in
+ℛ⁡(AΩ)\mathcal{R}(A_{\Omega}). Even when the constraint is feasible, enforcing AΩ​x+=yA_{\Omega}x^{+}=y exactly fits the noisy measurement and may introduce noise-related features into the reconstruction.
+The update in (41) is therefore implemented as a regularized data-consistency correction rather than an exact projection. It is well-defined for every
+γproj>0\gamma_{\mathrm{proj}}>0, regardless of the rank of AΩA_{\Omega} or the feasibility of the exact constraint. Smaller values of
+γproj\gamma_{\mathrm{proj}} produce stronger agreement with the measurements along observable directions, whereas larger values give a weaker and more strongly regularized correction with improved numerical conditioning.
+3.5 Approximately Null-Space-Restricted Stochastic Sampling
+The regularized data-consistency correction in Section 3.4 acts along measurement-sensitive directions in ℛ⁡(AΩ⊤)\mathcal{R}(A_{\Omega}^{\top}) and does not directly modify the exact null-space component. Reconstruction ambiguity may therefore remain along exact null-space directions and along directions that are only weakly constrained relative to the measurement noise. To explore this ambiguity, we introduce stochastic perturbations that retain more variation along weakly constrained and unobservable directions while suppressing measurement-sensitive components.
+Exact null-space invariance.
+Suppose that xx satisfies AΩ​x=yA_{\Omega}x=y. For any
+v∈𝒩⁡(AΩ)v\in\mathcal{N}(A_{\Omega}),
+AΩ​(x+v)=AΩ​x+AΩ​v=y.A_{\Omega}(x+v)\;=\;A_{\Omega}x+A_{\Omega}v\;=\;y.
+(44)
+Thus, an exact null-space perturbation does not change the predicted sinogram. An exact orthogonal projection onto
+𝒩⁡(AΩ)\mathcal{N}(A_{\Omega}) can be expressed using the Moore–Penrose
+pseudoinverse of the discretized forward operator. Although this
+pseudoinverse exists mathematically, accurately applying it can be
+computationally demanding for large-scale and ill-conditioned CT systems. We therefore use a regularized approximation based on forward and backprojection operations.
+Approximate null-space perturbation.
+At reconstruction iteration kk, we draw
+ζ(k)∼𝒩⁡(0,In),\zeta^{(k)}\sim\mathcal{N}(0,I_{n}),
+(45)
+where InI_{n} is the n×nn\times n identity matrix. The isotropic random vector ζ(k)\zeta^{(k)} generally contains components along both measurement-sensitive and null-space directions.
+We represent its measurement-sensitive component approximately as
+AΩ⊤​q(k)A_{\Omega}^{\top}q^{(k)}, where q(k)∈ℝmq^{(k)}\in\mathbb{R}^{m} is a measurement-space coefficient vector. We therefore seek a perturbation of the form
+v(k)=ζ(k)−AΩ⊤​q(k).v^{(k)}\;=\;\zeta^{(k)}-A_{\Omega}^{\top}q^{(k)}.
+(46)
+Requiring exact null-space membership would give
+AΩ​v(k)\displaystyle A_{\Omega}v^{(k)}
+=AΩ​ζ(k)−AΩ​AΩ⊤​q(k)\displaystyle=\;A_{\Omega}\zeta^{(k)}-A_{\Omega}A_{\Omega}^{\top}q^{(k)}
+(47)
+= 0,\displaystyle=\;0,
+and hence
+AΩ​AΩ⊤​q(k)=AΩ​ζ(k).A_{\Omega}A_{\Omega}^{\top}q^{(k)}\;=\;A_{\Omega}\zeta^{(k)}.
+(48)
+Because AΩ​AΩ⊤A_{\Omega}A_{\Omega}^{\top} may be singular or severely
+ill-conditioned, we replace this system with the noise-weighted
+regularized system
+(AΩ​AΩ⊤+γnull​Σ)​q(k)=AΩ​ζ(k),γnull>0.\left(A_{\Omega}A_{\Omega}^{\top}+\gamma_{\mathrm{null}}\Sigma\right)q^{(k)}\;=\;A_{\Omega}\zeta^{(k)},\qquad\gamma_{\mathrm{null}}>0.
+(49)
+Because Σ≻0\Sigma\succ 0 and γnull>0\gamma_{\mathrm{null}}>0, the matrix in (49) is symmetric positive definite, even when AΩA_{\Omega} is rank deficient. It can therefore be solved using conjugate gradient.
+Combining (46) and (49) gives
+v(k)=[In−AΩ⊤​(AΩ​AΩ⊤+γnull​Σ)−1​AΩ]​ζ(k).v^{(k)}\;=\;\left[I_{n}-A_{\Omega}^{\top}\left(A_{\Omega}A_{\Omega}^{\top}+\gamma_{\mathrm{null}}\Sigma\right)^{-1}A_{\Omega}\right]\zeta^{(k)}.
+(50)
+The same perturbation can equivalently be written in image space as
+v(k)=γnull​(AΩ⊤​Σ−1​AΩ+γnull​In)−1​ζ(k).v^{(k)}\;=\;\gamma_{\mathrm{null}}\left(A_{\Omega}^{\top}\Sigma^{-1}A_{\Omega}+\gamma_{\mathrm{null}}I_{n}\right)^{-1}\zeta^{(k)}.
+(51)
+To explain the filtering effect, let ϕi\phi_{i} be an eigenvector of
+AΩ⊤​Σ−1​AΩA_{\Omega}^{\top}\Sigma^{-1}A_{\Omega} with eigenvalue μi≥0\mu_{i}\geq 0. Along
+this direction,
+γnull​(AΩ⊤​Σ−1​AΩ+γnull​In)−1​ϕi=γnullμi+γnull​ϕi.\gamma_{\mathrm{null}}\left(A_{\Omega}^{\top}\Sigma^{-1}A_{\Omega}+\gamma_{\mathrm{null}}I_{n}\right)^{-1}\phi_{i}\;=\;\frac{\gamma_{\mathrm{null}}}{\mu_{i}+\gamma_{\mathrm{null}}}\phi_{i}.
+(52)
+If μi=0\mu_{i}=0, then AΩ​ϕi=0A_{\Omega}\phi_{i}=0, so ϕi\phi_{i} is an exact
+null-space direction and its component is retained. If μi\mu_{i} is large, the direction is strongly constrained by the noise-weighted measurements and its random component is strongly suppressed. If μi\mu_{i} is small but nonzero, the direction is weakly constrained and its component is partially retained.
+For finite γnull>0\gamma_{\mathrm{null}}>0, the perturbation is not generally an exact null-space vector. Indeed, using
+(49),
+AΩ​v(k)\displaystyle A_{\Omega}v^{(k)}
+=AΩ​ζ(k)−AΩ​AΩ⊤​q(k)\displaystyle=\;A_{\Omega}\zeta^{(k)}-A_{\Omega}A_{\Omega}^{\top}q^{(k)}
+(53)
+=γnull​Σ​q(k).\displaystyle=\;\gamma_{\mathrm{null}}\Sigma q^{(k)}.
+Thus, v(k)v^{(k)} may change the predicted sinogram. The parameter
+γnull\gamma_{\mathrm{null}} controls the regularized filtering of
+measurement-sensitive components. As
+γnull→0\gamma_{\mathrm{null}}\to 0, the spectral factors approach one for exact null-space directions and zero for directions with μi>0\mu_{i}>0. Therefore, the operator in (50) approaches the orthogonal projector onto 𝒩⁡(AΩ)\mathcal{N}(A_{\Omega}).
+Remark.
+The eigenvalue analysis is used only to explain the filtering effect. No eigenvectors or eigenvalues are computed in practice. Instead, q(k)q^{(k)} is obtained by solving (49) using conjugate gradient. Each iteration requires applications of the forward operator, the backprojection operator, and the diagonal noise covariance. No pseudoinverse or dense matrix is formed explicitly.
+Sampling update.
+The approximately null-space-restricted perturbation is added to the intermediate reconstruction according to
+x~(k)←x~(k)+βk​v(k),\tilde{x}^{(k)}\leftarrow\tilde{x}^{(k)}+\beta_{k}v^{(k)},
+(54)
+where βk≥0\beta_{k}\geq 0 controls the perturbation magnitude. Because
+v(k)v^{(k)} is only approximately null-space restricted, this update may change the predicted sinogram. The subsequent regularized data-consistency correction reduces the resulting measurement residual before producing x(k+1)x^{(k+1)}.
+3.6 Overall Algorithm
+The components introduced above are combined into the iterative reconstruction procedure summarized in
+Algorithm 1. Algorithm 1 begins from an initial reconstruction x(0)=Initialize⁡(y)x^{(0)}=\operatorname{Initialize}(y) (Line 1). The initialization may be obtained using FBP, an iterative reconstruction method, an approximate
+inverse, or another suitable procedure. The algorithm then performs TT reconstruction iterations (Lines 2–28), with one DDPM timestep tkt_{k} assigned to each iteration kk.
+DDPM score and geometry-preconditioned update
+(Lines 3–9). At iteration kk, the algorithm first draws
+ϵ(k)∼𝒩⁡(0,In)\epsilon^{(k)}\sim\mathcal{N}(0,I_{n}) (Line 3) and constructs a noisy version of the current reconstruction using the DDPM forward-noising equation (Line 4). The pretrained ϵ\epsilon-prediction network then provides the DDPM score estimate s(k)s^{(k)} at timestep tkt_{k} (Line 5).
+The data-fidelity gradient g(k)g^{(k)} is evaluated at the current reconstruction x(k)x^{(k)} (Line 6). The DDPM score and data-fidelity gradient are combined to form the guidance direction r(k)r^{(k)} (Line 7). Because these two terms are evaluated at different states, r(k)r^{(k)} is a practical combined guidance direction rather than an exact
+diffusion-time posterior score.
+The pullback-metric-preconditioned direction u(k)u^{(k)} is obtained using
+a conjugate-gradient solve (Line 8). The resulting direction is applied with step size αk\alpha_{k} to produce the intermediate estimate x~(k)\tilde{x}^{(k)} (Line 9).
+Metric-shaped Langevin noise (Lines 10–15).
+When Langevin noise is enabled (Line 10), the algorithm draws independent standard Gaussian vectors in the measurement and image spaces (Line 11).
+These vectors are combined to form
+w(k)∼𝒩⁡(0,Gγ)w^{(k)}\sim\mathcal{N}(0,G_{\gamma}) (Line 12). Solving
+Gγ​z(k)=w(k)G_{\gamma}z^{(k)}=w^{(k)} by conjugate gradient (Line 13) gives z(k)∼𝒩⁡(0,Gγ−1)z^{(k)}\sim\mathcal{N}(0,G_{\gamma}^{-1}) when the system is solved exactly. The scaled perturbation
+2​αk​z(k)\sqrt{2\alpha_{k}}\,z^{(k)} is then added to the intermediate estimate (Line 14). This produces stochastic variation whose covariance is adapted to the measurement-induced geometry.
+Approximately null-space-restricted perturbation
+(Lines 16–21). When null-space perturbation is enabled (Line 16), the algorithm draws an isotropic image-space vector ζ(k)\zeta^{(k)} (Line 17). It then solves the
+noise-weighted regularized measurement-space system for q(k)q^{(k)} (Line 18). Subtracting the estimated measurement-sensitive component gives
+v(k)=ζ(k)−AΩ⊤​q(k)v^{(k)}\;=\;\zeta^{(k)}-A_{\Omega}^{\top}q^{(k)}
+(55)
+(Line 19). The perturbation is added with magnitude βk\beta_{k} (Line 20).
+For finite γnull>0\gamma_{\mathrm{null}}>0, v(k)v^{(k)} is only approximately in 𝒩⁡(AΩ)\mathcal{N}(A_{\Omega}). It suppresses components that strongly affect the measurements while retaining more variation along weakly constrained and
+unobservable directions.
+Regularized data-consistency correction
+(Lines 22–27). The correction is applied according to the projection schedule (Line 22). At a scheduled iteration, the algorithm solves the regularized
+measurement-space system for η(k)\eta^{(k)} (Line 23) and backprojects this vector to update the reconstruction (Line 24). The correction acts in ℛ⁡(AΩ⊤)\mathcal{R}(A_{\Omega}^{\top}) and reduces the measurement residual without directly modifying the exact null-space component.
+Because γproj>0\gamma_{\mathrm{proj}}>0, this operation is a regularized near-hard data-consistency correction rather than an exact orthogonal projection. When no correction is scheduled, the intermediate estimate is passed directly to the next iteration (Lines 25–26).
+After completing all TT iterations, the algorithm returns the final reconstruction x(T)x^{(T)} (Line 29).
+The ideal continuous Langevin process in Section 3.2 has the target posterior as an invariant distribution under the stated assumptions. Algorithm 1 additionally uses a DDPM-based approximate guidance direction, finite step sizes, finite-tolerance CG solves, approximately null-space-restricted perturbations, and scheduled data-consistency corrections. It should therefore be interpreted as a practical geometry-aware stochastic reconstruction procedure rather than an exact discretization of the ideal
+posterior dynamics.
+Algorithm 1 Geometry-Aware Diffusion-Score-Guided Reconstruction
+1:
+Forward operator AΩA_{\Omega}, measurement yy, noise covariance
+Σ\Sigma, pretrained DDPM noise predictor ϵθ\epsilon_{\theta},
+DDPM timesteps {tk}k=0T−1\{t_{k}\}_{k=0}^{T-1} and cumulative coefficients
+{α¯tk}k=0T−1\{\bar{\alpha}_{t_{k}}\}_{k=0}^{T-1}, regularisation parameters
+γ\gamma, γnull\gamma_{\mathrm{null}}, γproj\gamma_{\mathrm{proj}},
+step sizes αk\alpha_{k}, weights λk\lambda_{k}, μk\mu_{k}, βk\beta_{k},
+projection interval kprojk_{\mathrm{proj}}, CG tolerance τ\tau
+2:
+x(0)←Initialize⁡(y)x^{(0)}\leftarrow\operatorname{Initialize}(y)
+⊳\triangleright initial reconstruction
+3:
+for k=0,1,…,T−1k=0,1,\ldots,T-1 do
+4:
+Sample ϵ(k)∼𝒩⁡(0,In)\epsilon^{(k)}\sim\mathcal{N}(0,I_{n})
+5:
+xtk(k)←α¯tk​x(k)+1−α¯tk​ϵ(k)x_{t_{k}}^{(k)}\leftarrow\sqrt{\bar{\alpha}_{t_{k}}}\,x^{(k)}+\sqrt{1-\bar{\alpha}_{t_{k}}}\,\epsilon^{(k)}
+⊳\triangleright DDPM forward noising
+6:
+s(k)←−ϵθ(xtk(k),tk)/1−α¯tks^{(k)}\leftarrow-\epsilon_{\theta}(x_{t_{k}}^{(k)},t_{k})/\sqrt{1-\bar{\alpha}_{t_{k}}}
+⊳\triangleright DDPM score estimate
+7:
+g(k)←AΩ⊤​Σ−1​(AΩ​x(k)−y)g^{(k)}\leftarrow A_{\Omega}^{\top}\Sigma^{-1}(A_{\Omega}x^{(k)}-y)
+⊳\triangleright data-fidelity gradient
+8:
+r(k)←λk​s(k)−μk​g(k)r^{(k)}\leftarrow\lambda_{k}s^{(k)}-\mu_{k}g^{(k)}
+⊳\triangleright combined guidance direction
+9:
+Solve
+(AΩ⊤​Σ−1​AΩ+γ​In)​u(k)=r(k)(A_{\Omega}^{\top}\Sigma^{-1}A_{\Omega}+\gamma I_{n})u^{(k)}=r^{(k)}
+⊳\triangleright CG, tol. τ\tau
+10:
+x~(k)←x(k)+αk​u(k)\tilde{x}^{(k)}\leftarrow x^{(k)}+\alpha_{k}u^{(k)}
+⊳\triangleright geometry-preconditioned update
+11:
+if Langevin noise is enabled then
+12:
+Sample
+ξ(k)∼𝒩⁡(0,Im)\xi^{(k)}\sim\mathcal{N}(0,I_{m}) and
+c(k)∼𝒩⁡(0,In)c^{(k)}\sim\mathcal{N}(0,I_{n})
+13:
+w(k)←AΩ⊤Σ−1/2ξ(k)+γc(k)w^{(k)}\leftarrow A_{\Omega}^{\top}\Sigma^{-1/2}\xi^{(k)}+\sqrt{\gamma}\,c^{(k)}
+⊳\triangleright w(k)∼𝒩⁡(0,Gγ)w^{(k)}\sim\mathcal{N}(0,G_{\gamma})
+14:
+Solve
+(AΩ⊤​Σ−1​AΩ+γ​In)​z(k)=w(k)(A_{\Omega}^{\top}\Sigma^{-1}A_{\Omega}+\gamma I_{n})z^{(k)}=w^{(k)}
+⊳\triangleright CG, tol. τ\tau
+15:
+x~(k)←x~(k)+2​αk​z(k)\tilde{x}^{(k)}\leftarrow\tilde{x}^{(k)}+\sqrt{2\alpha_{k}}\,z^{(k)}
+⊳\triangleright metric-shaped noise
+16:
+end if
+17:
+if null-space perturbation is enabled then
+18:
+Sample
+ζ(k)∼𝒩⁡(0,In)\zeta^{(k)}\sim\mathcal{N}(0,I_{n})
+19:
+Solve
+(AΩ​AΩ⊤+γnull​Σ)​q(k)=AΩ​ζ(k)(A_{\Omega}A_{\Omega}^{\top}+\gamma_{\mathrm{null}}\Sigma)q^{(k)}=A_{\Omega}\zeta^{(k)}
+⊳\triangleright CG, tol. τ\tau
+20:
+v(k)←ζ(k)−AΩ⊤​q(k)v^{(k)}\leftarrow\zeta^{(k)}-A_{\Omega}^{\top}q^{(k)}
+⊳\triangleright approximate null-space perturbation
+21:
+x~(k)←x~(k)+βk​v(k)\tilde{x}^{(k)}\leftarrow\tilde{x}^{(k)}+\beta_{k}v^{(k)}
+22:
+end if
+23:
+if kmodkproj=0k\bmod k_{\mathrm{proj}}=0 then
+24:
+Solve
+(AΩ​AΩ⊤+γproj​Σ)​η(k)=AΩ​x~(k)−y(A_{\Omega}A_{\Omega}^{\top}+\gamma_{\mathrm{proj}}\Sigma)\eta^{(k)}=A_{\Omega}\tilde{x}^{(k)}-y
+⊳\triangleright CG, tol. τ\tau
+25:
+x(k+1)←x~(k)−AΩ⊤​η(k)x^{(k+1)}\leftarrow\tilde{x}^{(k)}-A_{\Omega}^{\top}\eta^{(k)}
+⊳\triangleright regularized data-consistency correction
+26:
+else
+27:
+x(k+1)←x~(k)x^{(k+1)}\leftarrow\tilde{x}^{(k)}
+28:
+end if
+29:
+end for
+30:
+return x(T)x^{(T)}
+Table 1: Parameters of the geometry-aware reconstruction algorithm.
+Symbol
+Role
+Status
+γ\gamma
+Regularization of the pullback metric
+Gγ=AΩ⊤​Σ−1​AΩ+γ​InG_{\gamma}=A_{\Omega}^{\top}\Sigma^{-1}A_{\Omega}+\gamma I_{n}.
+It controls the conditioning and anisotropy of the geometry-preconditioned
+guidance and Langevin noise.
+required
+γnull\gamma_{\mathrm{null}}
+Regularization of the approximately null-space-restricted perturbation.
+It controls how strongly measurement-sensitive components of the
+isotropic perturbation are suppressed.
+required
+γproj\gamma_{\mathrm{proj}}
+Regularization of the data-consistency CG system. Smaller values generally
+produce a stronger correction, whereas larger values improve numerical
+stability and permit a larger measurement residual.
+required
+αk\alpha_{k}
+Step size of the geometry-preconditioned reconstruction update at
+iteration kk.
+required
+λk\lambda_{k}
+Weight of the DDPM score in the combined guidance direction.
+required
+μk\mu_{k}
+Weight of the data-fidelity gradient in the combined guidance direction.
+required
+βk\beta_{k}
+Magnitude of the approximately null-space-restricted perturbation.
+Setting βk=0\beta_{k}=0 disables this component.
+optional
+tkt_{k}
+DDPM timestep assigned to reconstruction iteration kk by the diffusion
+scheduler.
+fixed
+α¯tk\bar{\alpha}_{t_{k}}
+Cumulative DDPM noise-schedule coefficient at timestep tkt_{k}.
+fixed
+TT
+Total number of reconstruction iterations and selected DDPM timesteps.
+required
+kprojk_{\mathrm{proj}}
+Interval between regularized data-consistency corrections. A correction
+is applied when kmodkproj=0k\bmod k_{\mathrm{proj}}=0.
+optional
+τ\tau
+Convergence tolerance used by the conjugate-gradient solves.
+optional
+KCGK_{\mathrm{CG}}
+Maximum number of iterations used by each conjugate-gradient solve.
+optional
+The sequences {αk}\{\alpha_{k}\}, {λk}\{\lambda_{k}\}, {μk}\{\mu_{k}\}, and
+{βk}\{\beta_{k}\} may be constant or scheduled over the reconstruction
+iterations. In our implementation, each quantity is constant by default; a user-specified schedule can vary its value between the beginning and end of sampling. The exact values and schedules used in each experiment are reported in the implementation details.
+4 Experiments
+We evaluate the proposed geometry-aware approximate diffusion posterior sampling framework on sparse-view and limited-angle CT reconstruction. The experiments have three goals. First, we assess reconstruction quality by comparing against the DM4CT benchmark [40] using the standard distortion
+metrics PSNR and SSIM, and additionally provide qualitative
+comparisons across a range of acquisition degradations. Second, we evaluate whether the proposed method produces informative empirical sample variability rather than only a single point estimate, analysing the uncertainty structure of our method. Third, we verify the central geometry-aware claim: that posterior variability is suppressed in measurement space and concentrated in directions that are either invisible to the acquisition geometry or corrupted by measurement noise.
+Experiments are conducted on the medical CT data from the 2016 Low Dose Grand Challenge, following the data preprocessing and evaluation protocol used in DM4CT. Unless otherwise stated, stochastic reconstructions are generated from the same measured sinogram. For noisy configurations, the measurement noise realization is fixed and only the sampler seed varies between samples, ensuring that observed variability reflects posterior uncertainty rather than changes in the measurement itself.
+4.1 Reconstruction Performance
+We evaluate reconstruction performance from two complementary
+perspectives. First, we compare against existing methods on the standard DM4CT benchmark, reporting PSNR and SSIM to enable direct quantitative comparison with the published benchmark results (Section 4.1.1).
+Second, we provide qualitative comparisons across a controlled set of acquisition degradations, to isolate how different kinds of ill-posedness affect reconstruction quality (Section 4.1.2).
+Together, these two evaluations establish that the proposed method
+achieves competitive reconstruction quality across the range of CT acquisition conditions in DM4CT.
+4.1.1 Quantitative Benchmark Comparison
+We follow the standard DM4CT benchmark configurations to enable direct comparison with existing CT reconstruction methods. The five configurations are: (i) 40 projections without noise, (ii) 20 projection angles with mild noise, (iii) 80 projections with higher noise, (iv) 80 projections with mild noise and ring artifacts, and (v) 40 projections with limited-angle views [0,34​π][0,\frac{3}{4}\pi]. All methods are evaluated under the same forward operator, preprocessing, and metric computation protocol as DM4CT for fair comparison.
+We compare the proposed method with representative approaches from multiple categories as in the DM4CT paper:
+Classical methods: filtered back projection (FBP) [26], simultaneous iterative reconstruction technique (SIRT) [14], and total variation (TV)-regularized reconstruction [41].
+Unsupervised methods: deep image prior (DIP) [53] and implicit neural representations (INR) [42].
+Supervised methods: a state-of-the-art supervised reconstruction network trained on paired data [31].
+Diffusion-based methods: representative posterior sampling and data-consistency strategies, including DDS [8], DPS [7], PGDM [45], and ReSample [43].
+Table 2 reports PSNR and SSIM for all methods included in the DM4CT benchmark [40] under all five standard configurations, evaluated on the full test set of 526 images. Baseline results are taken directly from DM4CT; results for the proposed method are produced under the same evaluation protocol using N=10N=10 stochastic reconstructions averaged to form the sample-mean reconstruction.
+Table 2: Full quantitative comparison (PSNR dB / SSIM) on the DM4CT benchmark test set.
+Config i: 40 views (no noise);
+Config ii: 20 views + mild noise;
+Config iii: 80 views + higher noise;
+Config iv: 80 views + noise + ring artifacts;
+Config v: 40 views, limited angle [0,34​π][0,\tfrac{3}{4}\pi].
+Baseline results are adopted from DM4CT.
+Bold/underline: best/second-best among diffusion-based methods;
+†: overall best across all methods.
+Method
+Config i
+Config ii
+Config iii
+Config iv
+Config v
+FBP
+26.98 / 0.69
+9.89 / 0.03
+12.78 / 0.09
+14.50 / 0.13
+24.14 / 0.64
+SIRT
+30.40 / 0.80
+26.23 / 0.47
+24.48 / 0.32
+25.86 / 0.40
+26.49 / 0.72
+ADMM-PDTV
+30.56 / 0.79
+25.12 / 0.36
+18.20 / 0.10
+20.11 / 0.15
+29.69 / 0.80
+FISTA-SBTV
+30.57 / 0.82
+26.28 / 0.70
+25.39 / 0.67
+27.84 / 0.74
+27.68 / 0.76
+DIP
+28.58 / 0.80
+24.13 / 0.61
+26.40 / 0.66
+27.89 / 0.71
+27.87 / 0.75
+INR
+33.21 / 0.86
+26.15 / 0.76
+27.74 / 0.80
+29.50 / 0.74
+31.01 / 0.81
+R2Gaussian
+32.14 / 0.81
+24.90 / 0.70
+25.45 / 0.86†
+25.45 / 0.74
+28.26 / 0.78
+SwinIR
+32.45 / 0.88
+29.92† / 0.83†
+30.37† / 0.84
+30.79† / 0.85†
+28.93 / 0.81
+MCG
+30.00 / 0.79
+27.50 / 0.68
+28.90 / 0.71
+29.12 / 0.74
+28.32 / 0.74
+DPS
+30.75 / 0.79
+27.09 / 0.73
+27.81 / 0.74
+28.28 / 0.75
+27.47 / 0.72
+PSLD
+26.03 / 0.75
+25.12 / 0.73
+25.77 / 0.74
+26.03 / 0.75
+25.66 / 0.72
+PGDM
+30.26 / 0.80
+27.81 / 0.70
+28.44 / 0.66
+29.11 / 0.72
+29.66 / 0.77
+DDS
+31.43 / 0.84
+20.12 / 0.22
+19.41 / 0.25
+18.25 / 0.20
+28.58 / 0.77
+ReSample
+32.03 / 0.85
+27.92 / 0.73
+28.67 / 0.73
+29.70 / 0.76
+27.70 / 0.76
+DMPlug
+25.77 / 0.71
+25.78 / 0.71
+25.81 / 0.71
+25.70 / 0.68
+20.70 / 0.50
+Reddiff
+28.01 / 0.78
+26.87 / 0.67
+27.66 / 0.70
+27.70 / 0.73
+26.04 / 0.73
+HybridReg
+27.63 / 0.78
+26.68 / 0.67
+27.40 / 0.71
+27.44 / 0.73
+25.74 / 0.73
+DiffStateGrad
+27.46 / 0.77
+26.97 / 0.76
+27.35 / 0.77
+27.36 / 0.77
+24.29 / 0.70
+Ours
+34.04† / 0.89†
+28.98 / 0.81
+28.83 / 0.80
+29.42 / 0.81
+33.82† / 0.88†
+Evaluation protocol.
+Our method generates multiple samples from the posterior distribution p⁡(x∣y)p(x\mid y), while some baseline methods produce a single deterministic reconstruction. For a fair quantitative comparison with deterministic benchmarks, we use the posterior mean reconstruction as the representative estimate. We generate NN reconstructions {xj(i)}i=1N\{x_{j}^{(i)}\}_{i=1}^{N} for test image jj and use their sample mean as the representative reconstruction:
+x¯j:=1N​∑i=1Nxj(i)≈𝔼⁡[x∣yj].\bar{x}_{j}\;:=\;\frac{1}{N}\sum_{i=1}^{N}x_{j}^{(i)}\;\approx\;\mathbb{E}[x\mid y_{j}].
+(56)
+The posterior mean is the minimum mean-squared-error estimator and provides
+a single reconstruction for comparison with deterministic methods. PSNR
+and SSIM are computed between x¯j\bar{x}_{j} and the corresponding
+ground-truth image xgt,jx_{\mathrm{gt},j}. We report the dataset averages
+PSNRdataset=1M​∑j=1MPSNR⁡(x¯j,xgt,j),SSIMdataset=1M​∑j=1MSSIM⁡(x¯j,xgt,j),\operatorname{PSNR}_{\mathrm{dataset}}\;=\;\frac{1}{M}\sum_{j=1}^{M}\operatorname{PSNR}(\bar{x}_{j},x_{\mathrm{gt},j}),\qquad\operatorname{SSIM}_{\mathrm{dataset}}\;=\;\frac{1}{M}\sum_{j=1}^{M}\operatorname{SSIM}(\bar{x}_{j},x_{\mathrm{gt},j}),
+(57)
+where M=526M=526 is the number of test images, and N=10N=10 is the number of samples.
+For the noise-free and limited-angle settings (Configs i and v), the proposed method achieves the best performance
+among all compared methods. In Config i, it obtains
+34.04 dB/0.89, outperforming the strongest unsupervised baseline,
+INR, by 0.83 dB, the strongest supervised restoration baseline,
+SwinIR, by 1.59 dB, and the strongest diffusion-based posterior
+baseline, ReSample, by 2.01 dB. The advantage is even larger in
+Config v, where the proposed method reaches 33.82 dB/0.88,
+exceeding the next-best method, INR, by 2.81 dB and 0.07 in SSIM.
+This increase in margin from Config i to Config v is consistent with the role of geometry-aware guidance. In the sparse-view setting, the null-space is induced by missing views but is less directionally structured, so the advantage of geometry-aware comes primarily from the pullback metric redirecting updates away from measurement-sensitive directions. In the limited-angle setting, the null-space is strongly anisotropic and aligned with the missing angular range. The pullback metric explicitly accounts for this geometry, providing a stronger advantage as the null-space becomes more geometrically structured. This is also reflected in the behavior of ReSample, which drops from 32.03 dB in
+Config i to 27.70 dB in Config v, indicating that hard projection
+alone is insufficient for structured null-spaces.
+For the noisy sparse-view settings, the proposed method remains competitive and is particularly strong among posterior-sampling methods. In Config ii, it achieves 28.98 dB/0.81 SSIM, outperforming DPS, DDS, PGDM, and ReSample. In Config iii, the acquisition contains more projection views but a higher noise level. The increased angular coverage reduces the geometric
+ambiguity and therefore limits the relative advantage of null-space-aware sampling. Reconstruction quality is instead determined mainly by the balance between noise suppression and measurement consistency. In addition, the effective measurement precision is based on a post-log Gaussian approximation that is most reliable at moderate-to-high photon counts. Under the stronger noise in Config iii, deviations from this approximation may lead to less accurate likelihood weighting and reduce
+reconstruction performance. Consequently, the proposed method obtains a slightly lower PSNR than MCG (28.83 versus 28.90 dB). However, it achieves substantially higher SSIM (0.80 versus 0.71), indicating better preservation of structural information.
+Under ring artifacts (Config iv), the proposed method obtains
+29.42 dB/0.81, giving one of the strongest structural reconstructions among diffusion-based methods. Resample is slightly higher in PSNR, while the proposed method maintains a higher SSIM. One possible explanation is that the projection-consistency term forces the reconstruction to match the measured sinogram. When the sinogram contains ring artifacts, this can also force the reconstruction to keep some of these artifacts, which may lower the PSNR. This suggests that ring artifacts may require artifact-aware noise modelling or adaptive precision weighting, so that unreliable sinogram components are not treated with the same confidence as clean measurements.
+Since posterior-sampling methods are stochastic, their performance can depend on the particular sample drawn from the posterior. To assess this variability, we additionally generate 20 stochastic reconstruction samples for DDS, DPS, PGDM, ReSample, and the proposed method on one representative test slice for each acquisition configuration. We select DDS [8], DPS [7], PGDM [45], and ReSample [43] for this analysis because they achieve competitive performance in the benchmark and can generate multiple stochastic reconstruction samples. They therefore provide appropriate baselines for assessing both reconstruction accuracy and sampling variability. The posterior mean and sample variability are reported in Appendix B.1. This analysis is not
+intended to replace the benchmark-style comparison in Table 2, but to provide additional insight into the stability of the posterior samplers.
+4.1.2 Qualitative Comparison across Acquisition Degradations
+We compare visually against four representative diffusion-based methods:
+DDS [8], DPS [7], PGDM [45], and ReSample [43]. These methods represent two broad approaches to data consistency. DDS, DPS, and PGDM use gradient- or optimization-guided updates. ReSample combines a
+hard data-consistency correction with resampling. All four are top-performing diffusion-based methods in the DM4CT benchmark, making them strong and representative baselines. FBP is included as an analytical reference to the reconstruction difficulty of each setting rather than as a competitive baseline.
+For comparison, we use a controlled configuration set
+that varies one factor at a time:
+(i) 40 projections without noise,
+(ii) 40 projections with mild Poisson noise,
+(iii) 40 projections with limited angular range [0,3​π/4][0,3\pi/4],
+(iv) 40 projections with limited angular range [0,π/2][0,\pi/2], and
+(v) 10 projections with mild Poisson noise.
+This isolates whether reconstruction degradation is caused by an enlarged null-space, missing directional information, or measurement noise. Figure 1 presents the qualitative
+results for all five settings.
+Figure 1: Qualitative reconstruction comparison under five controlled
+acquisition-degradation settings. Columns show ground truth, FBP, DDS, DPS, PGDM, ReSample, and the proposed method (Ours). FBP is shown as an analytical reference illustrating acquisition ill-posedness; all diffusion-based methods show the sample mean over N=20N=20 stochastic reconstructions. Yellow and cyan insets show zoomed regions of interest. PSNR and SSIM are computed on the posterior mean.
+As expected, FBP degrades rapidly as the inverse problem becomes more ill-posed. In the noise-free sparse-view setting (i), streak artifacts are already visible, and the cyan zoom shows a grid-like interference pattern with reduced cortical bone definition. Under mild Poisson noise (ii), noise amplification dominates the reconstruction, obscuring both the lung boundary and the vertebral structure. In the limited-angle settings (iii–iv), FBP exhibits directional blurring and streaking aligned with the missing angular range; this effect becomes stronger as the angular coverage is reduced from [0,3​π/4][0,3\pi/4] to [0,π/2][0,\pi/2]. The most
+severe degradation occurs in the highly sparse noisy case (v), where streak artifacts dominate the image and fine anatomy is largely lost.11
+1
+In the benchmark-compatible implementation, the angular grid includes both 00 and π\pi. For parallel-beam CT, these two views are redundant up to detector reversal, effectively leaving one fewer distinct projection direction. We keep this geometry unchanged for all methods to ensure a fair comparison.
+The diffusion-based baselines show different behaviour across the five
+acquisition settings. DDS performs well when the measurements are noise-free: in setting (i), it recovers clean anatomy and sharp local structure (31.61 dB, SSIM 0.887), and it remains competitive in the limited-angle settings (iii–iv). However, it is much less robust to measurement noise. In the mild Poisson case (ii), its performance drops to 23.13 dB/0.342, with strong noise patterns in the lung region and a clear loss of vertebral structure in the cyan zoom. DPS and PGDM are more stable under noise, achieving 28.73 dB/0.802 and 28.28 dB/0.795 in setting (ii), respectively. However, their zoomed regions show residual smoothing and less distinct boundary detail, especially in the limited-angle cases. ReSample performs strongly in the sparse-view settings, reaching 32.32 dB/0.872 in setting (i) and 29.21 dB/0.780 in setting (ii), but degrades more substantially when the angular range is restricted. In setting (iv), it drops to 25.27 dB/0.768, and the zoomed regions show clear directional blurring. This suggests that hard projection is effective for sparse-view consistency, but is less sufficient when the null-space is structured by limited angular coverage.
+The proposed method gives the strongest overall performance in the first four settings. It achieves 33.32 dB/0.897 in setting (i), 29.84 dB/0.846 in setting (ii), 33.19 dB/0.893 in setting (iii), and 29.17 dB/0.843 in setting (iv), giving the best PSNR and SSIM in each of these cases. These quantitative gains are consistent with the visual comparison: the proposed method better suppresses noise amplification, reduces directional artifacts, and preserves sharper anatomical boundaries in both zoomed regions. The advantage is particularly clear in the limited-angle setting (iii), where the proposed method outperforms the strongest competing posterior baseline, DDS, by 1.86 dB and produces sharper local structure in the vertebral zoom. This trend remains visible in the more severe limited-angle setting (iv). Although the margin is smaller, the proposed method still achieves the best PSNR and SSIM among the posterior methods, reaching 29.17 dB/0.843.
+The most challenging setting (v), with only 10 noisy projections, shows a different trade-off. DPS obtains a slightly higher PSNR than the proposed method (27.42 dB versus 27.26 dB), but the proposed method achieves the highest SSIM among the posterior methods (0.786). Visually, DPS retains slightly more pixelwise contrast, but also shows residual streak artifacts, whereas the proposed method produces a smoother and more coherent reconstruction. This indicates that, in the most severely ill-posed noisy setting, PSNR and SSIM emphasise different aspects of reconstruction quality. In setting (v), the measurements are both extremely sparse and noisy. Under such conditions, hard or near-hard consistency, as used by ReSample and the proposed method, can preserve noise-related errors from the sinogram. This may limit PSNR, while the posterior mean still improves structural consistency, leading to high SSIM values.
+Overall, the visual and quantitative results support the benefit of
+geometry-aware sampling. The measurement-consistency step stabilises the range-space component of the reconstruction, while the pullback-metric-guided diffusion update improves the weakly constrained directions where the learned prior is most useful. This combination helps reduce streak artifacts, preserve anatomical boundaries, and produce stable posterior-mean reconstructions across sparse-view, noisy, and limited-angle settings.
+4.2 Empirical Sample-Variability Analysis
+A key output of the proposed framework is empirical sample variability
+alongside the reconstruction. Figure 2 summarises
+this behaviour across the five acquisition settings (as in
+Section 4.1.2). For each configuration, we show
+the FBP reconstruction, the sample-mean reconstruction, the pixel-wise
+sample standard deviation, and the absolute error
+|x¯−xgt||\bar{x}-x_{\mathrm{gt}}|. This layout allows us to compare where the
+generated reconstructions vary with where the sample mean makes
+reconstruction errors.
+Figure 2: Characterisation of the proposed method across five
+acquisition-degradation settings. From top to bottom: FBP reconstruction
+(illustrating acquisition ill-posedness), sample-mean reconstruction,
+pixel-wise sample standard deviation (darker = lower sample variability),
+and absolute error |x¯−xgt||\bar{x}-x_{\mathrm{gt}}|. The ground-truth column
+is shown for reference.
+In the noise-free sparse-view setting (i), the sample mean is close to the
+ground truth and the pixel-wise sample standard deviation is low across most
+of the image. The remaining sample variability is concentrated mainly around
+anatomical boundaries and fine structures. The absolute-error map shows a
+similar spatial pattern, with small errors in homogeneous regions and larger
+errors near interfaces. This suggests that, when the measurements are
+reliable, the generated reconstructions vary little in well-constrained
+regions and more near ambiguous structures.
+Adding Poisson noise in setting (ii) substantially increases the pixel-wise
+sample standard deviation. Unlike the noise-free case, the variability is no
+longer confined mainly to edges, but spreads through the lung parenchyma and
+soft tissue. This reflects the fact that the measurements themselves are
+corrupted, so even geometrically observed directions are less reliable. The
+absolute-error map is also more widespread, while the sample mean remains
+visually much cleaner than the FBP reconstruction. This indicates that
+averaging over stochastic reconstructions suppresses much of the noise, while
+their variability still reflects the effect of noisy measurements.
+The limited-angle settings show a different variability structure. In
+setting (iii), with angular range [0,3​π/4][0,3\pi/4], the pixel-wise sample
+standard deviation remains relatively low and is mainly visible around
+boundaries. In setting (iv), where the angular range is further reduced to
+[0,π/2][0,\pi/2], the variability becomes more pronounced and spatially
+structured, especially near the body boundary and along directions affected
+by the missing angular range. The corresponding error maps follow the same
+trend. In setting (iii), most errors appear near anatomical boundaries. In
+setting (iv), the errors become stronger and more directional. This suggests
+that the sample variability is related to the missing-angle geometry, rather
+than becoming uniformly larger across the image.
+The most challenging case is setting (v), which combines only 10 projections
+with measurement noise. Here the pixel-wise sample standard deviation is high
+and spatially structured, with strong variability around the body boundary,
+lung region, and internal anatomical interfaces. The absolute-error map is
+also brightest in these regions. Compared with setting (ii), the variability
+is less uniformly diffuse and more strongly shaped by the acquisition
+geometry. This is consistent with the large null space induced by extreme
+view sparsity. Many image structures are weakly constrained by the
+measurements, while the data-consistency correction still promotes agreement
+with the measured projection directions.
+Table 3: Mean pixel-wise sample standard deviation across N=20N=20 stochastic
+reconstructions under five CT acquisition configurations.
+Method
+Config i
+Config ii
+Config iii
+Config iv
+Config v
+DDS
+0.0194
+0.0523
+0.0209
+0.0250
+0.0459
+DPS
+0.0245
+0.0328
+0.0258
+0.0418
+0.0405
+PGDM
+0.0228
+0.0331
+0.0252
+0.0355
+0.0501
+ReSample
+0.0117
+0.0182
+0.0142
+0.0215
+0.0275
+Ours
+0.0079
+0.0260
+0.0081
+0.0082
+0.0205
+The values in Table 3 are consistent with these
+observations. The proposed method gives the lowest mean pixel-wise sample
+standard deviation in the more informative settings: 0.0079 in Config i,
+0.0081 in Config iii, and 0.0082 in Config iv. These low values indicate
+that the generated reconstructions agree closely when the measurements
+provide strong geometric constraints. In the noisy or highly undersampled
+settings, the variability increases, reaching 0.0260 in Config ii and
+0.0205 in Config v. This increase is expected, since measurement noise and
+extreme view sparsity both enlarge the set of plausible reconstructions.
+The corresponding spatial standard-deviation maps are shown in
+Appendix B.2,
+Figure 7. Compared with the diffusion-based
+baselines, the proposed method generally produces lower variability across
+reconstructions. DDS, DPS, and PGDM have higher mean pixel-wise standard
+deviations in most configurations. ReSample gives the closest competing
+values: its variability is higher than that of the proposed method in
+Configs i, iii, iv, and v, but lower in Config ii
+(0.0182 versus 0.0260). Lower variability alone does not necessarily
+indicate better uncertainty estimation, since it may also result from
+insufficient exploration. In our results, however, the proposed method
+combines competitive reconstruction quality with spatial variability that
+corresponds to anatomical interfaces, noisy regions, and structures affected
+by missing views. This correspondence suggests that the maps capture
+measurement-related reconstruction ambiguity rather than only uncontrolled
+sampling variation. They remain empirical variability diagnostics rather
+than calibrated posterior-uncertainty estimates.
+4.3 Geometry-aware analysis
+The previous sections evaluated reconstruction quality using PSNR and SSIM
+(Section 4.1) and characterised empirical
+sample variability through standard-deviation maps
+(Section 4.2). While these results quantify
+reconstruction fidelity and show where the generated reconstructions vary,
+they do not fully explain how the acquisition geometry shapes the
+reconstructions or their variability. To provide this geometric perspective,
+we next perform a geometry-aware analysis using regularized range–null
+component diagnostics.
+First, we validate the regularized range–null component analysis on
+representative reconstructions and confirm that the extracted null-like
+component is effectively invisible to the measurement operator
+(Section 4.3.1). Second, we apply the
+decomposition to stochastic reconstructions and examine whether their sample
+variability is concentrated in approximately measurement-invisible directions,
+as predicted by the geometry of the method
+(Section 4.3.2). Third, we isolate the role of
+pullback-metric preconditioning by comparing the proposed update with a
+Euclidean drift baseline, verifying that the geometry-aware update
+preferentially moves along weakly constrained directions while maintaining
+measurement consistency (Section 4.3.3). Finally, we
+evaluate the effect of signal-dependent precision weighting derived from the
+Poisson photon-counting noise model and demonstrate its benefit under
+realistic CT noise (Section 4.3.4).
+4.3.1 Regularized Range–Null Component Analysis
+Before analysing variability across stochastic reconstructions, we examine
+how the sample-mean reconstruction separates into measurement-sensitive and
+weakly constrained components. This analysis is motivated by the exact
+orthogonal direct-sum structure in
+Proposition 1, but avoids explicitly
+computing a pseudoinverse.
+We define the regularized range-component operator
+PR,γdec:=AΩ⊤​(AΩ​AΩ⊤+γdec​Im)−1​AΩ,γdec>0,P_{R,\gamma_{\mathrm{dec}}}\;:=\;A_{\Omega}^{\top}\left(A_{\Omega}A_{\Omega}^{\top}+\gamma_{\mathrm{dec}}I_{m}\right)^{-1}A_{\Omega},\qquad\gamma_{\mathrm{dec}}>0,
+(58)
+and its complementary null-like component operator
+PN,γdec:=In−PR,γdec.P_{N,\gamma_{\mathrm{dec}}}\;:=\;I_{n}-P_{R,\gamma_{\mathrm{dec}}}.
+(59)
+Because the exact range–null decomposition is determined by AΩA_{\Omega}, we
+use the unweighted Euclidean operator in this diagnostic. This isolates the
+effect of the acquisition geometry from the noise weighting used during
+reconstruction.
+For a reconstruction xx, we define
+xrange:=PR,γdec​x,xnull:=PN,γdec​x.x_{\mathrm{range}}\;:=\;P_{R,\gamma_{\mathrm{dec}}}x,\qquad x_{\mathrm{null}}\;:=\;P_{N,\gamma_{\mathrm{dec}}}x.
+(60)
+By construction,
+x=xrange+xnull.x=x_{\mathrm{range}}+x_{\mathrm{null}}.
+(61)
+Here, γdec>0\gamma_{\mathrm{dec}}>0 is a diagnostic regularization parameter
+used only for this post-processing analysis. It stabilizes the
+measurement-space solve and controls how strongly weakly observed directions
+are assigned to the null-like component. Smaller values produce a closer
+approximation to the exact range–null decomposition but lead to a more
+ill-conditioned linear system.
+The component xrangex_{\mathrm{range}} lies in
+ℛ⁡(AΩ⊤)\mathcal{R}(A_{\Omega}^{\top}) because it has the form
+AΩ⊤​qA_{\Omega}^{\top}q for some q∈ℝmq\in\mathbb{R}^{m}. It therefore emphasizes
+directions that affect the measured sinogram. The complementary component
+xnullx_{\mathrm{null}} emphasizes directions that are weakly constrained or
+unobservable under the acquisition geometry.
+For finite γdec>0\gamma_{\mathrm{dec}}>0, these operators are regularized
+component operators rather than exact orthogonal projectors. Consequently,
+xnullx_{\mathrm{null}} need not lie exactly in 𝒩⁡(AΩ)\mathcal{N}(A_{\Omega}), and the
+two components need not be orthogonal. As
+γdec→0\gamma_{\mathrm{dec}}\to 0, the operators approach the orthogonal
+projectors onto ℛ⁡(AΩ⊤)\mathcal{R}(A_{\Omega}^{\top}) and
+𝒩⁡(AΩ)\mathcal{N}(A_{\Omega}), respectively.
+To make the regularization independent of the numerical scaling of
+AΩA_{\Omega}, we set
+γdec=η​λmax​(AΩ​AΩ⊤),η=10−4.\gamma_{\mathrm{dec}}\;=\;\eta\,\lambda_{\max}\left(A_{\Omega}A_{\Omega}^{\top}\right),\qquad\eta=10^{-4}.
+(62)
+The largest eigenvalue is estimated using 20 matrix-free power iterations.
+For the 40-projection geometry used here, this gives
+λmax​(AΩ​AΩ⊤)≈1.9606×104\lambda_{\max}(A_{\Omega}A_{\Omega}^{\top})\approx 1.9606\times 10^{4} and
+γdec≈1.9606\gamma_{\mathrm{dec}}\approx 1.9606. The linear systems are solved by
+conjugate gradient with relative tolerance 10−610^{-6}.
+We quantify the relative squared norms of the two components and their cross
+term by
+rrange=‖xrange‖22‖x‖22,rnull=‖xnull‖22‖x‖22,ccross=2​⟨xrange,xnull⟩‖x‖22.r_{\mathrm{range}}\;=\;\frac{\|x_{\mathrm{range}}\|_{2}^{2}}{\|x\|_{2}^{2}},\qquad r_{\mathrm{null}}\;=\;\frac{\|x_{\mathrm{null}}\|_{2}^{2}}{\|x\|_{2}^{2}},\qquad c_{\mathrm{cross}}\;=\;\frac{2\langle x_{\mathrm{range}},x_{\mathrm{null}}\rangle}{\|x\|_{2}^{2}}.
+(63)
+These quantities satisfy
+rrange+rnull+ccross=1.r_{\mathrm{range}}+r_{\mathrm{null}}+c_{\mathrm{cross}}=1.
+(64)
+Because ccrossc_{\mathrm{cross}} is generally nonzero, the first two quantities
+are relative component-magnitude diagnostics rather than fractions of an
+orthogonal energy decomposition.
+We further measure the relative sinogram response of the null-like component:
+ρnull=‖AΩ​xnull‖2‖AΩ​x‖2.\rho_{\mathrm{null}}\;=\;\frac{\|A_{\Omega}x_{\mathrm{null}}\|_{2}}{\|A_{\Omega}x\|_{2}}.
+(65)
+A small value of ρnull\rho_{\mathrm{null}} indicates that the extracted null-like
+component only weakly affects the predicted sinogram.
+Figure 3:
+Regularized range–null component analysis of sample-mean
+reconstructions for a representative test image under
+(a) 40-projection noise-free and
+(b) 40-projection Poisson-noise conditions.
+Each row shows the sample mean obtained from N=20N=20 stochastic
+reconstructions, its regularized range component, and its complementary
+null-like component. The component images are independently
+contrast-normalized for visualization; their displayed intensities
+therefore do not represent their relative magnitudes.
+Table 4:
+Regularized range–null diagnostics for posterior-mean reconstructions. The quantities rranger_{\mathrm{range}} and rnullr_{\mathrm{null}} are relative squared norms, ccrossc_{\mathrm{cross}} accounts for their nonorthogonality, and ρnull\rho_{\mathrm{null}} measures the relative sinogram response of the null-like component.
+Setting
+rranger_{\mathrm{range}}
+rnullr_{\mathrm{null}}
+ccrossc_{\mathrm{cross}}
+ρnull\rho_{\mathrm{null}}
+40 projections (noise-free)
+0.99631
+0.00305
+6.43×10−46.43\times 10^{-4}
+1.93×10−41.93\times 10^{-4}
+40 projections (Poisson noise)
+0.99729
+0.00217
+5.43×10−45.43\times 10^{-4}
+1.77×10−41.77\times 10^{-4}
+Figure 3 shows that the regularized range component retains most of the overall image magnitude and low-frequency anatomical content, whereas the null-like component emphasizes edge- and streak-like structures that are weakly constrained by the acquisition geometry. Quantitatively, the range-component squared norm is 99.631%99.631\% of the reconstruction squared norm in the noise-free case and
+99.729%99.729\% in the Poisson-noise case. The corresponding null-like-component ratios are 0.305%0.305\% and 0.217%0.217\%, respectively.
+In both settings, ρnull\rho_{\mathrm{null}} is below
+2×10−42\times 10^{-4}, showing that the extracted null-like component has only a small effect on the sinogram. These results support its interpretation as an approximately measurement-invisible component under
+the 40-projection geometry. Because this experiment analyses posterior means, the component ratios should not be interpreted as measures of posterior uncertainty; variability across stochastic reconstruction samples is examined
+separately.
+4.3.2 Geometry-Aware Posterior Variability Analysis
+We next analyse the geometry of the posterior variability produced by the proposed reconstruction method. For each acquisition setting, we first generate KK posterior reconstructions
+{x(k)}k=1K\{x^{(k)}\}_{k=1}^{K} of the same test image using different random seeds and the same measured sinogram. The posterior mean is then computed as x¯=1K​∑k=1Kx(k)\bar{x}=\frac{1}{K}\sum_{k=1}^{K}x^{(k)}. All diagnostics in this subsection are computed from these reconstructed stochastic reconstruction samples. Thus, the analysis does not study synthetic perturbations,
+but the actual variability of the reconstructions produced by the sampler.
+To investigate whether this posterior variability follows the measurement geometry, we perform two complementary analyses. First, we compare the variability of the posterior reconstructions in image space with their variability after applying the CT forward operator. Given the stochastic reconstruction samples {x(k)}k=1K\{x^{(k)}\}_{k=1}^{K} and sample mean x¯\bar{x}, we compute
+σx\displaystyle\sigma_{x}
+=1K​∑k=1K(x(k)−x¯)2,σy\displaystyle=\sqrt{\frac{1}{K}\sum_{k=1}^{K}\left(x^{(k)}-\bar{x}\right)^{2}},\qquad\sigma_{y}
+=1K​∑k=1K(AΩ​x(k)−AΩ​x¯)2.\displaystyle=\sqrt{\frac{1}{K}\sum_{k=1}^{K}\left(A_{\Omega}x^{(k)}-A_{\Omega}\bar{x}\right)^{2}}.
+(66)
+Here, σx\sigma_{x} measures pixel-wise variability across reconstructed images, whereas σy\sigma_{y} measures how much this variability remains visible in the corresponding sinograms.
+To compare variability in the two domains, we normalise by the magnitude of the corresponding posterior mean:
+Rimg\displaystyle R_{\mathrm{img}}
+=‖σx‖2‖x¯‖2,Rsino\displaystyle=\frac{\|\sigma_{x}\|_{2}}{\|\bar{x}\|_{2}},\qquad R_{\mathrm{sino}}
+=‖σy‖2‖AΩ​x¯‖2,Rsino/img\displaystyle=\frac{\|\sigma_{y}\|_{2}}{\|A_{\Omega}\bar{x}\|_{2}},\qquad R_{\mathrm{sino/img}}
+=RsinoRimg.\displaystyle=\frac{R_{\mathrm{sino}}}{R_{\mathrm{img}}}.
+(67)
+A small value of Rsino/imgR_{\mathrm{sino/img}} means that differences between
+posterior reconstructions are strongly reduced after applying the forward operator. This indicates that much of the image-space variability lies in directions that are weakly visible, or approximately invisible, to the measurements.
+Second, we decompose the deviation of each posterior reconstruction from the posterior mean,
+v(k)=x(k)−x¯v^{(k)}=x^{(k)}-\bar{x}
+(68)
+into a measurement-visible component and an approximately
+measurement-invisible component:
+vrange(k)=PR,γdec​v(k),vnull(k)=PN,γdec​v(k).v_{\mathrm{range}}^{(k)}\;=\;P_{R,\gamma_{\mathrm{dec}}}v^{(k)},\qquad v_{\mathrm{null}}^{(k)}\;=\;P_{N,\gamma_{\mathrm{dec}}}v^{(k)}.
+(69)
+The relative contributions of the two components are quantified by
+rrange(k)\displaystyle r_{\mathrm{range}}^{(k)}
+=‖vrange(k)‖22‖v(k)‖22,rnull(k)\displaystyle=\;\frac{\|v_{\mathrm{range}}^{(k)}\|_{2}^{2}}{\|v^{(k)}\|_{2}^{2}},\qquad r_{\mathrm{null}}^{(k)}
+=‖vnull(k)‖22‖v(k)‖22.\displaystyle\;=\;\frac{\|v_{\mathrm{null}}^{(k)}\|_{2}^{2}}{\|v^{(k)}\|_{2}^{2}}.
+(70)
+The quantities rrange(k)r_{\mathrm{range}}^{(k)} and rnull(k)r_{\mathrm{null}}^{(k)}
+measure the relative energy of the measurement-visible and approximately
+measurement-invisible components of each posterior deviation. Since the
+projection is computed with a finite regularisation parameter γdec\gamma_{\mathrm{dec}}, these values should be interpreted as diagnostic energy ratios rather than exact orthogonal fractions.
+While Rsino/imgR_{\mathrm{sino/img}} measures the overall suppression of posterior variability after applying the forward operator, the quantities rranger_{\mathrm{range}} and rnullr_{\mathrm{null}} describe how the image-space posterior deviations are distributed between measurement-visible and approximately measurement-invisible components. Together, these diagnostics show both how strongly the stochastic reconstruction samples remain constrained by the measurements and where the remaining variability is concentrated.
+Table 5:
+Geometry-aware posterior variability diagnostics for three representative acquisition settings. A smaller Rsino/imgR_{\mathrm{sino/img}} indicates stronger suppression of posterior variability after applying the forward operator. The mean range–null diagnostic energy ratios, r¯range\bar{r}_{\mathrm{range}} and r¯null\bar{r}_{\mathrm{null}}, describe how posterior deviations from the posterior mean are distributed between measurement-visible and approximately measurement-invisible components. These quantities are averaged over stochastic reconstruction samples.
+Setting
+Samples
+RimgR_{\mathrm{img}}
+RsinoR_{\mathrm{sino}}
+Rsino/imgR_{\mathrm{sino/img}}
+r¯range\bar{r}_{\mathrm{range}}
+r¯null\bar{r}_{\mathrm{null}}
+40 projections (noise-free)
+50
+0.0094
+0.0004
+0.0399
+0.184
+1.046
+40 projections (Poisson noise)
+50
+0.0386
+0.0106
+0.2737
+0.422
+0.618
+20 projections (Poisson noise)
+50
+0.0437
+0.0133
+0.3043
+0.313
+0.697
+Table 5 summarises the geometry-aware posterior variability diagnostics from two complementary perspectives. First, the ratios RimgR_{\mathrm{img}}, RsinoR_{\mathrm{sino}}, and Rsino/imgR_{\mathrm{sino/img}} compare the variability of posterior reconstructions in image space with the variability that remains after applying the CT forward operator. Second, the range–null diagnostic ratios r¯range\bar{r}_{\mathrm{range}} and r¯null\bar{r}_{\mathrm{null}} describe whether the image-space posterior deviations are mainly measurement-visible or approximately measurement-invisible.
+From the measurement-space perspective, all three settings show much smaller variability in sinogram space than in image space. This indicates that although the stochastic reconstruction samples differ visibly as reconstructed images, these differences are strongly reduced after applying the measurement operator. The strongest suppression occurs in the 40-projection noise-free setting, where Rsino/img=0.0399R_{\mathrm{sino/img}}=0.0399, meaning that the relative variability in
+measurement space is only about 4%4\% of that in image space. With Poisson noise, this ratio increases to 0.27370.2737 for 40 projections. With both Poisson noise and stronger undersampling, it further increases to 0.30430.3043 for 20 projections. This trend is consistent with the measurements becoming less informative: noise reduces the reliability of the measured sinogram, and fewer projection angles leave more image directions weakly constrained.
+The range–null diagnostics provide a complementary view of the same behaviour. In the 40-projection noise-free setting, the posterior deviations are dominated by the approximately measurement-invisible component (r¯null=1.046\bar{r}_{\mathrm{null}}=1.046 versus r¯range=0.184\bar{r}_{\mathrm{range}}=0.184; their sum exceeds one because the cross-term c¯cross≈−0.23\bar{c}_{\mathrm{cross}}\approx-0.23 is nonzero for finite γdec\gamma_{\mathrm{dec}}). This indicates that, once measurement
+consistency is enforced, the remaining posterior variability lies mainly in directions that have little effect on the measured sinogram. Under Poisson noise, the measurement-visible contribution increases
+(r¯range=0.422\bar{r}_{\mathrm{range}}=0.422), reflecting the fact that uncertainty in the measurements can also produce variability in directions visible to the forward operator. Nevertheless, the approximately null component remains larger (r¯null=0.618\bar{r}_{\mathrm{null}}=0.618). In the 20-projection noisy case, the null component again dominates (r¯null=0.697\bar{r}_{\mathrm{null}}=0.697), consistent with the larger null-space induced by stronger angular undersampling.
+Overall, the two diagnostics give consistent evidence that the proposed sampler produces geometry-aware posterior variability. The stochastic reconstruction samples differ primarily in image directions that are weakly constrained by the acquisition, while remaining comparatively consistent in the measurement domain.
+4.3.3 Effect of Pullback-Metric Preconditioning
+To isolate the effect of pullback-metric preconditioning, we compare the proposed deterministic update with an identical Euclidean update. Within each acquisition geometry, the two variants use the same pretrained prior, data-fidelity term, initialization, reconstruction parameters, and regularized data-consistency schedule. Langevin noise and the additional approximately null-space-restricted perturbation are disabled in both cases. We consider two noise-free configurations with the same number of measurements: 40-view full-angle CT over [0,π][0,\pi] and 40-view limited-angle CT over [0,3​π/4][0,3\pi/4]. The endpoint convention matches the DM4CT benchmark geometry.
+At reconstruction iteration kk, let s(k)s^{(k)} denote the DDPM score estimate evaluated at the corresponding noised image state. We form the combined guidance direction
+r(k)=λk​s(k)−μk​AΩ⊤​Σ−1​(AΩ​x(k)−y).r^{(k)}\;=\;\lambda_{k}s^{(k)}-\mu_{k}A_{\Omega}^{\top}\Sigma^{-1}\left(A_{\Omega}x^{(k)}-y\right).
+(71)
+This is the practical annealed guidance direction used by the implementation, rather than the exact score of the clean-image posterior. The Euclidean variant applies
+uEuc(k)=r(k),u_{\mathrm{Euc}}^{(k)}\;=\;r^{(k)},
+(72)
+whereas the pullback-preconditioned variant solves
+(AΩ⊤​Σ−1​AΩ+γ​In)​ugeo(k)=r(k).\left(A_{\Omega}^{\top}\Sigma^{-1}A_{\Omega}+\gamma I_{n}\right)u_{\mathrm{geo}}^{(k)}\;=\;r^{(k)}.
+(73)
+Thus, within each geometry, the variants differ only in whether the combined guidance is preconditioned by Gγ=AΩ⊤​Σ−1​AΩ+γ​InG_{\gamma}=A_{\Omega}^{\top}\Sigma^{-1}A_{\Omega}+\gamma I_{n}.
+Figure 4:
+Reconstruction comparison between the Euclidean and
+pullback-preconditioned variants under two noise-free acquisition
+geometries. The columns show the ground truth, 40-view full-angle CT over [0,π][0,\pi], and 40-view limited-angle CT over [0,3​π/4][0,3\pi/4]. The top and bottom reconstruction rows correspond to the Euclidean and pullback-preconditioned variants, respectively. Yellow and cyan boxes mark the lung–soft-tissue interface and vertebral region, with enlarged views shown in the corresponding insets. PSNR and SSIM are displayed for each reconstruction. All images use the same display window.
+Figure 4 shows that pullback preconditioning improves reconstruction quality in both geometries. For full-angle CT, PSNR increases from 31.9831.98 to 33.1733.17 dB and SSIM increases from 0.83390.8339 to 0.88520.8852. For limited-angle CT, PSNR increases from 31.6331.63 to 33.0433.04 dB and SSIM increases from 0.83590.8359 to 0.88160.8816. In the yellow region, the pullback-preconditioned reconstructions preserve the lung–soft-tissue interface more clearly. In the cyan region, they recover a sharper and more continuous vertebral boundary. Compared with the Euclidean variant, the
+pullback-preconditioned results also exhibit less local blurring and fewer residual streak artifacts. These visual differences are consistent with the improvements in PSNR and SSIM.
+We quantify agreement with the measured sinogram using
+RelErry=‖AΩ​x−y‖2‖y‖2.\mathrm{RelErr}_{y}\;=\;\frac{\|A_{\Omega}x-y\|_{2}}{\|y\|_{2}}.
+(74)
+To examine the geometry of the applied drift, let
+Δ​xdet(k)\Delta x_{\mathrm{det}}^{(k)} denote the deterministic displacement before Langevin noise, null-space perturbation, and the subsequent data-consistency correction. We define
+ρΔ​x(k)=‖AΩ​Δ​xdet(k)‖2‖Δ​xdet(k)‖2,\rho_{\Delta x}^{(k)}\;=\;\frac{\|A_{\Omega}\Delta x_{\mathrm{det}}^{(k)}\|_{2}}{\|\Delta x_{\mathrm{det}}^{(k)}\|_{2}},
+(75)
+and report
+ρ¯Δ​x=1T​∑k=0T−1ρΔ​x(k).\bar{\rho}_{\Delta x}\;=\;\frac{1}{T}\sum_{k=0}^{T-1}\rho_{\Delta x}^{(k)}.
+(76)
+This quantity measures the sinogram change per unit image-space displacement. A smaller value indicates a displacement with lower measurement sensitivity.
+Table 6:
+Effect of pullback-metric preconditioning under two noise-free 40-view
+geometries. Within each geometry, Langevin noise and the additional null-space perturbation are disabled, and both variants share all settings except the drift preconditioner. Bold indicates the better reconstruction metric or the lower measurement error and update response within each geometry.
+Geometry
+Method
+PSNR
+SSIM
+RelErry
+ρ¯Δ​x\bar{\rho}_{\Delta x}
+Full angle
+Euclidean
+31.98
+0.8339
+1.13×𝟏𝟎−𝟒\mathbf{1.13\times 10^{-4}}
+1.04×1021.04\times 10^{2}
+Pullback
+33.17
+0.8852
+2.24×10−42.24\times 10^{-4}
+3.96×𝟏𝟎−𝟏\mathbf{3.96\times 10^{-1}}
+Limited angle
+Euclidean
+31.63
+0.8359
+1.21×𝟏𝟎−𝟒\mathbf{1.21\times 10^{-4}}
+1.10×1021.10\times 10^{2}
+Pullback
+33.04
+0.8816
+2.08×10−42.08\times 10^{-4}
+2.89×𝟏𝟎−𝟏\mathbf{2.89\times 10^{-1}}
+As shown in Table 6, pullback
+preconditioning improves PSNR by 1.191.19 dB in the full-angle case and
+1.411.41 dB in the limited-angle case. The Euclidean variant gives the smaller relative data error, but all four errors remain below 2.3×10−42.3\times 10^{-4}. Although the pullback variant does not attain the lowest measurement residual, it maintains strong measurement agreement, with RelErry<2.3×10−4\mathrm{RelErr}_{y}<2.3\times 10^{-4}, while substantially improving PSNR and SSIM.
+The update-response diagnostic changes much more strongly. In the full-angle case, ρ¯Δ​x\bar{\rho}_{\Delta x} decreases from 1.04×1021.04\times 10^{2} to
+3.96×10−13.96\times 10^{-1}, a reduction by a factor of approximately 263263. In the limited-angle case, it decreases from 1.10×1021.10\times 10^{2} to
+2.89×10−12.89\times 10^{-1}, a reduction by a factor of approximately 381381. These results show that the pullback metric substantially reduces the measurement response of the applied deterministic displacement. Together with the range–null diagnostic below, this is consistent with shifting the update toward more weakly constrained image directions.
+(a) 40-view full angle
+(b) 40-view limited angle
+Figure 5:
+Effect of pullback-metric preconditioning on the applied deterministic
+displacement. The top panels show ρΔ​x(k)\rho_{\Delta x}^{(k)}, and the bottom
+panels show the regularized null-like-to-range component ratio.
+For the component diagnostic, define
+B:=AΩ⊤​Σ−1​AΩ.B\;:=\;A_{\Omega}^{\top}\Sigma^{-1}A_{\Omega}.
+(77)
+For each sampled displacement Δ​xdet(k)\Delta x_{\mathrm{det}}^{(k)}, we compute
+Δ​xR(k)=(B+γdec​In)−1​B​Δ​xdet(k),Δ​xN(k)=Δ​xdet(k)−Δ​xR(k).\Delta x_{R}^{(k)}\;=\;\left(B+\gamma_{\mathrm{dec}}I_{n}\right)^{-1}B\Delta x_{\mathrm{det}}^{(k)},\qquad\Delta x_{N}^{(k)}\;=\;\Delta x_{\mathrm{det}}^{(k)}-\Delta x_{R}^{(k)}.
+(78)
+Here γdec>0\gamma_{\mathrm{dec}}>0 regularizes the matrix-free CG solve. For finite γdec\gamma_{\mathrm{dec}}, Δ​xN(k)\Delta x_{N}^{(k)} is a null-like component rather than an exact element of 𝒩⁡(AΩ)\mathcal{N}(A_{\Omega}), and the two components need not be orthogonal. We therefore use the squared component-magnitude ratio
+rN(k)rR(k)=‖Δ​xN(k)‖22‖Δ​xR(k)‖22\frac{r_{N}^{(k)}}{r_{R}^{(k)}}\;=\;\frac{\|\Delta x_{N}^{(k)}\|_{2}^{2}}{\|\Delta x_{R}^{(k)}\|_{2}^{2}}
+(79)
+as a diagnostic rather than as an exact partition of image energy.
+Figure 5 shows the evolution of the update response and the regularized component ratio. The Euclidean displacement has a substantially larger measurement response, whereas pullback preconditioning keeps this response much smaller over the reconstruction trajectory. The component ratio provides a complementary interpretation: a larger null-like-to-range ratio indicates that relatively more of the applied displacement lies along weakly constrained or unobservable directions.
+Figure 5 shows that pullback preconditioning changes the geometry of the applied deterministic displacement throughout reconstruction. In both acquisition settings, the Euclidean displacement remains strongly measurement-sensitive, with ρΔ​x(k)\rho_{\Delta x}^{(k)} generally of order 10210^{2}. After the initial iteration, pullback preconditioning reduces this response to approximately 10−110^{-1}–10010^{0}. The regularized component analysis gives a complementary result. The null-like-to-range ratio remains below one for the Euclidean variant, whereas it rises well above one for the pullback variant and remains large over most of the trajectory. These observations indicate that pullback preconditioning suppresses displacement components that strongly affect the measured sinogram while retaining relatively more movement along weakly constrained and unobservable directions.
+Taken together, the reconstruction metrics, measurement residuals, and update diagnostics show that pullback preconditioning changes the deterministic update in a manner consistent with the measurement geometry. It reduces movement that strongly affects the measured sinogram and permits relatively larger movement along weakly constrained directions, where the learned prior can contribute anatomical information. In these experiments, this change is
+associated with improved PSNR and SSIM while the final measurement residual remains small.
+4.3.4 Effect of Signal-Dependent Precision Weighting
+We finally examine the effect of the signal-dependent precision weighting used in the proposed method. In the Poisson photon-counting model of CT, different sinogram entries have different noise levels: rays with lower photon counts are less reliable than rays with higher photon counts. Following the Gaussian approximation described in Section 3.6 and Appendix A.1, we model this using a signal-dependent covariance
+Σ^−1=diag⁡(w1,…,wm),\widehat{\Sigma}^{-1}\;=\;\operatorname{diag}(w_{1},\ldots,w_{m}),
+(80)
+where wi>0w_{i}>0 is a stabilized approximation of the estimated photon
+count λ^i=I0​e−yi\widehat{\lambda}_{i}=I_{0}e^{-y_{i}} for the ii-th sinogram entry;
+the precise construction is given in Appendix A.1.
+This signal-dependent covariance enters the proposed method in three places. First, it appears in the weighted data-fidelity term
+Φ(x)=12‖Σ^−1/2(AΩx−y)‖22.\Phi(x)\;=\;\frac{1}{2}\left\|\widehat{\Sigma}^{-1/2}(A_{\Omega}x-y)\right\|_{2}^{2}.
+(81)
+Second, it appears in the pullback metric
+Gγ=AΩ⊤​Σ^−1​AΩ+γ​I.G_{\gamma}\;=\;A_{\Omega}^{\top}\widehat{\Sigma}^{-1}A_{\Omega}+\gamma I.
+(82)
+Third, the same metric defines the geometry-aware Langevin perturbation,
+νG(k)∼𝒩⁡(0,2​αk​Gγ−1).\nu_{G}^{(k)}\sim\mathcal{N}\!\left(0,2\alpha_{k}G_{\gamma}^{-1}\right).
+(83)
+In practice, this noise sampler is implemented in a matrix-free way: GγG_{\gamma} is never formed explicitly, and only matrix-vector products
+Gγ​v=AΩ⊤​Σ^−1​AΩ​v+γ​vG_{\gamma}v\;=\;A_{\Omega}^{\top}\widehat{\Sigma}^{-1}A_{\Omega}v+\gamma v
+(84)
+are required.
+To isolate the contribution of this signal-dependent weighting, we compare the full method against an ablation in which Σ^\widehat{\Sigma} is replaced by the identity matrix. This unit-precision variant treats all sinogram bins as equally reliable.
+Both variants use the same pretrained diffusion prior, pullback-metric preconditioning, projection step, initialization, and hyperparameters. The only difference is whether the method uses the physically motivated signal-dependent covariance Σ^\widehat{\Sigma} or the unit covariance II. We evaluate the two variants under three 40-projection settings: no noise, Gaussian noise, and Poisson noise. The Poisson setting is the case where signal-dependent weighting is expected to matter most.
+Figure 6: Effect of signal-dependent precision weighting under three noise conditions (40 projections). Columns show FBP, DDS, DPS, Ours with unit precision (Σ=I\Sigma=I), and Ours with effective measurement-dependent precision
+Σ^−1=diag⁡(wi)\widehat{\Sigma}^{-1}=\operatorname{diag}(w_{i}). The two variants of our method are identical under noise-free and Gaussian noise settings, but the signal-dependent precision provides a substantial improvement under Poisson noise, particularly in high-attenuation regions (cyan box, vertebral body).
+Figure 6 shows that signal-dependent precision has little effect when the measurement noise is absent or spatially uniform. In the noise-free setting, the two variants of our method are identical, giving 33.32 dB/0.897. The same is true under Gaussian noise, where both variants achieve 31.62 dB/0.867. This is expected: when all sinogram entries have the same noise level, unit precision is an appropriate model.
+The situation changes under Poisson noise. FBP is strongly corrupted by noise, and DDS also degrades substantially to 23.08 dB/0.339. DPS is more stable, reaching 28.62 dB/0.800. The unit-precision version of our method performs worse than DPS, with 28.23 dB/0.691. This shows that using the wrong noise model can reduce the benefit of the geometry-aware update: if all sinogram bins are treated as equally reliable, noisy low-photon-count measurements can be over-weighted.
+With signal-dependent precision, the proposed method improves to 29.84 dB/0.846. This is a gain of 1.61 dB and 0.155 SSIM over the unit-precision variant, and it also outperforms DPS by 1.22 dB and 0.046 SSIM. The improvement is visible in the cyan zoomed region around the vertebral body. The unit-precision reconstruction contains stronger noise-driven artifacts and a less clear cortical bone boundary, whereas the signal-dependent reconstruction gives a cleaner and sharper structure.
+This behaviour is consistent with the Poisson noise model. Rays passing through high-attenuation tissue, such as bone, produce fewer detected photons and therefore have higher measurement variance. The signal-dependent precision down-weights these less reliable measurements in both the data-fidelity term and the pullback metric. As a result, the reconstruction is less dominated by noisy sinogram entries and relies more appropriately on the learned prior in uncertain regions.
+These results show that signal-dependent precision is important for realistic Poisson CT noise. At the same time, it is complementary to the geometry-aware part of the method. In the noise-free and Gaussian-noise settings, where signal-dependent weighting provides no additional advantage, the proposed method already performs strongly. Under Poisson noise, the weighting becomes necessary to preserve this advantage by matching the data-consistency term to the physical noise model.
+5 Conclusion and Future Work
+We presented a geometry-aware posterior sampling method for sparse-view and limited-angle CT reconstruction. The method combines a diffusion prior with data consistency and a pullback-metric update. Instead of applying the diffusion update directly in image space, we use the measurement-induced metric GγG_{\gamma}
+to adapt the update direction to the CT acquisition geometry. This reduces updates that would strongly change the measured sinogram, while allowing the learned prior to act in directions that are weakly constrained by the measurements.
+The experiments show that this geometry-aware design improves reconstruction quality across sparse-view, noisy, and limited-angle CT settings. The proposed method reduces streak artifacts, suppresses noise amplification, and preserves anatomical boundaries more clearly than the posterior-sampling baselines considered. The pullback update also improves PSNR and SSIM compared with the Euclidean update, while keeping the measurement residual very small. The update-direction analysis further shows that the pullback metric reduces the measurement response of the deterministic update and redirects it toward approximately measurement-invisible directions.
+The method also provides posterior uncertainty estimates. The posterior mean gives the final reconstruction, while the empirical sample standard-deviation map shows where the reconstruction is uncertain. In our experiments, Uncertainty is highest near anatomical boundaries, fine structures, and noise-sensitive regions, as well as structures weakly constrained by missing angular coverage in limited-angle CT. These regions often coincide with larger reconstruction errors, suggesting that the maps capture reconstruction ambiguity. By showing which structures are less reliably determined by the measured data, the maps improve the interpretability of learned reconstructions in ambiguous inverse problems.
+Several directions remain for future work. First, although we test Poisson-corrupted measurements, the current posterior model uses a Gaussian approximation to the CT noise model. This approximation is reasonable when photon counts are not too low, but it may become inaccurate in very low-dose CT. A natural extension is to use the Poisson likelihood more directly. In that case, the data-fidelity term and the pullback metric would depend on the predicted photon counts at the current reconstruction. This could give a more accurate uncertainty model in strongly noise-dominated settings.
+Second, the current method requires iterative linear solves to apply the inverse pullback metric during the reverse process. This makes the method more expensive than a Euclidean update. Future work should therefore develop faster matrix-free methods for applying Gγ−1G_{\gamma}^{-1}.
+Possible directions include preconditioned conjugate gradients, warm-starting the solver across reverse iterations, adaptive stopping criteria, multigrid methods, low-rank approximations, and learned approximations of the inverse metric. Faster solvers would make the method easier to scale to larger images and three-dimensional CT volumes.
+Finally, future work will consider latent-space versions of the method, to accelerate reconstruction speed, which would require a latent pullback metric.
+References
+[1]
+J. Adler and O. Öktem (2018)
+Learned primal-dual reconstruction.
+IEEE Transactions on Medical Imaging 37 (6), pp. 1322–1332.
+External Links: Document
+Cited by: §1.
+[2]
+A. H. Andersen and A. C. Kak (1984)
+Simultaneous algebraic reconstruction technique (SART): a superior implementation of the ART algorithm.
+Ultrasonic Imaging 6 (1), pp. 81–94.
+External Links: Document
+Cited by: §1.
+[3]
+M. Bertero and P. Boccacci (1998)
+Introduction to inverse problems in imaging.
+Institute of Physics Publishing, Bristol, UK.
+External Links: Document
+Cited by: §1.
+[4]
+D. Chen and M. E. Davies (2020)
+Deep decomposition learning for inverse imaging problems.
+In Computer Vision–ECCV 2020,
+Lecture Notes in Computer Science, Vol. 12373, pp. 510–526.
+External Links: Document
+Cited by: §3.3.
+[5]
+D. Chen, J. Tachella, and M. E. Davies (2021)
+Equivariant imaging: learning beyond the range space.
+In Proceedings of the IEEE/CVF International Conference
+on Computer Vision,
+pp. 4379–4388.
+Cited by: §3.3.
+[6]
+J. Chen, Y. Lin, Y. Qin, H. Wang, and X. Li (2025)
+Cross-view generalized diffusion model for sparse-view CT reconstruction.
+In Medical Image Computing and Computer Assisted Intervention – MICCAI 2025,
+Lecture Notes in Computer Science, Vol. 15975, pp. 140–150.
+External Links: Document
+Cited by: §1,
+§2.
+[7]
+H. Chung, J. Kim, M. T. McCann, M. L. Klasky, and J. C. Ye (2023)
+Diffusion posterior sampling for general noisy inverse problems.
+In International Conference on Learning Representations,
+External Links: Link
+Cited by: §1,
+§2,
+§4.1.1,
+§4.1.1,
+§4.1.2.
+[8]
+H. Chung, S. Lee, and J. C. Ye (2024)
+Decomposed diffusion sampler for accelerating large-scale inverse problems.
+In International Conference on Learning Representations,
+External Links: Link
+Cited by: §1,
+§2,
+§2,
+§4.1.1,
+§4.1.1,
+§4.1.2.
+[9]
+H. Chung, B. Sim, D. Ryu, and J. C. Ye (2022)
+Improving diffusion models for inverse problems using manifold constraints.
+In Advances in Neural Information Processing Systems,
+Vol. 35.
+External Links: Link
+Cited by: §2.
+[10]
+A. S. Dalalyan (2017)
+Theoretical guarantees for approximate sampling from smooth and log-concave densities.
+Journal of the Royal Statistical Society: Series B (Statistical Methodology) 79 (3), pp. 651–676.
+External Links: Document
+Cited by: §A.5.2.
+[11]
+M. P. do Carmo (1992)
+Riemannian geometry.
+Mathematics: Theory & Applications, Birkhäuser, Boston, MA.
+External Links: Document
+Cited by: §3.2.
+[12]
+D. L. Donoho (2006)
+Compressed sensing.
+IEEE Transactions on Information Theory 52 (4), pp. 1289–1306.
+External Links: Document
+Cited by: §1.
+[13]
+J. A. Fessler (2000)
+Statistical image reconstruction methods for transmission tomography.
+In Handbook of Medical Imaging, Volume 2: Medical Image Processing and Analysis, M. Sonka and J. M. Fitzpatrick (Eds.),
+pp. 1–70.
+External Links: Document
+Cited by: §1.
+[14]
+P. Gilbert (1972)
+Iterative methods for the three-dimensional reconstruction of an object from projections.
+Journal of Theoretical Biology 36 (1), pp. 105–117.
+External Links: Document
+Cited by: §4.1.1.
+[15]
+M. Girolami and B. Calderhead (2011)
+Riemann manifold langevin and hamiltonian monte carlo methods.
+Journal of the Royal Statistical Society: Series B (Statistical Methodology) 73 (2), pp. 123–214.
+External Links: Document
+Cited by: §A.1.5,
+§A.5,
+§2.
+[16]
+R. Gordon, R. Bender, and G. T. Herman (1970)
+Algebraic reconstruction techniques (ART) for three-dimensional electron microscopy and x-ray photography.
+Journal of Theoretical Biology 29 (3), pp. 471–481.
+External Links: Document
+Cited by: §1.
+[17]
+B. Guan, C. Yang, L. Zhang, S. Niu, M. Zhang, Y. Wang, W. Wu, and Q. Liu (2024)
+Generative modeling in sinogram domain for sparse-view CT reconstruction.
+IEEE Transactions on Radiation and Plasma Medical Sciences 8 (2), pp. 195–207.
+External Links: Document
+Cited by: §1,
+§2.
+[18]
+J. Guo, S. Lopez-Tapia, W. S. Li, Y. Wu, M. Carignano, V. Backman, V. P. Dravid, and A. K. Katsaggelos (2024)
+RN-SDEs: limited-angle CT reconstruction with residual null-space diffusion stochastic differential equations.
+arXiv preprint arXiv:2409.13930.
+External Links: Link
+Cited by: §1,
+§2.
+[19]
+J. Guo and S. López-Tapia (2025)
+Diffusion-based limited-angle CT reconstruction under noisy conditions.
+In 2025 IEEE International Conference on Image Processing Workshops (ICIPW),
+External Links: Document,
+Link
+Cited by: §1,
+§2.
+[20]
+S. Han, Y. Xu, D. Wang, B. Morovati, L. Zhou, J. S. Maltz, G. Wang, and H. Yu (2025)
+Physics-informed score-based diffusion model for limited-angle reconstruction of cardiac computed tomography.
+IEEE Transactions on Medical Imaging 44 (9), pp. 3629–3640.
+External Links: Document
+Cited by: §2.
+[21]
+P. C. Hansen and J. S. Jørgensen (2018)
+AIR Tools II: algebraic iterative reconstruction methods, improved implementation.
+Numerical Algorithms 79 (1), pp. 107–137.
+External Links: Document
+Cited by: §A.4.1,
+§3.2.
+[22]
+M. R. Hestenes and E. Stiefel (1952)
+Methods of conjugate gradients for solving linear systems.
+Journal of Research of the National Bureau of Standards 49 (6), pp. 409–436.
+External Links: Document
+Cited by: §A.4.1,
+§3.2.
+[23]
+J. Ho, A. Jain, and P. Abbeel (2020)
+Denoising diffusion probabilistic models.
+In Advances in Neural Information Processing Systems,
+Vol. 33, pp. 6840–6851.
+Cited by: §3.2,
+§3.2.
+[24]
+K. H. Jin, M. T. McCann, E. Froustey, and M. Unser (2017)
+Deep convolutional neural network for inverse problems in imaging.
+IEEE Transactions on Image Processing 26 (9), pp. 4509–4522.
+External Links: Document
+Cited by: §1.
+[25]
+J. Kaipio and E. Somersalo (2005)
+Statistical and computational inverse problems.
+Applied Mathematical Sciences, Vol. 160, Springer.
+External Links: Document
+Cited by: §1.
+[26]
+A. C. Kak and M. Slaney (1988)
+Principles of computerized tomographic imaging.
+IEEE Press, New York, NY.
+Cited by: §1,
+§4.1.1.
+[27]
+B. Kawar, M. Elad, S. Ermon, and J. Song (2022)
+Denoising diffusion restoration models.
+In Advances in Neural Information Processing Systems,
+Vol. 35.
+External Links: Link
+Cited by: §1,
+§2.
+[28]
+P. E. Kloeden and E. Platen (1992)
+Numerical solution of stochastic differential equations.
+Stochastic Modelling and Applied Probability, Vol. 23, Springer, Berlin, Heidelberg.
+External Links: Document
+Cited by: §A.5.2.
+[29]
+P. Langevin (1908)
+Sur la théorie du mouvement brownien.
+Comptes rendus hebdomadaires des séances de
+l’Académie des sciences 146, pp. 530–533.
+Cited by: §3.2.
+[30]
+J. M. Lee (2013)
+Introduction to smooth manifolds.
+2 edition, Graduate Texts in Mathematics, Vol. 218, Springer, New York, NY.
+External Links: Document
+Cited by: §3.2.
+[31]
+J. Liang, J. Cao, G. Sun, K. Zhang, L. Van Gool, and R. Timofte (2021)
+SwinIR: image restoration using swin transformer.
+In Proceedings of the IEEE/CVF International Conference on Computer Vision Workshops,
+pp. 1833–1844.
+Cited by: §4.1.1.
+[32]
+A. Liu, G. J. Gang, and J. W. Stayman (2024)
+Fourier diffusion for sparse CT reconstruction.
+In Medical Imaging 2024: Physics of Medical Imaging,
+Proceedings of SPIE, Vol. 12925, pp. 1292516.
+External Links: Document
+Cited by: §1,
+§2.
+[33]
+D. Otero Baguer, J. Leuschner, and M. Schmidt (2020)
+Computed tomography reconstruction using deep image prior and learned reconstruction methods.
+Inverse Problems 36 (9), pp. 094004.
+External Links: Document
+Cited by: §1.
+[34]
+G. A. Pavliotis (2014)
+Stochastic processes and applications: diffusion processes, the fokker–planck and langevin equations.
+Texts in Applied Mathematics, Vol. 60, Springer, New York.
+External Links: Document
+Cited by: §3.2.
+[35]
+J. Peng, C. Chang, R. L. J. Qiu, and T. Wang (2025)
+Projection-consistent diffusion model-based image reconstruction for limited-angle dual-energy cone-beam CT.
+In Medical Imaging 2025: Physics of Medical Imaging,
+Proceedings of SPIE, Vol. 13411.
+External Links: Document
+Cited by: §2.
+[36]
+G. O. Roberts and R. L. Tweedie (1996)
+Exponential convergence of langevin distributions and their discrete approximations.
+Bernoulli 2 (4), pp. 341–363.
+External Links: Document
+Cited by: §3.2,
+§3.2.
+[37]
+Y. Romano, M. Elad, and P. Milanfar (2017)
+The little engine that could: regularization by denoising (RED).
+SIAM Journal on Imaging Sciences 10 (4), pp. 1804–1844.
+External Links: Document
+Cited by: §1.
+[38]
+L. Rout, N. Raoof, G. Daras, C. Caramanis, A. G. Dimakis, and S. Shakkottai (2023)
+Solving linear inverse problems provably via posterior sampling with latent diffusion models.
+In Advances in Neural Information Processing Systems,
+Vol. 36.
+External Links: Link
+Cited by: §2.
+[39]
+J. Schwab, S. Antholzer, and M. Haltmeier (2019)
+Deep null space learning for inverse problems: convergence analysis and rates.
+Inverse Problems 35 (2), pp. 025008.
+External Links: Document
+Cited by: §3.3.
+[40]
+J. Shi, D. M. Pelt, and K. J. Batenburg (2026)
+DM4CT: benchmarking diffusion models for computed tomography reconstruction.
+In International Conference on Learning Representations,
+External Links: Link
+Cited by: §1,
+§4.1.1,
+§4.
+[41]
+E. Y. Sidky and X. Pan (2008)
+Image reconstruction in circular cone-beam computed tomography by constrained, total-variation minimization.
+Physics in Medicine and Biology 53 (17), pp. 4777–4807.
+External Links: Document
+Cited by: §1,
+§4.1.1.
+[42]
+V. Sitzmann, J. N. P. Martel, A. W. Bergman, D. B. Lindell, and G. Wetzstein (2020)
+Implicit neural representations with periodic activation functions.
+In Advances in Neural Information Processing Systems,
+Vol. 33, pp. 7462–7473.
+Cited by: §1,
+§4.1.1.
+[43]
+B. Song, S. M. Kwon, Z. Zhang, X. Hu, Q. Qu, and L. Shen (2024)
+Solving inverse problems with latent diffusion models via hard data consistency.
+In International Conference on Learning Representations,
+External Links: Link
+Cited by: §1,
+§2,
+§2,
+§4.1.1,
+§4.1.1,
+§4.1.2.
+[44]
+B. Song, L. Shen, and L. Xing (2023)
+PINER: prior-informed implicit neural representation learning for test-time adaptation in sparse-view CT reconstruction.
+In Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision,
+pp. 1928–1938.
+External Links: Link
+Cited by: §1.
+[45]
+J. Song, A. Vahdat, M. Mardani, and K. Kreis (2023)
+Pseudoinverse-guided diffusion models for inverse problems.
+In International Conference on Learning Representations,
+External Links: Link
+Cited by: §2,
+§4.1.1,
+§4.1.1,
+§4.1.2.
+[46]
+Y. Song, J. Sohl-Dickstein, D. P. Kingma, A. Kumar, S. Ermon, and B. Poole (2021)
+Score-based generative modeling through stochastic differential equations.
+In International Conference on Learning Representations,
+External Links: Link
+Cited by: §1,
+§2,
+§3.2.
+[47]
+A. M. Stuart (2010)
+Inverse problems: a bayesian perspective.
+Acta Numerica 19, pp. 451–559.
+External Links: Document
+Cited by: §A.3,
+§1,
+§3.1.
+[48]
+O. Taubmann, M. Berger, M. Bögel, Y. Xia, M. Balda, and A. Maier (2018)
+Computed tomography.
+In Medical Imaging Systems: An Introductory Guide, A. Maier, S. Steidl, V. Christlein, and J. Hornegger (Eds.),
+Lecture Notes in Computer Science, Vol. 11111, pp. 147–189.
+External Links: Document
+Cited by: Remark.
+[49]
+J. Thibault, K. D. Sauer, C. A. Bouman, and J. Hsieh (2007)
+A three-dimensional statistical approach to improved image quality for multislice helical CT.
+Medical Physics 34 (11), pp. 4526–4544.
+External Links: Document
+Cited by: §1.
+[50]
+Z. Tian, X. Jia, K. Yuan, T. Pan, and S. B. Jiang (2011)
+Low-dose CT reconstruction via edge-preserving total variation regularization.
+Physics in Medicine and Biology 56 (18), pp. 5949–5967.
+External Links: Document
+Cited by: §1.
+[51]
+L. Tierney and J. B. Kadane (1986)
+Accurate approximations for posterior moments and marginal densities.
+Journal of the American Statistical Association 81 (393), pp. 82–86.
+External Links: Document
+Cited by: §A.3.
+[52]
+A. N. Tikhonov and V. Y. Arsenin (1977)
+Solutions of ill-posed problems.
+V. H. Winston & Sons, Washington, DC.
+Cited by: §1.
+[53]
+D. Ulyanov, A. Vedaldi, and V. Lempitsky (2018)
+Deep image prior.
+In Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition,
+pp. 9446–9454.
+External Links: Document
+Cited by: §1,
+§4.1.1.
+[54]
+S. V. Venkatakrishnan, C. A. Bouman, and B. Wohlberg (2013)
+Plug-and-play priors for model based reconstruction.
+In 2013 IEEE Global Conference on Signal and Information Processing (GlobalSIP),
+pp. 945–948.
+External Links: Document
+Cited by: §1.
+[55]
+G. Wang, J. Zhou, Z. Yu, W. Wang, and J. Qi (2017)
+Hybrid pre-log and post-log image reconstruction for computed tomography.
+IEEE Transactions on Medical Imaging 36 (12), pp. 2457–2465.
+External Links: Document
+Cited by: §A.1.2,
+§A.1.3,
+§A.1.4,
+§A.1.4,
+§A.1.5.
+[56]
+H. Wang and J. Sun (2024)
+DMPlug: a plug-in method for solving inverse problems with diffusion models.
+In Advances in Neural Information Processing Systems,
+Vol. 37.
+External Links: Link
+Cited by: §2.
+[57]
+Y. Wang, J. Yu, and J. Zhang (2023)
+Zero-shot image restoration using denoising diffusion null-space model.
+In The Eleventh International Conference on Learning Representations,
+External Links: Link
+Cited by: §1,
+§2.
+[58]
+B. R. Whiting, P. Massoumzadeh, O. A. Earl, J. A. O’Sullivan, D. L. Snyder, and J. F. Williamson (2006)
+Properties of preprocessed sinogram data in x-ray computed tomography.
+Medical Physics 33 (9), pp. 3290–3303.
+External Links: Document
+Cited by: §A.1.1,
+§A.1.1,
+§A.1.2,
+§A.1.4,
+§A.1.5,
+Remark.
+[59]
+J. Xu and B. M. W. Tsui (2009)
+Electronic noise modeling in statistical iterative reconstruction.
+IEEE Transactions on Image Processing 18 (6), pp. 1228–1238.
+External Links: Document
+Cited by: §A.1.1.
+[60]
+L. Yang, J. Huang, G. Yang, and D. Zhang (2025)
+CT-SDM: a sampling diffusion model for sparse-view CT reconstruction across various sampling rates.
+IEEE Transactions on Medical Imaging 44 (6), pp. 2581–2593.
+External Links: Document
+Cited by: §1,
+§2.
+[61]
+G. L. Zeng and W. Wang (2017)
+Does noise weighting matter in CT iterative reconstruction?.
+IEEE Transactions on Radiation and Plasma Medical Sciences 1 (1), pp. 68–75.
+External Links: Document
+Cited by: §A.1.4.
+[62]
+G. Zhang, Z. Wang, H. Yu, S. Ni, H. Xie, Q. Liu, F. Liu, and S. Wang (2025)
+Score-based generative model with conditional null-space learning for limited-angle tomographic reconstruction in medical imaging.
+IEEE Transactions on Computational Imaging 11, pp. 556–569.
+External Links: Document,
+Link
+Cited by: §1,
+§2.
+[63]
+H. Zhang, J. Wang, D. Zeng, X. Tao, and J. Ma (2018)
+Regularization strategies in statistical image reconstruction of low-dose x-ray CT: a review.
+Medical Physics 45 (10), pp. e886–e907.
+External Links: Document
+Cited by: §1.
+Appendix A Theoretical Support
+A.1 Gaussian Approximation of CT Measurements
+This subsection motivates the approximate linear–Gaussian model
+y=AΩ​x+ε,ε∼𝒩⁡(0,Σ),y=A_{\Omega}x+\varepsilon,\qquad\varepsilon\sim\mathcal{N}(0,\Sigma),
+used in the main text. The derivation starts from an idealized Poisson
+photon-counting model and explains the diagonal, signal-dependent covariance
+of the post-log measurements. It also describes the fixed plug-in precision
+used during reconstruction.
+A.1.1 Poisson photon-counting model
+Under a monoenergetic Beer–Lambert model, the expected photon count at
+detector bin ii is [58]
+λi=I0​e−(AΩ​x)i,\lambda_{i}\;=\;I_{0}e^{-(A_{\Omega}x)_{i}},
+(85)
+where I0I_{0} is the incident photon count, x∈ℝnx\in\mathbb{R}^{n} is the image of
+linear-attenuation coefficients, and (AΩ​x)i(A_{\Omega}x)_{i} is the line integral
+for ray ii. The detected count is modeled as
+Yi∼Poisson⁡(λi),𝔼⁡[Yi]=λi,Var⁡(Yi)=λi.Y_{i}\sim\operatorname{Poisson}(\lambda_{i}),\qquad\mathbb{E}[Y_{i}]=\lambda_{i},\qquad\operatorname{Var}(Y_{i})=\lambda_{i}.
+(86)
+Thus, the variance of the raw count depends on its expected value.
+This model is an idealization. Real CT measurements may additionally include
+electronic noise, scatter, beam hardening, detector correlations, and effects
+introduced by calibration and preprocessing [58, 59].
+A.1.2 Gaussian approximation of Poisson counts
+For a sufficiently large expected transmitted count, a Poisson random
+variable is well approximated by a Gaussian random variable with the same
+mean and variance.
+Proposition 2 (Gaussian limit of the Poisson distribution).
+Let Yλ∼Poisson⁡(λ)Y_{\lambda}\sim\operatorname{Poisson}(\lambda) and define
+Zλ:=Yλ−λλ.Z_{\lambda}\;:=\;\frac{Y_{\lambda}-\lambda}{\sqrt{\lambda}}.
+Then Zλ→𝑑𝒩⁡(0,1)Z_{\lambda}\xrightarrow{d}\mathcal{N}(0,1) as λ→∞\lambda\to\infty.
+Proof.
+The moment-generating function of YλY_{\lambda} is
+MYλ​(t)\displaystyle M_{Y_{\lambda}}(t)
+=𝔼⁡[et​Yλ]\displaystyle\;=\;\mathbb{E}[e^{tY_{\lambda}}]
+=∑k=0∞et​k​λk​e−λk!\displaystyle\;=\;\sum_{k=0}^{\infty}e^{tk}\frac{\lambda^{k}e^{-\lambda}}{k!}
+=exp⁡(λ⁡(et−1)).\displaystyle\;=\;\exp\!\left(\lambda(e^{t}-1)\right).
+Consequently,
+MZλ​(t)\displaystyle M_{Z_{\lambda}}(t)
+=e−t​λ​MYλ​(tλ)\displaystyle\;=\;e^{-t\sqrt{\lambda}}M_{Y_{\lambda}}\!\left(\frac{t}{\sqrt{\lambda}}\right)
+=exp⁡[−t​λ+λ⁡(et/λ−1)].\displaystyle\;=\;\exp\!\left[-t\sqrt{\lambda}+\lambda\left(e^{t/\sqrt{\lambda}}-1\right)\right].
+For fixed tt,
+et/λ= 1+tλ+t22​λ+O(λ−3/2),e^{t/\sqrt{\lambda}}\;=\;1+\frac{t}{\sqrt{\lambda}}+\frac{t^{2}}{2\lambda}+O(\lambda^{-3/2}),
+and therefore
+MZλ(t)=exp(t22+O(λ−1/2))⟶exp(t22).M_{Z_{\lambda}}(t)\;=\;\exp\!\left(\frac{t^{2}}{2}+O(\lambda^{-1/2})\right)\longrightarrow\exp\!\left(\frac{t^{2}}{2}\right).
+The limiting function is the moment-generating function of
+𝒩⁡(0,1)\mathcal{N}(0,1). The continuity theorem for moment-generating functions
+then gives the convergence in distribution.
+∎
+Equivalently, for sufficiently large λ\lambda,
+Yλ≈λ+λ​η,η∼𝒩⁡(0,1),Y_{\lambda}\approx\lambda+\sqrt{\lambda}\,\eta,\qquad\eta\sim\mathcal{N}(0,1),
+or Yλ≈𝒩⁡(λ,λ)Y_{\lambda}\approx\mathcal{N}(\lambda,\lambda). The quality of this
+approximation depends on the transmitted count λ\lambda, rather than only
+on the incident count I0I_{0}. A highly attenuated ray can therefore remain in
+the low-count regime even when I0I_{0} is relatively large
+[58, 55].
+A.1.3 Propagation through the logarithmic transform
+Let Y~i>0\widetilde{Y}_{i}>0 denote the detected count after zero-count
+correction, and define the post-log measurement
+yi:=−log⁡(Y~iI0).y_{i}\;:=\;-\log\!\left(\frac{\widetilde{Y}_{i}}{I_{0}}\right).
+(87)
+For example, zero counts may be replaced using
+Y~i=max⁡(Yi,Ymin),Ymin>0.\widetilde{Y}_{i}\;=\;\max(Y_{i},Y_{\min}),\qquad Y_{\min}>0.
+This correction prevents infinite log-sinogram values. However, it modifies
+the count distribution and may introduce additional bias when the detected
+photon count is low [55].
+To derive a local Gaussian approximation, we temporarily neglect count
+clipping and assume Y~i=Yi>0\widetilde{Y}_{i}=Y_{i}>0. Define
+f⁡(u)=−log⁡(u/I0),f′​(u)=−1u,f′′​(u)=1u2.f(u)\;=\;-\log(u/I_{0}),\qquad f^{\prime}(u)\;=\;-\frac{1}{u},\qquad f^{\prime\prime}(u)\;=\;\frac{1}{u^{2}}.
+Since
+f⁡(λi)=−log⁡(λiI0)=(AΩ​x)i,f(\lambda_{i})\;=\;-\log\!\left(\frac{\lambda_{i}}{I_{0}}\right)\;=\;(A_{\Omega}x)_{i},
+a first-order Taylor expansion of f⁡(Yi)f(Y_{i}) around λi\lambda_{i} gives
+yi\displaystyle y_{i}
+≈f⁡(λi)+f′​(λi)​(Yi−λi)\displaystyle\approx f(\lambda_{i})+f^{\prime}(\lambda_{i})(Y_{i}-\lambda_{i})
+=(AΩ​x)i−Yi−λiλi.\displaystyle=(A_{\Omega}x)_{i}-\frac{Y_{i}-\lambda_{i}}{\lambda_{i}}.
+For sufficiently large λi\lambda_{i}, Proposition 2
+gives
+Yi−λi≈λi​ηi,ηi∼𝒩⁡(0,1).Y_{i}-\lambda_{i}\approx\sqrt{\lambda_{i}}\,\eta_{i},\qquad\eta_{i}\sim\mathcal{N}(0,1).
+Therefore,
+yi≈(AΩ​x)i−1λi​ηi.y_{i}\approx(A_{\Omega}x)_{i}-\frac{1}{\sqrt{\lambda_{i}}}\eta_{i}.
+(88)
+Because −ηi-\eta_{i} has the same distribution as ηi\eta_{i}, the leading
+post-log error is approximately Gaussian with zero mean and variance
+λi−1\lambda_{i}^{-1}.
+The first-order approximation does not capture the bias introduced by the
+nonlinear logarithm. Retaining the quadratic term gives
+𝔼⁡[yi]\displaystyle\mathbb{E}[y_{i}]
+≈f⁡(λi)+12​f′′​(λi)​Var⁡(Yi)\displaystyle\approx f(\lambda_{i})+\frac{1}{2}f^{\prime\prime}(\lambda_{i})\operatorname{Var}(Y_{i})
+=(AΩ​x)i+12​λi,\displaystyle=(A_{\Omega}x)_{i}+\frac{1}{2\lambda_{i}},
+where Var⁡(Yi)=λi\operatorname{Var}(Y_{i})=\lambda_{i}. The post-log variance is approximately
+Var⁡(yi)≈(f′​(λi))2​Var⁡(Yi)=1λi.\operatorname{Var}(y_{i})\;\approx\;\bigl(f^{\prime}(\lambda_{i})\bigr)^{2}\operatorname{Var}(Y_{i})\;=\;\frac{1}{\lambda_{i}}.
+The zero-mean Gaussian model used below neglects the leading bias
+1/(2​λi)1/(2\lambda_{i}). This approximation is most accurate when the transmitted
+photon count λi\lambda_{i} is sufficiently large.
+A.1.4 Post-log covariance and likelihood
+Under the additional approximation that detector-bin counts are
+conditionally independent, the post-log errors are approximately
+independent. Stacking the measurements gives
+y≈AΩ​x+ε,ε∼𝒩⁡(0,Σ),Σ=diag⁡(1λ1,…,1λm).y\approx A_{\Omega}x+\varepsilon,\qquad\varepsilon\sim\mathcal{N}(0,\Sigma),\qquad\Sigma\;=\;\operatorname{diag}\!\left(\frac{1}{\lambda_{1}},\ldots,\frac{1}{\lambda_{m}}\right).
+(89)
+The term post-log indicates that this Gaussian model is applied after
+the logarithmic transformation of the photon counts
+[58, 55].
+Using (85),
+Var⁡(εi)≈1λi=exp⁡((AΩ​x)i)I0.\operatorname{Var}(\varepsilon_{i})\;\approx\;\frac{1}{\lambda_{i}}\;=\;\frac{\exp((A_{\Omega}x)_{i})}{I_{0}}.
+Thus, highly attenuated rays receive lower precision. This motivates the
+post-log weighted least-squares functional
+[55, 61]
+Φ(x)=12‖Σ−1/2(AΩx−y)‖22.\Phi(x)\;=\;\frac{1}{2}\left\|\Sigma^{-1/2}(A_{\Omega}x-y)\right\|_{2}^{2}.
+A.1.5 Fixed effective precision
+The ideal post-log precision depends on the unknown transmitted count
+λi=I0​exp⁡[−(AΩ​x)i]\lambda_{i}=I_{0}\exp[-(A_{\Omega}x)_{i}]. An ideal count-based plug-in estimate
+would be
+λ^i=I0​e−yi.\widehat{\lambda}_{i}\;=\;I_{0}e^{-y_{i}}.
+(90)
+In the implementation, we instead use a stabilized measurement-dependent
+precision proxy. Zero detected counts are replaced by one count before
+applying the logarithm. From the resulting post-log measurement yiy_{i}, we
+first compute
+wiraw=1yi+ϵ.w_{i}^{\mathrm{raw}}\;=\;\frac{1}{y_{i}+\epsilon}.
+(91)
+The weights are then normalized, scaled, and clipped:
+wi=clip⁡(s​wiraw1m​∑j=1mwjraw+δ,wmin,wmax),w_{i}\;=\;\operatorname{clip}\left(s\,\frac{w_{i}^{\mathrm{raw}}}{\frac{1}{m}\sum_{j=1}^{m}w_{j}^{\mathrm{raw}}+\delta},w_{\min},w_{\max}\right),
+(92)
+where ϵ>0\epsilon>0 prevents division by small values, δ=10−8\delta=10^{-8}
+stabilizes the mean normalization, s>0s>0 controls the overall precision
+scale, and wminw_{\min} and wmaxw_{\max} limit the dynamic range.
+We define the fixed effective precision and covariance by
+Σ^−1:=diag⁡(w1,…,wm),Σ^:=diag⁡(w1−1,…,wm−1).\widehat{\Sigma}^{-1}\;:=\;\operatorname{diag}(w_{1},\ldots,w_{m}),\qquad\widehat{\Sigma}\;:=\;\operatorname{diag}(w_{1}^{-1},\ldots,w_{m}^{-1}).
+(93)
+Once computed from the measured sinogram, these matrices are held fixed
+throughout reconstruction. Unless stated otherwise, subsequent occurrences
+of Σ\Sigma denote this fixed effective covariance
+Σ^\widehat{\Sigma}, including the normalization and clipping above.
+The resulting weights should be interpreted as a stabilized
+measurement-dependent precision approximation rather than an unbiased
+estimator of the ideal Poisson precision.
+Validity regime.
+The Gaussian approximation is most accurate when all relevant transmitted
+counts are sufficiently large. At low counts, the normal approximation
+deteriorates, the logarithmic bias becomes appreciable, and zero-count
+handling becomes important. A pre-log Poisson model or a hybrid pre-/post-log
+model can be preferable in that regime
+[58, 55].
+For completeness, the Fisher information of the ideal raw-count model with
+respect to xx is
+ℐ⁡(x)=AΩ⊤​diag⁡(λ1​(x),…,λm​(x))​AΩ.\mathcal{I}(x)\;=\;A_{\Omega}^{\top}\operatorname{diag}(\lambda_{1}(x),\ldots,\lambda_{m}(x))A_{\Omega}.
+Indeed,
+∇xλi​(x)=−λi​(x)​ai\nabla_{x}\lambda_{i}(x)=-\lambda_{i}(x)a_{i}, where ai⊤a_{i}^{\top} is row ii of
+AΩA_{\Omega}, and hence
+ℐ⁡(x)=∑i=1m1λi​(x)​∇xλi​(x)​∇xλi​(x)⊤=∑i=1mλi​(x)​ai​ai⊤.\mathcal{I}(x)\;=\;\sum_{i=1}^{m}\frac{1}{\lambda_{i}(x)}\nabla_{x}\lambda_{i}(x)\nabla_{x}\lambda_{i}(x)^{\top}\;=\;\sum_{i=1}^{m}\lambda_{i}(x)a_{i}a_{i}^{\top}.
+A metric based directly on this quantity would depend on xx. Such a
+position-dependent metric generally requires additional drift terms in a
+Riemannian Langevin construction; these terms vanish for the fixed metric
+used in this work [15].
+A.2 Orthogonal Decomposition of the Image Space
+This subsection proves the decomposition stated in
+Section 3.3.
+Proof of the orthogonal direct-sum decomposition.
+Let r∈ℛ⁡(AΩ⊤)r\in\mathcal{R}(A_{\Omega}^{\top}) and
+v∈𝒩⁡(AΩ)v\in\mathcal{N}(A_{\Omega}). There exists z∈ℝmz\in\mathbb{R}^{m} such that
+r=AΩ⊤​zr=A_{\Omega}^{\top}z, and therefore
+r⊤​v=z⊤​AΩ​v= 0.r^{\top}v\;=\;z^{\top}A_{\Omega}v\;=\;0.
+Thus,
+ℛ⁡(AΩ⊤)⟂𝒩⁡(AΩ)\mathcal{R}(A_{\Omega}^{\top})\perp\mathcal{N}(A_{\Omega}). Moreover,
+dimℛ⁡(AΩ⊤)+dim𝒩⁡(AΩ)\displaystyle\dim\mathcal{R}(A_{\Omega}^{\top})+\dim\mathcal{N}(A_{\Omega})
+=rank⁡(AΩ)+n−rank⁡(AΩ)\displaystyle\;=\;\operatorname{rank}(A_{\Omega})+n-\operatorname{rank}(A_{\Omega})
+=n.\displaystyle\;=\;n.
+The two orthogonal subspaces therefore span ℝn\mathbb{R}^{n}, giving
+ℝn=ℛ⁡(AΩ⊤)⊕𝒩⁡(AΩ),ℛ⁡(AΩ⊤)=𝒩​(AΩ)⟂.\mathbb{R}^{n}\;=\;\mathcal{R}(A_{\Omega}^{\top})\oplus\mathcal{N}(A_{\Omega}),\qquad\mathcal{R}(A_{\Omega}^{\top})\;=\;\mathcal{N}(A_{\Omega})^{\perp}.
+∎
+A.3 Posterior Geometry Under Incomplete-View CT
+Consider
+y=AΩ​x+ε,ε∼𝒩⁡(0,Σ),Σ≻0,y\;=\;A_{\Omega}x+\varepsilon,\qquad\varepsilon\sim\mathcal{N}(0,\Sigma),\qquad\Sigma\succ 0,
+and let p0​(x)p_{0}(x) denote the clean-image prior density. The posterior is
+p(x∣y)∝p0(x)exp[−12‖Σ−1/2(AΩx−y)‖22],p(x\mid y)\propto p_{0}(x)\exp\!\left[-\frac{1}{2}\left\|\Sigma^{-1/2}(A_{\Omega}x-y)\right\|_{2}^{2}\right],
+(94)
+which is the standard Bayesian formulation of a linear inverse problem with
+Gaussian noise [47].
+Assume that log⁡p0​(x)\log p_{0}(x) is twice differentiable in a neighborhood of a posterior mode x⋆x^{\star}, and define the local prior curvature by
+Hprior​(x⋆):=−∇x2​log⁡p0​(x)|x=x⋆.H_{\mathrm{prior}}(x^{\star})\;:=\;-\left.\nabla_{x}^{2}\log p_{0}(x)\right|_{x=x^{\star}}.
+(95)
+Up to an additive constant, the negative log-posterior is
+−log⁡p⁡(x∣y)=−log⁡p0​(x)+12​(AΩ​x−y)⊤​Σ−1​(AΩ​x−y).-\log p(x\mid y)\;=\;-\log p_{0}(x)+\frac{1}{2}(A_{\Omega}x-y)^{\top}\Sigma^{-1}(A_{\Omega}x-y).
+Since AΩA_{\Omega} is linear and Σ\Sigma is fixed, taking two derivatives
+with respect to xx gives
+Hpost​(x⋆)=Hprior​(x⋆)+AΩ⊤​Σ−1​AΩ,H_{\mathrm{post}}(x^{\star})\;=\;H_{\mathrm{prior}}(x^{\star})+A_{\Omega}^{\top}\Sigma^{-1}A_{\Omega},
+(96)
+where
+Hpost​(x⋆):=−∇x2​log⁡p⁡(x∣y)|x=x⋆.H_{\mathrm{post}}(x^{\star})\;:=\;-\left.\nabla_{x}^{2}\log p(x\mid y)\right|_{x=x^{\star}}.
+Assume that x⋆x^{\star} is a nondegenerate local posterior mode, so that
+Hpost​(x⋆)≻0.H_{\mathrm{post}}(x^{\star})\succ 0.
+To obtain the local Laplace approximation, define the negative
+log-posterior
+ℒ⁡(x):=−log⁡p⁡(x∣y).\mathcal{L}(x)\;:=\;-\log p(x\mid y).
+A second-order Taylor expansion around x⋆x^{\star} gives
+ℒ⁡(x)\displaystyle\mathcal{L}(x)
+≈ℒ(x⋆)+∇ℒ(x⋆)⊤(x−x⋆)\displaystyle\;\approx\;\mathcal{L}(x^{\star})+\nabla\mathcal{L}(x^{\star})^{\top}(x-x^{\star})
++12​(x−x⋆)⊤​Hpost​(x⋆)​(x−x⋆).\displaystyle\quad+\frac{1}{2}(x-x^{\star})^{\top}H_{\mathrm{post}}(x^{\star})(x-x^{\star}).
+Because x⋆x^{\star} is a local posterior mode,
+∇ℒ​(x⋆)=0\nabla\mathcal{L}(x^{\star})=0. Therefore,
+p⁡(x∣y)∝exp⁡[−12​(x−x⋆)⊤​Hpost​(x⋆)​(x−x⋆)]p(x\mid y)\propto\exp\!\left[-\frac{1}{2}(x-x^{\star})^{\top}H_{\mathrm{post}}(x^{\star})(x-x^{\star})\right]
+locally around x⋆x^{\star}. This is the kernel of a Gaussian distribution,
+and hence
+p⁡(x∣y)≈𝒩⁡(x⋆,Hpost​(x⋆)−1)p(x\mid y)\;\approx\;\mathcal{N}\!\left(x^{\star},H_{\mathrm{post}}(x^{\star})^{-1}\right)
+(97)
+in a neighborhood of the mode [51].
+Proposition 3 (Anisotropic posterior curvature).
+Suppose Σ≻0\Sigma\succ 0. Then:
+1.
+for every v∈𝒩⁡(AΩ)v\in\mathcal{N}(A_{\Omega}),
+AΩ⊤​Σ−1​AΩ​v=0;A_{\Omega}^{\top}\Sigma^{-1}A_{\Omega}v=0;
+2.
+for every v∈𝒩⁡(AΩ)v\in\mathcal{N}(A_{\Omega}),
+v⊤​Hpost​(x⋆)​v=v⊤​Hprior​(x⋆)​v;v^{\top}H_{\mathrm{post}}(x^{\star})v\;=\;v^{\top}H_{\mathrm{prior}}(x^{\star})v;
+3.
+for every nonzero u∈ℛ⁡(AΩ⊤)u\in\mathcal{R}(A_{\Omega}^{\top}),
+u⊤​AΩ⊤​Σ−1​AΩ​u>0.u^{\top}A_{\Omega}^{\top}\Sigma^{-1}A_{\Omega}u>0.
+Proof.
+If v∈𝒩⁡(AΩ)v\in\mathcal{N}(A_{\Omega}), then AΩ​v=0A_{\Omega}v=0. The first statement
+follows immediately, and substitution into
+(96) proves the second.
+For the third statement, let
+0≠u∈ℛ⁡(AΩ⊤)0\neq u\in\mathcal{R}(A_{\Omega}^{\top}). By
+ℛ⁡(AΩ⊤)=𝒩​(AΩ)⟂\mathcal{R}(A_{\Omega}^{\top})=\mathcal{N}(A_{\Omega})^{\perp}, we have
+u∉𝒩⁡(AΩ)u\notin\mathcal{N}(A_{\Omega}) and hence AΩ​u≠0A_{\Omega}u\neq 0. Therefore,
+u⊤AΩ⊤Σ−1AΩu=‖Σ−1/2AΩu‖22>0.u^{\top}A_{\Omega}^{\top}\Sigma^{-1}A_{\Omega}u\;=\;\left\|\Sigma^{-1/2}A_{\Omega}u\right\|_{2}^{2}>0.
+This argument does not require AΩA_{\Omega} to have full row rank.
+∎
+The proposition shows that the likelihood adds no curvature along exact
+null-space directions and positive curvature along every nonzero direction
+in ℛ⁡(AΩ⊤)\mathcal{R}(A_{\Omega}^{\top}). The positive curvature can nevertheless be
+very small along directions associated with small singular values of
+Σ−1/2AΩ\Sigma^{-1/2}A_{\Omega}; these are the weakly constrained, or effective
+null-space, directions discussed in the main text. The resulting posterior
+covariance also depends on the prior curvature and its cross-directional
+couplings. It is therefore not generally correct to claim that every
+null-space direction has larger posterior variance than every range-space
+direction.
+A.4 Projection Operators and Conjugate Gradient Computation
+Proposition 4 (Exact orthogonal projectors).
+Define
+PR:=AΩ⊤​(AΩ​AΩ⊤)†​AΩ,PN:=In−PR,P_{R}\;:=\;A_{\Omega}^{\top}(A_{\Omega}A_{\Omega}^{\top})^{\dagger}A_{\Omega},\qquad P_{N}\;:=\;I_{n}-P_{R},
+where † denotes the Moore–Penrose pseudoinverse. Then PRP_{R}
+and PNP_{N} are the Euclidean orthogonal projectors onto
+ℛ⁡(AΩ⊤)\mathcal{R}(A_{\Omega}^{\top}) and 𝒩⁡(AΩ)\mathcal{N}(A_{\Omega}), respectively.
+Consequently,
+PR2=PR,PN2=PN,PR⊤=PR,PN⊤=PN,PR​PN=PN​PR= 0,PR+PN=In.P_{R}^{2}\;=\;P_{R},\quad P_{N}^{2}\;=\;P_{N},\quad P_{R}^{\top}\;=\;P_{R},\quad P_{N}^{\top}\;=\;P_{N},\quad P_{R}P_{N}\;=\;P_{N}P_{R}\;=\;0,\quad P_{R}+P_{N}\;=\;I_{n}.
+Proof.
+Let
+AΩ=Ur​Sr​Vr⊤A_{\Omega}=U_{r}S_{r}V_{r}^{\top} be a compact singular-value decomposition,
+where SrS_{r} contains the positive singular values. Then
+(AΩ​AΩ⊤)†=Ur​Sr−2​Ur⊤,(A_{\Omega}A_{\Omega}^{\top})^{\dagger}\;=\;U_{r}S_{r}^{-2}U_{r}^{\top},
+and hence
+PR=Vr​Vr⊤.P_{R}\;=\;V_{r}V_{r}^{\top}.
+The columns of VrV_{r} form an orthonormal basis of
+ℛ⁡(AΩ⊤)\mathcal{R}(A_{\Omega}^{\top}), so PRP_{R} is its Euclidean orthogonal
+projector. The orthogonal complement is
+𝒩⁡(AΩ)\mathcal{N}(A_{\Omega}), and therefore PN=In−PRP_{N}=I_{n}-P_{R} is the corresponding
+null-space projector. All stated identities follow directly.
+∎
+Regularized range and null filters.
+For γ⋆>0\gamma_{\star}>0, define
+PR,γ⋆Σ:=AΩ⊤​(AΩ​AΩ⊤+γ⋆​Σ)−1​AΩ.P_{R,\gamma_{\star}}^{\Sigma}\;:=\;A_{\Omega}^{\top}(A_{\Omega}A_{\Omega}^{\top}+\gamma_{\star}\Sigma)^{-1}A_{\Omega}.
+(98)
+Let
+B:=AΩ⊤​Σ−1​AΩB:=A_{\Omega}^{\top}\Sigma^{-1}A_{\Omega}. Direct multiplication shows that
+(B+γ⋆​In)−1​AΩ⊤​Σ−1=AΩ⊤​(AΩ​AΩ⊤+γ⋆​Σ)−1.(B+\gamma_{\star}I_{n})^{-1}A_{\Omega}^{\top}\Sigma^{-1}\;=\;A_{\Omega}^{\top}(A_{\Omega}A_{\Omega}^{\top}+\gamma_{\star}\Sigma)^{-1}.
+It follows that
+PR,γ⋆Σ=(B+γ⋆​In)−1​B,P_{R,\gamma_{\star}}^{\Sigma}\;=\;(B+\gamma_{\star}I_{n})^{-1}B,
+and its complementary filter is
+PN,γ⋆Σ:=In−PR,γ⋆Σ=γ⋆​(B+γ⋆​In)−1.P_{N,\gamma_{\star}}^{\Sigma}\;:=\;I_{n}-P_{R,\gamma_{\star}}^{\Sigma}\;=\;\gamma_{\star}(B+\gamma_{\star}I_{n})^{-1}.
+For finite γ⋆\gamma_{\star}, these matrices are symmetric regularized
+filters, not exact projectors: their nontrivial eigenvalues lie strictly
+between zero and one. As γ⋆↓0\gamma_{\star}\downarrow 0,
+PR,γ⋆Σ⟶PR,PN,γ⋆Σ⟶PN.P_{R,\gamma_{\star}}^{\Sigma}\longrightarrow P_{R},\qquad P_{N,\gamma_{\star}}^{\Sigma}\longrightarrow P_{N}.
+A.4.1 Matrix-free computation via conjugate gradient
+The method uses two types of regularized linear systems. Both coefficient
+matrices are symmetric positive definite and can be solved by conjugate
+gradient [22, 21] without forming dense matrices.
+Image-space system.
+Pullback-metric preconditioning uses
+(AΩ⊤​Σ−1​AΩ+γ​In)​u=r.(A_{\Omega}^{\top}\Sigma^{-1}A_{\Omega}+\gamma I_{n})u\;=\;r.
+(99)
+For p∈ℝnp\in\mathbb{R}^{n}, its matrix–vector product is
+(AΩ⊤​Σ−1​AΩ+γ​In)​p=AΩ⊤​[Σ−1​(AΩ​p)]+γ​p.(A_{\Omega}^{\top}\Sigma^{-1}A_{\Omega}+\gamma I_{n})p\;=\;A_{\Omega}^{\top}[\Sigma^{-1}(A_{\Omega}p)]+\gamma p.
+(100)
+Thus, each CG iteration uses one forward projection, one application of the
+diagonal precision, and one backprojection.
+Measurement-space system.
+The approximately null-space-restricted perturbation and the regularized
+data-consistency correction use
+(AΩ​AΩ⊤+γ⋆​Σ)​h=b,γ⋆>0,(A_{\Omega}A_{\Omega}^{\top}+\gamma_{\star}\Sigma)h=b,\qquad\gamma_{\star}>0,
+(101)
+where γ⋆=γnull\gamma_{\star}=\gamma_{\mathrm{null}} for the null-space operation
+and γ⋆=γproj\gamma_{\star}=\gamma_{\mathrm{proj}} for the data-consistency
+correction. For p∈ℝmp\in\mathbb{R}^{m},
+(AΩ​AΩ⊤+γ⋆​Σ)​p=AΩ​(AΩ⊤​p)+γ⋆​Σ​p.(A_{\Omega}A_{\Omega}^{\top}+\gamma_{\star}\Sigma)p\;=\;A_{\Omega}(A_{\Omega}^{\top}p)+\gamma_{\star}\Sigma p.
+(102)
+For every nonzero pp,
+p⊤​(AΩ​AΩ⊤+γ⋆​Σ)​p=‖AΩ⊤​p‖22+γ⋆​p⊤​Σ​p>0,p^{\top}(A_{\Omega}A_{\Omega}^{\top}+\gamma_{\star}\Sigma)p\;=\;\|A_{\Omega}^{\top}p\|_{2}^{2}+\gamma_{\star}p^{\top}\Sigma p>0,
+so the coefficient matrix is symmetric positive definite even when
+AΩA_{\Omega} is rank deficient.
+Remark.
+Premultiplying (101) by Σ−1\Sigma^{-1} gives the
+algebraically equivalent system
+(Σ−1​AΩ​AΩ⊤+γ⋆​Im)​h=Σ−1​b.(\Sigma^{-1}A_{\Omega}A_{\Omega}^{\top}+\gamma_{\star}I_{m})h\;=\;\Sigma^{-1}b.
+However, its coefficient matrix is generally not symmetric in the Euclidean
+inner product when Σ\Sigma is non-scalar. Ordinary conjugate gradient
+should therefore be applied to the symmetric system
+(101), not directly to this premultiplied form.
+Algorithm 2 states the measurement-space recurrence. The same
+recurrence applies to (99) after replacing the
+matrix–vector product by (100).
+Algorithm 2 Conjugate Gradient for the Noise-Weighted Measurement-Space System
+1:
+Right-hand side b∈ℝmb\in\mathbb{R}^{m}, operator AΩA_{\Omega},
+covariance Σ\Sigma, regularization γ⋆>0\gamma_{\star}>0,
+relative tolerance τ\tau, maximum iterations KK
+2:
+Approximate solution
+h≈(AΩ​AΩ⊤+γ⋆​Σ)−1​bh\approx(A_{\Omega}A_{\Omega}^{\top}+\gamma_{\star}\Sigma)^{-1}b
+3:
+h(0)←0h^{(0)}\leftarrow 0
+4:
+r(0)←br^{(0)}\leftarrow b
+5:
+p(0)←r(0)p^{(0)}\leftarrow r^{(0)}
+6:
+if ‖b‖2=0\|b\|_{2}=0 then
+7:
+return h(0)h^{(0)}
+8:
+end if
+9:
+for j=0,1,…,K−1j=0,1,\ldots,K-1 do
+10:
+q(j)←AΩ​(AΩ⊤​p(j))+γ⋆​Σ​p(j)q^{(j)}\leftarrow A_{\Omega}(A_{\Omega}^{\top}p^{(j)})+\gamma_{\star}\Sigma p^{(j)}
+11:
+aj←⟨r(j),r(j)⟩/⟨p(j),q(j)⟩a_{j}\leftarrow\langle r^{(j)},r^{(j)}\rangle/\langle p^{(j)},q^{(j)}\rangle
+12:
+h(j+1)←h(j)+aj​p(j)h^{(j+1)}\leftarrow h^{(j)}+a_{j}p^{(j)}
+13:
+r(j+1)←r(j)−aj​q(j)r^{(j+1)}\leftarrow r^{(j)}-a_{j}q^{(j)}
+14:
+if ‖r(j+1)‖2≤τ​‖b‖2\|r^{(j+1)}\|_{2}\leq\tau\|b\|_{2} then
+15:
+return h(j+1)h^{(j+1)}
+16:
+end if
+17:
+βj←⟨r(j+1),r(j+1)⟩/⟨r(j),r(j)⟩\beta_{j}\leftarrow\langle r^{(j+1)},r^{(j+1)}\rangle/\langle r^{(j)},r^{(j)}\rangle
+18:
+p(j+1)←r(j+1)+βj​p(j)p^{(j+1)}\leftarrow r^{(j+1)}+\beta_{j}p^{(j)}
+19:
+end for
+20:
+return h(K)h^{(K)}
+A.5 Pullback Metric and Preconditioned Langevin Dynamics
+This subsection concerns the ideal continuous-time process with an exact,
+time-independent target score. It does not by itself prove that the
+finite-step practical algorithm, which uses a DDPM score approximation and
+additional scheduled corrections, produces exact stochastic reconstruction samples.
+Let
+π(x)∝p0(x)e−Φ⁡(x),Φ(x)=12∥Σ−1/2(AΩx−y)∥22,\pi(x)\propto p_{0}(x)e^{-\Phi(x)},\qquad\Phi(x)\;=\;\frac{1}{2}\|\Sigma^{-1/2}(A_{\Omega}x-y)\|_{2}^{2},
+and define
+Gγ=AΩ⊤​Σ−1​AΩ+γ​In,γ>0.G_{\gamma}\;=\;A_{\Omega}^{\top}\Sigma^{-1}A_{\Omega}+\gamma I_{n},\qquad\gamma>0.
+Because GγG_{\gamma} is constant and positive definite, so is
+M:=Gγ−1M:=G_{\gamma}^{-1}. Consider
+dXs=M∇logπ(Xs)ds+2​MdWs,dX_{s}\;=\;M\nabla\log\pi(X_{s})\,ds+\sqrt{2M}\,dW_{s},
+(103)
+where WsW_{s} is an nn-dimensional standard Brownian motion and
+2​M\sqrt{2M} denotes any matrix LL satisfying L​L⊤=2​MLL^{\top}=2M. The variable
+ss denotes continuous Langevin time and is distinct from a DDPM timestep.
+Since AΩA_{\Omega} and the fixed effective covariance Σ\Sigma do not depend
+on xx, the metric is independent of position. The metric-derivative terms
+that arise for a position-dependent Riemannian metric therefore vanish
+[15].
+A.5.1 Fokker–Planck equation and invariance
+Let ρ⁡(x,s)\rho(x,s) be the density of XsX_{s}. Under standard regularity and
+nonexplosion assumptions, its Fokker–Planck equation is
+∂ρ∂s=−∇⋅(M∇logπρ)+∇⋅(M∇ρ).\frac{\partial\rho}{\partial s}\;=\;-\nabla\cdot(M\nabla\log\pi\,\rho)+\nabla\cdot(M\nabla\rho).
+(104)
+Lemma 1 (Diffusion covariance for the fixed drift).
+Consider the constant-covariance family
+dXs=M∇logπ(Xs)ds+LdWs,D:=LL⊤≻0.dX_{s}\;=\;M\nabla\log\pi(X_{s})\,ds+L\,dW_{s},\qquad D\;:=\;LL^{\top}\succ 0.
+(105)
+The density π\pi is invariant for every smooth target in this family if
+and only if D=2​MD=2M.
+Proof.
+If D=2​MD=2M, substitution of ρ=π\rho=\pi into the Fokker–Planck equation
+gives zero because π∇logπ=∇π\pi\nabla\log\pi=\nabla\pi.
+Conversely, suppose invariance holds for every smooth target, and set
+C:=D/2−MC:=D/2-M. Stationarity requires
+∇⋅(C∇π)=0\nabla\cdot(C\nabla\pi)=0 for every such π\pi. Choose the standard
+Gaussian density
+π(x)∝exp(−∥x∥22/2)\pi(x)\propto\exp(-\|x\|_{2}^{2}/2). Then
+∇⋅(C∇π)=(x⊤Cx−trC)π(x).\nabla\cdot(C\nabla\pi)\;=\;(x^{\top}Cx-\operatorname{tr}C)\pi(x).
+This expression can vanish for every xx only if C=0C=0, because CC is
+symmetric. Hence D=2​MD=2M.
+∎
+Proposition 5 (Invariance and reversibility).
+Assume that π\pi is a smooth, strictly positive probability density,
+∇log⁡π\nabla\log\pi satisfies conditions ensuring a nonexplosive solution of
+(103), and the required boundary terms vanish at infinity.
+Then π\pi is a reversible invariant density of (103).
+Proof.
+Substituting ρ=π\rho=\pi into (104) gives
+∂ρ∂s|ρ=π\displaystyle\left.\frac{\partial\rho}{\partial s}\right|_{\rho=\pi}
+=−∇⋅(M∇logππ)+∇⋅(M∇π)\displaystyle\;=\;-\nabla\cdot(M\nabla\log\pi\,\pi)+\nabla\cdot(M\nabla\pi)
+= 0.\displaystyle\;=\;0.
+Thus, π\pi is invariant. Moreover, the stationary probability current is
+J(x):=M∇logπ(x)π(x)−M∇π(x)= 0.J(x)\;:=\;M\nabla\log\pi(x)\,\pi(x)-M\nabla\pi(x)\;=\;0.
+The vanishing current gives detailed balance and hence reversibility under
+the stated boundary assumptions.
+∎
+A.5.2 Discrete-time approximation and matrix-free noise
+For an ideal fixed target and a step size ak>0a_{k}>0, Euler–Maruyama gives
+X(k+1)=X(k)+akGγ−1∇logπ(X(k))+2​akZ(k),Z(k)∼𝒩(0,Gγ−1).X^{(k+1)}\;=\;X^{(k)}+a_{k}G_{\gamma}^{-1}\nabla\log\pi(X^{(k)})+\sqrt{2a_{k}}\,Z^{(k)},\qquad Z^{(k)}\sim\mathcal{N}(0,G_{\gamma}^{-1}).
+(106)
+The following construction samples Z(k)Z^{(k)} without forming a matrix square root.
+Lemma 2 (Matrix-free noise sampler).
+Let ξ∼𝒩⁡(0,Im)\xi\sim\mathcal{N}(0,I_{m}) and
+c∼𝒩⁡(0,In)c\sim\mathcal{N}(0,I_{n}) be independent, and define
+w=AΩ⊤Σ−1/2ξ+γc,z=Gγ−1w.w\;=\;A_{\Omega}^{\top}\Sigma^{-1/2}\xi+\sqrt{\gamma}\,c,\qquad z\;=\;G_{\gamma}^{-1}w.
+Then
+w∼𝒩⁡(0,Gγ)w\sim\mathcal{N}(0,G_{\gamma}) and
+z∼𝒩⁡(0,Gγ−1)z\sim\mathcal{N}(0,G_{\gamma}^{-1}).
+Proof.
+The vector ww is zero-mean Gaussian and
+Cov⁡(w)=AΩ⊤​Σ−1​AΩ+γ​In=Gγ.\operatorname{Cov}(w)\;=\;A_{\Omega}^{\top}\Sigma^{-1}A_{\Omega}+\gamma I_{n}\;=\;G_{\gamma}.
+Since Gγ−1G_{\gamma}^{-1} is symmetric,
+Cov⁡(z)=Gγ−1​Gγ​Gγ−1=Gγ−1.\operatorname{Cov}(z)\;=\;G_{\gamma}^{-1}G_{\gamma}G_{\gamma}^{-1}\;=\;G_{\gamma}^{-1}.
+∎
+Drawing ξ∼𝒩⁡(0,In)\xi\sim\mathcal{N}(0,I_{n}) and using
+Gγ−1​ξG_{\gamma}^{-1}\xi would instead produce covariance Gγ−2G_{\gamma}^{-2} and
+is therefore not equivalent.
+Euler–Maruyama has weak order one over a fixed finite time interval under
+standard smoothness and moment assumptions [28]. This
+fact alone does not prove an O⁡(ak)O(a_{k}) bias for the invariant distribution.
+Such stationary-bias or nonasymptotic sampling bounds require additional
+assumptions, such as smoothness and strong log-concavity
+[10]. Moreover, the practical method uses a time-dependent
+DDPM score approximation, finite CG solves, scheduled data-consistency
+corrections, and optional additional perturbations.
+Proposition 5 therefore justifies the covariance matching in the
+ideal continuous model; it does not establish exact posterior invariance of
+the complete finite-step algorithm.
+Appendix B Extra Experimental Results
+B.1 Single-Image Quantitative Comparison
+Table 7 presents a supplementary comparison on a
+representative test image. For each stochastic diffusion-based method, we
+generate N=20N=20 reconstructions and compute PSNR and SSIM from their sample
+mean; FBP produces a single deterministic reconstruction. Because these
+results are based on only one image, they are intended to illustrate
+method-specific behavior rather than establish dataset-level performance.
+The overall observations are broadly consistent with the full
+526-image evaluation in Table 2, although the ranking of
+individual methods may vary between configurations.
+Table 7: Single-image PSNR (dB) and SSIM under the five DM4CT benchmark
+configurations. Config i: 40 views without noise; Config ii: 20 views with
+mild noise; Config iii: 80 views with higher noise; Config iv: 80 views with
+noise and ring artifacts; Config v: 40 views over the limited angular range
+[0,34​π][0,\tfrac{3}{4}\pi]. For each stochastic method, the metrics are computed
+on the mean of N=20N=20 reconstructions. FBP is deterministic. Bold and
+underlining indicate the best and second-best values, respectively, among
+the diffusion-based methods, evaluated separately for each metric. Tied
+values at the displayed precision receive the same formatting.
+Method
+Config i
+Config ii
+Config iii
+Config iv
+Config v
+FBP
+26.70 / 0.70
+9.52 / 0.03
+12.45 / 0.08
+13.88 / 0.11
+25.33 / 0.70
+DDS
+31.64 / 0.89
+25.11 / 0.43
+18.25 / 0.18
+20.29 / 0.23
+31.34 / 0.88
+DPS
+30.90 / 0.87
+27.92 / 0.78
+28.73 / 0.80
+28.80 / 0.81
+30.60 / 0.86
+PGDM
+30.97 / 0.86
+27.28 / 0.77
+28.59 / 0.80
+28.70 / 0.81
+30.43 / 0.85
+ReSample
+32.37 / 0.88
+28.39 / 0.77
+29.21 / 0.80
+29.55 / 0.81
+28.89 / 0.82
+Ours
+33.33 / 0.90
+28.47 / 0.78
+29.24 / 0.81
+29.40 / 0.83
+33.18 / 0.90
+In Config i, the proposed method obtains 33.33 dB/0.90, compared with 32.37 dB/0.88 for ReSample. On this image, the corresponding improvements are 0.96 dB in PSNR and 0.02 in SSIM. This result is consistent with the
+full-dataset trend reported in Table 2.
+In Config ii, the proposed method achieves the highest PSNR (28.47 dB), exceeding ReSample by 0.08 dB, and ties with DPS for the highest SSIM at the displayed precision (0.78). In Config iii, it obtains 29.24 dB/0.81, narrowly exceeding ReSample in PSNR (29.21 dB) and
+achieving a higher SSIM than DPS, PGDM, and ReSample (0.80). DDS performs substantially worse in Configs ii–iv than in Config i. Although this observation is consistent with sensitivity to measurement noise, a
+single-image comparison cannot determine the underlying cause.
+In Config iv, ReSample achieves the highest PSNR (29.55 dB), whereas the proposed method achieves the second-highest PSNR (29.40 dB) and the highest SSIM (0.83). One possible explanation is that a strong
+data-consistency operation may retain components associated with the ring artifact. Nevertheless, the different PSNR and SSIM rankings only demonstrate a trade-off between reference-based pixel error and
+structural similarity on this image; they do not by themselves establish the underlying mechanism.
+In Config v, the proposed method obtains 33.18 dB/0.90. It exceeds DDS by 1.84 dB in PSNR and 0.02 in SSIM, and ReSample by 4.29 dB and 0.08, respectively. This result is consistent with the intended benefit of adapting the reconstruction update to the directional sensitivity of the limited-angle acquisition geometry. Any causal interpretation should, however, be supported by the geometry ablation and full-dataset evaluation rather than by this single-image comparison alone.
+B.2 Sample-Variability Maps for Baseline Methods
+Figure 7 compares the pixel-wise sample standard deviation computed from N=20N=20 stochastic reconstructions for each method under the five controlled acquisition settings introduced in
+Section 4.1.2. The row corresponding to the proposed method is included for direct visual comparison with the diffusion-based baselines. All maps are displayed using the same intensity scale.
+Figure 7: Pixel-wise sample standard deviation over N=20N=20
+reconstructions for DDS, DPS, PGDM, and ReSample under the five
+controlled acquisition settings. Rows correspond to methods and columns
+to settings (i–v). Darker shading denotes lower empirical sample
+variability. These maps describe the variability generated by each
+sampler; they do not, by themselves, establish uncertainty calibration.
+As summarized in Table 3, the proposed method has a lower mean pixel-wise sample standard deviation than ReSample in Settings i, iii, iv, and v, whereas ReSample has the lower value in Setting ii. DDS, DPS, and PGDM have higher mean sample variability than the proposed method in all five settings. Spatially, the baseline maps commonly show increased variability around anatomical boundaries and
+undersampling-related streaks. The proposed method produces comparatively concentrated variability in Settings i, iii, and iv, while its variability
+increases under noisy or more severely undersampled acquisition, as seen in Settings ii and v.
+These results should be interpreted together with reconstruction quality and measurement residuals. High sample variability may indicate measurement-induced ambiguity, but it may also arise from sampling
+instability. Conversely, low variability may indicate either a concentrated conditional distribution or insufficient exploration by the sampler. Accordingly, the maps should be viewed as empirical sample-variability
+diagnostics rather than as evidence of calibrated posterior uncertainty. Their spatial patterns are most informative when considered jointly with the posterior-mean and error maps in Figure 2.
+Experimental support, please
+view the build logs
+for errors. Generated by
+L
+A
+T
+E
+xml
+.
+Instructions for reporting errors
+We are continuing to improve HTML versions of papers, and your feedback helps enhance accessibility and mobile
+support. To report errors in the HTML that will help us improve conversion and rendering, choose any of the
+methods listed below:
+Click the "Report Issue" (
+) button, located in the page header.
+Tip: You can select the relevant text first, to include it in your report.
+Our team has already identified the following issues. We appreciate your time reviewing and reporting rendering errors we
+may not have found yet. Your efforts will help us improve the HTML versions for all readers, because disability
+should not be a barrier to accessing research. Thank you for your continued support in championing open access for
+all.
+Have a free development cycle? Help support accessibility at arXiv! Our collaborators at LaTeXML maintain a list of packages that need conversion, and welcome developer contributions.
+We gratefully acknowledge support from
+our major funders,
+member institutions, ,
+and all contributors.
+About
+·
+Help
+·
+Contact
+·
+Subscribe
+·
+Copyright
+·
+Privacy
+·
+Accessibility
+·
+Operational Status (opens in new tab)
+Major funding support from

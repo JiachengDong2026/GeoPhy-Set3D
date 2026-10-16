@@ -1,0 +1,18 @@
+{
+  "policy": "plan_b_perf_v2_guide_G6_G7_v1",
+  "guide": "docs/GeoPhy_Set3D_研究开发指南_v1.0.md section 11",
+  "reason": "For formal launch, explicitly align smoke with guide G6. Keep every original strict acceptance result unchanged. Gate retains the better-than-zero criterion. Register this policy before fresh same-source smoke/gate runs.",
+  "supersedes_for_formal_qualification": "registration.json acceptance_policy; original reference smoke failures are not relabeled",
+  "smoke_required": [
+    "finite", "train_loss_decreases", "heldout_improves_initial",
+    "nonzero_gradient", "output_changes_across_cases", "measurement_dependence",
+    "no_gt_reads", "no_forbidden_reads", "expected_updates"
+  ],
+  "smoke_diagnostic_only": ["heldout_better_than_zero"],
+  "gate_required": [
+    "finite", "heldout_better_than_zero", "train_loss_decreases",
+    "heldout_improves_initial", "nonzero_gradient", "output_changes_across_cases",
+    "measurement_dependence", "no_gt_reads", "no_forbidden_reads", "expected_updates"
+  ],
+  "formal": "Completed real-data smoke and gate with this exact policy, runtime, source, git commit, data/statistics/geometry identities and zero forbidden reads. Fresh full166/36 initialization, 300 epochs, seed20261011 for this launch."
+}

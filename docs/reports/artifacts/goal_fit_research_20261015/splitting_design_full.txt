@@ -1,0 +1,1972 @@
+Design Choices in Splitting-Based Self-Supervised Sparse-View CT Reconstruction
+Report GitHub Issue
+×
+Title:
+Content selection saved. Describe the issue below:
+Description:
+Submit without GitHub
+Submit in GitHub
+arXiv is now an independent nonprofit!
+Learn more
+×
+Back to arXiv
+Why HTML?
+Report Issue
+Back to Abstract
+Download PDF
+Abstract
+I Introduction
+II Methods
+II-A Notation
+II-B 𝒫\mathcal{P}-Invariance
+II-C Self-supervised Splitting-based Methods
+II-C1 Preprocessing Strategies
+II-C2 Network Training
+II-D Inference Strategies
+II-D1 Direct Inference - D-inf
+II-D2 Average Inference - A-inf
+II-D3 𝒫\mathcal{P}-invariant inference
+II-E Compared Splitting Strategies
+II-E1 Single-Partition Splitting
+II-E2 Proposed Multi-Partition Splitting (MPS)
+II-F Theoretical Analysis
+III Experiments
+III-A Effect of the preprocessing strategy
+III-B Influence of splitting scheme
+Influence of splitting scheme in the Poisson (uncorrelated) noise case
+Influence of splitting scheme in the correlated noise case
+III-C Influence of the number of splits
+Number of splits in the Poisson noise case
+Number of splits in the correlated noise case
+III-D Influence of inference strategy:
+Influence of inference strategy in the Poisson noise case
+Influence of inference strategy in the correlated noise case
+III-D1 Regular vs. irregular splitting
+Effect of irregular splitting in the Poisson noise case
+Effect of irregular splitting in the correlated noise case
+IV Discussion
+Choice of Splitting Strategy
+Choice of Inference Strategy
+Choice of Preprocessing
+Choice of Splitting Density
+Summary: Practical Selection Rule
+Limitations
+Outlook
+References
+V Supplement
+License: CC BY 4.0
+arXiv:2607.10898v1 [cs.CV] 12 Jul 2026
+Design Choices in Splitting-Based Self-Supervised Sparse-View CT Reconstruction
+Nadja Gruber1
+††thanks: Corresponding authors: nadja.gruber@uibk.ac.at, johannes.schwab@fh-kufstein.ac.at
+Lukas Neumann2
+Ander Biguri3
+Gyeongha Hwang4
+Markus Haltmeier5
+Johannes Schwab6
+††thanks: 1 Department of Computer Science, University of Innsbruck, Austria.††thanks: 2 Institute of Basic Sciences in Engineering Science, University of Innsbruck, Austria.††thanks: 3 Department of Applied Mathematics and Theoretical Physics, University of Cambridge, UK.††thanks: 4 Department of Mathematics, Yeungnam University, Gyeongsan, Korea.††thanks: 5 Department of Mathematics, University of Innsbruck, Austria.††thanks: 6 University of Applied Sciences Kufstein, Austria.
+Abstract
+Self-supervised data splitting has emerged as a promising paradigm for sparse-view CT reconstruction, enabling training from incomplete measurements without fully sampled ground truth. However, the influence of key design choices, including partitioning strategy, preprocessing, and inference, remains insufficiently understood. In this work, we introduce a unified framework that decomposes splitting-based reconstruction into these three components, enabling controlled comparison of existing methods and two incremental extensions: multi-partition splitting and an alternative inference strategy. Experiments on simulated LoDoPaB-CT data under independent and correlated noise, together with validation on the real-world 2DeteCT dataset, show that the optimal partitioning strategy strongly depends on the measurement noise structure. Lattice-based splitting performs favorably under independent noise, whereas angular masking is more robust under correlated noise and real measured data. Multi-partition splitting consistently improves over pure projection-wise splitting in several settings. Complementary perceptual and structural metrics, including LPIPS and HaarPSI, reveal differences between masking strategies that are less apparent from PSNR and SSIM alone. These results provide practical guidelines for designing self-supervised sparse-view CT reconstruction methods and highlight the limitations of common independence assumptions in realistic imaging environments.
+Index Terms:
+Computed tomography, self-supervised learning, sparse-view reconstruction, data partitioning, masking strategies, inverse problems
+I Introduction
+In imaging modalities such as X-ray computed tomography (CT), cryo-electron microscopy, and photoacoustic imaging, images are reconstructed from indirect and often incomplete measurements. In practice, acquisition constraints such as limited scan time, radiation dose, or physical limitations lead to severely undersampled inverse problems of the form
+y=𝒩⁡(A​x),\displaystyle y=\mathcal{N}(Ax),
+(1)
+where A:X→YA:X\rightarrow Y denotes the forward operator, 𝒩\mathcal{N} represents a noise corruption process, x∈Xx\in X is the unknown image, and y∈Yy\in Y are the measured data. Such inverse problems are often ill-posed due to the ill-conditioned nature of AA and the presence of noise, meaning additional prior information is required for stable reconstruction.
+Classical variational methods incorporate handcrafted regularizers such as smoothness or total variation [20, 19, 3, 24]. While theoretically well established, their performance degrades in strongly undersampled regimes and depends heavily on careful parameter selection.
+More recently, deep learning approaches have achieved state-of-the-art performance by learning image priors directly from data. However, most methods rely on supervised training with paired measurements and ground-truth images, which are often unavailable in practical clinical or industrial imaging settings [2].
+To overcome this limitation, self-supervised learning approaches have emerged to exploit structure within the measurements themselves. A prominent class of such methods is based on measurement splitting, where observations are divided into complementary subsets that supervise each other. Originating from denoising formulations such as Noise2Noise [14], Noise2Void [13], and Noise2Self [1], these ideas have been extended to general inverse problems, including sparse-view CT reconstruction [9, 8, 22]. Related approaches also exploit equivariance priors to enable learning from incomplete data [5, 6, 21].
+Despite this progress, key design choices in splitting-based reconstruction methods have rarely been evaluated in a unified and controlled framework. In particular, key components such as data partitioning, preprocessing of masked measurements, and inference strategies are typically studied within specific frameworks, making it difficult to isolate their individual effects. As a result, it remains unclear which design choices are most critical and how they interact under different noise assumptions.
+This issue is especially critical in X-ray CT, where detector physics introduce structured noise correlations. In particular, scintillator blur induces spatially correlated noise between neighboring detector elements, violating the independence assumptions underlying many splitting-based methods [7]. This raises an important question: how robust are splitting strategies when the assumption of measurement independence is violated?
+In this work, we address this question by introducing a unified framework that decomposes splitting-based self-supervised reconstruction into three core components: partitioning, preprocessing, and inference. This framework enables a controlled comparison of existing methods and new extensions across different noise regimes, including correlated scintillator-induced noise.
+Furthermore, evaluating self-supervised methods under realistic noise is highly sensitive to the choice of metric. While PSNR is widely used, it often fails to reflect perceptual or diagnostically relevant structural properties. Motivated by findings in [4], we complement standard error-based metrics with advanced perceptual measures, such as LPIPS [23] and HaarPSI [17], aiming to capture subtle reconstruction artifacts that may not be reflected by conventional metrics.
+The main contributions of this work are:
+•
+A unified framework that decomposes splitting-based reconstruction into partitioning, preprocessing, and inference, providing a common perspective on existing self-supervised CT reconstruction methods.
+•
+A systematic benchmarking of these components under independent and correlated noise regimes, including scintillator-induced correlations, using both synthetic LoDoPaB-CT data and the real-world 2DeteCT dataset [12], evaluated with error-based and perceptual metrics.
+•
+The introduction of multi-partition masking and a novel inference strategy for splitting-based reconstruction, allowing complementary measurement partitions to be incorporated during training and inference.
+•
+An analysis showing that the optimal splitting strategy strongly depends on the noise structure, with angular masking being more robust under correlated noise, while lattice masking is preferred under independent noise.
+•
+Practical design guidelines for self-supervised CT reconstruction, summarizing how partitioning, preprocessing, and inference strategies should be selected under different noise regimes.
+Fig. 1: Unified framework components for self-supervised CT reconstruction.
+(A) Splitting strategies: Regular and irregular partitions for lattice (𝒫lat\mathcal{P}_{\text{lat}}), angular (𝒫ang\mathcal{P}_{\text{ang}}), and multi-partition (𝒫mult\mathcal{P}_{\text{mult}}) masking.
+(B) Training scheme: Data-domain loss enforcing consistency via forward projection AA on held-out coordinates after FBP reconstruction BB.
+(C) Preprocessing: Comparison of zero-filling versus linear interpolation.
+(D) Inference strategies: Direct (D-inf), Average (A-inf) via image ensembling, and 𝒫\mathcal{P}-invariant (P-inf) via dense sinogram refinement.
+Sinogram aspect ratios are modified for clarity.
+II Methods
+In this section, we describe the proposed self-supervised splitting-based learning and inference strategies for sparse-view CT reconstruction considered in our study.
+We restrict the formulation to a 2D parallel-beam geometry. However, the overall concept can be extended straightforwardly to more general geometries in both 2D and 3D and inverse problems.
+II-A Notation
+Let x∈Xx\in X represent a discretized ground-truth image, and let y=𝒩⁡(A​x)∈Y=ℝm×ny=\mathcal{N}(Ax)\in Y=\mathbb{R}^{m\times n} denote the noisy, sparse-view CT measurements (sinogram). Here, mm corresponds to the number of equidistant projection angles in [0,π−π/m][0,\pi-\pi/m], and nn denotes the number of detector elements. The forward operator A:X→YA:X\rightarrow Y maps an image to its clean tomographic projections, while 𝒩:Y→Y\mathcal{N}:Y\rightarrow Y models the measurement noise process, which may be non-additive. The objective is to recover the unknown clean image xx from yy, where the number of projection angles mm is significantly smaller than the image dimensions.
+II-B 𝒫\mathcal{P}-Invariance
+Throughout this section, we assume that Ω⊂{1,…,m}×{1,…,n}≕[m]×[n]\Omega\subset\{1,\dots,m\}\times\{1,\dots,n\}\eqqcolon[m]\times[n] is any subset of the indices in the sinogram space ℝm×n\mathbb{R}^{m\times n}. For such Ω\Omega, we define the sinogram mask 𝐌Ω∈{0,1}m×n\mathbf{M}_{\Omega}\in\{0,1\}^{m\times n} by
+(𝐌Ω)i,j≔{1,(i,j)∈Ω0,else,\displaystyle(\mathbf{M}_{\Omega})_{i,j}\coloneqq\begin{cases}1,\quad&(i,j)\in\Omega\\
+0,&\text{else,}\end{cases}
+(2)
+and the complement of a set Ω\Omega by Ωc=([m]×[n])∖Ω\Omega^{c}=([m]\times[n])\setminus\Omega such that 𝐌Ωc=𝟏−𝐌Ω.\mathbf{M}_{\Omega^{c}}=\mathbf{1}-\mathbf{M}_{\Omega}. All multiplications with masking matrices 𝐌Ω\mathbf{M}_{\Omega} are to be understood point-wise (Hadamard product).
+The core idea behind self-supervised splitting methods is the use of 𝒫\mathcal{P}-invariant mappings, as introduced in the Noise2Self framework [1]. Specifically, these mappings are designed such that certain groups of output coordinates are independent of the corresponding groups of input coordinates.
+Formally, let 𝒫\mathcal{P} be a partition of [m]×[n][m]\times[n], which is a collection of disjoint subsets Ω⊂[m]×[n]\Omega\subset[m]\times[n] satisfying ⨄Ω∈𝒫Ω=[m]×[n]\biguplus_{\Omega\in\mathcal{P}}\Omega=[m]\times[n]. For Ω∈𝒫\Omega\in\mathcal{P} and data z∈ℝm×nz\in\mathbb{R}^{m\times n}, a function f𝒫:ℝm×n→ℝm×nf^{\mathcal{P}}:\mathbb{R}^{m\times n}\rightarrow\mathbb{R}^{m\times n} is called Ω\Omega-invariant if 𝐌Ω​f𝒫​(z)\mathbf{M}_{\Omega}f^{\mathcal{P}}(z) depends only on 𝐌Ωc​z\mathbf{M}_{\Omega^{c}}z. It is called 𝒫\mathcal{P}-invariant if it is Ω\Omega-invariant for every Ω∈𝒫\Omega\in\mathcal{P}.
+A general way to construct a 𝒫\mathcal{P}-invariant function is the following: for an arbitrary function f:ℝm×n→ℝm×nf:\mathbb{R}^{m\times n}\rightarrow\mathbb{R}^{m\times n} and any partition 𝒫\mathcal{P}, a 𝒫\mathcal{P}-invariant map can be defined by
+∀y∈ℝm×n:f𝒫​(y)=∑Ω∈𝒫𝐌Ω​f​(𝐌Ωc​(y)).\displaystyle\forall y\in\mathbb{R}^{m\times n}:\,\,f^{\mathcal{P}}(y)=\sum_{\Omega\in\mathcal{P}}\mathbf{M}_{\Omega}f(\mathbf{M}_{\Omega^{c}}(y)).
+(3)
+Then, by construction, f𝒫f^{\mathcal{P}} is a 𝒫\mathcal{P}-invariant function. For denoising problems, where A=IdA=\mathrm{Id}, (3) can be directly used for prediction, as masking operates within a single domain. In contrast, for a general operator AA, data splitting and reconstruction occur in different domains, so masking in the measurement space does not translate directly to masking in the image space, making inference less straightforward.
+For sparse-view CT, it remains unclear which partitioning strategies are best suited to different noise regimes, motivating the systematic comparison presented in this work. In practice, the abstract partition 𝒫\mathcal{P} defines the specific geometric splitting strategy applied to the sinogram. In this work, we analyze different choices for 𝒫\mathcal{P}—such as angular, projection-wise, and lattice-based splitting (detailed in Section II-E)—to evaluate how these partitioning choices interact with different physical noise characteristics, which can vary significantly depending on the underlying inverse problem.
+II-C Self-supervised Splitting-based Methods
+Applied to inverse problems of the form (1), splitting-based approaches partition the projection domain into subsets 𝒫\mathcal{P}, under the assumption that the noise is statistically independent across the corresponding measurement groups. For each subset Ω∈𝒫\Omega\in\mathcal{P}, the measurements on Ω\Omega are withheld from the network input and used only for supervision, while the complementary measurements on Ωc\Omega^{c} are used to form an input reconstruction. A neural network fθf_{\theta} is then trained in the reconstruction domain and evaluated through a data-domain consistency loss on the held-out measurements (Figure 1B). Hendriksen et al. [10] demonstrated that this Noise2Self variant achieves superior performance compared to alternative self-supervised strategies. However, in practical CT systems, detector effects such as scintillator-induced correlations can violate the independent noise assumption.
+To construct the network input from the available measurements, we consider, for each Ω∈𝒫\Omega\in\mathcal{P}, a linear reconstruction pipeline
+B∘gΩc:Y→X,B\circ g^{\Omega^{c}}:Y\rightarrow X,
+where BB denotes filtered backprojection (FBP). The preprocessing function gΩcg^{\Omega^{c}} maps the masked sinogram 𝐌Ωc​y\mathbf{M}_{\Omega^{c}}y to a complete sinogram representation before reconstruction. In this work, gΩcg^{\Omega^{c}} either leaves the missing entries as zero or estimates them from the available measurements in Ωc\Omega^{c}.
+II-C1 Preprocessing Strategies
+In this manuscript, we consider two choices for the preprocessing operator gΩcg^{\Omega^{c}}, which maps the masked sinogram 𝐌∗Ωc​y\mathbf{M}*{\Omega^{c}}y to a complete sinogram representation before applying FBP:
+•
+Zero-filling: missing entries in Ω\Omega are left as zero, i.e., gΩc​(𝐌Ωc​y)=𝐌Ωc​yg^{\Omega^{c}}(\mathbf{M}_{\Omega^{c}}y)=\mathbf{M}_{\Omega^{c}}y.
+•
+Linear interpolation: missing entries in Ω\Omega are estimated from the available measurements in Ωc\Omega^{c} using linear interpolation.
+The described options are visualized in Figure 1C.
+II-C2 Network Training
+We now turn to the training strategy employed in splitting-based schemes. An overview is provided in Figure 1 B. The objective is to train a neural network fθ:X→Xf_{\theta}:X\rightarrow X by minimizing a loss function defined in the data domain over the training set. This can be formulated as
+ℒY​(θ)=1|𝒫|​∑Ω∈𝒫‖MΩ​A∘fθ​((B∘gΩc)​(𝐌Ωc​y))−𝐌Ω​y‖2.\mathcal{L}^{Y}(\theta)=\frac{1}{\lvert\mathcal{P}\rvert}\sum_{\Omega\in\mathcal{P}}\left\|\textbf{M}_{\Omega}A\circ f_{\theta}\left((B\circ g^{\Omega^{c}})(\mathbf{M}_{\Omega^{c}}y)\right)-\mathbf{M}_{\Omega}y\right\|^{2}.
+We denote the minimizer of ℒY\mathcal{L}^{Y} by θ∗\theta^{\ast}.
+In our experiments, we employ a U-Net-type [18] architecture for fθf_{\theta}. It has been shown [8] that minimizing the loss in the data domain is particularly advantageous in sparse-view settings, as opposed to minimizing it in the reconstruction domain, i.e.
+ℒX​(θ)=1|𝒫|​∑Ω∈𝒫‖fθ​(B∘gΩc​(𝐌Ωc​y))−B∘gΩ​(𝐌Ω​y)‖2,\mathcal{L}^{X}(\theta)=\frac{1}{\lvert\mathcal{P}\rvert}\sum_{\Omega\in\mathcal{P}}\left\|f_{\theta}\left(B\circ g^{\Omega^{c}}(\mathbf{M}_{\Omega^{c}}y)\right)-B\circ g^{\Omega}(\mathbf{M}_{\Omega}y)\right\|^{2},
+which was proposed in [9] for full-view CT reconstruction. While ℒX\mathcal{L}^{X} enables direct supervision in the image domain, its targets are themselves affected by undersampling artifacts. In sparse-view CT, these artifacts become severe and may be learned by the network. In contrast, ℒY\mathcal{L}^{Y} enforces consistency with the measured projections and has been shown to yield superior reconstruction quality in sparse-view settings [8].
+II-D Inference Strategies
+In the denoising and inverse problems literature on splitting-based self-supervised learning schemes [1, 9, 22], two inference strategies are commonly used to obtain the final reconstruction x^\hat{x}: direct inference (D-inf) and average inference (A-inf). In addition, we consider a proposed extension, referred to as 𝒫\mathcal{P}-invariant inference (𝒫\mathcal{P}-inf).
+We refer to them as:
+•
+Direct inference (D-inf),
+•
+Average inference (A-inf),
+•
+𝒫\mathcal{P}-invariant inference (𝒫\mathcal{P}-inf).
+In the following, the three strategies will be explained in detail.
+II-D1 Direct Inference - D-inf
+We begin with D-inf, which has been used as a standard choice in both denoising [1] and image reconstruction [22]. The trained neural network fθ∗f_{\theta^{\ast}} is applied directly to the measured data:
+x^=fθ∗​(B​y).\displaystyle\hat{x}=f_{\theta^{\ast}}(By).
+(4)
+II-D2 Average Inference - A-inf
+The second strategy, A-inf, introduced in Noise2Inverse [9], applies fθ∗f_{\theta^{\ast}} to multiple sub-reconstructions and averages the results:
+x^=1|𝒫|​∑Ω∈𝒫fθ∗​(B∘gΩc​(𝐌Ω​y)).\displaystyle\hat{x}=\frac{1}{|\mathcal{P}|}\sum_{\Omega\in\mathcal{P}}f_{\theta^{\ast}}\bigl(B\circ g^{\Omega^{c}}(\mathbf{M}_{\Omega}y)\bigr).
+(5)
+Unlike D-inf, this corresponds to an ensemble over complementary data splits.
+Note that for both D-inf and A-inf, the forward projection A⁡(x^)A(\hat{x}) depends on the measured data yy at indices Ω\Omega, i.e., MΩ​A​(x^)\textbf{M}_{\Omega}A(\hat{x}) depends on MΩ​y\textbf{M}_{\Omega}y. Hence, A⁡(x^)A(\hat{x}) is not 𝒫\mathcal{P}-invariant. This observation motivates the design of an inference strategy that enforces 𝒫\mathcal{P}-invariance.
+II-D3 𝒫\mathcal{P}-invariant inference
+We modify A-inf to aggregate sub-reconstructions in sinogram space rather than image space, ensuring the Ω\Omega-component is never averaged into itself and thus restoring 𝒫\mathcal{P}-invariance. This is enabled by an augmented sinogram representation via finer angular sampling, which reduces null-space ambiguities of AA and better preserves the image-space information learned by fθf_{\theta}.
+Let mm denote the number of projection angles in the original sinogram and choose a refinement factor r∈ℕr\in\mathbb{N} such that M=r​mM=rm. This induces a refined sinogram grid of size M×nM\times n.
+We define a refinement map ι⁡(i,j)=(r⁡(i−1)+1,j)\iota(i,j)=(r(i-1)+1,j),
+which embeds the original sampling locations into the refined grid. Further, let Ω¯⊂[M]×[n]\bar{\Omega}\subset[M]\times[n]. The observed measurements correspond to a binary mask 𝐌Ω¯\mathbf{M}_{\mathrm{\bar{\Omega}}} on the refined grid, defined by
+𝐌Ω¯​(ι⁡(i,j))=1,𝐌Ω¯=0​ otherwise,\mathbf{M}_{\mathrm{\bar{\Omega}}}(\iota(i,j))=1,\quad\mathbf{M}_{\mathrm{\bar{\Omega}}}=0\text{ otherwise},
+for (i,j)∈Ω.(i,j)\in\Omega.
+Let 𝒜:X→ℝM×n\mathcal{A}:X\rightarrow\mathbb{R}^{M\times n} be the forward operator with dense angular sampling, whose nullspace is smaller than that of the corresponding sparse-view operator.
+We first construct a coarse prediction on the observed angles:
+y^Ω¯=∑Ω∈𝒫𝐌Ω¯​𝒜∘fθ∗​((B∘gΩc)​(𝐌Ω​y)).\hat{y}_{\bar{\Omega}}=\sum_{\Omega\in\mathcal{P}}\mathbf{M}_{\bar{\Omega}}\,\mathcal{A}\circ f_{\theta^{\ast}}\big((B\circ g^{\Omega^{c}})(\mathbf{M}_{\Omega}y)\big).
+For the unobserved part of the data, we define
+y^Ω¯c=1|𝒫|​∑Ω∈𝒫𝐌Ω¯c​𝒜∘fθ∗​((B∘gΩc)​(𝐌Ω​y)).\hat{y}_{\bar{\Omega}^{c}}=\frac{1}{|\mathcal{P}|}\sum_{\Omega\in\mathcal{P}}\mathbf{M}_{\bar{\Omega}^{c}}\,\mathcal{A}\circ f_{\theta^{\ast}}\big((B\circ g^{\Omega^{c}})(\mathbf{M}_{\Omega}y)\big).
+Finally, the reconstructed image is obtained via
+x^=B⁡(y^Ω¯+y^Ω¯c).\hat{x}=B(\hat{y}_{\bar{\Omega}}+\hat{y}_{\bar{\Omega}^{c}}).
+A graphical description of the three inference strategies can be seen in Figure 1 D.
+This inference is 𝒫\mathcal{P}-invariant, as entries in Ω¯c\bar{\Omega}^{c} depend only on the observed measurements in Ω¯\bar{\Omega}.
+II-E Compared Splitting Strategies
+In self-supervised reconstruction methods such as Proj2Proj [22] and Noise2Inverse [9], a subset Ω⊂[m]×[n]\Omega\subset[m]\times[n] of the measured data is masked during training. For example, [22] applies periodic masking of detector elements, while angular splitting [9, 8] removes entire projection angles. In the following, d∈{2,3,4}d\in\{2,3,4\} denotes the base partitioning factor and s=d2∈{4,9,16}s=d^{2}\in\{4,9,16\} denotes the actual total number of splits within a geometric partition, determining the effective sampling density per split. This convention is used for all evaluated partitioning geometries to enable comparisons at matched number of splits.
+II-E1 Single-Partition Splitting
+We refer to single-partition masking as the setting in which one fixed partition is used. This is the standard choice in existing self-supervised reconstruction methods, including Proj2Proj [22] and Noise2Inverse [9], as well as our previous work [8]. We later extend this setting to multiple partitions.
+Regular Lattice Splitting (𝒫latd\mathcal{P}_{\textrm{lat}}^{d}).
+This strategy, introduced in [22], partitions the sinogram into a regular grid of non-overlapping patches of size d×dd\times d, yielding a total of s=d2s=d^{2} splits. Within each patch, all pixels sharing the same relative position are grouped into a subset. Formally, for a given index dd, the partition is denoted as 𝒫latd\mathcal{P}_{\textrm{lat}}^{d} and is given by
+𝒫latd={Ωlat(i,h):i,h=1,…,d},\mathcal{P}_{\textrm{lat}}^{d}=\left\{\Omega_{\textrm{lat}}^{(i,h)}\;:\;i,h=1,\dots,d\right\},
+with
+Ωlat(i,h)={(j,l)∈[m]×[n]|jmodd=i,lmodd=h}.\Omega_{\textrm{lat}}^{(i,h)}=\left\{(j,l)\in[m]\times[n]\;\middle|\;j\bmod d=i,\;l\bmod d=h\right\}.
+Thus, each subset contains all pixels that share the same relative location within each patch. Examples for different values of dd are shown in Fig. 1 A 1). In the experiments and plots, we evaluate 𝒫latd\mathcal{P}_{\textrm{lat}}^{d} with d∈{2,3,4}d\in\{2,3,4\}, respectively.
+Irregular Lattice Splitting.
+In contrast, irregular lattice masking randomly selects one pixel per d×dd\times d patch, rather than fixing a deterministic position. This yields a non-deterministic partition 𝒫latd\mathcal{P}_{\textrm{lat}}^{d}, as illustrated in Fig. 1 A 2).
+Regular Angular Splitting (𝒫angd\mathcal{P}_{\textrm{ang}}^{d}):
+Following previous work [9, 8], masking can also be performed along entire projection angles. To maintain notation consistency across all benchmarked methods, we define the total number of angular splits via s=d2s=d^{2}. For a given index d∈{2,3,4}d\in\{2,3,4\}, subsets of projection directions are defined as
+Ωangi={j∈[m]∣jmodd2=i}×[n],i=1,…,d2.\Omega_{\textrm{ang}}^{i}=\{j\in[m]\mid j\bmod d^{2}=i\}\times[n],\quad i=1,\dots,d^{2}.
+This induces the partition
+𝒫angd≔{Ωang1,…,Ωangd2},\mathcal{P}_{\textrm{ang}}^{d}\coloneqq\{\Omega_{\textrm{ang}}^{1},\dots,\Omega_{\textrm{ang}}^{d^{2}}\},
+illustrated in Fig. 1 A 3), consisting of s=d2s=d^{2} angular splits. These settings are labeled as 𝒫ang2\mathcal{P}_{\textrm{ang}}^{2}, 𝒫ang3\mathcal{P}_{\textrm{ang}}^{3}, and 𝒫ang4\mathcal{P}_{\textrm{ang}}^{4}, respectively.
+Irregular Angular Splitting.
+We further consider an irregular variant, where one projection angle is randomly masked within blocks of s=d2s=d^{2} consecutive angles (Fig. 1 A 4)). In the experiments, the configurations follow d∈{2,3,4}d\in\{2,3,4\}.
+II-E2 Proposed Multi-Partition Splitting (MPS)
+In contrast to single-partition approaches, one can also consider a family of multiple partitions 𝒫i,i=1,…,P\mathcal{P}_{i},i=1,\dots,P of the measurement index set that enforce simultaneous invariance along different geometric configurations.
+Joint Angular and Detector Splitting (𝒫multd\mathcal{P}_{\textrm{mult}}^{d}):
+This strategy applies multi-partition masking (P=2P=2) by introducing two separate, independent partition systems that operate along the angular and detector offset dimensions simultaneously. We define the primary angular partition component consisting of ss splits as:
+𝒫angs={Ωang1,…,Ωangs},\mathcal{P}_{\textrm{ang}}^{s}=\{\Omega_{\textrm{ang}}^{1},\dots,\Omega_{\textrm{ang}}^{s}\},
+where each subset Ωangi\Omega_{\textrm{ang}}^{i}, i=1,…,si=1,\dots,s isolates projection angles uniformly distributed over [m][m], i.e.
+Ωangj=[m]×{ν∈[m]∣νmods=j},j=1,…,s.\Omega_{\textrm{ang}}^{j}=[m]\times\{\nu\in[m]\mid\nu\bmod s=j\},\quad j=1,\dots,s.
+Similarly, we define the secondary detector partition component, also consisting of ss splits, as:
+𝒫dets={Ωdet1,…,Ωdets},\mathcal{P}_{\textrm{det}}^{s}=\{\Omega_{\textrm{det}}^{1},\dots,\Omega_{\textrm{det}}^{s}\},
+where the coordinates are grouped element-wise via:
+Ωdetj=[m]×{ν∈[n]∣νmods=j},j=1,…,s.\Omega_{\textrm{det}}^{j}=[m]\times\{\nu\in[n]\mid\nu\bmod s=j\},\quad j=1,\dots,s.
+Each Ωdetj\Omega_{\textrm{det}}^{j} selects vertical detector columns in a periodic and uniform manner (see Fig. 1 A 5)).
+Because this joint strategy incorporates both partition families simultaneously, the total self-supervised loss function aggregates their independent data-domain behaviors, evaluating s=d2s=d^{2} splits within each geometric system:
+ℒmultd​(θ)=\displaystyle\mathcal{L}_{\textrm{mult}}^{d}(\theta)=
+1s​∑Ω∈𝒫angs‖𝐌Ω​A​(fθ​((B∘gΩc)​𝐌Ωc​y))−𝐌Ω​y‖22\displaystyle\frac{1}{s}\sum_{\Omega\in\mathcal{P}_{\textrm{ang}}^{s}}\|\mathbf{M}_{\Omega}A\left(f_{\theta}\left((B\circ g^{\Omega^{c}})\mathbf{M}_{\Omega^{c}}y\right)\right)-\mathbf{M}_{\Omega}y\|_{2}^{2}
++\displaystyle+
+1s​∑Ω∈𝒫dets‖𝐌Ω​A​(fθ​((B∘gΩc)​𝐌Ωc​y))−𝐌Ω​y‖22.\displaystyle\frac{1}{s}\sum_{\Omega\in\mathcal{P}_{\textrm{det}}^{s}}\|\mathbf{M}_{\Omega}A\left(f_{\theta}\left((B\circ g^{\Omega^{c}})\mathbf{M}_{\Omega^{c}}y\right)\right)-\mathbf{M}_{\Omega}y\|_{2}^{2}.
+In the experiments, plots, and tables, this joint framework is denoted as 𝒫multd\mathcal{P}_{\textrm{mult}}^{d}, meaning that the network is optimized under s∈{4,9,16}s\in\{4,9,16\} angular splits and detector splits concurrently.
+In the following, we show that training with multiple partitions enables the construction of a mapping that is invariant with respect to an induced partition 𝒫^\hat{\mathcal{P}}.
+II-F Theoretical Analysis
+We demonstrate that multi-partition masking yields an inference function that is invariant with respect to the choice of a single-partition splitting mask. Furthermore, we establish a theorem characterizing the minimization error in the presence of noise that is correlated along the projection direction.
+Proposition II.1 (Invariance for multiple partitions).
+Let Ω=[m]×[n]\Omega=[m]\times[n] and let 𝒫k={Ωk1,…,Ωk|𝒫k|},k=1,…,K,\mathcal{P}_{k}=\{\Omega_{k}^{1},\dots,\Omega_{k}^{|\mathcal{P}_{k}|}\},\qquad k=1,\dots,K,
+be KK partitions of Ω\Omega.
+Consider the loss
+ℒY​(θ)=∑k=1K∑i=1|𝒫k|‖𝐌Ωki​(A∘fθ​(ℬ∘gΩkic)​(𝐌Ωkic​y))−𝐌Ωki​y‖22.\displaystyle\mathcal{L}^{Y}(\theta)=\sum_{k=1}^{K}\sum_{i=1}^{|\mathcal{P}_{k}|}\Big\|\mathbf{M}_{\Omega_{k}^{i}}\big(A\!\circ\!f_{\theta}(\mathcal{B}\!\circ\!g^{\Omega_{k}^{i^{c}}})(\mathbf{M}_{\Omega_{k}^{i^{c}}}y)\big)-\mathbf{M}_{\Omega_{k}^{i}}y\Big\|_{2}^{2}.
+Assume that fθ∗f_{\theta^{\ast}} minimizes ℒ⁡(θ)\mathcal{L}(\theta) (in expectation) under the conditional independence assumption of self-supervised masking, i.e. the noise in each subset Ωki∈𝒫k\Omega_{k}^{i}\in\mathcal{P}_{k} is independent from the noise in all other Ωkj∈𝒫k,i≠j\Omega_{k}^{j}\in\mathcal{P}_{k},i\neq j.
+Then the assembled mapping f^θ∗𝒫≔1K​∑k=1Kfθ∗𝒫k\hat{f}_{\theta^{\ast}}^{\mathcal{P}}\coloneqq\frac{1}{K}\sum_{k=1}^{K}f_{\theta^{\ast}}^{\mathcal{P}_{k}} is 𝒫~\tilde{\mathcal{P}}-invariant with
+𝒫~={⋂k=1KΩkj:Ωkj∈𝒫k}.\tilde{\mathcal{P}}=\left\{\bigcap_{k=1}^{K}\Omega_{k}^{j}\;:\;\Omega_{k}^{j}\in\mathcal{P}_{k}\right\}.
+Proof.
+See supplementary.
+∎
+Proposition II.1 establishes that multi-partition training effectively enforces invariance with respect to the intersection of the underlying partitions, providing a theoretical explanation for its improved robustness under both correlated and uncorrelated noise observed in our experiments (see Section III).
+If we consider the case K=2K=2, where the two partitions correspond to angular and detector-wise splits (𝒫angs\mathcal{P}_{\textrm{ang}}^{s} and 𝒫dets\mathcal{P}_{\textrm{det}}^{s}) defined in Section II-E, Proposition II.1 shows that the partitioning of the invariant term in joint angular and detector splitting is identical to that in the pixel-wise regular masking scheme (𝒫lats\mathcal{P}_{\textrm{lat}}^{s}).
+We now analyze the expected minimization error in the presence of scintillator-induced detector correlations modeled by a convolution with a one-dimensional kernel.
+Theorem II.2 (Expected minimization error under angular splitting).
+Let the forward model be
+y=𝒜​x+η,\displaystyle y=\mathcal{A}x+\eta,
+(6)
+where η\eta is zero-mean Gaussian noise which is independent across different projection angles but may be correlated within each angle.
+Let 𝒫ang\mathcal{P}_{\textrm{ang}} be the angular partition defined above.
+Then it holds that
+∑Ωang∈𝒫ang𝔼​‖𝐌Ωang​A​fθ​((ℬ∘gΩangc)​𝐌Ωangc​y)−𝐌Ωang​y‖22\displaystyle\sum_{\Omega_{\textrm{ang}}\in\mathcal{P}_{\textrm{ang}}}\mathbb{E}\Bigl\|\mathbf{M}_{\Omega_{\textrm{ang}}}Af_{\theta}\bigl((\mathcal{B}\circ g^{\Omega_{\textrm{ang}}^{c}})\mathbf{M}_{\Omega_{\textrm{ang}}^{c}}y\bigr)-\mathbf{M}_{\Omega_{\textrm{ang}}}y\Bigr\|_{2}^{2}
+=∑Ωang∈𝒫ang𝔼​‖𝐌Ωang​A∘fθ​((B∘gΩangc)​𝐌Ωangc​y)−𝐌Ωang​A​x‖22\displaystyle=\sum_{\Omega_{\textrm{ang}}\in\mathcal{P}_{\textrm{ang}}}\mathbb{E}\Bigl\|\mathbf{M}_{\Omega_{\textrm{ang}}}A\circ f_{\theta}\bigl((B\circ g^{\Omega_{\textrm{ang}}^{c}})\mathbf{M}_{\Omega_{\textrm{ang}}^{c}}y\bigr)-\mathbf{M}_{\Omega_{\textrm{ang}}}Ax\Bigr\|_{2}^{2}
++∑Ωang∈𝒫ang𝔼∥𝐌Ωang(η)∥22.\displaystyle\quad+\sum_{\Omega_{\textrm{ang}}\in\mathcal{P}_{\textrm{ang}}}\mathbb{E}\|\mathbf{M}_{\Omega_{\textrm{ang}}}(\eta)\|_{2}^{2}.
+Proof.
+See supplementary.
+∎
+The theorem shows that under angular splitting the expected objective
+decomposes into a reconstruction term and a noise energy term. This implies that, under angular splitting, intra-angle detector correlations contribute only through a noise-energy term that is independent of the network parameters. Consequently, the optimization objective is not directly affected by the detailed correlation structure of the noise.
+Fig. 2: Summary of the main experimental findings on synthetic data.
+(A) Effect of preprocessing: interpolation of masked measurements prior to FBP improves SSIM and HaarPSI compared to zero-filling.
+(B) Influence of splitting strategy under uncorrelated and correlated noise regimes, evaluated in terms of SSIM and HaarPSI.
+(C) Comparison of inference strategies (D-inf, A-inf, and 𝒫\mathcal{P}-inf).
+III Experiments
+We evaluate all methods on the test set of the LoDoPaB-CT dataset [15], a standard benchmark for sparse-view CT reconstruction, and on the real-world 2DeteCT dataset [12]. For LoDoPaB-CT, the dataset is split into 1000 training images, 184 validation images, and 400 test images. Reconstructions are performed using the same U-Net architecture as in [8] and [9]. The provided reconstructions are rescaled to a spatial resolution of 336×336336\times 336 and normalized such that their intensity values lie in the range [0,1][0,1]. The projection geometry consists of uniformly distributed angles in [0,π][0,\pi]. All images are multiplied by a circular mask, and all evaluation metrics are computed within the masked region.
+To assess performance under different noise characteristics, we consider both uncorrelated and correlated measurement noise on LoDoPaB-CT. For the uncorrelated setting, projection data are corrupted with Poisson noise corresponding to photon counts of 3500 and 6000, following the procedure of [9]. To simulate correlated noise arising from scintillator blur, we add Gaussian noise with standard deviation σ=0.1\sigma=0.1 and subsequently convolve it along the detector direction using a kernel with bandwidth l=5l=5.
+For the 2DeteCT dataset, we use the mode-1 high-noise acquisitions. The data are split into 100 training, 50 validation, and 100 test slices. Each original scan contains 3600 projection angles and 1912 detector bins. For our sparse-view reconstruction setting, we downsample the detector direction by a factor of two, resulting in 956 detector bins, and uniformly subsample the angular measurements to 100 projection views.
+Forward projections and filtered backprojection are implemented using tomosipo [10] and LION 11
+1
+https://github.com/CambridgeCIA/LION, respectively. All neural networks are implemented and trained in PyTorch [16]. We use the Adam optimizer [11] with a learning rate of 10−410^{-4} and mixed-precision training via PyTorch’s GradScaler.
+During training, model checkpoints are evaluated on the validation set using all three inference strategies independently. For each strategy, we track and select the specific network weights that yield the highest validation SSIM, resulting in three distinct optimized weight configurations (one for D-inf, one for A-inf, and one for 𝒫\mathcal{P}-inf). These individual weight sets are then used for the final evaluations on the test set. We observe that lattice-based splitting (𝒫lat\mathcal{P}_{\textrm{lat}}) converges faster than angular and joint splitting schemes. Accordingly, lattice-based models are trained for 6000 epochs, while angular (𝒫ang\mathcal{P}_{\textrm{ang}}) and joint angular–detector (𝒫mult\mathcal{P}_{\textrm{mult}}) models are trained for 10,000 epochs.
+A description of all evaluated configurations and used abbreviations is provided in Table I.
+The source code, data, and experiment configurations are publicly available at the project repository
+(https://github.com/Nadja1611/Design-Choices-in-Splitting-Based-Self-Supervised-Sparse-View-CT-Reconstruction).
+Evaluation metrics
+We report Peak Signal-to-Noise Ratio (PSNR), Structural Similarity Index Measure (SSIM), Learned Perceptual Image Patch Similarity (LPIPS) [23], and HaarPSI [17]. While PSNR and SSIM are widely used, they do not always capture perceptual or structurally relevant differences in reconstruction quality. We therefore additionally report LPIPS and HaarPSI, which provide complementary perceptual and structural measures based on deep feature representations and localized wavelet analysis, respectively. Lower LPIPS values indicate higher perceptual similarity, while higher HaarPSI values indicate better structural fidelity.
+For the 2DeteCT experiments, the reference images were obtained from reconstructions of the full mode-2 data. To compensate for possible global intensity-scale differences between these reference reconstructions and the sparse-view predictions, we applied a scalar calibration before metric computation. For each test slice, a multiplicative factor was selected from a fixed range [0.3,2.5][0.3,2.5] by maximizing the PSNR with respect to the reference image. All reported quantitative metrics on 2DeteCT were then computed using the corresponding scaled reconstruction.
+Having established the experimental framework, we now systematically isolate and analyze the individual components of our unified splitting architecture introduced in Section II.
+Method
+Splitting
+Configuration and total splits ss
+𝒫latd\mathcal{P}_{\textrm{lat}}^{d}
+Lattice
+d∈{2,3,4}d\in\{2,3,4\}, with s=d2∈{4,9,16}s=d^{2}\in\{4,9,16\}.
+One pixel is selected per 2×22\times 2, 3×33\times 3, or 4×44\times 4 patch.
+𝒫angd\mathcal{P}_{\textrm{ang}}^{d}
+Angular
+d∈{2,3,4}d\in\{2,3,4\}, with s=d2∈{4,9,16}s=d^{2}\in\{4,9,16\}.
+One projection angle is masked in each block of 4, 9, or 16 consecutive angles.
+𝒫multd\mathcal{P}_{\textrm{mult}}^{d}
+Angular–detector
+d∈{2,3,4}d\in\{2,3,4\}, with s=d2∈{4,9,16}s=d^{2}\in\{4,9,16\} per direction.
+One projection angle and one detector row are masked in each block of 4, 9, or 16.
+TABLE I: Overview of the abbreviations and partition indices used for the benchmarked splitting approaches.
+Synthetic LoDoPaB-CT results
+III-A Effect of the preprocessing strategy
+As described in Section II-C1, preprocessing either sets masked values to zero or replaces them via linear interpolation before FBP, producing the network input. For lattice masking schemes, this is given by
+𝐌Ω​(y∗κ)+𝐌Ωc​y,\mathbf{M}_{\Omega}(y\ast\kappa)+\mathbf{M}_{\Omega^{c}}y,
+with convolution kernels
+κlat=14​[010101010],κang=12​[1 0 1],κdet=12​[1 0 1]T.\kappa_{\textrm{lat}}=\frac{1}{4}\begin{bmatrix}0&1&0\\
+1&0&1\\
+0&1&0\end{bmatrix},\quad\kappa_{\textrm{ang}}=\frac{1}{2}[1\ 0\ 1],\quad\kappa_{\textrm{det}}=\frac{1}{2}[1\ 0\ 1]^{T}.
+For the multi-partition splitting scheme, only the interpolation-based preprocessing is considered; the zero-masking variant is not used. Masked detector rows and projection angles are replaced by linear interpolation using κdet\kappa_{\mathrm{det}} and κang\kappa_{\mathrm{ang}}, respectively.
+Figure 2A) shows that interpolation prior to FBP consistently improves reconstruction quality, particularly for direct inference (D-inf) settings. While intuitive, this is noteworthy because the original Sparse2Inverse approach [8] does not employ interpolation, leaving masked values 0. This effect is visually apparent in Figure 10 (supplementary), where omitting interpolation leads to severe undersampling artifacts.
+To provide a consolidated view of this architectural component in Figure 2 A), the reported SSIM and HaarPSI scores are obtained using the uncorrelated Poisson noise regime at a photon count of 6000, averaged across all evaluated splitting configurations for both s=4s=4 and s=9s=9 total splits. The exact quantitative metrics across all individual parameters are documented in Table II in the supplementary material. We observe that while direct inference benefits most drastically from preprocessing, a visible performance gain is shared across all evaluated splitting architectures and inference strategies.
+III-B Influence of splitting scheme
+The impact of the splitting strategy differs substantially between the uncorrelated and correlated noise regimes.
+Influence of splitting scheme in the Poisson (uncorrelated) noise case
+In the uncorrelated noise setting, we compare the masking strategies 𝒫lat\mathcal{P}_{\mathrm{lat}} and 𝒫ang\mathcal{P}_{\mathrm{ang}} and observe that lattice-based masking 𝒫lat\mathcal{P}_{\mathrm{lat}} consistently outperforms angular masking across all evaluated configurations. This trend is illustrated in Fig. 2(B, top row), which reports the average SSIM and HaarPSI over the three splitting factors (4, 9, and 16). Corresponding PSNR and LPIPS results are shown in Fig. 12 (top row).
+Among the considered metrics, LPIPS indicates a slight advantage of multipartition splitting over both lattice and angular masking in the 16-split setting. In contrast, SSIM shows comparable performance between multipartition and lattice splitting, while HaarPSI consistently favors lattice splitting. Since HaarPSI is designed to capture perceptual structural similarity, these results suggest that lattice splitting provides the most reliable performance in the uncorrelated noise regime.
+Interestingly, all evaluated metrics consistently indicate that multipartition splitting (𝒫mult\mathcal{P}_{\textrm{mult}}) yields a systematic improvement over pure angular masking (𝒫ang\mathcal{P}_{\textrm{ang}}). This finding is particularly noteworthy as it demonstrates that augmenting the angular splitting mechanism with concurrent detector-wise masking provides a powerful regularizing effect, successfully exploiting additional structural measurement redundancies while preserving the ability to reduce sparse-view artifacts.
+These observations are further supported by the visual reconstructions in Fig. 3 (32 angles, photon count 6000) and in Figs. 9, 6, and 7 in the supplementary material. Detailed quantitative results are reported in Tables III and II in the supplementary.
+Fig. 3: Reconstruction results for three examples from the LoDoPaB-CT dataset using 32 projection angles and Poisson noise with a photon count of 6000. For each masking scheme, the displayed reconstructions correspond to the best-performing configuration reported in Table II. Columns 3-4 show results for 𝒫​lat4\mathcal{P}{\textrm{lat}}^{4} (irregular splitting), columns 5-6 for 𝒫​ang3\mathcal{P}{\textrm{ang}}^{3} (irregular splititng), and columns 7–8 for 𝒫mult2\mathcal{P}_{\textrm{mult}}^{2}. All configurations use irregular masking during both training and inference. The best-performing inference strategy, either A-inf or 𝒫\mathcal{P}-inf depending on the configuration, is shown.
+Influence of splitting scheme in the correlated noise case
+In the correlated noise regime, the relative behavior of the splitting schemes changes substantially. Angular splitting clearly outperforms lattice splitting across all metrics. The multipartition strategy further improves performance over lattice masking and, in the highly sparse setting with 16 angles, even surpasses angular splitting under the invariant inference configuration (Fig. 2(B, bottom row), Fig. 12 supplementary (bottom row)).
+These findings are consistent with the qualitative reconstructions in Fig. 8, where lattice-based reconstructions remain visibly contaminated by noise, whereas both angular and multipartition splitting effectively suppress structured noise artifacts and yield cleaner reconstructions (see Table IV in supplementary).
+III-C Influence of the number of splits
+We evaluate three splitting configurations corresponding to s∈{4,9,16}s\in\{4,9,16\} number of splits. As summarized in Table I, for lattice masking, these parameters correspond to a patch size of 2×22\times 2, 3×33\times 3, and 4×44\times 4 pixels, respectively. For angular and multi-partition splitting, this setup corresponds to retaining one out of every 4, 9, or 16 consecutive projections (and detector rows).
+Number of splits in the Poisson noise case
+Figure 11 (top row) illustrates the effect of the number of splits on all four performance metrics under 𝒫\mathcal{P}-inf inference. Across all splitting frameworks, configurations utilizing 9 and 16 partitions generally achieve a slightly higher reconstruction performance than the coarser 4-partition setting. Overall, however, the direct influence of the masking density on reconstruction quality remains minor. This stable behavior is highly consistent across all evaluation metrics and experimental sub-settings. Detailed numerical results are provided in Tables III and II of the supplementary material.
+Number of splits in the correlated noise case
+In the correlated noise regime, a distinct trend is observed. As shown in Fig. 11 (bottom row), reducing the number of splits (i.e., selecting s=4s=4) yields a slight performance improvement for both lattice and multipartition masking. Conversely, for angular splitting, the reconstruction metrics remain largely stationary across the different numbers of splits, demonstrating that this strategy is highly robust to parameter variations. This insensitivity is expected, as the angular decoupling is inherently designed to bypass horizontal scintillator blur effects regardless of the number of splits. Quantitative results are documented in Table IV of the supplementary material.
+III-D Influence of inference strategy:
+We perform our experiments using the three inference strategies
+D-inf, A-inf and 𝒫\mathcal{P}-inf as described in Section II-D. For 𝒫\mathcal{P}-inf we apply the full forward operator to the network output. In this case, the number of projection angles is M=n⋅π/2M=n\cdot\pi/2, where nn denotes the image height and width (336 in our case), and mm is the number of projection angles available in the sparse CT problem.
+Influence of inference strategy in the Poisson noise case
+The benefits of A-inf and 𝒫\mathcal{P}-inf over D-inf across all splitting strategies are illustrated in Fig. 2 (C, green line). Both SSIM and HaarPSI indicate a consistent, albeit modest, improvement when comparing direct inference to average and 𝒫\mathcal{P}-invariant inference.
+In this figure, results are averaged over all three splitting strategies and all three numbers of splits (4, 9, and 16), providing an overall view of the impact of the inference strategy. A more detailed breakdown in Tables III and II in the supplementary material shows that this trend is consistent across all splitting schemes and all numbers of splits.
+This effect is particularly relevant for lattice masking, as its original formulation in [22] was introduced specifically in combination with D-inf inference.
+Influence of inference strategy in the correlated noise case
+In the correlated noise regime, similar trends are observed, with a more pronounced effect than in the Poisson noise case (Fig. 2(C, brown)). In particular, invariant inference consistently yields improved performance compared to A-inf, and more significantly compared to D-inf.
+Detailed results for each splitting scheme are provided in Table IV in the supplementary material. The improvement is most pronounced for the lattice masking strategy.
+III-D1 Regular vs. irregular splitting
+To determine the configurations for our evaluation of irregular splitting, we first identify the optimal number of splits for each individual partitioning method based on the highest mean validation SSIM (averaged over the three inference strategies); irregular training masks are then deployed specifically for these top-performing splitting factors. We evaluate whether these irregular masking schemes can improve reconstruction quality, drawing on the well-established role of randomized partitioning as a regularization mechanism to enhance generalization performance in machine learning. To the best of our knowledge, however, irregular training masks have not yet been explored in the context of Proj2Proj [22], Noise2Inverse [9], or Sparse2Inverse [8].
+For each splitting-based method, we compare two distinct configurations:
+•
+regular splitting during both training and inference,
+•
+irregular splitting during training paired with regular splitting during inference.
+Effect of irregular splitting in the Poisson noise case
+The results are shown in Fig. 13 (top row) of the supplementary material. In this experiment, performance metrics are directly compared between the best-performing regular splitting variants—specifically lattice (𝒫lat2\mathcal{P}_{\textrm{lat}}^{2} and 𝒫lat4\mathcal{P}_{\textrm{lat}}^{4} for 16 and 32 angles, respectively) and angular (𝒫ang3\mathcal{P}_{\textrm{ang}}^{3} and 𝒫ang4\mathcal{P}_{\textrm{ang}}^{4} for 16 and 32 angles, respectively)—and their respective irregular counterparts.
+We observe a small but consistent performance improvement when irregular masks are deployed during the training phase. While the absolute numerical gains are modest, they remain consistently present across all three evaluated inference strategies. This systematic trend suggests that introducing stochastic randomness into the sinogram partitioning process acts as an effective regularizer, noticeably improving the generalization capability and robustness of the learned reconstruction mapping. The corresponding detailed quantitative results are documented in Tables III and II of the supplementary material.
+Effect of irregular splitting in the correlated noise case
+Similar trends are observed in the correlated noise regime. Specifically, the results shown in Fig. 13 (bottom row) compare the best-performing configurations under correlated noise: lattice (𝒫lat2\mathcal{P}_{\textrm{lat}}^{2} for both 16 and 32 angles) versus angular masking (𝒫ang2\mathcal{P}_{\textrm{ang}}^{2} and 𝒫ang3\mathcal{P}_{\textrm{ang}}^{3} for 16 and 32 angles, respectively) against their irregular variants.
+In this scenario, the regularizing impact of irregular splitting is even more pronounced, yielding a larger relative improvement over structured splitting compared to the Poisson noise case. The corresponding quantitative results are reported in Table IV of the supplementary material, where the performance boost provided by stochastically randomized masks is most evident within the lattice masking framework.
+Real-world evaluation on 2DeteCT
+As we figured out that the number of splits has no relevant influence on the reconstruction results on the synthetic data, we set d=3d=3 on the 2DeteCT dataset.
+The quantitative results summarized in Figure 5 and Table V in the supplementary show that several key trends from the synthetic experiments also transfer to real measured data. In particular, averaging-based inference and 𝒫\mathcal{P}-invariant inference generally improve over direct inference, especially in terms of PSNR and HaarPSI. This indicates that exploiting multiple masked reconstructions at test time remains beneficial also under realistic acquisition conditions. Moreover, angular splitting achieves the best PSNR and SSIM values, with the irregular interpolated configuration 𝒫ang3\mathcal{P}_{\mathrm{ang}}^{3} obtaining the strongest overall performance in these metrics. This supports the observation that angular splitting is well suited to realistic noisy measurements, where local detector-neighborhood dependencies may reduce the effectiveness of lattice-based masking.
+The effect of interpolation is less uniform than in the synthetic LoDoPaB-CT experiments. While interpolation improves several configurations and confirms the general preprocessing trend observed in simulation, zero-filled inputs remain competitive in some cases and can yield better values for individual metrics such as SSIM or LPIPS. This reduced benefit may be related to physical effects present in the 2DeteCT measurements that are not captured by the synthetic noise model, or to the less severely undersampled acquisition setting with 100 projection views. Therefore, the interpolation results on 2DeteCT should be interpreted with caution.
+The representative reconstructions in Figure 4 provide a visual interpretation of these quantitative findings. Sparse2Inverse removes noise effectively, but tends to oversmooth the reconstructions, leading to a loss of fine structural detail. In contrast, lattice and multi-partition splitting show visually similar behaviour: both suppress noise less aggressively, but preserve local image structures more strongly. This detail preservation may explain why lattice and multi-partition configurations achieve competitive or higher HaarPSI values in some cases, despite not always obtaining the best PSNR or SSIM. Overall, the visual results confirm that different splitting strategies induce different trade-offs between denoising strength and structural detail preservation on real measured CT data.
+Fig. 4: Reconstruction results on three examples of the 2DeteCT dataset for 100 projection angles in the mode-1 high-noise setting.
+For each splitting scheme, the shown reconstructions correspond to the best-performing configuration highlighted in Table V in the supplementary. columns 2-3 show results for 𝒫lat3\mathcal{P}_{\textrm{lat}}^{3} with regular splitting, columns 4-5 show 𝒫ang3\mathcal{P}_{\textrm{ang}}^{3} with irregular splitting, and the last two columns show 𝒫mult3\mathcal{P}_{\textrm{mult}}^{3}. For each splitting strategy, the two displayed reconstructions correspond to the best-performing inference strategies, A-inf and 𝒫\mathcal{P}-inf.
+Fig. 5: Summary of the main experimental findings on 2DeteCT dataset.
+(A) Influence of splitting strategy on real 2DeteCT mode-1 high-noise data, evaluated in terms of SSIM, PSNR, LPIPS and HaarPSI. (B) Effect of preprocessing: interpolation of masked measurements prior to FBP improves PSNR, LPIPS and HaarPSI, while in terms of SSIM the interpolation is only helpful for direct inference (note that here the average across all three splitting approaches is depicted).
+IV Discussion
+We systematically benchmarked splitting-based self-supervised reconstruction methods for sparse-view CT, isolating the distinct effects of preprocessing, inference strategy, splitting design, number of splits, and noise
+characteristics. Experiments on synthetic LoDoPaB-CT data allow controlled analysis under independent and correlated noise models, while the real
+2DeteCT experiments assess whether the resulting trends transfer to measured
+CT data. To ensure a comprehensive assessment, we evaluate reconstruction
+quality using a set of complementary image quality metrics. Following recent recommendations in medical imaging computing, we complement PSNR and SSIM with perceptual and structure-sensitive metrics such as LPIPS and HaarPSI.
+These metrics provide additional perspectives on reconstruction quality, particularly for artifacts and structural differences that may not be fully reflected by error-based scores alone.
+Choice of Splitting Strategy
+Our results show that the optimal splitting strategy depends fundamentally on
+the underlying noise statistics of the measurements. For spatially
+uncorrelated Poisson noise, lattice splitting consistently achieves the best
+structural and perceptual performance in terms of HaarPSI, alongside
+competitive results in SSIM and LPIPS. This demonstrates that local spatial
+prediction, or pixel-wise conditioning, is well aligned with independent noise
+assumptions and can effectively exploit local sinogram redundancy.
+In contrast, under correlated noise along the detector array, lattice
+splitting no longer provides the best performance, since neighboring masked
+and unmasked detector elements remain statistically coupled. In this regime,
+angular splitting becomes clearly superior. By withholding entire projection
+angles, angular partitioning reduces the influence of detector-direction
+correlations on the self-supervised loss and better preserves the independence
+assumptions required by data splitting. In extremely sparse settings with 16
+projection views, our proposed multi-partition splitting
+(𝒫mults\mathcal{P}_{\textrm{mult}}^{s}) provides additional structural gains,
+indicating that combining angular and detector-direction partitioning can be
+beneficial when measurement density is severely limited.
+The real 2DeteCT experiments support this general trend, but also show that
+the transfer from synthetic noise models to measured data is not exact.
+Angular splitting achieves the strongest overall PSNR and SSIM on 2DeteCT,
+consistent with the observation that view-wise splitting is more robust when
+local detector-neighborhood dependencies are present. However, lattice and
+multi-partition splitting remain competitive in HaarPSI for some
+configurations, suggesting that they may preserve local structural detail
+better even when they do not achieve the best error-based scores.
+Choice of Inference Strategy
+Across all evaluated settings, the choice of inference strategy reveals a
+consistent trend: both averaging-based inference (A-inf) and our proposed
+𝒫\mathcal{P}-invariant inference (𝒫\mathcal{P}-inf) outperform standard
+direct inference (D-inf). The performance gains are stable across noise
+regimes, splitting types, sparsity levels, and also transfer to the real
+2DeteCT experiments. This indicates that aggregating multiple masked
+predictions and preserving the 𝒫\mathcal{P}-invariance structure imposed
+during training are beneficial compared with simple single-pass network
+testing. In practice, D-inf should therefore be avoided when computational
+resources permit, while 𝒫\mathcal{P}-inf provides the most principled
+inference strategy due to its closer alignment with the training objective.
+Choice of Preprocessing
+Linear interpolation of masked sinogram elements prior to filtered
+backprojection consistently improves reconstruction quality on the synthetic
+LoDoPaB-CT experiments. This effect is particularly pronounced for angular
+splitting and in highly undersampled settings, where zero-filled sinograms
+produce severe FBP artifacts before the data are passed to the network.
+Notably, this challenges earlier self-supervised splitting approaches such as
+Sparse2Inverse [8], which rely on raw zero-filling
+or data restriction. Our findings indicate that simple directional
+interpolation can provide a more continuous and informative network input by
+reducing severe undersampling artifacts before they enter the learned
+reconstruction space.
+On the real 2DeteCT data, however, the effect of preprocessing is more
+method-dependent. As shown in Table V, interpolation improves
+the angular splitting configuration, but does not yield a consistent gain for
+lattice-based Proj2Proj-style splitting or for the multi-partition strategy.
+This suggests that interpolation is most beneficial when the mask removes
+entire projection angles, whereas for lattice and multi-partition masks the
+missing samples are distributed more locally and zero-filling can remain
+competitive. The weaker and less uniform interpolation effect on 2DeteCT also
+indicates that preprocessing choices may depend on real acquisition effects
+that are not fully captured by the synthetic noise models.
+Choice of Splitting Density
+The total number of splits ss exerts a secondary, comparatively limited impact on overall performance. In Poisson noise settings, higher partitioning densities (d=3,9d=3,9 splits and d=4,16d=4,16 splits) yield minor improvements. In correlated noise regimes, however, lattice-based splitting schemes show a slight preference for lower densities (s=4,9s=4,9 splits). Overall, these results suggest that splitting density plays a secondary role compared with the choice of splitting geometry and its compatibility with the noise structure.
+Summary: Practical Selection Rule
+Based on the compilation of our experimental evidence, we establish the following configuration guidelines for self-supervised sparse-view CT reconstruction:
+•
+Under Uncorrelated Noise: Irregular lattice splitting (𝒫lats\mathcal{P}_{\textrm{lat}}^{s}) is recommended to effectively exploit dense local pixel neighborhoods.
+•
+Under synthetic correlated noise and on real 2DeteCT data: Angular splitting (𝒫angd\mathcal{P}_{\textrm{ang}}^{d}) reduces the effect of detector-direction correlations on the self-supervised objective. For ultra-sparse view regimes (synthetic data with 16 angles), joint multi-partition splitting (𝒫multd\mathcal{P}_{\textrm{mult}}^{d}) provides the highest structural fidelity.
+•
+Multi-Partition Splitting: In scenarios where angular-based frameworks are utilized under uncorrelated noise conditions, transitioning to the multi-partition variant (𝒫multd\mathcal{P}_{\textrm{mult}}^{d}) is beneficial, as the concurrent detector-direction masking systematically improves upon the performance of pure angular splitting.
+•
+Preprocessing: On synthetic datasets with highly sparse sampling (16–32 projection angles), linear interpolation prior to FBP consistently improves reconstruction quality compared to zero-filling and restriction masks. On the real 2DeteCT dataset, this trend is less pronounced, with lattice and multi-partition splitting showing comparable or slightly better metrics without interpolation. This discrepancy may be attributable to the higher number of projections (100 vs. 16 and 32), although other real-world acquisition characteristics may also contribute.
+•
+Inference: Ensembling pipelines (A-inf or 𝒫\mathcal{P}-inf) are superior to direct inference (D-inf) across all settings as they stabilize structural predictions and enforce strict measurement consistency.
+•
+Number of Splits: Setting the number of splits ss between 9≤s≤169\leq s\leq 16 is optimal for lattice/Poisson configurations, while the split density acts as a low-priority tuning parameter in angular noise regimes.
+Limitations
+Two main limitations remain. First, all experiments are restricted to
+two-dimensional CT reconstruction. Although we evaluate both controlled
+parallel-beam simulations on LoDoPaB-CT and real fan-beam measurements from
+the 2DeteCT dataset, the proposed design guidelines may not transfer
+directly to fully three-dimensional CT. In 3D, cone-beam geometry, helical
+trajectories, larger detector correlations, and substantially different
+memory constraints may affect the relative behavior of partitioning,
+preprocessing, and inference strategies.
+Second, model selection in our benchmark relies on reference-based validation
+metrics, in particular validation SSIM. This is appropriate for a controlled
+comparison of design choices, but it is not fully self-supervised in the
+strict deployment sense, since such reference images are typically not
+available in practical sparse-view CT settings. Future work should therefore
+investigate ground-truth-free stopping criteria and model-selection
+strategies, for example based on held-out measurement consistency,
+self-supervised validation losses, or stability across complementary data
+splits.
+Outlook
+Future research directions will focus on translating this unified framework onto more real-world clinical and industrial CT datasets to confirm our design guidelines under complex, un-modeled hardware imperfections and polychromatic beam effects. Furthermore, we intend to explore a wider continuum of angular sampling densities to chart exactly where the benefits of self-supervised decoupling saturate.
+Another promising frontier is the development of fully adaptive or learned splitting mechanisms that dynamically discover optimal partitioning boundaries directly from the noise print of the sinogram, alongside self-contained stopping criteria that operate independent of ground-truth validation sets. Finally, porting these deconstructed splitting modules to adjacent ill-posed inverse problems, such as sparse accelerated Magnetic Resonance Imaging (MRI) and Positron Emission Tomography (PET), represents a natural extension of this work.
+References
+[1]
+J. Batson and L. Royer (2019)
+Noise2self: blind denoising by self-supervision.
+In International Conference on Machine Learning,
+pp. 524–533.
+Cited by: §I,
+§II-B,
+§II-D1,
+§II-D.
+[2]
+C. Belthangady and L. A. Royer (2019)
+Applications, promises, and pitfalls of deep learning for fluorescence image reconstruction.
+Nature methods 16 (12), pp. 1215–1225.
+Cited by: §I.
+[3]
+K. Bredies, K. Kunisch, and T. Pock (2010)
+Total generalized variation.
+SIAM Journal on Imaging Sciences 3 (3), pp. 492–526.
+Cited by: §I.
+[4]
+A. Breger, C. Karner, I. Selby, J. Gröhl, S. Dittmer, E. Lilley, J. Babar, J. Beckford, T. R. Else, T. J. Sadler, et al. (2024)
+A study on the adequacy of common IQA measures for medical images.
+In International Conference on Medical Imaging and Computer-Aided Diagnosis,
+pp. 451–462.
+Cited by: §I.
+[5]
+D. Chen, J. Tachella, and M. E. Davies (2021)
+Equivariant imaging: learning beyond the range space.
+In Proceedings of the IEEE/CVF International Conference on Computer Vision,
+pp. 4379–4388.
+Cited by: §I.
+[6]
+D. Chen, J. Tachella, and M. E. Davies (2022)
+Robust equivariant imaging: a fully unsupervised framework for learning to image from noisy and partial measurements.
+In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition,
+pp. 5647–5656.
+Cited by: §I.
+[7]
+A. Graas and F. Lucka (2025)
+Scintillator decorrelation for self-supervised x-ray radiograph denoising.
+Measurement Science and Technology 36 (6), pp. 065415.
+Cited by: §I.
+[8]
+N. Gruber, J. Schwab, E. Gizewski, and M. Haltmeier (2024)
+Sparse2inverse: self-supervised inversion of sparse-view ct data.
+arXiv preprint arXiv:2402.16921.
+Cited by: §I,
+§II-C2,
+§II-C2,
+§II-E1,
+§II-E1,
+§II-E,
+§III,
+§IV,
+§III-A,
+§III-D1.
+[9]
+A. A. Hendriksen, D. M. Pelt, and K. J. Batenburg (2020)
+Noise2inverse: self-supervised deep convolutional denoising for tomography.
+IEEE Transactions on Computational Imaging 6, pp. 1320–1335.
+Cited by: §I,
+§II-C2,
+§II-D2,
+§II-D,
+§II-E1,
+§II-E1,
+§II-E,
+§III,
+§III,
+§III-D1.
+[10]
+A. Hendriksen, D. Schut, W. J. Palenstijn, N. Viganò, J. Kim, D. Pelt, T. van Leeuwen, and K. J. Batenburg (2021)
+Tomosipo: fast, flexible, and convenient 3D tomography for complex scanning geometries in Python.
+Optics Express.
+External Links: Document,
+Link,
+ISSN 1094-4087
+Cited by: §II-C,
+§III.
+[11]
+D. P. Kingma and J. Ba (2014)
+Adam: a method for stochastic optimization.
+arXiv preprint arXiv:1412.6980.
+Cited by: §III.
+[12]
+M. B. Kiss, S. B. Coban, K. J. Batenburg, T. van Leeuwen, and F. Lucka (2023)
+2DeteCT-a large 2d expandable, trainable, experimental computed tomography dataset for machine learning.
+Scientific data 10 (1), pp. 576.
+Cited by: 2nd item,
+§III.
+[13]
+A. Krull, T. Buchholz, and F. Jug (2019)
+Noise2void-learning denoising from single noisy images.
+In Proceedings of the IEEE/CVF conference on computer vision and pattern recognition,
+pp. 2129–2137.
+Cited by: §I.
+[14]
+J. Lehtinen, J. Munkberg, J. Hasselgren, S. Laine, T. Karras, M. Aittala, and T. Aila (2018)
+Noise2Noise: learning image restoration without clean data.
+arXiv preprint arXiv:1803.04189.
+Cited by: §I.
+[15]
+J. Leuschner, M. Schmidt, D. O. Baguer, and P. Maass (2021)
+LoDoPaB-ct, a benchmark dataset for low-dose computed tomography reconstruction.
+Scientific Data 8 (1), pp. 109.
+Cited by: §III.
+[16]
+A. Paszke, S. Gross, F. Massa, A. Lerer, J. Bradbury, G. Chanan, T. Killeen, Z. Lin, N. Gimelshein, L. Antiga, et al. (2019)
+Pytorch: an imperative style, high-performance deep learning library.
+Advances in neural information processing systems 32.
+Cited by: §III.
+[17]
+R. Reisenhofer, S. Bosse, G. Kutyniok, and T. Wiegand (2018)
+A Haar wavelet-based perceptual similarity index for image quality assessment.
+Signal Processing: Image Communication 61, pp. 33–43.
+Cited by: §I,
+§III.
+[18]
+O. Ronneberger, P. Fischer, and T. Brox (2015)
+U-net: convolutional networks for biomedical image segmentation.
+In Medical Image Computing and Computer-Assisted Intervention–MICCAI 2015: 18th International Conference, Munich, Germany, October 5-9, 2015, Proceedings, Part III 18,
+pp. 234–241.
+Cited by: §II-C2.
+[19]
+L. I. Rudin, S. Osher, and E. Fatemi (1992)
+Nonlinear total variation based noise removal algorithms.
+Physica D: nonlinear phenomena 60 (1-4), pp. 259–268.
+Cited by: §I.
+[20]
+O. Scherzer, M. Grasmair, H. Grossauer, M. Haltmeier, and F. Lenzen (2009)
+Variational methods in imaging.
+Vol. 167, Springer.
+Cited by: §I.
+[21]
+D. E. Schut, A. Graas, R. van Liere, and T. van Leeuwen (2026)
+Equivariance2inverse: a practical self-supervised ct reconstruction method benchmarked on real, limited-angle, and blurred data.
+IEEE Transactions on Computational Imaging.
+Cited by: §I.
+[22]
+M. O. Unal, M. Ertas, and I. Yildirim (2021)
+Self-supervised training for low-dose ct reconstruction.
+In 2021 IEEE 18th International Symposium on Biomedical Imaging (ISBI),
+pp. 69–72.
+Cited by: §I,
+§II-D1,
+§II-D,
+§II-E1,
+§II-E1,
+§II-E,
+§III-D,
+§III-D1.
+[23]
+R. Zhang, P. Isola, A. A. Efros, E. Shechtman, and O. Wang (2018)
+The unreasonable effectiveness of deep features as a perceptual metric.
+In Proceedings of the IEEE conference on computer vision and pattern recognition,
+pp. 586–595.
+Cited by: §I,
+§III.
+[24]
+Y. Zhang, W. Zhang, and J. Zhou (2014)
+Accurate sparse-projection image reconstruction via nonlocal tv regularization.
+The Scientific World Journal 2014 (1), pp. 458496.
+Cited by: §I.
+V Supplement
+Proof of Proposition II.1.
+First note that the functions fθ∗𝒫kf_{\theta^{\ast}}^{\mathcal{P}_{k}} are 𝒫k\mathcal{P}_{k}-invariant via (3).
+Now consider an element of the intersection
+Ω~=⋂k=1KΩkj,Ωkj∈𝒫k.\tilde{\Omega}=\bigcap_{k=1}^{K}\Omega_{k}^{j},\qquad\Omega_{k}^{j}\in\mathcal{P}_{k}.
+By construction,
+Ω~⊆Ωkjfor all ​k=1,…,K.\tilde{\Omega}\subseteq\Omega_{k}^{j}\quad\text{for all }k=1,\dots,K.
+Suppose, for contradiction, that the prediction of f^θ∗𝒫\hat{f}_{\theta^{\ast}}^{\mathcal{P}} on Ω~\tilde{\Omega} depends on values of yy inside Ω~\tilde{\Omega}.
+Since Ω~⊆Ωk\tilde{\Omega}\subseteq\Omega_{k} for every kk, this would imply that for some kk the prediction on Ωk\Omega_{k} with fθ∗𝒫kf_{\theta^{\ast}}^{\mathcal{P}_{k}} depends on values of yy inside Ωk\Omega_{k}, contradicting 𝒫k\mathcal{P}_{k}-invariance of fθ∗𝒫kf_{\theta^{\ast}}^{\mathcal{P}_{k}}. Hence f^θ∗𝒫\hat{f}_{\theta^{\ast}}^{\mathcal{P}} is invariant with respect to the partition 𝒫~\tilde{\mathcal{P}}.
+∎
+Proof of Theorem II.2.
+As a first step, we fix Ωang∈𝒫ang\Omega_{\text{ang}}\in\mathcal{P}_{\text{ang}} and define
+yΩang:=𝐌Ωang​A∘fθ​((B∘g)Ωangc​𝐌Ωangc​y).y_{\Omega_{\text{ang}}}:=\mathbf{M}_{\Omega_{\text{ang}}}A\circ f_{\theta}\bigl((B\circ g)^{\Omega_{\text{ang}}^{c}}\mathbf{M}_{\Omega_{\text{ang}}^{c}}y\bigr).
+Using (6) we get
+𝐌Ωang​y=𝐌Ωang​A​x+𝐌Ωang​(η),\mathbf{M}_{\Omega_{\text{ang}}}y=\mathbf{M}_{\Omega_{\text{ang}}}Ax+\mathbf{M}_{\Omega_{\text{ang}}}(\eta),
+and hence,
+yΩang−𝐌Ωang​y=yΩang−𝐌Ωang​A​x−𝐌Ωang​(η).y_{\Omega_{\text{ang}}}-\mathbf{M}_{\Omega_{\text{ang}}}y=y_{\Omega_{\text{ang}}}-\mathbf{M}_{\Omega_{\text{ang}}}Ax-\mathbf{M}_{\Omega_{\text{ang}}}(\eta).
+Expanding the squared norm one obtains
+‖yΩang−𝐌Ωang​y‖22\displaystyle\bigl\|y_{\Omega_{\text{ang}}}-\mathbf{M}_{\Omega_{\text{ang}}}y\bigr\|_{2}^{2}
+=‖yΩang−𝐌Ωang​A​x‖22+‖𝐌Ωang​(η)‖22\displaystyle=\bigl\|y_{\Omega_{\text{ang}}}-\mathbf{M}_{\Omega_{\text{ang}}}Ax\bigr\|_{2}^{2}+\bigl\|\mathbf{M}_{\Omega_{\text{ang}}}(\eta)\bigr\|_{2}^{2}
+−2​⟨yΩang−𝐌Ωang​A​x,𝐌Ωang​(η)⟩.\displaystyle\quad-2\Bigl\langle y_{\Omega_{\text{ang}}}-\mathbf{M}_{\Omega_{\text{ang}}}Ax,\mathbf{M}_{\Omega_{\text{ang}}}(\eta)\Bigr\rangle.
+Taking expectations yields
+𝔼​‖yΩang−𝐌Ωang​y‖22\displaystyle\mathbb{E}\bigl\|y_{\Omega_{\text{ang}}}-\mathbf{M}_{\Omega_{\text{ang}}}y\bigr\|_{2}^{2}
+=𝔼​‖yΩang−𝐌Ωang​A​x‖22+𝔼​‖𝐌Ωang​(η)‖22\displaystyle=\mathbb{E}\bigl\|y_{\Omega_{\text{ang}}}-\mathbf{M}_{\Omega_{\text{ang}}}Ax\bigr\|_{2}^{2}+\mathbb{E}\bigl\|\mathbf{M}_{\Omega_{\text{ang}}}(\eta)\bigr\|_{2}^{2}
+−2​𝔼​⟨yΩang−𝐌Ωang​A​x,𝐌Ωang​(η)⟩.\displaystyle\quad-2\,\mathbb{E}\Bigl\langle y_{\Omega_{\text{ang}}}-\mathbf{M}_{\Omega_{\text{ang}}}Ax,\mathbf{M}_{\Omega_{\text{ang}}}(\eta)\Bigr\rangle.
+It remains to show that the cross term vanishes.
+By construction,
+yΩangy_{\Omega_{\text{ang}}} depends only on
+𝐌Ωangc​y\mathbf{M}_{\Omega_{\text{ang}}^{c}}y.
+Since angular splitting masks entire projection angles and noise correlations are restricted to individual angles, it holds that
+𝐌Ωang​(η)is independent of𝐌Ωangc​(η).\mathbf{M}_{\Omega_{\text{ang}}}(\eta)\quad\text{is independent of}\quad\mathbf{M}_{\Omega_{\text{ang}}^{c}}(\eta).
+From this we conclude that
+yΩangy_{\Omega_{\text{ang}}} is independent of
+𝐌Ωang​(η)\mathbf{M}_{\Omega_{\text{ang}}}(\eta).
+Because η\eta has zero mean the cross term vanishes,
+𝔼⁡⟨yΩang−𝐌Ωang​A​x,𝐌Ωang​(η)⟩=0.\mathbb{E}\Bigl\langle y_{\Omega_{\text{ang}}}-\mathbf{M}_{\Omega_{\text{ang}}}Ax,\mathbf{M}_{\Omega_{\text{ang}}}(\eta)\Bigr\rangle=0.
+We obtain
+𝔼​‖yΩang−𝐌Ωang​y‖22=𝔼​‖yΩang−𝐌Ωang​A​x‖22+𝔼​‖𝐌Ωang​(η)‖22,\displaystyle\mathbb{E}\bigl\|y_{\Omega_{\text{ang}}}-\mathbf{M}_{\Omega_{\text{ang}}}y\bigr\|_{2}^{2}=\mathbb{E}\bigl\|y_{\Omega_{\text{ang}}}-\mathbf{M}_{\Omega_{\text{ang}}}Ax\bigr\|_{2}^{2}+\mathbb{E}\bigl\|\mathbf{M}_{\Omega_{\text{ang}}}(\eta)\bigr\|_{2}^{2},
+and summing over all Ωang∈𝒫ang\Omega_{\text{ang}}\in\mathcal{P}_{\text{ang}}
+yields the claim.
+∎
+Performance metrics
+Split
+Irregular
+Interp.
+PSNR
+SSIM
+LPIPS
+HaarPSI
+D-inf
+A-inf
+𝒫\mathcal{{P}}-inf
+D-inf
+A-inf
+𝒫\mathcal{{P}}-inf
+D-inf
+A-inf
+𝒫\mathcal{{P}}-inf
+D-inf
+A-inf
+𝒫\mathcal{{P}}-inf
+16 angles
+𝒫lat2\mathcal{P}_{\text{lat}}^{2}
+✓
+✓
+27.474
+27.555
+27.528
+0.696
+0.717
+0.723
+0.330
+0.313
+0.308
+0.536
+0.538
+0.537
+𝒫lat2\mathcal{P}_{\text{lat}}^{2}
+✗
+✓
+27.185
+27.402
+27.315
+0.687
+0.714
+0.720
+0.333
+0.313
+0.319
+0.526
+0.531
+0.525
+𝒫lat2\mathcal{P}_{\text{lat}}^{2}
+✗
+✗
+22.676
+25.315
+26.271
+0.636
+0.613
+0.686
+0.396
+0.397
+0.339
+0.420
+0.472
+0.512
+𝒫lat3\mathcal{P}_{\text{lat}}^{3}
+✗
+✓
+27.323
+27.479
+27.448
+0.699
+0.712
+0.720
+0.331
+0.319
+0.303
+0.527
+0.534
+0.532
+𝒫lat3\mathcal{P}_{\text{lat}}^{3}
+✗
+✗
+20.666
+26.593
+26.585
+0.459
+0.699
+0.710
+0.446
+0.304
+0.311
+0.258
+0.528
+0.524
+𝒫lat4\mathcal{P}_{\text{lat}}^{4}
+✗
+✓
+27.385
+27.417
+27.432
+0.703
+0.710
+0.718
+0.332
+0.323
+0.307
+0.530
+0.530
+0.531
+𝒫ang2\mathcal{P}_{\text{ang}}^{2}
+✗
+✓
+25.803
+26.389
+26.321
+0.664
+0.688
+0.693
+0.335
+0.341
+0.345
+0.446
+0.455
+0.451
+𝒫ang2\mathcal{P}_{\text{ang}}^{2}
+✗
+✗
+19.256
+25.932
+26.221
+0.597
+0.665
+0.678
+0.338
+0.331
+0.319
+0.408
+0.460
+0.467
+𝒫ang3\mathcal{P}_{\text{ang}}^{3}
+✓
+✓
+26.393
+26.848
+26.822
+0.668
+0.692
+0.701
+0.335
+0.323
+0.315
+0.478
+0.489
+0.485
+𝒫ang3\mathcal{P}_{\text{ang}}^{3}
+✗
+✓
+26.295
+26.740
+26.685
+0.667
+0.690
+0.697
+0.317
+0.319
+0.320
+0.476
+0.481
+0.476
+𝒫ang3\mathcal{P}_{\text{ang}}^{3}
+✗
+✗
+22.862
+25.191
+25.500
+0.618
+0.645
+0.659
+0.336
+0.342
+0.337
+0.413
+0.441
+0.447
+𝒫ang4\mathcal{P}_{\text{ang}}^{4}
+✗
+✓
+26.335
+26.645
+26.642
+0.670
+0.685
+0.693
+0.320
+0.316
+0.310
+0.477
+0.483
+0.480
+𝒫mult2\mathcal{P}_{\text{mult}}^{2}
+✗
+✓
+25.975
+27.370
+27.311
+0.671
+0.714
+0.727
+0.317
+0.321
+0.319
+0.452
+0.494
+0.501
+𝒫mult3\mathcal{P}_{\text{mult}}^{3}
+✗
+✓
+26.824
+27.349
+27.382
+0.704
+0.705
+0.724
+0.295
+0.309
+0.299
+0.487
+0.499
+0.511
+𝒫mult4\mathcal{P}_{\text{mult}}^{4}
+✗
+✓
+27.174
+27.239
+27.338
+0.706
+0.699
+0.722
+0.288
+0.304
+0.292
+0.504
+0.491
+0.510
+32 angles
+𝒫lat2\mathcal{P}_{\text{lat}}^{2}
+✗
+✓
+30.432
+30.741
+30.512
+0.768
+0.788
+0.790
+0.223
+0.230
+0.236
+0.666
+0.669
+0.662
+𝒫lat2\mathcal{P}_{\text{lat}}^{2}
+✗
+✗
+20.001
+29.766
+29.789
+0.588
+0.757
+0.769
+0.338
+0.257
+0.260
+0.464
+0.631
+0.634
+𝒫lat3\mathcal{P}_{\text{lat}}^{3}
+✗
+✓
+30.814
+30.898
+30.666
+0.784
+0.790
+0.793
+0.212
+0.213
+0.216
+0.672
+0.675
+0.669
+𝒫lat3\mathcal{P}_{\text{lat}}^{3}
+✗
+✗
+25.446
+30.313
+30.006
+0.635
+0.781
+0.775
+0.285
+0.246
+0.249
+0.503
+0.650
+0.642
+𝒫lat4\mathcal{P}_{\text{lat}}^{4}
+✓
+✓
+30.926
+30.983
+30.811
+0.788
+0.792
+0.795
+0.215
+0.217
+0.220
+0.677
+0.678
+0.673
+𝒫lat4\mathcal{P}_{\text{lat}}^{4}
+✗
+✓
+30.817
+30.907
+30.706
+0.785
+0.789
+0.793
+0.217
+0.215
+0.219
+0.673
+0.675
+0.669
+𝒫ang2\mathcal{P}_{\text{ang}}^{2}
+✗
+✓
+29.493
+29.843
+29.557
+0.758
+0.769
+0.767
+0.241
+0.265
+0.283
+0.607
+0.606
+0.599
+𝒫ang2\mathcal{P}_{\text{ang}}^{2}
+✗
+✗
+19.534
+29.897
+29.684
+0.727
+0.778
+0.777
+0.252
+0.249
+0.272
+0.565
+0.631
+0.621
+𝒫ang3\mathcal{P}_{\text{ang}}^{3}
+✗
+✓
+29.823
+30.178
+29.888
+0.765
+0.774
+0.772
+0.239
+0.248
+0.267
+0.621
+0.627
+0.620
+𝒫ang3\mathcal{P}_{\text{ang}}^{3}
+✗
+✗
+24.858
+28.556
+28.666
+0.725
+0.748
+0.756
+0.228
+0.223
+0.245
+0.578
+0.611
+0.608
+𝒫ang4\mathcal{P}_{\text{ang}}^{4}
+✓
+✓
+30.019
+30.266
+30.021
+0.770
+0.776
+0.775
+0.229
+0.239
+0.257
+0.629
+0.633
+0.627
+𝒫ang4\mathcal{P}_{\text{ang}}^{4}
+✗
+✓
+29.950
+30.159
+29.949
+0.768
+0.774
+0.773
+0.236
+0.240
+0.257
+0.625
+0.630
+0.625
+𝒫mult2\mathcal{P}_{\text{mult}}^{2}
+✗
+✓
+29.292
+30.797
+30.434
+0.764
+0.794
+0.793
+0.280
+0.255
+0.261
+0.585
+0.645
+0.642
+𝒫mult3\mathcal{P}_{\text{mult}}^{3}
+✗
+✓
+30.422
+30.755
+30.492
+0.784
+0.790
+0.791
+0.240
+0.241
+0.248
+0.636
+0.646
+0.646
+𝒫mult4\mathcal{P}_{\text{mult}}^{4}
+✗
+✓
+30.488
+30.558
+30.349
+0.788
+0.786
+0.788
+0.236
+0.245
+0.247
+0.636
+0.632
+0.639
+TABLE II: Performance metrics of three splitting methods on uncorrelated noise data (6000 photon counts). Results are reported for different grid sizes, interpolation (yes ✓/ no ✗), regular vs. irregular splitting, and inference strategies, separately for 16 and 32 projection angles.
+Performance metrics
+Split
+Irregular
+PSNR
+SSIM
+LPIPS
+HaarPSI
+D-inf
+A-inf
+𝒫\mathcal{{P}}-inf
+D-inf
+A-inf
+𝒫\mathcal{{P}}-inf
+D-inf
+A-inf
+𝒫\mathcal{{P}}-inf
+D-inf
+A-inf
+𝒫\mathcal{{P}}-inf
+16 angles
+𝒫lat2\mathcal{P}_{\text{lat}}^{2}
+✗
+26.953
+27.300
+27.252
+0.684
+0.712
+0.718
+0.328
+0.317
+0.320
+0.512
+0.522
+0.514
+𝒫lat3\mathcal{P}_{\text{lat}}^{3}
+✓
+27.357
+27.400
+27.490
+0.701
+0.712
+0.722
+0.336
+0.322
+0.303
+0.528
+0.528
+0.530
+𝒫lat3\mathcal{P}_{\text{lat}}^{3}
+✗
+27.139
+27.327
+27.355
+0.700
+0.711
+0.719
+0.341
+0.324
+0.306
+0.516
+0.525
+0.524
+𝒫lat4\mathcal{P}_{\text{lat}}^{4}
+✗
+27.133
+27.280
+27.315
+0.700
+0.707
+0.716
+0.327
+0.319
+0.304
+0.513
+0.520
+0.521
+𝒫ang2\mathcal{P}_{\text{ang}}^{2}
+✗
+25.560
+26.308
+26.257
+0.654
+0.684
+0.691
+0.323
+0.338
+0.333
+0.436
+0.455
+0.451
+𝒫ang3\mathcal{P}_{\text{ang}}^{3}
+✓
+25.717
+26.624
+26.611
+0.664
+0.684
+0.695
+0.332
+0.332
+0.320
+0.442
+0.480
+0.476
+𝒫ang3\mathcal{P}_{\text{ang}}^{3}
+✗
+26.118
+26.429
+26.406
+0.662
+0.688
+0.694
+0.325
+0.318
+0.323
+0.467
+0.464
+0.461
+𝒫ang4\mathcal{P}_{\text{ang}}^{4}
+✗
+26.122
+26.405
+26.422
+0.662
+0.677
+0.686
+0.328
+0.325
+0.315
+0.465
+0.472
+0.471
+𝒫mult2\mathcal{P}_{\text{mult}}^{2}
+✗
+25.830
+27.134
+27.131
+0.669
+0.707
+0.723
+0.318
+0.322
+0.320
+0.442
+0.481
+0.492
+𝒫mult3\mathcal{P}_{\text{mult}}^{3}
+✗
+26.644
+27.060
+27.246
+0.699
+0.698
+0.719
+0.302
+0.314
+0.299
+0.477
+0.480
+0.504
+𝒫mult4\mathcal{P}_{\text{mult}}^{4}
+✗
+26.947
+26.922
+27.089
+0.705
+0.691
+0.717
+0.300
+0.315
+0.299
+0.490
+0.473
+0.496
+32 angles
+𝒫lat2\mathcal{P}_{\text{lat}}^{2}
+✗
+30.007
+30.324
+30.113
+0.765
+0.782
+0.782
+0.237
+0.245
+0.248
+0.642
+0.646
+0.642
+𝒫lat3\mathcal{P}_{\text{lat}}^{3}
+✗
+30.366
+30.470
+30.282
+0.778
+0.783
+0.786
+0.227
+0.226
+0.227
+0.650
+0.653
+0.648
+𝒫lat4\mathcal{P}_{\text{lat}}^{4}
+✓
+30.478
+30.527
+30.335
+0.782
+0.785
+0.787
+0.221
+0.224
+0.228
+0.655
+0.656
+0.651
+𝒫lat4\mathcal{P}_{\text{lat}}^{4}
+✗
+30.386
+30.457
+30.292
+0.780
+0.783
+0.786
+0.224
+0.223
+0.228
+0.652
+0.654
+0.648
+𝒫ang2\mathcal{P}_{\text{ang}}^{2}
+✗
+29.191
+29.531
+29.267
+0.754
+0.765
+0.762
+0.262
+0.283
+0.297
+0.592
+0.592
+0.585
+𝒫ang3\mathcal{P}_{\text{ang}}^{3}
+✗
+29.471
+29.748
+29.536
+0.759
+0.767
+0.766
+0.253
+0.260
+0.274
+0.601
+0.610
+0.601
+𝒫ang4\mathcal{P}_{\text{ang}}^{4}
+✓
+29.674
+29.899
+29.701
+0.764
+0.769
+0.768
+0.251
+0.251
+0.269
+0.609
+0.617
+0.611
+𝒫ang4\mathcal{P}_{\text{ang}}^{4}
+✗
+29.587
+29.822
+29.603
+0.761
+0.768
+0.766
+0.243
+0.252
+0.268
+0.607
+0.611
+0.607
+𝒫mult2\mathcal{P}_{\text{mult}}^{2}
+✗
+29.370
+30.325
+30.012
+0.755
+0.786
+0.785
+0.245
+0.260
+0.266
+0.600
+0.626
+0.625
+𝒫mult3\mathcal{P}_{\text{mult}}^{3}
+✗
+29.902
+30.286
+30.071
+0.776
+0.781
+0.784
+0.252
+0.252
+0.252
+0.610
+0.624
+0.628
+𝒫mult4\mathcal{P}_{\text{mult}}^{4}
+✗
+30.079
+30.151
+29.989
+0.780
+0.777
+0.782
+0.241
+0.251
+0.256
+0.621
+0.616
+0.623
+TABLE III: Evaluation of splitting methods across grid size, masking, interpolation, and inference types on uncorrelated noise data (3500 photon counts). Results are separated for 16 and 32 angles.
+Performance metrics
+Split
+Irregular
+PSNR
+SSIM
+LPIPS
+HaarPSI
+D-inf
+A-inf
+𝒫\mathcal{{P}}-inf
+D-inf
+A-inf
+𝒫\mathcal{{P}}-inf
+D-inf
+A-inf
+𝒫\mathcal{{P}}-inf
+D-inf
+A-inf
+𝒫\mathcal{{P}}-inf
+16 angles
+𝒫lat2\mathcal{P}_{\text{lat}}^{2}
+✓
+24.097
+24.821
+24.892
+0.516
+0.572
+0.586
+0.408
+0.401
+0.404
+0.363
+0.390
+0.392
+𝒫lat2\mathcal{P}_{\text{lat}}^{2}
+✗
+23.900
+24.484
+24.566
+0.510
+0.567
+0.577
+0.409
+0.416
+0.425
+0.349
+0.373
+0.377
+𝒫lat3\mathcal{P}_{\text{lat}}^{3}
+✗
+23.921
+24.426
+24.551
+0.526
+0.558
+0.573
+0.428
+0.411
+0.413
+0.350
+0.370
+0.374
+𝒫lat4\mathcal{P}_{\text{lat}}^{4}
+✗
+23.962
+24.223
+24.444
+0.516
+0.538
+0.559
+0.423
+0.414
+0.417
+0.352
+0.359
+0.366
+𝒫ang2\mathcal{P}_{\text{ang}}^{2}
+✓
+24.762
+25.417
+25.527
+0.629
+0.661
+0.672
+0.379
+0.394
+0.363
+0.395
+0.408
+0.413
+𝒫ang2\mathcal{P}_{\text{ang}}^{2}
+✗
+24.714
+25.269
+25.249
+0.631
+0.658
+0.667
+0.367
+0.379
+0.363
+0.390
+0.399
+0.397
+𝒫ang3\mathcal{P}_{\text{ang}}^{3}
+✗
+24.953
+25.393
+25.418
+0.624
+0.649
+0.662
+0.388
+0.381
+0.354
+0.405
+0.415
+0.413
+𝒫ang4\mathcal{P}_{\text{ang}}^{4}
+✗
+25.029
+25.308
+25.342
+0.626
+0.645
+0.659
+0.383
+0.373
+0.344
+0.411
+0.417
+0.414
+𝒫mult2\mathcal{P}_{\text{mult}}^{2}
+✗
+24.869
+25.516
+25.757
+0.619
+0.630
+0.662
+0.351
+0.371
+0.348
+0.395
+0.403
+0.431
+𝒫mult3\mathcal{P}_{\text{mult}}^{3}
+✗
+25.057
+25.004
+25.574
+0.624
+0.606
+0.654
+0.347
+0.377
+0.347
+0.403
+0.378
+0.422
+𝒫mult4\mathcal{P}_{\text{mult}}^{4}
+✗
+25.083
+24.732
+25.599
+0.609
+0.587
+0.649
+0.352
+0.388
+0.336
+0.406
+0.369
+0.428
+32 angles
+𝒫lat2\mathcal{P}_{\text{lat}}^{2}
+✓
+23.732
+25.384
+25.853
+0.511
+0.569
+0.591
+0.422
+0.390
+0.368
+0.345
+0.411
+0.423
+𝒫lat2\mathcal{P}_{\text{lat}}^{2}
+✗
+23.395
+25.112
+25.339
+0.513
+0.547
+0.568
+0.433
+0.393
+0.405
+0.315
+0.388
+0.392
+𝒫lat3\mathcal{P}_{\text{lat}}^{3}
+✗
+23.702
+24.590
+25.195
+0.518
+0.535
+0.559
+0.417
+0.399
+0.397
+0.332
+0.363
+0.386
+𝒫lat4\mathcal{P}_{\text{lat}}^{4}
+✗
+23.731
+23.964
+24.862
+0.504
+0.516
+0.544
+0.413
+0.410
+0.410
+0.340
+0.347
+0.369
+𝒫ang2\mathcal{P}_{\text{ang}}^{2}
+✗
+27.416
+27.641
+27.491
+0.720
+0.731
+0.730
+0.306
+0.322
+0.336
+0.502
+0.499
+0.494
+𝒫ang3\mathcal{P}_{\text{ang}}^{3}
+✓
+27.907
+28.101
+27.951
+0.728
+0.736
+0.736
+0.274
+0.288
+0.305
+0.528
+0.528
+0.525
+𝒫ang3\mathcal{P}_{\text{ang}}^{3}
+✗
+27.664
+27.824
+27.694
+0.720
+0.730
+0.730
+0.286
+0.295
+0.311
+0.517
+0.516
+0.512
+𝒫ang4\mathcal{P}_{\text{ang}}^{4}
+✗
+27.485
+27.809
+27.616
+0.722
+0.728
+0.729
+0.286
+0.286
+0.309
+0.505
+0.516
+0.510
+𝒫mult2\mathcal{P}_{\text{mult}}^{2}
+✗
+27.238
+27.187
+27.534
+0.711
+0.675
+0.693
+0.297
+0.348
+0.298
+0.496
+0.482
+0.524
+𝒫mult3\mathcal{P}_{\text{mult}}^{3}
+✗
+27.228
+26.886
+27.453
+0.703
+0.666
+0.695
+0.299
+0.341
+0.292
+0.501
+0.467
+0.516
+𝒫mult4\mathcal{P}_{\text{mult}}^{4}
+✗
+27.012
+26.716
+27.286
+0.664
+0.634
+0.683
+0.291
+0.325
+0.301
+0.493
+0.457
+0.506
+TABLE IV: Evaluation of splitting methods across grid size, masking, interpolation, and inference types for correlated noise. Results are separated for 16 and 32 angles.
+Fig. 6: Reconstruction results on three examples of the LoDoPaB-CT dataset for 16 projection angles with Poisson noise at a photon count of 3500. For each splitting scheme, the shown reconstructions correspond to the best-performing configuration highlighted in Table III. Columns 3–4 show 𝒫lat3\mathcal{P}_{\textrm{lat}}^{3} (irregular splitting), columns 5-6 present 𝒫ang3\mathcal{P}_{\textrm{ang}}^{3} (irregular splitting), and columns 7-8 show 𝒫mult3\mathcal{P}_{\textrm{mult}}^{3}. The best-performing inference strategies A-inf and 𝒫\mathcal{P}-inf is displayed across all configurations.
+Fig. 7: Reconstruction results on three examples of the LoDoPaB-CT dataset for 32 projection angles with Poisson noise at a photon count of 3500. For each splitting scheme, the shown reconstructions correspond to the best-performing configuration highlighted in Table III. columns 2-3 show 𝒫lat4\mathcal{P}_{\textrm{lat}}^{4} (s=16s=16, irregular splitting), columns 4-5 present 𝒫ang4\mathcal{P}_{\textrm{ang}}^{4} and the last two columns depict 𝒫mult3\mathcal{P}_{\textrm{mult}}^{3} (irregular splitting). The best-performing inference strategies A-inf and 𝒫\mathcal{P}-inf is displayed across all configurations.
+Fig. 8: Reconstruction results on three examples of the LoDoPaB-CT dataset for 32 projection angles with correlated noise. For each splitting scheme, the shown reconstructions correspond to the best-performing configuration highlighted in Table IV. columns 2-3 show 𝒫lat2\mathcal{P}_{\textrm{lat}}^{2} (irregular splitting), columns 4-5 present 𝒫ang3\mathcal{P}_{\textrm{ang}}^{3} (irregular splitting) and the last two columns show 𝒫mult2\mathcal{P}_{\textrm{mult}}^{2}. The best-performing inference strategies A-inf and 𝒫\mathcal{P}-inf is displayed across all configurations.
+Fig. 9: Reconstruction results on three examples of the LoDoPaB-CT dataset for 16 projection angles with Poisson noise at a photon count of 6000. For each splitting scheme, the shown reconstructions correspond to the best-performing configuration highlighted in Table II. columns 2-3 show 𝒫lat2\mathcal{P}_{\textrm{lat}}^{2} (irregular splitting), columns 5-6 show 𝒫ang4\mathcal{P}_{\textrm{ang}}^{4} (irregular splitting), and columns 7-8 present 𝒫mult3\mathcal{P}_{\textrm{mult}}^{3}. The best-performing inference strategies A-inf and 𝒫\mathcal{P}-inf is displayed across all configurations.
+Fig. 10: Reconstruction results on the LoDoPaB-CT dataset for 16 projection angles with Poisson noise (intensity 6000). We compare 𝒫ang\mathcal{P}_{\text{ang}}-splitting with and without linear interpolation of masked values before applying FBP.
+Fig. 11: All evaluation metrics for different number of partitions (𝐎𝐏𝐄𝐍s=4,9,16)s=4,9,16) under uncorrelated and correlated noise for 𝒫−\mathcal{P}-inf.
+Fig. 12: PSNR and LPIPS under uncorrelated and correlated noise for the three splitting schemes. For each splitting scheme, the reported values are averaged over the three numbers of splits considered (4, 9, and 16).
+Fig. 13: SSIM, PSNR, LPIPS and HaarPSI values showing the slight benefits of irregular splitting during training for the three different inference strategies under uncorrelated and correlated noise.
+Performance metrics
+Split
+Irregular
+Interp.
+PSNR
+SSIM
+LPIPS
+HaarPSI
+D-inf
+A-inf
+𝒫\mathcal{{P}}-inf
+D-inf
+A-inf
+𝒫\mathcal{{P}}-inf
+D-inf
+A-inf
+𝒫\mathcal{{P}}-inf
+D-inf
+A-inf
+𝒫\mathcal{{P}}-inf
+100 angles
+𝒫lat3\mathcal{P}_{\text{lat}}^{3}
+✓
+✓
+23.287
+23.435
+23.471
+0.660
+0.668
+0.665
+0.322
+0.320
+0.312
+0.348
+0.355
+0.358
+𝒫lat3\mathcal{P}_{\text{lat}}^{3}
+✗
+✓
+23.421
+23.555
+23.572
+0.658
+0.666
+0.662
+0.324
+0.326
+0.316
+0.366
+0.372
+0.373
+𝒫lat3\mathcal{P}_{\text{lat}}^{3}
+✗
+✗
+22.586
+23.523
+23.528
+0.575
+0.699
+0.683
+0.356
+0.330
+0.345
+0.312
+0.344
+0.345
+𝒫ang3\mathcal{P}_{\text{ang}}^{3}
+✓
+✓
+23.690
+23.867
+23.911
+0.753
+0.762
+0.761
+0.309
+0.322
+0.325
+0.331
+0.337
+0.339
+𝒫ang3\mathcal{P}_{\text{ang}}^{3}
+✗
+✓
+23.492
+23.704
+23.759
+0.747
+0.755
+0.752
+0.281
+0.292
+0.296
+0.330
+0.335
+0.337
+𝒫ang3\mathcal{P}_{\text{ang}}^{3}
+✗
+✗
+23.462
+23.448
+23.507
+0.744
+0.739
+0.740
+0.270
+0.291
+0.296
+0.335
+0.333
+0.334
+𝒫mult3\mathcal{P}_{\text{mult}}^{3}
+✗
+✓
+23.505
+23.630
+23.694
+0.691
+0.697
+0.697
+0.301
+0.304
+0.305
+0.356
+0.361
+0.364
+𝒫mult3\mathcal{P}_{\text{mult}}^{3}
+✗
+✗
+23.481
+23.580
+23.645
+0.720
+0.715
+0.712
+0.299
+0.307
+0.301
+0.344
+0.353
+0.354
+TABLE V: Evaluation of splitting methods across masking, interpolation, and inference types on 2DeteCT with 100 angles.
+Experimental support, please
+view the build logs
+for errors. Generated by
+L
+A
+T
+E
+xml
+.
+Instructions for reporting errors
+We are continuing to improve HTML versions of papers, and your feedback helps enhance accessibility and mobile
+support. To report errors in the HTML that will help us improve conversion and rendering, choose any of the
+methods listed below:
+Click the "Report Issue" (
+) button, located in the page header.
+Tip: You can select the relevant text first, to include it in your report.
+Our team has already identified the following issues. We appreciate your time reviewing and reporting rendering errors we
+may not have found yet. Your efforts will help us improve the HTML versions for all readers, because disability
+should not be a barrier to accessing research. Thank you for your continued support in championing open access for
+all.
+Have a free development cycle? Help support accessibility at arXiv! Our collaborators at LaTeXML maintain a list of packages that need conversion, and welcome developer contributions.
+We gratefully acknowledge support from
+our major funders,
+member institutions, ,
+and all contributors.
+About
+·
+Help
+·
+Contact
+·
+Subscribe
+·
+Copyright
+·
+Privacy
+·
+Accessibility
+·
+Operational Status (opens in new tab)
+Major funding support from

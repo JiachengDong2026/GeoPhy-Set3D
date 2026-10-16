@@ -1,0 +1,17 @@
+name: ours_c0_adapter_matched_v1
+base_config: configs/train_selfsup_oari_mrgr_v1.yaml
+output: /data/djc/GeoPhy-Set3D/outputs/experiments/ours_c0_adapter_matched_v1
+source_checkpoint: /data/djc/GeoPhy-Set3D/outputs/checkpoints/selfsup_oari_mrgr_v1/best.pt
+source_sha256: 1573cd84dffeabeb58fbbfb1afec9c9dc865a0a674e21229711bb25b22e3c026
+reference: docs/reports/artifacts/selfsup_v1_c0c1_geometry/paired_900.csv
+layouts: docs/reports/artifacts/geometry_sensitivity_v1/station_subsets.json
+epochs: 20
+seed: 20261011
+device: cuda:1
+optimizer: {name: adamw, lr: 0.00002, weight_decay: 0.0001}
+scheduler: {name: cosine, T_max: 20}
+bootstrap: {samples: 10000, seed: 2026102001}
+gate:
+  g5_relative_reduction: 0.05
+  ordinary_max_ratio: 1.03
+  heldout_max_ratio: 1.03

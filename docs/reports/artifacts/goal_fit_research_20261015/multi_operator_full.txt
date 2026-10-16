@@ -1,0 +1,718 @@
+Unsupervised Learning From Incomplete Measurements for Inverse Problems
+Report GitHub Issue
+×
+Title:
+Content selection saved. Describe the issue below:
+Description:
+Submit without GitHub
+Submit in GitHub
+arXiv is now an independent nonprofit!
+Learn more
+×
+Back to arXiv
+Why HTML?
+Report Issue
+Back to Abstract
+Download PDF
+Abstract
+1 Introduction
+1.1 Related Work
+Blind Compressed Sensing
+Matrix Completion
+Deep Nets for Inverse Problems
+2 Signal Recovery Preliminaries
+3 Uniqueness of Any Model?
+4 Uniqueness of Low-Dimensional Models
+Learning a one-dimensional subspace
+Operators with Different Number of Measurements
+Noisy measurement data
+5 Algorithms
+5.1 Learn the Model and Reconstruct
+Dictionary and Subspace Learning
+AmbientGAN
+5.2 Learn to Reconstruct
+Measurement Splitting
+Proposed Method
+6 Experiments
+Compressed Sensing and Inpainting with MNIST
+Inpainting with CelebA
+Accelerated MRI with FastMRI
+7 Limitations
+8 Conclusions
+References
+A Proofs
+B Training Details
+Compressed Sensing and Inpainting with MNIST.
+Inpainting with CelebA.
+Accelerated MRI with fastMRI.
+C Additional Experiments
+C.1 Subspace Learning
+License: arXiv.org perpetual non-exclusive license
+arXiv:2201.12151v4 [stat.ML] 28 Sep 2022
+Unsupervised Learning From Incomplete Measurements for Inverse Problems
+Julián Tachella
+Affiliation: Laboratoire de Physique
+Affiliation: CNRS & ENSL
+Affiliation: Lyon, France
+Email: julian.tachella@cnrs.fr
+Dongdong Chen
+Affiliation: School of Engineering
+Affiliation: University of Edinburgh
+Affiliation: Edinburgh, UK
+Email: d.chen@ed.ac.uk
+Mike Davies
+Affiliation: School of Engineering
+Affiliation: University of Edinburgh
+Affiliation: Edinburgh, UK
+Email: mike.davies@ed.ac.uk
+Abstract
+In many real-world inverse problems, only incomplete measurement data are available for training which can pose a problem for learning a reconstruction function. Indeed, unsupervised learning using a fixed incomplete measurement process is impossible in general, as there is no information in the nullspace of the measurement operator. This limitation can be overcome by using measurements from multiple operators. While this idea has been successfully applied in various applications, a precise characterization of the conditions for learning is still lacking. In this paper, we fill this gap by presenting necessary and sufficient conditions for learning the underlying signal model needed for reconstruction which indicate the interplay between the number of distinct measurement operators, the number of measurements per operator, the dimension of the model and the dimension of the signals. Furthermore, we propose a novel and conceptually simple unsupervised learning loss which only requires access to incomplete measurement data and achieves a performance on par with supervised learning when the sufficient condition is verified. We validate our theoretical bounds and demonstrate the advantages of the proposed unsupervised loss compared to previous methods via a series of experiments on various imaging inverse problems, such as accelerated magnetic resonance imaging, compressed sensing and image inpainting.
+1 Introduction
+In multiple sensing applications, we observe measurements y∈ℝmy\in\mathbb{R}^{m} associated with a signal x∈𝒳⊂ℝnx\in\mathcal{X}\subset\mathbb{R}^{n}, through the forward process
+y=A​x+ϵy=Ax+\epsilon
+(1)
+where A∈ℝn×nA\in\mathbb{R}^{n\times n} is a linear measurement operator and ϵ\epsilon denotes the noise affecting the measurements.
+This is the case of computed tomography [1], depth ranging [2] and non-line-of-sight imaging [3] to name a few. Estimating xx from yy is generally an ill-posed inverse problem due to the incomplete operator AA with m<nm<n and the presence of noise. Knowledge of the signal model is required to make this problem well-posed.
+In many cases, obtaining ground-truth reconstructions xx to learn the reconstruction function y↦xy\mapsto x might be very expensive or even impossible. For example, in medical imaging, it is not always possible to obtain fully sampled images of patients as they require long acquisition times. In astronomical imaging, it is impossible to obtain ground-truth references due to physical limitations. In electron-microscopy imaging [4], we can only measure 2D projections of a molecule.
+In these settings, we can only access measurements yy for learning.
+Moreover, if the measurement process AA is incomplete, it is fundamentally impossible to learn the model with only measurements yy, as there is no information about the model in the nullspace of AA. Thus, we end up with a chicken-and-egg problem: in order to reconstruct xx we need the reconstruction function, but to learn this function we require some reconstructed samples xx.
+This fundamental limitation can be overcome by using information from multiple incomplete sensing operators A1,…,AGA_{1},\dots,A_{G}, the general principle being that each operator can provide additional information about the signal model if it has a different nullspace.
+For example, in the image inpainting problem, Studer and Baraniuk [5] used the fact that the set of missing pixels may vary between observed images to learn a sparse dictionary model and reconstruct the images. Yang et al. [6] used multiple operators to learn a Gaussian mixture model in the context of hyperspectral imaging and high-speed video. Bora et al. [7] exploited this idea for learning a generative model in various imaging problems such as deblurring and compressed sensing. Matrix completion methods [8] exploit a similar principle, as the missing entries of each column (i.e., signal) are generally different. Ideally we would like to learn the reconstruction function and signal model from only a small number of different measurement operators. We are thus motivated to determine typically how many such operators are required.
+The problem can be formalized as follows.
+We first focus on the noiseless case to study the intrinsic identifiability problems associated to having only incomplete measurement data. The effect of noise will be discussed in Section 4.
+We assume that we observe a set of NN training samples yiy_{i}, where the iith signal is observed via Agi∈ℝm×nA_{g_{i}}\in\mathbb{R}^{m\times n}, one of GG linear operators
+, i.e.,
+yi=Agi​xiy_{i}=A_{g_{i}}x_{i}
+(2)
+where gi∈{1,…,G}g_{i}\in\{1,\dots,G\} and i=1,…,Ni=1,\dots,N. While we assume that the measurement operator AgiA_{g_{i}} is known for all observed signals, it is important to note that we do not know a priori if two observations (yi,Agi)(y_{i},A_{g_{i}}) and (yi′,Agi′)(y_{i^{\prime}},A_{g_{i^{\prime}}}) are related to the same signal as in Noise2Noise [9]. There are two natural questions regarding this learning problem:
+Q1. Signal Recovery
+Is there a unique signal x∈𝒳x\in\mathcal{X} which verifies the measurements y=Ag​xy=A_{g}x? In other words, is the reconstruction function f:(y,Ag)↦xf:(y,A_{g})\mapsto x one-to-one?
+Q2. Model Identification
+Can we uniquely identify the signal model from measurement data alone obtained via the incomplete operators A1,…,AGA_{1},\dots,A_{G}?
+In general, there can be a unique solution for neither problem, just one or both. There might be a unique solution for signal recovery if the model is known, but it might be impossible to learn the model in the first place (e.g., blind compressed sensing [10]). The converse is also possible, that is, uniquely identifying a model without having enough measurements per sample to uniquely identify the associated signal (e.g., subspace learning from rank-1 projections [11]).
+The answer to Q1 is well-known from generalized compressed sensing theory, see for example [12]. Unique signal recovery is possible if the signal model is low-dimensional, i.e., if AgA_{g} has m>2​km>2k measurements, where kk is the model dimension. On the other hand, Q2 has been mostly studied in the context of matrix completion, where the set of signals is assumed to lie in a low-dimensional subspace of ℝn\mathbb{R}^{n}. Bora et al. [7] presented some results in the general setting, but only for the case where G=∞G=\infty which is quite restrictive. In this paper, we provide sharp necessary and sufficient conditions which hold for any low-dimensional distribution (beyond linear subspaces) and only require a finite number of operators GG.
+If the conditions for signal recovery and model identification are satisfied, we can expect to learn the reconstruction function from measurement data alone. We introduce a new unsupervised learning objective which can be used to learn the reconstruction function f:(y,Ag)↦xf:(y,A_{g})\mapsto x, and provides performances on par with supervised learning when the sufficient conditions are met. The main contributions of this paper are as follows:
+•
+We show that unsupervised learning from a finite number of incomplete measurement operators is only possible if the model is low-dimensional. More precisely, we show that m≥n/Gm\geq n/G measurements per operator are necessary for learning, and that for almost every set of GG operators, m>k+n/Gm>k+n/G measurements per operator are sufficient.
+•
+We propose a new unsupervised loss for learning the reconstruction function that only requires incomplete measurement data, which empirically obtains a performance on par with fully supervised methods when the sufficient condition m>k+n/Gm>k+n/G is met.
+•
+A series of experiments demonstrate that our bounds accurately characterize the performance of unsupervised approaches on synthetic and real datasets, and that the proposed unsupervised approach outperforms previous methods in various inverse problems.
+1.1 Related Work
+Blind Compressed Sensing
+The fundamental limitation of failing to learn a signal model from incomplete (compressed) measurements data goes back to blind compressed sensing [10] for the specific case of models exploiting sparsity on an orthogonal dictionary. In order to learn the dictionary from incomplete data, [10] imposed additional constraints on the dictionary, while some subsequent papers [13, 14] removed these assumptions by proposing to use multiple operators AgA_{g} as studied here. This paper can be seen as a generalization of such results to more general signal models.
+Matrix Completion
+Matrix completion consists of inferring missing entries of a data matrix Y=[y1,…,yN]Y=[y_{1},\dots,y_{N}], whose columns are generally inpainted samples from a low-dimensional distribution, i.e., yi=Agi​xiy_{i}=A_{g_{i}}x_{i} where the operators AgiA_{g_{i}} randomly select a subset of mm entries of the signal xix_{i}. This problem can be viewed as the combination of model identification, i.e., identifying the low-rank subspace that the columns of X=[x1,…,xN]X=[x_{1},\dots,x_{N}] belong to, and signal recovery, i.e., reconstructing the individual columns. Assuming that the samples belong to a kk-dimensional subspace can be imposed by recovering a rank-kk signal matrix XX from YY. If the columns are sampled via GG sufficiently different patterns AgiA_{g_{i}} with the same number of entries mm, a sufficient condition [15] for uniquely recovering almost every subspace model is11
+1
+A larger number of measurements m=𝒪⁡(k​log⁡n)m=\mathcal{O}(k\log n) is required to guarantee a stable recovery when the number of patterns GG is large [8]. m≥(1−1/G)​k+n/Gm\geq(1-1/G)k+n/G.
+A similar condition was shown in [16] for the case of high-rank matrix completion [17], which arises when the samples xix_{i} belong to a union of kk-dimensional subspaces.
+We show that model identification is possible for almost every set of GG operators with m>k+n/Gm>k+n/G measurements, however the theory presented here goes beyond linear subspaces, being also valid for general low-dimensional models.
+Deep Nets for Inverse Problems
+Despite providing very competitive results, most deep learning based solvers require measurements and signal pairs (xi,yi)(x_{i},y_{i}) (or at least clean signals xix_{i}) in order to learn the reconstruction function y↦xy\mapsto x from incomplete measurements. A first step to overcome this limitation is due to Noise2Noise [9], where the authors show that it is possible to learn from only noisy samples. However, their ideas only apply to denoising settings where there is a trivial nullspace, as the operator AA is the identity matrix. This approach was extended in [18] to the case where two measurements are observed per signal, each associated with a different operator.
+Yaman et al. [19] and Artifact2Artifact [20] empirically showed that it is possible to exploit different measurement operators to learn the reconstruction function in the context of magnetic resonance imaging (MRI). AmbientGAN [7] proposed to learn a signal distribution from only incomplete measurements using multiple forward operators, however they only provide reconstruction guarantees for the case where an infinite number of operators AgA_{g} is available22
+2
+Their result relies on the Cramér-Wold theorem, which is discussed in Section 3., a condition that is not met in practice.
+Another line of work focuses on learning using measurements from a single incomplete operator. The works in [21, 22] use the large system limit properties of random compressed sensing operators to learn from measurements alone. The equivariant imaging approach [23, 24] leverages invariance of the signal set to a group of transformations to learn from general incomplete operators.
+2 Signal Recovery Preliminaries
+We denote the nullspace of AA as 𝒩A\mathcal{N}_{A}. Its complement, the range space of the pseudo-inverse A†A^{\dagger}, is denoted as ℛA\mathcal{R}_{A}, where ℛA⊕𝒩A=ℝn\mathcal{R}_{A}\oplus\mathcal{N}_{A}=\mathbb{R}^{n} and ⊕\oplus denotes the direct sum. Throughout the paper, we assume that the signals are sampled from a measure μ\mu supported on the signal set 𝒳⊂ℝn\mathcal{X}\subset\mathbb{R}^{n}. Signal recovery has a unique solution if and only if the forward operator x↦yx\mapsto y is one-to-one, i.e., if for every pair of signals x1,x2∈𝒳x_{1},x_{2}\in\mathcal{X} where x1≠x2x_{1}\neq x_{2} we have that
+A​x1≠A​x2\displaystyle Ax_{1}\neq Ax_{2}
+(3)
+A⁡(x1−x2)≠0\displaystyle A(x_{1}-x_{2})\neq 0
+(4)
+In other words, there is no vector x1−x2≠0x_{1}-x_{2}\neq 0 in the nullspace of AA.
+It is well-known that this is only possible if the signal set 𝒳\mathcal{X} is low-dimensional. There are multiple ways to define the notion of dimensionality of a set in ℝn\mathbb{R}^{n}. In this paper, we focus on the upper box-counting dimension which is defined for a compact subset S⊂ℝnS\subset\mathbb{R}^{n} as
+boxdim​(S)=limsupϵ→0log⁡N⁡(S,ϵ)−log⁡ϵ\text{boxdim}(S)=\lim\sup_{\epsilon\to 0}\frac{\log N(S,\epsilon)}{-\log\epsilon}
+(5)
+where N⁡(S,ϵ)N(S,\epsilon) is the minimum number of closed balls of radius ϵ\epsilon with respect to the norm ∥⋅∥\|\cdot\| that are required to cover SS. This definition of dimension covers both well-behaved models such as compact manifolds and more general low-dimensional sets. The mapping x↦yx\mapsto y is one-to-one for almost every forward operator A∈ℝm×nA\in\mathbb{R}^{m\times n} if [25]
+m>boxdim​(Δ​𝒳)m>\text{boxdim}(\Delta\mathcal{X})
+(6)
+where Δ​𝒳\Delta\mathcal{X} denotes the normalized secant set which is defined as
+Δ𝒳={Δx∈ℝn|Δx=x2−x1‖x2−x1‖,x1,x2∈𝒳,x2≠x1}.\Delta\mathcal{X}=\{\Delta x\in\mathbb{R}^{n}|\;\Delta x=\frac{x_{2}-x_{1}}{\|x_{2}-x_{1}\|},x_{1},x_{2}\in\mathcal{X},\;x_{2}\neq x_{1}\}.
+(7)
+The term almost every means that the complement has Lebesgue measure 0 in the space of linear measurement operators ℝm×n\mathbb{R}^{m\times n}. The normalized secant set of models of dimension kk generally has dimension 2​k2k, requiring m>2​km>2k measurements to ensure signal recovery.
+For example, the union of kk-dimensional subspaces requires at least 2​k2k measurements33
+3
+While the bound in Equation 6 guarantees unique signal recovery, more measurements (e.g., an additional factor of 𝒪⁡(log⁡n)\mathcal{O}(\log n) measurements) are typically necessary in order to have a stable inverse f:y↦xf:y\mapsto x, i.e., possessing a certain Lipschitz constant. A detailed discussion can be found for example in [12]. to guarantee one-to-oneness [26]. This includes well-known models such as kk-sparse models (e.g., convolutional sparse coding [27]) and co-sparse models (e.g., total variation [28]).
+In the regime k<m≤2​kk<m\leq 2k, the subset of signals where one-to-oneness fails is at most (2​k−m)(2k-m)-dimensional [25].
+3 Uniqueness of Any Model?
+A natural first question when considering uniqueness of the model is: can we recover any probability measure μ\mu observed via forward operators A1,…,AGA_{1},\dots,A_{G}, even in the case where its support 𝒳\mathcal{X} is the full ℝn\mathbb{R}^{n}? We show that, in general, the answer is no.
+Uniqueness can be analysed from the point of view of the characteristic function of μ\mu, defined as φ⁡(w)=𝔼​{ei​w⊤​x}\varphi(w)=\mathbb{E}\{e^{\mathrm{i}w^{\top}x}\} where the expectation is taken with respect to μ\mu and i=−1\mathrm{i}=\sqrt{-1} is the imaginary unit. If two distributions have the same characteristic function, then they are necessarily the same almost everywhere. Each forward operator provides information about a subspace of the characteristic function as
+𝔼​{ei​w⊤​Ag†​y}\displaystyle\mathbb{E}\{e^{\mathrm{i}w^{\top}A_{g}^{\dagger}y}\}
+=𝔼​{ei​w⊤​Ag†​Ag​x}\displaystyle=\mathbb{E}\{e^{\mathrm{i}w^{\top}A_{g}^{\dagger}A_{g}x}\}
+(8)
+=𝔼​{ei​(Ag†​Ag​w)⊤​x}\displaystyle=\mathbb{E}\{e^{\mathrm{i}(A_{g}^{\dagger}A_{g}w)^{\top}x}\}
+(9)
+=φ⁡(Ag†​Ag​w)\displaystyle=\varphi(A_{g}^{\dagger}A_{g}w)
+(10)
+where Ag†​AgA_{g}^{\dagger}A_{g} is a linear projection onto the subspace ℛAg\mathcal{R}_{A_{g}}.
+Given that m<nm<n, the characteristic function is only observed in the subspaces ℛAg\mathcal{R}_{A_{g}} for all g∈{1,…,G}g\in\{1,\dots,G\}. For any finite number of operators, the union of these subspaces does not cover the whole ℝn\mathbb{R}^{n}, and hence there is loss of information, i.e., the signal model cannot be uniquely identified.
+In the case of an infinite number of operators G=∞G=\infty, the Cramér-Wold theorem guarantees uniqueness of the signal distribution if all possible one dimensional projections (m=1m=1) are available [29, 7]. However, in most practical settings we can only access a finite number of operators and many distributions will be non-identifiable.
+4 Uniqueness of Low-Dimensional Models
+Most models appearing in signal processing and machine learning are assumed to be approximately low-dimensional, with a dimension kk which is much lower than the ambient dimension nn. As discussed in Section 2, the low-dimensional property is the key to obtain stable reconstructions, e.g., in compressed sensing.
+In the rest of the paper, we impose the following assumptions on the model:
+A1
+The signal set 𝒳\mathcal{X} is either
+(a)
+A bounded set with box-counting dimension kk.
+(b)
+An unbounded conic set whose intersection with the unit sphere has box-counting dimension k−1k-1.
+This assumption has been widely adopted in the inverse problems literature, as it is a necessary assumption to guarantee signal recovery. Our definition of dimension covers most models used in practice, such as simple subspace models, union of subspaces (convolutional sparse coding models, kk-sparse models), low-rank matrices and compact manifolds. It is worth noting that dimension is a property of the dataset and thus independent of the specific algorithm used for learning.
+In the rest of the paper, we focus on conditions for the identification of the support 𝒳\mathcal{X} instead of the signal distribution μ\mu, due to the following observation: if there is a one-to-one reconstruction function (which happens for almost every AA with m>2​km>2k as explained in Section 2), uniqueness of the support implies uniqueness of μ\mu.
+If 𝒳\mathcal{X} is known and there is a measurable one-to-one mapping from each observed measurement yy to 𝒳\mathcal{X}, then it is possible to obtain μ\mu as the push-forward of the measurement distribution.
+Before delving into the main theorem, we present a simple example which provides intuition of how a low-dimensional model can be learned via multiple projections AgA_{g}:
+Learning a one-dimensional subspace
+Consider a toy signal model with support 𝒳⊂ℝ3\mathcal{X}\subset\mathbb{R}^{3} which consists of a one-dimensional linear subspace spanned by ϕ=[1,1,1]⊤\phi=[1,1,1]^{\top}, and G=3G=3 measurement operators A1,A2,A3∈ℝ2×3A_{1},A_{2},A_{3}\in\mathbb{R}^{2\times 3} which project the signals into the x⁡(3)=0x(3)=0, x⁡(2)=0x(2)=0 and x⁡(1)=0x(1)=0 planes respectively, where x⁡(i)x(i) denotes the iith entry of the vector xx. The example is illustrated in Figure 1. The first operator A1A_{1} imposes a constraint on 𝒳\mathcal{X}, that is, every x∈𝒳x\in\mathcal{X} should verify x⁡(1)−x⁡(2)=0x(1)-x(2)=0. Without more operators providing additional information about 𝒳\mathcal{X}, this constraint yields a plane containing 𝒳\mathcal{X}, and there are infinitely many one-dimensional models that would fit the training data perfectly. However, the additional operator A2A_{2} adds the constraint x⁡(2)−x⁡(3)=0x(2)-x(3)=0, which is sufficient to uniquely identify 𝒳\mathcal{X} as
+𝒳^=𝒳={v∈ℝ3|v⁡(1)−v⁡(2)=v⁡(2)−v⁡(3)=0}\displaystyle\hat{\mathcal{X}}=\mathcal{X}=\{v\in\mathbb{R}^{3}|\;v(1)-v(2)=v(2)-v(3)=0\}
+is the desired 1-dimensional subspace.
+Finally, note that in this case the operator A3A_{3} does not restrict the signal set further, as the constraint x⁡(1)−x⁡(3)=0x(1)-x(3)=0 is verified by the other two constraints.
+Figure 1: Toy example of a 1-dimensional subspace embedded in ℝ3\mathbb{R}^{3}. If we only observe the projection of the signal set into the plane x⁡(3)=0x(3)=0, then there are infinite possible lines that are consistent with the measurements (red plane). Adding the projection into the x⁡(1)=0x(1)=0 plane, allows us to uniquely identify the signal model.
+The ideas from the one-dimensional subspace example can be generalized and formalized as follows: for each projection AgA_{g}, we can constrain the model support 𝒳\mathcal{X} by considering the set
+𝒳^g={v∈ℝn|v=x^g+u,x^g∈𝒳,u∈𝒩Ag}\hat{\mathcal{X}}_{g}=\{v\in\mathbb{R}^{n}|\;v=\hat{x}_{g}+u,\;\hat{x}_{g}\in\mathcal{X},\;u\in\mathcal{N}_{A_{g}}\}
+(11)
+which has dimension at most n−(m−k)n-(m-k). Note that the true signal model is a subset of 𝒳^g\hat{\mathcal{X}}_{g}. The inferred signal set belongs to the intersection of these sets
+𝒳^=⋂g∈𝒢𝒳^g\hat{\mathcal{X}}=\bigcap_{g\in\mathcal{G}}\hat{\mathcal{X}}_{g}
+(12)
+which can be expressed concisely as
+𝒳^={v∈ℝn|Ag(xg−v)=0,g=1,…,G,x1,…,xG∈𝒳}\hat{\mathcal{X}}=\{v\in\mathbb{R}^{n}|\;A_{g}(x_{g}-v)=0,\;g=1,\dots,G,x_{1},\dots,x_{G}\in\mathcal{X}\}
+(13)
+Even though we have derived the set 𝒳^\hat{\mathcal{X}} from a purely geometrical argument, the constraints in Equation 13 also offer a simple algebraic intuition: the inferred signal set consists of the points v∈ℝnv\in\mathbb{R}^{n} which verify
+the following system of equations
+[A1AG]​v=[A1​x1AG​xG].\begin{bmatrix}A_{1}\\
+\vdots\\
+A_{G}\end{bmatrix}v=\begin{bmatrix}A_{1}x_{1}\\
+\vdots\\
+A_{G}x_{G}\end{bmatrix}.
+(14)
+for all possible choices of GG points x1,…,xGx_{1},\dots,x_{G} in 𝒳\mathcal{X}.
+In other words, given a dataset of NN incomplete measurements {Agi​xi}i=1N\{A_{g_{i}}x_{i}\}_{i=1}^{N}, it is possible to build 𝒳^\hat{\mathcal{X}} by trying all the possible combinations of GG samples44
+4
+Despite providing a good intuition, this procedure for estimating 𝒳\mathcal{X} is far from being practical as it would require an infinite number of observed samples if the dimension of the signal set is not trivial k>0k>0. and keeping only the points vv which are the solutions of Equation 14.
+It is trivial to see that 𝒳⊆𝒳^\mathcal{X}\subseteq\hat{\mathcal{X}}, but when can we guarantee 𝒳=𝒳^\mathcal{X}=\hat{\mathcal{X}}?
+As in the previous toy example, if there are not enough constraints, e.g., if we have a single AA and no additional measurement operators, the inferred set will have a dimension larger than kk, containing undesired aliases. In particular, we have the following lower bound on the minimum number of measurements:
+Proposition 4.1 (Theorem 1 in [23]).
+A necessary condition for model uniqueness from the measurement sets {Ag​𝒳}g=1G\{A_{g}\mathcal{X}\}_{g=1}^{G} is that
+rank​([A1AG])=n\text{rank}(\begin{bmatrix}A_{1}\\
+\vdots\\
+A_{G}\end{bmatrix})=n
+(15)
+and thus m≥n/Gm\geq n/G.
+Proof.
+In order to have model uniqueness, the system in Equation 14 should only admit a solution if v=x1=⋯=xGv=x_{1}=\dots=x_{G}. If the rank condition in Equation 15 is not satisfied, there is more than one solution for any choice of x1,…,xG∈𝒳x_{1},\dots,x_{G}\in\mathcal{X}. ∎
+Note that this necessary condition does not take into account the dimension of the model. As discussed in Section 3, a sufficient condition for model uniqueness must depend on the dimension of the signal set kk. Our main theorem shows that kk additional measurements per operator are sufficient for model identification:
+Theorem 4.2.
+For almost every set of GG mappings A1,…,AG∈ℝm×nA_{1},\dots,A_{G}\in\mathbb{R}^{m\times n}, under assumption A1 the signal model 𝒳\mathcal{X} can be uniquely recovered from the measurement sets {Ag​𝒳}g=1G\{A_{g}\mathcal{X}\}_{g=1}^{G} if the number of measurements per operator verifies m>k+n/Gm>k+n/G.
+The proof is included in Appendix A. If we have a large number of independent operators G≥nG\geq n, Theorem 4.2 states that only m>k+1m>k+1 measurements are sufficient for model identification, which is slightly smaller (if the model is not trivial, i.e., k>1k>1) than the number of measurements typically needed for signal recovery m>2​km>2k. In this case, it is possible to uniquely identify the model, without necessarily having a unique reconstruction of each observed signal. However, as discussed in Section 2, for k<m≤2​kk<m\leq 2k, the subset of signals which cannot be uniquely recovered is at most (2​k−m)(2k-m)-dimensional.
+Operators with Different Number of Measurements
+The results of the previous subsections can be easily extended to the setting where each measurement operator has a different number of measurements, i.e. A1∈ℝm1×n,…,AG∈ℝmG×nA_{1}\in\mathbb{R}^{m_{1}\times n},\dots,A_{G}\in\mathbb{R}^{m_{G}\times n}. In this case, the necessary condition in Proposition 4.1 is ∑g=1Gmg≥n\sum_{g=1}^{G}m_{g}\geq n, and the sufficient condition in Theorem 4.2 is 1G​∑g=1Gmg>k+n/G\frac{1}{G}\sum_{g=1}^{G}m_{g}>k+n/G.
+As the proofs mirror the ones of Proposition 4.1 and Theorem 4.2, we leave the details to the reader.
+Noisy measurement data
+Surprisingly, the results of this section are also theoretically valid if the measurements are corrupted by independent additive noise ϵ\epsilon, i.e., y=Ag​x+ϵy=A_{g}x+\epsilon, as long as the noise distribution is known and has a nowhere zero characteristic function (e.g., Gaussian noise):
+Proposition 4.3.
+For a fixed noise distribution, if its characteristic function is nowhere zero, then there is a one-to-one mapping between the space of clean measurement distributions and noise measurement distributions.
+The proof is included in Appendix A. If the clean measurement distribution can be uniquely identified from the noisy distribution, the results in Theorem 4.2 and Proposition 4.1 also carry over to the noisy setting. Note that this only guarantees model identifiability and makes no claims on the sample complexity of any learning process.
+5 Algorithms
+Unsupervised algorithms mainly come in two flavours: we can first learn a model 𝒳^\hat{\mathcal{X}} to then reconstruct by projecting measurements into this set, or we can attempt to directly learn the reconstruction function parameterized by a deep network.
+5.1 Learn the Model and Reconstruct
+Dictionary and Subspace Learning
+If 𝒳\mathcal{X} is (approximately) a union of subspaces [10] or a single subspace [8], we can learn a model by
+arg​minz,D⁡𝔼(y,g)​‖y−Ag​Dz‖2+ρ1​(D)+ρ2​(z)\argmin_{z,D}\mathbb{E}_{(y,g)}\|y-A_{g}Dz\|^{2}+\rho_{1}(D)+\rho_{2}(z)
+(16)
+where ρ1​(D)\rho_{1}(D) and ρ2​(z)\rho_{2}(z) are regularisation terms that promote low-dimensional solutions, e.g., sparse codes zz if 𝒳\mathcal{X} is a union of subspaces. At test time, the dictionary is fixed and the optimization is performed over the codes only.
+AmbientGAN
+Complex datasets are often better modelled by a generative network f:ℝk↦ℝnf:\mathbb{R}^{k}\mapsto\mathbb{R}^{n} whose input is a low-dimensional latent code z∈ℝkz\in\mathbb{R}^{k}. The generative model can be learned using an adversarial strategy, i.e.,
+arg​minf⁡maxd​𝔼(y,g)​q​{d⁡(Ag†​y)}+𝔼z​𝔼g​q​{1−d⁡(Ag†​Ag​f​(z))}\argmin_{f}\max_{d}\mathbb{E}_{(y,g)}q\{d(A_{g}^{\dagger}y)\}+\mathbb{E}_{z}\mathbb{E}_{g}q\left\{1-d\left(A_{g}^{\dagger}A_{g}f(z)\right)\right\}
+(17)
+where d:ℝn↦ℝnd:\mathbb{R}^{n}\mapsto\mathbb{R}^{n} is the discriminator network which compares measurements in the image domain, zz is usually sampled from a Gaussian distribution, and q⁡(t)=log⁡(t)q(t)=\log(t) for standard GANs and q⁡(t)=tq(t)=t for Wasserstein GANs.
+At test time, the reconstruction can be obtained by finding the latent code that best fits the measurements
+x^=f⁡(arg​minz⁡‖y−Ag​f​(z)‖2)\hat{x}=f(\argmin_{z}\|y-A_{g}f(z)\|^{2}), as in [30].
+5.2 Learn to Reconstruct
+Another approach consists in learning directly the reconstruction function f:ℝm×ℝm×n↦ℝnf:\mathbb{R}^{m}\times\mathbb{R}^{m\times n}\mapsto\mathbb{R}^{n} whose inputs are the measurement yy and the associated operator AgA_{g}, and the output is the reconstructed signal xx. The reconstruction function can have either a denoiser form, f⁡(y,Ag)=f~​(Ag†​y)f(y,A_{g})=\tilde{f}(A_{g}^{\dagger}y) where f~\tilde{f} is independent of AgA_{g} [1], or a more complex unrolled structure with many denoising and gradient steps [31].
+Measurement Splitting
+Inspired by the Noise2Noise approaches [9, 18], some self-supervised methods [19, 20] split each measurement into two parts, y⊤=[y1⊤,y2⊤]y^{\top}=[y_{1}^{\top},y_{2}^{\top}], such that the input is y1y_{1} and the target is y2y_{2}. These methods can be summarised as minimising the following loss
+arg​minf⁡𝔼(y,g)​‖y2−Ag,2​f​(y1,Ag,1)‖2\argmin_{f}\mathbb{E}_{(y,g)}\|y_{2}-A_{g,2}f(y_{1},A_{g,1})\|^{2}
+(18)
+where y1=Ag,1​x+ϵ1y_{1}=A_{g,1}x+\epsilon_{1} and y2=Ag,2​x+ϵ2y_{2}=A_{g,2}x+\epsilon_{2}.
+This approach suffers from the fact that ff does not use all the available information in a given measurement, as it attempts to solve a harder reconstruction problem associated with y1=Ag,1​x+ϵ1y_{1}=A_{g,1}x+\epsilon_{1}. As reconstruction networks often fail to generalise to operators with more measurements [32], this method can suffer from suboptimal reconstructions at test time.
+Proposed Method
+The analysis in Section 4 shows that model identifiability necessarily requires that reconstructed signals are consistent with all operators A1,…,AGA_{1},\dots,A_{G}. Thus, we propose an unsupervised loss that ensures consistency across all projections AgA_{g}, that is
+arg​minf⁡𝔼(y,g)​{‖y−Ag​f​(y,Ag)‖2+𝔼s​‖x^−f⁡(As​x^,As)‖2}\argmin_{f}\mathbb{E}_{(y,g)}\left\{\|y-A_{g}f(y,A_{g})\|^{2}+\mathbb{E}_{s}\|\hat{x}-f(A_{s}\hat{x},A_{s})\|^{2}\right\}
+(19)
+where x^=f⁡(y,Ag)\hat{x}=f(y,A_{g}). The first term ensures measurement consistency y=Ag​f​(y,Ag)y=A_{g}f(y,A_{g}), whereas the second term enforces consistency across operators, i.e., f⁡(y,Ag)=f⁡(As​f​(y,Ag),As)f(y,A_{g})=f(A_{s}f(y,A_{g}),A_{s}) for all g≠sg\neq s. Crucially, the second term prevents the network from learning the trivial pseudo-inverse f⁡(y,Ag)=Ag†​yf(y,A_{g})=A_{g}^{\dagger}y. In practice, we choose an operator AsA_{s} uniformly at random per minibatch. Thus, compared the supervised case, we only require an additional evaluation of ff and AsA_{s} per minibatch. We coin this approach multi-operator imaging (MOI).
+This loss overcomes the main disadvantages of previous approaches: it doesn’t require training a discriminator network, and it learns to reconstruct using all the available information in each measurement yy.
+6 Experiments
+In this section, we present a series of experiments where the goal is to learn the reconstruction function with deep networks using real datasets. Experiments on low-dimensional subspace learning using synthetic datasets are presented in Section C.1. All our experiments were performed using an internal cluster of 4 NVIDIA RTX 3090 GPUs with a total compute time of approximately 48 hs.
+Compressed Sensing and Inpainting with MNIST
+We evaluate the theoretical bounds on the MNIST dataset, based on the well known approximation of its box-counting dimension k≈12k\approx 12 [33]. The dataset contains N=60000N=60000 training samples, and these are partitioned such that N/GN/G different samples are observed via each operator. The forward operators are compressed sensing (CS) matrices with entries sampled from a Gaussian distribution with zero mean and variance m−1m^{-1}. The test set consists of 1000010000 samples, which are also randomly divided into GG parts, one per operator.
+To evaluate the theoretical bounds, we attempt to minimize the impact of the inductive bias of the networks’ architecture [34, 35] by using a network with 5 fully connected layers and relu non-linearities.
+Figure 2(a) shows the average test peak-signal-to-noise ratio (PSNR) achieved by the model trained using the proposed MOI loss for G=1,10,20,30,40G=1,10,20,30,40 and m=50,100,200,300,400m=50,100,200,300,400. The results follow the bound presented in Section 4 (indicated by the red dashed line), as the network is only able to learn the reconstruction mapping when the sufficient condition m>k+n/Gm>k+n/G is verified. In sensing regimes below this condition, the performance is similar to the pseudo-inverse Ag†A_{g}^{\dagger}.
+We also evaluate the reconstruction for a different number GG of random inpainting masks and different rates mm. The inpainting operators have a diagonal structure which has zero measure in ℝm×n\mathbb{R}^{m\times n}, however our sufficient condition still provides a reasonable lower bound on predicting the performance, as shown in Figure 2(b). It is likely that due to the coherence between measurement operators and images (both operators and MNIST images are sparse), more measurements are required to obtain good reconstructions than in the CS case.
+(a) Compressed Sensing
+(b) Inpainting
+Figure 2: Average test PSNR improvement in dB over the pseudo-inverse for the MNIST dataset using the proposed training loss, for different number of CS operators or inpainting masks and measurements per operator. The curve in red shows the necessary condition of Theorem 4.2, m>k+n/Gm>k+n/G.
+Inpainting/CelebA
+A†​yA^{\dagger}y
+AmbientGAN
+MOI (ours)
+Supervised
+9.05±\pm1.65
+29.57±\pm1.24
+34.05±\pm3.77
+36.21±\pm3.76
+Acc. MRI/FastMRI
+A†​yA^{\dagger}y
+Meas. Splitting
+MOI (ours)
+Supervised
+Denoiser ff
+25.77±\pm2.71
+28.72±\pm1.64
+29.51±\pm1.85
+31.45±\pm1.98
+Unrolled ff
+25.77±\pm2.71
+29.47±\pm2.02
+31.39±\pm2.17
+32.42±\pm2.44
+Table 1: Comparison of supervised and unsupervised learning methods for inpainting and accelerated MRI. Reported values correspond to average PSNR in dB on the testing set.
+Inpainting with CelebA
+We evaluate the unsupervised methods in Section 5 on the CelebA dataset [36], which is split into 32556 images for training and 32556 images for testing. We use the same U-Net (see Appendix B) for MOI and supervised learning, and the DCGAN architecture [37] for AmbientGAN as in [7]. We observed that using the U-Net for AmbientGAN’s generator achieves worse results than the DCGAN architecture. Reconstructed test images are shown in Figure 3 and average test PSNR is presented in Table 1.
+The proposed method obtains an improvement of more than 4 dB with respect to AmbientGAN and falls only 2.12.1 dB behind supervised learning.
+Accelerated MRI with FastMRI
+Finally, we consider the FastMRI dataset [38], where the set of forward operators AgA_{g} consist of different sets of single-coil kk-space measurements, with 4×4\times acceleration, i.e., m/n=0.25m/n=0.25. We used 900900 images for training and 74 for testing, which we split across G=40G=40 operators. We compare measurement splitting, MOI and supervised learning, all using the same denoiser or unrolled architecture (see Appendix B for details). For measurement splitting, we follow the strategy in [19], and choose to assign a random subset representing 60%60\% of the measurements in AgA_{g} to Ag,1A_{g,1} and the remaining to Ag,2A_{g,2}. We observed that a model trained with measurement splitting obtained less test error using reduced measurements associated with Ag,1A_{g,1} instead of the full measurements AgA_{g}, so we report the best55
+5
+Using the full measurements with the denoiser architecture obtains an average test PSNR of 27.3 dB, i.e., a decrease of 1.4 dB with respect to the performance using Ag,1A_{g,1} presented in Table 1. results using Ag,1A_{g,1}. As observed in [32], the network fails to generalize to operators with more measurements.
+Average test PSNR is presented in Table 1. Reconstructed test images with the unrolled architecture are shown in Figure 4.
+The proposed method performs better than measurement splitting while obtaining results close to the supervised setting. All training approaches obtain a better performance with the unrolled architecture than using the denoising network due to the architectural improvements.
+Figure 3: Reconstructed test images for the inpainting task using the CelebA dataset. From left to right: pseudo-inverse A†​yA^{\dagger}y, AmbientGAN, MOI, supervised and ground-truth. PSNR values are reported in yellow.
+Figure 4: Examples of reconstructed test images for the accelerated MRI task using an unrolled network architecture (PGD-3). From left to right: pseudo-inverse A†​yA^{\dagger}y, measurement splitting, MOI, supervised and ground-truth. PSNR values are reported in yellow.
+7 Limitations
+Theorem 4.2 does not cover cases where the operators AgA_{g} present some problem specific constraints (e.g., they are inpainting matrices) as well as cases where the signal model is only approximately low dimensional. Note however that Proposition 4.1 applies to constrained operators. We leave the study of sufficient conditions for these particular cases for future work.
+The proposed loss might not be effective in problems where learning the reconstruction function is impossible, e.g., due to very high noise affecting the measurements [4]. In this particular case, it might be possible to learn a generative model as in AmbientGAN [7].
+8 Conclusions
+We presented sensing theorems for the unsupervised learning of signal models from incomplete measurements using multiple measurement operators. Our bounds characterize the interplay between the fundamental properties of the problem: the ambient dimension, the data dimension and the number of measurement operators. The bounds are agnostic of the learning algorithms and provide useful necessary and sufficient conditions for designing principled sensing strategies.
+Furthermore, we presented a new practical unsupervised learning loss which learns to reconstruct incomplete measurement data from multiple operators, outperforming previously proposed unsupervised methods. The proposed strategy avoids the adversarial training in AmbientGAN, which can suffer from mode collapse [39], and, contrary to measurement splitting, is trained using full operators AgA_{g}.
+Our results shed light into the setting where access to ground truth data cannot be guaranteed which is of extreme importance in various applications.
+Acknowledgements
+This work is supported by the ERC C-SENSE project (ERCADG-2015-694888).
+References
+(1)
+Kyong Hwan Jin, Michael T McCann, Emmanuel Froustey, and Michael Unser.
+Deep convolutional neural network for inverse problems in imaging.
+IEEE Transactions on Image Processing, 26(9):4509–4522, 2017.
+(2)
+Joshua Rapp, Julian Tachella, Yoann Altmann, Stephen McLaughlin, and Vivek K
+Goyal.
+Advances in single-photon lidar for autonomous vehicles: Working
+principles, challenges, and recent advances.
+IEEE Signal Processing Magazine, 37(4):62–71, 2020.
+(3)
+Matthew O’Toole, David B Lindell, and Gordon Wetzstein.
+Confocal non-line-of-sight imaging based on the light-cone transform.
+Nature, 555(7696):338–341, 2018.
+(4)
+Harshit Gupta, Thong H Phan, Jaejun Yoo, and Michael Unser.
+Multi-CryoGAN: Reconstruction of continuous conformations in
+cryo-em using generative adversarial networks.
+In European Conference on Computer Vision, pages 429–444.
+Springer, 2020.
+(5)
+Christoph Studer and Richard G Baraniuk.
+Dictionary learning from sparsely corrupted or compressed signals.
+In 2012 IEEE International Conference on Acoustics, Speech and
+Signal Processing (ICASSP), pages 3341–3344. IEEE, 2012.
+(6)
+Jianbo Yang, Xuejun Liao, Xin Yuan, Patrick Llull, David J. Brady, Guillermo
+Sapiro, and Lawrence Carin.
+Compressive sensing by learning a gaussian mixture model from
+measurements.
+IEEE Transactions on Image Processing, 24(1):106–119, 2015.
+(7)
+Ashish Bora, Eric Price, and Alexandros G. Dimakis.
+AmbientGAN: Generative models from lossy measurements.
+In International Conference on Learning Representations, 2018.
+(8)
+Emmanuel J Candès and Benjamin Recht.
+Exact matrix completion via convex optimization.
+Foundations of Computational mathematics, 9(6):717, 2009.
+(9)
+Jaakko Lehtinen, Jacob Munkberg, Jon Hasselgren, Samuli Laine, Tero Karras,
+Miika Aittala, Timo Aila, et al.
+Noise2noise.
+In International Conference on Machine Learning. PMLR, 2018.
+(10)
+Sivan Gleichman and Yonina C Eldar.
+Blind compressed sensing.
+IEEE Transactions on Information Theory, 57(10):6958–6975,
+2011.
+(11)
+Y. Chen, Y. Chi, and A. J. Goldsmith.
+Exact and stable covariance estimation from quadratic sampling via
+convex programming.
+IEEE Transactions on Information Theory, 61(7):4034–4059,
+2015.
+(12)
+Anthony Bourrier, Mike E Davies, Tomer Peleg, Patrick Pérez, and Rémi
+Gribonval.
+Fundamental performance limits for ideal decoders in high-dimensional
+linear inverse problems.
+IEEE Transactions on Information Theory, 60(12):7928–7946,
+2014.
+(13)
+Jorge Silva, Minhua Chen, Yonina C Eldar, Guillermo Sapiro, and Lawrence Carin.
+Blind compressed sensing over a structured union of subspaces.
+arXiv preprint arXiv:1103.2469, 2011.
+(14)
+Mohammad Aghagolzadeh and Hayder Radha.
+New guarantees for blind compressed sensing.
+In 2015 53rd Annual Allerton Conference on Communication,
+Control, and Computing (Allerton), pages 1227–1234. IEEE, 2015.
+(15)
+Daniel L Pimentel-Alarcón, Nigel Boston, and Robert D Nowak.
+A characterization of deterministic sampling patterns for low-rank
+matrix completion.
+IEEE Journal of Selected Topics in Signal Processing,
+10(4):623–636, 2016.
+(16)
+Daniel Pimentel-Alarcon and Robert Nowak.
+The information-theoretic requirements of subspace clustering with
+missing data.
+In International Conference on Machine Learning, pages
+802–810. PMLR, 2016.
+(17)
+Brian Eriksson, Laura Balzano, and Robert Nowak.
+High-rank matrix completion.
+In Artificial Intelligence and Statistics, pages 373–381.
+PMLR, 2012.
+(18)
+Zhihao Xia and Ayan Chakrabarti.
+Training image estimators without image ground truth.
+In Advances in Neural Information Processing Systems,
+volume 32, 2019.
+(19)
+Burhaneddin Yaman, Seyed Amir Hossein Hosseini, Steen Moeller, Jutta Ellermann,
+Kâmil Uğurbil, and Mehmet Akçakaya.
+Self-supervised learning of physics-guided reconstruction neural
+networks without fully sampled reference data.
+Magnetic Resonance in Medicine, 84(6):3172–3191, 2020.
+(20)
+Jiaming Liu, Yu Sun, Cihat Eldeniz, Weijie Gan, Hongyu An, and Ulugbek S
+Kamilov.
+Rare: Image reconstruction using deep priors learned without
+groundtruth.
+IEEE Journal of Selected Topics in Signal Processing,
+14(6):1088–1099, 2020.
+(21)
+Christopher A Metzler, Ali Mousavi, Reinhard Heckel, and Richard G Baraniuk.
+Unsupervised learning with stein’s unbiased risk estimator.
+arXiv preprint arXiv:1805.10531, 2018.
+(22)
+Magauiya Zhussip, Shakarim Soltanayev, and Se Young Chun.
+Training deep learning based image denoisers from undersampled
+measurements without ground truth and without image prior.
+In Proceedings of the IEEE/CVF Conference on Computer Vision and
+Pattern Recognition, pages 10255–10264, 2019.
+(23)
+Dongdong Chen, Julián Tachella, and Mike E Davies.
+Equivariant imaging: Learning beyond the range space.
+In Proceedings of the IEEE/CVF International Conference on
+Computer Vision (ICCV), pages 4379–4388, October 2021.
+(24)
+Dongdong Chen, Julián Tachella, and Mike E Davies.
+Robust equivariant imaging: a fully unsupervised framework for
+learning to image from noisy and partial measurements.
+In Proceedings of the IEEE/CVF Conference on Computer Vision and
+Pattern Recognition, pages 5647–5656, 2022.
+(25)
+Tim Sauer, James A Yorke, and Martin Casdagli.
+Embedology.
+Journal of statistical Physics, 65(3):579–616, 1991.
+(26)
+T. Blumensath and M. E. Davies.
+Sampling theorems for signals from the union of finite-dimensional
+linear subspaces.
+IEEE Transactions on Information Theory, 55(4):1872–1882,
+2009.
+(27)
+Hilton Bristow, Anders Eriksson, and Simon Lucey.
+Fast convolutional sparse coding.
+In Proceedings of the IEEE Conference on Computer Vision and
+Pattern Recognition, pages 391–398, 2013.
+(28)
+Leonid I Rudin, Stanley Osher, and Emad Fatemi.
+Nonlinear total variation based noise removal algorithms.
+Physica D: nonlinear phenomena, 60(1-4):259–268, 1992.
+(29)
+Harald Cramér and Herman Wold.
+Some theorems on distribution functions.
+Journal of the London Mathematical Society, 1(4):290–294,
+1936.
+(30)
+Ashish Bora, Ajil Jalal, Eric Price, and Alexandros G Dimakis.
+Compressed sensing using generative models.
+In International Conference on Machine Learning, pages
+537–546. PMLR, 2017.
+(31)
+Vishal Monga, Yuelong Li, and Yonina C. Eldar.
+Algorithm unrolling: Interpretable, efficient deep learning for
+signal and image processing.
+IEEE Signal Processing Magazine, 38(2):18–44, 2021.
+(32)
+Vegard Antun, Francesco Renna, Clarice Poon, Ben Adcock, and Anders C. Hansen.
+On instabilities of deep learning in image reconstruction and the
+potential costs of ai.
+Proceedings of the National Academy of Sciences,
+117(48):30088–30095, 2020.
+(33)
+Matthias Hein and Jean-Yves Audibert.
+Intrinsic dimensionality estimation of submanifolds in rd.
+In Proceedings of the 22nd international conference on Machine
+learning, pages 289–296, 2005.
+(34)
+Dmitry Ulyanov, Andrea Vedaldi, and Victor Lempitsky.
+Deep image prior.
+In Proceedings of the IEEE Conference on Computer Vision and
+Pattern Recognition, pages 9446–9454, 2018.
+(35)
+Julian Tachella, Junqi Tang, and Mike Davies.
+The neural tangent link between CNN denoisers and non-local
+filters.
+In Proceedings of the IEEE/CVF Conference on Computer Vision and
+Pattern Recognition (CVPR), pages 8618–8627, June 2021.
+(36)
+Ziwei Liu, Ping Luo, Xiaogang Wang, and Xiaoou Tang.
+Deep learning face attributes in the wild.
+In Proceedings of International Conference on Computer Vision
+(ICCV), December 2015.
+(37)
+Alec Radford, Luke Metz, and Soumith Chintala.
+Unsupervised representation learning with deep convolutional
+generative adversarial networks.
+arXiv preprint arXiv:1511.06434, 2015.
+(38)
+Florian Knoll, Jure Zbontar, Anuroop Sriram, Matthew J. Muckley, Mary Bruno,
+Aaron Defazio, Marc Parente, Krzysztof J. Geras, Joe Katsnelson, Hersh
+Chandarana, Zizhao Zhang, Michal Drozdzalv, Adriana Romero, Michael Rabbat,
+Pascal Vincent, James Pinkerton, Duo Wang, Nafissa Yakubova, Erich Owens,
+C. Lawrence Zitnick, Michael P. Recht, Daniel K. Sodickson, and Yvonne W.
+Lui.
+fastMRI: A publicly available raw k-space and DICOM dataset of
+knee images for accelerated mr image reconstruction using machine learning.
+Radiology: Artificial Intelligence, 2(1):e190007, 2020.
+PMID: 32076662.
+(39)
+Sanjeev Arora, Andrej Risteski, and Yi Zhang.
+Do GANs learn the distribution? some theory and empirics.
+In International Conference on Learning Representations, 2018.
+(40)
+Jian-Feng Cai, Emmanuel J Candès, and Zuowei Shen.
+A singular value thresholding algorithm for matrix completion.
+SIAM Journal on optimization, 20(4):1956–1982, 2010.
+Checklist
+1.
+For all authors…
+(a)
+Do the main claims made in the abstract and introduction accurately reflect the paper’s contributions and scope?
+[Yes]
+(b)
+Did you describe the limitations of your work?
+[Yes]
+(c)
+Did you discuss any potential negative societal impacts of your work?
+[Yes]
+(d)
+Have you read the ethics review guidelines and ensured that your paper conforms to them?
+[Yes]
+2.
+If you are including theoretical results…
+(a)
+Did you state the full set of assumptions of all theoretical results?
+[Yes]
+(b)
+Did you include complete proofs of all theoretical results?
+[Yes]
+3.
+If you ran experiments…
+(a)
+Did you include the code, data, and instructions needed to reproduce the main experimental results (either in the supplemental material or as a URL)?
+[Yes]
+(b)
+Did you specify all the training details (e.g., data splits, hyperparameters, how they were chosen)?
+[Yes]
+(c)
+Did you report error bars (e.g., with respect to the random seed after running experiments multiple times)?
+[Yes]
+(d)
+Did you include the total amount of compute and the type of resources used (e.g., type of GPUs, internal cluster, or cloud provider)?
+[Yes]
+4.
+If you are using existing assets (e.g., code, data, models) or curating/releasing new assets…
+(a)
+If your work uses existing assets, did you cite the creators?
+[Yes]
+(b)
+Did you mention the license of the assets?
+[Yes]
+(c)
+Did you include any new assets either in the supplemental material or as a URL?
+[N/A] We used existing models and datasets.
+(d)
+Did you discuss whether and how consent was obtained from people whose data you’re using/curating?
+[Yes] All datasets considered in the paper are publicly available.
+(e)
+Did you discuss whether the data you are using/curating contains personally identifiable information or offensive content?
+[Yes]
+5.
+If you used crowdsourcing or conducted research with human subjects…
+(a)
+Did you include the full text of instructions given to participants and screenshots, if applicable?
+[N/A] We did not use any crowdsourcing or conducted research with human subjects.
+(b)
+Did you describe any potential participant risks, with links to Institutional Review Board (IRB) approvals, if applicable?
+[N/A]
+(c)
+Did you include the estimated hourly wage paid to participants and the total amount spent on participant compensation?
+[N/A]
+Appendix A Proofs
+The proof of Theorem 4.2 utilises the following technical lemma:
+Lemma A.1 (Lemmas 4.5 and 4.6 in [25]).
+Let SS be a bounded subset of ℝn\mathbb{R}^{n}, and let G0,G1,…,GtG_{0},G_{1},\dots,G_{t} be Lipschitz maps from SS to ℝm\mathbb{R}^{m}. For each integer r≥0r\geq 0, let SrS_{r} be the subset of z∈Sz\in S such that the rank of the m×tm\times t matrix
+Φz=[G1​(z),…,Gt​(z)]\Phi_{z}=[G_{1}(z),\dots,G_{t}(z)]
+(20)
+is rr, and let boxdim​(Sr)=kr\text{boxdim}(S_{r})=k_{r}. For each α∈ℝt\alpha\in\mathbb{R}^{t} define Gα​(z)=G0+Φz​αG_{\alpha}(z)=G_{0}+\Phi_{z}\alpha.
+If for all integers r≥0r\geq 0 we have that r>krr>k_{r}, then Gα−1​(0)G_{\alpha}^{-1}(0) is empty for almost every α∈ℝt\alpha\in\mathbb{R}^{t}.
+Proof.
+The proof of Lemma A.1 follows standard covering arguments and may be sketched as follows. From the dimensionality assumption, the set SrS_{r} can be essentially covered by 𝒪⁡(ϵ−kr)\mathcal{O}(\epsilon^{-k_{r}}) ϵ\epsilon-balls. Furthermore, for any z∈Srz\in S_{r}, the probability (measured with respect to α∈ℝt\alpha\in\mathbb{R}^{t}) that Gα​(z)G_{\alpha}(z) maps to the neighborhood of 00 scales as ϵr\epsilon^{r}. Hence the probability of this happening for any of the points in the cover scales as ϵr−kr\epsilon^{r-k_{r}}. If we take r>krr>k_{r} then the probability of such an event tends to zero as we shrink ϵ\epsilon. Full details can be found in the proofs in [25].
+∎
+We can now present the proof of Theorem 4.2:
+Proof.
+In order to have model uniqueness, we require that the inferred signal set 𝒳^\hat{\mathcal{X}} defined as
+𝒳^={v∈ℝn|Ag(xg−v)=0,g=1,…,G,x1,…,xG∈𝒳}\hat{\mathcal{X}}=\{v\in\mathbb{R}^{n}|\;A_{g}(x_{g}-v)=0,\;g=1,\dots,G,x_{1},\dots,x_{G}\in\mathcal{X}\}
+(21)
+equals the true set 𝒳\mathcal{X}, or equivalently that their difference
+𝒳^∖𝒳={v∈ℝn∖𝒳|A1(x1−v)=⋯=AG(xG−v)=0,x1,…,xG∈𝒳}\hat{\mathcal{X}}\setminus{\mathcal{X}}=\{v\in\mathbb{R}^{n}\setminus{\mathcal{X}}|\;A_{1}(x_{1}-v)=\dots=A_{G}(x_{G}-v)=0,\;x_{1},\dots,x_{G}\in\mathcal{X}\}
+(22)
+is empty, where ∖\setminus{} denotes set difference. Let S⊂ℝn⁡(G+1)S\subset\mathbb{R}^{n(G+1)} be the set of all vectors z=[v,x1,…,xG]⊤z=[v,x_{1},\dots,x_{G}]^{\top} with v∈ℝn∖𝒳v\in\mathbb{R}^{n}\setminus{\mathcal{X}} and x1,…,xG∈𝒳x_{1},\dots,x_{G}\in\mathcal{X}. The difference set defined in Equation 22 is empty if and only if for any z∈Sz\in S we have
+[−A1A1⋱−AGAG]⏟Gα∈ℝm​G×n⁡(G+1)​[vx1xG]⏟z∈S\displaystyle\underbrace{\begin{bmatrix}-A_{1}&A_{1}&&\\
+\vdots&&\ddots&\\
+-A_{G}&&&A_{G}\end{bmatrix}}_{G_{\alpha}\in\mathbb{R}^{mG\times n(G+1)}}\underbrace{\begin{bmatrix}v\\
+x_{1}\\
+\vdots\\
+x_{G}\\
+\end{bmatrix}}_{z\in S}
+≠0\displaystyle\neq 0
+(23)
+Gα​(z)\displaystyle G_{\alpha}(z)
+≠0\displaystyle\neq 0
+(24)
+where GαG_{\alpha} maps z∈Sz\in S to ℝm​G\mathbb{R}^{mG}. Let α=[vec​(A1)⊤,…,vec​(AG)⊤]⊤∈ℝm​n​G\alpha=[\text{vec}(A_{1})^{\top},\dots,\text{vec}(A_{G})^{\top}]^{\top}\in\mathbb{R}^{mnG}, then as a function of α\alpha we can also write Equation 23 as
+[(x1−v)⊤⊗Im⋱(xG−v)⊤⊗Im]​α≠0\begin{bmatrix}(x_{1}-v)^{\top}\otimes I_{m}&&\\
+&\ddots&\\
+&&(x_{G}-v)^{\top}\otimes I_{m}\end{bmatrix}\alpha\neq 0
+(25)
+where ⊗\otimes is the Kronecker product and we used the fact that A⁡(xg−v)=(xg−v)⊤⊗Im​vec​(A)A(x_{g}-v)=(x_{g}-v)^{\top}\otimes I_{m}\text{vec}(A). As vv does not belong to the signal set, the matrix on the left hand side of Equation 25 has rank m​GmG for all z∈Sz\in S. We treat the cases of bounded and conic signal sets separately, showing in both cases that, for almost every α∈ℝm​n​G\alpha\in\mathbb{R}^{mnG}, the condition in Equation 25 holds for all z∈Sz\in S if m>k+n/Gm>k+n/G:
+Bounded signal set
+Let SρS_{\rho} be a subset of SS defined as
+Sρ={z∈ℝn⁡(G+1)|z=[v⊤,x1⊤,…,xG⊤]⊤,x1,…,xG∈𝒳,∥v∥2≤ρ}.S_{\rho}=\{z\in\mathbb{R}^{n(G+1)}\;|z=[v^{\top},x_{1}^{\top},\dots,x_{G}^{\top}]^{\top},x_{1},\dots,x_{G}\in\mathcal{X},\;\|v\|_{2}\leq\rho\}.
+(26)
+As SρS_{\rho} is bounded, we have boxdim​(Sρ)≤k​G+n\text{boxdim}(S_{\rho})\leq kG+n. Thus, if m​G>k​G+nmG>kG+n, Lemma A.1 states that for almost every α\alpha, Equation 25 holds for all z∈Sρz\in S_{\rho}. As SS can be decomposed as a countable union of SρS_{\rho} of increasing radius, i.e., S=⋃ρ∈ℕSρS=\bigcup_{\rho\in\mathbb{N}}S_{\rho}, and a countable union of events of measure zero has measure zero, then for almost every α\alpha all z∈Sz\in S verifies Equation 25 if m>k+n/Gm>k+n/G.
+Conic signal set
+If the signal set is conic, then SS is also conic. Hence, due to the linearity of Equation 23 with respect to zz, there exists z∈Sz\in S which does not verify Equation 23 if and only if for any bounded set BB containing an open neighbourhood of 00, there exists a z∈S∩Bz\in S\cap B which does not verify Equation 23. As boxdim​(S∩B)≤G​k+n\text{boxdim}(S\cap B)\leq Gk+n, Lemma A.1 states that for almost every α\alpha, all z∈Sz\in S verifies Equation 25 as long as m>k+n​Gm>k+nG.
+∎
+We end this section with the proof of Proposition 4.1:
+Proof.
+Consider the noisy measurements associated to the ggth operator AgA_{g}, as z=y+ϵz=y+\epsilon, where zz are the observed noisy measurements, yy are the clean measurements and ϵ\epsilon is additive noise (independent of yy). The characteristic function of the sum of two independent random variables is given by the multiplication of their characteristic functions, i.e.,
+φz​(w)=φy​(w)​φϵ​(w)\varphi_{z}(w)=\varphi_{y}(w)\varphi_{\epsilon}(w)
+(27)
+where φz\varphi_{z}, φy\varphi_{y} and φϵ\varphi_{\epsilon} are the characteristic functions the noisy measurement, clean measurements and noise distributions, respectively. If the characteristic function of the noise distribution is nowhere zero, we can uniquely identify the characteristic function of the clean measurement distribution as
+φy​(w)=φz​(w)/φϵ​(w)\varphi_{y}(w)=\varphi_{z}(w)/\varphi_{\epsilon}(w)
+(28)
+The clean measurement distribution is fully characterized by its characteristic function φy​(w)\varphi_{y}(w). We end the proof by noting that the same reasoning applies to the measurements of every operator AgA_{g} with g∈{1,…,G}g\in\{1,\dots,G\}.
+∎
+Appendix B Training Details
+Algorithm 1 provides the pseudo-code of the proposed multi-operator imaging (MOI) method. The training details for each task are as follows:
+Algorithm 1 Pseudocode of MOI in a PyTorch-like style.
+# 𝒢\mathcal{G}: forward operators 𝒢\mathcal{G}={1,…,G1,\dots,G}
+# f: reconstruction function (e.g., neural network)
+for y, Ag\text{A}_{\text{g}} in loader: # load a minibatch y with N samples and its corresponding operator Ag\text{A}_{\text{g}}
+# randomly select a operator from 𝒢/g\mathcal{G}/g
+s = select(𝒢/g\mathcal{G}/g)
+x1 = f(y, Ag\text{A}_{\text{g}}) # reconstruct x from y
+x2 = f(As\text{A}_{\text{s}}(x1), As\text{A}_{\text{s}}) # reconstruct x1
+# MOI training loss, Eqn.(18)
+loss = MSELoss(Ag\text{A}_{\text{g}}(x1), y) # measurement consistency
++ MSELoss(x2, x1) # cross-operator consistency
+# update f network
+loss.backward()
+update(f.params)
+Compressed Sensing and Inpainting with MNIST.
+In both cases, we use the Adam optimizer with a batch size of 128128 and weight decay of 10−810^{-8}. We use a fully connected network with 5 layers, where the number neurons in each layer are 784,1000,32,1000,784784,1000,32,1000,784 respectively. The nonlinearity is relu and the network has a residual connection between the input and output.
+For the CS task, we use an initial learning rate of 10−410^{-4} and train the networks for 10001000 epochs, keeping the learning rate constant for the first 800 epochs and then shrinking it by a factor of 0.10.1. For the inpainting task, we use an initial learning rate of 5×10−45\times 10^{-4} and train the networks for 500500 epochs, keeping the learning rate constant for the first 300300 epochs and then shrinking it by a factor of 0.10.1.
+Inpainting with CelebA.
+The CelebA dataset contains more than 200K celebrity images, each with 40 binary attributes. We pick the attribute smile to evaluate the proposed method. The center part of the aligned images in the CelebA dataset are cropped to 128×128128\times 128. We divide the selected images into two subsets for training and testing. There are 3255732557 images in each subset, which we split across G=40G=40 operators. For the inpainting task, we use the U-Net architecture (see Figure 5) to implement the reconstruction function f⁡(y,A)f(y,A), and the DCGAN architecture for AmbientGAN. Using the U-Net architecture for AmbientGAN’s generator obtains an average test PSNR of 27.5±1.327.5\pm 1.3 dB, which is 2.1 dB below the performance obtained by the DCGAN generator reported in Section 6. We use Adam with a batch size of 2020, an initial learning rate of 5×10−45\times 10^{-4} and a weight decay of 10−810^{-8}. We train the networks for 300300 epochs, shrinking the learning rate by a factor of 0.10.1 after the first 200200 epochs.
+Figure 5: The residual U-Net used in the paper. The number of input and output channels is denoted as CC, such that C=2C=2 for MRI and C=3C=3 for inpainting.
+Accelerated MRI with fastMRI.
+For the denoiser network f⁡(y,A)=f~​(A†​y)f(y,A)=\tilde{f}(A^{\dagger}y), we use the U-Net in Figure 5 to implement f~\tilde{f}.
+For the unrolled network, we unfold the proximal gradient descent (PGD) algorithm (see Algorithm Equation 29) with T=3T=3 iterations. The step size is initialized as η(t)=0.4\eta^{(t)}=0.4 and is then learned during training. We employ 3 U-Net networks using the architecture in Figure 5 to implement f(t)f^{(t)} for t=1,2,3t=1,2,3 (no weight sharing across PGD iterations).
+⌊Unrolled Proximal Gradient Descent (PGD)input: y,Ax(0)←A†​yfor​t=0,1,⋯,T−1:x(t+1)←f(t+1)​(x(t)−η(t)​A⊤​(A​x(t)−y))end forreturn ​f​(y,A):=x(T)\left\lfloor\begin{array}[]{llr}\text{Unrolled Proximal Gradient Descent (PGD)}&&\\
+\textbf{input: }y,A&&\\
+x^{(0)}\leftarrow A^{\dagger}y&&\\
+\text{for}~t=0,1,\cdots,T-1:&&\\
+x^{(t+1)}\leftarrow f^{(t+1)}(x^{(t)}-\eta^{(t)}A^{\top}(Ax^{(t)}-y))&&\\
+\text{end }\text{for}&&\\
+\text{return }f(y,A):=x^{(T)}&&\\
+\end{array}\right.
+(29)
+We train the networks for 500500 epochs with the Adam optimizer (batch size of 4), with initial learning rate 5×10−45\times 10^{-4} for the first 300 epochs and then shrinking it by a factor of 0.10.1. In all experiments, we use complex-valued data and treat real and imaginary parts of the images as separate channels. For the purpose of visualization, we display only the magnitude images. Reconstructed test images for the denoiser and unrolled architectures are shown in Figures 6 and 4 respectively.
+Figure 6: Examples of reconstructed test images for the accelerated MRI task using the fastMRI dataset using the denoiser architecture. From left to right: pseudo-inverse A†​yA^{\dagger}y, measurement splitting, MOI, supervised and ground-truth.
+Figure 7: Reconstruction probability of a kk-dimensional subspace using incomplete measurements arising from GG independent operators for different kk. The curve in red shows the bound of Theorem 4.2, m>k+n/Gm>k+n/G.
+Appendix C Additional Experiments
+C.1 Subspace Learning
+We consider the problem of learning a kk-dimensional subspace model from partial observations, where the signals xix_{i} are generated from a standard Gaussian distribution on the low-dimensional subspace.
+The observations yiy_{i} are obtained by randomly choosing one out of GG operators A1,…,AG∈ℝm×nA_{1},\dots,A_{G}\in\mathbb{R}^{m\times n}, each composed of iid Gaussian entries of mean 0 and variance n−1n^{-1}. In order to recover the signal matrix X=[x1,…,xN]X=[x_{1},\dots,x_{N}], we solve the following low-rank matrix recovery problem
+arg⁡minX\displaystyle\arg\min_{X}\;
+‖X‖∗\displaystyle\|X\|_{*}
+(30)
+s.t. ​Agi​xi\displaystyle\text{s.t. }A_{g_{i}}x_{i}
+=yi∀i=1,…,N\displaystyle=y_{i}\quad\forall i=1,\dots,N
+where ∥⋅∥∗\|\cdot\|_{*} denotes the nuclear norm. A recovery is considered successful if ∑i‖x^i−xi‖2∑i‖xi‖2<10−1\frac{\sum_{i}\|\hat{x}_{i}-x_{i}\|^{2}}{\sum_{i}\|x_{i}\|^{2}}<10^{-1}, where x^i\hat{x}_{i} is the estimated signal for the iith sample. We use a standard matrix completion algorithm [40] to solve Equation 30. The ambient dimension is fixed at n=50n=50, and the experiment is repeated for k=1,10,40k=1,10,40. For each experiment we set N=150​kN=150k in order to have enough samples to estimate the subspaces [15]. Figure 7 shows the probability of recovery over 2525 Monte Carlo trials for different numbers of measurements mm and operators GG. The reconstruction probability exhibits a sharp transition which follows the bound presented in Theorem 4.2, i.e., m>k+n/Gm>k+n/G.
+Experimental support, please
+view the build logs
+for errors. Generated by
+L
+A
+T
+E
+xml
+.
+Instructions for reporting errors
+We are continuing to improve HTML versions of papers, and your feedback helps enhance accessibility and mobile
+support. To report errors in the HTML that will help us improve conversion and rendering, choose any of the
+methods listed below:
+Click the "Report Issue" (
+) button, located in the page header.
+Tip: You can select the relevant text first, to include it in your report.
+Our team has already identified the following issues. We appreciate your time reviewing and reporting rendering errors we
+may not have found yet. Your efforts will help us improve the HTML versions for all readers, because disability
+should not be a barrier to accessing research. Thank you for your continued support in championing open access for
+all.
+Have a free development cycle? Help support accessibility at arXiv! Our collaborators at LaTeXML maintain a list of packages that need conversion, and welcome developer contributions.
+We gratefully acknowledge support from
+our major funders,
+member institutions, ,
+and all contributors.
+About
+·
+Help
+·
+Contact
+·
+Subscribe
+·
+Copyright
+·
+Privacy
+·
+Accessibility
+·
+Operational Status (opens in new tab)
+Major funding support from

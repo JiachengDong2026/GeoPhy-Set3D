@@ -1,0 +1,16 @@
+........................................................................ [100%]
+=============================== warnings summary ===============================
+tests/test_selfsup_mrgr.py::SelfsupTests::test_measurement_loss_valid_ray_only
+  /home/djc/projects/GeoPhy-Set3D/tests/test_selfsup_mrgr.py:107: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+  Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+    self.assertEqual(float(loss),0);loss.backward();self.assertTrue(torch.isfinite(p.grad).all())
+
+tests/test_selfsup_mrgr.py::SelfsupTests::test_selfsup_loader_never_reads_gt
+tests/test_selfsup_mrgr.py::SelfsupTests::test_selfsup_loader_never_reads_gt
+tests/test_selfsup_mrgr.py::SelfsupTests::test_selfsup_sampler_worker_invariant
+tests/test_selfsup_mrgr.py::SelfsupTests::test_selfsup_sampler_worker_invariant
+  /scratch/djc/envs/gas-torch/lib/python3.12/multiprocessing/popen_fork.py:66: DeprecationWarning: This process (pid=2343019) is multi-threaded, use of fork() may lead to deadlocks in the child.
+    self.pid = os.fork()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+72 passed, 5 warnings in 42.36s

@@ -1,0 +1,83 @@
+status: design_template_not_executable
+protocol: scheme_b_continuous_measurement_only_perf_v2
+stage: formal
+experiment:
+  name: scheme_b_perf_v2_formal_seed20261011
+  output_root: outputs/research
+dataset:
+  kind: projection_pool
+  root: /data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1
+  train_limit: null
+  val_limit: null
+model:
+  name: set_conditional_field
+  feature_channels: 32
+  residual_blocks: 3
+  lift_resolution: 32
+  output_resolution: 64
+  samples: 96
+  fourier_bands: 4
+  query_hidden: 64
+  query_hidden_layers: 4
+  query_chunk: 196608
+  ray_chunk: 2048
+  checkpoint_query: false
+  initialization: train_full_pool_a_pooled_chi_bias_v1
+  y_scale: 32284.894580078173
+  cache_budget_mib: 512
+train:
+  split: train
+  geometry_pool: train
+  a_views:
+  - 3
+  - 5
+  b_views:
+  - 3
+  - 5
+  heldout_views: 2
+validation:
+  split: val
+  geometry_pool: train
+  a_views:
+  - 4
+  - 4
+  b_views:
+  - 4
+  - 4
+  heldout_views: 4
+normalization:
+  method: linear_p99_5
+  statistics_file: train_statistics.json
+loss:
+  hold: 1.0
+  cross: 0.5
+  observed: 0.1
+  consistency: 0.05
+  beta: 0.01
+  relative_l1: 0.1
+  relative_epsilon: 1.0e-06
+  measurement_scale: 32284.894580078173
+training:
+  seed: 20261011
+  max_epochs: 300
+  precision: fp32
+  batch_size: 1
+  gradient_accumulation: 2
+  gradient_clip_norm: 1.0
+  early_stopping_patience: null
+  device: cuda:1
+  cpu_threads: 2
+optimizer:
+  name: adamw
+  lr: 0.0002
+  weight_decay: 0.0001
+scheduler:
+  name: cosine
+  T_max: 300
+loader:
+  num_workers: 0
+  pin_memory: true
+  persistent_workers: false
+acceptance:
+  smoke_run: outputs/research/scheme_b_perf_v2_smoke_seed20261011
+  gate_run: outputs/research/scheme_b_perf_v2_gate_seed20261011

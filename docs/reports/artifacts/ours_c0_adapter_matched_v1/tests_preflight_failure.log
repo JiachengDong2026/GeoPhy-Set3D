@@ -1,0 +1,115 @@
+test_active_adapter_preserves_permutation_and_padding (test_ours_c0_adapter.C0AdapterTests.test_active_adapter_preserves_permutation_and_padding) ... ERROR
+test_all_invalid_full_path_remains_finite (test_ours_c0_adapter.C0AdapterTests.test_all_invalid_full_path_remains_finite) ... ok
+test_feedback_trains_zero_initialized_adapter_without_input_gradients (test_ours_c0_adapter.C0AdapterTests.test_feedback_trains_zero_initialized_adapter_without_input_gradients) ... ERROR
+test_no_visible_features_cannot_create_adapter_correction (test_ours_c0_adapter.C0AdapterTests.test_no_visible_features_cannot_create_adapter_correction) ... ok
+test_zero_initialization_preserves_full_feedback_output (test_ours_c0_adapter.C0AdapterTests.test_zero_initialization_preserves_full_feedback_output) ... ERROR
+test_adapter_zero_init_makes_initial_c1_match_c0 (test_geolift_oari_mrgr_res3d.MRGRTests.test_adapter_zero_init_makes_initial_c1_match_c0) ... ok
+test_mrgr_c0_c1_finite (test_geolift_oari_mrgr_res3d.MRGRTests.test_mrgr_c0_c1_finite) ... ok
+test_mrgr_output_shape (test_geolift_oari_mrgr_res3d.MRGRTests.test_mrgr_output_shape) ... ok
+test_mrgr_shared_initialization_matches_oari (test_geolift_oari_mrgr_res3d.MRGRTests.test_mrgr_shared_initialization_matches_oari) ... ok
+test_mrgr_shared_modules_match_oari_architecture (test_geolift_oari_mrgr_res3d.MRGRTests.test_mrgr_shared_modules_match_oari_architecture) ... ok
+test_projector_to_refinement_gradient_finite (test_geolift_oari_mrgr_res3d.MRGRTests.test_projector_to_refinement_gradient_finite) ... ok
+test_residual_all_invalid_safe (test_geolift_oari_mrgr_res3d.MRGRTests.test_residual_all_invalid_safe) ... ok
+test_residual_and_base_visibility_match (test_geolift_oari_mrgr_res3d.MRGRTests.test_residual_and_base_visibility_match) ... ok
+test_residual_branch_gradient_nonzero (test_geolift_oari_mrgr_res3d.MRGRTests.test_residual_branch_gradient_nonzero) ... ok
+test_residual_invalid_ray_zero (test_geolift_oari_mrgr_res3d.MRGRTests.test_residual_invalid_ray_zero) ... ok
+test_residual_padding_invariance (test_geolift_oari_mrgr_res3d.MRGRTests.test_residual_padding_invariance) ... ok
+test_residual_permutation_invariance (test_geolift_oari_mrgr_res3d.MRGRTests.test_residual_permutation_invariance) ... ok
+test_residual_scaling_constant (test_geolift_oari_mrgr_res3d.MRGRTests.test_residual_scaling_constant) ... ok
+test_residual_sign_changes_refinement (test_geolift_oari_mrgr_res3d.MRGRTests.test_residual_sign_changes_refinement) ... ok
+test_residual_uses_raw_ppm_m (test_geolift_oari_mrgr_res3d.MRGRTests.test_residual_uses_raw_ppm_m) ... ok
+test_shortcuts_evaluation_only (test_geolift_oari_mrgr_res3d.MRGRTests.test_shortcuts_evaluation_only) ... ok
+test_wrong_view_residual_changes_refinement (test_geolift_oari_mrgr_res3d.MRGRTests.test_wrong_view_residual_changes_refinement) ... ok
+test_zero_residual_changes_refinement (test_geolift_oari_mrgr_res3d.MRGRTests.test_zero_residual_changes_refinement) ... ok
+test_A_B_H_disjoint (test_selfsup_mrgr.SelfsupTests.test_A_B_H_disjoint) ... ok
+test_checkpoint_selection_uses_measurement_only (test_selfsup_mrgr.SelfsupTests.test_checkpoint_selection_uses_measurement_only) ... ok
+test_cross_view_prediction_geometry_correct (test_selfsup_mrgr.SelfsupTests.test_cross_view_prediction_geometry_correct) ... ok
+test_formal_training_loads_no_supervised_checkpoint (test_selfsup_mrgr.SelfsupTests.test_formal_training_loads_no_supervised_checkpoint) ... ok
+test_gt_files_can_be_absent (test_selfsup_mrgr.SelfsupTests.test_gt_files_can_be_absent) ... ok
+test_heldout_views_not_input (test_selfsup_mrgr.SelfsupTests.test_heldout_views_not_input) ... ok
+test_measurement_loss_valid_ray_only (test_selfsup_mrgr.SelfsupTests.test_measurement_loss_valid_ray_only) ... /home/djc/projects/GeoPhy-Set3D/tests/test_selfsup_mrgr.py:107: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  self.assertEqual(float(loss),0);loss.backward();self.assertTrue(torch.isfinite(p.grad).all())
+ok
+test_runtime_guard_denies_direct_gt_and_foreign_checkpoint (test_selfsup_mrgr.SelfsupTests.test_runtime_guard_denies_direct_gt_and_foreign_checkpoint) ... ok
+test_selfsup_all_invalid_safe (test_selfsup_mrgr.SelfsupTests.test_selfsup_all_invalid_safe) ... ok
+test_selfsup_batch_contains_no_gt (test_selfsup_mrgr.SelfsupTests.test_selfsup_batch_contains_no_gt) ... ok
+test_selfsup_dataset_has_no_gt (test_selfsup_mrgr.SelfsupTests.test_selfsup_dataset_has_no_gt) ... ok
+test_selfsup_loader_never_reads_gt (test_selfsup_mrgr.SelfsupTests.test_selfsup_loader_never_reads_gt) ... /scratch/djc/envs/gas-torch/lib/python3.12/multiprocessing/popen_fork.py:66: DeprecationWarning: This process (pid=1102673) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  self.pid = os.fork()
+ok
+test_selfsup_loss_has_no_gt_dependency (test_selfsup_mrgr.SelfsupTests.test_selfsup_loss_has_no_gt_dependency) ... ok
+test_selfsup_padding_invariance (test_selfsup_mrgr.SelfsupTests.test_selfsup_padding_invariance) ... ok
+test_selfsup_permutation_invariance (test_selfsup_mrgr.SelfsupTests.test_selfsup_permutation_invariance) ... ok
+test_selfsup_sampler_worker_invariant (test_selfsup_mrgr.SelfsupTests.test_selfsup_sampler_worker_invariant) ... ok
+test_selfsup_training_never_loads_gt128 (test_selfsup_mrgr.SelfsupTests.test_selfsup_training_never_loads_gt128) ... ok
+test_selfsup_training_never_loads_gt64 (test_selfsup_mrgr.SelfsupTests.test_selfsup_training_never_loads_gt64) ... ok
+test_zero_measurement_valid_ray_preserved (test_selfsup_mrgr.SelfsupTests.test_zero_measurement_valid_ray_preserved) ... ok
+
+======================================================================
+ERROR: test_active_adapter_preserves_permutation_and_padding (test_ours_c0_adapter.C0AdapterTests.test_active_adapter_preserves_permutation_and_padding)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/djc/projects/GeoPhy-Set3D/tests/test_ours_c0_adapter.py", line 50, in test_active_adapter_preserves_permutation_and_padding
+    a = model(self.batch, return_stages=True)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/geolift_oari_mrgr_c0_adapter.py", line 64, in forward
+    y0 = project_input(c0, batch)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/geolift_oari_mrgr_res3d.py", line 43, in project_input
+    value = batch['input_'+key][i, selected].detach()
+            ~~~~~^^^^^^^^^^^^^^
+KeyError: 'input_ray_direction'
+
+======================================================================
+ERROR: test_feedback_trains_zero_initialized_adapter_without_input_gradients (test_ours_c0_adapter.C0AdapterTests.test_feedback_trains_zero_initialized_adapter_without_input_gradients)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/djc/projects/GeoPhy-Set3D/tests/test_ours_c0_adapter.py", line 71, in test_feedback_trains_zero_initialized_adapter_without_input_gradients
+    stages = model(batch, return_stages=True)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/geolift_oari_mrgr_c0_adapter.py", line 64, in forward
+    y0 = project_input(c0, batch)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/geolift_oari_mrgr_res3d.py", line 43, in project_input
+    value = batch['input_'+key][i, selected].detach()
+            ~~~~~^^^^^^^^^^^^^^
+KeyError: 'input_ray_direction'
+
+======================================================================
+ERROR: test_zero_initialization_preserves_full_feedback_output (test_ours_c0_adapter.C0AdapterTests.test_zero_initialization_preserves_full_feedback_output)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/djc/projects/GeoPhy-Set3D/tests/test_ours_c0_adapter.py", line 32, in test_zero_initialization_preserves_full_feedback_output
+    a = base(self.batch, return_stages=True)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/geolift_oari_mrgr_res3d.py", line 73, in forward
+    y0 = project_input(c0, batch)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/geolift_oari_mrgr_res3d.py", line 43, in project_input
+    value = batch['input_'+key][i, selected].detach()
+            ~~~~~^^^^^^^^^^^^^^
+KeyError: 'input_ray_direction'
+
+----------------------------------------------------------------------
+Ran 42 tests in 76.914s
+
+FAILED (errors=3)

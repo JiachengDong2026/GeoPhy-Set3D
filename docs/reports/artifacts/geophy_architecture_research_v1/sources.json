@@ -1,0 +1,240 @@
+[
+  {
+    "key": "learned_primal_dual",
+    "url": "https://arxiv.org/abs/1707.06474",
+    "arxiv_id": "1707.06474",
+    "retrieved_utc": "2026-10-14T15:21:12.684768+00:00",
+    "title": [
+      "Learned Primal-dual Reconstruction"
+    ],
+    "authors": [
+      "Adler, Jonas",
+      "Öktem, Ozan"
+    ],
+    "date": [
+      "2017/07/20"
+    ],
+    "pdf": [
+      "https://arxiv.org/pdf/1707.06474"
+    ],
+    "abstract": "Abstract: We propose the Learned Primal-Dual algorithm for tomographic reconstruction. The algorithm accounts for a (possibly non-linear) forward operator in a deep neural network by unrolling a proximal primal-dual optimization method, but where the proximal operators have been replaced with convolutional neural networks. The algorithm is trained end-to-end, working directly from raw measured data and it does not depend on any initial reconstruction such as FBP.\n We compare performance of the proposed method on low dose CT reconstruction against FBP, TV, and deep learning based post-processing of FBP. For the Shepp-Logan phantom we obtain >6dB PSNR improvement against all compared methods. For human phantoms the corresponding improvement is 6.6dB over TV and 2.2dB over learned post-processing along with a substantial improvement in the SSIM. Finally, our algorithm involves only ten forward-back-projection computations, making the method feasible for time critical clinical applications.",
+    "sha256_html": "6d7dfe7621a519be318bd91f8e911bc3d84345eb1e18bc2a674974ae28c6141a",
+    "http_ok": true
+  },
+  {
+    "key": "modl",
+    "url": "https://arxiv.org/abs/1712.02862",
+    "arxiv_id": "1712.02862",
+    "retrieved_utc": "2026-10-14T15:21:19.068400+00:00",
+    "title": [
+      "MoDL: Model Based Deep Learning Architecture for Inverse Problems"
+    ],
+    "authors": [
+      "Aggarwal, Hemant Kumar",
+      "Mani, Merry P.",
+      "Jacob, Mathews"
+    ],
+    "date": [
+      "2017/12/07"
+    ],
+    "pdf": [
+      "https://arxiv.org/pdf/1712.02862"
+    ],
+    "abstract": "Abstract: We introduce a model-based image reconstruction framework with a convolution neural network (CNN) based regularization prior. The proposed formulation provides a systematic approach for deriving deep architectures for inverse problems with the arbitrary structure. Since the forward model is explicitly accounted for, a smaller network with fewer parameters is sufficient to capture the image information compared to black-box deep learning approaches, thus reducing the demand for training data and training time. Since we rely on end-to-end training, the CNN weights are customized to the forward model, thus offering improved performance over approaches that rely on pre-trained denoisers. The main difference of the framework from existing end-to-end training strategies is the sharing of the network weights across iterations and channels. Our experiments show that the decoupling of the number of iterations from the network complexity offered by this approach provides benefits including lower demand for training data, reduced risk of overfitting, and implementations with significantly reduced memory footprint. We propose to enforce data-consistency by using numerical optimization blocks such as conjugate gradients algorithm within the network; this approach offers faster convergence per iteration, compared to methods that rely on proximal gradients steps to enforce data consistency. Our experiments show that the faster convergence translates to improved performance, especially when the available GPU memory restricts the number of iterations.",
+    "sha256_html": "cd611fb2e8e5c47b59e92978ea3c3fa3ec33692d8f14bc331ddf5d8a2f5c1865",
+    "http_ok": true
+  },
+  {
+    "key": "ssdu",
+    "url": "https://arxiv.org/abs/1912.07669",
+    "arxiv_id": "1912.07669",
+    "retrieved_utc": "2026-10-14T15:20:59.345624+00:00",
+    "title": [
+      "Self-Supervised Learning of Physics-Guided Reconstruction Neural Networks without Fully-Sampled Reference Data"
+    ],
+    "authors": [
+      "Yaman, Burhaneddin",
+      "Hosseini, Seyed Amir Hossein",
+      "Moeller, Steen",
+      "Ellermann, Jutta",
+      "Uğurbil, Kâmil",
+      "Akçakaya, Mehmet"
+    ],
+    "date": [
+      "2019/12/16"
+    ],
+    "pdf": [
+      "https://arxiv.org/pdf/1912.07669"
+    ],
+    "abstract": "Abstract: Purpose: To develop a strategy for training a physics-guided MRI reconstruction neural network without a database of fully-sampled datasets. Theory and Methods: Self-supervised learning via data under-sampling (SSDU) for physics-guided deep learning (DL) reconstruction partitions available measurements into two disjoint sets, one of which is used in the data consistency units in the unrolled network and the other is used to define the loss for training. The proposed training without fully-sampled data is compared to fully-supervised training with ground-truth data, as well as conventional compressed sensing and parallel imaging methods using the publicly available fastMRI knee database. The same physics-guided neural network is used for both proposed SSDU and supervised training. The SSDU training is also applied to prospectively 2-fold accelerated high-resolution brain datasets at different acceleration rates, and compared to parallel imaging. Results: Results on five different knee sequences at acceleration rate of 4 shows that proposed self-supervised approach performs closely with supervised learning, while significantly outperforming conventional compressed sensing and parallel imaging, as characterized by quantitative metrics and a clinical reader study. The results on prospectively sub-sampled brain datasets, where supervised learning cannot be employed due to lack of ground-truth reference, show that the proposed self-supervised approach successfully perform reconstruction at high acceleration rates (4, 6 and 8). Image readings indicate improved visual reconstruction quality with the proposed approach compared to parallel imaging at acquisition acceleration. Conclusion: The proposed SSDU approach allows training of physics-guided DL-MRI reconstruction without fully-sampled data, while achieving comparable results with supervised DL-MRI trained on fully-sampled data.",
+    "sha256_html": "ead870b4030a1a4c9850f33d60daf389194dd8e5db9ef0bfbade355b58a17a19",
+    "http_ok": true
+  },
+  {
+    "key": "noise2inverse",
+    "url": "https://arxiv.org/abs/2001.11801",
+    "arxiv_id": "2001.11801",
+    "retrieved_utc": "2026-10-14T15:21:00.761557+00:00",
+    "title": [
+      "Noise2Inverse: Self-supervised deep convolutional denoising for tomography"
+    ],
+    "authors": [
+      "Hendriksen, Allard A.",
+      "Pelt, Daniel M.",
+      "Batenburg, K. Joost"
+    ],
+    "date": [
+      "2020/01/31"
+    ],
+    "pdf": [
+      "https://arxiv.org/pdf/2001.11801"
+    ],
+    "abstract": "Abstract: Recovering a high-quality image from noisy indirect measurements is an important problem with many applications. For such inverse problems, supervised deep convolutional neural network (CNN)-based denoising methods have shown strong results, but the success of these supervised methods critically depends on the availability of a high-quality training dataset of similar measurements. For image denoising, methods are available that enable training without a separate training dataset by assuming that the noise in two different pixels is uncorrelated. However, this assumption does not hold for inverse problems, resulting in artifacts in the denoised images produced by existing methods. Here, we propose Noise2Inverse, a deep CNN-based denoising method for linear image reconstruction algorithms that does not require any additional clean or noisy data. Training a CNN-based denoiser is enabled by exploiting the noise model to compute multiple statistically independent reconstructions. We develop a theoretical framework which shows that such training indeed obtains a denoising CNN, assuming the measured noise is element-wise independent and zero-mean. On simulated CT datasets, Noise2Inverse demonstrates an improvement in peak signal-to-noise ratio and structural similarity index compared to state-of-the-art image denoising methods and conventional reconstruction methods, such as Total-Variation Minimization. We also demonstrate that the method is able to significantly reduce noise in challenging real-world experimental datasets.",
+    "sha256_html": "cc596c4c08a64a177e1ab19489359d824ed692f163a138fac758e127f6cf2523",
+    "http_ok": true
+  },
+  {
+    "key": "equivariant_imaging",
+    "url": "https://arxiv.org/abs/2103.14756",
+    "arxiv_id": "2103.14756",
+    "retrieved_utc": "2026-10-14T15:21:01.686486+00:00",
+    "title": [
+      "Equivariant Imaging: Learning Beyond the Range Space"
+    ],
+    "authors": [
+      "Chen, Dongdong",
+      "Tachella, Julián",
+      "Davies, Mike E."
+    ],
+    "date": [
+      "2021/03/26"
+    ],
+    "pdf": [
+      "https://arxiv.org/pdf/2103.14756"
+    ],
+    "abstract": "Abstract: In various imaging problems, we only have access to compressed measurements of the underlying signals, hindering most learning-based strategies which usually require pairs of signals and associated measurements for training. Learning only from compressed measurements is impossible in general, as the compressed observations do not contain information outside the range of the forward sensing operator. We propose a new end-to-end self-supervised framework that overcomes this limitation by exploiting the equivariances present in natural signals. Our proposed learning strategy performs as well as fully supervised methods. Experiments demonstrate the potential of this framework on inverse problems including sparse-view X-ray computed tomography on real clinical data and image inpainting on natural images. Code has been made available at:  this https URL .",
+    "sha256_html": "0d847fc578cfe7a40fdc5c62558d1b5791b723591f591372c4ddd1b79c1562a0",
+    "http_ok": true
+  },
+  {
+    "key": "naf",
+    "url": "https://arxiv.org/abs/2209.14540",
+    "arxiv_id": "2209.14540",
+    "retrieved_utc": "2026-10-14T15:21:01.812456+00:00",
+    "title": [
+      "NAF: Neural Attenuation Fields for Sparse-View CBCT Reconstruction"
+    ],
+    "authors": [
+      "Zha, Ruyi",
+      "Zhang, Yanhao",
+      "Li, Hongdong"
+    ],
+    "date": [
+      "2022/09/29"
+    ],
+    "pdf": [
+      "https://arxiv.org/pdf/2209.14540"
+    ],
+    "abstract": "Abstract: This paper proposes a novel and fast self-supervised solution for sparse-view CBCT reconstruction (Cone Beam Computed Tomography) that requires no external training data. Specifically, the desired attenuation coefficients are represented as a continuous function of 3D spatial coordinates, parameterized by a fully-connected deep neural network. We synthesize projections discretely and train the network by minimizing the error between real and synthesized projections. A learning-based encoder entailing hash coding is adopted to help the network capture high-frequency details. This encoder outperforms the commonly used frequency-domain encoder in terms of having higher performance and efficiency, because it exploits the smoothness and sparsity of human organs. Experiments have been conducted on both human organ and phantom datasets. The proposed method achieves state-of-the-art accuracy and spends reasonably short computation time.",
+    "sha256_html": "74c873df855e701c7e74ef56d058f987e2f95ab657783e1486249d6e08282ee5",
+    "http_ok": true
+  },
+  {
+    "key": "deep_image_prior",
+    "url": "https://arxiv.org/abs/1711.10925",
+    "arxiv_id": "1711.10925",
+    "retrieved_utc": "2026-10-14T15:21:02.153319+00:00",
+    "title": [
+      "Deep Image Prior"
+    ],
+    "authors": [
+      "Ulyanov, Dmitry",
+      "Vedaldi, Andrea",
+      "Lempitsky, Victor"
+    ],
+    "date": [
+      "2017/11/29"
+    ],
+    "pdf": [
+      "https://arxiv.org/pdf/1711.10925"
+    ],
+    "abstract": "Abstract: Deep convolutional networks have become a popular tool for image generation and restoration. Generally, their excellent performance is imputed to their ability to learn realistic image priors from a large number of example images. In this paper, we show that, on the contrary, the structure of a generator network is sufficient to capture a great deal of low-level image statistics prior to any learning. In order to do so, we show that a randomly-initialized neural network can be used as a handcrafted prior with excellent results in standard inverse problems such as denoising, super-resolution, and inpainting. Furthermore, the same prior can be used to invert deep neural representations to diagnose them, and to restore images based on flash-no flash input pairs.\n Apart from its diverse applications, our approach highlights the inductive bias captured by standard generator network architectures. It also bridges the gap between two very popular families of image restoration methods: learning-based methods using deep convolutional networks and learning-free methods based on handcrafted image priors such as self-similarity. Code and supplementary material are available at  this https URL  .",
+    "sha256_html": "89b5d24caa09e729a2db931a170e394dce73e27b7104ac3e87ceb1a326670c52",
+    "http_ok": true
+  },
+  {
+    "key": "instant_ngp",
+    "url": "https://arxiv.org/abs/2201.05989",
+    "arxiv_id": "2201.05989",
+    "retrieved_utc": "2026-10-14T15:21:03.603721+00:00",
+    "title": [
+      "Instant Neural Graphics Primitives with a Multiresolution Hash Encoding"
+    ],
+    "authors": [
+      "Müller, Thomas",
+      "Evans, Alex",
+      "Schied, Christoph",
+      "Keller, Alexander"
+    ],
+    "date": [
+      "2022/01/16"
+    ],
+    "pdf": [
+      "https://arxiv.org/pdf/2201.05989"
+    ],
+    "abstract": "Abstract: Neural graphics primitives, parameterized by fully connected neural networks, can be costly to train and evaluate. We reduce this cost with a versatile new input encoding that permits the use of a smaller network without sacrificing quality, thus significantly reducing the number of floating point and memory access operations: a small neural network is augmented by a multiresolution hash table of trainable feature vectors whose values are optimized through stochastic gradient descent. The multiresolution structure allows the network to disambiguate hash collisions, making for a simple architecture that is trivial to parallelize on modern GPUs. We leverage this parallelism by implementing the whole system using fully-fused CUDA kernels with a focus on minimizing wasted bandwidth and compute operations. We achieve a combined speedup of several orders of magnitude, enabling training of high-quality neural graphics primitives in a matter of seconds, and rendering in tens of milliseconds at a resolution of ${1920\\!\\times\\!1080}$.",
+    "sha256_html": "dc486a8c3242074f822881d27bb50fba0d654cfedabc47da92c050ca99916167",
+    "http_ok": true
+  },
+  {
+    "key": "set_transformer",
+    "url": "https://arxiv.org/abs/1810.00825",
+    "arxiv_id": "1810.00825",
+    "retrieved_utc": "2026-10-14T15:21:02.943114+00:00",
+    "title": [
+      "Set Transformer: A Framework for Attention-based Permutation-Invariant Neural Networks"
+    ],
+    "authors": [
+      "Lee, Juho",
+      "Lee, Yoonho",
+      "Kim, Jungtaek",
+      "Kosiorek, Adam R.",
+      "Choi, Seungjin",
+      "Teh, Yee Whye"
+    ],
+    "date": [
+      "2018/10/01"
+    ],
+    "pdf": [
+      "https://arxiv.org/pdf/1810.00825"
+    ],
+    "abstract": "Abstract: Many machine learning tasks such as multiple instance learning, 3D shape recognition, and few-shot image classification are defined on sets of instances. Since solutions to such problems do not depend on the order of elements of the set, models used to address them should be permutation invariant. We present an attention-based neural network module, the Set Transformer, specifically designed to model interactions among elements in the input set. The model consists of an encoder and a decoder, both of which rely on attention mechanisms. In an effort to reduce computational complexity, we introduce an attention scheme inspired by inducing point methods from sparse Gaussian process literature. It reduces the computation time of self-attention from quadratic to linear in the number of elements in the set. We show that our model is theoretically attractive and we evaluate it on a range of tasks, demonstrating the state-of-the-art performance compared to recent methods for set-structured data.",
+    "sha256_html": "daf1d4476c0cb202848e1f0298155c4ce9b8d4e8179e9e4dd386f77a5a3eceb3",
+    "http_ok": true
+  },
+  {
+    "key": "mvsnet",
+    "url": "https://arxiv.org/abs/1804.02505",
+    "arxiv_id": "1804.02505",
+    "retrieved_utc": "2026-10-14T15:21:24.232491+00:00",
+    "title": [
+      "MVSNet: Depth Inference for Unstructured Multi-view Stereo"
+    ],
+    "authors": [
+      "Yao, Yao",
+      "Luo, Zixin",
+      "Li, Shiwei",
+      "Fang, Tian",
+      "Quan, Long"
+    ],
+    "date": [
+      "2018/04/07"
+    ],
+    "pdf": [
+      "https://arxiv.org/pdf/1804.02505"
+    ],
+    "abstract": "Abstract: We present an end-to-end deep learning architecture for depth map inference from multi-view images. In the network, we first extract deep visual image features, and then build the 3D cost volume upon the reference camera frustum via the differentiable homography warping. Next, we apply 3D convolutions to regularize and regress the initial depth map, which is then refined with the reference image to generate the final output. Our framework flexibly adapts arbitrary N-view inputs using a variance-based cost metric that maps multiple features into one cost feature. The proposed MVSNet is demonstrated on the large-scale indoor DTU dataset. With simple post-processing, our method not only significantly outperforms previous state-of-the-arts, but also is several times faster in runtime. We also evaluate MVSNet on the complex outdoor Tanks and Temples dataset, where our method ranks first before April 18, 2018 without any fine-tuning, showing the strong generalization ability of MVSNet.",
+    "sha256_html": "3f7c3ce6dc0799844b2aa92d6de9a98602d57c4ab3f25a403000d761fa0efaff",
+    "http_ok": true
+  }
+]

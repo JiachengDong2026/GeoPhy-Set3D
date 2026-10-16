@@ -1,0 +1,220 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/bwIJ4O2X//Lfa/fjkbyeurJqicI</id>
+  <title>arXiv Query: search_query=&amp;id_list=1707.06474,1712.02862,1912.07669,2001.11801,2103.14756,2305.19256,2409.03593,2301.11167&amp;start=0&amp;max_results=8</title>
+  <updated>2026-10-15T05:30:08Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=&amp;start=0&amp;max_results=8&amp;id_list=1707.06474,1712.02862,1912.07669,2001.11801,2103.14756,2305.19256,2409.03593,2301.11167" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>8</opensearch:itemsPerPage>
+  <opensearch:totalResults>8</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2301.11167v2</id>
+    <title>Neural Inverse Operators for Solving PDE Inverse Problems</title>
+    <updated>2023-06-03T18:34:05Z</updated>
+    <link href="https://arxiv.org/abs/2301.11167v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2301.11167v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>A large class of inverse problems for PDEs are only well-defined as mappings from operators to functions. Existing operator learning frameworks map functions to functions and need to be modified to learn inverse maps from data. We propose a novel architecture termed Neural Inverse Operators (NIOs) to solve these PDE inverse problems. Motivated by the underlying mathematical structure, NIO is based on a suitable composition of DeepONets and FNOs to approximate mappings from operators to functions. A variety of experiments are presented to demonstrate that NIOs significantly outperform baselines and solve PDE inverse problems robustly, accurately and are several orders of magnitude faster than existing direct and PDE-constrained optimization methods.</summary>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="math-ph" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="math.AP" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2023-01-26T15:12:58Z</published>
+    <arxiv:primary_category term="cs.LG"/>
+    <author>
+      <name>Roberto Molinaro</name>
+    </author>
+    <author>
+      <name>Yunan Yang</name>
+    </author>
+    <author>
+      <name>Björn Engquist</name>
+    </author>
+    <author>
+      <name>Siddhartha Mishra</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2305.19256v1</id>
+    <title>Ambient Diffusion: Learning Clean Distributions from Corrupted Data</title>
+    <updated>2023-05-30T17:43:33Z</updated>
+    <link href="https://arxiv.org/abs/2305.19256v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2305.19256v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>We present the first diffusion-based framework that can learn an unknown distribution using only highly-corrupted samples. This problem arises in scientific applications where access to uncorrupted samples is impossible or expensive to acquire. Another benefit of our approach is the ability to train generative models that are less likely to memorize individual training samples since they never observe clean training data. Our main idea is to introduce additional measurement distortion during the diffusion process and require the model to predict the original corrupted image from the further corrupted image. We prove that our method leads to models that learn the conditional expectation of the full uncorrupted image given this additional measurement corruption. This holds for any corruption process that satisfies some technical conditions (and in particular includes inpainting and compressed sensing). We train models on standard benchmarks (CelebA, CIFAR-10 and AFHQ) and show that we can learn the distribution even when all the training samples have $90\%$ of their pixels missing. We also show that we can finetune foundation models on small corrupted datasets (e.g. MRI scans with block corruptions) and learn the clean distribution without memorizing the training set.</summary>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.IT" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2023-05-30T17:43:33Z</published>
+    <arxiv:comment>24 pages, 11 figures</arxiv:comment>
+    <arxiv:primary_category term="cs.LG"/>
+    <author>
+      <name>Giannis Daras</name>
+    </author>
+    <author>
+      <name>Kulin Shah</name>
+    </author>
+    <author>
+      <name>Yuval Dagan</name>
+    </author>
+    <author>
+      <name>Aravind Gollakota</name>
+    </author>
+    <author>
+      <name>Alexandros G. Dimakis</name>
+    </author>
+    <author>
+      <name>Adam Klivans</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/1707.06474v3</id>
+    <title>Learned Primal-dual Reconstruction</title>
+    <updated>2018-07-05T15:34:04Z</updated>
+    <link href="https://arxiv.org/abs/1707.06474v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/1707.06474v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>We propose the Learned Primal-Dual algorithm for tomographic reconstruction. The algorithm accounts for a (possibly non-linear) forward operator in a deep neural network by unrolling a proximal primal-dual optimization method, but where the proximal operators have been replaced with convolutional neural networks. The algorithm is trained end-to-end, working directly from raw measured data and it does not depend on any initial reconstruction such as FBP.
+  We compare performance of the proposed method on low dose CT reconstruction against FBP, TV, and deep learning based post-processing of FBP. For the Shepp-Logan phantom we obtain &gt;6dB PSNR improvement against all compared methods. For human phantoms the corresponding improvement is 6.6dB over TV and 2.2dB over learned post-processing along with a substantial improvement in the SSIM. Finally, our algorithm involves only ten forward-back-projection computations, making the method feasible for time critical clinical applications.</summary>
+    <category term="math.OC" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.NE" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="math.FA" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2017-07-20T12:34:51Z</published>
+    <arxiv:comment>11 pages, 5 figures</arxiv:comment>
+    <arxiv:primary_category term="math.OC"/>
+    <arxiv:journal_ref>IEEE Transactions on Medical Imaging (2018)</arxiv:journal_ref>
+    <author>
+      <name>Jonas Adler</name>
+    </author>
+    <author>
+      <name>Ozan Öktem</name>
+    </author>
+    <arxiv:doi>10.1109/TMI.2018.2799231</arxiv:doi>
+    <link rel="related" href="https://doi.org/10.1109/TMI.2018.2799231" title="doi"/>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2001.11801v3</id>
+    <title>Noise2Inverse: Self-supervised deep convolutional denoising for tomography</title>
+    <updated>2020-09-15T08:27:07Z</updated>
+    <link href="https://arxiv.org/abs/2001.11801v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2001.11801v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Recovering a high-quality image from noisy indirect measurements is an important problem with many applications. For such inverse problems, supervised deep convolutional neural network (CNN)-based denoising methods have shown strong results, but the success of these supervised methods critically depends on the availability of a high-quality training dataset of similar measurements. For image denoising, methods are available that enable training without a separate training dataset by assuming that the noise in two different pixels is uncorrelated. However, this assumption does not hold for inverse problems, resulting in artifacts in the denoised images produced by existing methods. Here, we propose Noise2Inverse, a deep CNN-based denoising method for linear image reconstruction algorithms that does not require any additional clean or noisy data. Training a CNN-based denoiser is enabled by exploiting the noise model to compute multiple statistically independent reconstructions. We develop a theoretical framework which shows that such training indeed obtains a denoising CNN, assuming the measured noise is element-wise independent and zero-mean. On simulated CT datasets, Noise2Inverse demonstrates an improvement in peak signal-to-noise ratio and structural similarity index compared to state-of-the-art image denoising methods and conventional reconstruction methods, such as Total-Variation Minimization. We also demonstrate that the method is able to significantly reduce noise in challenging real-world experimental datasets.</summary>
+    <category term="eess.IV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="stat.ML" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2020-01-31T12:50:24Z</published>
+    <arxiv:comment>This paper appears in: IEEE Transactions on Computational Imaging On page(s): 1320-1335 Print ISSN: 2333-9403 Online ISSN: 2333-9403 Digital Object Identifier: 10.1109/TCI.2020.3019647</arxiv:comment>
+    <arxiv:primary_category term="eess.IV"/>
+    <author>
+      <name>Allard A. Hendriksen</name>
+    </author>
+    <author>
+      <name>Daniel M. Pelt</name>
+    </author>
+    <author>
+      <name>K. Joost Batenburg</name>
+    </author>
+    <arxiv:doi>10.1109/TCI.2020.3019647</arxiv:doi>
+    <link rel="related" href="https://doi.org/10.1109/TCI.2020.3019647" title="doi"/>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/1712.02862v4</id>
+    <title>MoDL: Model Based Deep Learning Architecture for Inverse Problems</title>
+    <updated>2019-06-05T16:31:11Z</updated>
+    <link href="https://arxiv.org/abs/1712.02862v4" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/1712.02862v4" rel="related" type="application/pdf" title="pdf"/>
+    <summary>We introduce a model-based image reconstruction framework with a convolution neural network (CNN) based regularization prior. The proposed formulation provides a systematic approach for deriving deep architectures for inverse problems with the arbitrary structure. Since the forward model is explicitly accounted for, a smaller network with fewer parameters is sufficient to capture the image information compared to black-box deep learning approaches, thus reducing the demand for training data and training time. Since we rely on end-to-end training, the CNN weights are customized to the forward model, thus offering improved performance over approaches that rely on pre-trained denoisers. The main difference of the framework from existing end-to-end training strategies is the sharing of the network weights across iterations and channels. Our experiments show that the decoupling of the number of iterations from the network complexity offered by this approach provides benefits including lower demand for training data, reduced risk of overfitting, and implementations with significantly reduced memory footprint. We propose to enforce data-consistency by using numerical optimization blocks such as conjugate gradients algorithm within the network; this approach offers faster convergence per iteration, compared to methods that rely on proximal gradients steps to enforce data consistency. Our experiments show that the faster convergence translates to improved performance, especially when the available GPU memory restricts the number of iterations.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2017-12-07T21:13:13Z</published>
+    <arxiv:comment>published in IEEE Transaction on Medical Imaging</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Hemant Kumar Aggarwal</name>
+    </author>
+    <author>
+      <name>Merry P. Mani</name>
+    </author>
+    <author>
+      <name>Mathews Jacob</name>
+    </author>
+    <arxiv:doi>10.1109/TMI.2018.2865356</arxiv:doi>
+    <link rel="related" href="https://doi.org/10.1109/TMI.2018.2865356" title="doi"/>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2409.03593v1</id>
+    <title>Ensuring resilience to extreme weather events increases the ambition of mitigation scenarios on solar power and storage uptake: a study on the Italian power system</title>
+    <updated>2024-09-05T14:51:22Z</updated>
+    <link href="https://arxiv.org/abs/2409.03593v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2409.03593v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>This study explores compounding impacts of climate change on power system's load and generation, emphasising the need to integrate adaptation and mitigation strategies into investment planning. We combine existing and novel empirical evidence to model impacts on: i) air-conditioning demand; ii) thermal power outages; iii) hydro-power generation shortages. Using a power dispatch and capacity expansion model, we analyse the Italian power system's response to these climate impacts in 2030, integrating mitigation targets and optimising for cost-efficiency at an hourly resolution. We outline different meteorological scenarios to explore the impacts of both average climatic changes and the intensification of extreme weather events. We find that addressing extreme weather in power system planning will require an extra 5-8 GW of photovoltaic (PV) capacity, on top of the 50 GW of the additional solar PV capacity required by the mitigation target alone. Despite the higher initial investments, we find that the adoption of renewable technologies, especially PV, alleviates the power system's vulnerability to climate change and extreme weather events. Furthermore, enhancing short-term storage with lithium-ion batteries is crucial to counterbalance the reduced availability of dispatchable hydro generation.</summary>
+    <category term="physics.soc-ph" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="econ.GN" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2024-09-05T14:51:22Z</published>
+    <arxiv:primary_category term="physics.soc-ph"/>
+    <author>
+      <name>Alice Di Bella</name>
+    </author>
+    <author>
+      <name>Francesco Pietro Colelli</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2103.14756v2</id>
+    <title>Equivariant Imaging: Learning Beyond the Range Space</title>
+    <updated>2021-08-23T19:51:53Z</updated>
+    <link href="https://arxiv.org/abs/2103.14756v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2103.14756v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>In various imaging problems, we only have access to compressed measurements of the underlying signals, hindering most learning-based strategies which usually require pairs of signals and associated measurements for training. Learning only from compressed measurements is impossible in general, as the compressed observations do not contain information outside the range of the forward sensing operator. We propose a new end-to-end self-supervised framework that overcomes this limitation by exploiting the equivariances present in natural signals. Our proposed learning strategy performs as well as fully supervised methods. Experiments demonstrate the potential of this framework on inverse problems including sparse-view X-ray computed tomography on real clinical data and image inpainting on natural images. Code has been made available at: https://github.com/edongdongchen/EI.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="eess.IV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="eess.SP" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2021-03-26T22:38:36Z</published>
+    <arxiv:comment>ICCV 2021. Code: https://github.com/edongdongchen/EI</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Dongdong Chen</name>
+    </author>
+    <author>
+      <name>Julián Tachella</name>
+    </author>
+    <author>
+      <name>Mike E. Davies</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/1912.07669v2</id>
+    <title>Self-Supervised Learning of Physics-Guided Reconstruction Neural Networks without Fully-Sampled Reference Data</title>
+    <updated>2020-04-14T19:13:15Z</updated>
+    <link href="https://arxiv.org/abs/1912.07669v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/1912.07669v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Purpose: To develop a strategy for training a physics-guided MRI reconstruction neural network without a database of fully-sampled datasets. Theory and Methods: Self-supervised learning via data under-sampling (SSDU) for physics-guided deep learning (DL) reconstruction partitions available measurements into two disjoint sets, one of which is used in the data consistency units in the unrolled network and the other is used to define the loss for training. The proposed training without fully-sampled data is compared to fully-supervised training with ground-truth data, as well as conventional compressed sensing and parallel imaging methods using the publicly available fastMRI knee database. The same physics-guided neural network is used for both proposed SSDU and supervised training. The SSDU training is also applied to prospectively 2-fold accelerated high-resolution brain datasets at different acceleration rates, and compared to parallel imaging. Results: Results on five different knee sequences at acceleration rate of 4 shows that proposed self-supervised approach performs closely with supervised learning, while significantly outperforming conventional compressed sensing and parallel imaging, as characterized by quantitative metrics and a clinical reader study. The results on prospectively sub-sampled brain datasets, where supervised learning cannot be employed due to lack of ground-truth reference, show that the proposed self-supervised approach successfully perform reconstruction at high acceleration rates (4, 6 and 8). Image readings indicate improved visual reconstruction quality with the proposed approach compared to parallel imaging at acquisition acceleration. Conclusion: The proposed SSDU approach allows training of physics-guided DL-MRI reconstruction without fully-sampled data, while achieving comparable results with supervised DL-MRI trained on fully-sampled data.</summary>
+    <category term="eess.IV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="eess.SP" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="physics.med-ph" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2019-12-16T20:04:02Z</published>
+    <arxiv:comment>This work is an extension of our previous work arXiv:1910.09116</arxiv:comment>
+    <arxiv:primary_category term="eess.IV"/>
+    <arxiv:journal_ref>Magnetic Resonance in Medicine, 2020</arxiv:journal_ref>
+    <author>
+      <name>Burhaneddin Yaman</name>
+    </author>
+    <author>
+      <name>Seyed Amir Hossein Hosseini</name>
+    </author>
+    <author>
+      <name>Steen Moeller</name>
+    </author>
+    <author>
+      <name>Jutta Ellermann</name>
+    </author>
+    <author>
+      <name>Kâmil Uğurbil</name>
+    </author>
+    <author>
+      <name>Mehmet Akçakaya</name>
+    </author>
+    <arxiv:doi>10.1002/mrm.28378</arxiv:doi>
+    <link rel="related" href="https://doi.org/10.1002/mrm.28378" title="doi"/>
+  </entry>
+</feed>

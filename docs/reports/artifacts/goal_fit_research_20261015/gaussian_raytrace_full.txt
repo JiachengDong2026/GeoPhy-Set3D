@@ -1,0 +1,602 @@
+Radioactive 3D Gaussian Ray Tracing for Tomographic Reconstruction
+Report GitHub Issue
+×
+Title:
+Content selection saved. Describe the issue below:
+Description:
+Submit without GitHub
+Submit in GitHub
+arXiv is now an independent nonprofit!
+Learn more
+×
+Back to arXiv
+Why HTML?
+Report Issue
+Back to Abstract
+Download PDF
+Abstract
+1 Introduction
+2 Related work
+2.1 Tomographic Reconstruction
+2.2 R2-Gaussian
+2.3 3D Gaussian Ray Tracing
+3 Method
+3.1 Overall Framework
+3.2 Quadratic Exponent Along the Ray
+3.3 Closed Form Integral
+4 Experiment
+4.1 Experimental Settings
+4.2 Experimental Results
+5 Limitations and Future Works
+6 Conclusion
+References
+License: arXiv.org perpetual non-exclusive license
+arXiv:2602.01057v1 [cs.CV] 01 Feb 2026
+Radioactive 3D Gaussian Ray Tracing for Tomographic Reconstruction
+Ling Chen
+Affiliation: Independent Researcher
+Bao Yang
+Affiliation: Southern Medical University
+Abstract
+3D Gaussian Splatting (3DGS) has recently emerged in computer vision as a promising rendering technique. By adapting the principles of Elliptical Weighted Average (EWA) splatting to a modern differentiable pipeline, 3DGS enables real-time, high-quality novel view synthesis. Building upon this, R2-Gaussian extended the 3DGS paradigm to tomographic reconstruction by rectifying integration bias, achieving state-of-the-art performance in computed tomography (CT). To enable differentiability, R2-Gaussian adopts a local affine approximation: each 3D Gaussian is locally mapped to a 2D Gaussian on the detector and composed via alpha blending to form projections. However, the affine approximation can degrade reconstruction quantitative accuracy and complicate the incorporation of nonlinear geometric corrections. To address these limitations, we propose a tomographic reconstruction framework based on 3D Gaussian ray tracing. Our approach provides two key advantages over splatting-based models: (i) it computes the line integral through 3D Gaussian primitives analytically, avoiding the local affine collapse and thus yielding a more physically consistent forward projection model; and (ii) the ray-tracing formulation gives explicit control over ray origins and directions, which facilitates the precise application of nonlinear geometric corrections, e.g., arc-correction used in positron emission tomography (PET). These properties extend the applicability of Gaussian-based reconstruction to a wider range of realistic tomography systems while improving projection accuracy.
+1 Introduction
+Tomographic imaging modalities, such as Computed Tomography (CT) [17, 20, 46] and Positron Emission Tomography (PET) [3, 5, 42], are widely used for medical diagnosis, non-destructive industrial testing, and scientific research. The primary objective is to accurately reconstruct the internal three-dimensional anatomical structure or functional distribution of a subject. For CT, classical analytical algorithms such as Feldkamp–Davis–Kress (FDK) [14] are computationally efficient but suffer severe quality degradation under sparse projections, high noise levels, or physical effects like beam hardening. For PET, statistical iterative methods, e.g., Ordered Subsets Expectation Maximization (OSEM) [18, 35], model the imaging physics and the Poisson measurement noise, yielding improved image quality as compared to analytic methods; however, their performance depends strongly on the accuracy of the system matrix, which can be difficult to obtain or expensive to store.
+Recently, implicit neural representations from computer vision, such as Neural Radiance Fields (NeRF) [30, 49, 10, 27], introduced a new paradigm for 3D reconstruction by learning continuous mappings from spatial coordinates to radiance and density. However, these methods typically require long training and rendering times, limiting their practicality in clinical or industrial settings that demand fast turnaround. A major step toward practicality is 3D Gaussian Splatting (3DGS) [21, 23, 47, 38, 41], which replaces implicit MLPs with many explicit, optimizable 3D Gaussian primitives. Each primitive is parameterized by position, orientation, scale, opacity and view-dependent coefficients; a differentiable rasterization pipeline projects these Gaussians to the image plane and blends them via alpha compositing by combining classical Elliptical Weighted Average (EWA) splatting [53, 52] with gradient-based optimization. 3DGS achieves much faster training and real-time novel-view synthesis while retaining high visual quality.
+Motivated by these capabilities, researchers have adapted Gaussian representations for tomographic reconstruction. R2-Gaussian [48] is a notable example that adapts 3DGS for CT reconstruction by addressing an integration bias in the original splatting-based projection. In that framework, the scene is represented by Gaussians whose attributes correspond to physical quantities, e.g., attenuation, and the Gaussian parameters are optimized so that rasterized projections match measured scan data. R2-Gaussian demonstrates promising high-resolution reconstructions on CT by introducing a projection model more consistent with respect to views. Similar to 3DGS, R2-Gaussian adopts a local affine approximation: a 3D Gaussian is locally collapsed into a 2D Gaussian on the detector via an affine mapping, and contributions are accumulated for standard alpha compositing. This approximation simplifies gradient computation and improves efficiency, but it also can degrade integration exactness—an issue for quantitative imaging that demands high accuracy. Moreover, some real imaging systems exhibit geometric characteristics, e.g, cylindrical arrangement of PET detectors [43]. In PET, coincident gamma detections define Lines of Response (LORs) that may require arc correction [9] to reconcile the detector geometry with reconstruction assumptions. Methods relying on local affine splatting encounter difficulties in incorporating such non-uniform bin spacing in the sinogram precisely, which limits their applicability in systems where accurate geometric modeling is essential.
+To address these limitations, we propose a tomographic reconstruction framework based on 3D Gaussian ray tracing [31, 12]. The framework is straightforward for tomographic reconstruction as shown in Fig. 1. Instead of projecting into 2D screen space via local affine approximation, our approach returns to the physical primitives of tomographic imaging—ray tracing and exact line integrals—bringing two main advantages:
+Accurate projective model. We derive and implement an analytical expression for the exact line integral of a ray through a 3D Gaussian primitive, eliminating the local affine approximation and improving numerical consistency.
+Compatibility with different scanner geometries. 3D Gaussian Ray tracing gives explicit control over ray origins and directions, allowing us to compatible with different scanner geometric characteristics precisely during ray setup and thus adapt the method to imaging systems such as PET.
+The proposed framework is quantitatively and qualitatively evaluated on both PET and CT modalities. For PET, we perform (i) an analytical National Electrical Manufacturers Association (NEMA) phantom [4] simulation to evaluate reconstruction performance, (ii) a three-point-source Monte Carlo simulation to investigate the influence of arc versus non-arc correction, and (iii) qualitative assessment using realistic PET data. For CT, experiments are conducted on the same synthetic and real-world datasets as R2-Gaussian, with reconstruction quality compared using 3D PSNR and 3D SSIM metrics.
+Figure 1: Overview of 3D Gaussian ray tracing for tomographic reconstruction. Given the scanner geometry, each ray’s origin and direction are defined. Along each ray, we compute the pixel value by analytically integrating the contributions of all 3D Gaussian primitives the ray encounters. By optimizing the Gaussian parameters so that the rendered projections match the measured projections, we obtain a tomographic reconstruction by voxelizing the optimized Gaussians.
+2 Related work
+2.1 Tomographic Reconstruction
+The core objective of tomographic reconstruction algorithms is to reconstruct images of an internal structure from externally acquired projection data, primarily categorized into analytical and iterative methods. Analytical methods [36], represented by FDK, are based on rigorous mathematical models and are computationally efficient, serving as the standard algorithm for scenarios with complete, high signal-to-noise ratio data. Iterative methods [44] employ statistical models, e.g., OSEM, approaching an optimal solution through successive iterations, offering superior advantages when handling incomplete or low signal-to-noise ratio data.
+The choice between reconstruction algorithms for CT and PET is profoundly influenced by their underlying physical principles and data characteristics. CT measures the deterministic attenuation of X-rays, resulting in high-quality data, which is why FDK has long been its mainstream algorithm; iterative methods are primarily utilized in low-dose CT scenarios to suppress noise. In contrast, PET measures stochastic coincidence counts that follow a Poisson distribution, meaning the data is inherently characterized by low signal-to-noise ratio. This makes iterative methods the absolute dominant reconstruction technique for PET, as they effectively handle noise and allow for the incorporation of physical corrections.
+2.2 R2-Gaussian
+R2-Gaussian introduces the concept of explicit Gaussian primitives, previously used in neural rendering, into the task of tomographic reconstruction. It proposes a Gaussian representation and forward projection pipeline adapted for the physics of X-ray imaging. Unlike the typical 3DGS, R2-Gaussian re-derives the projection relationship from 3D anisotropic Gaussians to the 2D detector plane by addressing integration bias. This constructs a radiative Gaussian kernel formulation that is more consistent with radiative transfer. Based on this formulation, Zha et al. [48] implemented a 3D Gaussian splatting frame work for tomographic reconstruction.
+Regarding scaling integration bias, the core idea of R2-Gaussian is to recover the 3D density volume by 3D Gaussian splatting. This approach corrects the density inconsistency in 3DGS, ensuring the contribution of a single Gaussian to a pixel remains consistent across different projection angles. To maintain efficiency, R2-Gaussian is typically coupled with sparse acceleration strategies, such as frustum culling, to limit the number of primitives requiring alpha compositing.
+2.3 3D Gaussian Ray Tracing
+3D Gaussian Ray Tracing treats the scene as a volumetric collection of 3D Gaussian primitives [31, 50, 15]. It directly computes ray-primitive intersections and evaluates the corresponding integrals along pixel rays, rather than splatting the Gaussians into screen space and then performing approximate blending. By constructing a Bounding Volume Hierarchy (BVH) [29] and leveraging high-performance GPU ray-tracing hardware, the method casts rays for each pixel and processes depth-ordered intersections in batches, while the sorting process can be waived if it applies to tomographic reconstruction.
+Compared to splatting-based pipelines, ray tracing offers three key advantages: First, it can naturally and accurately evaluate the line integral and transmittance along the ray, thereby avoiding the assumption of non-overlapping Gaussians. Second, not only 3D Gaussian kernel but also a more compact kernel, e.g., Epanechnikov kernel [11], can be applied to ray tracing [12]. Third, we can define the ray origin and direction very flexible, which make this method compatible with different geometric characteristics of scanner. Thus, for application scenarios requiring more physically consistent projection or complex geometric correction, 3D Gaussian Ray Tracing demonstrates significant advantages over traditional 3D Gaussian Splatting in terms of numerical accuracy and flexibility.
+3 Method
+In this section, we outline the preliminaries of R2-Gaussian and the limitations we encounter in PET image reconstruction. After that, we present a detailed derivation of 3D Gaussian ray tracing for tomographic reconstruction.
+R2-Gaussian. The core innovation in R2-Gaussian lies in its derivation of a density-consistent integral for Gaussians, which reveals a previously unidentified integration bias in the standard 3DGS formulation. This bias emerges from approximations in the Gaussian projection integral, leading to significant inconsistency in density retrieval. To address this, R2-Gaussian introduces a covariance-related factor to scale the density and achieve accurate density retrieval. Nevertheless, the projection process still relies on the local affine approximation:
+Ir​(𝐫)\displaystyle I_{r}(\mathbf{r})
+≈∑i=1M∫Gi​(𝐱~∣ρi,ϕ⁡(𝐩),𝐉i​𝐖​𝚺i​𝐖⊤​𝐉i⊤)​d​x2,\displaystyle\approx\sum_{i=1}^{M}\int G_{i}\left(\tilde{\mathbf{x}}\mid\rho_{i},\phi(\mathbf{p}),\mathbf{J}_{i}\mathbf{W}\mathbf{\Sigma}_{i}\mathbf{W}^{\top}\mathbf{J}_{i}^{\top}\right)\,dx_{2},
+(1)
+where GiG_{i} denotes a 3D Gaussian kernel and 𝐱~=[x0,x1,x2]\tilde{\mathbf{x}}=[x_{0},x_{1},x_{2}] represents a coordinate point in the ray space. In addition, ρi\rho_{i}, 𝒑i\boldsymbol{p}_{i}, and 𝚺i\boldsymbol{\Sigma}_{i} are learnable parameters corresponding to central density, position and covariance, respectively. Moreover, 𝐉i\mathbf{J}_{i} is the local approximation matrix and 𝐖\mathbf{W} is the viewing transformation matrix.
+Inherent limitations. In applying R2-Gaussian to PET image reconstruction, several challenges arise from the unique physical characteristics of the modality. R2-Gaussian was originally designed for cone-beam or parallel-beam CT reconstruction. In PET, cross-segment LORs [25, 13], namely, those with non-zero ring difference, produce oblique projections, so we need to update the projector with a shear transformation; this update is straightforward to implement. A key consideration is the need for arc correction, which is required by the cylindrical arrangement of detectors in PET scanners. This geometry produces non-uniform bin spacing in the sinogram, as shown in Fig. 2, requiring the forward projection model to accurately represent both the cylindrically arranged detectors and the varying spacings of LORs. Traditional 3DGS methods, which rely on local affine approximations, are difficult to adapt to such arc-corrected projections. The same limitation applies to the tomographic version of 3DGS, namely R2-Gaussian. Although conservative resampling could be applied, it compromises the fidelity of the raw measured projections. Furthermore, PET is a quantitative imaging modality where reconstruction accuracy directly affects clinical measurements such as standardized uptake values (SUVs) [39], which are used to assess metabolic activity. Therefore, the projection model must maintain high quantitative accuracy and avoid approximations that could compromise diagnostic reliability or introduce bias in density estimation.
+Figure 2: An example of a cylindrical detector arrangement that produces non-uniform tangential bin spacing in the sinogram. The sinogram before arc correction corresponds to straightening the arc-shaped detectors into a line (top one). However, the physical spacing between bins, namely, measured along chord, is non-uniform (bottom one).
+3.1 Overall Framework
+These limitations motivate a tomographic reconstruction model that can not only provide more accurate line integrals but also be geometrically flexible for ray alignment. Thus, we employ 3D Gaussian ray tracing for tomographic reconstruction. By ray tracing, we can calculate the line integrals analytically without approximation and also define ray origins flexibly. Below we derive the analytic line integral of a 3D anisotropic Gaussian along a ray.
+Let a single anisotropic 3D Gaussian, with the constant normalization absorbed into a density scalar, be written as:
+G⁡(𝒙)=exp⁡(−12​(𝒙−𝝁)⊤​𝚺−1​(𝒙−𝝁)),G(\boldsymbol{x})=\exp\!\Big(-\tfrac{1}{2}(\boldsymbol{x}-\boldsymbol{\mu})^{\top}\boldsymbol{\Sigma}^{-1}(\boldsymbol{x}-\boldsymbol{\mu})\Big),
+(2)
+where 𝒙∈ℝ3\boldsymbol{x}\in\mathbb{R}^{3} represents a coordinate point in the ray space, 𝝁\boldsymbol{\mu} is the mean that controls the position of the 3D Gaussian ellipsoid, and 𝚺\boldsymbol{\Sigma} is the covariance, which can be decomposed into a scale matrix 𝑺\boldsymbol{S} and a rotation matrix 𝑹\boldsymbol{R}: 𝚺=𝑹​𝑺​𝑺⊤​𝑹⊤\boldsymbol{\Sigma}=\boldsymbol{R}\boldsymbol{S}\boldsymbol{S}^{\top}\boldsymbol{R}^{\top}. Since a learnable density scalar ρ\rho, which can be adjusted during optimization, multiplies the 3D Gaussian kernel during the line integral, there is no need to explicitly handle the normalization term 1(2​π)3/2​|𝚺|1/2\frac{1}{(2\pi)^{3/2}|\boldsymbol{\Sigma}|^{1/2}}.
+A ray 𝒓⁡(t)\boldsymbol{r}(t) is parameterized by the ray origin 𝒐\boldsymbol{o} and the ray direction 𝒅\boldsymbol{d}:
+𝒓⁡(t)=𝒐+t​𝒅,\boldsymbol{r}(t)=\boldsymbol{o}+t\boldsymbol{d},
+(3)
+where t∈ℝt\in\mathbb{R}, 𝒐∈ℝ3\boldsymbol{o}\in\mathbb{R}^{3}, and 𝒅∈ℝ3\boldsymbol{d}\in\mathbb{R}^{3}. We consider the line integral over all 3D Gaussians as:
+I⁡(𝒓)\displaystyle I(\boldsymbol{r})
+=∫−∞∞∑i=1Mρi⋅Gi​(𝒓⁡(t))​dt,\displaystyle=\int_{-\infty}^{\infty}\sum_{i=1}^{M}\rho_{i}\cdot G_{i}\left(\boldsymbol{r}(t)\right)\,dt,
+(4)
+I⁡(𝒐,𝒅)\displaystyle I(\boldsymbol{o},\boldsymbol{d})
+=∑i=1Mρi⋅∫−∞∞Gi​(𝒐+t​𝒅)​dt,\displaystyle=\sum_{i=1}^{M}\rho_{i}\cdot\int_{-\infty}^{\infty}G_{i}\left(\boldsymbol{o}+t\boldsymbol{d}\right)\,dt,
+where I⁡(𝒓)I(\boldsymbol{r}) represents the rendered pixel value along ray 𝒓\boldsymbol{r}, MM is the number of 3D Gaussians in the ray space, and ρi\rho_{i} is the central density of the ii-th 3D Gaussian.
+3.2 Quadratic Exponent Along the Ray
+We consider the line integral for a single Gaussian without density as:
+I˙​(𝒐,𝒅)=∫−∞∞exp⁡(−12​(𝒐+t​𝒅−𝝁)⊤​𝚺−1​(𝒐+t​𝒅−𝝁))​𝑑t,\dot{I}(\boldsymbol{o},\boldsymbol{d})=\int_{-\infty}^{\infty}\exp\!\Big(-\tfrac{1}{2}(\boldsymbol{o}+t\boldsymbol{d}-\boldsymbol{\mu})^{\top}\boldsymbol{\Sigma}^{-1}(\boldsymbol{o}+t\boldsymbol{d}-\boldsymbol{\mu})\Big)\,dt,
+(5)
+Define 𝜹=𝒐−𝝁\boldsymbol{\delta}=\boldsymbol{o}-\boldsymbol{\mu}. Substituting into the exponent yields:
+exponent\displaystyle\text{exponent}
+=−12​(𝒐+t​𝒅−𝝁)⊤​𝚺−1​(𝒐+t​𝒅−𝝁)\displaystyle=-\tfrac{1}{2}(\boldsymbol{o}+t\boldsymbol{d}-\boldsymbol{\mu})^{\top}\boldsymbol{\Sigma}^{-1}(\boldsymbol{o}+t\boldsymbol{d}-\boldsymbol{\mu})
+(6)
+=−12​(𝜹+t​𝒅)⊤​𝚺−1​(𝜹+t​𝒅)\displaystyle=-\tfrac{1}{2}(\boldsymbol{\delta}+t\boldsymbol{d})^{\top}\boldsymbol{\Sigma}^{-1}(\boldsymbol{\delta}+t\boldsymbol{d})
+=−12​(𝜹⊤​𝚺−1​𝜹+2​t​𝒅⊤​𝚺−1​𝜹+t2​𝒅⊤​𝚺−1​𝒅).\displaystyle=-\tfrac{1}{2}(\boldsymbol{\delta}^{\top}\boldsymbol{\Sigma}^{-1}\boldsymbol{\delta}+2t\,\boldsymbol{d}^{\top}\boldsymbol{\Sigma}^{-1}\boldsymbol{\delta}+t^{2}\,\boldsymbol{d}^{\top}\boldsymbol{\Sigma}^{-1}\boldsymbol{d}).
+Since 𝚺−1\boldsymbol{\Sigma}^{-1} is symmetric, 𝜹⊤​𝚺−1​𝒅=𝒅⊤​𝚺−1​𝜹\boldsymbol{\delta}^{\top}\boldsymbol{\Sigma}^{-1}\boldsymbol{d}=\boldsymbol{d}^{\top}\boldsymbol{\Sigma}^{-1}\boldsymbol{\delta}. Here, we define:
+A\displaystyle A
+=𝒅⊤​𝚺−1​𝒅,\displaystyle=\boldsymbol{d}^{\top}\boldsymbol{\Sigma}^{-1}\boldsymbol{d},
+(7)
+B\displaystyle B
+=𝒅⊤​𝚺−1​𝜹,\displaystyle=\boldsymbol{d}^{\top}\boldsymbol{\Sigma}^{-1}\boldsymbol{\delta},
+C\displaystyle C
+=𝜹⊤​𝚺−1​𝜹.\displaystyle=\boldsymbol{\delta}^{\top}\boldsymbol{\Sigma}^{-1}\boldsymbol{\delta}.
+Substituting Eq. 7 into Eq. 6 gives the quadratic form of the exponent along the ray:
+exponent=−12​(C+2​B​t+A​t2).\text{exponent}=-\tfrac{1}{2}(C+2Bt+At^{2}).
+(8)
+3.3 Closed Form Integral
+Substituting the quadratic expression into Eq. 5, the integral becomes:
+I˙​(𝒐,𝒅)\displaystyle\dot{I}(\boldsymbol{o},\boldsymbol{d})
+=∫−∞∞exp⁡(−12​(C+2​B​t+A​t2))​dt,\displaystyle=\int_{-\infty}^{\infty}\exp\!\Big(-\tfrac{1}{2}(C+2Bt+At^{2})\Big)\,dt,
+(9)
+=exp⁡(−12​C)​∫−∞∞exp⁡(−12​(2​B​t+A​t2))​dt,\displaystyle=\exp\!\Big(-\tfrac{1}{2}C\Big)\int_{-\infty}^{\infty}\exp\!\Big(-\tfrac{1}{2}(2Bt+At^{2})\Big)\,dt,
+=exp⁡(−12​C)​∫−∞∞exp⁡(−12​A​(t+BA)2+B22​A)​dt,\displaystyle=\exp\!\Big(-\tfrac{1}{2}C\Big)\int_{-\infty}^{\infty}\exp\!\Big(-\tfrac{1}{2}A(t+\tfrac{B}{A})^{2}+\tfrac{B^{2}}{2A}\Big)\,dt,
+=exp⁡(−12​(C−B2A))​∫−∞∞exp⁡(−12​A​(t+BA)2)​dt.\displaystyle=\exp\!\Big(-\tfrac{1}{2}(C-\tfrac{B^{2}}{A})\Big)\int_{-\infty}^{\infty}\exp\!\Big(-\tfrac{1}{2}A(t+\tfrac{B}{A})^{2}\Big)\,dt.
+Let h=t+BAh=t+\tfrac{B}{A}. The remaining integral is the standard Gaussian integral:
+∫−∞∞exp⁡(−12​A​h2)​𝑑h=2​πA.\int_{-\infty}^{\infty}\exp\!\Big(-\tfrac{1}{2}Ah^{2}\Big)\,dh=\sqrt{\tfrac{2\pi}{A}}.
+(10)
+Therefore, the line integral for a single Gaussian without density is:
+I˙​(𝒐,𝒅)=2​πA⋅exp⁡(−12​(C−B2A)).\dot{I}(\boldsymbol{o},\boldsymbol{d})=\sqrt{\tfrac{2\pi}{A}}\cdot\exp\!\Big(-\tfrac{1}{2}\big(C-\tfrac{B^{2}}{A}\big)\Big).
+(11)
+Finally, the line integral along the ray for all Gaussians becomes:
+I⁡(𝒓)=∑i=1Mρi⋅2​πAi⋅exp⁡(−12​(Ci−Bi2Ai))\boxed{I(\boldsymbol{r})=\sum_{i=1}^{M}\rho_{i}\cdot\sqrt{\tfrac{2\pi}{A_{i}}}\cdot\exp\!\Big(-\tfrac{1}{2}\big(C_{i}-\tfrac{B_{i}^{2}}{A_{i}}\big)\Big)}
+(12)
+This expression gives an analytic, differentiable forward projection for the 3D Gaussian model and avoids the local affine projection approximation commonly used in splatting-based methods.
+4 Experiment
+4.1 Experimental Settings
+PET dataset. The PET dataset contains three parts. First, we analytically simulate the NEMA phantom using the Software for Tomographic Image Reconstruction (STIR) v6.2 [40] for a Siemens Biograph mMR scanner and add Poisson noise to the sinogram afterward. STIR can simulate arc-corrected sinograms by resampling the raw projections using an overlap-interpolation method. Then, for the three-point-source Monte Carlo simulation to investigate the influence of arc versus non-arc correction, we follow the protocol in the PET/CT Acceptance Testing and Quality Assurance Report from the American Association of Physicists in Medicine (AAPM) [28], using the GEANT4 Application for Tomographic Emission (GATE) v9.2 [37]. In the simulation, three point sources are located at (0, 1), (0, 10), and (0, 20) cm, respectively, where (0,0) cm is the isocenter of the scanner. The stopping condition for the simulation is acquisition of 5 million counts. The scanner used in this simulation was a General Electric Discovery 690. The raw output data are converted to sinograms for reconstruction by STIR. Finally, for qualitative assessment, a realistic brain data was collected from a collaborating institute, which was used under approval by the institutional review board, and informed consent was waived because the data were analyzed retrospectively and anonymized.
+CT dataset. To facilitate comparison with R2-Gaussian, we employ the same synthetic and real CT datasets to evaluate performance differences. To establish a benchmark for sparse-view reconstruction, three scenarios with 75, 50, and 25 views are defined and applied to both synthetic and real-world data. The synthetic data were derived from 15 diverse CT volumes of natural and artificial objects, including human organs, animals and plants, and artificial objects. X-ray projections were computationally generated using the TIGRE toolbox [7] and subsequently contaminated with models of electronic noise. For real-world data evaluation, three objects from the Finnish Inverse Problems Society (FIPS) dataset are utilized, each containing 721 real projections. In the absence of definitive ground truths, pseudo-ground-truth volumes were generated by applying the FDK algorithm [14] to the complete set of views.
+Implementation details. The implementation of 3D Gaussian ray tracing for tomographic reconstruction is based on PyTorch [34] and the NVIDIA OptiX ray tracing engine v6.0 [33]. All experiments are run using the Adam optimizer [1] with the same Gaussian densify-and-prune strategy as R2-Gaussian [48]. For ray tracing, an icosahedron is used to represent a Gaussian. Back-face culling is enabled to trigger our custom Anyhit program for accumulating the analytic integral of each Gaussian. To accelerate the training process, we also skip Gaussians whose contributions are negligible. All tasks are conducted on an RTX 3080 Ti GPU.
+4.2 Experimental Results
+Table 1: Comparison of reconstruction times for the NEMA phantom.
+Method
+OSEM
+R2-Gaussian
+Our method
+Time (min)
+17
+12
+35
+The NEMA phantom contains six spheres of different sizes with a hollow cylinder in the middle. The six spheres are numbered 0 to 5 according to their inner diameter, which are 10 mm, 13 mm, 17 mm, 22 mm, 28 mm, and 37 mm, respectively. Since R2-Gaussian previously only worked for parallel-beam or cone-beam projections, we updated the projector to make it feasible for oblique projections, which is necessary for utilizing cross-segment LORs in PET reconstruction. Furthermore, we compare with the OSEM implementation in STIR as a baseline. We compare three reconstruction results: (1) noisy NEMA phantom reconstructed by OSEM; (2) noisy NEMA phantom reconstructed by R2-Gaussian; and (3) noisy NEMA phantom reconstructed by our method. Reconstruction performance is evaluated in terms of (i) signal-to-background ratio (SBR), (ii) recovered sphere diameters, and (iii) the standard deviation within each sphere. These metrics indicate quantitative accuracy, reconstruction fidelity, and noise level, respectively. The reconstruction times are summarized in Tab. 1. Owing to the highly parallel nature of splatting-based methods, R2-Gaussian is the fastest of the three methods. OSEM is intermediate. Our method is the slowest, taking almost twice as long as R2-Gaussian.
+Table 2: Measured diameters (mm) for each NEMA phantom sphere reconstructed by OSEM, R2-Gaussian, and our method. Parentheses show relative error versus ground truth.
+Method
+Sphere0
+Sphere1
+Sphere2
+Sphere3
+Sphere4
+Sphere5
+OSEM
+10.9 (8.9%)
+13.7 (-21.4%)
+17.2 (1.2%)
+20.6 (-6.3%)
+27.7 (-1.0%)
+37.3 (0.7%)
+R2-Gaussian
+10.0 (-0.4%)
+10.8 (17.1%)
+15.7 (-7.4%)
+21.3 (-3.4%)
+28.4 (1.3%)
+39.2 (6.0%)
+Our method
+9.5 (-5.1%)
+10.8 (16.6%)
+15.1 (-11.1%)
+21.2 (-3.7%)
+27.6 (-1.3%)
+39.7 (7.2%)
+Tab. 2 summarizes the reconstructed sphere diameters for the three methods. The diameter is obtained by the full width half maximum of a sphere. From this table, both R2-Gaussian and OSEM have three out of six spheres with diameter error less than 5%. Notably, R2-Gaussian perfectly reconstructed the smallest sphere (10 mm), which is generally the most challenging target. Our method has two out of six spheres with error less than 5%, suggesting that recovery of true diameters by our method is slightly inferior to R2-Gaussian and OSEM in these experiments.
+Table 3: Signal-to-background ratios for each NEMA phantom sphere reconstructed by OSEM, R2-Gaussian, and our method. Parentheses show percentage error relative to the reference activity ratio (4:1).
+Method
+Sphere0
+Sphere1
+Sphere2
+Sphere3
+Sphere4
+Sphere5
+OSEM
+2.15 (-46.3%)
+3.14 (-21.4%)
+3.35 (-16.1%)
+3.75 (-6.2%)
+3.78 (-5.4%)
+3.99 (-0.2%)
+R2-Gaussian
+2.99 (-25.2%)
+4.38 (9.6%)
+4.14 (3.4%)
+4.24 (6.1%)
+4.20 (5.1%)
+4.06 (1.5%)
+Our method
+3.00 (-24.5%)
+3.97 (-0.7%)
+3.90 (-2.6%)
+4.16 (3.9%)
+4.13 (3.2%)
+4.07 (1.8%)
+The activity ratio between spheres and background is set to 4:1; an SBR closer to 4 indicates better quantitative accuracy. Tab. 3 summarizes the SBR results for all spheres.To calculate the SBR, we use the measured FWHM as the sphere diameter, compute the mean activity within that diameter, and obtain the SBR by dividing this mean by the mean activity of a 20×20×20 background volume.From the table, our method provides the best quantitative accuracy among the three methods: five out of six spheres have relative error smaller than 5%. R2-Gaussian is the second best, with two out of six spheres within 5% error. OSEM performs worst in SBR accuracy, with only one sphere within 5% error.
+Figure 3: Standard deviation within each NEMA phantom sphere for OSEM, R2-Gaussian, and our method (lower values indicate better noise suppression).
+Fig. 3 shows the standard deviation inside each sphere for the three methods to quantify noise level. OSEM exhibits the lowest standard deviations overall, indicating stronger noise suppression. Both our method and R2-Gaussian show higher standard deviations, particularly for the smaller spheres, which indicates higher noise levels in those regions. Taken together, the results indicate a trade-off: our method achieves the best quantitative accuracy across most spheres, while OSEM yields the lowest noise, and R2-Gaussian provides a balance with good fidelity for small objects in some cases.
+(a) OSEM.
+(b) R2-Gaussian.
+(c) Our method.
+Figure 4: NEMA phantom PET reconstructions by (a) OSEM, (b) R2-Gaussian, and (c) our method. Corresponding central horizontal line profiles are plotted on the right.
+Fig. 4 plots the line profile along the central horizontal line of the NEMA phantom reconstructions produced by each method. Note that the central cylinder of the NEMA phantom is empty and therefore should have zero activity. From the line profiles on the right, we can directly compare how the three methods preserve the zero background in the hollow cylinder: OSEM shows a positive bias in reconstructed activity inside the hollow cylinder, as shown in Fig. 4(a), indicating contamination or a background offset; R2-Gaussian and our method stay close to zero there, showing they better preserve the low-signal property of the hollow region. The positive bias in OSEM may come from incomplete correction for scatter and randoms. However, methods based on 3D Gaussians can better suppress such biases.
+(a) Non-arc-correction.
+(b) Arc correction.
+Figure 5: Three-point-source PET reconstructions: (a) without arc correction; (b) with arc correction. From left to right, sources are at (0,1), (0,10), and (0,20) cm. Central horizontal line profiles are shown on the right.
+Point sources are commonly used to measure the spatial resolution of PET systems [16], since spatial resolution is typically defined as the FWHM of the Point Spread Function (PSF) [2] and is calculated from the line profile through a reconstructed image of a point source in air. The results of the three-point-source Monte Carlo simulation are shown in Fig. 5. All reconstructions were produced by our method; Fig. 5(a) and Fig. 5(b) show results without and with arc correction, respectively. Here we also measured the FWHM of the three point sources. For the non-arc case, the FWHMs are 3.43, 3.69, and 5.56 pixel, respectively. For the arc-corrected case, they are 3.45, 3.82, and 4.56 pixel, respectively. Since the three point sources were set to the same activity, their reconstructed values should be similar. The arc-corrected reconstruction yields values that are closer to each other. The results show that applying arc correction can improve spatial resolution and quantitative accuracy [9, 19], especially for sources far from the center of field of view.
+(a) OSEM.
+(b) R2-Gaussian.
+(c) Our method.
+Figure 6: A realistic brain PET data reconstructions by (a) OSEM, (b) R2-Gaussian, and (c) our method.
+Fig. 6 shows reconstructions of realistic brain data by (a) OSEM, (b) R2-Gaussian, and (c) our method. Visually, our method provides the most detail among the three. In the left column, the sulci and gyri of the cerebral cortex are more clearly visible in our result. In the middle column, the putamen and caudate nucleus, which are important in the diagnosis of Parkinson’s and Alzheimer’s diseases [8, 22], are most clearly depicted by our method. In the right column, the OSEM and R2-Gaussian reconstructions show artifacts in the lower edge, while our reconstruction does not. Overall, among the three methods our method preserves image details best while exhibiting greater robustness to data noise in realistic PET data reconstruction.
+Table 4: Performance comparison on synthetic CT dataset.
+Method
+75 views
+50 views
+25 views
+PSNR
+SSIM
+PSNR
+SSIM
+PSNR
+SSIM
+R2-Gaussian
+38.30
+0.937
+35.02
+0.902
+32.95
+0.866
+Our method
+39.36
+0.937
+35.13
+0.902
+32.99
+0.865
+Table 5: Performance comparison on real-world CT dataset.
+Method
+75 views
+50 views
+25 views
+PSNR
+SSIM
+PSNR
+SSIM
+PSNR
+SSIM
+R2-Gaussian
+35.71
+0.928
+34.22
+0.915
+30.56
+0.852
+Our method
+35.79
+0.928
+34.30
+0.915
+30.68
+0.856
+The CT reconstruction results on the synthetic and real-world datasets are summarized in Tab. 4 and Tab. 5, respectively. There is little difference in SSIM between R2-Gaussian and our method. In terms of PSNR, our method achieves higher values than R2-Gaussian in all tested cases. A paired t-test indicates that the PSNR improvement is statistically significant (p = 0.0048).
+In practice, clinical CT is often interpreted qualitatively, and quantitative accuracy is typically less critical than in PET. Considering the trade-off between reconstruction quality and runtime, R2-Gaussian may still be preferred for CT applications where speed is the dominant concern.
+For PET reconstruction, our method demonstrates improved quantitative accuracy and greater flexibility to accommodate various scanner geometries, making it more suitable for quantitative PET tasks that require precise geometric modeling.
+5 Limitations and Future Works
+Limitations. Unlike CT, there are few publicly available PET datasets, and PET data cannot be synthesized as straightforwardly as CT data because PET detects pairs of coincident gamma photons emitted in nearly 180° opposite directions within the imaged subject. Hence, in this study we relied on analytical and Monte Carlo simulations to approximate realistic measurements. High-fidelity Monte Carlo is extremely computationally expensive and therefore limited in scale, while analytical phantom simulations are cheap but do not capture many real-world effects, e.g., scatter, randoms. In addition, although the analytic integrals of 3D Gaussian ray tracing improve physical fidelity, a ray-tracing implementation is still computationally slower than highly parallel splatting-based implementations. This increases reconstruction time and limits throughput for large-scale experiments.
+Future works. As a next step, we will extend the projection operator to explicitly model attenuation correction, scatter, and randoms within the ray-tracing pipeline, and to support Time-of-Flight (TOF) PET [45]. By incorporating these effects in a differentiable way, we expect this to move the method toward fully quantitative PET reconstruction [24]. We will also investigate practical acceleration strategies, e.g., better BVH construction and mixed-precision computation, to reduce run time [6].
+Moreover, recent works show that integration with diffusion models or learned priors can further improve reconstruction quality [32, 26, 51]. It would be interesting to explore combining diffusion-based regularization or generative priors with 3D Gaussian ray tracing to improve noise suppression and perceptual quality while keeping quantitative fidelity.
+6 Conclusion
+In this study, we propose a 3D Gaussian ray tracing framework for tomographic reconstruction. Our method avoids the local affine approximation used in splatting-based approaches by evaluating an analytic 3D Gaussian line integral along each ray. It is also adaptable to different scanner geometries, enabling PET reconstruction without resampling the sinogram and thus without compromising the original count data. Owing to the direct analytic integral and more accurate geometric modeling, our method demonstrates improved quantitative accuracy in PET imaging.
+References
+[1]
+K. D. B. J. Adam et al. (2014)
+A method for stochastic optimization.
+arXiv preprint arXiv:1412.6980 1412 (6).
+Cited by: §4.1.
+[2]
+G. Akamatsu, K. Mitsumoto, T. Taniguchi, Y. Tsutsui, S. Baba, and M. Sasaki (2014)
+Influences of point-spread function and time-of-flight reconstructions on standardized uptake value of lymph node metastases in fdg-pet.
+European journal of radiology 83 (1), pp. 226–230.
+Cited by: §4.2.
+[3]
+D. L. Bailey, M. N. Maisey, D. W. Townsend, and P. E. Valk (2005)
+Positron emission tomography.
+Vol. 2, Springer.
+Cited by: §1.
+[4]
+Q. Bao, D. Newport, M. Chen, D. B. Stout, and A. F. Chatziioannou (2009)
+Performance evaluation of the inveon dedicated pet preclinical tomograph based on the nema nu-4 standards.
+Journal of Nuclear Medicine 50 (3), pp. 401–408.
+Cited by: §1.
+[5]
+R. Bar-Shalom, A. Y. Valdivia, and M. D. Blaufox (2000)
+PET imaging in oncology.
+In Seminars in nuclear medicine,
+Vol. 30, pp. 150–185.
+Cited by: §1.
+[6]
+L. Bavoil, S. P. Callahan, A. Lefohn, J. L. Comba, and C. T. Silva (2007)
+Multi-fragment effects on the gpu using the k-buffer.
+In Proceedings of the 2007 symposium on Interactive 3D graphics and games,
+pp. 97–104.
+Cited by: §5.
+[7]
+A. Biguri, M. Dosanjh, S. Hancock, and M. Soleimani (2016)
+TIGRE: a matlab-gpu toolbox for cbct image reconstruction.
+Biomedical Physics & Engineering Express 2 (5), pp. 055010.
+Cited by: §4.1.
+[8]
+E. Broussolle, C. Dentresangle, P. Landais, L. Garcia-Larrea, P. Pollak, B. Croisile, O. Hibert, F. Bonnefoi, G. Galy, J. Froment, et al. (1999)
+The relation of putamen and caudate nucleus 18f-dopa uptake to motor and cognitive performances in parkinson’s disease.
+Journal of the neurological sciences 166 (2), pp. 141–151.
+Cited by: §4.2.
+[9]
+R. Buchert, K. H. Bohuslavizki, H. Fricke, J. Mester, and M. Clausen (2000)
+Performance evaluation of pet scanners: testing of geometric arc correction by off-centre uniformity measurement.
+European journal of nuclear medicine 27 (1), pp. 83–90.
+Cited by: §1,
+§4.2.
+[10]
+Y. Cai, J. Wang, A. Yuille, Z. Zhou, and A. Wang (2024)
+Structure-aware sparse-view x-ray 3d reconstruction.
+In Proceedings of the IEEE/CVF conference on computer vision and pattern recognition,
+pp. 11174–11183.
+Cited by: §1.
+[11]
+C. Chu, D. J. Henderson, and C. F. Parmeter (2017)
+On discrete epanechnikov kernel functions.
+Computational statistics & data analysis 116, pp. 79–105.
+Cited by: §2.3.
+[12]
+J. Condor, S. Speierer, L. Bode, A. Bozic, S. Green, P. Didyk, and A. Jarabo (2025)
+Don’t splat your gaussians: volumetric ray-traced primitives for modeling and rendering scattering and emissive media.
+ACM Transactions on Graphics 44 (1), pp. 1–17.
+Cited by: §1,
+§2.3.
+[13]
+M. Defrise and P. Kinahan (1998)
+Data acquisition and image reconstruction for 3d pet.
+In The theory and practice of 3D PET,
+pp. 11–53.
+Cited by: §3.
+[14]
+L. A. Feldkamp, L. C. Davis, and J. W. Kress (1984)
+Practical cone-beam algorithm.
+Journal of the Optical Society of America A 1 (6), pp. 612–619.
+Cited by: §1,
+§4.1.
+[15]
+J. Gao, C. Gu, Y. Lin, Z. Li, H. Zhu, X. Cao, L. Zhang, and Y. Yao (2024)
+Relightable 3d gaussians: realistic point cloud relighting with brdf decomposition and ray tracing.
+In European Conference on Computer Vision,
+pp. 73–89.
+Cited by: §2.3.
+[16]
+K. Gong, S. R. Cherry, and J. Qi (2016)
+On the assessment of spatial resolution of pet systems with iterative image reconstruction.
+Physics in Medicine & Biology 61 (5), pp. N193.
+Cited by: §4.2.
+[17]
+G. N. Hounsfield (1980)
+Computed medical imaging.
+Science 210 (4465), pp. 22–28.
+Cited by: §1.
+[18]
+H. M. Hudson and R. S. Larkin (1994)
+Accelerated image reconstruction using ordered subsets of projection data.
+IEEE transactions on medical imaging 13 (4), pp. 601–609.
+Cited by: §1.
+[19]
+D. J. Kadrmas (2004)
+LOR-osem: statistical pet reconstruction from raw line-of-response histograms.
+Physics in Medicine & Biology 49 (20), pp. 4731.
+Cited by: §4.2.
+[20]
+A. C. Kak and M. Slaney (2001)
+Principles of computerized tomographic imaging.
+SIAM.
+Cited by: §1.
+[21]
+B. Kerbl, G. Kopanas, T. Leimkühler, and G. Drettakis (2023)
+3D gaussian splatting for real-time radiance field rendering..
+ACM Trans. Graph. 42 (4), pp. 139–1.
+Cited by: §1.
+[22]
+J. Koivunen, A. Verkkoniemi, S. Aalto, A. Paetau, J. Ahonen, M. Viitanen, K. Någren, J. Rokka, M. Haaparanta, H. Kalimo, et al. (2008)
+PET amyloid ligand [11c] pib uptake shows predominantly striatal increase in variant alzheimer’s disease.
+Brain 131 (7), pp. 1845–1853.
+Cited by: §4.2.
+[23]
+S. Laine, J. Hellsten, T. Karras, Y. Seol, J. Lehtinen, and T. Aila (2020)
+Modular primitives for high-performance differentiable rendering.
+ACM Transactions on Graphics (ToG) 39 (6), pp. 1–14.
+Cited by: §1.
+[24]
+A. A. Lammertsma (2017)
+Forward to the past: the case for quantitative pet imaging.
+Journal of Nuclear Medicine 58 (7), pp. 1019–1024.
+Cited by: §5.
+[25]
+R. M. Lewitt, G. Muehllehner, and J. S. Karp (1994)
+Three-dimensional image reconstruction for pet by multi-slice rebinning and axial image filtering.
+Physics in Medicine & Biology 39 (3), pp. 321.
+Cited by: §3.
+[26]
+X. Liu, C. Zhou, and S. Huang (2024)
+3dgs-enhancer: enhancing unbounded 3d gaussian splatting with view-consistent 2d diffusion priors.
+Advances in Neural Information Processing Systems 37, pp. 133305–133327.
+Cited by: §5.
+[27]
+Y. Long, Y. Zhang, H. Wang, X. Kuang, H. Huang, F. Rao, H. Liu, Y. Zheng, and W. Zhu (2025)
+PD-INR: Prior-Driven Implicit Neural Representations for TOF-PET Reconstruction .
+In proceedings of Medical Image Computing and Computer Assisted Intervention – MICCAI 2025,
+Vol. LNCS 15962.
+Cited by: §1.
+[28]
+B. P. Lopez, D. W. Jordan, B. J. Kemp, P. E. Kinahan, C. R. Schmidtlein, and O. R. Mawlawi (2021)
+PET/ct acceptance testing and quality assurance: executive summary of aapm task group 126 report.
+Medical physics 48 (2), pp. e31–e35.
+Cited by: §4.1.
+[29]
+D. Meister, S. Ogaki, C. Benthin, M. J. Doyle, M. Guthe, and J. Bittner (2021)
+A survey on bounding volume hierarchies for ray tracing.
+In Computer Graphics Forum,
+Vol. 40, pp. 683–712.
+Cited by: §2.3.
+[30]
+B. Mildenhall, P. P. Srinivasan, M. Tancik, J. T. Barron, R. Ramamoorthi, and R. Ng (2021)
+Nerf: representing scenes as neural radiance fields for view synthesis.
+Communications of the ACM 65 (1), pp. 99–106.
+Cited by: §1.
+[31]
+N. Moenne-Loccoz, A. Mirzaei, O. Perel, R. de Lutio, J. Martinez Esturo, G. State, S. Fidler, N. Sharp, and Z. Gojcic (2024)
+3d gaussian ray tracing: fast tracing of particle scenes.
+ACM Transactions on Graphics (TOG) 43 (6), pp. 1–19.
+Cited by: §1,
+§2.3.
+[32]
+Y. Mu, X. Zuo, C. Guo, Y. Wang, J. Lu, X. Wu, S. Xu, P. Dai, Y. Yan, and L. Cheng (2024)
+Gsd: view-guided gaussian splatting diffusion for 3d reconstruction.
+In European Conference on Computer Vision,
+pp. 55–72.
+Cited by: §5.
+[33]
+S. G. Parker, J. Bigler, A. Dietrich, H. Friedrich, J. Hoberock, D. Luebke, D. McAllister, M. McGuire, K. Morley, A. Robison, et al. (2010)
+Optix: a general purpose ray tracing engine.
+Acm transactions on graphics (tog) 29 (4), pp. 1–13.
+Cited by: §4.1.
+[34]
+A. Paszke, S. Gross, F. Massa, A. Lerer, J. Bradbury, G. Chanan, T. Killeen, Z. Lin, N. Gimelshein, L. Antiga, et al. (2019)
+Pytorch: an imperative style, high-performance deep learning library.
+Advances in neural information processing systems 32.
+Cited by: §4.1.
+[35]
+E. Rapisarda, V. Bettinardi, K. Thielemans, and M. Gilardi (2010)
+Image-based point spread function implementation in a fully 3d osem reconstruction algorithm for pet.
+Physics in medicine & biology 55 (14), pp. 4131.
+Cited by: §1.
+[36]
+S. Rit, D. Sarrut, and L. Desbat (2009)
+Comparison of analytic and algebraic methods for motion-compensated cone-beam ct reconstruction of the thorax.
+IEEE transactions on medical imaging 28 (10), pp. 1513–1525.
+Cited by: §2.1.
+[37]
+D. Strulab, G. Santin, D. Lazaro, V. Breton, and C. Morel (2003)
+GATE (geant4 application for tomographic emission): a pet/spect general-purpose simulation platform.
+Nuclear Physics B-Proceedings Supplements 125, pp. 75–79.
+Cited by: §4.1.
+[38]
+C. Talegaonkar, Y. Belhe, R. Ramamoorthi, and N. Antipa (2025)
+Volumetrically consistent 3d gaussian rasterization.
+In Proceedings of the Computer Vision and Pattern Recognition Conference,
+pp. 10953–10963.
+Cited by: §1.
+[39]
+J. A. Thie (2004)
+Understanding the standardized uptake value, its methods, and implications for usage.
+Journal of Nuclear Medicine 45 (9), pp. 1431–1434.
+Cited by: §3.
+[40]
+K. Thielemans, C. Tsoumpas, S. Mustafovic, T. Beisel, P. Aguiar, N. Dikaios, and M. W. Jacobson (2012)
+STIR: software for tomographic image reconstruction release 2.
+Physics in Medicine & Biology 57 (4), pp. 867.
+Cited by: §4.1.
+[41]
+C. Thirgood, O. Mendez, E. Ling, J. Storey, and S. Hadfield (2025)
+Hypergs: hyperspectral 3d gaussian splatting.
+In Proceedings of the Computer Vision and Pattern Recognition Conference,
+pp. 5970–5979.
+Cited by: §1.
+[42]
+D. Townsend et al. (2004)
+Physical principles and technology of clinical pet imaging.
+Annals-Academy of Medicine Singapore 33 (2), pp. 133–145.
+Cited by: §1.
+[43]
+T. G. Turkington (2001)
+Introduction to pet instrumentation.
+Journal of nuclear medicine technology 29 (1), pp. 4–11.
+Cited by: §1.
+[44]
+S. Vandenberghe, Y. D’Asseler, R. Van de Walle, T. Kauppinen, M. Koole, L. Bouwens, K. Van Laere, I. Lemahieu, and R. Dierckx (2001)
+Iterative reconstruction algorithms in nuclear medicine.
+Computerized medical imaging and graphics 25 (2), pp. 105–111.
+Cited by: §2.1.
+[45]
+S. Vandenberghe, E. Mikhaylova, E. D’Hoe, P. Mollet, and J. S. Karp (2016)
+Recent developments in time-of-flight pet.
+EJNMMI physics 3 (1), pp. 3.
+Cited by: §5.
+[46]
+P. J. Withers, C. Bouman, S. Carmignato, V. Cnudde, D. Grimaldi, C. K. Hagen, E. Maire, M. Manley, A. Du Plessis, and S. R. Stock (2021)
+X-ray computed tomography.
+Nature Reviews Methods Primers 1 (1), pp. 18.
+Cited by: §1.
+[47]
+Z. Yu, A. Chen, B. Huang, T. Sattler, and A. Geiger (2024)
+Mip-splatting: alias-free 3d gaussian splatting.
+In Proceedings of the IEEE/CVF conference on computer vision and pattern recognition,
+pp. 19447–19456.
+Cited by: §1.
+[48]
+R. Zha, T. J. Lin, Y. Cai, J. Cao, Y. Zhang, and H. Li (2024)
+R2-gaussian: rectifying radiative gaussian splatting for tomographic reconstruction.
+arXiv preprint arXiv:2405.20693.
+Cited by: §1,
+§2.2,
+§4.1.
+[49]
+R. Zha, Y. Zhang, and H. Li (2022)
+NAF: neural attenuation fields for sparse-view cbct reconstruction.
+In International Conference on Medical Image Computing and Computer-Assisted Intervention,
+pp. 442–452.
+Cited by: §1.
+[50]
+C. Zhou, L. Fu, S. Peng, Y. Yan, Z. Zhang, Y. Chen, J. Xia, and X. Zhou (2025)
+LiDAR-rt: gaussian-based ray tracing for dynamic lidar re-simulation.
+In Proceedings of the Computer Vision and Pattern Recognition Conference,
+pp. 1538–1548.
+Cited by: §2.3.
+[51]
+J. Zhou, W. Zhang, and Y. Liu (2024)
+Diffgs: functional gaussian splatting diffusion.
+Advances in Neural Information Processing Systems 37, pp. 37535–37560.
+Cited by: §5.
+[52]
+M. Zwicker, H. Pfister, J. Van Baar, and M. Gross (2001)
+Surface splatting.
+In Proceedings of the 28th annual conference on Computer graphics and interactive techniques,
+pp. 371–378.
+Cited by: §1.
+[53]
+M. Zwicker, H. Pfister, J. Van Baar, and M. Gross (2002)
+EWA splatting.
+IEEE Transactions on Visualization and Computer Graphics 8 (3), pp. 223–238.
+Cited by: §1.
+Experimental support, please
+view the build logs
+for errors. Generated by
+L
+A
+T
+E
+xml
+.
+Instructions for reporting errors
+We are continuing to improve HTML versions of papers, and your feedback helps enhance accessibility and mobile
+support. To report errors in the HTML that will help us improve conversion and rendering, choose any of the
+methods listed below:
+Click the "Report Issue" (
+) button, located in the page header.
+Tip: You can select the relevant text first, to include it in your report.
+Our team has already identified the following issues. We appreciate your time reviewing and reporting rendering errors we
+may not have found yet. Your efforts will help us improve the HTML versions for all readers, because disability
+should not be a barrier to accessing research. Thank you for your continued support in championing open access for
+all.
+Have a free development cycle? Help support accessibility at arXiv! Our collaborators at LaTeXML maintain a list of packages that need conversion, and welcome developer contributions.
+We gratefully acknowledge support from
+our major funders,
+member institutions, ,
+and all contributors.
+About
+·
+Help
+·
+Contact
+·
+Subscribe
+·
+Copyright
+·
+Privacy
+·
+Accessibility
+·
+Operational Status (opens in new tab)
+Major funding support from

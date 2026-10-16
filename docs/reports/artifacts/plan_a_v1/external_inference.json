@@ -1,0 +1,211 @@
+{
+  "field_shape": [
+    1,
+    1,
+    64,
+    64,
+    64
+  ],
+  "projection_shape": [
+    1,
+    3,
+    1,
+    64,
+    64
+  ],
+  "finite": true,
+  "field_min": 0.0,
+  "field_max": 0.13995479047298431,
+  "engineering_checkpoint": true,
+  "gt_body_read": false,
+  "inference": {
+    "field_variable": "methane_mass_fraction",
+    "axes": "XYZ",
+    "domain_m": [
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.6,
+        0.6,
+        0.6
+      ]
+    ],
+    "provenance": {
+      "method": "SetUnrolled3D",
+      "checkpoint_hash": "ad8d4d717c131bded1593c37c8cb5e199cd7972594fb2e2cf503a5e602802da4",
+      "config_hash": "a0b3b217adb459cf8a74f6973544377be2e994993036f5ca3e8f5f83baba4d4f"
+    },
+    "input_sha256": "0f5f35a8a04a0b298c5f766b202f6e165b14f9381054849635379ae5d8409d09",
+    "stage": "smoke",
+    "engineering_checkpoint": true,
+    "timing": {
+      "load_s": 1.0248625250533223,
+      "reconstruct_s": 2.1125022461637855,
+      "project_s": 0.15973581979051232
+    },
+    "diagnostics": {
+      "steps": [
+        {
+          "E": [
+            0.37346822023391724
+          ],
+          "update_norm": [
+            14.128222465515137
+          ],
+          "physical_step_norm": [
+            7.04758882522583
+          ],
+          "feedback_norm": [
+            0.0
+          ],
+          "signal_saturation_fraction": [
+            0.0
+          ],
+          "prior_norm": [
+            0.927026629447937
+          ],
+          "tau": 0.5004885792732239,
+          "clip_fraction": [
+            0.03992462158203125
+          ],
+          "physical_clip_fraction": [
+            0.028133392333984375
+          ],
+          "prior_clip_fraction": [
+            0.03992462158203125
+          ],
+          "near_zero_fraction": [
+            0.039928436279296875
+          ],
+          "near_one_fraction": [
+            0.0
+          ]
+        },
+        {
+          "E": [
+            0.09152667969465256
+          ],
+          "update_norm": [
+            7.08427619934082
+          ],
+          "physical_step_norm": [
+            3.4312055110931396
+          ],
+          "feedback_norm": [
+            0.0
+          ],
+          "signal_saturation_fraction": [
+            0.0
+          ],
+          "prior_norm": [
+            0.9071490168571472
+          ],
+          "tau": 0.5004869103431702,
+          "clip_fraction": [
+            0.11890411376953125
+          ],
+          "physical_clip_fraction": [
+            0.09712600708007812
+          ],
+          "prior_clip_fraction": [
+            0.11890411376953125
+          ],
+          "near_zero_fraction": [
+            0.11893081665039062
+          ],
+          "near_one_fraction": [
+            0.0
+          ]
+        },
+        {
+          "E": [
+            0.01923729106783867
+          ],
+          "update_norm": [
+            3.1808950901031494
+          ],
+          "physical_step_norm": [
+            1.4681261777877808
+          ],
+          "feedback_norm": [
+            0.0
+          ],
+          "signal_saturation_fraction": [
+            0.0
+          ],
+          "prior_norm": [
+            0.9697965979576111
+          ],
+          "tau": 0.5004807114601135,
+          "clip_fraction": [
+            0.22194671630859375
+          ],
+          "physical_clip_fraction": [
+            0.1714935302734375
+          ],
+          "prior_clip_fraction": [
+            0.22194671630859375
+          ],
+          "near_zero_fraction": [
+            0.22197341918945312
+          ],
+          "near_one_fraction": [
+            0.0
+          ]
+        },
+        {
+          "E": [
+            0.003768111811950803
+          ],
+          "update_norm": [
+            1.2002630233764648
+          ],
+          "physical_step_norm": [
+            0.4995613992214203
+          ],
+          "feedback_norm": [
+            0.0
+          ],
+          "signal_saturation_fraction": [
+            0.0
+          ],
+          "prior_norm": [
+            0.8943755626678467
+          ],
+          "tau": 0.5004678964614868,
+          "clip_fraction": [
+            0.5443687438964844
+          ],
+          "physical_clip_fraction": [
+            0.2931251525878906
+          ],
+          "prior_clip_fraction": [
+            0.5443687438964844
+          ],
+          "near_zero_fraction": [
+            0.5444679260253906
+          ],
+          "near_one_fraction": [
+            0.0
+          ]
+        }
+      ],
+      "iterations": 4,
+      "status": "ok"
+    },
+    "gt_read": false
+  },
+  "export_audit": {
+    "gt_file_opened": false,
+    "gt_open_attempts": 0,
+    "forbidden_npy_attempts": 0,
+    "supervised_checkpoint_open_attempts": 0,
+    "projection_open_count": 3,
+    "unique_pool_a_projection_files": 1,
+    "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+    "audit_hook_inherited_by_workers": true
+  }
+}

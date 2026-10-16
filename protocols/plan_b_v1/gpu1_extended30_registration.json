@@ -1,0 +1,37 @@
+{
+  "registered_utc": "2026-10-15T16:23:29.866203+00:00",
+  "authorization": "User: 使用GPU1开展方案b的训练和测试",
+  "physical_gpu": 1,
+  "gpu_uuid": "GPU-cd80a78f-7d90-c291-4680-4895db9aac8b",
+  "config": "configs/research/scheme_b_gate_gpu1_extended30.yaml",
+  "config_sha256": "77889bb7bd9e11f1da194dc6ab72a258e9aa279bb76cf5609df92d5507750e7b",
+  "source_sha256": "c0e824d8e45a44fd744a9f2b3cc031a16574e1adbe35a03c2120f6148bee742f",
+  "purpose": "Longer learning diagnostic after failed 20/40 update gates; not formal training",
+  "train_cases": 16,
+  "val_cases": 8,
+  "epochs": 30,
+  "updates": 240,
+  "max_seconds": 1800,
+  "fresh_initialization": true,
+  "changes": [
+    "epochs 5 -> 30",
+    "cosine T_max 5 -> 30",
+    "update budget 40 -> 240",
+    "physical GPU2 -> GPU1"
+  ],
+  "fixed": [
+    "architecture",
+    "loss",
+    "Q96",
+    "FP32",
+    "initialization policy",
+    "seed",
+    "data subsets",
+    "acceptance thresholds"
+  ],
+  "prior_failed_runs": [
+    "outputs/research/scheme_b_smoke_calibrated",
+    "outputs/research/scheme_b_gate_calibrated"
+  ],
+  "formal_promotion": "Requires passed same-source smoke AND gate; previous failures retained. No GT evaluation."
+}

@@ -1,0 +1,80 @@
+{
+  "created_at": "2026-10-15T16:26:20.731347+08:00",
+  "split_counts": {
+    "train": 166,
+    "val": 36,
+    "test": 35
+  },
+  "dataset_metadata_unchanged": true,
+  "metadata_checks": {
+    "source_index.jsonl": true,
+    "dataset_build_manifest.json": true,
+    "train_statistics.json": true,
+    "splits/split_summary.json": true,
+    "splits/test_cases.txt": true,
+    "splits/train_cases.txt": true,
+    "splits/val_cases.txt": true,
+    "geometry/canonical_fixed_geometry.npz": true,
+    "geometry/ood_geometry.npz": true,
+    "geometry/train_geometry.npz": true
+  },
+  "historical_source_unchanged": true,
+  "changed_historical_source": [],
+  "baseline_checkpoint_unchanged": true,
+  "gt_body_read": false,
+  "baseline_measurement_replayed": true,
+  "baseline_measurements": {
+    "loss": {
+      "total": 0.010930456660894884,
+      "hold": 0.004883614543359727,
+      "cross": 0.004854742372925911,
+      "observed": 0.0036308505061444724,
+      "consistency": 0.06512771784845325
+    },
+    "measurement": {
+      "heldout": {
+        "relative_l1": 0.032751787359453936,
+        "relative_l2": 0.04244087753343326
+      },
+      "cross": {
+        "relative_l1": 0.03239257687727245,
+        "relative_l2": 0.04190874230086062
+      },
+      "observed": {
+        "relative_l1": 0.025570215912033532,
+        "relative_l2": 0.03379197734345957
+      }
+    },
+    "output": {
+      "min": 1.3181089553171432e-10,
+      "max": 0.8232766389846802,
+      "mean": 0.00365504910910709,
+      "std": 0.01659962995115309,
+      "fraction_near_one": 0.0,
+      "case_to_case_mean_absolute_difference": 0.004468775520633374
+    },
+    "gradient_norm_max": 0.0,
+    "case_station_digest": "8ee6f530b867b124624aa6ad2f4830f3deecd56744882c7f471ef8235d7b44ef",
+    "sample_count": 36,
+    "gt_used": false,
+    "seconds": 20.746370202861726
+  },
+  "gt_access": {
+    "gt_file_opened": false,
+    "gt_open_attempts": 0,
+    "forbidden_npy_attempts": 0,
+    "supervised_checkpoint_open_attempts": 0,
+    "projection_open_count": 108,
+    "unique_pool_a_projection_files": 36,
+    "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+    "audit_hook_inherited_by_workers": true
+  },
+  "baseline_reproduction": {
+    "expected": 0.03275178677442122,
+    "actual": 0.032751787359453936,
+    "absolute_difference": 5.850327167156166e-10,
+    "tolerance": 3.375178677442122e-07,
+    "passed": true
+  },
+  "passed": true
+}

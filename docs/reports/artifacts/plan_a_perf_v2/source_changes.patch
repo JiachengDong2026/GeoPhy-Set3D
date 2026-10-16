@@ -1,0 +1,349 @@
+--- v1/src/geophy_set3d/evaluation/research.py
++++ v2/src/geophy_set3d/evaluation/research.py
+@@ -73,7 +73,7 @@
+         reprojection = self.model.operator(field, input_batch)
+         synchronize(device)
+         projected = time.perf_counter()
+-        diagnostics = {k: v for k, v in result.items() if k != 'volume'} if isinstance(result, dict) else {}
++        diagnostics = {k: v for k, v in result.items() if k not in ('volume', 'stencil')} if isinstance(result, dict) else {}
+         return dict(field_pred=field, field_variable='methane_mass_fraction',
+                     axes='XYZ', domain_m=[[0., 0., 0.], [.6, .6, .6]],
+                     input_reprojection_ppm_m=reprojection,
+--- v1/src/geophy_set3d/models/set_unrolled3d.py
++++ v2/src/geophy_set3d/models/set_unrolled3d.py
+@@ -178,7 +178,10 @@
+         records = []
+         tau = self.step_logits.sigmoid()
+         for k in range(self.steps):
+-            prediction = self.operator.project_normalized(c, stencil)
++            if self.variant == 'A-CONTROL':
++                prediction = self.operator.project_normalized(c, stencil)
++            else:
++                prediction, gradient = self.operator.residual_gradient(c, y, stencil)
+             residual = torch.where(valid, prediction - y, 0)
+             feedback = None
+             if self.variant == 'A-CONTROL':
+@@ -195,7 +198,7 @@
+             else:
+                 # Full differentiable J(C)^T r(C): neither r nor chi'(C)
+                 # is detached. Outer differentiation retains both paths.
+-                g = self.operator.vjp(c, residual, stencil) / counts[:, None, None, None, None]
++                g = gradient / counts[:, None, None, None, None]
+                 update = (torch.where(positive, g / denominator, 0)
+                           if self.preconditioner == 'geometry'
+                           else g * self.unpreconditioned_scale)
+@@ -231,7 +234,7 @@
+         if return_diagnostics:
+             return dict(volume=c, C0=c0, steps=records, tau=tau, coverage=coverage,
+                         linear_coverage=tt1, visible_fraction=visible_fraction,
+-                        D0=d0, eps_D=eps, valid_counts=counts,
++                        D0=d0, eps_D=eps, valid_counts=counts, stencil=stencil,
+                         zero_coverage_fraction=(~positive).to(c.dtype).flatten(1).mean(1))
+         return c
+ 
+--- v1/src/geophy_set3d/physics/explicit_ray_operator.py
++++ v2/src/geophy_set3d/physics/explicit_ray_operator.py
+@@ -3,8 +3,8 @@
+ Volumes are endpoint samples in XYZ order. Interpolation precedes mass-to-mole
+ conversion. The linear coverage operator T includes the normalized ppm m scale;
+ its transpose is the Euclidean discrete transpose (no voxel-volume factor).
+-Geometry is detached and cached on CPU; only ray chunks are copied to the volume
+-device. This operator differentiates concentration, never station coordinates.
++Geometry is detached and cached with bounded CPU and CUDA LRUs. This operator
++differentiates concentration, never station coordinates.
+ """
+ from collections import OrderedDict
+ from dataclasses import dataclass
+@@ -21,6 +21,7 @@
+     indices: torch.Tensor
+     weights: torch.Tensor
+     factors: torch.Tensor
++    cache_key: bytes = b''
+ 
+     @property
+     def nbytes(self):
+@@ -46,13 +47,15 @@
+ 
+     Concentration must be FP32 or FP64 and lie in the model's physical [0,1]
+     range. No extra clamp is inserted: it would change derivatives at bounds.
+-    The CPU LRU is per operator, defaults to 512 MiB, and is not checkpointed.
++    CPU and CUDA LRUs are per operator, each default to 512 MiB, and are not
++    checkpointed. Set device_cache_budget_bytes=0 for the streaming fallback.
+     A prepared batch owns references to its CPU stencil until released.
+     """
+     def __init__(self, samples_per_ray=96, ray_chunk=256,
+                  projection_scale_ppm_m=32284.894580078173,
+                  domain_min_m=(0., 0., 0.), domain_max_m=(.6, .6, .6),
+-                 cache_budget_bytes=512 * 1024 ** 2):
++                 cache_budget_bytes=512 * 1024 ** 2,
++                 device_cache_budget_bytes=512 * 1024 ** 2):
+         super().__init__()
+         if not isinstance(samples_per_ray, int) or samples_per_ray < 1:
+             raise ValueError('samples_per_ray must be a positive integer')
+@@ -74,6 +77,11 @@
+             raise ValueError('cache_budget_bytes must be nonnegative')
+         self._cache = OrderedDict()
+         self._cache_bytes = 0
++        self.device_cache_budget_bytes = int(device_cache_budget_bytes)
++        if self.device_cache_budget_bytes < 0:
++            raise ValueError('device_cache_budget_bytes must be nonnegative')
++        self._device_cache = OrderedDict()
++        self._device_cache_bytes = 0
+ 
+     @property
+     def _signature(self):
+@@ -87,6 +95,12 @@
+     def clear_cache(self):
+         self._cache.clear()
+         self._cache_bytes = 0
++        self._device_cache.clear()
++        self._device_cache_bytes = 0
++
++    @property
++    def device_cache_bytes(self):
++        return self._device_cache_bytes
+ 
+     @torch.no_grad()
+     def prepare(self, batch, grid_size):
+@@ -146,7 +160,7 @@
+                 key = digest.digest()
+                 station = self._cache.get(key)
+                 if station is None:
+-                    station = self._make_station(positions, o, d, n, ell, grid_size)
++                    station = self._make_station(positions, o, d, n, ell, grid_size, key)
+                     if station.nbytes <= self.cache_budget_bytes:
+                         while self._cache and self._cache_bytes + station.nbytes > self.cache_budget_bytes:
+                             _, evicted = self._cache.popitem(last=False)
+@@ -159,7 +173,7 @@
+         return RayStencil(grid_size, tuple(valid.shape), tuple(stations), valid.to(device),
+                           counts.to(device), device, dtype, self._signature)
+ 
+-    def _make_station(self, positions, origin, directions, near, length, n):
++    def _make_station(self, positions, origin, directions, near, length, n, key=b''):
+         dtype = origin.dtype
+         lo = torch.tensor(self.domain_min_m, dtype=dtype)
+         extent = torch.tensor(self.domain_max_m, dtype=dtype) - lo
+@@ -184,7 +198,7 @@
+             indices.append(torch.stack(ix, -1))
+             weights.append(torch.stack(wx, -1))
+         factors = (1e6 / self.projection_scale_ppm_m) * length / self.samples_per_ray
+-        return _StationStencil(positions, torch.cat(indices), torch.cat(weights), factors)
++        return _StationStencil(positions, torch.cat(indices), torch.cat(weights), factors, key)
+ 
+     def _resolve(self, c, batch_or_stencil):
+         if c.ndim != 5 or c.shape[1] != 1 or len(set(c.shape[-3:])) != 1:
+@@ -198,10 +212,46 @@
+             raise ValueError('Stencil belongs to a different operator configuration')
+         return stencil
+ 
++    def _resident(self, station, device, dtype):
++        """Transfer each cached station once, rather than every physical step.
++
++        A zero budget retains the original streaming path. Keys include actual
++        geometry, grid, integration rule, device and dtype; station IDs alone
++        never identify cached geometry. Autograd may retain evicted tensors for
++        its active graph, so this bounds cache ownership, not total GPU memory.
++        """
++        device = torch.device(device)
++        if device.type == 'cuda' and device.index is None:
++            device = torch.device('cuda', torch.cuda.current_device())
++        if device.type != 'cuda' or not station.cache_key:
++            return station
++        nbytes = (station.positions.numel() * station.positions.element_size()
++                  + station.indices.numel() * station.indices.element_size()
++                  + (station.weights.numel() + station.factors.numel())
++                  * torch.empty((), dtype=dtype).element_size())
++        if nbytes > self.device_cache_budget_bytes:
++            return station
++        key = (station.cache_key, device, dtype)
++        resident = self._device_cache.get(key)
++        if resident is not None:
++            self._device_cache.move_to_end(key)
++            return resident
++        while self._device_cache and self._device_cache_bytes + nbytes > self.device_cache_budget_bytes:
++            _, evicted = self._device_cache.popitem(last=False)
++            self._device_cache_bytes -= evicted.nbytes
++        resident = _StationStencil(station.positions.to(device, non_blocking=True),
++            station.indices.to(device, non_blocking=True),
++            station.weights.to(device=device, dtype=dtype, non_blocking=True),
++            station.factors.to(device=device, dtype=dtype, non_blocking=True), station.cache_key)
++        self._device_cache[key] = resident
++        self._device_cache_bytes += resident.nbytes
++        return resident
++
+     def _chunks(self, stencil, device, dtype):
+         pixels = math.prod(stencil.projection_shape[-2:])
+         views = stencil.projection_shape[1]
+         for b, v, station in stencil.stations:
++            station = self._resident(station, device, dtype)
+             for start in range(0, len(station.positions), self.ray_chunk):
+                 sl = slice(start, start + self.ray_chunk)
+                 yield (b, station.indices[sl].to(device), station.weights[sl].to(device=device, dtype=dtype),
+@@ -264,6 +314,32 @@
+             result = result.scatter_add(0, (ix + b*cells).reshape(-1),
+                                         (contribution[..., None] * w).reshape(-1))
+         return result.reshape_as(c)
++
++    def residual_gradient(self, c, target, batch_or_stencil):
++        """Normalized prediction and exact J(C)^T(p(C)-target), in one pass.
++
++        All samples of a ray belong to one chunk. Sharing their interpolation
++        between p and chi' avoids a second gather/transfer without detaching
++        either residual or concentration. The caller applies per-case 1/m.
++        """
++        stencil = self._resolve(c, batch_or_stencil)
++        if tuple(target.shape) != stencil.projection_shape or target.device != c.device or target.dtype != c.dtype:
++            raise ValueError('Target must match normalized projection shape, device and dtype')
++        flat, rays = c.reshape(len(c), -1), target.reshape(-1)
++        result = c.new_zeros(c.numel())
++        positions, values = [], []
++        cells = stencil.grid_size ** 3
++        for b, ix, w, factor, pos in self._chunks(stencil, c.device, c.dtype):
++            sampled = self._sample(flat[b], ix, w)
++            prediction = self._chi(sampled).sum(-1) * factor
++            contribution = self._chi_prime(sampled) * (factor * (prediction - rays[pos]))[:, None]
++            result = result.scatter_add(0, (ix + b*cells).reshape(-1),
++                                        (contribution[..., None] * w).reshape(-1))
++            positions.append(pos)
++            values.append(prediction)
++        projection = c.new_zeros(math.prod(stencil.projection_shape)).index_copy(
++            0, torch.cat(positions), torch.cat(values)).reshape(stencil.projection_shape)
++        return projection, result.reshape_as(c)
+ 
+     @torch.no_grad()
+     def coverage(self, stencil, *, device=None, dtype=None):
+--- v1/src/geophy_set3d/training/research_selfsup.py
++++ v2/src/geophy_set3d/training/research_selfsup.py
+@@ -198,7 +198,13 @@
+     volumes = tuple(item['volume'] if isinstance(item, dict) else item for item in outputs)
+     if any(not torch.isfinite(c).all() or (c < 0).any() or (c > 1).any() for c in volumes):
+         raise FloatingPointError('Model output must be finite mass fraction in [0,1]')
+-    projections = {name: {key: operator(c, batch[key]) for key in ('A', 'B', 'H')} for name, c in zip(('C_A', 'C_B'), volumes)}
++    # Each branch geometry is independent of the reconstructed concentration.
++    # Reuse the inner stencil, or prepare it once, across both outer fields.
++    stencils = {}
++    for index, key in enumerate(('A', 'B', 'H')):
++        existing = outputs[index].get('stencil') if index < 2 and isinstance(outputs[index], dict) else None
++        stencils[key] = existing if existing is not None else operator.prepare(batch[key], volumes[0].shape[-1])
++    projections = {name: {key: operator(c, stencils[key]) for key in ('A', 'B', 'H')} for name, c in zip(('C_A', 'C_B'), volumes)}
+     discrepancy = lambda name, key: measurement_discrepancy(projections[name][key], batch[key])
+     parts = dict(hold=.5 * (discrepancy('C_A', 'H') + discrepancy('C_B', 'H')),
+         cross=.5 * (discrepancy('C_A', 'B') + discrepancy('C_B', 'A')),
+@@ -211,13 +217,42 @@
+ 
+ 
+ def _plain(value):
+-    if isinstance(value, torch.Tensor):
+-        return value.detach().cpu().tolist()
+-    if isinstance(value, dict):
+-        return {k: _plain(v) for k, v in value.items()}
+-    if isinstance(value, (list, tuple)):
+-        return [_plain(v) for v in value]
+-    return value
++    """Copy nested diagnostic tensors once per device/dtype, preserving values.
++
++    Step diagnostics contain many tiny tensors. Transferring each separately
++    synchronizes CUDA once per scalar; packing detached leaves avoids those
++    repeated barriers without retaining their autograd graphs or casting them.
++    """
++    groups, converted = {}, {}
++
++    def collect(item):
++        if isinstance(item, torch.Tensor):
++            groups.setdefault((item.device, item.dtype), []).append(item)
++        elif isinstance(item, dict):
++            for child in item.values():
++                collect(child)
++        elif isinstance(item, (list, tuple)):
++            for child in item:
++                collect(child)
++
++    def rebuild(item):
++        if isinstance(item, torch.Tensor):
++            return converted[id(item)]
++        if isinstance(item, dict):
++            return {key: rebuild(child) for key, child in item.items()}
++        if isinstance(item, (list, tuple)):
++            return [rebuild(child) for child in item]
++        return item
++
++    collect(value)
++    for tensors in groups.values():
++        packed = torch.cat([item.detach().reshape(-1) for item in tensors]).cpu()
++        offset = 0
++        for item in tensors:
++            size = item.numel()
++            converted[id(item)] = packed[offset:offset+size].reshape(item.shape).tolist()
++            offset += size
++    return rebuild(value)
+ 
+ 
+ def run_research_epoch(model, loader, config, operator, optimizer=None, *, snapshot_path=None,
+@@ -246,6 +281,7 @@
+                     heldout_reference=batch['H']['input_projection_raw'][0].detach().cpu()), snapshot_path)
+             n = len(batch['A']['case_id'])
+             count += n
++            norm = None
+             if training:
+                 (loss * n).backward()
+                 group_cases += n
+@@ -254,32 +290,39 @@
+                         if parameter.grad is not None:
+                             parameter.grad.div_(group_cases)
+                     norm = torch.nn.utils.clip_grad_norm_(model.parameters(), 1., error_if_nonfinite=True)
+-                    norms.append(float(norm))
+                     optimizer.step()
+                     optimizer.zero_grad(set_to_none=True)
+                     updates += 1
+                     group_cases = 0
+-            for key, value in dict(total=loss, **parts).items():
+-                totals[key] += float(value.detach()) * n
+             detached_projections = {name: {key: value.detach() for key, value in predictions.items()}
+                                     for name, predictions in projections.items()}
+             for key, values in projection_scores(detached_projections, batch).items():
+                 scores[key].extend(values)
++            batch_moments = []
+             for volume in volumes:
+                 for prediction in volume.detach():
+-                    moments.append((float(prediction.min()), float(prediction.max()), float(prediction.mean()),
+-                        float(prediction.square().mean()), float((prediction <= 1e-5).float().mean()), float((prediction >= .999).float().mean())))
++                    batch_moments.append((prediction.min(), prediction.max(), prediction.mean(),
++                        prediction.square().mean(), (prediction <= 1e-5).float().mean(), (prediction >= .999).float().mean()))
+             for i, case_id in enumerate(batch['A']['case_id']):
+                 if len(examples) < 8:
+                     examples[case_id] = volumes[0][i].detach().cpu()
++            batch_physical = []
+             for output in outputs:
+                 if isinstance(output, dict):
+                     scalar_keys = ('E', 'update_norm', 'physical_step_norm', 'prior_norm', 'tau', 'feedback_norm', 'signal_saturation_fraction',
+                         'physical_clip_fraction', 'prior_clip_fraction', 'near_zero_fraction', 'near_one_fraction')
+-                    physical.append(dict(steps=[_plain({key: record[key] for key in scalar_keys if key in record})
++                    batch_physical.append(dict(steps=[{key: record[key] for key in scalar_keys if key in record}
+                         for record in output.get('steps', [])]))
+                     if 'coverage' in output:
+-                        physical[-1]['coverage_zero_fraction'] = float((output['coverage'] == 0).float().mean())
++                        batch_physical[-1]['coverage_zero_fraction'] = (output['coverage'] == 0).float().mean()
++            diagnostics = _plain(dict(loss=dict(total=loss, **parts), norm=norm,
++                moments=batch_moments, physical=batch_physical))
++            for key, value in diagnostics['loss'].items():
++                totals[key] += value * n
++            if norm is not None:
++                norms.append(diagnostics['norm'])
++            moments.extend(diagnostics['moments'])
++            physical.extend(diagnostics['physical'])
+             if training and group_cases == 0 and ((max_updates is not None and updates >= max_updates)
+                                                   or (deadline is not None and time.monotonic() >= deadline)):
+                 break
+@@ -432,7 +475,11 @@
+             # Validation has an independent generator so it never changes training ordering.
+             val_loader = make_research_loader(val, config, generator=torch.Generator().manual_seed(0))
+             model = build_set_unrolled_model(config).to(device)
+-            operator = ExplicitRayOperator(samples_per_ray=config['model'].get('samples', 96), ray_chunk=config['model'].get('ray_chunk', 256))
++            # Inner updates and outer losses use identical ray geometry. Share
++            # its bounded caches rather than building/transferring two copies.
++            operator = getattr(model, 'operator', None)
++            if operator is None:  # Lightweight trainer replay test models.
++                operator = ExplicitRayOperator(samples_per_ray=config['model'].get('samples', 96), ray_chunk=config['model'].get('ray_chunk', 256))
+             optimizer = torch.optim.AdamW(model.parameters(), lr=config['optimizer']['lr'], weight_decay=config['optimizer']['weight_decay'])
+             scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=config['scheduler']['T_max'])
+             start = global_step = 0

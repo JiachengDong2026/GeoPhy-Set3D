@@ -1,0 +1,557 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/CxGMrhEMey9owqQMQAdz/ElF2w8</id>
+  <title>arXiv Query: search_query=(all:"tomography" OR all:"CT reconstruction") AND (all:"geometry generalization" OR all:"arbitrary geometry" OR all:"geometry-aware" OR all:"arbitrary sampling")&amp;id_list=&amp;start=0&amp;max_results=18</title>
+  <updated>2026-10-15T05:29:16Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=(all:%22tomography%22+OR+all:%22CT+reconstruction%22)+AND+(all:%22geometry+generalization%22+OR+(all:%22arbitrary+geometry%22+OR+(all:%22geometry-aware%22+OR+all:%22arbitrary+sampling%22)))&amp;start=0&amp;max_results=18&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>18</opensearch:itemsPerPage>
+  <opensearch:totalResults>17</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2610.08866v1</id>
+    <title>Geometry-Aware Diffusion Approximate Posterior Sampling for Sparse-View and Limited-Angle CT</title>
+    <updated>2026-10-05T23:02:07Z</updated>
+    <link href="https://arxiv.org/abs/2610.08866v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2610.08866v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Sparse-view computed tomography (CT) reduces radiation dose and acquisition time and may mitigate motion artifacts. However, angular undersampling provides insufficient information to determine the image uniquely and stably. Limited-angle CT, arising from restricted angular coverage, produces strongly directional information loss associated with the missing angular range. In both settings, image directions may be strongly observed, weakly constrained, or unobservable, leading to severe ill-posedness and reconstruction ambiguity. Existing diffusion-based approaches incorporate measurement information through likelihood guidance, data-consistency operations, or range-null-space corrections. However, they do not generally use the continuously varying measurement sensitivity of the acquisition to jointly shape both reconstruction updates and stochastic exploration.
+  We propose a geometry-aware diffusion-guided stochastic reconstruction framework for sparse-view and limited-angle CT. Its central component is a regularized noise-weighted pullback metric constructed from the CT forward operator and measurement-noise covariance. This metric continuously adapts both the measurement-aware update and stochastic exploration according to directional measurement sensitivity, suppressing changes along strongly constrained directions while permitting greater exploration along weakly constrained and unobservable directions. We complement this geometry-aware update with a regularized data-consistency correction and approximately null-space-restricted stochastic perturbations, implemented matrix-free using forward and backprojection operations together with conjugate-gradient solves. Experiments on sparse-view, noisy, and limited-angle CT demonstrate competitive reconstruction quality, strong measurement consistency, and spatially resolved empirical uncertainty estimates.</summary>
+    <category term="eess.IV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-10-05T23:02:07Z</published>
+    <arxiv:primary_category term="eess.IV"/>
+    <author>
+      <name>Honglei Brinkmann</name>
+    </author>
+    <author>
+      <name>Carola-Bibiane Schönlieb</name>
+    </author>
+    <author>
+      <name>Ander Biguri</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2607.14415v2</id>
+    <title>$K$-NeAS: Scalable Multi-Material CT Reconstruction Using Neural SDFs</title>
+    <updated>2026-09-02T20:44:02Z</updated>
+    <link href="https://arxiv.org/abs/2607.14415v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2607.14415v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Computed Tomography (CT) carries significant ionizing radiation risks, driving the need for sparse-view reconstruction. Implicit scene representations (ISRs) address this by recovering continuous volumetric attenuation fields directly from sparse projections, and recent geometry-aware extensions jointly model surface geometry alongside attenuation to improve fidelity and enable clean tissue segmentation without manual thresholding. However, these methods remain limited by manually tuned attenuation bounds and rigid two-material constraints. This paper proposes $K$-NeAS, a unified and scalable architecture for automated, multi-material surface reconstruction. We replace independent material networks with a shared latent backbone and introduce a fully differentiable $K$-material sequential soft selector to model an arbitrary number of overlapping tissues. To eliminate manual tuning, we automate attenuation bounding using a Gaussian Mixture Model (GMM) and implement a scheduled auxiliary floater loss to mitigate geometric hallucinations common under extreme sparsity. Evaluated across four clinical Cone-Beam CT (CBCT) datasets, $K$-NeAS successfully scales to arbitrary material counts, achieving superior 3D volumetric fidelity at $K=3$ materials on complex multi-tissue regions such as the Abdomen ($33.28\text{ dB}$ 3D PSNR vs. $31.40\text{ dB}$ single-material NeAS baseline, a $+1.88\text{ dB}$ improvement). Furthermore, our model exhibits enhanced robustness under sparse-sampling conditions, outperforming baseline 3D PSNR by up to $1.17\text{ dB}$ under 5- and 10-view constraints.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-07-15T23:08:45Z</published>
+    <arxiv:comment>11 pages, 4 figures. Oral Presentation at Off-Grid Workshop, MICCAI 2026 https://openreview.net/forum?id=sEU4YZ7pmd</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Daksh K. Shah</name>
+    </author>
+    <author>
+      <name>Emmanouil Nikolakakis</name>
+    </author>
+    <author>
+      <name>Razvan Marinescu</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2607.02099v1</id>
+    <title>X-Splat: Gaussian Splatting for 3D CBCT Generation from Single Panoramic Radiograph</title>
+    <updated>2026-07-02T12:34:59Z</updated>
+    <link href="https://arxiv.org/abs/2607.02099v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2607.02099v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Generating a 3D dental volume from a single panoramic radiograph (PXR) could provide a low-radiation alternative to Cone-Beam Computed Tomography (CBCT), but the problem is highly underdetermined: panoramic acquisition integrates 3D attenuation along curved X-ray paths into a 2D image, leaving depth-resolved anatomy unobserved. Existing implicit and generative approaches often produce oversmoothed geometry or anatomically inconsistent hallucinations, lacking geometry-driven supervision and relying on smooth representations unable to precisely localize sharp anatomical boundaries. We propose X-Splat, the first Gaussian Splatting framework for generating CBCT-like 3D dental volumes from a single PXR. X-Splat uses the known panoramic acquisition geometry as a generation scaffold: learnable anisotropic Gaussian primitives are initialized along the X-ray paths that formed the input image and adjusted in a single feed-forward pass, constrained by Beer-Lambert reprojection and multi-view radiographic training supervision. A lightweight residual refiner adds dataset-level anatomical priors without overriding the geometry already resolved by the Gaussians. We train on synthetic PXR-CBCT pairs, enabling direct volumetric supervision without paired real scans. We further introduce segmentation-based geometry-aware metrics, providing the first evaluation of PXR-based generation over maxillofacial anatomy. X-Splat outperforms NeRF- and GAN-based baselines, recovering individual teeth, cortical boundaries, and alveolar structure, including the mandibular canal which prior methods fail to reconstruct. Code will be available at https://github.com/tomek1911/X-Splat</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-07-02T12:34:59Z</published>
+    <arxiv:comment>19 pages, 6 figures, including appendix. Under review</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Tomasz Szczepański</name>
+    </author>
+    <author>
+      <name>Szymon Płotka</name>
+    </author>
+    <author>
+      <name>Michal K. Grzeszczyk</name>
+    </author>
+    <author>
+      <name>Tomasz Trzciński</name>
+    </author>
+    <author>
+      <name>Arkadiusz Sitek</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2607.01128v1</id>
+    <title>GAIA: Geometry-Adaptive Operator Learning for Forward and Inverse Problems</title>
+    <updated>2026-07-01T16:14:22Z</updated>
+    <link href="https://arxiv.org/abs/2607.01128v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2607.01128v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Operator learning for partial differential equations (PDEs) on arbitrary geometries builds fast neural surrogates for large-scale simulation. Although recent geometry-adaptive neural operators have made substantial progress, they are mainly designed for forward problems in which inputs and outputs share the same spatial domain. This limits their applicability for boundary value problems (BVPs) and inverse problems, where inputs and outputs may live on different domains. We introduce the Geometry-Adaptive Integral Autoencoder (GAIA), an operator learning model that encodes the domain boundary and the interior field distribution into geometry tokens, and conditions integral transform layers on these tokens via cross-attention, allowing the kernel to adapt locally to geometric features. This yields a single architecture for forward (including BVPs) and inverse problems on arbitrary domains in one pass, without retraining, iterative optimization, or graph construction. We evaluate GAIA on seven 2D and 3D benchmarks, four of which are new or substantially extended benchmarks for inverse problems and BVP: electrical impedance tomography, optical tomography, 3D Darcy flow on varying geometries, and a modified setting of Poisson BVP on mechanical components benchmark (MCB). GAIA sets new state-of-the-art results on every inverse and BVP task, reducing median relative $L^2$ error by 64% on airfoil flow reconstruction and 27% on EIT relative to the next best amortized method, and outperforming all baselines on every shape category of MCB. On other forward problems, GAIA is competitive with specialized solvers while maintaining stable accuracy across point resolutions on which transformer-based baselines degrade.</summary>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="math.NA" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-07-01T16:14:22Z</published>
+    <arxiv:primary_category term="cs.LG"/>
+    <author>
+      <name>Meenakshi Krishnan</name>
+    </author>
+    <author>
+      <name>Pranav Pulijala</name>
+    </author>
+    <author>
+      <name>Ke Chen</name>
+    </author>
+    <author>
+      <name>Haizhao Yang</name>
+    </author>
+    <author>
+      <name>Ramani Duraiswami</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2606.19867v4</id>
+    <title>PSCT-Net: Geometry-Aware Pediatric Skull CT Reconstruction via Differentiable Back-Projection and Attention-Guided Refinement</title>
+    <updated>2026-09-09T10:49:42Z</updated>
+    <link href="https://arxiv.org/abs/2606.19867v4" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2606.19867v4" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Computed Tomography (CT) is essential for diagnosing pediatric craniofacial abnormalities, yet poses radiation risks to developing anatomies. Reconstructing 3D CT from sparse bi-planar X-rays offers a low-dose alternative but is severely ill-posed. Existing methods employ geometry-agnostic feature lifting, naively projecting 2D features into 3D without explicit spatial modeling, causing depth ambiguity and degraded osseous boundaries. We present PSCT-Net, a geometry-aware framework with differentiable back-projection. Differentiable back-projection establishes a spatially faithful volumetric prior, alleviating depth ambiguity. An Attention-Guided Projection (AGP-3D) module then learns non-linear voxel-wise correspondences between 2D regions and 3D locations. A Bidirectional Mamba (BiM-3D) module captures long-range volumetric dependencies with linear complexity. We further curate a private institutional pediatric skull CT cohort, PedSkull-CT, comprising normal and pathological cases for internal evaluation, addressing the gap in adult-centric, trunk-focused datasets. Project page and code are available at https://dydevelop.github.io/PSCT-Net/.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-06-18T07:26:32Z</published>
+    <arxiv:comment>Accepted for publication at the 29th International Conference on Medical Image Computing and Computer-Assisted Intervention PedAItrics Workshop (MICCAIw 2026)</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Dong Yeong Kim</name>
+    </author>
+    <author>
+      <name>Jaewon Choi</name>
+    </author>
+    <author>
+      <name>Youmin Shin</name>
+    </author>
+    <author>
+      <name>JunGyu Lee</name>
+    </author>
+    <author>
+      <name>Myeongseop Kim</name>
+    </author>
+    <author>
+      <name>Jinwook Choi</name>
+    </author>
+    <author>
+      <name>Joo Whan Kim</name>
+    </author>
+    <author>
+      <name>Young-Gon Kim</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2605.22357v1</id>
+    <title>VEELA: A Clinically-Constrained Benchmark for Liver Vessel Segmentation in Computed Tomography Angiography</title>
+    <updated>2026-05-21T11:42:47Z</updated>
+    <link href="https://arxiv.org/abs/2605.22357v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2605.22357v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Accurate segmentation of hepatic and portal vessels in contrast-enhanced computed tomography angiography (CTA) remains challenging due to complex vascular topology, peripheral visibility limitations, and acquisition-induced ambiguities. While existing public datasets offer valuable benchmarks, few include clinically realistic annotation constraints. We introduce VEELA (Vessel Extraction and Extrication for Liver Analysis), a rigorously curated liver vessel dataset derived from 40 CTA scans inherited from the CHAOS grand-challenge cohort. All vessels were manually delineated slice-by-slice under multi-expert consensus, using a strict visibility-driven annotation policy and avoiding anatomically inferred interpolation. This design explicitly captures anatomical variability and imaging-related uncertainty. As a continuation of the CHAOS challenge, VEELA enables reproducible cross-benchmark evaluation while extending the scope to fine-grained hepatic and portal vessel segmentation. We further establish a standardized benchmarking framework and analyze complementary evaluation metrics, including topology-aware (clDice), overlap-based (IoU), boundary-sensitive (NSD), and geometry-aware (area, length) measures. Our results demonstrate that different metrics capture distinct aspects of vascular integrity, underscoring the necessity of multi-perspective evaluation for clinically meaningful vessel segmentation. VEELA is publicly released to facilitate reproducible research and support the development of robust vascular segmentation methods. Researchers can access the evaluation metrics, dataset, and submission platform at https://www.synapse.org/Synapse:syn65471967.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-05-21T11:42:47Z</published>
+    <arxiv:comment>27 pages, 25 figures, 5 tables</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Ziya Ata Yazıcı</name>
+    </author>
+    <author>
+      <name>N. Sinem Gezer</name>
+    </author>
+    <author>
+      <name>İlkay Öksüz</name>
+    </author>
+    <author>
+      <name>İlker Özgür Koska</name>
+    </author>
+    <author>
+      <name>Tuğçe Toprak</name>
+    </author>
+    <author>
+      <name>Pervin Bulucu</name>
+    </author>
+    <author>
+      <name>Ufuk Beşenk</name>
+    </author>
+    <author>
+      <name>A. Emre Kavur</name>
+    </author>
+    <author>
+      <name>Pierre-Henri Conze</name>
+    </author>
+    <author>
+      <name>Hazım Kemal Ekenel</name>
+    </author>
+    <author>
+      <name>Oğuz Dicle</name>
+    </author>
+    <author>
+      <name>Mustafa Ege Şeker</name>
+    </author>
+    <author>
+      <name>Mustafa Said Kartal</name>
+    </author>
+    <author>
+      <name>Ariorad Moniri</name>
+    </author>
+    <author>
+      <name>Orhan Özkan</name>
+    </author>
+    <author>
+      <name>Osman Faruk Bayram</name>
+    </author>
+    <author>
+      <name>Hakan Polat</name>
+    </author>
+    <author>
+      <name>Musa Balcı</name>
+    </author>
+    <author>
+      <name>Ece Tuğba Cebeci</name>
+    </author>
+    <author>
+      <name>Baran Cılga</name>
+    </author>
+    <author>
+      <name>Kardelen Peçenek</name>
+    </author>
+    <author>
+      <name>M. Alper Selver</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2605.17343v1</id>
+    <title>GraphMAR: Geometry-Aware Graph Learning Framework for Spatially Adaptive CT Metal Artifact Reduction</title>
+    <updated>2026-05-17T09:28:45Z</updated>
+    <link href="https://arxiv.org/abs/2605.17343v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2605.17343v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Computed tomography (CT) metal artifact reduction (MAR) aims to reduce the severe streaking artifacts induced by metallic implants and other high-density objects. Effective MAR generally requires both accurate artifact localization and artifact removal. Sinogram-domain methods can exploit explicit geometric cues, such as metal traces, to identify metal-corrupted measurements, while requiring raw projection data, which is often unavailable in clinical and practical scenarios. Image-domain methods are more flexible and widely applicable, yet they usually lack comparable geometric guidance, limiting their ability to localize artifacts and leading to suboptimal results. To address this limitation, we propose GraphMAR, a geometry-aware learning framework for explicit artifact identification and spatially adaptive MAR in the image domain. The key idea is to introduce graph-based geometric modeling as an image-domain analogue of sinogram metal traces. Specifically, we first construct a geometric graph from the metal mask and derive a geometric density graph that coarsely localizes artifact-prone regions according to inter-implant geometry. We then design GraphMoE, a graph-routed mixture-of-experts module that builds a polar-coordinate artifact graph in feature space and adaptively routes different experts to different spatial regions for MAR. By aligning the learned routing maps with the geometric density graph, GraphMAR provides explicit and interpretable artifact localization while enabling region-adaptive artifact reduction. Experiments on both simulated and real-world datasets demonstrate that GraphMAR achieves superior MAR performance compared with existing methods. To the best of our knowledge, this is the first work to introduce graph-based modeling for CT MAR and to enable explicit artifact identification in the image domain, improving both restoration quality and interpretability.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-05-17T09:28:45Z</published>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Zilong Li</name>
+    </author>
+    <author>
+      <name>Chenglong Ma</name>
+    </author>
+    <author>
+      <name>Yiming Lei</name>
+    </author>
+    <author>
+      <name>Yuanlin Li</name>
+    </author>
+    <author>
+      <name>Jing Han</name>
+    </author>
+    <author>
+      <name>Jiannan Liu</name>
+    </author>
+    <author>
+      <name>Huidong Xie</name>
+    </author>
+    <author>
+      <name>Junping Zhang</name>
+    </author>
+    <author>
+      <name>Yi Zhang</name>
+    </author>
+    <author>
+      <name>Hongming Shan</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2604.06583v1</id>
+    <title>VAMAE: Vessel-Aware Masked Autoencoders for OCT Angiography</title>
+    <updated>2026-04-08T02:11:43Z</updated>
+    <link href="https://arxiv.org/abs/2604.06583v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2604.06583v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Optical coherence tomography angiography (OCTA) provides non-invasive visualization of retinal microvasculature, but learning robust representations remains challenging due to sparse vessel structures and strong topological constraints. Many existing self-supervised learning approaches, including masked autoencoders, are primarily designed for dense natural images and rely on uniform masking and pixel-level reconstruction, which may inadequately capture vascular geometry.
+  We propose VAMAE, a vessel-aware masked autoencoding framework for self-supervised pretraining on OCTA images. The approach incorporates anatomically informed masking that emphasizes vessel-rich regions using vesselness and skeleton-based cues, encouraging the model to focus on vascular connectivity and branching patterns. In addition, the pretraining objective includes reconstructing multiple complementary targets, enabling the model to capture appearance, structural, and topological information.
+  We evaluate the proposed pretraining strategy on the OCTA-500 benchmark for several vessel segmentation tasks under varying levels of supervision. The results indicate that vessel-aware masking and multi-target reconstruction provide consistent improvements over standard masked autoencoding baselines, particularly in limited-label settings, suggesting the potential of geometry-aware self-supervised learning for OCTA analysis.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-04-08T02:11:43Z</published>
+    <arxiv:comment>8 pages, 5 figures. Accepted at ICPR 2026</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Ilerioluwakiiye Abolade</name>
+    </author>
+    <author>
+      <name>Prince Mireku</name>
+    </author>
+    <author>
+      <name>Kelechi Chibundu</name>
+    </author>
+    <author>
+      <name>Peace Ododo</name>
+    </author>
+    <author>
+      <name>Emmanuel Idoko</name>
+    </author>
+    <author>
+      <name>Promise Omoigui</name>
+    </author>
+    <author>
+      <name>Solomon Odelola</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2602.11705v1</id>
+    <title>TG-Field: Geometry-Aware Radiative Gaussian Fields for Tomographic Reconstruction</title>
+    <updated>2026-02-12T08:33:01Z</updated>
+    <link href="https://arxiv.org/abs/2602.11705v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2602.11705v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>3D Gaussian Splatting (3DGS) has revolutionized 3D scene representation with superior efficiency and quality. While recent adaptations for computed tomography (CT) show promise, they struggle with severe artifacts under highly sparse-view projections and dynamic motions. To address these challenges, we propose Tomographic Geometry Field (TG-Field), a geometry-aware Gaussian deformation framework tailored for both static and dynamic CT reconstruction. A multi-resolution hash encoder is employed to capture local spatial priors, regularizing primitive parameters under ultra-sparse settings. We further extend the framework to dynamic reconstruction by introducing time-conditioned representations and a spatiotemporal attention block to adaptively aggregate features, thereby resolving spatiotemporal ambiguities and enforcing temporal coherence. In addition, a motion-flow network models fine-grained respiratory motion to track local anatomical deformations. Extensive experiments on synthetic and real-world datasets demonstrate that TG-Field consistently outperforms existing methods, achieving state-of-the-art reconstruction accuracy under highly sparse-view conditions.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-02-12T08:33:01Z</published>
+    <arxiv:comment>Accepted to AAAI 2026. Project page: https://vcc.tech/research/2026/TG-Field</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Yuxiang Zhong</name>
+    </author>
+    <author>
+      <name>Jun Wei</name>
+    </author>
+    <author>
+      <name>Chaoqi Chen</name>
+    </author>
+    <author>
+      <name>Senyou An</name>
+    </author>
+    <author>
+      <name>Hui Huang</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2512.15801v1</id>
+    <title>Geometric Latent Space Tomography with Metric-Preserving Autoencoders</title>
+    <updated>2025-12-16T20:18:10Z</updated>
+    <link href="https://arxiv.org/abs/2512.15801v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2512.15801v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Quantum state tomography faces exponential scaling with system size, while recent neural network approaches achieve polynomial scaling at the cost of losing the geometric structure of quantum state space. We introduce geometric latent space tomography, combining classical neural encoders with parameterized quantum circuit decoders trained via a metric-preservation loss that enforces proportionality between latent Euclidean distances and quantum Bures geodesics. On two-qubit mixed states with purity 0.85--0.95 representing NISQ-era decoherence, we achieve high-fidelity reconstruction (mean fidelity $F = 0.942 \pm 0.03$) with an interpretable 20-dimensional latent structure. Critically, latent geodesics exhibit strong linear correlation with Bures distances (Pearson $r = 0.88$, $R^2 = 0.78$), preserving 78\% of quantum metric structure. Geometric analysis reveals intrinsic manifold dimension 6.35 versus 20 ambient dimensions and measurable local curvature ($κ= 0.011 \pm 0.006$), confirming non-trivial Riemannian geometry with $O(d^2)$ computational advantage over $O(4^n)$ density matrix operations. Unlike prior neural tomography, our geometry-aware latent space enables direct state discrimination, fidelity estimation from Euclidean distances, and interpretable error manifolds for quantum error mitigation without repeated full tomography, providing critical capabilities for NISQ devices with limited coherence times.</summary>
+    <category term="quant-ph" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-12-16T20:18:10Z</published>
+    <arxiv:comment>9 pages, 4 figures, 5 tables</arxiv:comment>
+    <arxiv:primary_category term="quant-ph"/>
+    <author>
+      <name>S. M. Yousuf Iqbal Tomal</name>
+    </author>
+    <author>
+      <name>Abdullah Al Shafin</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2511.12257v2</id>
+    <title>Bregman geometry-aware split Gibbs sampling for Bayesian Poisson inverse problems</title>
+    <updated>2026-09-25T20:16:12Z</updated>
+    <link href="https://arxiv.org/abs/2511.12257v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2511.12257v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>This paper proposes a novel Bayesian framework for solving Poisson inverse problems by devising a Monte Carlo sampling algorithm which accounts for the underlying non-Euclidean geometry. To address the challenges posed by the Poisson likelihood -- such as non-Lipschitz gradients and positivity constraints -- we derive a Bayesian model which leverages exact and asymptotically exact data augmentations. In particular, the augmented model incorporates two sets of splitting variables both derived through a Bregman divergence based on the Burg entropy. Interestingly the resulting augmented posterior distribution is characterized by conditional distributions which benefit from natural conjugacy properties and preserve the intrinsic geometry of the latent and splitting variables. This allows for efficient sampling via Gibbs steps, which can be performed explicitly for all conditionals, except the one incorporating the regularization potential. For this latter, we resort to a Hessian Riemannian Langevin Monte Carlo (HRLMC) algorithm which is well suited to handle priors with explicit or easily computable score functions. By operating on a mirror manifold, this Langevin step ensures that the sampling satisfies the positivity constraints and more accurately reflects the underlying problem structure. Performance results obtained on denoising, deblurring, and positron emission tomography (PET) experiments demonstrate that the method achieves competitive performance in terms of reconstruction quality compared to optimization- and sampling-based approaches.</summary>
+    <category term="stat.CO" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="eess.IV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="stat.ML" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-11-15T15:27:31Z</published>
+    <arxiv:primary_category term="stat.CO"/>
+    <author>
+      <name>Elhadji Cisse Faye</name>
+    </author>
+    <author>
+      <name>Mame Diarra Fall</name>
+    </author>
+    <author>
+      <name>Nicolas Dobigeon</name>
+    </author>
+    <author>
+      <name>Eric Barat</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2303.14739v2</id>
+    <title>Geometry-Aware Attenuation Learning for Sparse-View CBCT Reconstruction</title>
+    <updated>2024-10-02T14:43:17Z</updated>
+    <link href="https://arxiv.org/abs/2303.14739v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2303.14739v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Cone Beam Computed Tomography (CBCT) plays a vital role in clinical imaging. Traditional methods typically require hundreds of 2D X-ray projections to reconstruct a high-quality 3D CBCT image, leading to considerable radiation exposure. This has led to a growing interest in sparse-view CBCT reconstruction to reduce radiation doses. While recent advances, including deep learning and neural rendering algorithms, have made strides in this area, these methods either produce unsatisfactory results or suffer from time inefficiency of individual optimization. In this paper, we introduce a novel geometry-aware encoder-decoder framework to solve this problem. Our framework starts by encoding multi-view 2D features from various 2D X-ray projections with a 2D CNN encoder. Leveraging the geometry of CBCT scanning, it then back-projects the multi-view 2D features into the 3D space to formulate a comprehensive volumetric feature map, followed by a 3D CNN decoder to recover 3D CBCT image. Importantly, our approach respects the geometric relationship between 3D CBCT image and its 2D X-ray projections during feature back projection stage, and enjoys the prior knowledge learned from the data population. This ensures its adaptability in dealing with extremly sparse view inputs without individual training, such as scenarios with only 5 or 10 X-ray projections. Extensive evaluations on two simulated datasets and one real-world dataset demonstrate exceptional reconstruction quality and time efficiency of our method.</summary>
+    <category term="eess.IV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2023-03-26T14:38:42Z</published>
+    <arxiv:comment>15 pages, 15 figures, 10 tables</arxiv:comment>
+    <arxiv:primary_category term="eess.IV"/>
+    <arxiv:journal_ref>IEEE Transactions on Medical Imaging, 2024</arxiv:journal_ref>
+    <author>
+      <name>Zhentao Liu</name>
+    </author>
+    <author>
+      <name>Yu Fang</name>
+    </author>
+    <author>
+      <name>Changjian Li</name>
+    </author>
+    <author>
+      <name>Han Wu</name>
+    </author>
+    <author>
+      <name>Yuan Liu</name>
+    </author>
+    <author>
+      <name>Dinggang Shen</name>
+    </author>
+    <author>
+      <name>Zhiming Cui</name>
+    </author>
+    <arxiv:doi>10.1109/TMI.2024.3473970</arxiv:doi>
+    <link rel="related" href="https://doi.org/10.1109/TMI.2024.3473970" title="doi"/>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2211.00219v2</id>
+    <title>TITAN: Bringing The Deep Image Prior to Implicit Representations</title>
+    <updated>2024-05-01T15:17:03Z</updated>
+    <link href="https://arxiv.org/abs/2211.00219v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2211.00219v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>We study the interpolation capabilities of implicit neural representations (INRs) of images. In principle, INRs promise a number of advantages, such as continuous derivatives and arbitrary sampling, being freed from the restrictions of a raster grid. However, empirically, INRs have been observed to poorly interpolate between the pixels of the fit image; in other words, they do not inherently possess a suitable prior for natural images. In this paper, we propose to address and improve INRs' interpolation capabilities by explicitly integrating image prior information into the INR architecture via deep decoder, a specific implementation of the deep image prior (DIP). Our method, which we call TITAN, leverages a residual connection from the input which enables integrating the principles of the grid-based DIP into the grid-free INR. Through super-resolution and computed tomography experiments, we demonstrate that our method significantly improves upon classic INRs, thanks to the induced natural image bias. We also find that by constraining the weights to be sparse, image quality and sharpness are enhanced, increasing the Lipschitz constant.</summary>
+    <category term="eess.IV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="eess.SP" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2022-11-01T02:07:09Z</published>
+    <arxiv:comment>6 pages, 4 figures</arxiv:comment>
+    <arxiv:primary_category term="eess.IV"/>
+    <author>
+      <name>Lorenzo Luzi</name>
+    </author>
+    <author>
+      <name>Daniel LeJeune</name>
+    </author>
+    <author>
+      <name>Ali Siahkoohi</name>
+    </author>
+    <author>
+      <name>Sina Alemohammad</name>
+    </author>
+    <author>
+      <name>Vishwanath Saragadam</name>
+    </author>
+    <author>
+      <name>Hossein Babaei</name>
+    </author>
+    <author>
+      <name>Naiming Liu</name>
+    </author>
+    <author>
+      <name>Zichao Wang</name>
+    </author>
+    <author>
+      <name>Richard G. Baraniuk</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2011.01790v2</id>
+    <title>On Reconstruction of Binary Images by Efficient Sample-based Parameterization in Applications for Electrical Impedance Tomography</title>
+    <updated>2022-09-24T12:01:56Z</updated>
+    <link href="https://arxiv.org/abs/2011.01790v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2011.01790v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>An efficient computational approach for optimal reconstruction of binary-type images suitable for models in various applications including biomedical imaging is developed and validated. The methodology includes derivative-free optimization supported by a set of sample solutions with customized geometry generated synthetically. The reduced dimensional control space is organized based on contributions from individual samples and the efficient parameterization obtained from the description of the samples' geometry. The entire framework has an easy-to-follow design due to a nominal number of tuning parameters which makes the approach simple for practical implementation in various settings, as well as for adjusting it to new models and enhancing the performance. High efficiency in computational time is achieved through applying the coordinate descent method to work with individual controls in the predefined custom order. This technique is shown to outperform commonly used gradient-based and other derivative-free methods with applied PCA-based control space reduction in terms of both qualities of binary images and stability of obtained solutions when noise is present in the measurement data. The performance of the complete computational framework is tested in applications to 2D inverse problems of detecting inclusions or defective regions by the electrical impedance tomography (EIT). The results demonstrate the efficient performance of the new method and its high potential for improving the overall quality of the EIT-based procedures including biomedical applications.</summary>
+    <category term="math.OC" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="physics.comp-ph" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2020-11-03T15:34:36Z</published>
+    <arxiv:comment>23 pages, 10 figures</arxiv:comment>
+    <arxiv:primary_category term="math.OC"/>
+    <author>
+      <name>Paul R. Arbic</name>
+    </author>
+    <author>
+      <name>Vladislav Bukshtynov</name>
+    </author>
+    <arxiv:doi>10.1080/00207160.2022.2046267</arxiv:doi>
+    <link rel="related" href="https://doi.org/10.1080/00207160.2022.2046267" title="doi"/>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2006.01620v1</id>
+    <title>Deep neural networks for inverse problems with pseudodifferential operators: an application to limited-angle tomography</title>
+    <updated>2020-06-02T14:03:41Z</updated>
+    <link href="https://arxiv.org/abs/2006.01620v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2006.01620v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>We propose a novel convolutional neural network (CNN), called $Ψ$DONet, designed for learning pseudodifferential operators ($Ψ$DOs) in the context of linear inverse problems. Our starting point is the Iterative Soft Thresholding Algorithm (ISTA), a well-known algorithm to solve sparsity-promoting minimization problems. We show that, under rather general assumptions on the forward operator, the unfolded iterations of ISTA can be interpreted as the successive layers of a CNN, which in turn provides fairly general network architectures that, for a specific choice of the parameters involved, allow to reproduce ISTA, or a perturbation of ISTA for which we can bound the coefficients of the filters. Our case study is the limited-angle X-ray transform and its application to limited-angle computed tomography (LA-CT). In particular, we prove that, in the case of LA-CT, the operations of upscaling, downscaling and convolution, which characterize our $Ψ$DONet and most deep learning schemes, can be exactly determined by combining the convolutional nature of the limited angle X-ray transform and basic properties defining an orthogonal wavelet system. We test two different implementations of $Ψ$DONet on simulated data from limited-angle geometry, generated from the ellipse data set. Both implementations provide equally good and noteworthy preliminary results, showing the potential of the approach we propose and paving the way to applying the same idea to other convolutional operators which are $Ψ$DOs or Fourier integral operators.</summary>
+    <category term="math.OC" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="eess.IV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2020-06-02T14:03:41Z</published>
+    <arxiv:primary_category term="math.OC"/>
+    <author>
+      <name>Tatiana A. Bubba</name>
+    </author>
+    <author>
+      <name>Mathilde Galinier</name>
+    </author>
+    <author>
+      <name>Matti Lassas</name>
+    </author>
+    <author>
+      <name>Marco Prato</name>
+    </author>
+    <author>
+      <name>Luca Ratti</name>
+    </author>
+    <author>
+      <name>Samuli Siltanen</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/1801.09773v3</id>
+    <title>High-throughput intensity diffraction tomography with a computational microscope</title>
+    <updated>2018-04-09T02:16:27Z</updated>
+    <link href="https://arxiv.org/abs/1801.09773v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/1801.09773v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>We demonstrate a motion-free intensity diffraction tomography technique that enables direct inversion of 3D phase and absorption from intensity-only measurements for weakly scattering samples. We derive a novel linear forward model, featuring slice-wise phase and absorption transfer functions using angled illumination. This new framework facilitates flexible and efficient data acquisition, enabling arbitrary sampling of the illumination angles. The reconstruction algorithm performs 3D synthetic aperture using a robust, computation and memory efficient slice-wise deconvolution to achieve resolution up to the incoherent limit. We demonstrate our technique with thick biological samples having both sparse 3D structures and dense cell clusters. We further investigate the limitation of our technique when imaging strongly scattering samples. Imaging performance and the influence of multiple scattering is evaluated using a 3D sample consisting of stacked phase and absorption resolution targets. This computational microscopy system is directly built on a standard commercial microscope with a simple LED array source add-on, and promises broad applications by leveraging the ubiquitous microscopy platforms with minimal hardware modifications.</summary>
+    <category term="eess.IV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="physics.bio-ph" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="physics.optics" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2018-01-29T21:41:44Z</published>
+    <arxiv:primary_category term="eess.IV"/>
+    <author>
+      <name>Ruilong Ling</name>
+    </author>
+    <author>
+      <name>Waleed Tahir</name>
+    </author>
+    <author>
+      <name>Hsing-Ying Lin</name>
+    </author>
+    <author>
+      <name>Hakho Lee</name>
+    </author>
+    <author>
+      <name>Lei Tian</name>
+    </author>
+    <arxiv:doi>10.1364/BOE.9.002130</arxiv:doi>
+    <link rel="related" href="https://doi.org/10.1364/BOE.9.002130" title="doi"/>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/0710.4741v1</id>
+    <title>Measurement of the spatio-temporal distribution of harmonic and transient eddy currents in a liquid metal</title>
+    <updated>2007-10-25T09:45:04Z</updated>
+    <link href="https://arxiv.org/abs/0710.4741v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/0710.4741v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>  Harmonic and transient eddy currents in a liquid metal positioned above an excitation coil are determined by measuring the voltage drop in a simple potential probe. The resulting spatio-temporal eddy current field is compared with the corresponding analytical expressions for a conducting half-space. Further, a deformation of the eddy current distribution due to a non-conducting torus immersed into the liquid metal is measured and compared with numerical results. The method can be generalized to arbitrary geometries, and might help to validate numerical models for non-destructive testing and magnetic inductance tomography.</summary>
+    <category term="physics.flu-dyn" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="physics.class-ph" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2007-10-25T09:45:04Z</published>
+    <arxiv:comment>12 pages, 10 figures</arxiv:comment>
+    <arxiv:primary_category term="physics.flu-dyn"/>
+    <arxiv:journal_ref>Meas. Sci. Technol. 19, 045704, 2008</arxiv:journal_ref>
+    <author>
+      <name>Jan Forbriger</name>
+    </author>
+    <author>
+      <name>Vladimir Galindo</name>
+    </author>
+    <author>
+      <name>Gunter Gerbeth</name>
+    </author>
+    <author>
+      <name>Frank Stefani</name>
+    </author>
+    <arxiv:doi>10.1088/0957-0233/19/4/045704</arxiv:doi>
+    <link rel="related" href="https://doi.org/10.1088/0957-0233/19/4/045704" title="doi"/>
+  </entry>
+</feed>

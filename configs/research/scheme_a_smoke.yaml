@@ -1,0 +1,76 @@
+status: executable
+protocol: scheme_a_measurement_only_v1
+stage: smoke
+experiment:
+  name: scheme_a_A2_smoke
+  output_root: outputs/research
+dataset:
+  kind: projection_pool
+  root: /data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1
+  train_limit: 2
+  val_limit: 2
+model:
+  name: set_unrolled3d
+  variant: A2
+  steps: 4
+  samples: 96
+  ray_chunk: 256
+  prior_width: 32
+  prior_amplitude: 0.02
+  lift_resolution: 32
+  output_resolution: 64
+  preconditioner: geometry
+  checkpoint_prior: true
+train:
+  split: train
+  geometry_pool: train
+  a_views:
+  - 3
+  - 5
+  b_views:
+  - 3
+  - 5
+  heldout_views: 2
+validation:
+  split: val
+  geometry_pool: train
+  a_views:
+  - 4
+  - 4
+  b_views:
+  - 4
+  - 4
+  heldout_views: 4
+normalization:
+  method: linear_p99_5
+  statistics_file: train_statistics.json
+loss:
+  hold: 1.0
+  cross: 0.5
+  observed: 0.1
+  consistency: 0.05
+  beta: 0.01
+  relative_l1: 0.1
+  relative_epsilon: 1.0e-06
+  measurement_scale: 32284.894580078173
+training:
+  seed: 20261011
+  max_epochs: 20
+  precision: fp32
+  batch_size: 1
+  gradient_accumulation: 2
+  gradient_clip_norm: 1.0
+  early_stopping_patience: null
+  device: cuda:0
+  cpu_threads: 2
+optimizer:
+  name: adamw
+  lr: 0.0002
+  weight_decay: 0.0001
+scheduler:
+  name: cosine
+  T_max: 20
+loader:
+  num_workers: 0
+  pin_memory: true
+  persistent_workers: false

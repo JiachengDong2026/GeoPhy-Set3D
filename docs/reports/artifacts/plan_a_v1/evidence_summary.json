@@ -1,0 +1,2212 @@
+{
+  "generated_at": "2026-10-15T17:13:17.735360+08:00",
+  "scope": "User confirmed implementation and small-scale acceptance only; preserve formal configurations without launching formal training",
+  "report_script_sha256": "2249a6a57e32702a45eaeac9d4f1a9db973f103f162059e0a4095c147edeb66c",
+  "assets": {
+    "created_at": "2026-10-15T16:26:20.731347+08:00",
+    "split_counts": {
+      "train": 166,
+      "val": 36,
+      "test": 35
+    },
+    "dataset_metadata_unchanged": true,
+    "metadata_checks": {
+      "source_index.jsonl": true,
+      "dataset_build_manifest.json": true,
+      "train_statistics.json": true,
+      "splits/split_summary.json": true,
+      "splits/test_cases.txt": true,
+      "splits/train_cases.txt": true,
+      "splits/val_cases.txt": true,
+      "geometry/canonical_fixed_geometry.npz": true,
+      "geometry/ood_geometry.npz": true,
+      "geometry/train_geometry.npz": true
+    },
+    "historical_source_unchanged": true,
+    "changed_historical_source": [],
+    "baseline_checkpoint_unchanged": true,
+    "gt_body_read": false,
+    "baseline_measurement_replayed": true,
+    "baseline_measurements": {
+      "loss": {
+        "total": 0.010930456660894884,
+        "hold": 0.004883614543359727,
+        "cross": 0.004854742372925911,
+        "observed": 0.0036308505061444724,
+        "consistency": 0.06512771784845325
+      },
+      "measurement": {
+        "heldout": {
+          "relative_l1": 0.032751787359453936,
+          "relative_l2": 0.04244087753343326
+        },
+        "cross": {
+          "relative_l1": 0.03239257687727245,
+          "relative_l2": 0.04190874230086062
+        },
+        "observed": {
+          "relative_l1": 0.025570215912033532,
+          "relative_l2": 0.03379197734345957
+        }
+      },
+      "output": {
+        "min": 1.3181089553171432e-10,
+        "max": 0.8232766389846802,
+        "mean": 0.00365504910910709,
+        "std": 0.01659962995115309,
+        "fraction_near_one": 0.0,
+        "case_to_case_mean_absolute_difference": 0.004468775520633374
+      },
+      "gradient_norm_max": 0.0,
+      "case_station_digest": "8ee6f530b867b124624aa6ad2f4830f3deecd56744882c7f471ef8235d7b44ef",
+      "sample_count": 36,
+      "gt_used": false,
+      "seconds": 20.746370202861726
+    },
+    "gt_access": {
+      "gt_file_opened": false,
+      "gt_open_attempts": 0,
+      "forbidden_npy_attempts": 0,
+      "supervised_checkpoint_open_attempts": 0,
+      "projection_open_count": 108,
+      "unique_pool_a_projection_files": 36,
+      "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+      "audit_hook_inherited_by_workers": true
+    },
+    "baseline_reproduction": {
+      "expected": 0.03275178677442122,
+      "actual": 0.032751787359453936,
+      "absolute_difference": 5.850327167156166e-10,
+      "tolerance": 3.375178677442122e-07,
+      "passed": true
+    },
+    "passed": true
+  },
+  "operator": {
+    "protocol": "plan_a_operator_v1",
+    "seed": 20261015,
+    "provenance": "Synthetic analytic fields and geometry only; no dataset, CFD or GT files opened.",
+    "environment": {
+      "python": "3.12.15",
+      "torch": "2.11.0+cu128",
+      "cuda_runtime": "12.8",
+      "gpu": "NVIDIA GeForce RTX 4090"
+    },
+    "numerical": [
+      {
+        "device": "cpu",
+        "dtype": "torch.float64",
+        "grid_size": 7,
+        "views": 2,
+        "samples_per_ray": 96,
+        "valid_rays": 6,
+        "finite_difference_h": 1e-06,
+        "jvp_h_scan": {
+          "0.0001": 6.016611049830395e-09,
+          "1e-05": 5.9667788925924e-11,
+          "1e-06": 5.712343288929369e-11,
+          "1e-07": 5.999478141482496e-10
+        },
+        "checks": {
+          "forward_vs_legacy_relative_l2": {
+            "error": 8.562123437871152e-17,
+            "tolerance": 1e-10,
+            "passed": true
+          },
+          "constant_max_relative_l2": {
+            "error": 1.2652173622185898e-16,
+            "tolerance": 1e-10,
+            "passed": true
+          },
+          "chi_prime_relative_l2": {
+            "error": 1.131127696212952e-16,
+            "tolerance": 1e-10,
+            "passed": true
+          },
+          "chi_second_relative_l2": {
+            "error": 1.6654139854175922e-16,
+            "tolerance": 1e-10,
+            "passed": true
+          },
+          "jvp_finite_difference_relative_l2": {
+            "error": 5.712343288929369e-11,
+            "tolerance": 1e-05,
+            "passed": true
+          },
+          "transpose_identity_relative": {
+            "error": 1.232908726685947e-16,
+            "tolerance": 1e-10,
+            "passed": true
+          },
+          "vjp_vs_autograd_relative_l2": {
+            "error": 2.2016758875055556e-16,
+            "tolerance": 1e-10,
+            "passed": true
+          },
+          "residual_gradient_vs_autograd_relative_l2": {
+            "error": 2.3886899514272836e-16,
+            "tolerance": 1e-10,
+            "passed": true
+          },
+          "hessian_vs_autograd_relative_l2": {
+            "error": 3.925087633122475e-16,
+            "tolerance": 1e-10,
+            "passed": true
+          },
+          "hessian_finite_difference_relative_l2": {
+            "error": 2.811769677530542e-10,
+            "tolerance": 1e-05,
+            "passed": true
+          },
+          "no_grad_residual_gradient_relative_l2": {
+            "error": 0.0,
+            "tolerance": 1e-10,
+            "passed": true
+          }
+        },
+        "passed": true
+      },
+      {
+        "device": "cuda",
+        "dtype": "torch.float32",
+        "grid_size": 7,
+        "views": 2,
+        "samples_per_ray": 96,
+        "valid_rays": 6,
+        "finite_difference_h": 0.001,
+        "jvp_h_scan": {
+          "0.0001": 0.00036511663715537275,
+          "1e-05": 0.004588805508219382,
+          "1e-06": 0.058128959659001694,
+          "1e-07": 0.4779957110981087
+        },
+        "checks": {
+          "forward_vs_legacy_relative_l2": {
+            "error": 7.655655744795534e-08,
+            "tolerance": 1e-05,
+            "passed": true
+          },
+          "constant_max_relative_l2": {
+            "error": 7.331894892501267e-08,
+            "tolerance": 1e-05,
+            "passed": true
+          },
+          "chi_prime_relative_l2": {
+            "error": 9.494489108220641e-08,
+            "tolerance": 1e-05,
+            "passed": true
+          },
+          "chi_second_relative_l2": {
+            "error": 1.1960648951929514e-07,
+            "tolerance": 1e-05,
+            "passed": true
+          },
+          "jvp_finite_difference_relative_l2": {
+            "error": 6.383399059129811e-05,
+            "tolerance": 0.002,
+            "passed": true
+          },
+          "transpose_identity_relative": {
+            "error": 0.0,
+            "tolerance": 1e-05,
+            "passed": true
+          },
+          "vjp_vs_autograd_relative_l2": {
+            "error": 1.1616481539222839e-07,
+            "tolerance": 1e-05,
+            "passed": true
+          },
+          "residual_gradient_vs_autograd_relative_l2": {
+            "error": 1.4942994851587168e-07,
+            "tolerance": 1e-05,
+            "passed": true
+          },
+          "hessian_vs_autograd_relative_l2": {
+            "error": 1.0276344711477464e-07,
+            "tolerance": 1e-05,
+            "passed": true
+          },
+          "hessian_finite_difference_relative_l2": {
+            "error": 0.00017862358214946073,
+            "tolerance": 0.002,
+            "passed": true
+          },
+          "no_grad_residual_gradient_relative_l2": {
+            "error": 1.0134737697995678e-07,
+            "tolerance": 1e-05,
+            "passed": true
+          }
+        },
+        "passed": true
+      }
+    ],
+    "performance": {
+      "device": "cuda",
+      "dtype": "torch.float32",
+      "grid_size": 64,
+      "views": 4,
+      "image_hw": [
+        64,
+        64
+      ],
+      "samples_per_ray": 96,
+      "ray_chunk": 256,
+      "valid_rays": 8773,
+      "cached_cpu_bytes": 80957244,
+      "cpu_cache_budget_bytes": 536870912,
+      "peak_cuda_allocated_bytes": 10657280,
+      "forward_vs_legacy_relative_l2": 3.9677211487931657e-07,
+      "forward_vs_legacy_max_abs_ppm_m": 0.044921875,
+      "forward_vs_legacy_tolerance": 1e-05,
+      "passed": true,
+      "context": "torch.no_grad; wall-clock single calls, includes chunk CPU/device transfers",
+      "timings": {
+        "prepare_cold_seconds": 0.18936449196189642,
+        "prepare_cached_seconds": 0.010659795720130205,
+        "forward_seconds": 0.46309569338336587,
+        "jvp_seconds": 0.45063631096854806,
+        "vjp_seconds": 0.45213303389027715,
+        "coverage_seconds": 0.4544009421952069
+      }
+    },
+    "passed": true
+  },
+  "tests": {
+    "recorded": true,
+    "passed": 70,
+    "warnings": 5,
+    "seconds": 39.6,
+    "failures_reported": false,
+    "log_sha256": "733fac0a485a31870963761e9aa5b34a72f30ff07308f0b04b487c745b842a18"
+  },
+  "runs": [
+    {
+      "name": "scheme_a_A2_synthetic20_final",
+      "path": "docs/reports/artifacts/plan_a_v1/training/scheme_a_A2_synthetic20_final",
+      "stage": "synthetic_smoke",
+      "synthetic": true,
+      "state": "complete_pass",
+      "model": {
+        "name": "set_unrolled3d",
+        "variant": "A2",
+        "steps": 2,
+        "samples": 8,
+        "ray_chunk": 256,
+        "prior_width": 8,
+        "prior_amplitude": 0.02,
+        "lift_resolution": 4,
+        "output_resolution": 8,
+        "preconditioner": "geometry"
+      },
+      "seed": 20261011,
+      "device": "cpu",
+      "train_cases": 2,
+      "val_cases": 2,
+      "planned_epochs": 20,
+      "committed_completed_epochs": 20,
+      "logged_epochs": 20,
+      "observed_optimizer_updates": 20,
+      "initial_heldout_relative_l1": 14.01286917885256,
+      "best_observed_heldout_relative_l1": 0.3335205039486741,
+      "final_observed_heldout_relative_l1": 0.3335205039486741,
+      "zero_baseline_relative_l1": 1.0,
+      "initial_train_loss": 9.244073390960693,
+      "final_train_loss": 0.22214169055223465,
+      "total_logged_epoch_seconds": 5.377947327680886,
+      "peak_gpu_allocated_bytes": 0,
+      "acceptance": {
+        "stage": "synthetic_smoke",
+        "synthetic": true,
+        "passed": true,
+        "criteria": {
+          "finite": true,
+          "heldout_better_than_zero": true,
+          "heldout_improves_initial": true,
+          "nonzero_gradient": true,
+          "output_changes_across_cases": true,
+          "measurement_dependence": true,
+          "no_gt_reads": true,
+          "no_forbidden_reads": true,
+          "expected_updates": true
+        },
+        "best_heldout_relative_l1": 0.3335205039486741,
+        "zero_heldout_relative_l1": 1.0,
+        "initial_heldout_relative_l1": 14.01286917885256
+      },
+      "summary": {
+        "completed": true,
+        "completed_epochs": 20,
+        "optimizer_updates": 20,
+        "best_val_metric": 0.3335205039486741,
+        "gt_access": {
+          "gt_open_attempts": 0,
+          "gt_file_opened": false,
+          "synthetic": true
+        },
+        "scientific_gate_passed": false
+      },
+      "freeze": {
+        "completed": true,
+        "completed_epochs": 20,
+        "stage": "synthetic_smoke",
+        "protocol": "scheme_a_measurement_only_v1",
+        "synthetic": true,
+        "formal_gate_claim": false,
+        "selection": "heldout measurement relative_l1 only",
+        "best_epoch": 20,
+        "best_val_metric": 0.3335205039486741,
+        "global_step": 20,
+        "checkpoint": "/home/djc/projects/GeoPhy-Set3D/docs/reports/artifacts/plan_a_v1/training/scheme_a_A2_synthetic20_final/checkpoints/best.pt",
+        "sha256": "35691573ea8b03d95776ef926b1a6edab285537aa51a814a5031ec648aaaef3e",
+        "selection_metric": "mean held-out measurement relative L1",
+        "volumetric_gt_used": false,
+        "formal_evaluation_allowed": false,
+        "best_sha256": "35691573ea8b03d95776ef926b1a6edab285537aa51a814a5031ec648aaaef3e",
+        "last_sha256": "014b5bc031c798d98f58f0fe7d439a8396d57686c0b02eafd45c8643f451100e",
+        "provenance_sha256": "8f0005056c6f5eef817b02ef0a3d8cf2ac692646f057d8dfd467280310971e51",
+        "gt_used_for_training_or_selection": false
+      },
+      "audit": {
+        "policy": "Synthetic analytic measurements; no external data files or volumetric labels",
+        "gt_file_opened": false,
+        "gt_open_attempts": 0,
+        "synthetic": true
+      },
+      "audit_status": {
+        "recorded": true,
+        "real_file_audit": false,
+        "zero_forbidden_attempts": null,
+        "note": "解析合成测量，不读取外部三维标签；不能代替真实数据访问审计。"
+      },
+      "measurement_dependence": {
+        "intervention": "multiply valid measurements by 1.2; identical geometry and masks",
+        "mean_absolute_output_change": 0.0014246091013774276,
+        "passed": true
+      },
+      "budget": null,
+      "training_source_sha256": "378da71d9930b00a57b5db64c4807bc20f953bd89dc0ad847fb3729974786f6e",
+      "actual_source_sha256": "4ed9405a94874a7e9cdd1e36b0750b3eb37d8ef2db9ea5b9e796f6b524bfff51",
+      "source_matches_training": false,
+      "changed_source_files": [
+        "src/geophy_set3d/evaluation/research.py"
+      ],
+      "actual_source_files": {
+        "src/geophy_set3d/__init__.py": "47441c8638d63363d06b204cb8d6b0e9a6524c9d598920036b9cd8cc3e9ff2b5",
+        "src/geophy_set3d/data/build_utils.py": "0fbaa994ae1b3b82094fc687efc767e3ce019b7f28f0987e37e80efef1ba31be",
+        "src/geophy_set3d/data/collate.py": "64ba5c126d89e0e709eb7f002c791a32a896e8ef098128fd71cf10f6daf8e83e",
+        "src/geophy_set3d/data/generation.py": "36374efc91e0e27d00ed817109472cdb39f30e6cedcbced7c6bc6392746f703c",
+        "src/geophy_set3d/data/measurement_only.py": "8ac516e07b785ac82686306ded38bbe0e47622087318af2741731e5d4f1271b2",
+        "src/geophy_set3d/data/measurement_sampling.py": "88f6e05beb64111c1a63fab90825f0f68e6ae2772a92f0be6187d9e55cc7a693",
+        "src/geophy_set3d/data/projection_audit.py": "77b5d7afc44326ae00e676f41a3989244fa040e1020992fd5c2e5d0fc9c87e09",
+        "src/geophy_set3d/data/projection_pool_dataset.py": "2ff2426b94043c4d2487e1b47c27340599df798816187774be2a5a2d62e0ee8e",
+        "src/geophy_set3d/data/rich_measurement.py": "09648bd196db21be9e4f673da4157a53024145f8429af6846e780c960b298e26",
+        "src/geophy_set3d/data/validation.py": "76b1e84a737fcb740ab5bb5b83feecb86c76693968516a2efcbf24d84d192f14",
+        "src/geophy_set3d/data/view_sampling.py": "fc858a69533b41f67be5fd050ecd0dd6fdb253d86ae382e02591c2ee815e1eb8",
+        "src/geophy_set3d/diagnostics/senseiver_signal_path.py": "ec182c4003e0abb303a99bf74bb3cd3ae531543664b325929a9aa9658210f742",
+        "src/geophy_set3d/evaluation/__init__.py": "7e7c0e83968957f68b7808b2b644686a0a12f21bad15045831d70a52214a8338",
+        "src/geophy_set3d/evaluation/analysis.py": "199f1457d0978a606c761ad4d11ca1edd10f6aafa95e198bc1e7ec25021131ad",
+        "src/geophy_set3d/evaluation/b2_report.py": "fada1bbce57c3ffeb0056862e0756bbf63635764327b1b9c408f785c573916d1",
+        "src/geophy_set3d/evaluation/b3_report.py": "73fb688b46965b915ab8b8e602ee333995121261c94985e72a54a3d371b524af",
+        "src/geophy_set3d/evaluation/clustered_one_swap.py": "b506eca28a515b6026d3a75b57d3a15b2a177c092db209195cafd4e65fdace5b",
+        "src/geophy_set3d/evaluation/comparison_report.py": "2e44d97c482a08e7a8c97b141d4a30b72305fe831e0496661d6efe79944ad0e1",
+        "src/geophy_set3d/evaluation/deep_comparison.py": "d89dd67c0b7d3e19df5fd41dbd8411280141a616f5603896efb066cfc41c1389",
+        "src/geophy_set3d/evaluation/experiments.py": "5aedd0c55eec76e4b874222bc7b19578c1b7d8f48af657bdf67a2adf60041182",
+        "src/geophy_set3d/evaluation/figures.py": "816712bea9a5ac3bf35946eef78e8781cf20248f6d3bc427f6f8fb03b405486a",
+        "src/geophy_set3d/evaluation/geometry_augmentation_formal_stats.py": "2ecd585ec7f6dcf1fc2bf74022bda08062deb2de9e032c372bbb8924277c6e8d",
+        "src/geophy_set3d/evaluation/geometry_augmentation_sampler.py": "82214214c4576d4228dd7f668714ad83864536247f8a6dce6988c61b904f8b25",
+        "src/geophy_set3d/evaluation/geometry_catalog.py": "60eb3fb4506426de22dde50d274f9eb15c7779298d465c88bdca586f50872e2f",
+        "src/geophy_set3d/evaluation/geometry_sensitivity.py": "460817ff0b13ced548997a7dd691c647d8eb30e6ca9e0f6d2c6307c7eac73585",
+        "src/geophy_set3d/evaluation/geometry_strata.py": "cc3c9d9557b446ea419a4842ac447afe2b512d86be76521190a4c203abec86e5",
+        "src/geophy_set3d/evaluation/geometry_stratified_sampler.py": "976de22b042f7d392424965ce5a62ed24a0957e78bcab7ee493998e390feb0ba",
+        "src/geophy_set3d/evaluation/matched_control.py": "55eacbce1ded9de9c9344f4c32e1836d729ef229175080ac1048b9680cb37611",
+        "src/geophy_set3d/evaluation/measurement_consistency.py": "edee97bea059708eddcc772b3831858f918a1ccbcf4050f4c491d2aa768f9889",
+        "src/geophy_set3d/evaluation/measurement_diagnostics.py": "2b920ed3da6310f68193bb8ef5e047f51c67c39f7686c683f847fed8fc3cd382",
+        "src/geophy_set3d/evaluation/mrgr.py": "c796ede1a09fd06fae65c3d833184c9cfea5a0a1a37159dafa5f8187b3fa9c08",
+        "src/geophy_set3d/evaluation/mrgr_report.py": "409822580c09530d2272c796fd02704b02af45d4a0f397d4b1dc5a3a5fac671d",
+        "src/geophy_set3d/evaluation/oari_diagnostics.py": "ea656b350edd48da390281d4e25d5a3f56e9146b48a043c694a975d72c9cccfa",
+        "src/geophy_set3d/evaluation/oari_report.py": "a907c8912468605c3fa55b59bdb987ca2086e0a451ff4f24be429986e3e4d73e",
+        "src/geophy_set3d/evaluation/protocols.py": "60b4a82f96dfaec4947762855e6987a1fffedb987d96ab15dcdb2bd9e7caf878",
+        "src/geophy_set3d/evaluation/ray_senseiver.py": "22fc91e943fe45bbb43d7e07c9ccfa1c26cc24b7c06a1b706338483f3ea24b94",
+        "src/geophy_set3d/evaluation/report.py": "60799671d8f557c775490a2dd6755f18258cfa38ea755d19b0eec84cfe15067a",
+        "src/geophy_set3d/evaluation/research.py": "a9de4289499f49596ab0e4575f72336aaa17522cf20420a4ddbe33ea2b8057be",
+        "src/geophy_set3d/evaluation/research_integrity.py": "9a433d6ded5173fcc2c0921078693c849e490bc6a6e4c22647d0414bf1e68902",
+        "src/geophy_set3d/evaluation/rvtc_failure_diagnostics.py": "47d1f9f28445af6d29a198c3e1f3b3a151073ab722d21a8bb4c3527c5b4deed4",
+        "src/geophy_set3d/evaluation/selfsup_c0c1_diagnostic.py": "42fff49d6415869b7c91f213877428ef26c6d43ae1aeec68dd8238203361f665",
+        "src/geophy_set3d/evaluation/selfsup_report.py": "685f66b86bb233116a0bdbe8a2ff835d16e63780332609613b3aa1cf5289c78a",
+        "src/geophy_set3d/evaluation/selfsup_v2_integrity.py": "2aacd7d9220869a37bf214fcb512128211442bc67b274cc474d28c766ba05dde",
+        "src/geophy_set3d/evaluation/selfsup_v2_report.py": "96df2a594503353517849af5751c8921f1144c172218659825ac58782c56a677",
+        "src/geophy_set3d/evaluation/stratification.py": "de9ee3059ba4e59288021105671fdab907b670617212a7428d0e1ce03e43623f",
+        "src/geophy_set3d/evaluation/summary.py": "73a8acd82a6ba703665993280af31ac95daeae413b81ff078c5d932b678b0d68",
+        "src/geophy_set3d/evaluation/training_runs.py": "b2b9a3bffc3002d60d0f5896b3e8b7efefc3133fbf8238f67f4909a8c6e55cad",
+        "src/geophy_set3d/evaluation/view_selection.py": "32a56947b18b30bf788768c3a939ff1cf06694caf4939512713ad64b1e230b60",
+        "src/geophy_set3d/geometry/tdlas.py": "d641d3ebbb0fe288b9ae770b9bb5f1b5c5cd4ff3a4729235a161e74f78fa6dce",
+        "src/geophy_set3d/models/__init__.py": "54484529fa097a5a63b2bd982de29e01b29b88cfa7cc0b0fbd3151a5470e77f0",
+        "src/geophy_set3d/models/attention_fusion.py": "d349c05cb1565889ff83b0f391fff5882782e6525bc61481d3e2db9ceba4329e",
+        "src/geophy_set3d/models/blocks.py": "2842f04765a4c9ba7bc5ac04135ec8ddd8c7537745fc6f79b6c6ab41b3033223",
+        "src/geophy_set3d/models/decoder3d.py": "3aab7052dcc19f356fc2245ada14e8fe085b858b26c91cd180e358a4cc0691ac",
+        "src/geophy_set3d/models/encoder2d.py": "fd6f7e6f9d14573dcfb2d2b494941f83f63a269993f8bbae9616594a32443e14",
+        "src/geophy_set3d/models/fusion.py": "5a7ae6fd64daa283c15af3545311f75c58b774cb86294b2996bc3b098c3868d1",
+        "src/geophy_set3d/models/geolift_deepsets_sum.py": "e877158c6e0bcbecad2ef6bb6f852dc93e8077155e946d8232a63255a6c90e23",
+        "src/geophy_set3d/models/geolift_gca_res3d.py": "cde73cf1249ade86f54a3fcfc2ce5e7c8f85852cb836d356f3eed7cb74376c04",
+        "src/geophy_set3d/models/geolift_gcsi_res3d.py": "fcad0a6ff1daa02716f16d3c2661a1caa73e25fa915c061ae32d510418d084d1",
+        "src/geophy_set3d/models/geolift_mean_res3d.py": "119db246431a2b4612620afc29d819951d0ae21ab0ff08a8846f22c66f2a443a",
+        "src/geophy_set3d/models/geolift_oari_mrgr_c0_adapter.py": "7900e5d37b4bf8c068b84d4ce950c21e85dc5566eb1f3f1b44a0dbe7e3ac5b00",
+        "src/geophy_set3d/models/geolift_oari_mrgr_res3d.py": "a095e2cf9bbd9e86fc0a999df4c7d7185fcb4133220ba6334211b91b70166c26",
+        "src/geophy_set3d/models/geolift_oari_mrgr_zero_residual.py": "cff44973dca6731ddcde04920eee7064c2ca7844a9fd74d3608d2a44163c1634",
+        "src/geophy_set3d/models/geolift_oari_res3d.py": "0c254b09b598c3f3bed1af29c7a17e3de26349024106c8849938ac8a2126b0ed",
+        "src/geophy_set3d/models/lifting.py": "0cf2fc39535fab45cf7e2f8bd8cdcac70c8ff3f830c816b936347cf7f3b39710",
+        "src/geophy_set3d/models/ray_relational_interaction.py": "25db37d18c84240bc86f5b0eeb1a0a009a9958dce8bd3f6875dcb92f30b1eac2",
+        "src/geophy_set3d/models/ray_senseiver_latent_residual.py": "ea02b34d4123891736628dfd25c3d2b1b0b32dbbbed244785460114124f94dd2",
+        "src/geophy_set3d/models/ray_senseiver_ss.py": "fa497b1a68d45bd20db0f7fd7118a4e7664c55c31b3c3a53b27b43b2ea5480cb",
+        "src/geophy_set3d/models/senseiver_core.py": "b45e02cde0e2f2597370b34596854ec1d8890ab5838d7c73968b50fee40f1da4",
+        "src/geophy_set3d/models/set_interaction.py": "1b80318623b8cd07f94bad70879e159af5f0cd54f083b172c8b4a8bbe0eaefb3",
+        "src/geophy_set3d/models/set_unrolled3d.py": "8d543e388ab06e23f23b69b2c75a62d695f5287b8ded49eaede41c3dcec746c1",
+        "src/geophy_set3d/physics/explicit_ray_operator.py": "4b2c4dd02f8e1f41b3e43ef14bac2fbdcaa9c1ebbe42e7aa62190048456c6204",
+        "src/geophy_set3d/physics/projectors.py": "fe3475e29abbba0d3495be9fc69909f3b8b1d7e8d40c25aed683094198f6e776",
+        "src/geophy_set3d/physics/representation_capacity.py": "f0b3491204a172951bec0a1354f95933548672d75343ce2f24ad4d3d395ce92a",
+        "src/geophy_set3d/reconstruction/classical.py": "261530dc8296446203140f581f8e7b736aa0bcb4b98d5141158e24d2a49b1867",
+        "src/geophy_set3d/training/__init__.py": "d253aa4cda19ba45b2d472981e2410da0a7fd319f8509be5acd8ed2d037ff0ae",
+        "src/geophy_set3d/training/comparison.py": "b5028eca4f820f79b8c5eb9e17f6c143042805fd961db85955afb57e6881ecf3",
+        "src/geophy_set3d/training/deep_comparison.py": "75fd31230809ee3874c7a77ba5320c3d1f691d06e35c4cdf409e6e29fb54b07e",
+        "src/geophy_set3d/training/engine.py": "4491b17bcbc2dbb89d227086b53dfe84d21ed6c86ba1010b64358168f7bc4bb6",
+        "src/geophy_set3d/training/geometry_augmentation_formal.py": "b8b2aed8470acd8391876e1bce260a6e8727ef4c9bdd5e4026e4dcb181d0e9f8",
+        "src/geophy_set3d/training/gt_read_guard.py": "42bf7c374d0f297050e801f4b5baf9a544b731a46157f65862eeaa3b4b5cfe50",
+        "src/geophy_set3d/training/losses.py": "a6bec7ce5ee00fbe11d8d159add0d42243775b5d443c07a8e59dadee759b4c5e",
+        "src/geophy_set3d/training/matched_control.py": "0c807bacef0acca1362c3ce6b283bea2165e26b845c4b6bc88743ef0734ae319",
+        "src/geophy_set3d/training/measurement_engine.py": "373bc13981c1e4afd63f5959ea76528e6cc53ea30353b44272b6fee378c3ac85",
+        "src/geophy_set3d/training/measurement_runs.py": "d2c3fc98b593917419c2b74c454888dcdfa7ff1255f1d6adf112d6a2204c8e65",
+        "src/geophy_set3d/training/metrics.py": "e5244421a7cba81702873d0b69e882468a4ee97012676097545729a1fc31461a",
+        "src/geophy_set3d/training/mrgr.py": "098b6ca504d53eab4a01f3ce4f2ba7f5a7e1417c79ec144bc837cc8a242c1b53",
+        "src/geophy_set3d/training/projection_losses.py": "d64e4fd327bf68e4f18ee3f9278ef453363042a7a0deaa71fc4a91283f6f05ad",
+        "src/geophy_set3d/training/ray_senseiver.py": "5883cd2126ebd06e3e3eb5dc16348085ebb6d01ce9739f78cec8a253cf81140c",
+        "src/geophy_set3d/training/research_selfsup.py": "c71cc875de021b960736d571e524a6f9f5188f4b0a775368f54a6fb94a9e5b5d",
+        "src/geophy_set3d/training/rvtc_matched.py": "c8236c8dddc66fdf11e083ed516bd7797aecbdc837c749202b2c41a343692866",
+        "src/geophy_set3d/training/selfsup.py": "03cdee12b66aa1f7fdbd6a265ac7a23397ae03cee13fd18b1d8d721b6a91d909",
+        "src/geophy_set3d/training/selfsup_v2.py": "f4bb9c0159e6c4acaef188c0627d4ddcaa667d3c6851bb2055e34dac395a668e",
+        "src/geophy_set3d/training/senseiver_consistency_probe.py": "10127e7ad6adba39e5501815a844b4f205346872cfd679143cac1be86769edda",
+        "src/geophy_set3d/training/senseiver_init_probe.py": "b58c33db663a35f55254bf859158ab432fac018efc8fa636edcda88898ce002e",
+        "src/geophy_set3d/training/senseiver_readout.py": "4a335738a6a3834c7b0a6bca4c60672ed0ed7afbb69d81e401cb523b736e37a1",
+        "src/geophy_set3d/training/senseiver_relative_probe.py": "f64076d1cd087a403ed3d07f5a540e46ab34a8723a93cf488015caa503e2ef12",
+        "src/geophy_set3d/training/senseiver_single_repair.py": "8556c260a913c8df05b6f41b93535c74e5b01d2c7b4650d1e0ee4e296ec30ea1",
+        "src/geophy_set3d/training/senseiver_supervised_formal.py": "d0d2e18de0de39d4fd7bff5531adce024345f4f86922a0cb4d1ace0e75322237",
+        "src/geophy_set3d/training/senseiver_supervised_probe.py": "e84b92c03548c391e158f7cc3e28df2dad41ed64705dbe4f8a02fa1d74f1d70f",
+        "src/geophy_set3d/training/senseiver_supervised_stability.py": "f9206a7c3a9d92d5a6eb7b59d07580986cb5cbafc18ddb3516771e905c0ca6fc",
+        "src/geophy_set3d/training/utils.py": "51f397ff01ed89b6b930fdc0fee436bf754bcc40c0eaa58f5b3e7c005d14a1ae",
+        "scripts/train_research_selfsup.py": "edc24674e28d8ac3cbb41b8ff82d87311a96b568b176e67c76f885e4e01976de"
+      },
+      "git_commit": "3f563f0f86b38983fdfb4ab926641d5ec2f33adb",
+      "data_sha256": "27d0abfd61919b615cd47ab7745f509acf9e8210e2c5b2d5d7ebeed4c6563c34",
+      "config_sha256": "aae0ce52f408d748d666dfea7e87c3a1c9cce32370076c379555a6d1907d6031",
+      "archive": "docs/reports/artifacts/plan_a_v1/run_scalars/scheme_a_A2_synthetic20_final",
+      "scalar_files": [
+        {
+          "file": "config_resolved.yaml",
+          "sha256": "4184b02d084703c01228f7e4b906ea5c8f1942228a02ccc7ff1a95e3d2d88315",
+          "bytes": 1292
+        },
+        {
+          "file": "environment.json",
+          "sha256": "b7a34e9dd2dc0a41265e443a42158f86e6fd2f183bb79d4b75aa2fdd75c18dc6",
+          "bytes": 365
+        },
+        {
+          "file": "provenance.json",
+          "sha256": "8f0005056c6f5eef817b02ef0a3d8cf2ac692646f057d8dfd467280310971e51",
+          "bytes": 12906
+        },
+        {
+          "file": "metrics.jsonl",
+          "sha256": "57bb23a9b5e5a788284cae8b2a89bf176592d7d505c27418f31fadd406223508",
+          "bytes": 165306
+        },
+        {
+          "file": "sampling_manifest.jsonl",
+          "sha256": "af1e7866b15ae291912dd2a8716803d9e7a641b0e40a6542540c09d78b030d4a",
+          "bytes": 6001
+        },
+        {
+          "file": "initial_validation.json",
+          "sha256": "0c7703d7959f8e0cd8a168382971de80164dd9d7efb21626622a4fd9d27a0621",
+          "bytes": 7010
+        },
+        {
+          "file": "zero_volume_baseline.json",
+          "sha256": "a34058c40c7f61ef324f6fe8390aa60a74294fd5c10d889f878575590a77fe5d",
+          "bytes": 96
+        },
+        {
+          "file": "gt_read_audit.json",
+          "sha256": "726f80f8377b3fcc7ba4bdcc23f94bc4dd577d1456b3a3dff0d0a9b81f7147ab",
+          "bytes": 168
+        },
+        {
+          "file": "acceptance_result.json",
+          "sha256": "3fba8ec75df63f07a9437fb3ce7579f5f106810c5323f81d55f04d858daf0101",
+          "bytes": 519
+        },
+        {
+          "file": "training_summary.json",
+          "sha256": "4e592e62702fbe8fdb5b5f725487275a07035dfba77f3c8601ca27881e5389e5",
+          "bytes": 253
+        },
+        {
+          "file": "measurement_dependence.json",
+          "sha256": "6a2afb954be671c0e57486ccd3ff6c6027f3258e3f8e009ad38046625801978c",
+          "bytes": 163
+        },
+        {
+          "file": "freeze.json",
+          "sha256": "52b83913380a17a37e75cd955cee4fc3dfec089d3729eb1e726b4af01ca98f45",
+          "bytes": 976
+        },
+        {
+          "file": "frozen_checkpoint.json",
+          "sha256": "52b83913380a17a37e75cd955cee4fc3dfec089d3729eb1e726b4af01ca98f45",
+          "bytes": 976
+        }
+      ],
+      "scientific_formal_result": false,
+      "curves": [
+        {
+          "epoch": 1,
+          "step": 1,
+          "train_loss": 9.244073390960693,
+          "validation_loss": 5.11263108253479,
+          "heldout_relative_l1": 7.839387083701967
+        },
+        {
+          "epoch": 2,
+          "step": 2,
+          "train_loss": 5.167328596115112,
+          "validation_loss": 3.589197039604187,
+          "heldout_relative_l1": 5.510337329152655
+        },
+        {
+          "epoch": 3,
+          "step": 3,
+          "train_loss": 3.6747384071350098,
+          "validation_loss": 2.4516581296920776,
+          "heldout_relative_l1": 3.7891516936153162
+        },
+        {
+          "epoch": 4,
+          "step": 4,
+          "train_loss": 2.5579200983047485,
+          "validation_loss": 1.7614811658859253,
+          "heldout_relative_l1": 2.7446978099379824
+        },
+        {
+          "epoch": 5,
+          "step": 5,
+          "train_loss": 1.7058712840080261,
+          "validation_loss": 1.2736878097057343,
+          "heldout_relative_l1": 2.00908091662622
+        },
+        {
+          "epoch": 6,
+          "step": 6,
+          "train_loss": 1.2032572627067566,
+          "validation_loss": 0.9531568884849548,
+          "heldout_relative_l1": 1.5323195495133843
+        },
+        {
+          "epoch": 7,
+          "step": 7,
+          "train_loss": 0.9662580192089081,
+          "validation_loss": 0.7273651212453842,
+          "heldout_relative_l1": 1.1808537580020786
+        },
+        {
+          "epoch": 8,
+          "step": 8,
+          "train_loss": 0.7137385904788971,
+          "validation_loss": 0.5601130723953247,
+          "heldout_relative_l1": 0.9120575733591593
+        },
+        {
+          "epoch": 9,
+          "step": 9,
+          "train_loss": 0.5406473129987717,
+          "validation_loss": 0.4514224976301193,
+          "heldout_relative_l1": 0.7334605275277588
+        },
+        {
+          "epoch": 10,
+          "step": 10,
+          "train_loss": 0.4412526786327362,
+          "validation_loss": 0.37433867156505585,
+          "heldout_relative_l1": 0.6097325096997185
+        },
+        {
+          "epoch": 11,
+          "step": 11,
+          "train_loss": 0.3346259370446205,
+          "validation_loss": 0.3244676738977432,
+          "heldout_relative_l1": 0.5292969584659707
+        },
+        {
+          "epoch": 12,
+          "step": 12,
+          "train_loss": 0.31341812014579773,
+          "validation_loss": 0.28883644193410873,
+          "heldout_relative_l1": 0.4702684751347311
+        },
+        {
+          "epoch": 13,
+          "step": 13,
+          "train_loss": 0.28252310305833817,
+          "validation_loss": 0.26097290962934494,
+          "heldout_relative_l1": 0.42368649706644135
+        },
+        {
+          "epoch": 14,
+          "step": 14,
+          "train_loss": 0.24065940082073212,
+          "validation_loss": 0.24173670262098312,
+          "heldout_relative_l1": 0.39019370157667077
+        },
+        {
+          "epoch": 15,
+          "step": 15,
+          "train_loss": 0.251572385430336,
+          "validation_loss": 0.2282482087612152,
+          "heldout_relative_l1": 0.3659187010506222
+        },
+        {
+          "epoch": 16,
+          "step": 16,
+          "train_loss": 0.2289411872625351,
+          "validation_loss": 0.21970263868570328,
+          "heldout_relative_l1": 0.35076267409752004
+        },
+        {
+          "epoch": 17,
+          "step": 17,
+          "train_loss": 0.2099122554063797,
+          "validation_loss": 0.21452753990888596,
+          "heldout_relative_l1": 0.3415500015977906
+        },
+        {
+          "epoch": 18,
+          "step": 18,
+          "train_loss": 0.21205565333366394,
+          "validation_loss": 0.21164309233427048,
+          "heldout_relative_l1": 0.3363865605299097
+        },
+        {
+          "epoch": 19,
+          "step": 19,
+          "train_loss": 0.20341914892196655,
+          "validation_loss": 0.21034876257181168,
+          "heldout_relative_l1": 0.33408603653880165
+        },
+        {
+          "epoch": 20,
+          "step": 20,
+          "train_loss": 0.22214169055223465,
+          "validation_loss": 0.21001947671175003,
+          "heldout_relative_l1": 0.3335205039486741
+        }
+      ]
+    },
+    {
+      "name": "scheme_a_A2_gate16_budget_v1",
+      "path": "outputs/research/scheme_a_A2_gate16_budget_v1",
+      "stage": "gate",
+      "synthetic": false,
+      "state": "complete_pass",
+      "model": {
+        "name": "set_unrolled3d",
+        "variant": "A2",
+        "steps": 4,
+        "samples": 96,
+        "ray_chunk": 256,
+        "prior_width": 32,
+        "prior_amplitude": 0.02,
+        "lift_resolution": 32,
+        "output_resolution": 64,
+        "preconditioner": "geometry",
+        "checkpoint_prior": true
+      },
+      "seed": 20261011,
+      "device": "cuda:0",
+      "train_cases": 16,
+      "val_cases": 8,
+      "planned_epochs": 5,
+      "committed_completed_epochs": 5,
+      "logged_epochs": 5,
+      "observed_optimizer_updates": 40,
+      "initial_heldout_relative_l1": 71.118649742614,
+      "best_observed_heldout_relative_l1": 0.28919577366527977,
+      "final_observed_heldout_relative_l1": 0.28919577366527977,
+      "zero_baseline_relative_l1": 1.0,
+      "initial_train_loss": 6.459786392748356,
+      "final_train_loss": 0.0890505975112319,
+      "total_logged_epoch_seconds": 1359.9870290285908,
+      "peak_gpu_allocated_bytes": 4448862208,
+      "acceptance": {
+        "stage": "gate",
+        "synthetic": false,
+        "passed": true,
+        "criteria": {
+          "finite": true,
+          "heldout_better_than_zero": true,
+          "heldout_improves_initial": true,
+          "nonzero_gradient": true,
+          "output_changes_across_cases": true,
+          "measurement_dependence": true,
+          "no_gt_reads": true,
+          "no_forbidden_reads": true,
+          "expected_updates": true
+        },
+        "best_heldout_relative_l1": 0.28919577366527977,
+        "zero_heldout_relative_l1": 1.0,
+        "initial_heldout_relative_l1": 71.118649742614
+      },
+      "summary": {
+        "completed": true,
+        "completed_epochs": 5,
+        "optimizer_updates": 40,
+        "best_val_metric": 0.28919577366527977,
+        "gt_access": {
+          "gt_file_opened": false,
+          "gt_open_attempts": 0,
+          "forbidden_npy_attempts": 0,
+          "supervised_checkpoint_open_attempts": 0,
+          "projection_open_count": 432,
+          "unique_pool_a_projection_files": 24,
+          "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+          "audit_hook_inherited_by_workers": true
+        },
+        "scientific_gate_passed": true
+      },
+      "freeze": {
+        "completed": true,
+        "completed_epochs": 5,
+        "stage": "gate",
+        "protocol": "scheme_a_measurement_only_v1",
+        "synthetic": false,
+        "formal_gate_claim": false,
+        "selection": "heldout measurement relative_l1 only",
+        "best_epoch": 5,
+        "best_val_metric": 0.28919577366527977,
+        "global_step": 40,
+        "checkpoint": "/home/djc/projects/GeoPhy-Set3D/outputs/research/scheme_a_A2_gate16_budget_v1/checkpoints/best.pt",
+        "sha256": "f1b7a7a6528ae3c0dbe2e74358812c95e0b139a8b0a453d64f7f157e3a3d5241",
+        "selection_metric": "mean held-out measurement relative L1",
+        "volumetric_gt_used": false,
+        "formal_evaluation_allowed": false,
+        "best_sha256": "f1b7a7a6528ae3c0dbe2e74358812c95e0b139a8b0a453d64f7f157e3a3d5241",
+        "last_sha256": "db66830c56728b6ef3594c5469817944f2efefb8be2e39c902fd6507b7350570",
+        "provenance_sha256": "52a7b0d4f3e8d3e46b8fcee23f8c05735b8cbaf6b673a0069fb0cbaa484eb750",
+        "gt_used_for_training_or_selection": false
+      },
+      "audit": {
+        "gt_file_opened": false,
+        "gt_open_attempts": 0,
+        "forbidden_npy_attempts": 0,
+        "supervised_checkpoint_open_attempts": 0,
+        "projection_open_count": 435,
+        "unique_pool_a_projection_files": 24,
+        "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+        "audit_hook_inherited_by_workers": true
+      },
+      "audit_status": {
+        "recorded": true,
+        "real_file_audit": true,
+        "zero_forbidden_attempts": true,
+        "note": "三个违规访问计数均为零。"
+      },
+      "measurement_dependence": {
+        "intervention": "multiply valid measurements by 1.2; identical geometry and masks",
+        "mean_absolute_output_change": 0.0004417413438204676,
+        "passed": true
+      },
+      "budget": {
+        "max_updates": 2000,
+        "max_seconds": 1800
+      },
+      "training_source_sha256": "4ed9405a94874a7e9cdd1e36b0750b3eb37d8ef2db9ea5b9e796f6b524bfff51",
+      "actual_source_sha256": "4ed9405a94874a7e9cdd1e36b0750b3eb37d8ef2db9ea5b9e796f6b524bfff51",
+      "source_matches_training": true,
+      "changed_source_files": [],
+      "actual_source_files": {
+        "src/geophy_set3d/__init__.py": "47441c8638d63363d06b204cb8d6b0e9a6524c9d598920036b9cd8cc3e9ff2b5",
+        "src/geophy_set3d/data/build_utils.py": "0fbaa994ae1b3b82094fc687efc767e3ce019b7f28f0987e37e80efef1ba31be",
+        "src/geophy_set3d/data/collate.py": "64ba5c126d89e0e709eb7f002c791a32a896e8ef098128fd71cf10f6daf8e83e",
+        "src/geophy_set3d/data/generation.py": "36374efc91e0e27d00ed817109472cdb39f30e6cedcbced7c6bc6392746f703c",
+        "src/geophy_set3d/data/measurement_only.py": "8ac516e07b785ac82686306ded38bbe0e47622087318af2741731e5d4f1271b2",
+        "src/geophy_set3d/data/measurement_sampling.py": "88f6e05beb64111c1a63fab90825f0f68e6ae2772a92f0be6187d9e55cc7a693",
+        "src/geophy_set3d/data/projection_audit.py": "77b5d7afc44326ae00e676f41a3989244fa040e1020992fd5c2e5d0fc9c87e09",
+        "src/geophy_set3d/data/projection_pool_dataset.py": "2ff2426b94043c4d2487e1b47c27340599df798816187774be2a5a2d62e0ee8e",
+        "src/geophy_set3d/data/rich_measurement.py": "09648bd196db21be9e4f673da4157a53024145f8429af6846e780c960b298e26",
+        "src/geophy_set3d/data/validation.py": "76b1e84a737fcb740ab5bb5b83feecb86c76693968516a2efcbf24d84d192f14",
+        "src/geophy_set3d/data/view_sampling.py": "fc858a69533b41f67be5fd050ecd0dd6fdb253d86ae382e02591c2ee815e1eb8",
+        "src/geophy_set3d/diagnostics/senseiver_signal_path.py": "ec182c4003e0abb303a99bf74bb3cd3ae531543664b325929a9aa9658210f742",
+        "src/geophy_set3d/evaluation/__init__.py": "7e7c0e83968957f68b7808b2b644686a0a12f21bad15045831d70a52214a8338",
+        "src/geophy_set3d/evaluation/analysis.py": "199f1457d0978a606c761ad4d11ca1edd10f6aafa95e198bc1e7ec25021131ad",
+        "src/geophy_set3d/evaluation/b2_report.py": "fada1bbce57c3ffeb0056862e0756bbf63635764327b1b9c408f785c573916d1",
+        "src/geophy_set3d/evaluation/b3_report.py": "73fb688b46965b915ab8b8e602ee333995121261c94985e72a54a3d371b524af",
+        "src/geophy_set3d/evaluation/clustered_one_swap.py": "b506eca28a515b6026d3a75b57d3a15b2a177c092db209195cafd4e65fdace5b",
+        "src/geophy_set3d/evaluation/comparison_report.py": "2e44d97c482a08e7a8c97b141d4a30b72305fe831e0496661d6efe79944ad0e1",
+        "src/geophy_set3d/evaluation/deep_comparison.py": "d89dd67c0b7d3e19df5fd41dbd8411280141a616f5603896efb066cfc41c1389",
+        "src/geophy_set3d/evaluation/experiments.py": "5aedd0c55eec76e4b874222bc7b19578c1b7d8f48af657bdf67a2adf60041182",
+        "src/geophy_set3d/evaluation/figures.py": "816712bea9a5ac3bf35946eef78e8781cf20248f6d3bc427f6f8fb03b405486a",
+        "src/geophy_set3d/evaluation/geometry_augmentation_formal_stats.py": "2ecd585ec7f6dcf1fc2bf74022bda08062deb2de9e032c372bbb8924277c6e8d",
+        "src/geophy_set3d/evaluation/geometry_augmentation_sampler.py": "82214214c4576d4228dd7f668714ad83864536247f8a6dce6988c61b904f8b25",
+        "src/geophy_set3d/evaluation/geometry_catalog.py": "60eb3fb4506426de22dde50d274f9eb15c7779298d465c88bdca586f50872e2f",
+        "src/geophy_set3d/evaluation/geometry_sensitivity.py": "460817ff0b13ced548997a7dd691c647d8eb30e6ca9e0f6d2c6307c7eac73585",
+        "src/geophy_set3d/evaluation/geometry_strata.py": "cc3c9d9557b446ea419a4842ac447afe2b512d86be76521190a4c203abec86e5",
+        "src/geophy_set3d/evaluation/geometry_stratified_sampler.py": "976de22b042f7d392424965ce5a62ed24a0957e78bcab7ee493998e390feb0ba",
+        "src/geophy_set3d/evaluation/matched_control.py": "55eacbce1ded9de9c9344f4c32e1836d729ef229175080ac1048b9680cb37611",
+        "src/geophy_set3d/evaluation/measurement_consistency.py": "edee97bea059708eddcc772b3831858f918a1ccbcf4050f4c491d2aa768f9889",
+        "src/geophy_set3d/evaluation/measurement_diagnostics.py": "2b920ed3da6310f68193bb8ef5e047f51c67c39f7686c683f847fed8fc3cd382",
+        "src/geophy_set3d/evaluation/mrgr.py": "c796ede1a09fd06fae65c3d833184c9cfea5a0a1a37159dafa5f8187b3fa9c08",
+        "src/geophy_set3d/evaluation/mrgr_report.py": "409822580c09530d2272c796fd02704b02af45d4a0f397d4b1dc5a3a5fac671d",
+        "src/geophy_set3d/evaluation/oari_diagnostics.py": "ea656b350edd48da390281d4e25d5a3f56e9146b48a043c694a975d72c9cccfa",
+        "src/geophy_set3d/evaluation/oari_report.py": "a907c8912468605c3fa55b59bdb987ca2086e0a451ff4f24be429986e3e4d73e",
+        "src/geophy_set3d/evaluation/protocols.py": "60b4a82f96dfaec4947762855e6987a1fffedb987d96ab15dcdb2bd9e7caf878",
+        "src/geophy_set3d/evaluation/ray_senseiver.py": "22fc91e943fe45bbb43d7e07c9ccfa1c26cc24b7c06a1b706338483f3ea24b94",
+        "src/geophy_set3d/evaluation/report.py": "60799671d8f557c775490a2dd6755f18258cfa38ea755d19b0eec84cfe15067a",
+        "src/geophy_set3d/evaluation/research.py": "a9de4289499f49596ab0e4575f72336aaa17522cf20420a4ddbe33ea2b8057be",
+        "src/geophy_set3d/evaluation/research_integrity.py": "9a433d6ded5173fcc2c0921078693c849e490bc6a6e4c22647d0414bf1e68902",
+        "src/geophy_set3d/evaluation/rvtc_failure_diagnostics.py": "47d1f9f28445af6d29a198c3e1f3b3a151073ab722d21a8bb4c3527c5b4deed4",
+        "src/geophy_set3d/evaluation/selfsup_c0c1_diagnostic.py": "42fff49d6415869b7c91f213877428ef26c6d43ae1aeec68dd8238203361f665",
+        "src/geophy_set3d/evaluation/selfsup_report.py": "685f66b86bb233116a0bdbe8a2ff835d16e63780332609613b3aa1cf5289c78a",
+        "src/geophy_set3d/evaluation/selfsup_v2_integrity.py": "2aacd7d9220869a37bf214fcb512128211442bc67b274cc474d28c766ba05dde",
+        "src/geophy_set3d/evaluation/selfsup_v2_report.py": "96df2a594503353517849af5751c8921f1144c172218659825ac58782c56a677",
+        "src/geophy_set3d/evaluation/stratification.py": "de9ee3059ba4e59288021105671fdab907b670617212a7428d0e1ce03e43623f",
+        "src/geophy_set3d/evaluation/summary.py": "73a8acd82a6ba703665993280af31ac95daeae413b81ff078c5d932b678b0d68",
+        "src/geophy_set3d/evaluation/training_runs.py": "b2b9a3bffc3002d60d0f5896b3e8b7efefc3133fbf8238f67f4909a8c6e55cad",
+        "src/geophy_set3d/evaluation/view_selection.py": "32a56947b18b30bf788768c3a939ff1cf06694caf4939512713ad64b1e230b60",
+        "src/geophy_set3d/geometry/tdlas.py": "d641d3ebbb0fe288b9ae770b9bb5f1b5c5cd4ff3a4729235a161e74f78fa6dce",
+        "src/geophy_set3d/models/__init__.py": "54484529fa097a5a63b2bd982de29e01b29b88cfa7cc0b0fbd3151a5470e77f0",
+        "src/geophy_set3d/models/attention_fusion.py": "d349c05cb1565889ff83b0f391fff5882782e6525bc61481d3e2db9ceba4329e",
+        "src/geophy_set3d/models/blocks.py": "2842f04765a4c9ba7bc5ac04135ec8ddd8c7537745fc6f79b6c6ab41b3033223",
+        "src/geophy_set3d/models/decoder3d.py": "3aab7052dcc19f356fc2245ada14e8fe085b858b26c91cd180e358a4cc0691ac",
+        "src/geophy_set3d/models/encoder2d.py": "fd6f7e6f9d14573dcfb2d2b494941f83f63a269993f8bbae9616594a32443e14",
+        "src/geophy_set3d/models/fusion.py": "5a7ae6fd64daa283c15af3545311f75c58b774cb86294b2996bc3b098c3868d1",
+        "src/geophy_set3d/models/geolift_deepsets_sum.py": "e877158c6e0bcbecad2ef6bb6f852dc93e8077155e946d8232a63255a6c90e23",
+        "src/geophy_set3d/models/geolift_gca_res3d.py": "cde73cf1249ade86f54a3fcfc2ce5e7c8f85852cb836d356f3eed7cb74376c04",
+        "src/geophy_set3d/models/geolift_gcsi_res3d.py": "fcad0a6ff1daa02716f16d3c2661a1caa73e25fa915c061ae32d510418d084d1",
+        "src/geophy_set3d/models/geolift_mean_res3d.py": "119db246431a2b4612620afc29d819951d0ae21ab0ff08a8846f22c66f2a443a",
+        "src/geophy_set3d/models/geolift_oari_mrgr_c0_adapter.py": "7900e5d37b4bf8c068b84d4ce950c21e85dc5566eb1f3f1b44a0dbe7e3ac5b00",
+        "src/geophy_set3d/models/geolift_oari_mrgr_res3d.py": "a095e2cf9bbd9e86fc0a999df4c7d7185fcb4133220ba6334211b91b70166c26",
+        "src/geophy_set3d/models/geolift_oari_mrgr_zero_residual.py": "cff44973dca6731ddcde04920eee7064c2ca7844a9fd74d3608d2a44163c1634",
+        "src/geophy_set3d/models/geolift_oari_res3d.py": "0c254b09b598c3f3bed1af29c7a17e3de26349024106c8849938ac8a2126b0ed",
+        "src/geophy_set3d/models/lifting.py": "0cf2fc39535fab45cf7e2f8bd8cdcac70c8ff3f830c816b936347cf7f3b39710",
+        "src/geophy_set3d/models/ray_relational_interaction.py": "25db37d18c84240bc86f5b0eeb1a0a009a9958dce8bd3f6875dcb92f30b1eac2",
+        "src/geophy_set3d/models/ray_senseiver_latent_residual.py": "ea02b34d4123891736628dfd25c3d2b1b0b32dbbbed244785460114124f94dd2",
+        "src/geophy_set3d/models/ray_senseiver_ss.py": "fa497b1a68d45bd20db0f7fd7118a4e7664c55c31b3c3a53b27b43b2ea5480cb",
+        "src/geophy_set3d/models/senseiver_core.py": "b45e02cde0e2f2597370b34596854ec1d8890ab5838d7c73968b50fee40f1da4",
+        "src/geophy_set3d/models/set_interaction.py": "1b80318623b8cd07f94bad70879e159af5f0cd54f083b172c8b4a8bbe0eaefb3",
+        "src/geophy_set3d/models/set_unrolled3d.py": "8d543e388ab06e23f23b69b2c75a62d695f5287b8ded49eaede41c3dcec746c1",
+        "src/geophy_set3d/physics/explicit_ray_operator.py": "4b2c4dd02f8e1f41b3e43ef14bac2fbdcaa9c1ebbe42e7aa62190048456c6204",
+        "src/geophy_set3d/physics/projectors.py": "fe3475e29abbba0d3495be9fc69909f3b8b1d7e8d40c25aed683094198f6e776",
+        "src/geophy_set3d/physics/representation_capacity.py": "f0b3491204a172951bec0a1354f95933548672d75343ce2f24ad4d3d395ce92a",
+        "src/geophy_set3d/reconstruction/classical.py": "261530dc8296446203140f581f8e7b736aa0bcb4b98d5141158e24d2a49b1867",
+        "src/geophy_set3d/training/__init__.py": "d253aa4cda19ba45b2d472981e2410da0a7fd319f8509be5acd8ed2d037ff0ae",
+        "src/geophy_set3d/training/comparison.py": "b5028eca4f820f79b8c5eb9e17f6c143042805fd961db85955afb57e6881ecf3",
+        "src/geophy_set3d/training/deep_comparison.py": "75fd31230809ee3874c7a77ba5320c3d1f691d06e35c4cdf409e6e29fb54b07e",
+        "src/geophy_set3d/training/engine.py": "4491b17bcbc2dbb89d227086b53dfe84d21ed6c86ba1010b64358168f7bc4bb6",
+        "src/geophy_set3d/training/geometry_augmentation_formal.py": "b8b2aed8470acd8391876e1bce260a6e8727ef4c9bdd5e4026e4dcb181d0e9f8",
+        "src/geophy_set3d/training/gt_read_guard.py": "42bf7c374d0f297050e801f4b5baf9a544b731a46157f65862eeaa3b4b5cfe50",
+        "src/geophy_set3d/training/losses.py": "a6bec7ce5ee00fbe11d8d159add0d42243775b5d443c07a8e59dadee759b4c5e",
+        "src/geophy_set3d/training/matched_control.py": "0c807bacef0acca1362c3ce6b283bea2165e26b845c4b6bc88743ef0734ae319",
+        "src/geophy_set3d/training/measurement_engine.py": "373bc13981c1e4afd63f5959ea76528e6cc53ea30353b44272b6fee378c3ac85",
+        "src/geophy_set3d/training/measurement_runs.py": "d2c3fc98b593917419c2b74c454888dcdfa7ff1255f1d6adf112d6a2204c8e65",
+        "src/geophy_set3d/training/metrics.py": "e5244421a7cba81702873d0b69e882468a4ee97012676097545729a1fc31461a",
+        "src/geophy_set3d/training/mrgr.py": "098b6ca504d53eab4a01f3ce4f2ba7f5a7e1417c79ec144bc837cc8a242c1b53",
+        "src/geophy_set3d/training/projection_losses.py": "d64e4fd327bf68e4f18ee3f9278ef453363042a7a0deaa71fc4a91283f6f05ad",
+        "src/geophy_set3d/training/ray_senseiver.py": "5883cd2126ebd06e3e3eb5dc16348085ebb6d01ce9739f78cec8a253cf81140c",
+        "src/geophy_set3d/training/research_selfsup.py": "c71cc875de021b960736d571e524a6f9f5188f4b0a775368f54a6fb94a9e5b5d",
+        "src/geophy_set3d/training/rvtc_matched.py": "c8236c8dddc66fdf11e083ed516bd7797aecbdc837c749202b2c41a343692866",
+        "src/geophy_set3d/training/selfsup.py": "03cdee12b66aa1f7fdbd6a265ac7a23397ae03cee13fd18b1d8d721b6a91d909",
+        "src/geophy_set3d/training/selfsup_v2.py": "f4bb9c0159e6c4acaef188c0627d4ddcaa667d3c6851bb2055e34dac395a668e",
+        "src/geophy_set3d/training/senseiver_consistency_probe.py": "10127e7ad6adba39e5501815a844b4f205346872cfd679143cac1be86769edda",
+        "src/geophy_set3d/training/senseiver_init_probe.py": "b58c33db663a35f55254bf859158ab432fac018efc8fa636edcda88898ce002e",
+        "src/geophy_set3d/training/senseiver_readout.py": "4a335738a6a3834c7b0a6bca4c60672ed0ed7afbb69d81e401cb523b736e37a1",
+        "src/geophy_set3d/training/senseiver_relative_probe.py": "f64076d1cd087a403ed3d07f5a540e46ab34a8723a93cf488015caa503e2ef12",
+        "src/geophy_set3d/training/senseiver_single_repair.py": "8556c260a913c8df05b6f41b93535c74e5b01d2c7b4650d1e0ee4e296ec30ea1",
+        "src/geophy_set3d/training/senseiver_supervised_formal.py": "d0d2e18de0de39d4fd7bff5531adce024345f4f86922a0cb4d1ace0e75322237",
+        "src/geophy_set3d/training/senseiver_supervised_probe.py": "e84b92c03548c391e158f7cc3e28df2dad41ed64705dbe4f8a02fa1d74f1d70f",
+        "src/geophy_set3d/training/senseiver_supervised_stability.py": "f9206a7c3a9d92d5a6eb7b59d07580986cb5cbafc18ddb3516771e905c0ca6fc",
+        "src/geophy_set3d/training/utils.py": "51f397ff01ed89b6b930fdc0fee436bf754bcc40c0eaa58f5b3e7c005d14a1ae",
+        "scripts/train_research_selfsup.py": "edc24674e28d8ac3cbb41b8ff82d87311a96b568b176e67c76f885e4e01976de"
+      },
+      "git_commit": "3f563f0f86b38983fdfb4ab926641d5ec2f33adb",
+      "data_sha256": "d053d3b3aad9952c892dc773823563d0c1db8e4b14025f05996cc38ab5178479",
+      "config_sha256": "af915df914fdc202db1b436862cf17c7f790993c2e40d25e3d4dbf24e0541ee0",
+      "archive": "docs/reports/artifacts/plan_a_v1/run_scalars/scheme_a_A2_gate16_budget_v1",
+      "scalar_files": [
+        {
+          "file": "config_resolved.yaml",
+          "sha256": "49a001bab35d84a248700b0ff47182291839aa8ede0f3c747a428f3cfcfd9d79",
+          "bytes": 1398
+        },
+        {
+          "file": "environment.json",
+          "sha256": "11096d7364972a230a4ce75008ba4b792212b71026c5483891a2968bb633e9f1",
+          "bytes": 389
+        },
+        {
+          "file": "provenance.json",
+          "sha256": "52a7b0d4f3e8d3e46b8fcee23f8c05735b8cbaf6b673a0069fb0cbaa484eb750",
+          "bytes": 18602
+        },
+        {
+          "file": "metrics.jsonl",
+          "sha256": "4785b776f592b843ea94103cafb44bfa21ba22ddde66033a21e30052df5d28b1",
+          "bytes": 408711
+        },
+        {
+          "file": "sampling_manifest.jsonl",
+          "sha256": "229414ad437575aec384707a81495447e01f288d994d6c52d6dd00fcef55d95a",
+          "bytes": 20798
+        },
+        {
+          "file": "initial_validation.json",
+          "sha256": "033f38f0e1dfe0f09c4a484f7a92d86f97318edcf4636afeb0a2591b01ef861d",
+          "bytes": 49500
+        },
+        {
+          "file": "zero_volume_baseline.json",
+          "sha256": "f2ec9e08422c4faf49d83dab8c81bd776fe3ef211a5e031514491dc601dcfad6",
+          "bytes": 97
+        },
+        {
+          "file": "gt_read_audit.json",
+          "sha256": "3f0dc7d4f213c6352ebda5d70ca483cc43f131a58eb4570fcb9192f269be956c",
+          "bytes": 340
+        },
+        {
+          "file": "acceptance_result.json",
+          "sha256": "09f2f0e992619f046e48f12861ecf6870b48da6145a73c664f380d9b3cf2b972",
+          "bytes": 508
+        },
+        {
+          "file": "training_summary.json",
+          "sha256": "8793239c37d664cd3456b2ca9b14677720edf3219f8ac33de751efbe5b06b97f",
+          "bytes": 526
+        },
+        {
+          "file": "measurement_dependence.json",
+          "sha256": "1eee65db179bd09b3caec077b8914712b61c08ae704c2133e7424ce4bc29e0df",
+          "bytes": 163
+        },
+        {
+          "file": "freeze.json",
+          "sha256": "26fa0d5d9e56a4dc1c305609a9b676f0d54a07428d0cfde0bf4d8a528e0c5fc0",
+          "bytes": 939
+        },
+        {
+          "file": "frozen_checkpoint.json",
+          "sha256": "26fa0d5d9e56a4dc1c305609a9b676f0d54a07428d0cfde0bf4d8a528e0c5fc0",
+          "bytes": 939
+        }
+      ],
+      "scientific_formal_result": false,
+      "curves": [
+        {
+          "epoch": 1,
+          "step": 8,
+          "train_loss": 6.459786392748356,
+          "validation_loss": 0.37516266107559204,
+          "heldout_relative_l1": 1.4784073848395196
+        },
+        {
+          "epoch": 2,
+          "step": 16,
+          "train_loss": 0.3135916767641902,
+          "validation_loss": 0.13980446010828018,
+          "heldout_relative_l1": 0.4398470699387323
+        },
+        {
+          "epoch": 3,
+          "step": 24,
+          "train_loss": 0.11743619525805116,
+          "validation_loss": 0.11380832083523273,
+          "heldout_relative_l1": 0.3389278348106547
+        },
+        {
+          "epoch": 4,
+          "step": 32,
+          "train_loss": 0.09023122070357203,
+          "validation_loss": 0.1016203984618187,
+          "heldout_relative_l1": 0.2960426206227647
+        },
+        {
+          "epoch": 5,
+          "step": 40,
+          "train_loss": 0.0890505975112319,
+          "validation_loss": 0.09856125619262457,
+          "heldout_relative_l1": 0.28919577366527977
+        }
+      ]
+    },
+    {
+      "name": "scheme_a_A2_smoke_v1",
+      "path": "outputs/research/scheme_a_A2_smoke_v1",
+      "stage": "smoke",
+      "synthetic": false,
+      "state": "complete_pass",
+      "model": {
+        "name": "set_unrolled3d",
+        "variant": "A2",
+        "steps": 4,
+        "samples": 96,
+        "ray_chunk": 256,
+        "prior_width": 32,
+        "prior_amplitude": 0.02,
+        "lift_resolution": 32,
+        "output_resolution": 64,
+        "preconditioner": "geometry",
+        "checkpoint_prior": true
+      },
+      "seed": 20261011,
+      "device": "cuda:0",
+      "train_cases": 2,
+      "val_cases": 2,
+      "planned_epochs": 20,
+      "committed_completed_epochs": 20,
+      "logged_epochs": 20,
+      "observed_optimizer_updates": 20,
+      "initial_heldout_relative_l1": 103.44790997060582,
+      "best_observed_heldout_relative_l1": 0.9824652936718907,
+      "final_observed_heldout_relative_l1": 0.9824652936718907,
+      "zero_baseline_relative_l1": 1.0,
+      "initial_train_loss": 23.205119132995605,
+      "final_train_loss": 0.2526504397392273,
+      "total_logged_epoch_seconds": 893.883797722403,
+      "peak_gpu_allocated_bytes": 4493028352,
+      "acceptance": {
+        "stage": "smoke",
+        "synthetic": false,
+        "passed": true,
+        "criteria": {
+          "finite": true,
+          "heldout_better_than_zero": true,
+          "heldout_improves_initial": true,
+          "nonzero_gradient": true,
+          "output_changes_across_cases": true,
+          "measurement_dependence": true,
+          "no_gt_reads": true,
+          "no_forbidden_reads": true,
+          "expected_updates": true
+        },
+        "best_heldout_relative_l1": 0.9824652936718907,
+        "zero_heldout_relative_l1": 1.0,
+        "initial_heldout_relative_l1": 103.44790997060582
+      },
+      "summary": {
+        "completed": true,
+        "completed_epochs": 20,
+        "optimizer_updates": 20,
+        "best_val_metric": 0.9824652936718907,
+        "gt_access": {
+          "gt_file_opened": false,
+          "gt_open_attempts": 0,
+          "forbidden_npy_attempts": 0,
+          "supervised_checkpoint_open_attempts": 0,
+          "projection_open_count": 256,
+          "unique_pool_a_projection_files": 4,
+          "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+          "audit_hook_inherited_by_workers": true
+        },
+        "scientific_gate_passed": true
+      },
+      "freeze": {
+        "completed": true,
+        "completed_epochs": 20,
+        "stage": "smoke",
+        "protocol": "scheme_a_measurement_only_v1",
+        "synthetic": false,
+        "formal_gate_claim": false,
+        "selection": "heldout measurement relative_l1 only",
+        "best_epoch": 20,
+        "best_val_metric": 0.9824652936718907,
+        "global_step": 20,
+        "checkpoint": "/home/djc/projects/GeoPhy-Set3D/outputs/research/scheme_a_A2_smoke_v1/checkpoints/best.pt",
+        "sha256": "ad8d4d717c131bded1593c37c8cb5e199cd7972594fb2e2cf503a5e602802da4",
+        "selection_metric": "mean held-out measurement relative L1",
+        "volumetric_gt_used": false,
+        "formal_evaluation_allowed": false,
+        "best_sha256": "ad8d4d717c131bded1593c37c8cb5e199cd7972594fb2e2cf503a5e602802da4",
+        "last_sha256": "4f06413bdc04a9672c7445de179082e031113b24c6e9c78dd4a1028e393f0563",
+        "provenance_sha256": "04fbb9b8261a80e9a69cae5b2379b4f09dfd8e730336b67accf24817a4f0cf04",
+        "gt_used_for_training_or_selection": false
+      },
+      "audit": {
+        "gt_file_opened": false,
+        "gt_open_attempts": 0,
+        "forbidden_npy_attempts": 0,
+        "supervised_checkpoint_open_attempts": 0,
+        "projection_open_count": 259,
+        "unique_pool_a_projection_files": 4,
+        "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+        "audit_hook_inherited_by_workers": true
+      },
+      "audit_status": {
+        "recorded": true,
+        "real_file_audit": true,
+        "zero_forbidden_attempts": true,
+        "note": "三个违规访问计数均为零。"
+      },
+      "measurement_dependence": {
+        "intervention": "multiply valid measurements by 1.2; identical geometry and masks",
+        "mean_absolute_output_change": 0.0004854433936998248,
+        "passed": true
+      },
+      "budget": null,
+      "training_source_sha256": "4ed9405a94874a7e9cdd1e36b0750b3eb37d8ef2db9ea5b9e796f6b524bfff51",
+      "actual_source_sha256": "4ed9405a94874a7e9cdd1e36b0750b3eb37d8ef2db9ea5b9e796f6b524bfff51",
+      "source_matches_training": true,
+      "changed_source_files": [],
+      "actual_source_files": {
+        "src/geophy_set3d/__init__.py": "47441c8638d63363d06b204cb8d6b0e9a6524c9d598920036b9cd8cc3e9ff2b5",
+        "src/geophy_set3d/data/build_utils.py": "0fbaa994ae1b3b82094fc687efc767e3ce019b7f28f0987e37e80efef1ba31be",
+        "src/geophy_set3d/data/collate.py": "64ba5c126d89e0e709eb7f002c791a32a896e8ef098128fd71cf10f6daf8e83e",
+        "src/geophy_set3d/data/generation.py": "36374efc91e0e27d00ed817109472cdb39f30e6cedcbced7c6bc6392746f703c",
+        "src/geophy_set3d/data/measurement_only.py": "8ac516e07b785ac82686306ded38bbe0e47622087318af2741731e5d4f1271b2",
+        "src/geophy_set3d/data/measurement_sampling.py": "88f6e05beb64111c1a63fab90825f0f68e6ae2772a92f0be6187d9e55cc7a693",
+        "src/geophy_set3d/data/projection_audit.py": "77b5d7afc44326ae00e676f41a3989244fa040e1020992fd5c2e5d0fc9c87e09",
+        "src/geophy_set3d/data/projection_pool_dataset.py": "2ff2426b94043c4d2487e1b47c27340599df798816187774be2a5a2d62e0ee8e",
+        "src/geophy_set3d/data/rich_measurement.py": "09648bd196db21be9e4f673da4157a53024145f8429af6846e780c960b298e26",
+        "src/geophy_set3d/data/validation.py": "76b1e84a737fcb740ab5bb5b83feecb86c76693968516a2efcbf24d84d192f14",
+        "src/geophy_set3d/data/view_sampling.py": "fc858a69533b41f67be5fd050ecd0dd6fdb253d86ae382e02591c2ee815e1eb8",
+        "src/geophy_set3d/diagnostics/senseiver_signal_path.py": "ec182c4003e0abb303a99bf74bb3cd3ae531543664b325929a9aa9658210f742",
+        "src/geophy_set3d/evaluation/__init__.py": "7e7c0e83968957f68b7808b2b644686a0a12f21bad15045831d70a52214a8338",
+        "src/geophy_set3d/evaluation/analysis.py": "199f1457d0978a606c761ad4d11ca1edd10f6aafa95e198bc1e7ec25021131ad",
+        "src/geophy_set3d/evaluation/b2_report.py": "fada1bbce57c3ffeb0056862e0756bbf63635764327b1b9c408f785c573916d1",
+        "src/geophy_set3d/evaluation/b3_report.py": "73fb688b46965b915ab8b8e602ee333995121261c94985e72a54a3d371b524af",
+        "src/geophy_set3d/evaluation/clustered_one_swap.py": "b506eca28a515b6026d3a75b57d3a15b2a177c092db209195cafd4e65fdace5b",
+        "src/geophy_set3d/evaluation/comparison_report.py": "2e44d97c482a08e7a8c97b141d4a30b72305fe831e0496661d6efe79944ad0e1",
+        "src/geophy_set3d/evaluation/deep_comparison.py": "d89dd67c0b7d3e19df5fd41dbd8411280141a616f5603896efb066cfc41c1389",
+        "src/geophy_set3d/evaluation/experiments.py": "5aedd0c55eec76e4b874222bc7b19578c1b7d8f48af657bdf67a2adf60041182",
+        "src/geophy_set3d/evaluation/figures.py": "816712bea9a5ac3bf35946eef78e8781cf20248f6d3bc427f6f8fb03b405486a",
+        "src/geophy_set3d/evaluation/geometry_augmentation_formal_stats.py": "2ecd585ec7f6dcf1fc2bf74022bda08062deb2de9e032c372bbb8924277c6e8d",
+        "src/geophy_set3d/evaluation/geometry_augmentation_sampler.py": "82214214c4576d4228dd7f668714ad83864536247f8a6dce6988c61b904f8b25",
+        "src/geophy_set3d/evaluation/geometry_catalog.py": "60eb3fb4506426de22dde50d274f9eb15c7779298d465c88bdca586f50872e2f",
+        "src/geophy_set3d/evaluation/geometry_sensitivity.py": "460817ff0b13ced548997a7dd691c647d8eb30e6ca9e0f6d2c6307c7eac73585",
+        "src/geophy_set3d/evaluation/geometry_strata.py": "cc3c9d9557b446ea419a4842ac447afe2b512d86be76521190a4c203abec86e5",
+        "src/geophy_set3d/evaluation/geometry_stratified_sampler.py": "976de22b042f7d392424965ce5a62ed24a0957e78bcab7ee493998e390feb0ba",
+        "src/geophy_set3d/evaluation/matched_control.py": "55eacbce1ded9de9c9344f4c32e1836d729ef229175080ac1048b9680cb37611",
+        "src/geophy_set3d/evaluation/measurement_consistency.py": "edee97bea059708eddcc772b3831858f918a1ccbcf4050f4c491d2aa768f9889",
+        "src/geophy_set3d/evaluation/measurement_diagnostics.py": "2b920ed3da6310f68193bb8ef5e047f51c67c39f7686c683f847fed8fc3cd382",
+        "src/geophy_set3d/evaluation/mrgr.py": "c796ede1a09fd06fae65c3d833184c9cfea5a0a1a37159dafa5f8187b3fa9c08",
+        "src/geophy_set3d/evaluation/mrgr_report.py": "409822580c09530d2272c796fd02704b02af45d4a0f397d4b1dc5a3a5fac671d",
+        "src/geophy_set3d/evaluation/oari_diagnostics.py": "ea656b350edd48da390281d4e25d5a3f56e9146b48a043c694a975d72c9cccfa",
+        "src/geophy_set3d/evaluation/oari_report.py": "a907c8912468605c3fa55b59bdb987ca2086e0a451ff4f24be429986e3e4d73e",
+        "src/geophy_set3d/evaluation/protocols.py": "60b4a82f96dfaec4947762855e6987a1fffedb987d96ab15dcdb2bd9e7caf878",
+        "src/geophy_set3d/evaluation/ray_senseiver.py": "22fc91e943fe45bbb43d7e07c9ccfa1c26cc24b7c06a1b706338483f3ea24b94",
+        "src/geophy_set3d/evaluation/report.py": "60799671d8f557c775490a2dd6755f18258cfa38ea755d19b0eec84cfe15067a",
+        "src/geophy_set3d/evaluation/research.py": "a9de4289499f49596ab0e4575f72336aaa17522cf20420a4ddbe33ea2b8057be",
+        "src/geophy_set3d/evaluation/research_integrity.py": "9a433d6ded5173fcc2c0921078693c849e490bc6a6e4c22647d0414bf1e68902",
+        "src/geophy_set3d/evaluation/rvtc_failure_diagnostics.py": "47d1f9f28445af6d29a198c3e1f3b3a151073ab722d21a8bb4c3527c5b4deed4",
+        "src/geophy_set3d/evaluation/selfsup_c0c1_diagnostic.py": "42fff49d6415869b7c91f213877428ef26c6d43ae1aeec68dd8238203361f665",
+        "src/geophy_set3d/evaluation/selfsup_report.py": "685f66b86bb233116a0bdbe8a2ff835d16e63780332609613b3aa1cf5289c78a",
+        "src/geophy_set3d/evaluation/selfsup_v2_integrity.py": "2aacd7d9220869a37bf214fcb512128211442bc67b274cc474d28c766ba05dde",
+        "src/geophy_set3d/evaluation/selfsup_v2_report.py": "96df2a594503353517849af5751c8921f1144c172218659825ac58782c56a677",
+        "src/geophy_set3d/evaluation/stratification.py": "de9ee3059ba4e59288021105671fdab907b670617212a7428d0e1ce03e43623f",
+        "src/geophy_set3d/evaluation/summary.py": "73a8acd82a6ba703665993280af31ac95daeae413b81ff078c5d932b678b0d68",
+        "src/geophy_set3d/evaluation/training_runs.py": "b2b9a3bffc3002d60d0f5896b3e8b7efefc3133fbf8238f67f4909a8c6e55cad",
+        "src/geophy_set3d/evaluation/view_selection.py": "32a56947b18b30bf788768c3a939ff1cf06694caf4939512713ad64b1e230b60",
+        "src/geophy_set3d/geometry/tdlas.py": "d641d3ebbb0fe288b9ae770b9bb5f1b5c5cd4ff3a4729235a161e74f78fa6dce",
+        "src/geophy_set3d/models/__init__.py": "54484529fa097a5a63b2bd982de29e01b29b88cfa7cc0b0fbd3151a5470e77f0",
+        "src/geophy_set3d/models/attention_fusion.py": "d349c05cb1565889ff83b0f391fff5882782e6525bc61481d3e2db9ceba4329e",
+        "src/geophy_set3d/models/blocks.py": "2842f04765a4c9ba7bc5ac04135ec8ddd8c7537745fc6f79b6c6ab41b3033223",
+        "src/geophy_set3d/models/decoder3d.py": "3aab7052dcc19f356fc2245ada14e8fe085b858b26c91cd180e358a4cc0691ac",
+        "src/geophy_set3d/models/encoder2d.py": "fd6f7e6f9d14573dcfb2d2b494941f83f63a269993f8bbae9616594a32443e14",
+        "src/geophy_set3d/models/fusion.py": "5a7ae6fd64daa283c15af3545311f75c58b774cb86294b2996bc3b098c3868d1",
+        "src/geophy_set3d/models/geolift_deepsets_sum.py": "e877158c6e0bcbecad2ef6bb6f852dc93e8077155e946d8232a63255a6c90e23",
+        "src/geophy_set3d/models/geolift_gca_res3d.py": "cde73cf1249ade86f54a3fcfc2ce5e7c8f85852cb836d356f3eed7cb74376c04",
+        "src/geophy_set3d/models/geolift_gcsi_res3d.py": "fcad0a6ff1daa02716f16d3c2661a1caa73e25fa915c061ae32d510418d084d1",
+        "src/geophy_set3d/models/geolift_mean_res3d.py": "119db246431a2b4612620afc29d819951d0ae21ab0ff08a8846f22c66f2a443a",
+        "src/geophy_set3d/models/geolift_oari_mrgr_c0_adapter.py": "7900e5d37b4bf8c068b84d4ce950c21e85dc5566eb1f3f1b44a0dbe7e3ac5b00",
+        "src/geophy_set3d/models/geolift_oari_mrgr_res3d.py": "a095e2cf9bbd9e86fc0a999df4c7d7185fcb4133220ba6334211b91b70166c26",
+        "src/geophy_set3d/models/geolift_oari_mrgr_zero_residual.py": "cff44973dca6731ddcde04920eee7064c2ca7844a9fd74d3608d2a44163c1634",
+        "src/geophy_set3d/models/geolift_oari_res3d.py": "0c254b09b598c3f3bed1af29c7a17e3de26349024106c8849938ac8a2126b0ed",
+        "src/geophy_set3d/models/lifting.py": "0cf2fc39535fab45cf7e2f8bd8cdcac70c8ff3f830c816b936347cf7f3b39710",
+        "src/geophy_set3d/models/ray_relational_interaction.py": "25db37d18c84240bc86f5b0eeb1a0a009a9958dce8bd3f6875dcb92f30b1eac2",
+        "src/geophy_set3d/models/ray_senseiver_latent_residual.py": "ea02b34d4123891736628dfd25c3d2b1b0b32dbbbed244785460114124f94dd2",
+        "src/geophy_set3d/models/ray_senseiver_ss.py": "fa497b1a68d45bd20db0f7fd7118a4e7664c55c31b3c3a53b27b43b2ea5480cb",
+        "src/geophy_set3d/models/senseiver_core.py": "b45e02cde0e2f2597370b34596854ec1d8890ab5838d7c73968b50fee40f1da4",
+        "src/geophy_set3d/models/set_interaction.py": "1b80318623b8cd07f94bad70879e159af5f0cd54f083b172c8b4a8bbe0eaefb3",
+        "src/geophy_set3d/models/set_unrolled3d.py": "8d543e388ab06e23f23b69b2c75a62d695f5287b8ded49eaede41c3dcec746c1",
+        "src/geophy_set3d/physics/explicit_ray_operator.py": "4b2c4dd02f8e1f41b3e43ef14bac2fbdcaa9c1ebbe42e7aa62190048456c6204",
+        "src/geophy_set3d/physics/projectors.py": "fe3475e29abbba0d3495be9fc69909f3b8b1d7e8d40c25aed683094198f6e776",
+        "src/geophy_set3d/physics/representation_capacity.py": "f0b3491204a172951bec0a1354f95933548672d75343ce2f24ad4d3d395ce92a",
+        "src/geophy_set3d/reconstruction/classical.py": "261530dc8296446203140f581f8e7b736aa0bcb4b98d5141158e24d2a49b1867",
+        "src/geophy_set3d/training/__init__.py": "d253aa4cda19ba45b2d472981e2410da0a7fd319f8509be5acd8ed2d037ff0ae",
+        "src/geophy_set3d/training/comparison.py": "b5028eca4f820f79b8c5eb9e17f6c143042805fd961db85955afb57e6881ecf3",
+        "src/geophy_set3d/training/deep_comparison.py": "75fd31230809ee3874c7a77ba5320c3d1f691d06e35c4cdf409e6e29fb54b07e",
+        "src/geophy_set3d/training/engine.py": "4491b17bcbc2dbb89d227086b53dfe84d21ed6c86ba1010b64358168f7bc4bb6",
+        "src/geophy_set3d/training/geometry_augmentation_formal.py": "b8b2aed8470acd8391876e1bce260a6e8727ef4c9bdd5e4026e4dcb181d0e9f8",
+        "src/geophy_set3d/training/gt_read_guard.py": "42bf7c374d0f297050e801f4b5baf9a544b731a46157f65862eeaa3b4b5cfe50",
+        "src/geophy_set3d/training/losses.py": "a6bec7ce5ee00fbe11d8d159add0d42243775b5d443c07a8e59dadee759b4c5e",
+        "src/geophy_set3d/training/matched_control.py": "0c807bacef0acca1362c3ce6b283bea2165e26b845c4b6bc88743ef0734ae319",
+        "src/geophy_set3d/training/measurement_engine.py": "373bc13981c1e4afd63f5959ea76528e6cc53ea30353b44272b6fee378c3ac85",
+        "src/geophy_set3d/training/measurement_runs.py": "d2c3fc98b593917419c2b74c454888dcdfa7ff1255f1d6adf112d6a2204c8e65",
+        "src/geophy_set3d/training/metrics.py": "e5244421a7cba81702873d0b69e882468a4ee97012676097545729a1fc31461a",
+        "src/geophy_set3d/training/mrgr.py": "098b6ca504d53eab4a01f3ce4f2ba7f5a7e1417c79ec144bc837cc8a242c1b53",
+        "src/geophy_set3d/training/projection_losses.py": "d64e4fd327bf68e4f18ee3f9278ef453363042a7a0deaa71fc4a91283f6f05ad",
+        "src/geophy_set3d/training/ray_senseiver.py": "5883cd2126ebd06e3e3eb5dc16348085ebb6d01ce9739f78cec8a253cf81140c",
+        "src/geophy_set3d/training/research_selfsup.py": "c71cc875de021b960736d571e524a6f9f5188f4b0a775368f54a6fb94a9e5b5d",
+        "src/geophy_set3d/training/rvtc_matched.py": "c8236c8dddc66fdf11e083ed516bd7797aecbdc837c749202b2c41a343692866",
+        "src/geophy_set3d/training/selfsup.py": "03cdee12b66aa1f7fdbd6a265ac7a23397ae03cee13fd18b1d8d721b6a91d909",
+        "src/geophy_set3d/training/selfsup_v2.py": "f4bb9c0159e6c4acaef188c0627d4ddcaa667d3c6851bb2055e34dac395a668e",
+        "src/geophy_set3d/training/senseiver_consistency_probe.py": "10127e7ad6adba39e5501815a844b4f205346872cfd679143cac1be86769edda",
+        "src/geophy_set3d/training/senseiver_init_probe.py": "b58c33db663a35f55254bf859158ab432fac018efc8fa636edcda88898ce002e",
+        "src/geophy_set3d/training/senseiver_readout.py": "4a335738a6a3834c7b0a6bca4c60672ed0ed7afbb69d81e401cb523b736e37a1",
+        "src/geophy_set3d/training/senseiver_relative_probe.py": "f64076d1cd087a403ed3d07f5a540e46ab34a8723a93cf488015caa503e2ef12",
+        "src/geophy_set3d/training/senseiver_single_repair.py": "8556c260a913c8df05b6f41b93535c74e5b01d2c7b4650d1e0ee4e296ec30ea1",
+        "src/geophy_set3d/training/senseiver_supervised_formal.py": "d0d2e18de0de39d4fd7bff5531adce024345f4f86922a0cb4d1ace0e75322237",
+        "src/geophy_set3d/training/senseiver_supervised_probe.py": "e84b92c03548c391e158f7cc3e28df2dad41ed64705dbe4f8a02fa1d74f1d70f",
+        "src/geophy_set3d/training/senseiver_supervised_stability.py": "f9206a7c3a9d92d5a6eb7b59d07580986cb5cbafc18ddb3516771e905c0ca6fc",
+        "src/geophy_set3d/training/utils.py": "51f397ff01ed89b6b930fdc0fee436bf754bcc40c0eaa58f5b3e7c005d14a1ae",
+        "scripts/train_research_selfsup.py": "edc24674e28d8ac3cbb41b8ff82d87311a96b568b176e67c76f885e4e01976de"
+      },
+      "git_commit": "3f563f0f86b38983fdfb4ab926641d5ec2f33adb",
+      "data_sha256": "cf60c38f134e45caf738e1a46797081163f35391e8bd0d46551990484f9c0310",
+      "config_sha256": "5425efaaad4182a0b57e963e132c576e7a75c9159a847e74169d92ad5b63ed8b",
+      "archive": "docs/reports/artifacts/plan_a_v1/run_scalars/scheme_a_A2_smoke_v1",
+      "scalar_files": [
+        {
+          "file": "config_resolved.yaml",
+          "sha256": "5f261f54e9fa5d7c724fbb86696c30d399bf11280769a2eb0953df853ac23b18",
+          "bytes": 1344
+        },
+        {
+          "file": "environment.json",
+          "sha256": "11096d7364972a230a4ce75008ba4b792212b71026c5483891a2968bb633e9f1",
+          "bytes": 389
+        },
+        {
+          "file": "provenance.json",
+          "sha256": "04fbb9b8261a80e9a69cae5b2379b4f09dfd8e730336b67accf24817a4f0cf04",
+          "bytes": 14006
+        },
+        {
+          "file": "metrics.jsonl",
+          "sha256": "96744b5c376d44b91acff3f2f5a09ac5ee120e9aafd196e1402031625cbcc397",
+          "bytes": 305571
+        },
+        {
+          "file": "sampling_manifest.jsonl",
+          "sha256": "9d53ec7c832232c4491cbd7f15f195cb7f77a4517fc01d4a9920d9495d685e9d",
+          "bytes": 10628
+        },
+        {
+          "file": "initial_validation.json",
+          "sha256": "65ef9b1574794b758f04bbaae90eca6bbb9837e6d77944a3b5742e822c10e4fe",
+          "bytes": 13153
+        },
+        {
+          "file": "zero_volume_baseline.json",
+          "sha256": "8422a35f6400cb00e762787ac45139429627046180775dba10098054104f431a",
+          "bytes": 97
+        },
+        {
+          "file": "gt_read_audit.json",
+          "sha256": "95f1df89e085792837f76241300b8b73bf10170f9a9fd9c370b2f2262914c7cb",
+          "bytes": 339
+        },
+        {
+          "file": "acceptance_result.json",
+          "sha256": "2d99326f56cf1f4b998df8929ddfaf4129d10b22d2bee729c5479e5af5a11100",
+          "bytes": 511
+        },
+        {
+          "file": "training_summary.json",
+          "sha256": "b8244cba16840d0b2b9170aee7f1f1c9d02ae3f4f8d40f8b40a3fb2aba3d4dcf",
+          "bytes": 525
+        },
+        {
+          "file": "measurement_dependence.json",
+          "sha256": "c0c87c28977d51693cd06548ad0e8f0b46b291541268a8e6d80cb28eb937508c",
+          "bytes": 163
+        },
+        {
+          "file": "freeze.json",
+          "sha256": "78bfd2b03384e4498deb3a079fa656d42527f8eca55e0e9a7f7922e59cf2070e",
+          "bytes": 933
+        },
+        {
+          "file": "frozen_checkpoint.json",
+          "sha256": "78bfd2b03384e4498deb3a079fa656d42527f8eca55e0e9a7f7922e59cf2070e",
+          "bytes": 933
+        }
+      ],
+      "scientific_formal_result": false,
+      "curves": [
+        {
+          "epoch": 1,
+          "step": 1,
+          "train_loss": 23.205119132995605,
+          "validation_loss": 11.669026374816895,
+          "heldout_relative_l1": 54.91979775839021
+        },
+        {
+          "epoch": 2,
+          "step": 2,
+          "train_loss": 12.333136558532715,
+          "validation_loss": 6.450986862182617,
+          "heldout_relative_l1": 30.34099586289481
+        },
+        {
+          "epoch": 3,
+          "step": 3,
+          "train_loss": 7.1129913330078125,
+          "validation_loss": 2.8496276140213013,
+          "heldout_relative_l1": 13.38102897234008
+        },
+        {
+          "epoch": 4,
+          "step": 4,
+          "train_loss": 3.0582603216171265,
+          "validation_loss": 1.9438081979751587,
+          "heldout_relative_l1": 9.089238863706075
+        },
+        {
+          "epoch": 5,
+          "step": 5,
+          "train_loss": 1.806250512599945,
+          "validation_loss": 1.1858946681022644,
+          "heldout_relative_l1": 5.526888217305255
+        },
+        {
+          "epoch": 6,
+          "step": 6,
+          "train_loss": 1.2433840334415436,
+          "validation_loss": 0.8630605638027191,
+          "heldout_relative_l1": 4.008610905671522
+        },
+        {
+          "epoch": 7,
+          "step": 7,
+          "train_loss": 0.9217987656593323,
+          "validation_loss": 0.699208676815033,
+          "heldout_relative_l1": 3.225825680401902
+        },
+        {
+          "epoch": 8,
+          "step": 8,
+          "train_loss": 0.7218708097934723,
+          "validation_loss": 0.5707045793533325,
+          "heldout_relative_l1": 2.606435719715022
+        },
+        {
+          "epoch": 9,
+          "step": 9,
+          "train_loss": 0.6211655288934708,
+          "validation_loss": 0.47343313694000244,
+          "heldout_relative_l1": 2.136140518381314
+        },
+        {
+          "epoch": 10,
+          "step": 10,
+          "train_loss": 0.4865955710411072,
+          "validation_loss": 0.41226615011692047,
+          "heldout_relative_l1": 1.839933561850139
+        },
+        {
+          "epoch": 11,
+          "step": 11,
+          "train_loss": 0.44940081238746643,
+          "validation_loss": 0.36749595403671265,
+          "heldout_relative_l1": 1.6177639866738491
+        },
+        {
+          "epoch": 12,
+          "step": 12,
+          "train_loss": 0.374908983707428,
+          "validation_loss": 0.3280927836894989,
+          "heldout_relative_l1": 1.4134454760886932
+        },
+        {
+          "epoch": 13,
+          "step": 13,
+          "train_loss": 0.30936018377542496,
+          "validation_loss": 0.2985750883817673,
+          "heldout_relative_l1": 1.2502654438479253
+        },
+        {
+          "epoch": 14,
+          "step": 14,
+          "train_loss": 0.33524060249328613,
+          "validation_loss": 0.27979670464992523,
+          "heldout_relative_l1": 1.1391339067150688
+        },
+        {
+          "epoch": 15,
+          "step": 15,
+          "train_loss": 0.2940950393676758,
+          "validation_loss": 0.26845982670783997,
+          "heldout_relative_l1": 1.0686629713768443
+        },
+        {
+          "epoch": 16,
+          "step": 16,
+          "train_loss": 0.2833428680896759,
+          "validation_loss": 0.2615900933742523,
+          "heldout_relative_l1": 1.0252022461858614
+        },
+        {
+          "epoch": 17,
+          "step": 17,
+          "train_loss": 0.2678927183151245,
+          "validation_loss": 0.2577207088470459,
+          "heldout_relative_l1": 1.0012111204206056
+        },
+        {
+          "epoch": 18,
+          "step": 18,
+          "train_loss": 0.29505810141563416,
+          "validation_loss": 0.2557547241449356,
+          "heldout_relative_l1": 0.9890061858175461
+        },
+        {
+          "epoch": 19,
+          "step": 19,
+          "train_loss": 0.25516584515571594,
+          "validation_loss": 0.25488653779029846,
+          "heldout_relative_l1": 0.9837794355213015
+        },
+        {
+          "epoch": 20,
+          "step": 20,
+          "train_loss": 0.2526504397392273,
+          "validation_loss": 0.2546641677618027,
+          "heldout_relative_l1": 0.9824652936718907
+        }
+      ]
+    },
+    {
+      "name": "scheme_a_A2_synthetic20_v1",
+      "path": "outputs/research/scheme_a_A2_synthetic20_v1",
+      "stage": "synthetic_smoke",
+      "synthetic": true,
+      "state": "complete_pass",
+      "model": {
+        "name": "set_unrolled3d",
+        "variant": "A2",
+        "steps": 2,
+        "samples": 8,
+        "ray_chunk": 256,
+        "prior_width": 8,
+        "prior_amplitude": 0.02,
+        "lift_resolution": 4,
+        "output_resolution": 8,
+        "preconditioner": "geometry"
+      },
+      "seed": 20261011,
+      "device": "cpu",
+      "train_cases": 2,
+      "val_cases": 2,
+      "planned_epochs": 20,
+      "committed_completed_epochs": 20,
+      "logged_epochs": 20,
+      "observed_optimizer_updates": 20,
+      "initial_heldout_relative_l1": 14.01286917885256,
+      "best_observed_heldout_relative_l1": 0.3335205039486741,
+      "final_observed_heldout_relative_l1": 0.3335205039486741,
+      "zero_baseline_relative_l1": 1.0,
+      "initial_train_loss": 9.244073390960693,
+      "final_train_loss": 0.22214169055223465,
+      "total_logged_epoch_seconds": 5.790435087867081,
+      "peak_gpu_allocated_bytes": 0,
+      "acceptance": {
+        "stage": "synthetic_smoke",
+        "synthetic": true,
+        "passed": true,
+        "criteria": {
+          "finite": true,
+          "heldout_better_than_zero": true,
+          "heldout_improves_initial": true,
+          "nonzero_gradient": true,
+          "output_changes_across_cases": true,
+          "measurement_dependence": true,
+          "no_gt_reads": true,
+          "no_forbidden_reads": true,
+          "expected_updates": true
+        },
+        "best_heldout_relative_l1": 0.3335205039486741,
+        "zero_heldout_relative_l1": 1.0,
+        "initial_heldout_relative_l1": 14.01286917885256
+      },
+      "summary": {
+        "completed": true,
+        "completed_epochs": 20,
+        "optimizer_updates": 20,
+        "best_val_metric": 0.3335205039486741,
+        "gt_access": {
+          "gt_open_attempts": 0,
+          "gt_file_opened": false,
+          "synthetic": true
+        },
+        "scientific_gate_passed": false
+      },
+      "freeze": {
+        "completed": true,
+        "completed_epochs": 20,
+        "stage": "synthetic_smoke",
+        "protocol": "scheme_a_measurement_only_v1",
+        "synthetic": true,
+        "formal_gate_claim": false,
+        "selection": "heldout measurement relative_l1 only",
+        "best_epoch": 20,
+        "best_val_metric": 0.3335205039486741,
+        "global_step": 20,
+        "checkpoint": "/home/djc/projects/GeoPhy-Set3D/outputs/research/scheme_a_A2_synthetic20_v1/checkpoints/best.pt",
+        "sha256": "6d05a587b584bea1c3678104245b643105f358bb9c9be351a6ec5ed77c3fef15",
+        "selection_metric": "mean held-out measurement relative L1",
+        "volumetric_gt_used": false,
+        "formal_evaluation_allowed": false,
+        "best_sha256": "6d05a587b584bea1c3678104245b643105f358bb9c9be351a6ec5ed77c3fef15",
+        "last_sha256": "270d3c4ef714336f9cff551e92425472b789baed3fa0937d27b68f3c9f15152b",
+        "provenance_sha256": "5852b5143e61be61b9d13388e3e225e78539a59fa401947e93e82750a22f7b16",
+        "gt_used_for_training_or_selection": false
+      },
+      "audit": {
+        "policy": "Synthetic analytic measurements; no external data files or volumetric labels",
+        "gt_file_opened": false,
+        "gt_open_attempts": 0,
+        "synthetic": true
+      },
+      "audit_status": {
+        "recorded": true,
+        "real_file_audit": false,
+        "zero_forbidden_attempts": null,
+        "note": "解析合成测量，不读取外部三维标签；不能代替真实数据访问审计。"
+      },
+      "measurement_dependence": {
+        "intervention": "multiply valid measurements by 1.2; identical geometry and masks",
+        "mean_absolute_output_change": 0.0014246091013774276,
+        "passed": true
+      },
+      "budget": null,
+      "training_source_sha256": "4ed9405a94874a7e9cdd1e36b0750b3eb37d8ef2db9ea5b9e796f6b524bfff51",
+      "actual_source_sha256": "4ed9405a94874a7e9cdd1e36b0750b3eb37d8ef2db9ea5b9e796f6b524bfff51",
+      "source_matches_training": true,
+      "changed_source_files": [],
+      "actual_source_files": {
+        "src/geophy_set3d/__init__.py": "47441c8638d63363d06b204cb8d6b0e9a6524c9d598920036b9cd8cc3e9ff2b5",
+        "src/geophy_set3d/data/build_utils.py": "0fbaa994ae1b3b82094fc687efc767e3ce019b7f28f0987e37e80efef1ba31be",
+        "src/geophy_set3d/data/collate.py": "64ba5c126d89e0e709eb7f002c791a32a896e8ef098128fd71cf10f6daf8e83e",
+        "src/geophy_set3d/data/generation.py": "36374efc91e0e27d00ed817109472cdb39f30e6cedcbced7c6bc6392746f703c",
+        "src/geophy_set3d/data/measurement_only.py": "8ac516e07b785ac82686306ded38bbe0e47622087318af2741731e5d4f1271b2",
+        "src/geophy_set3d/data/measurement_sampling.py": "88f6e05beb64111c1a63fab90825f0f68e6ae2772a92f0be6187d9e55cc7a693",
+        "src/geophy_set3d/data/projection_audit.py": "77b5d7afc44326ae00e676f41a3989244fa040e1020992fd5c2e5d0fc9c87e09",
+        "src/geophy_set3d/data/projection_pool_dataset.py": "2ff2426b94043c4d2487e1b47c27340599df798816187774be2a5a2d62e0ee8e",
+        "src/geophy_set3d/data/rich_measurement.py": "09648bd196db21be9e4f673da4157a53024145f8429af6846e780c960b298e26",
+        "src/geophy_set3d/data/validation.py": "76b1e84a737fcb740ab5bb5b83feecb86c76693968516a2efcbf24d84d192f14",
+        "src/geophy_set3d/data/view_sampling.py": "fc858a69533b41f67be5fd050ecd0dd6fdb253d86ae382e02591c2ee815e1eb8",
+        "src/geophy_set3d/diagnostics/senseiver_signal_path.py": "ec182c4003e0abb303a99bf74bb3cd3ae531543664b325929a9aa9658210f742",
+        "src/geophy_set3d/evaluation/__init__.py": "7e7c0e83968957f68b7808b2b644686a0a12f21bad15045831d70a52214a8338",
+        "src/geophy_set3d/evaluation/analysis.py": "199f1457d0978a606c761ad4d11ca1edd10f6aafa95e198bc1e7ec25021131ad",
+        "src/geophy_set3d/evaluation/b2_report.py": "fada1bbce57c3ffeb0056862e0756bbf63635764327b1b9c408f785c573916d1",
+        "src/geophy_set3d/evaluation/b3_report.py": "73fb688b46965b915ab8b8e602ee333995121261c94985e72a54a3d371b524af",
+        "src/geophy_set3d/evaluation/clustered_one_swap.py": "b506eca28a515b6026d3a75b57d3a15b2a177c092db209195cafd4e65fdace5b",
+        "src/geophy_set3d/evaluation/comparison_report.py": "2e44d97c482a08e7a8c97b141d4a30b72305fe831e0496661d6efe79944ad0e1",
+        "src/geophy_set3d/evaluation/deep_comparison.py": "d89dd67c0b7d3e19df5fd41dbd8411280141a616f5603896efb066cfc41c1389",
+        "src/geophy_set3d/evaluation/experiments.py": "5aedd0c55eec76e4b874222bc7b19578c1b7d8f48af657bdf67a2adf60041182",
+        "src/geophy_set3d/evaluation/figures.py": "816712bea9a5ac3bf35946eef78e8781cf20248f6d3bc427f6f8fb03b405486a",
+        "src/geophy_set3d/evaluation/geometry_augmentation_formal_stats.py": "2ecd585ec7f6dcf1fc2bf74022bda08062deb2de9e032c372bbb8924277c6e8d",
+        "src/geophy_set3d/evaluation/geometry_augmentation_sampler.py": "82214214c4576d4228dd7f668714ad83864536247f8a6dce6988c61b904f8b25",
+        "src/geophy_set3d/evaluation/geometry_catalog.py": "60eb3fb4506426de22dde50d274f9eb15c7779298d465c88bdca586f50872e2f",
+        "src/geophy_set3d/evaluation/geometry_sensitivity.py": "460817ff0b13ced548997a7dd691c647d8eb30e6ca9e0f6d2c6307c7eac73585",
+        "src/geophy_set3d/evaluation/geometry_strata.py": "cc3c9d9557b446ea419a4842ac447afe2b512d86be76521190a4c203abec86e5",
+        "src/geophy_set3d/evaluation/geometry_stratified_sampler.py": "976de22b042f7d392424965ce5a62ed24a0957e78bcab7ee493998e390feb0ba",
+        "src/geophy_set3d/evaluation/matched_control.py": "55eacbce1ded9de9c9344f4c32e1836d729ef229175080ac1048b9680cb37611",
+        "src/geophy_set3d/evaluation/measurement_consistency.py": "edee97bea059708eddcc772b3831858f918a1ccbcf4050f4c491d2aa768f9889",
+        "src/geophy_set3d/evaluation/measurement_diagnostics.py": "2b920ed3da6310f68193bb8ef5e047f51c67c39f7686c683f847fed8fc3cd382",
+        "src/geophy_set3d/evaluation/mrgr.py": "c796ede1a09fd06fae65c3d833184c9cfea5a0a1a37159dafa5f8187b3fa9c08",
+        "src/geophy_set3d/evaluation/mrgr_report.py": "409822580c09530d2272c796fd02704b02af45d4a0f397d4b1dc5a3a5fac671d",
+        "src/geophy_set3d/evaluation/oari_diagnostics.py": "ea656b350edd48da390281d4e25d5a3f56e9146b48a043c694a975d72c9cccfa",
+        "src/geophy_set3d/evaluation/oari_report.py": "a907c8912468605c3fa55b59bdb987ca2086e0a451ff4f24be429986e3e4d73e",
+        "src/geophy_set3d/evaluation/protocols.py": "60b4a82f96dfaec4947762855e6987a1fffedb987d96ab15dcdb2bd9e7caf878",
+        "src/geophy_set3d/evaluation/ray_senseiver.py": "22fc91e943fe45bbb43d7e07c9ccfa1c26cc24b7c06a1b706338483f3ea24b94",
+        "src/geophy_set3d/evaluation/report.py": "60799671d8f557c775490a2dd6755f18258cfa38ea755d19b0eec84cfe15067a",
+        "src/geophy_set3d/evaluation/research.py": "a9de4289499f49596ab0e4575f72336aaa17522cf20420a4ddbe33ea2b8057be",
+        "src/geophy_set3d/evaluation/research_integrity.py": "9a433d6ded5173fcc2c0921078693c849e490bc6a6e4c22647d0414bf1e68902",
+        "src/geophy_set3d/evaluation/rvtc_failure_diagnostics.py": "47d1f9f28445af6d29a198c3e1f3b3a151073ab722d21a8bb4c3527c5b4deed4",
+        "src/geophy_set3d/evaluation/selfsup_c0c1_diagnostic.py": "42fff49d6415869b7c91f213877428ef26c6d43ae1aeec68dd8238203361f665",
+        "src/geophy_set3d/evaluation/selfsup_report.py": "685f66b86bb233116a0bdbe8a2ff835d16e63780332609613b3aa1cf5289c78a",
+        "src/geophy_set3d/evaluation/selfsup_v2_integrity.py": "2aacd7d9220869a37bf214fcb512128211442bc67b274cc474d28c766ba05dde",
+        "src/geophy_set3d/evaluation/selfsup_v2_report.py": "96df2a594503353517849af5751c8921f1144c172218659825ac58782c56a677",
+        "src/geophy_set3d/evaluation/stratification.py": "de9ee3059ba4e59288021105671fdab907b670617212a7428d0e1ce03e43623f",
+        "src/geophy_set3d/evaluation/summary.py": "73a8acd82a6ba703665993280af31ac95daeae413b81ff078c5d932b678b0d68",
+        "src/geophy_set3d/evaluation/training_runs.py": "b2b9a3bffc3002d60d0f5896b3e8b7efefc3133fbf8238f67f4909a8c6e55cad",
+        "src/geophy_set3d/evaluation/view_selection.py": "32a56947b18b30bf788768c3a939ff1cf06694caf4939512713ad64b1e230b60",
+        "src/geophy_set3d/geometry/tdlas.py": "d641d3ebbb0fe288b9ae770b9bb5f1b5c5cd4ff3a4729235a161e74f78fa6dce",
+        "src/geophy_set3d/models/__init__.py": "54484529fa097a5a63b2bd982de29e01b29b88cfa7cc0b0fbd3151a5470e77f0",
+        "src/geophy_set3d/models/attention_fusion.py": "d349c05cb1565889ff83b0f391fff5882782e6525bc61481d3e2db9ceba4329e",
+        "src/geophy_set3d/models/blocks.py": "2842f04765a4c9ba7bc5ac04135ec8ddd8c7537745fc6f79b6c6ab41b3033223",
+        "src/geophy_set3d/models/decoder3d.py": "3aab7052dcc19f356fc2245ada14e8fe085b858b26c91cd180e358a4cc0691ac",
+        "src/geophy_set3d/models/encoder2d.py": "fd6f7e6f9d14573dcfb2d2b494941f83f63a269993f8bbae9616594a32443e14",
+        "src/geophy_set3d/models/fusion.py": "5a7ae6fd64daa283c15af3545311f75c58b774cb86294b2996bc3b098c3868d1",
+        "src/geophy_set3d/models/geolift_deepsets_sum.py": "e877158c6e0bcbecad2ef6bb6f852dc93e8077155e946d8232a63255a6c90e23",
+        "src/geophy_set3d/models/geolift_gca_res3d.py": "cde73cf1249ade86f54a3fcfc2ce5e7c8f85852cb836d356f3eed7cb74376c04",
+        "src/geophy_set3d/models/geolift_gcsi_res3d.py": "fcad0a6ff1daa02716f16d3c2661a1caa73e25fa915c061ae32d510418d084d1",
+        "src/geophy_set3d/models/geolift_mean_res3d.py": "119db246431a2b4612620afc29d819951d0ae21ab0ff08a8846f22c66f2a443a",
+        "src/geophy_set3d/models/geolift_oari_mrgr_c0_adapter.py": "7900e5d37b4bf8c068b84d4ce950c21e85dc5566eb1f3f1b44a0dbe7e3ac5b00",
+        "src/geophy_set3d/models/geolift_oari_mrgr_res3d.py": "a095e2cf9bbd9e86fc0a999df4c7d7185fcb4133220ba6334211b91b70166c26",
+        "src/geophy_set3d/models/geolift_oari_mrgr_zero_residual.py": "cff44973dca6731ddcde04920eee7064c2ca7844a9fd74d3608d2a44163c1634",
+        "src/geophy_set3d/models/geolift_oari_res3d.py": "0c254b09b598c3f3bed1af29c7a17e3de26349024106c8849938ac8a2126b0ed",
+        "src/geophy_set3d/models/lifting.py": "0cf2fc39535fab45cf7e2f8bd8cdcac70c8ff3f830c816b936347cf7f3b39710",
+        "src/geophy_set3d/models/ray_relational_interaction.py": "25db37d18c84240bc86f5b0eeb1a0a009a9958dce8bd3f6875dcb92f30b1eac2",
+        "src/geophy_set3d/models/ray_senseiver_latent_residual.py": "ea02b34d4123891736628dfd25c3d2b1b0b32dbbbed244785460114124f94dd2",
+        "src/geophy_set3d/models/ray_senseiver_ss.py": "fa497b1a68d45bd20db0f7fd7118a4e7664c55c31b3c3a53b27b43b2ea5480cb",
+        "src/geophy_set3d/models/senseiver_core.py": "b45e02cde0e2f2597370b34596854ec1d8890ab5838d7c73968b50fee40f1da4",
+        "src/geophy_set3d/models/set_interaction.py": "1b80318623b8cd07f94bad70879e159af5f0cd54f083b172c8b4a8bbe0eaefb3",
+        "src/geophy_set3d/models/set_unrolled3d.py": "8d543e388ab06e23f23b69b2c75a62d695f5287b8ded49eaede41c3dcec746c1",
+        "src/geophy_set3d/physics/explicit_ray_operator.py": "4b2c4dd02f8e1f41b3e43ef14bac2fbdcaa9c1ebbe42e7aa62190048456c6204",
+        "src/geophy_set3d/physics/projectors.py": "fe3475e29abbba0d3495be9fc69909f3b8b1d7e8d40c25aed683094198f6e776",
+        "src/geophy_set3d/physics/representation_capacity.py": "f0b3491204a172951bec0a1354f95933548672d75343ce2f24ad4d3d395ce92a",
+        "src/geophy_set3d/reconstruction/classical.py": "261530dc8296446203140f581f8e7b736aa0bcb4b98d5141158e24d2a49b1867",
+        "src/geophy_set3d/training/__init__.py": "d253aa4cda19ba45b2d472981e2410da0a7fd319f8509be5acd8ed2d037ff0ae",
+        "src/geophy_set3d/training/comparison.py": "b5028eca4f820f79b8c5eb9e17f6c143042805fd961db85955afb57e6881ecf3",
+        "src/geophy_set3d/training/deep_comparison.py": "75fd31230809ee3874c7a77ba5320c3d1f691d06e35c4cdf409e6e29fb54b07e",
+        "src/geophy_set3d/training/engine.py": "4491b17bcbc2dbb89d227086b53dfe84d21ed6c86ba1010b64358168f7bc4bb6",
+        "src/geophy_set3d/training/geometry_augmentation_formal.py": "b8b2aed8470acd8391876e1bce260a6e8727ef4c9bdd5e4026e4dcb181d0e9f8",
+        "src/geophy_set3d/training/gt_read_guard.py": "42bf7c374d0f297050e801f4b5baf9a544b731a46157f65862eeaa3b4b5cfe50",
+        "src/geophy_set3d/training/losses.py": "a6bec7ce5ee00fbe11d8d159add0d42243775b5d443c07a8e59dadee759b4c5e",
+        "src/geophy_set3d/training/matched_control.py": "0c807bacef0acca1362c3ce6b283bea2165e26b845c4b6bc88743ef0734ae319",
+        "src/geophy_set3d/training/measurement_engine.py": "373bc13981c1e4afd63f5959ea76528e6cc53ea30353b44272b6fee378c3ac85",
+        "src/geophy_set3d/training/measurement_runs.py": "d2c3fc98b593917419c2b74c454888dcdfa7ff1255f1d6adf112d6a2204c8e65",
+        "src/geophy_set3d/training/metrics.py": "e5244421a7cba81702873d0b69e882468a4ee97012676097545729a1fc31461a",
+        "src/geophy_set3d/training/mrgr.py": "098b6ca504d53eab4a01f3ce4f2ba7f5a7e1417c79ec144bc837cc8a242c1b53",
+        "src/geophy_set3d/training/projection_losses.py": "d64e4fd327bf68e4f18ee3f9278ef453363042a7a0deaa71fc4a91283f6f05ad",
+        "src/geophy_set3d/training/ray_senseiver.py": "5883cd2126ebd06e3e3eb5dc16348085ebb6d01ce9739f78cec8a253cf81140c",
+        "src/geophy_set3d/training/research_selfsup.py": "c71cc875de021b960736d571e524a6f9f5188f4b0a775368f54a6fb94a9e5b5d",
+        "src/geophy_set3d/training/rvtc_matched.py": "c8236c8dddc66fdf11e083ed516bd7797aecbdc837c749202b2c41a343692866",
+        "src/geophy_set3d/training/selfsup.py": "03cdee12b66aa1f7fdbd6a265ac7a23397ae03cee13fd18b1d8d721b6a91d909",
+        "src/geophy_set3d/training/selfsup_v2.py": "f4bb9c0159e6c4acaef188c0627d4ddcaa667d3c6851bb2055e34dac395a668e",
+        "src/geophy_set3d/training/senseiver_consistency_probe.py": "10127e7ad6adba39e5501815a844b4f205346872cfd679143cac1be86769edda",
+        "src/geophy_set3d/training/senseiver_init_probe.py": "b58c33db663a35f55254bf859158ab432fac018efc8fa636edcda88898ce002e",
+        "src/geophy_set3d/training/senseiver_readout.py": "4a335738a6a3834c7b0a6bca4c60672ed0ed7afbb69d81e401cb523b736e37a1",
+        "src/geophy_set3d/training/senseiver_relative_probe.py": "f64076d1cd087a403ed3d07f5a540e46ab34a8723a93cf488015caa503e2ef12",
+        "src/geophy_set3d/training/senseiver_single_repair.py": "8556c260a913c8df05b6f41b93535c74e5b01d2c7b4650d1e0ee4e296ec30ea1",
+        "src/geophy_set3d/training/senseiver_supervised_formal.py": "d0d2e18de0de39d4fd7bff5531adce024345f4f86922a0cb4d1ace0e75322237",
+        "src/geophy_set3d/training/senseiver_supervised_probe.py": "e84b92c03548c391e158f7cc3e28df2dad41ed64705dbe4f8a02fa1d74f1d70f",
+        "src/geophy_set3d/training/senseiver_supervised_stability.py": "f9206a7c3a9d92d5a6eb7b59d07580986cb5cbafc18ddb3516771e905c0ca6fc",
+        "src/geophy_set3d/training/utils.py": "51f397ff01ed89b6b930fdc0fee436bf754bcc40c0eaa58f5b3e7c005d14a1ae",
+        "scripts/train_research_selfsup.py": "edc24674e28d8ac3cbb41b8ff82d87311a96b568b176e67c76f885e4e01976de"
+      },
+      "git_commit": "3f563f0f86b38983fdfb4ab926641d5ec2f33adb",
+      "data_sha256": "27d0abfd61919b615cd47ab7745f509acf9e8210e2c5b2d5d7ebeed4c6563c34",
+      "config_sha256": "115f7807af758e6510a157d85ce35c43fa7a3912261f2247aa7f235b9958871f",
+      "archive": "docs/reports/artifacts/plan_a_v1/run_scalars/scheme_a_A2_synthetic20_v1",
+      "scalar_files": [
+        {
+          "file": "config_resolved.yaml",
+          "sha256": "9d13a783625cda1cd8d423471a163bf758e9033ee28c4e307828fb3a33212e2f",
+          "bytes": 1264
+        },
+        {
+          "file": "environment.json",
+          "sha256": "b7a34e9dd2dc0a41265e443a42158f86e6fd2f183bb79d4b75aa2fdd75c18dc6",
+          "bytes": 365
+        },
+        {
+          "file": "provenance.json",
+          "sha256": "5852b5143e61be61b9d13388e3e225e78539a59fa401947e93e82750a22f7b16",
+          "bytes": 12906
+        },
+        {
+          "file": "metrics.jsonl",
+          "sha256": "22c93f7821445ffc9a4de73484d882fbfba4cdfda15e11fb43dc23ab20f8bd96",
+          "bytes": 165312
+        },
+        {
+          "file": "sampling_manifest.jsonl",
+          "sha256": "af1e7866b15ae291912dd2a8716803d9e7a641b0e40a6542540c09d78b030d4a",
+          "bytes": 6001
+        },
+        {
+          "file": "initial_validation.json",
+          "sha256": "11f49402a5d4dadeaa04d0ab2e6edbe98475bd54cc3b1d38a4f87e477da13e03",
+          "bytes": 7009
+        },
+        {
+          "file": "zero_volume_baseline.json",
+          "sha256": "a34058c40c7f61ef324f6fe8390aa60a74294fd5c10d889f878575590a77fe5d",
+          "bytes": 96
+        },
+        {
+          "file": "gt_read_audit.json",
+          "sha256": "726f80f8377b3fcc7ba4bdcc23f94bc4dd577d1456b3a3dff0d0a9b81f7147ab",
+          "bytes": 168
+        },
+        {
+          "file": "acceptance_result.json",
+          "sha256": "3fba8ec75df63f07a9437fb3ce7579f5f106810c5323f81d55f04d858daf0101",
+          "bytes": 519
+        },
+        {
+          "file": "training_summary.json",
+          "sha256": "4e592e62702fbe8fdb5b5f725487275a07035dfba77f3c8601ca27881e5389e5",
+          "bytes": 253
+        },
+        {
+          "file": "measurement_dependence.json",
+          "sha256": "6a2afb954be671c0e57486ccd3ff6c6027f3258e3f8e009ad38046625801978c",
+          "bytes": 163
+        },
+        {
+          "file": "freeze.json",
+          "sha256": "8d30b0b65cedb644d1897a046386c7423605d400cb70e6c3a7c0bad1d81383f1",
+          "bytes": 948
+        },
+        {
+          "file": "frozen_checkpoint.json",
+          "sha256": "8d30b0b65cedb644d1897a046386c7423605d400cb70e6c3a7c0bad1d81383f1",
+          "bytes": 948
+        }
+      ],
+      "scientific_formal_result": false,
+      "curves": [
+        {
+          "epoch": 1,
+          "step": 1,
+          "train_loss": 9.244073390960693,
+          "validation_loss": 5.11263108253479,
+          "heldout_relative_l1": 7.839387083701967
+        },
+        {
+          "epoch": 2,
+          "step": 2,
+          "train_loss": 5.167328596115112,
+          "validation_loss": 3.589197039604187,
+          "heldout_relative_l1": 5.510337329152655
+        },
+        {
+          "epoch": 3,
+          "step": 3,
+          "train_loss": 3.6747384071350098,
+          "validation_loss": 2.4516581296920776,
+          "heldout_relative_l1": 3.7891516936153162
+        },
+        {
+          "epoch": 4,
+          "step": 4,
+          "train_loss": 2.5579200983047485,
+          "validation_loss": 1.7614811658859253,
+          "heldout_relative_l1": 2.7446978099379824
+        },
+        {
+          "epoch": 5,
+          "step": 5,
+          "train_loss": 1.7058712840080261,
+          "validation_loss": 1.2736878097057343,
+          "heldout_relative_l1": 2.00908091662622
+        },
+        {
+          "epoch": 6,
+          "step": 6,
+          "train_loss": 1.2032572627067566,
+          "validation_loss": 0.9531568884849548,
+          "heldout_relative_l1": 1.5323195495133843
+        },
+        {
+          "epoch": 7,
+          "step": 7,
+          "train_loss": 0.9662580192089081,
+          "validation_loss": 0.7273651212453842,
+          "heldout_relative_l1": 1.1808537580020786
+        },
+        {
+          "epoch": 8,
+          "step": 8,
+          "train_loss": 0.7137385904788971,
+          "validation_loss": 0.5601130723953247,
+          "heldout_relative_l1": 0.9120575733591593
+        },
+        {
+          "epoch": 9,
+          "step": 9,
+          "train_loss": 0.5406473129987717,
+          "validation_loss": 0.4514224976301193,
+          "heldout_relative_l1": 0.7334605275277588
+        },
+        {
+          "epoch": 10,
+          "step": 10,
+          "train_loss": 0.4412526786327362,
+          "validation_loss": 0.37433867156505585,
+          "heldout_relative_l1": 0.6097325096997185
+        },
+        {
+          "epoch": 11,
+          "step": 11,
+          "train_loss": 0.3346259370446205,
+          "validation_loss": 0.3244676738977432,
+          "heldout_relative_l1": 0.5292969584659707
+        },
+        {
+          "epoch": 12,
+          "step": 12,
+          "train_loss": 0.31341812014579773,
+          "validation_loss": 0.28883644193410873,
+          "heldout_relative_l1": 0.4702684751347311
+        },
+        {
+          "epoch": 13,
+          "step": 13,
+          "train_loss": 0.28252310305833817,
+          "validation_loss": 0.26097290962934494,
+          "heldout_relative_l1": 0.42368649706644135
+        },
+        {
+          "epoch": 14,
+          "step": 14,
+          "train_loss": 0.24065940082073212,
+          "validation_loss": 0.24173670262098312,
+          "heldout_relative_l1": 0.39019370157667077
+        },
+        {
+          "epoch": 15,
+          "step": 15,
+          "train_loss": 0.251572385430336,
+          "validation_loss": 0.2282482087612152,
+          "heldout_relative_l1": 0.3659187010506222
+        },
+        {
+          "epoch": 16,
+          "step": 16,
+          "train_loss": 0.2289411872625351,
+          "validation_loss": 0.21970263868570328,
+          "heldout_relative_l1": 0.35076267409752004
+        },
+        {
+          "epoch": 17,
+          "step": 17,
+          "train_loss": 0.2099122554063797,
+          "validation_loss": 0.21452753990888596,
+          "heldout_relative_l1": 0.3415500015977906
+        },
+        {
+          "epoch": 18,
+          "step": 18,
+          "train_loss": 0.21205565333366394,
+          "validation_loss": 0.21164309233427048,
+          "heldout_relative_l1": 0.3363865605299097
+        },
+        {
+          "epoch": 19,
+          "step": 19,
+          "train_loss": 0.20341914892196655,
+          "validation_loss": 0.21034876257181168,
+          "heldout_relative_l1": 0.33408603653880165
+        },
+        {
+          "epoch": 20,
+          "step": 20,
+          "train_loss": 0.22214169055223465,
+          "validation_loss": 0.21001947671175003,
+          "heldout_relative_l1": 0.3335205039486741
+        }
+      ]
+    }
+  ],
+  "figures": [
+    "docs/reports/artifacts/plan_a_v1/training_measurement_curves.png",
+    "docs/reports/artifacts/plan_a_v1/training_measurement_curves.pdf"
+  ],
+  "formal_completed_runs": 0,
+  "external_inference": {
+    "field_shape": [
+      1,
+      1,
+      64,
+      64,
+      64
+    ],
+    "projection_shape": [
+      1,
+      3,
+      1,
+      64,
+      64
+    ],
+    "finite": true,
+    "field_min": 0.0,
+    "field_max": 0.13995479047298431,
+    "engineering_checkpoint": true,
+    "gt_body_read": false,
+    "inference": {
+      "field_variable": "methane_mass_fraction",
+      "axes": "XYZ",
+      "domain_m": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.6,
+          0.6,
+          0.6
+        ]
+      ],
+      "provenance": {
+        "method": "SetUnrolled3D",
+        "checkpoint_hash": "ad8d4d717c131bded1593c37c8cb5e199cd7972594fb2e2cf503a5e602802da4",
+        "config_hash": "a0b3b217adb459cf8a74f6973544377be2e994993036f5ca3e8f5f83baba4d4f"
+      },
+      "input_sha256": "0f5f35a8a04a0b298c5f766b202f6e165b14f9381054849635379ae5d8409d09",
+      "stage": "smoke",
+      "engineering_checkpoint": true,
+      "timing": {
+        "load_s": 1.0248625250533223,
+        "reconstruct_s": 2.1125022461637855,
+        "project_s": 0.15973581979051232
+      },
+      "diagnostics": {
+        "steps": [
+          {
+            "E": [
+              0.37346822023391724
+            ],
+            "update_norm": [
+              14.128222465515137
+            ],
+            "physical_step_norm": [
+              7.04758882522583
+            ],
+            "feedback_norm": [
+              0.0
+            ],
+            "signal_saturation_fraction": [
+              0.0
+            ],
+            "prior_norm": [
+              0.927026629447937
+            ],
+            "tau": 0.5004885792732239,
+            "clip_fraction": [
+              0.03992462158203125
+            ],
+            "physical_clip_fraction": [
+              0.028133392333984375
+            ],
+            "prior_clip_fraction": [
+              0.03992462158203125
+            ],
+            "near_zero_fraction": [
+              0.039928436279296875
+            ],
+            "near_one_fraction": [
+              0.0
+            ]
+          },
+          {
+            "E": [
+              0.09152667969465256
+            ],
+            "update_norm": [
+              7.08427619934082
+            ],
+            "physical_step_norm": [
+              3.4312055110931396
+            ],
+            "feedback_norm": [
+              0.0
+            ],
+            "signal_saturation_fraction": [
+              0.0
+            ],
+            "prior_norm": [
+              0.9071490168571472
+            ],
+            "tau": 0.5004869103431702,
+            "clip_fraction": [
+              0.11890411376953125
+            ],
+            "physical_clip_fraction": [
+              0.09712600708007812
+            ],
+            "prior_clip_fraction": [
+              0.11890411376953125
+            ],
+            "near_zero_fraction": [
+              0.11893081665039062
+            ],
+            "near_one_fraction": [
+              0.0
+            ]
+          },
+          {
+            "E": [
+              0.01923729106783867
+            ],
+            "update_norm": [
+              3.1808950901031494
+            ],
+            "physical_step_norm": [
+              1.4681261777877808
+            ],
+            "feedback_norm": [
+              0.0
+            ],
+            "signal_saturation_fraction": [
+              0.0
+            ],
+            "prior_norm": [
+              0.9697965979576111
+            ],
+            "tau": 0.5004807114601135,
+            "clip_fraction": [
+              0.22194671630859375
+            ],
+            "physical_clip_fraction": [
+              0.1714935302734375
+            ],
+            "prior_clip_fraction": [
+              0.22194671630859375
+            ],
+            "near_zero_fraction": [
+              0.22197341918945312
+            ],
+            "near_one_fraction": [
+              0.0
+            ]
+          },
+          {
+            "E": [
+              0.003768111811950803
+            ],
+            "update_norm": [
+              1.2002630233764648
+            ],
+            "physical_step_norm": [
+              0.4995613992214203
+            ],
+            "feedback_norm": [
+              0.0
+            ],
+            "signal_saturation_fraction": [
+              0.0
+            ],
+            "prior_norm": [
+              0.8943755626678467
+            ],
+            "tau": 0.5004678964614868,
+            "clip_fraction": [
+              0.5443687438964844
+            ],
+            "physical_clip_fraction": [
+              0.2931251525878906
+            ],
+            "prior_clip_fraction": [
+              0.5443687438964844
+            ],
+            "near_zero_fraction": [
+              0.5444679260253906
+            ],
+            "near_one_fraction": [
+              0.0
+            ]
+          }
+        ],
+        "iterations": 4,
+        "status": "ok"
+      },
+      "gt_read": false
+    },
+    "export_audit": {
+      "gt_file_opened": false,
+      "gt_open_attempts": 0,
+      "forbidden_npy_attempts": 0,
+      "supervised_checkpoint_open_attempts": 0,
+      "projection_open_count": 3,
+      "unique_pool_a_projection_files": 1,
+      "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+      "audit_hook_inherited_by_workers": true
+    }
+  },
+  "formal_acceptance_preflight": {
+    "scope": "Read-only formal acceptance preflight: model, real smoke/gate, current source/commit and all data contents; no model or optimizer created, no training launched",
+    "passed": true,
+    "configs": [
+      {
+        "config": "configs/research/scheme_a_a2_formal_v1_seed20261011.yaml",
+        "seed": 20261011,
+        "passed": true,
+        "source_sha256": "4ed9405a94874a7e9cdd1e36b0750b3eb37d8ef2db9ea5b9e796f6b524bfff51",
+        "data_sha256": "af987868d4ff239bad6ef2377886d1d6b471dcf9b59105ff9ec4549083b8c006",
+        "config_sha256": "d72c37d5a13372105c519349cf6805f2c1b4ad4fbc8323f9bf84e981a8d6334a",
+        "train_cases": 166,
+        "val_cases": 36,
+        "gt_access": {
+          "gt_file_opened": false,
+          "gt_open_attempts": 0,
+          "forbidden_npy_attempts": 0,
+          "supervised_checkpoint_open_attempts": 0,
+          "projection_open_count": 202,
+          "unique_pool_a_projection_files": 202,
+          "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+          "audit_hook_inherited_by_workers": true
+        },
+        "training_launched": false
+      },
+      {
+        "config": "configs/research/scheme_a_a2_formal_v1_seed20261012.yaml",
+        "seed": 20261012,
+        "passed": true,
+        "source_sha256": "4ed9405a94874a7e9cdd1e36b0750b3eb37d8ef2db9ea5b9e796f6b524bfff51",
+        "data_sha256": "af987868d4ff239bad6ef2377886d1d6b471dcf9b59105ff9ec4549083b8c006",
+        "config_sha256": "fcce5a7b67b2aa61faa094202fc5f02e9abf6148b828ea0c34eaa4a085dd98a7",
+        "train_cases": 166,
+        "val_cases": 36,
+        "gt_access": {
+          "gt_file_opened": false,
+          "gt_open_attempts": 0,
+          "forbidden_npy_attempts": 0,
+          "supervised_checkpoint_open_attempts": 0,
+          "projection_open_count": 202,
+          "unique_pool_a_projection_files": 202,
+          "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+          "audit_hook_inherited_by_workers": true
+        },
+        "training_launched": false
+      },
+      {
+        "config": "configs/research/scheme_a_a2_formal_v1_seed20261013.yaml",
+        "seed": 20261013,
+        "passed": true,
+        "source_sha256": "4ed9405a94874a7e9cdd1e36b0750b3eb37d8ef2db9ea5b9e796f6b524bfff51",
+        "data_sha256": "af987868d4ff239bad6ef2377886d1d6b471dcf9b59105ff9ec4549083b8c006",
+        "config_sha256": "d590339527db6f837f15e50bc6aa673a793fa293ded52dc521df608b0b00ffa3",
+        "train_cases": 166,
+        "val_cases": 36,
+        "gt_access": {
+          "gt_file_opened": false,
+          "gt_open_attempts": 0,
+          "forbidden_npy_attempts": 0,
+          "supervised_checkpoint_open_attempts": 0,
+          "projection_open_count": 202,
+          "unique_pool_a_projection_files": 202,
+          "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+          "audit_hook_inherited_by_workers": true
+        },
+        "training_launched": false
+      }
+    ]
+  },
+  "environment_snapshot": "docs/reports/artifacts/plan_a_v1/environment_snapshot.json",
+  "formal_seed_coverage": {},
+  "three_seed_formal_complete": false,
+  "gt_boundary": "Training and model selection read only measurements. Independent evaluation rejects synthetic/smoke/gate checkpoints and requires a frozen completed 300-epoch formal run.",
+  "input_files": {
+    "docs/reports/artifacts/plan_a_v1/assets_audit.json": "68df88d4924e7939428cb4903e81d7afdb53f3c04bfd0406cca57756bb2498c3",
+    "docs/reports/artifacts/plan_a_v1/assets_after_implementation.json": "982d019d3102b9432572aa2b45d27ba80abfd42c980c7961d02539fde68ebe18",
+    "docs/reports/artifacts/plan_a_v1/operator_numerics.json": "5ffb3af98ac8a6ce040fd9356482ca4f1d7f221f0d53fe9cd5c5ddcc9ea47480",
+    "docs/reports/artifacts/plan_a_v1/geometry_audit.json": "de1704146779cca8181329a459676491477dab990207720681b89d0ac54d45db",
+    "docs/reports/artifacts/plan_a_v1/external_inference.json": "fc4cbfa3f2a93736b9f15ce01a20c9f64f36d2b69310a2a1a9b7cab8fd38143a",
+    "docs/reports/artifacts/plan_a_v1/environment_snapshot.json": "2a87edebefeecf3a05614999c6612f9bc3312e72cdc8b04ad4b180637336b685",
+    "docs/reports/artifacts/plan_a_v1/formal_config_validation.json": "aea0b7646cafbaab85e72ad41bde80e280aa2f858fde3d0b9c6e2314f9a18806",
+    "docs/reports/artifacts/plan_a_v1/formal_acceptance_preflight.json": "4d8949e9f33a4755039552043ee197fa2e571125bea003499fe4f0d1d66bbb86",
+    "docs/reports/artifacts/plan_a_v1/pytest.log": "733fac0a485a31870963761e9aa5b34a72f30ff07308f0b04b487c745b842a18"
+  }
+}

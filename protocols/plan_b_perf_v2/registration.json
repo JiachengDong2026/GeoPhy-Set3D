@@ -1,0 +1,33 @@
+{
+  "registered_utc": "2026-10-15T16:51:10.811956+00:00",
+  "protocol": "scheme_b_continuous_measurement_only_perf_v2",
+  "purpose": "Execution-only FP32 acceleration; no architecture or scientific objective changes",
+  "fixed": [
+    "network weights/shapes",
+    "initialization policy",
+    "optimizer and learning rate",
+    "effective batch 2",
+    "all rays",
+    "Q96",
+    "all 4 Fourier bands",
+    "64^3 consistency and two attached contexts",
+    "FP32 and TF32 disabled",
+    "Pool A only/no GT"
+  ],
+  "changes": {
+    "ray_chunk": [
+      256,
+      2048
+    ],
+    "query_chunk": [
+      32768,
+      196608
+    ],
+    "checkpoint_query": [
+      true,
+      false
+    ]
+  },
+  "qualification": "Matched loss and all parameter gradients; cold full166/36 epoch against same-seed reference; reference sources preserved. Formal training not launched by this performance task.",
+  "acceptance_policy": "Preserve reference trainer gates without changes in this performance revision; reference failed smoke is not relabeled."
+}

@@ -1,0 +1,21 @@
+{
+  "date_utc": "2026-10-14T16:06:15.430828+00:00",
+  "scope": "CPU synthetic 3^3 field, 3 rays, K7, float64; no checkpoint, dataset, optimizer, model forward or training",
+  "torch_version": "2.11.0+cu128",
+  "projection_max_absolute_error": 4.440892098500626e-16,
+  "explicit_vjp_vs_grid_sample_autograd_max_absolute_error": 1.1102230246251565e-16,
+  "jvp_vjp_inner_product_absolute_error": 0.0,
+  "fixed_geometry_projection_gradcheck": true,
+  "fixed_geometry_projection_gradgradcheck": true,
+  "explicit_vjp_gradcheck": true,
+  "existing_grid_sample_double_backward": {
+    "supported": false,
+    "message": "derivative for aten::grid_sampler_3d_backward is not implemented"
+  },
+  "limitations": [
+    "Not a full64/K96 test",
+    "Not a CUDA kernel or performance check",
+    "All synthetic sample points strictly within box and concentrations within (0,1)",
+    "Mask, invalid, boundary and padding cases need implementation-stage tests"
+  ]
+}

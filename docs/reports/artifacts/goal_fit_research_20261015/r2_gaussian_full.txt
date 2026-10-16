@@ -1,0 +1,1099 @@
+Ensuring resilience to extreme weather events increases the ambition of mitigation scenarios on solar power and storage uptake: a study on the Italian power system
+Report GitHub Issue
+×
+Title:
+Content selection saved. Describe the issue below:
+Description:
+Submit without GitHub
+Submit in GitHub
+arXiv is now an independent nonprofit!
+Learn more
+×
+Back to arXiv
+Why HTML?
+Report Issue
+Back to Abstract
+Download PDF
+Abstract
+1 Introduction
+2 Materials and methods
+2.1 Italian power system
+2.2 Climate variables
+2.2.1 Data
+2.2.2 Definition of scenarios
+2.3 Impacts on electricity demand
+2.4 Impacts on power generation
+3 Results
+3.1 Installed capacity
+3.2 Electricity generation
+3.3 Mitigation vs adaptation: trade-offs and synergies
+4 Discussion
+5 Conclusions
+6 Acknowledgements
+A Supplementary Results
+A.1 Effects of rooftop PV generation on centralised power demand
+A.2 Mitigation and adaptation trade-off
+B Supplementary Methods for Climate Impacts
+B.1 Air Conditioning load estimation
+B.2 Impacts on thermal generation outages
+B.3 Impact on variable renewable sources
+B.4 Additional figures
+C Supplementary Methods for Power System Modelling
+C.1 Key features
+C.2 Dispatch optimization
+C.3 Expansion capacity investment
+References
+License: CC BY 4.0
+arXiv:2409.03593v1 [physics.soc-ph] 05 Sep 2024
+Ensuring resilience to extreme weather events increases the ambition of mitigation scenarios on solar power and storage uptake: a study on the Italian power system
+Alice Di Bella
+Francesco Colelli
+1 Department of Electronics, Information and Bioengineering, Politecnico di Milano, Milano (MI), Italy
+2 Department of Economics, Ca’ Foscari University of Venice, 30121 Venice, Italy
+3 CMCC Foundation - Euro-Mediterranean Center on Climate Change, Italy
+4 RFF-CMCC European Institute on Economics and the Environment, Italy
+*Corresponding author. e-mail address: alice.dibella@cmcc.it
+Abstract
+This study explores compounding impacts of climate change on power system’s load and generation, emphasising the need to integrate adaptation and mitigation strategies into investment planning. We combine existing and novel empirical evidence to model impacts on: i) air-conditioning demand; ii) thermal power outages; iii) hydro-power generation shortages. Using a power dispatch and capacity expansion model, we analyse the Italian power system’s response to these climate impacts in 2030, integrating mitigation targets and optimising for cost-efficiency at an hourly resolution. We outline different meteorological scenarios to explore the impacts of both average climatic changes and the intensification of extreme weather events. We find that addressing extreme weather in power system planning will require an extra 5-8 GW of photovoltaic (PV) capacity, on top of the 50 GW of the additional solar PV capacity required by the mitigation target alone. Despite the higher initial investments, we find that the adoption of renewable technologies, especially PV, alleviates the power system’s vulnerability to climate change and extreme weather events. Furthermore, enhancing short-term storage with lithium-ion batteries is crucial to counterbalance the reduced availability of dispatchable hydro generation.
+Keywords
+Climate change adaptation; Italian power system; power system resilience; mitigation strategies; photovoltaic power production
+1 Introduction
+The complex and urgent challenge posed by climate change, including more frequent and severe windstorms, heavy precipitation, droughts, and wildfires, can significantly increase risks to power infrastructure and energy systems [1]. At the same time, nations are increasingly committing to fundamentally reshape energy infrastructures, transitioning them towards low-carbon solutions to mitigate the adverse effects of climate change [2]. Nevertheless, the impacts of climate change are already evident in daily life, with projections indicating that these effects will intensify [3]. As a result,
+it is imperative to design and plan future energy and power systems with a dual focus: not only on mitigating climate change but also on ensuring adaptation to the impacts that will arise.
+The need for planning with a focus on both climate change mitigation and adaptation is particularly crucial when considering the electricity sector.Firstly, future power infrastructure will increasingly depend on variable renewable energy sources (VREs), which are far more weather-dependent than traditional fossil-based thermal plants [4]. Secondly, a widely recommended strategy for decarbonising other sectors of the economy is the electrification of final demand [5]. This shift will require significant increases in electricity production, which may be more susceptible to weather-related risks due to the higher penetration of VREs. Consequently, careful planning is essential to ensure that future power systems are both sustainable and resilient in the face of these challenges.
+In the case of the European Union (EU), power systems are already undergoing significant transformations, with nearly one-third of the region’s electricity now generated from renewable sources such as hydropower, solar, and onshore wind [6]. As electrification progresses and the integration of RES deepens, European energy systems are becoming increasingly dependent on weather conditions.
+Climate change impacts every stage of the electricity generation process: supply side, transmission and distribution networks, and load patterns. On the demand side, elevated temperatures can lead to increased electricity consumption for air conditioning during the summer, while warmer winters may reduce demand for heating: these changes affect not only the overall electricity demand but also result in higher load peaks and alterations in the power load profile [7, 8, 9, 10, 11, 12, 13]. As populations adapt to climate change, analyses on the influence of demand-side shocks on power systems are crucial for planning resilient systems. Some studies consider aggregated timespans, seasonal parameters or daily peaks for the electricity load [13, 14, 15], while others reach an hourly resolution for temperatures and power demand [12, 16]. Having estimates at a fine detail appears critical to enhance the resilience of the power sector, which could suffer during hours of high demand and low availability of supply [17]. Most of the literature has provided evidence of the short-term, intensive margin adjustments, examining how immediate changes in temperature influence electricity demand on a day-to-day or hour-by-hour basis [14, 18, 19, 20], disregarding instead long-run extensive margin adjustments. Over the past two decades, AC usage has increased rapidly in both developed and developing regions [21], highlighting the critical need for novel analyses to better understand the implications of AC adoption on power system planning [7].
+As previously introduced, climate change also has significant impacts on the generation side of the power infrastructure. Higher air and water temperatures can reduce the cooling efficiency of thermal power plants, leading to reduced power output. Coal and nuclear plants, which operate using steam-turbine processes, can experience significant operational challenges during droughts. Variations in stream flow levels and elevated temperatures can substantially impact the availability of cooling water required for these plants to function at full capacity [22]. Gas-fired power plants, operating though combustion-turbine processes that require little or no water for cooling, can be affected by a reduction in the efficiency of turbines due to extreme ambient temperatures, ultimately leading to power output reductions [17]. Recent work has underscored that climate change has already increased curtailment of thermal power plants [23].
+Climate change can increase the frequency of prolonged droughts, which can reduce water availability for hydropower. A large body of literature has focused on how water scarcity due to climate change can undermine power generation of hydroelectric dams [24, 25, 26, 27, 28, 29]. van Vliet et al. observe that climate change is projected to lead to significant regional variations in hydropower potential: some areas are expected to experience substantial increases in potential, while others may face considerable decreases, such as the United States and southern Europe [24]. Turner et al. corroborate these findings, highlighting the pronounced regional variability in hydropower impacts and emphasising the considerable investment required to adapt to anticipated changes in water availability [28]. Climate change also significantly impacts renewable power generation. Heatwaves and high temperatures can reduce the efficiency of solar panels, while altered wind patterns can affect wind turbine output [1, 30]. Evaluating these effects is complex, and there is limited consensus on the magnitude and direction of climate-induced impacts on variable RES, particularly when addressing issues at the country level [31, 32, 33, 34, 30, 35, 36].
+Finally, weather-related impacts on transmission and distribution systems are expected to be amplified by climate change. Increased frequency and severity of extreme weather events, such as storms and high winds, can cause physical damage to infrastructure, leading to outages and disruptions [37]. Additionally, higher temperatures can affect the efficiency and capacity of transmission lines, increasing the risk of overheating and reducing performances [33, 38, 39]. Transmission capacity, crucial for the integration of the future electricity grid, might be significantly reduced during summertime due to increased peak temperatures [17].
+To provide policymakers with strategies for enhancing the resilience of power systems, integrating climate change impacts on both supply and demand into a comprehensive modelling framework is essential. Weather and climate effects can disrupt electricity operations, leading to increased costs, load shedding, or outages if demand exceeds forecasts or power capacities are compromised. Only a few studies incorporate high-frequency supply and demand forecasts under climate change, enabling an evaluation of effective responses.
+Tobin et al. [40] assess climate impacts on European electricity production and suggest increasing resilient RES like wind and solar.
+Bloomfield et al. [32] highlight substantial climate-induced variability in Europe’s energy balance by 2050, stressing the need for better integration of climate uncertainty in planning.
+Optimisation models are traditionally employed to develop strategies for power capacity planning, especially when incorporating future mitigation goals [41], while the integration of empirically-estimated climate change impacts in energy models is more limited (country-level studies include
+[42]
+and [43]).
+IAM-based projections provide valuable insights; however, their findings tend to be aggregated in both space and time due to the broad nature of aggregated energy demand [44]. In contrast, high-resolution bottom-up power system models offer more detailed analysis, making them better suited for understanding the complexities of the interplay between mitigation and adaptation within the power system. Bottom-up models might advance our vision on the hourly and local consequences of future climate, since they generally have a larger spatial and temporal resolution compared to IAMs [36]. In a few cases, regional versions of leading IAMs have been coupled with power-system models with the aim of assessing climate change impacts on peak load and generation ([45], [46],[47]).
+To the best of our knowledge, Handayani et al. is one of the few research articles that thoroughly explores the intricate relationship between optimising mitigation and adaptation strategies in power sector planning [47].
+In this context, this paper makes two significant contributions to both academic literature and power system investment planning. First, it stands out as one of the few studies that simultaneously addresses decarbonization goals and the impacts of climate change on various power generation technologies and electricity demand while modelling power system expansions. Unlike existing research that typically focuses on long-term pathways (e.g.[47]), this paper examines the operation and optimal capacity requirements for a specific year. This approach provides high temporal (hourly) and spatial (market zones) resolution, which is crucial given that climate change effects can be highly localised and may vary significantly at different times of the day. As a second contribution, by delineating various scenarios, this paper addresses the inherent uncertainties associated with climate change. Our goal is not only to assess the optimal investment strategy under average future weather conditions but also to evaluate the requirements for extreme weather scenarios. This approach enables a comprehensive understanding of how investment strategies might need to adapt to both typical and atypical climatic conditions. In this paper, we explore the implications of both demand and supply side shocks on energy system planning using a bottom-up capacity expansion model, focusing on the power system planning for Italy in 2030.
+In this study, we build upon previous work by employing an integrated modelling approach to provide a more complete and rigorous analysis. We optimise the least-cost electricity system across various weather scenarios to account for potential future climatic conditions. By defining various weather scenarios for 2030, we can evaluate the impacts of both average near-future climate shifts and more extreme weather conditions. We combine existing and new empirical evidence to expand the understanding of power demand shocks and supply impairments under future climate change, with a focus on the implication of increased temperatures on air-conditioning demand, thermal power outages and hydropower generation.
+The remaining sections of this paper are organised as follows. Section 2 outlines the methodology used, including the empirical evaluation of climate change impacts on power supply and demand, as well as the development of the bottom-up model for the Italian power system. Section 3 presents the findings of the study, while Section 4 provides a discussion of these results. Finally, Section 5 outlines the possible implications for policy-making, and addresses the study’s limitations along with recommendations for future research.
+2 Materials and methods
+2.1 Italian power system
+In order to evaluate the effects of climate change on the Italian power sector in 2030 we adopt a power system modelling framework developed based on the open source model oemof, which consistently represents electricity dispatch and optimisation (the model is described in details in Appendix C). A version of the power system model is available on GitHub at [48] and was already employed in peer-reviewed studies [49, 50]. The Italian power system is described with an hourly resolution, divided into the seven market zones defined by the transmission system operator Terna [51, 52]. The model includes the existing power generation capacities up until the year 2021, then the optimiser is able to install new power plants to minimise the total system costs within the limits of model constraints (outlined in Appendix C). In the majority of the outcomes, the optimisation is performed assuming the implementation of the mitigation policies for Italy, which are legally binding according to the European Climate Law [53]. The European decarbonization goal for 2030 is to decrease carbon dioxide released in the atmosphere by 55%, in line with the Fit-for-55 policy package [54]. A larger effort is expected from sectors in the EU Emission Trading Scheme (which are electricity and heat generation, energy-intensive industry sectors, aviation and maritime transport) reaching a 62% decrease in CO2 emissions [55, 56]. In particular, the power sector can count on more mature technologies than other energy sectors and it is a fundamental enabler of the transition of other energy sectors through electrification [57]. Therefore, in this model we impose to the Italian power system in 2030 a reduction of CO2 emissions of 65% of electricity emissions with respect to their value in 1990 (they were 124.6 Mton of CO2 [58]). Additionally, in Section 3.3, we present scenarios in which no mitigation policies are applied (denoted as N​o​n​M​i​t​i​g​a​t​e​dNonMitigated cases) to evaluate the implications of adapting the power system for climate resilience compared to the M​i​t​i​g​a​t​e​dMitigated cases.
+The various elements of the power system necessary to shape the Italian electricity system are delineated in the Appendix A. Key features include: i) multiple market zones linked in the model through high-voltage transmission lines; ii) power production resources including natural gas, rooftop and utility scale photovoltaic, wind onshore and offshore, run-off-river, reservoir hydro, biomass and geothermal generation and imported electricity; iii) the possibility to add storage capacity for lithium-ion batteries and hydrogen storage technology, composed of electrolysers, fuel cells and hydrogen tanks. The model outcome has been validated with the data from the Transmission System Operator for the baseline year of 2019 [59].
+2.2 Climate variables
+2.2.1 Data
+Historical weather patterns are derived from weather reanalysis data for the forty years from 1981 to 2020 (following a method from [60]), available from ERA5 and ERA5-Land [61]. We chose a time period of several decades centred around 2000 to strike a balance between - from the one side - evaluating weather conditions close to recent years and - from the other side - including several decades of weather data in order to derive reliable distributions of weather patterns. Nevertheless, we show that the impacts we estimate are largely unchanged if we restrict the time span of our historical weather scenario to the two decades of 2001-2020 (see Supplementary Information and Supplementary Figure 13).
+The future climate projections derive from one CMIP5 EUROCORDEX Global and Regional Climate Model (GCM and RCM) (the GCM ICHEC-EC-EARTH and the RCM KNMI-RACMO22E). This data was preferred over CMIP6 climate projections because the former has hourly resolution, allowing us to conduct an assessment of climate change impacts retaining the high temporal frequency of the historical reanalysis ERA5 data. We consider as main future emission scenarios the RCP 4.5 (we find that no substantial differences arise with respect to hotter climate scenarios, e.g. RCP 8.5, in the time horizon of our analysis, centred around 2030, see Supplementary Figure 14). We match the historical period to the ERA5 reanalysis baseline period (1981-2020) and consider as future period the two decades around 2030 (2021-2040). In this way, our climate change impact projections should be considered as medium-term shifts in the climate occurring over three decades. While mean climate changes over only three decades might lead to negligible shifts in the mean climate conditions, the focus of this work is on both the mean and the tails of the weather distribution, allowing to test if power system planning will be impacted by climate change even in the next few decades, due to an amplification in extreme weather conditions. Both historical ERA5 reanalysis and future CORDEX projections data are taken from the population-weighted dataset of [62], available for Italy at the NUT3 level.
+2.2.2 Definition of scenarios
+The impacts of weather patterns on the supply- and demand-side of the electricity system are included in the paper by considering four alternative scenarios
+developed separately for each impact category: demand for power, hydropower supply, thermal power supply and VREs power supply.
+We start by considering a number jj of weather variables (WjW^{j}) - such as daily maximum temperatures - at the NUTS3 level (nn) for each hour (hh), calendar day (dd) and year (yy). From each weather variable Wn,h,d,yjW^{j}_{n,h,d,y} we derive the power system impacts based on different methodological approaches depending on the impact type (described in detail in Section 2.3 and Appendix B.2). Regardless of the specific approach, we can generalise the method adopted for the computation of impacts as follows. Consider the location- and time-specific impacts Υn,h,d,y\Upsilon_{n,h,d,y} computed from the weather variable WjW^{j} through a damage function f⁡()f():
+Υn,h,d,y=f⁡(Wn,h,d,yj)\Upsilon_{n,h,d,y}=f(W^{j}_{n,h,d,y})
+(1)
+First, we compute the impact of mean historical weather on the power generation variables (scenario Historical Mean, H​MHM) by taking the average over all years yy of f⁡(W^n,h,d,yj)f(\hat{W}^{j}_{n,h,d,y}) for a given location, hour and calendar day, where W^n,h,d,yj\hat{W}^{j}_{n,h,d,y} is a weather variable of the ERA5 weather reanalysis spanning from 1981 to 2020:
+Υn,h,dH​M=∑yf⁡(W^n,h,d,yj)y\Upsilon^{HM}_{n,h,d}=\frac{\sum_{y}f(\hat{W}^{j}_{n,h,d,y})}{y}
+(2)
+Second, we use the delta change-method, adopted extensively in the climate impact literature (see for instance [63, 64, 65]) to calculate the impact due to the shift from the mean historical weather to the mean weather around 2030 (scenario Future Mean, F​MFM). More in detail, we compute the climate change amplification (Δ\Delta) as the difference between the future and historical EUROCORDEX projections of each weather variable Zn,h,d,jjZ^{j}_{n,h,d,j} for nn, hh and dd, where means are computed over 20 years around 2010 kk (2001-2020)11
+1
+We test two different historical periods baselines, alternatively 1981-2020 and 2001-2020. We find negligible differences in the amplification effect of climate change, as reported in Figure 13. and 20 years around 2030 (2021-2040) mm:
+Δn,h,dj=∑mZn,h,d,jm−∑k(Zn,h,d,k)k\Delta^{j}_{n,h,d}=\frac{\sum_{m}Z_{n,h,d,j}}{m}-\frac{\sum_{k}(Z_{n,h,d,k})}{k}
+(3)
+To identify the impact of the scenario Future Mean, we add the amplification Δ\Delta to W^n,h,d,yj\hat{W}^{j}_{n,h,d,y} and, similarly to equation 2, we take the average impact over the years yy (note that Δ\Delta is common across all years):
+Υn,h,dF​M=∑yf⁡(W^n,h,d,yj+Δn,h,dj)y\Upsilon^{FM}_{n,h,d}=\frac{\sum_{y}f(\hat{W}^{j}_{n,h,d,y}+\Delta^{j}_{n,h,d})}{y}
+(4)
+The implementation of Υn,h,dH​M\Upsilon^{HM}_{n,h,d} and Υn,h,dF​M\Upsilon^{FM}_{n,h,d} on a power system model allows to compare how slowly moving climatic changes in the mean weather conditions can affect the optimisation of power system capacity planning. Then, we evaluate the implications of weather-related impacts that occur in the tails of the historical and future simulated weather distributions, respectively. The two alternative extreme weather scenarios (H​EHE and F​EFE) are constructed by considering the tail of the distribution of possible weather impacts resulting from f⁡(W^n,h,d,yj)f(\hat{W}^{j}_{n,h,d,y}), based on a quantile function Qχ​()Q^{\chi}() and a quantile threshold χ\chi. We consider as alternative values for χ\chi the 75th and 95th percentile of impacts. While the impacts in the model are identified at the regional and hourly level, the computation of the percentile is done by ranking each possible weather simulation at the annual and country level. In other words, we rank each of the possible weather realisations based on their aggregated country-level impact. We then select the 10 and 2 years which have the highest simulated impact for the 75th and 95th quantile thresholds respectively. Finally, we take the average the hour- and calendar-day specific impact in the subset of selected years, with the aim of reconstructing the simulated extreme weather conditions while at the same time maintaining a plausible inter-annual variability deriving directly from the observed reanalysis data characterising the selected years.
+Note that when we evaluate each impact category in isolation we simulate shocks occurring once every four years (75th percentile) or once every twenty years (95th percentile). On the other hand, the model run that combines extreme weather shocks of all impact categories (demand, hydro-power and thermal generation) has a different implied probability given that some years in our distribution exhibit a pattern of co-occurrence of extreme weather impacts across multiple categories (as reported in Table 1).
+In the case of the Future Extreme, the amplification of climate change is accounted for by adding the Δ\Delta amplification as in Eq. 4.
+Υn,h,dH​E,χ=∑p​(y)χf⁡(W^n,h,d,p​(y)χj)p​(y)χ\Upsilon^{HE,\chi}_{n,h,d}=\frac{\sum_{p(y)^{\chi}}f(\hat{W}^{j}_{n,h,d,p(y)^{\chi}})}{p(y)^{\chi}}
+(5)
+Υn,h,dF​E,χ=∑z​(y)χf⁡(W^n,h,d,z​(y)χj+Δn,h,dj)z​(y)χ\Upsilon^{FE,\chi}_{n,h,d}=\frac{\sum_{z(y)^{\chi}}f(\hat{W}^{j}_{n,h,d,z(y)^{\chi}}+\Delta^{j}_{n,h,d})}{z(y)^{\chi}}
+(6)
+Where p​(y)χp(y)^{\chi} and z​(y)χz(y)^{\chi} are the subset of years among the historical and future simulations selected, respectively, depending on the given percentile threshold χ\chi.
+Table 1 presents a summary of the method used to compute the different weather impact scenarios:
+Table 1: Computation of alternative weather impact scenarios
+Acronym
+Period
+N. years
+Statistic
+Equation
+HM
+Historical
+40
+Mean of all years
+∑yf⁡(W^n,h,d,yj)y\frac{\sum_{y}f(\hat{W}^{j}_{n,h,d,y})}{y}
+HE
+Historical
+10
+Mean of years above 75th percentile
+∑p75f⁡(W^n,h,d,p75j)p75\frac{\sum_{p^{75}}f(\hat{W}^{j}_{n,h,d,p^{75}})}{p^{75}}
+HE
+Historical
+2
+Mean of years above 95th percentile
+∑p95f⁡(W^n,h,d,p95j)p95\frac{\sum_{p^{95}}f(\hat{W}^{j}_{n,h,d,p^{95}})}{p^{95}}
+FM
+Future
+40
+Mean of all years
+∑yf⁡(W^n,h,d,yj+Δn,h,dj)y\frac{\sum_{y}f(\hat{W}^{j}_{n,h,d,y}+\Delta^{j}_{n,h,d})}{y}
+FE
+Future
+10
+Mean of years above 75th percentile
+∑z75f⁡(W^n,h,d,z75j+Δn,h,dj)z75\frac{\sum_{z^{75}}f(\hat{W}^{j}_{n,h,d,z^{75}}+\Delta^{j}_{n,h,d})}{z^{75}}
+FE
+Future
+2
+Mean of years above 95th percentile
+∑z95f⁡(W^n,h,d,z75j+Δn,h,dj)z95\frac{\sum_{z^{95}}f(\hat{W}^{j}_{n,h,d,z^{75}}+\Delta^{j}_{n,h,d})}{z^{95}}
+2.3 Impacts on electricity demand
+The response of the hourly electric load to temperature is computed taking into account two aspects: the short-run co-variation between load and weather as well as the long-run amplification in the short-run load-weather relationship due to the growth in the adoption of air-conditioning appliances in the residential sector. First, in order to identify the increase in electricity demand related to the growth in AC uptake across Italian households we use an empirically estimated response function that provides a generalised functional relationship between daily maximum temperatures, AC market saturation and peak load demand, provided by [66]. We project the prevalence of residential AC ownership rates in Italy at the regional (NUTS 2) level by associating for each location and year the probability of AC ownership in households based on the adoption function of [66] (the detailed equation used by this study are shown in the Supplementary Information).
+Historical AC ownership rates at the regional level are taken from the Italian Budget Survey published by ISTAT for the year 2019 [67]. The projected regional AC share is shown in the Supplementary Figure 12. In general, the average AC ownership rate in Italy goes from 33% in 2019 to 47%-55% in 2030 under RCP 4.5-8.5. The regions with the highest current as well as future AC share are the ones characterised by higher annual CDDs (Sardegna, Sicilia, Puglia) or by higher income per capita levels (Veneto, Emilia-Romagna, Lombardia).
+Second, we couple the future NUTS3-level hourly temperature projections provided by [62] and the NUTS2 AC prevalence levels to estimate the amplification of hourly electricity demand due to climate change, based on the temperature-load coefficients (β^\widehat{\beta}) resulting in the non-linear function h⁡()h() estimated in [66] (taking the form shown in the Supplementary Methods), and the projected hourly temperatures provided by [62]. As in [68] the non-linear temperature-load function h⁡()h() is defined based on the population-weighted temperatures binned into kk intervals of 3∘C width, Bk=[T¯k,T¯k)B_{k}=[\underline{T}_{k},\overline{T}_{k}), here we construct a kk-vector of indicators that track whether each hour’s mean temperature falls within a given interval:
+Tk=1⋅{T∈Bk}+0⋅{Otherwise}T^{k}=1\cdot\{T\in B_{k}\}+0\cdot\{\text{Otherwise}\}
+.
+The observed historical binned hourly temperature for each location (nn) for each hour (hh), calendar day (dd) and year (yy), Tn,h,d,yk^\hat{T^{k}_{n,h,d,y}} and the difference in the EUROCORDEX climate series for the historical and future epochs Δ⁡(Tn,h,dk)\Delta(T^{k}_{n,h,d}) are used to project the impact on the hourly load based on the historical and future AC prevalence levels, respectively, in each scenario, based on the equations presented in 2.2.
+Figure 1 Panel a shows how the mean temperatures vary in each season depending on the scenario. A large increase is observable in mean temperatures during summer but also a higher frequency of warm temperatures in winter. Panel b shows the resulting amplification of the hourly load in the summer around 2030, with respect to the Historical Mean scenario, averaged for all bidding zone. Maximum and mean amplifications of the hourly load at the national level reach over 30% and 20% in the central hours of summer months, respectively.
+Figure 1: Climate change impacts on electricity demand. Panel above: Changes in daily load with respect to the mean weather scenario, in each alternative climate scenario.
+Panel below: Changes in hourly load n the summer with respect to the mean weather scenario, in each alternative climate scenario. Solid lines show the change of the 95th percentile, while dashed lines of the 75th percentile.
+2.4 Impacts on power generation
+In this work we take into account the potential impact of long-run climate change and short-run weather variability on power generation in several dimensions.
+First, we develop a set of projections on the changes in hydro-power generation by exploiting the daily time series of hydro-power potential at the NUTS3 level developed in [62], distinguishing between run-off-river and reservoir. The potential hydro-power generation is combined with the installed production capacity of hydro-power plants. We emphasise that this analysis does not incorporate changes in the management of water demand for human needs, as they fall outside the study’s scope. However, it is worth noting that such changes could potentially mitigate the impact of decreased water availability on hydro-power production [69, 70]. We compute both daily and weekly power generation levels in each scenario (Historical Mean, Future Mean, Historical Extreme, Future Extreme) for each Italian macro-zone (see Figure 2 Panel a for the projected value of the country-level total hydropower generation).
+Second, we develop a statistical analysis to investigate the impacts of daily maximum temperatures and water runoff anomalies on the availability of thermal power generation. More in detail, we generate a regression model based on unexpected outages data collected from 2018 to 2022 in Italy. The dataset [71] includes information of over 4000 outages, of which 2352 of gas- and 1887 of coal-fired generation units. The method adopted partially follows a previous analysis ([23]), but expands from the literature by providing country-specific and fuel-specific responses. In the most detailed specification, we identify fuel-specific impacts by including a set of interaction terms between temperature and runoff anomalies and a character variable representing the power plant type. Comprehensive information on the methods employed is provided in Appendix B. We find that the likelihood of occurrence of an outage for coal-fired generation increases considerably when daily maximum temperatures surpass 35°C, reaching 10-50% at 40°C, depending on the water runoff anomaly. Gas-fired generation is less sensitive to high temperature and low water runoff levels, but the likelihood of an outage is non-negligible and between 5-25% at 40°C.
+Since in our power model optimisations coal generation is phased out from the mix, we focus on the projections of impacts for gas-fired generation. We use the estimated outage occurrence function in conjunction with daily maximum temperature anomalies at the location of the gas-power plants to simulate daily thermal outage occurrence. Finally, we aggregate the resulting projections of power plant outages at the bidding-zone level to obtain an indicator of power generation availability changes around 2030 in the four scenarios identified in section 2.2 (see Figure 2 Panel b).
+Figure 2: Climate change impacts on power generation. Panel a: national-level potential hydro-power generation across the four climate scenarios; Panel b: Normalised availability of gas-fired generation after accounting for the occurrence of unplanned outages, across the four climate scenarios; Panel c: Normalised wind power potential at the national level, in the two selected scenarios; Panel d: BNI averaged at the national level, in the two selected scenarios. Impacts shown in Panel a, c and d are computed using as input data [62]. Impacts shown in Panel b are developed based on the econometric analysis presented in Appendix B.1. The values used as input data to the model are shown as thin lines, while thick lines show the smoothed time series for enhancing the inspection of trends in the data.
+Our model has a deterministic approach in the quantification of the available supply of power generation sources. As noted by [72], the main problems of this method relate to its unique economic objective function and the absence of uncertainties in its formulation. Other works (e.g. [73]) have proposed a stochastic model where long-term uncertainty in the VREs resources is introduced by using multiple scenarios consisting of weekly time series of hourly wind power output data. We leave the adoption of a stochastic approach to future studies, and we partially address this limitation by observing the outcomes of two alternative set of model runs: one with no impact of climate change on VREs and one where the generation profiles of VREs in the four different scenarios are included - although through the deterministic approach. We observe negligible differences when incorporating the effects of meteorological variables on VREs (see Appendix B.3). However, as this approach is not ideal for capturing VREs’ uncertainty in capacity expansion analyses, we have chosen to present our main findings without these considerations.
+3 Results
+3.1 Installed capacity
+We identify considerable impacts of mitigation policy goals and climate impacts on the optimal generation capacity. The installed capacities for the 2030 Italian power system, determined through investment optimisation, meet hourly load requirements while enforcing a 65% reduction in power sector emissions. We consider as ”added capacity” the additional one optimised by the solver on top of the existing one in the 2019 reference case, detailed in Table 6. The effects of mitigation (grey bars) and of climate change and extreme weather (coloured bars) on generation and storage capacity are displayed in Figure 3, for the different climate scenarios and generation technology.
+Figure 3: Added capacity for PV power (utility scale and rooftop) and for lithium-ion storage with respect to the 2019 Italian power system baseline (described in Table 6 for the four scenarios. The different colours highlight the climate driver behind each capacity expansions. Grey bars show the added capacity when the only effect is the push to reach decarbonization goals, while in the others each weather variable is evaluated on top of the mitigation. In addition to the impact of mitigation measures, the purple bars encompass the marginal effect of weather variables on hydroelectric generation, while the yellow bars on power demand.
+In Figure 3, the panel on the left shows the changes in installed capacity resulting from the Historical Mean scenario: in this case, the added capacity is driven only by mitigation policies. Around 50 GW of photovoltaic panels, mostly in large scale fields, are required to reach 2030 decarbonization targets for power generation in Italy in a cost optimal system. The alternative climate scenarios take into account the effects of long-term climatic changes and extreme weather variability on electricity demand, thermal power plants and hydro-power. We performed various optimisation accounting for these effects separately to grasp which has more consequences on the installed capacities. Despite increasing the likelihood of unplanned outages, the impact of climate change on gas-fired plants does not affect optimal installed capacity, thanks to the ample unused natural gas power capacity available in both the 2019 reference and mitigation scenarios 22
+2
+Note that such results depends on the modelling framework, which assumes perfect foresight of the reduction in available capacity from unplanned power outages. More detailed assessment of the impacts on short-term market operations when unplanned outages occur fall out of the scope of this analysis.. As a side note, changes in the availability of solar and wind energy from the Historical Mean to the Future Mean climate scenarios are negligible when aggregating across time and space, and point to a modest increase in rooftop solar generation and curtailment to account for an increase in seasonal weather variability of wind generation (results are presented in the Appendix ).
+In the Future Mean scenario, considering only the effects of climate change from a shift in the mean climatic conditions, the additional installed capacity is minimal with respect to the Historical scenario. This indicates that the photovoltaic power installed for mitigation purposes would be sufficient to ensure the system’s resilience to an average year of weather under climate change conditions occurring by 2030. In fact, solar electricity is significantly correlated with power demand driven by AC appliances, since they are both relevant in the middle of the day (the contribution of solar PV on hourly power generation during summer months is shown more in detail in the next section, particularly in Figure 5). When considering historical extreme weather (Historical Extreme panel), changes in the availability of hydropower have a relevant role in increasing the need for solar capacity (plus ≈\approx 5GW). Solar electricity is produced during the day, substituting the reduced run-off-river generation and shifting the use of reservoir hydro during night-time, instead of employing natural gas-fired plants. This mechanism allows the system also to stay compliant with the emission reduction target by reducing the use of fossil-based electricity.
+Furthermore, climate-induced changes in hydro-power availability have remarkable effects in driving the uptake of short term storage. Indeed, when the availability of hydro power generation is reduced, the need for flexibility in the system is satisfied with li-ion batteries. In this Historical Extreme case the storage capacity is relatively small (≈\approx 1GWh), but for higher degrees of decarbonization a larger volume will be needed. To provide a comparison, Terna, as published in the 2022 Future Energy Scenarios document, foresees approximately 71 GWh of new utility-scale storage capacity will need to be developed by 2030 to meet the requirements of the Fit-for-55 scenario 33
+3
+The optimisation does not install extra storage technologies in the Future Mean case since it works in perfect foresight and thus acts to minimize the costs, but it is not able to foresee market dynamics and future decarbonization of the system.. Finally, the Future Extreme scenario presents a stronger impact of the increase in demand for AC utilization. Utility Scale PV installation reach the maximum potential, taken from Trondle et al. [74], which considers social and technical constraints to fields installations. The optimisation algorithm tends to prioritise Utility Scale panels over rooftop PV, since they are more costs efficient due to their lower price for economies of scale, but land availability, protected areas and social constraints limit strongly their potential. A sensitivity analysis on the value for its maximum potential might enlarge the use of this technological option, given its price competitiveness. In the Future Extreme scenario, the effect of reduced hydro generation on installed capacity is lower than in the Historical Extreme scenario because of the balancing between summer and winter water inflows, observed in the mean climate change weather analysis (Figure 2). As the impact on hydro electricity production goes down, also the necessity for substitute li-ion batteries decreases (half of the need in the Historical Extreme case driven by hydro power).
+Table 2: Investments related to the additional installed capacities for generation and storage technologies in the four weather scenarios [M€]. In brackets we show the percentage change with respect to the investments in the Historical Mean scenario.
+Technology
+Historical Mean
+Future Mean
+Historical Extreme
+Future Extreme
+Utility Scale PV
+2312.7
+2346.6
+(+1.5%)
+2414.9
+(+4.4%)
+2455.1
+(+6.2%)
+Rooftop PV
+1115.6
+1135.8
+(+1.8%)
+1595.5
+(+43.0%)
+1589.9
+(+42.5%)
+Li-ion battery
+0.0
+0.0
+16.5
+11.6
+In Table 2 we display the values of annualised investments related to the extra installed capacities represented in Figure 3. These values reflect the compound effect of all the weather variables in the optimisation (AC demand, hydro and thermal power). The investment values reflect the results already observed in the figure: in the Future Mean scenario, there is a negligible increase in costs compared to the Historical Mean. Given that all scenarios assume a 65% reduction in CO2 emissions from power generation, this indicates that decarbonising the energy system may yield significant synergies with adaptation strategies to climate change. This is largely attributed to the integration of climate-resilient technologies, particularly rooftop PV systems and utility-scale PV installations. In the extreme weather cases (Historical and Future), the primary increase in system expenses is attributable to rooftop PV installations. These technologies are more costly compared to Utility-Scale solar panel fields; however, rooftop PV installations are essential due to the larger availability of potential spaces for their installations and their ability to reduce centralised load demands. Indeed, rooftop PV is a form of distributed energy production and plays a crucial role in mitigating stress on the high-voltage grid by generating electricity locally. This becomes particularly advantageous under increased electricity demand scenarios due to climate change or extreme weather conditions, as it diminishes the dependency on centralised power sources, as demonstrated in Figure 7 in Appendix A.1.
+3.2 Electricity generation
+As a consequence of the changes in the power capacity mix induced by mitigation policies44
+4
+As a reminder, all the expansion capacity optimisations are performed with the underlying assumption of coal phase-out [75] and an abatement of CO2 emissions in line with European policies [76]., the generation mix is substantially different in 2030 with respect to the reference generation of 2019 55
+5
+The model outcome for the 2019 reference year has been validated with the data from the Transmission System Operator [59]. (panel a of Figure 4).
+Despite the cap on carbon dioxide emissions, natural gas still plays a significant role in 2030 power mix: 54 TWh less mean that 121 TWh of electricity are still gas-generated, one third of the total annual value. Solar electricity production has a relevant increase in all the scenarios. In the Historical Mean case this is due to the abatement target for CO2 that forces the model to install and use more solar panels. Instead, the marginal increase in solar power generation in the other weather scenarios is driven by the effect of climate change and more frequent severe weather events. Another crucial point is curtailment: in the case of extreme weather in both historical and future climate, excess electricity would be 5 TWh. Although curtailed power constitutes only about 1.5% of the total demand, it requires attention as it presents both challenges and opportunities. This surplus cheap energy can be used within hard-to-abate sectors, reducing overall costs for mitigation solutions. On the other hand, excess power could be accounted for by load shifts, moving the request of electricity for certain services or appliances to hours of peak generation.
+Figure 4: Panel a: Model output of the electricity mix in Italy for the year 2019, different colour for each power technology. The red dot indicates the annual load in TWh; Panel b: Variation in the Italian electricity generation for year 2030 in the presented weather scenarios. Going from left to right, each output provides a stronger resilience to extreme weather conditions. In this panel the red dot precises the variation of national annual power load with respect to the 2019 baseline.
+The total annual electricity demand (shown with a red dot in Figure 4) grows from 320 TWh in 2019 to 331-334 depending on the climate scenario. In the Historical Mean case, the additional electrical load is based on exogenous projections for the year 2030 [77], which consider the electrification of end-uses, particularly for passenger transport, industry and heating. The projections of [77] also take into account the simultaneous reduction driven by investments in energy efficiency. The change in demand with respect to the Historical Mean case is driven by the change in hourly demand for heating and cooling devices projected based on the method presented in section 2.3. Changes in annual aggregate demand mask considerably higher impacts occurring at the hourly level in the summer.
+Figure 5: Hourly generation and demand for Sardinia region during a summer week, considering the four different weather cases. The generation from Biomass, Run Off River and Reservoir Hydro is aggregated, as well as the one from and to other regions. Sardinia as a market zone in the Italian power system is connected to Centre-North, Centre-South and Sicily.
+Figure 5 shows an example of hourly generation and demand in the four weather scenarios for a representative summer week (going from Monday to Sunday) in Sardinia. We chose this power market zone since, in the two extreme weather scenarios, it is where the majority of li-ion battery capacity is installed to take advantage of the excess renewable generation (the impact of solar PV on the net load of all the Italian regions during the summer is shown in Supplementarry Figure 7). Inspecting the hourly behaviour of demand and production in each weather scenario confirms the capability of PV panels to produce a large amount of electricity during the central hours of the day, precisely when the demand for cooling is projected to peak. Additionally, it is noteworthy to notice the interactions with neighbouring regions (To other regions and From other regions in the legend, representing Centre-North, Centre-South and Sicily) and the utilisation of storage mechanisms, specifically the charging and discharging processes of PHS and batteries. This strategy involves charging the storage system with excess solar generation during midday, followed by discharging to supply power in the evening, reducing the use of natural gas.
+3.3 Mitigation vs adaptation: trade-offs and synergies
+While the main objective of this work is to investigate climate change impacts in a power system which is compliant with the legally binding European mitigation laws by 2030, in this section we compare those results with an alternative case in which climate change affects the Italian power sector when no stringent mitigation target is enforced. We undertake this analysis to determine whether achieving mitigation goals entails a trade-off with adaptation goals, meaning planning a system resilient to climate change and extreme weather conditions. To this aim, we run each climate impact scenario (Historical Mean, Future Mean, Historical Extreme and Future Extreme) assuming that the Italian power system faces no mitigation target in 2030 (N​o​n​M​i​t​i​g​a​t​e​dNonMitigated scenario). The results in terms of costs are outlined in Figure 8, showing the total annual system cost in 2030 for a N​o​n​M​i​t​i​g​a​t​e​dNonMitigated power system in the column on the left, then that cost for a M​i​t​i​g​a​t​e​dMitigated system in the right column. The waterfall bars represent the cost differences due to the achievement of the mitigation targets, always including the adaption to the impacts of the specific weather scenario.
+Figure 6: Waterfall charts going from the total annual system cost for the N​o​n​M​i​t​i​g​a​t​e​dNonMitigated case to the M​i​t​i​g​a​t​e​dMitigated case (with green borders) in the four different weather scenarios analysed in the paper. The values on the bar between the one on the left and the on on the right in each graph describe the costs items differences to achieve a mitigated Italian power system starting from the N​o​n​M​i​t​i​g​a​t​e​dNonMitigated but resilient one.
+As expected, the cost to purchase natural gas is always negative; instead, installation costs for solar technologies and batteries increase, even if the increase of the latter is negligible. The crucial difference is that the expenses for the acquisition of fuels is an operational cost, while the others are initial investment costs. This means that installing renewable technologies has a higher initial expenditure but significantly enhances the energy independence of the country and its resilience to geopolitical tensions and volatility of prices. In both the N​o​n​M​i​t​i​g​a​t​e​dNonMitigated and the M​i​t​i​g​a​t​e​dMitigated scenarios, total annual system costs increase when going to Extreme weather cases (upper vs lower graphs). When moving to the scenario resilent to the effects of climate change (upper left vs upper right graphs), the expenditures decrease in the M​e​a​n​w​e​a​t​h​e​rMeanweather cases. The key message is that adapting to changing average weather patterns, particularly with regard to air conditioning demand and the unavailability of thermal and hydro power generation, reduces mitigation costs. Solar panels play a crucial role in this trade-off, as they not only represent an environmentally sustainable technology but also enhance the system’s resilience to increasing temperatures. When considering extreme weather conditions, the effects of climate change result in a rise in expenditures (lower left vs lower right graphs). A pivotal aspect is that extreme weather events, which will become more frequent even under the RCP 4.5 scenario around 2030, pose a relevant threat and a possible increase in expenses for the power system. Importantly, the differences between total annual system costs in the N​o​n​M​i​t​i​g​a​t​e​dNonMitigated and M​i​t​i​g​a​t​e​dMitigated cases are quite negligible, highlighting the advantages of planning for a system concurrently decarbonized and adapted to a changed climate.
+4 Discussion
+In this study, we employ a capacity expansion model of the Italian power system projected for 2030 to assess the necessary investments in power generation capacity quantitatively. This analysis is conducted with the dual objective of meeting mitigation targets and addressing the impacts of climate change on both power demand and generation while maintaining a high temporal resolution. The European decarbonization goal for 2030 is outlined in the Fit-for-55 policy package and mandates a 55% reduction in CO2 emissions [54]. The power sector, leveraging its advanced technologies, is expected to achieve more considerable emission reductions. Thus we assumed a 65% decrease in Italian electricity CO2 emissions compared to 1990 levels, capping them at 44 Mton of CO2 in the year 2030. We develop four alternative meteorological scenarios to thoroughly decompose the effects of climate change, distinguishing between shifts in the mean and the extremes of the weather distribution while assuming the implementation of decarbonization policies.
+Overall, we find that transitioning towards a low-carbon power system capable of meeting demand under extreme weather patterns - both as occurred in the past and amplified by climate change - necessitates a substantial increase in installed capacity, specifically in solar generation and short-term storage. Around 5-8 GW of additional PV capacity and 0.8-1.1 GWh of li-ion batteries are required at increasing weather stress on the 2030 Italian power system. These expansion requirements serve to withstand, at the same time, higher future AC-induced peaks in the load as well as lower hydropower generation. Given the pivotal role that electricity is expected to play in driving the decarbonization efforts of hard-to-abate energy sectors, it becomes imperative to prioritise the ability of the power sector to address such concerns. While demand-side measures related to electricity and water use in agriculture and other end-use sectors could help alleviate stress on the electrical grid, they are outside the focus of this research.
+A valuable feature of this work is that it examines the adequacy of the power sector while at the same time ensuring that decarbonization policies are implemented, therefore allowing to identify of potential trade-offs or co-benefits between adaptation and mitigation. The outcomes of the optimisations find that the largest installation of new generation technologies is of Utility Scale PV (40-42 GW) since this is the most cost efficient in the Italian peninsula (see Figure 3). Rooftop PV requires an addition of 12 GW to meet decarbonization goals, and extra 5 GWs are needed in the most extreme weather cases. This decentralised technology is crucial in reducing the stress on the electric grid and satisfying the power load locally. Furthermore, we find robust evidence that accounting for extreme weather events (both in the Historical and Future Extreme scenarios) affects the optimal capacity mix: a power system resilient to extreme events requires storage to help balance the water scarcity and thus hydropower unavailability. Climate change and extreme weather might hinder the availability of programmable reservoir hydropower plants and non-dispatchable RES might not be sufficient to meet the hourly load. Investments in storage capacity could be fundamental to alleviate the burden on the system and to mitigate the volatility and unpredictability in power generation. In this study, two storage options are available for the power system model: a short term storage with li-ion batteries and a long-term one with hydrogen tanks, electrolysers and fuel cells. Given the short-term nature of meteorological impacts, lithium-ion batteries are preferred over hydrogen storage for energy management. Chemical batteries, such as lithium-ion, are particularly well-suited for daily and short-term energy storage due to their minimal energy losses during charge and discharge cycles [78], making them an effective alternative to weather-dependent hydro power. Moreover, installing electrolysers, pressurised tanks and fuel cells has a high cost, which becomes viable only in more severe abatement scenarios.
+The generation mix is markedly different from the reference generation of 2019, with solar electricity production showing substantial increases across all scenarios. This rise is attributed to the stringent CO2 abatement targets and the effects of climate change, which include more frequent severe weather events. Despite the cap on carbon emissions, natural gas remains a crucial component in the transition of the power mix, providing 121 TWh of electricity, one-third of the total annual power supply. Our analysis underscores the importance of addressing curtailment, particularly in extreme weather scenarios where excess electricity generation reaches 5 TWh. Although this constitutes a small fraction of total demand, it presents opportunities for integration into hard-to-abate sectors. It highlights the potential for load shifts to manage electricity demand more efficiently. The projected increase in annual electricity demand, from 320 TWh in 2019 to 331-334 TWh in 2030, reflects the anticipated electrification of end-uses, balanced by investments in energy efficiency. However, this aggregate increase masks significant hourly variations, especially during summer peaks.
+Finally, this study underscores the vital interplay between mitigation and adaptation in the power sector. The analysis reveals critical insights into the costs and benefits associated with achieving mitigation goals in the context of climate change impacts on the Italian power system. We compare scenarios with and without stringent mitigation targets (denominated N​o​n​M​i​t​i​g​a​t​e​dNonMitigated and M​i​t​i​g​a​t​e​dMitigated cases), considering the set of different meteorological scenarios deployed. In the M​i​t​i​g​a​t​e​dMitigated cases, we demonstrate that, while initial investments in renewable technologies are higher, they significantly reduce operational costs associated with fuel purchases. This shift from operational to capital expenditures enhances energy independence and resilience to geopolitical frictions and price volatility. The increase in capital investments and the decrease in operational and fuel purchase expenditures requires a careful evaluation of the financial aspects linked to this shift, which falls out of the scope of this work. We leave for further analysis the assessment of how the change in these financial flows affects the actors of the supply chain, as well as the possible regulatory incentives for the new capital investments; both aspects are crucial for achieving an effective energy transition.
+Solar panels emerge as a pivotal technology in the trade-off between adaptation and mitigation of the power system, contributing to environmental sustainability and bolstering system resilience against rising temperatures. Notably, the study highlights that the total annual system costs remain relatively stable between the N​o​n​M​i​t​i​g​a​t​e​dNonMitigated and M​i​t​i​g​a​t​e​dMitigated scenarios, underscoring the feasibility and advantages of concurrently pursuing decarbonization and climate adaptation strategies. These findings underscore the critical importance of integrating renewable energy investments into long-term planning to develop a robust, sustainable, and climate-resilient power system.
+5 Conclusions
+Our findings indicate that transitioning to a low-carbon power system in Italy by 2030, capable of meeting demand under increasingly extreme weather conditions, requires substantial investments in PV generation and storage capacity. Utility-scale PV is identified as the most cost-efficient option, with rooftop PV playing a crucial role in alleviating grid stress. Furthermore, resilience to extreme weather events necessitates a robust storage strategy, with lithium-ion batteries preferred for short-term energy management due to their round-trip efficiency. Moreover, our results display the projected generation mix for 2030, showing solar electricity production increasing substantially due to stringent CO2 abatement targets and adaptation to impacts of climate change. Despite the emphasis on renewable energy, natural gas still supplies one-third of total annual electricity, while managing curtailment is crucial for redirecting excess generation to hard-to-abate sectors. Finally, this study highlights the crucial interaction between mitigation and adaptation strategies in the power sector, demonstrating that while initial investments in renewable technologies are higher under stringent mitigation scenarios, they lead to significant reductions in operational costs and enhance the robustness of the system to climate change impacts. Importantly, the findings indicate that total annual system costs remain stable between scenarios with and without stringent mitigation targets, affirming the feasibility of simultaneously pursuing decarbonization and climate adaptation. These results underscore the necessity of integrating renewable energy investments, particularly on solar panels, within long-term planning to develop a sustainable and climate-resilient power system, given their low dependence on meteorological conditions.
+This analysis is not without caveats. The impacts of mean climate shifts and extreme events to the transmission lines (i.e. due to overheating of the cables) are not included. In addition, we do not perform any sensitivity analyses on economic variables, which could shift technical choices on different options. This can be a crucial consideration for the resilience of transition scenarios; however, it does not constitute the primary focus of this study.
+Future research can expand the evidence provided in this work in several directions. A more detailed power dispatch model could investigate options to strengthen the resilience of power systems not only through changes in the dispatch mix, but also by exploiting balancing services, cross-border trade and demand-side management. Furthermore, given that conventional generation technologies play a dominant role in setting wholesale prices as they meet the net-load, i.e. residual demand not satisfied by renewable sources, extreme weather events may result in wholesale price fluctuations. Understanding the characteristics of power markets’ operations during extreme weather may bring to the surface possible limitations of the current power systems, leading not only to volatility in power prices but possibly also to higher costs for managing the grid. Models with a detailed representation of the use of electric appliances and of the behavioural aspects of consumption can be adopted to investigate the demand-side potentials for reducing the peak-load during extreme events.
+6 Acknowledgements
+A.D.B has received support from the GRINS (PNRR) project; F.C. has received support from the DIGITA (PRIN) project.
+We acknowledge financial support from the Italy’s National Recovery and Resilience Plan (PNRR), grant agreement No PE0000018 - GRINS – Growing Resilient, INclusive and Sustainable.
+CRediT authorship contribution statement
+A. Di Bella and F. P. Colelli: Conceptualization, Data curation, Formal analysis, Investigation, Methodology, Software, Visualization, Writing – original draft, Writing – review & editing.
+Declaration of generative AI and AI-assisted technologies in the writing process
+During the preparation of this work the authors used ChatGPT in order to improve the language of this paper. After using this tool, the authors reviewed and edited the content as needed and take full responsibility for the content of the publication.
+Appendix A Supplementary Results
+A.1 Effects of rooftop PV generation on centralised power demand
+Figure 7: Net electricity demand after the one supplied by the distributed generation through rooftop photovoltaic panels, for the four scenarios. The values are for an average of all the Italian regions during the summer season
+Rooftop PV generation is a form of distributed power generation, thus it has the advantage of reliving tension from the high voltage grid by producing locally and decreasing the centralised electricity load. In this sense, even if the overall electricity demand increases due to climate change or severe weather conditions, the remaining power request from centralised technologies is reduced, as illustrated in Figure 7). In the two Extreme scenarios the power load is almost halved by the large presence and generation provided by rooftop PV panels. This technology represents a pivotal resource within mitigation strategies, not only to address increased household electricity consumption, particularly for air conditioning, stemming from climate change-induced warmer climates, but also to alleviate strain over centralised power generation and transmission.
+A.2 Mitigation and adaptation trade-off
+Figure 8: Cost items differences in the total balance of the annual system costs for the Italian power system in 2030, M​i​t​i​g​a​t​e​dMitigated cases with respect to N​o​n​M​i​t​i​g​a​t​e​dNonMitigated cases. Bars represent cost items differences between M​i​t​i​g​a​t​e​dMitigated cases and N​o​n​M​i​t​i​g​a​t​e​dNonMitigated cases. The black dots indicates the total annual system cost difference between M​i​t​i​g​a​t​e​dMitigated cases and N​o​n​M​i​t​i​g​a​t​e​dNonMitigated cases.
+Figure 8 represents the additional (if positive) or reduced (if negative) costs that the system incurs under increased weather stress in the mitigated scenarios compared to the scenario without any imposed climate goals. The black dots represent the difference in total annual system costs between the M​i​t​i​g​a​t​e​dMitigated and N​o​n​M​i​t​i​g​a​t​e​dNonMitigated scenarios. Their presence on the positive side of the graph highlights that achieving both adaptation resilience and decarbonization goals leads to a greater increase in annual power system costs compared to a system addressing only adaptation constraints. The delta in annual system expenditures decreases when looking at the corresponding Future cases (Future Mean with respect to Historical Mean, Future Extreme with respect to Historical Extreme). This indicates that adapting to a changing weather in terms of AC demand, thermal and hydro power generation unavailability, reduces the mitigation costs. Solar panels play a key role in this trade-off, as they not only represent an environmentally friendly technology but also enhance system resilience to rising temperatures.
+Another critical observation from Figure 8 is that, as anticipated, all the mitigated scenarios exhibit higher expenditures for PV panels and batteries, while reducing costs associated with natural gas acquisition. This has relevant implications in terms of energy security: in fact, the Italian power system in all mitigated cases would be more independent from energy imports.
+Figure 9: Bars represent cost items differences between M​i​t​i​g​a​t​e​dMitigated cases and N​o​n​M​i​t​i​g​a​t​e​dNonMitigated cases. The black dots indicates the total annual system cost difference between M​i​t​i​g​a​t​e​dMitigated cases and N​o​n​M​i​t​i​g​a​t​e​dNonMitigated cases.
+Another graph the we deem important to show is Figure 9. It offers a comprehensive overview of the cost items embedded in the different total annual system costs, allowing to really get the idea of how the expenditures for the Italian power sector in 2030 would be allocated. A notable point it the absence of CAPEX expenses for rooftop PV in the N​o​n​M​i​t​i​g​a​t​e​dNonMitigated cases. This distributed technology has a larger cost with respect to Utility Scale solar generation since it lacks economies of scale. It becomes critical though, when achieving mitigation goals, to enhance the production of renewable electricity and ensure the operation of the power system when higher temperatures have an impact on hourly AC demand.
+Appendix B Supplementary Methods for Climate Impacts
+B.1 Air Conditioning load estimation
+Coefficients are estimated by [66] though a pooled cross section-time series regression with a logit link function, Λ\Lambda [79]. The variables used to identify the level of AC adoption are the 10-year moving average CDD24s (𝒞\mathcal{C}), the logarithm of the 10-year moving average annual per capita income (yy) and the logarithm of the 10-year moving average annual urbanization rate (uu):
+Λ⁡(si,t)\displaystyle\Lambda(s_{i,t})
+=log⁡(si,t1−si,t)=𝒁​𝜶\displaystyle=\log\left(\frac{s_{i,t}}{1-s_{i,t}}\right)=\boldsymbol{Z}\boldsymbol{\alpha}
+=αi0+αY​yi,t+αC​𝒞i,t+αY​C​(yi,t⋅𝒞i,t)+αU​ui,t\displaystyle=\alpha_{i}^{0}+\alpha^{Y}y_{i,t}+\alpha^{C}\mathcal{C}_{i,t}+\alpha^{YC}(y_{i,t}\cdot\mathcal{C}_{i,t})+\alpha^{U}u_{i,t}
+(B.1)
+with location fixed effects α0\alpha^{0}, and estimated parameters αY\alpha^{Y} and αC\alpha^{C} that capture the direct effects of income and heat exposure, and αY​C\alpha^{YC} that captures their interaction. The functional form yields nonlinear effects of the linear predictors, governed by the logistic transformation.
+The non-linear temperature-load function is estimated with a fixed effect models of per capita daily electric load, qq, at the European member state level in each day from 2015 to 2019. Population-weighted temperatures are binned into kk intervals of 3∘C width, Bk=[T¯k,T¯k)B_{k}=[\underline{T}_{k},\overline{T}_{k}) to construct a kk-vector of indicators that track whether each day’s maximum temperature falls within a given interval:
+𝒯k=1⋅{T∈Bk}+0⋅{Otherwise}\mathcal{T}_{k}=1\cdot\{T\in B_{k}\}+0\cdot\{\text{Otherwise}\}
+. Suppressing location and time subscripts, the empirical specification estimated by [66] is:
+𝔼⁡[ln⁡q]\displaystyle\mathbb{E}[\ln q]
+=∑kβk,vT​𝒯k+∑kβk,vT​A​C​(𝒯k⋅s)+βvY​y+controls\displaystyle=\textstyle\sum_{k}\beta_{k,v}^{T}\mathcal{T}_{k}+\sum_{k}\beta_{k,v}^{TAC}\left(\mathcal{T}_{k}\cdot s\right)+\beta_{v}^{Y}y+\text{controls}
+(B.2)
+where controls include state or country fixed effects that absorb variation associated with unobserved temporally-invariant confounders, and day-of-week, season and year fixed effects that control for idiosyncratic time-varying influences that are unrelated to temperature. The elements of 𝜷T\boldsymbol{\beta}^{T} account for consumers’ adjustments of stocks of energy-using durables, explicitly captured by the vector of interaction coefficients, 𝜷T​A​C\boldsymbol{\beta}^{TAC}. The fitted coefficient vectors 𝜷^T\widehat{\boldsymbol{\beta}}^{T} and 𝜷^T​A​C\widehat{\boldsymbol{\beta}}^{TAC} provide flexible piece-wise linear spline representations of macro-regions’ distinct nonlinear temperature response functions (see Supplementary Information).
+B.2 Impacts on thermal generation outages
+We study the potential unavailability of thermal power generation units due to extreme temperatures by developing a regression model based on outage information collected from 2018 to 2022 in Italy. The dataset [71] includes information of over 4000 outages, of which 2352 of gas- and 1887 of coal-fired generation units. The method adopted partially follows previous analysis ([23]), but expands from the literature by providing country-specific and fuel-specific responses. We consider as key dependent variable the occurrence of an outage in each power-plant, represented by a dichotomous variable alternatively 0 or 1 (cc), and identify the influence of daily maximum temperatures (tt) and water runoff anomalies (rr), controlling for month (m) and location (p) fixed effects. Since temperature and runoff anomalies can have non-linear impacts on the operations of thermal generators, non-linear effects are captured by adding a quadratic or alternatively a cubic term to each. Furthermore, in the most detailed specification, we identify fuel-specific impacts by including a set of interaction terms between temperature and runoff anomalies and a character variable representing the power plant fuel kk. We estimate the following equation though a logistic regression, so that the log odds of the outcome are modelled as a combination of the predictor variables:
+Λ⁡(ci,t)\displaystyle\Lambda(c_{i,t})
+=log⁡(ci,t1−ci,t)=​f​(ti,t)⋅k+​z​(ri,t)⋅k+ψ​k+μ​p+ν​m+ε\displaystyle=\log\left(\frac{c_{i,t}}{1-c_{i,t}}\right)=\emph{f}(t_{i,t})\cdot k+\emph{z}(r_{i,t})\cdot k+\psi k+\mu p+\nu m+\varepsilon
+(B.3)
+We compare the different polynomial specifications based on standard performance metrics, and select the model with a fuel-specific cubic response to temperatures (Figure 10).
+Figure 10: Outage probability based on temperature and water runoff anomalies levels, based on the selected logit model. Shades show the 95th confidence interval.
+We find that the likelyhood of occurrence of an outage for coal-fired generation increases considerably when daily maximum temperatures surpass 35°C, reaching 10-50% at 40°C and 50-90% at 45°C, depending on the water runoff anomaly. Gas-fired generation is less sensitive to high temperature and low water runoff levels, but the likelihood of an outage is non-negligible and between 5-25% at 40°C. Regression results are shown in the Table 3. We use the estimated available capacity function in conjunction with future daily maximum temperature anomalies to simulate daily thermal power generation availability around 2030 and apply the results to the oemof Italian power system model optimisations.
+Table 3: Outage regression results
+Dependent variable:
+Likelihood of outage
+(1)
+(2)
+(3)
+technology-Gas
+−-1.760∗∗∗
+−-2.471∗∗∗
+−-0.973∗∗∗
+(0.050)
+(0.073)
+(0.123)
+tmax
+−-0.037∗∗∗
+−-0.244∗∗∗
+0.103∗∗∗
+(0.002)
+(0.006)
+(0.019)
+tmax^\hat{\mkern 6.0mu}2
+0.005∗∗∗
+−-0.015∗∗∗
+(0.0001)
+(0.001)
+tmax^\hat{\mkern 6.0mu}3
+0.0003∗∗∗
+(0.00002)
+runoff_anomaly
+−-0.758∗∗∗
+−-0.482∗∗∗
+−-0.370∗∗∗
+(0.065)
+(0.065)
+(0.066)
+runoff_anomaly^\hat{\mkern 6.0mu}2
+4.059∗∗∗
+3.638∗∗∗
+3.536∗∗∗
+(0.074)
+(0.075)
+(0.075)
+technology-Gas:tmax
+0.063∗∗∗
+0.155∗∗∗
+−-0.129∗∗∗
+(0.001)
+(0.006)
+(0.020)
+technology-Gas:tmax^\hat{\mkern 6.0mu}2
+−-0.002∗∗∗
+0.013∗∗∗
+(0.0002)
+(0.001)
+technology-Gas:tmax^\hat{\mkern 6.0mu}3
+−-0.0003∗∗∗
+(0.00002)
+Constant
+−-4.036∗∗∗
+−-2.552∗∗∗
+−-4.271∗∗∗
+(0.075)
+(0.085)
+(0.125)
+month
+Y
+Y
+Y
+year
+Y
+Y
+Y
+province
+Y
+Y
+Y
+Observations
+1,353,432
+1,353,432
+1,353,432
+Log Likelihood
+−-170,880.300
+−-170,056.200
+−-169,796.300
+Akaike Inf. Crit.
+341,854.700
+340,210.400
+339,694.600
+Note:
+∗p<<0.1; ∗∗p<<0.05; ∗∗∗p<<0.01
+B.3 Impact on variable renewable sources
+We describe here the methodology for assessing the impacts of climate change on variable renewable generation production. We only evaluate these impacts in the two scenarios Historical Mean and Future Mean, since the optimization of power system capacity expansion is not be based on extreme low- or high- wind and solar generation occurrences, which are typically dealt with by transmission system operators though ancillary services and balancing energy markets. In other words, we only consider how climate change may alter the solar and wind production patterns by taking into account the hour-, calendar day- and region- specific mean production value across the historical and future year period. For both wind and solar power potential generation, we exploit the projections developed by [62]. For wind generation, we retrieve the time-series of normalised with potential at the NUTS3 level directly from the database, then we aggregate at the bidding-zone level. As for solar, we consider the time-series of hourly population-weighted direct normal irradiation (DNI), the amount of solar radiation per unit area [W/m2] by a surface perpendicular to the sun rays. Temperature is also included into the analysis, since the power output that a solar panel p is able to produce at each hour h in its location n is dependent on ambient temperature. The following formula, taken from [80] shows the correlation, where Tn,h is expressed in degree Celsius and DNIn,h is the DNI value, in location n and hour h:
+Pn,h=ηp​Sp​D​N​In,h​(1−0.005​(Tn,h−25))P_{n,h}=\eta_{p}S_{p}DNI_{n,h}(1-0.005(T_{n,h}-25))
+(B.5)
+The parameters ηp\eta_{p} and SpS_{p} represent the conversion coefficient [%] and the surface area [m2] specific to the photovoltaic unit p. These values are not relevant for the calculation since Pn,hP_{n,h} is then normalised to a time-series, accounting for the maximum values in each scenario and region, to obtain the solar potential. ηp\eta_{p} itself is dependent on temperature, as explained by Evans [81], following the equation:
+ηp,T=ηp,T​r​e​f∗(1−βr​e​f∗(T−T​r​e​f))\eta_{p,T}=\eta_{p,Tref}*(1-\beta_{ref}*(T-Tref))
+(B.6)
+ηp,T​r​e​f\eta_{p,Tref} refers to the panel efficiency at Tref, the reference temperature (which is commonly 25°C) and solar radiation of 1000 W/m2. βr​e​f\beta_{ref} is the temperature coefficient and it is generally assumed to be 0.0004 K-1 [82, 83]. Thanks to these equations we can coherently consider the impact of the change of DNI and temperature in the future climate scenarios on PV panels power output.
+Figure 11: Change in the generation (panels a-b) and capacity (panels c-d) in the F​u​t​u​r​e​M​e​a​nFutureMean climate scenario when including the mean climate change impacts on the hourly wind and solar generation.
+In Figure 11 we evaluate the variation in electricity generation and additional installed capacities for the Italian case study in 2030 in the Future Mean weather scenario with respect to the Historical Mean one. Again, we do not focus on the Historical Extreme and Future Extreme scenario because the high variability of renewable sources to weather is informative for dispatch optimisation problems, while it is not a key driver for power system investment planning. The input shocks included in the model, namely the mean level of the normalised wind power potential and the BNI, used to project future impacts for wind and solar, respectively, are presented in Figure 2, Panels c and d. As you can see in Figure 11, the changes
+B.4 Additional figures
+Figure 12: AC prevalence in households in Italian regions, observed average of 2015-2019, and future in 2030 under RCP 4.5 and RCP8.5.
+Figure 13 shows that no substantial difference can be found in the value of the input projections of hydro production and electricity demand change by changing historical base year period of CMIP6 model output from 1981-2020 to 2001-2020.
+Figure 13: Comparison of input projections of hydro production and electricity demand change, by choice of historical base year period
+Figure 14 shows that no substantial difference can be found in the value of the input projections of hydro production and electricity demand change from RCP 4.5 and RCP 8.5 in 2030.
+Figure 14: Comparison of input projections of hydro production and electricity demand change, by RCP
+Appendix C Supplementary Methods for Power System Modelling
+We employ a power system model of the Italian electricity system [48], developed with Oemof (Open Energy MOdelling Framework), an open-source energy modelling tool in Python [84]. This framework enables the creation of an energy network and then uses a solver to determine the energy balances (in this case, the one utilized was Gurobi, but Oemof is able to work with other open-source solvers). The same power system model for Italy has been used in previous works [50, 85]. To be able to run simulations and investment optimizations, Oemof expansion capacity script requires the following inputs, provided through an Excel file. The spatial resolution of the model is based on the Italian electricity market zones, which, since year 2021, consist of 7 different areas [51, 52], organized as shown in Table 4. Building from the subsection in the paper discussing briefly the main elements of the model, Table 4 shows the break-down in regions of each model node, while Table 5 outlines the powerlines capacity.
+Table 4: Italian electricity market zones composition
+Market zone
+Regions
+North
+Emilia-Romagna, Friuli Venezia-Giulia, Liguria, Lombardia, Piemonte, Trentino-Alto Adige, Valle D’Aosta, Veneto
+Centre-North
+Marche, Toscana, Umbria
+Centre-South
+Abruzzo, Campania, Lazio
+South
+Basilicata, Calabria, Molise, Puglia
+Sardinia
+Sardinia
+Sicily
+Sicily
+Calabria
+Calabria
+Table 5: Transmission lines capacity
+Line
+Capacity [MW]
+North →\xrightarrow{} Centre-North
+4300
+North ←\xleftarrow{} Centre-North
+3100
+Centre-North →\xrightarrow{} Centre-South
+2900
+Centre-North ←\xleftarrow{} Centre-South
+2800
+Centre-South →\xrightarrow{} South
+2000
+Centre-South ←\xleftarrow{} South
+5550
+Centre-South →\xrightarrow{} Sardinia
+720
+Centre-South ←\xleftarrow{} Sardinia
+900
+Centre-North →\xrightarrow{} Sardinia
+1095
+Centre-North ←\xleftarrow{} Sardinia
+1015
+Sicily →\xrightarrow{} Sardinia
+800
+Sicily ←\xleftarrow{} Sardinia
+800
+Centre-South →\xrightarrow{} Sicily
+700
+Centre-South ←\xleftarrow{} Sicily
+700
+South →\xrightarrow{} Calabria
+1100
+South ←\xleftarrow{} Calabria
+2350
+Calabria →\xrightarrow{} Sicily
+1750
+Calabria ←\xleftarrow{} Sicily
+1200
+C.1 Key features
+Transmission lines. Market zones are linked in the model through high-voltage transmission lines. Capacity data are taken from Terna Development Plan in 2019 [86] and updated according to the 2021 Plan [87] and the National Energy and Climate Plan (PNIEC Piano Nazionale Integrato per l’Energia e il Clima [75]), assuming the transmission capacities targets for 2026 completely achieved in 2030. The spatial subdivision and the values for exchangeable GWs between zones are visualised in Figure 15.
+Figure 15: Representation of the spatial resolution of the Italian power model. The seven nodes of the model aggregate different Italian regions, according to the colours in the picture. The zones are linked through high-voltage power lines, whose transmission capacity is indicated with the values in the graph [GW]. The capacity values assume that the already announced grid expansion projects up until 2026 are built [87].
+Demand. For each region, a time series of the hourly power load is considered, obtained from Terna Download Center web page, taking data for the year 2021 [88]. Terna projects an annual national electricity demand of 331 TWh by 2030, taking into account the ongoing electrification of the transportation, heating, and industrial sectors [77]. The distribution of this demand into market zones in 2030 is assumed to mirror that of 2021. Consequently, for 2030, we maintain the same hourly demand profiles, adjusting them upward to align with the anticipated national load of 331 TWh for the year.
+Commodity sources. For power production, the resources considered in this case study are natural gas, water and imported electricity. Nowadays Italy still has some coal-fired power plants running [89], but according to the Italian climate and energy strategy [75], the phase-out from this polluting source will be in 2025. Therefore, this work assumes that in 2030 there will be no coal power plant working. Import refers to the net electricity imported from other countries and it has been designed as a source of generation. Italy exchanges electricity with France, Switzerland, Austria, Slovenia, Greece, Malta and Montenegro, but the main importer is France [52]. For this reason we assumed to model import as a source of generation only for the North market zone and with a negligible emission factor [90], thanks to the large fraction of French electricity produced with nuclear power. For commodity sources, variable costs are specified; for import and hydro costs are set to zero. Natural gas prices for 2030 are derived from World Energy Outlook 2022 [91], assuming the Stated Policy case, thus 29 €/MWh of thermal energy. Specific emissions factors are adopted from technical specifications in [90].
+Power plants transformers. For natural gas-fired plants, total installed capacities are imposed at 2021 values [92], with no possibility to expand. Import power derives from the assumption of constant import throughout the whole year, so a total amount of 42.8 TWh [93] reduced by 4.75 TWh due to transmission and distribution losses, results in 4.34 GW in each hour. For hydro power plants, efficiencies for the conversion to electricity are offered by [94], import has no efficiency and for gas-fired plants efficiency is evaluated as an average of the whole Italian gas power plants park (55.1%) [95]. For gas plants cost of operation is also specified, set at 4 €/MWh [96].
+Renewables. The Renewable Energy Sources RES embedded in this study are rooftop and utility scale photovoltaic, wind onshore and offshore, run-off-river, reservoir hydro, biomass and geothermal generation (actually present only in Tuscany, thus with 771.8 MW in Centre-North). Existing offshore capacity is set to zero and the model can expand generation capacity of the two types of solar and the two categories of wind power. In each node the existing installed power in April 2022 is the starting point, aggregated in market zones. Data are taken from Terna [97], assuming that Utility Scale photovoltaic (PV) has a size larger than 1 MW, and from the European Commission’s Joint Research Centre (JRC) [98] for run-off-river and reservoir hydro. PV panels in large fields or on rooftops are distinguished in the model by different existing capacities, investments and operational costs and maximum potential for available land. The existing capacity for each power generation technology in each region is represented in Table 6.
+Table 6: Renewable energy sources and fossil fuels power plants capacity per Italian market zone in 2021 [MW]
+Capacities in MW
+Rooftop PV
+Ut. Sc. PV
+Wind onshore
+Biomass
+Run-off-river
+Reservoir hydro
+Gas-fired power plant
+North
+9397
+1465
+172
+2304
+4399
+4352
+27712
+Centre-North
+1864
+287
+162
+452.0
+368
+80
+2587
+Centre-South
+2687
+1299
+2189
+529
+1117
+201
+7485
+South
+2718
+900
+4760
+490
+23
+122
+4882
+Sardinia
+504
+603
+1112
+125
+20
+88
+1088
+Sicily
+1088
+601
+2039
+104
+8
+65
+5394
+Calabria
+456
+149
+1174
+219
+121
+589
+3630
+Storages. In 2021, in the Italian power system only Pumped Hydro Storage (PHS) power plants can store electricity, since there are no batteries or hydrogen storage connected to the grid. Values for PHS pumping and generation power capacities and the nominal retainable energy are provided by JRC database [98], with a national storage value of 560 GWh. Other parameters supplied are a capacity loss of 8.33 ⋅10−6\cdot 10^{-6} [99] (referred to the stored energy), inflow and outflow efficiencies, choosing respectively of 85% and 90% to get a Round Trip Efficiency (RTE) of 76.5%, in line with numbers from the U.S. Department of Energy [100]. The optimisation can expand the storage capacity for lithium-ion batteries and hydrogen storage technology, composed of electrolysers, fuel cells and hydrogen tanks. Further details can be found in Appendix C.
+C.2 Dispatch optimization
+In this work we deploy both dispatch and expansion capacity optimizations, based on the chosen scenario. The main goal of a dispatch optimization is to find the generation mix which meets the demand at the lowest operational cost. The solver will start using the cheapest sources per MWh until the energy needed is provided. The objective function developed for this work can be expressed by Eq. C.1, describing the minimum of the cost to operate the system C operation{}^{\textnormal{ operation}}.
+Min C operation=Min​(∑t=1T∑n=1N∑s=1SEt,n,s⋅vct,n,s)\textnormal{Min }\textnormal{C}^{\textnormal{ operation}}=\textnormal{Min}(\sum_{t=1}^{T}\sum_{n=1}^{N}\sum_{s=1}^{S}\textnormal{E}_{t,n,s}\cdot\textnormal{vc}_{t,n,s})
+(C.1)
+where:
+t = analysed time step, from 1 to T
+n = node considered, from 1 to N
+s = generation source, from 1 to S
+Et,n,s = energy generated by the source s, located in the node n at the time step t.
+vct,n,s = variable costs of generation for the energy source Et,n,s
+This main objective function must respect a series of constraints. They will be explained and analysed further, following Prina et al. work [99]. The major constraint is to meet the energy demand, considering also the charge and discharge energy of the storages and the transmission losses. This has to be valid for every time step and it is possible to have an excess of generation.
+∑s=1S(Et,n,s+Et,n,s​t charge−Et,n,s​t discharge−Et,p transmission loss)=Dt,n+Et,n excess\sum_{s=1}^{S}(\textnormal{E}_{t,n,s}+\textnormal{E}_{t,n,st}^{\textnormal{ charge}}-\textnormal{E}_{t,n,st}^{\textnormal{ discharge}}-\textnormal{E}_{t,p}^{\textnormal{ transmission loss}})=\textnormal{D}_{t,n}+\textnormal{E}_{t,n}^{\textnormal{ excess}}
+(C.2)
+E charget,n,s​t{}_{t,n,st}^{\textnormal{ charge}} = energy employed for charging storage technology st at time t in node n
+E discharget,n,s​t{}_{t,n,st}^{\textnormal{ discharge}} = energy employed for discharging storage technology st at time t in node n
+E transmission losst,p{}_{t,p}^{\textnormal{ transmission loss}} = energy lost due to transport losses at time t in powerline p for node n
+Dt,n = load demand at time t for node n
+E excesst,n{}_{t,n}^{\textnormal{ excess}} = surplus of generated energy at time t for node n
+Another restriction is the respect of the maximum power given as input for each generator unit. Non-dispatchable renewable units s in node n can supply up to their nominal capacity P non-dispatchablen,s{}_{n,s}^{\textnormal{ non-dispatchable}} according to the source profile throughout the year. Fossil fuel and dispatchable renewable plants (such as reservoir hydroelectric), instead, can always provide power up until their stated capacity, P dispatchablen,s{}_{n,s}^{\textnormal{ dispatchable}} for node n and source s.
+0≤Pt,n,s≤Pn,s dispatchable0\leq\textnormal{P}_{t,n,s}\leq\textnormal{P}_{n,s}^{\textnormal{ dispatchable}}
+(C.3)
+0≤Pt,n,s≤Pn,s non-dispatchable⋅at,n,s0\leq\textnormal{P}_{t,n,s}\leq\textnormal{P}_{n,s}^{\textnormal{ non-dispatchable}}\cdot\textnormal{a}_{t,n,s}
+(C.4)
+Pt,n,s = power provided by the source s (can be dispatchable or not) at time t in node n
+at,n,s = availability of the renewable source s at time t in node n. It can be a number between 0 and 1 (0 being no obtainable energy and 1 being maximum power available).
+In addition, for dispatchable generators, an efficiency is presented to calculate the amount of resource exploited, according to the following equation. P dispatchablet,n,s{}_{t,n,s}^{\textnormal{ dispatchable}} in this case is referred only to dispatchable generation units.
+Et,n,s resource=Pt,n,sηn,s\textnormal{E}_{t,n,s}^{\textnormal{ resource}}=\frac{\textnormal{P}_{t,n,s}}{\eta_{n,s}}
+(C.5)
+E resourcet,n,s{}_{t,n,s}^{\textnormal{ resource}} = quantity of commodity source employed by resource s at time t in node n.
+ηn,s\eta_{n,s} = efficiency of the generation source s in node n.
+Energy can be exchanged between two nodes, passing through transmission lines that have a nominal capacity value. P powerlinep{}_{p}^{\textnormal{ powerline}} represents the maximum exchangeable power in the transmission line p, which goes from one node to another. Each powerline p has losses related to the exchange of power, taken into account by the efficiency ηp transmission losses\eta_{p}^{\textnormal{ transmission losses}}. The energy that can pass through powerline p at timestep t is E exchangedt,p{}_{t,p}^{\textnormal{ exchanged}}.
+Et,p exchanged≤Pp powerline⋅ηp transmission losses⋅Δ​t\textnormal{E}_{t,p}^{\textnormal{ exchanged}}\leq\textnormal{P}_{p}^{\textnormal{ powerline}}\cdot\eta_{p}^{\textnormal{ transmission losses}}\cdot\Delta t
+(C.6)
+Δ​t\Delta t = timestep (in this case one hour)
+st = storage technology, from 1 to ST;
+Finally, storage technologies need to respect constraints and balances for the daily dispatch, bearing in mind also self-discharging. The first crucial restriction is that the storage content SCt,st of the storage technology st at the time step t can not exceed the maximum storage content SC nominals​t{}_{st}^{\textnormal{ nominal}} for each technology st. In this work, Oemof has been set to maintain the same storage content at the beginning and the end of the time frame considered, thus energy stored describes a mean to achieve flexibility in the system.
+SCt,s​t≤SCs​t nominal\textnormal{SC}_{t,st}\leq\textnormal{SC}_{st}^{\textnormal{ nominal}}
+(C.7)
+Storage units have to observe another limitation, regarding the storage balance: the equation takes into account the power to charge the storage st at time t in node n, P charget,n,s​t{}_{t,n,st}^{\textnormal{ charge}}, and the power to discharge it, P discharget,n,s​t{}_{t,n,st}^{\textnormal{ discharge}}, with their respective efficiencies, ηs​t charge\eta_{st}^{\textnormal{ charge}} and ηs​t discharge\eta_{st}^{\textnormal{ discharge}}. The storage unit undergoes through a self-discharging process, contemplated with the efficiency ηs​t self\eta_{st}^{\textnormal{ self}} applied to the stored energy. Eventually, the exchanged power modifies the storage content of the unit from one time step to another.
+(Pt,n,s​t charge⋅ηs​t charge−Pt,n,s​t dischargeηs​t discharge)⋅Δ​t−(SCt,s​t−SCt−1,s​t)⋅ηs​tself=SCt,s​t−SCt−1,s​t(\textnormal{P}_{t,n,st}^{\textnormal{ charge}}\cdot\eta_{st}^{\textnormal{ charge}}-\frac{\textnormal{P}_{t,n,st}^{\textnormal{ discharge}}}{\eta_{st}^{\textnormal{ discharge}}})\cdot\Delta t-(\textnormal{SC}_{t,st}-\textnormal{SC}_{t-1,st})\cdot\eta_{st}^{\textnormal{self}}=\textnormal{SC}_{t,st}-\textnormal{SC}_{t-1,st}
+(C.8)
+SCt,s​t−SCt−1,s​t\textnormal{SC}_{t,st}-\textnormal{SC}_{t-1,st} = stored energy at time t in storage technology st, given by the difference of the storage content from one time step to another.
+C.3 Expansion capacity investment
+Oemof framework is suitable for investment optimisation analyses: the solver can decide how to invest in order to expand the technologies capacities if this can help to satisfy the energy demand with an overall lower cost. In general, all Oemof components can be expanded introducing the investment option in the code. In this paper the generation technologies that have the possibility to be expanded are rooftop photovoltaic, Utility Scale photovoltaic, on-shore wind and off-shore wind. The chosen RES generation technologies are in line with National Development Plans for Italy [101, 75], while others are excluded for different reasons: for example nuclear plants can not be added in the electricity mix due to political choices in the country. The expandable storage options are lithium ion batteries, hydrogen tanks, electrolysers and fuel cells. Energy storage is already provided in the current system by Pumped Hydro Storage (PHS), but in the model it cannot be increased since the exploitation limit has been already reached and there is no further space to build this type of power plants, which require a large amount of constructions and affect the environment [102]. Li-ion batteries were detected in the electro-chemical storage panorama as the biggest market player [103], while many studies suggest that hydrogen can be an interesting option for power systems adequacy, since its cost can be reduced by exploiting it as an energy carrier in other hard-to-abate sectors [104, 105, 106]. The model thus can provides short-term storage with batteries and long term one with hydrogen, offering a comprehensive solution to store electricity produced.
+Oemof offers an annuity function that provides the Energy Periodical Cost (Ep cost) for each technology, which is the essential variable to choose if an investment is convenient. The Ep cost is calculated according to Eq. C.9. Some inputs are needed for each technology in order to compute the ep cost: capital expenditure (capex) in euros per unit of installed capacity, lifetime in years and a Weighted Averaged Cost of Capital (WACC) to consider the credit for the investment.
+Ep cost=oemof.tools.economics.annuity(capex, lifetime, wacc)=capex⋅wacc⋅(1+wacc)lifetime(1+wacc)lifetime−1\begin{split}\textnormal{Ep cost}&=\textnormal{oemof.tools.economics.annuity(capex, lifetime, wacc)}\\
+&=\textnormal{capex}\cdot\frac{\textnormal{wacc}\cdot(1+\textnormal{wacc})^{\textnormal{lifetime}}}{(1+\textnormal{wacc})^{\textnormal{lifetime}-1}}\end{split}
+(C.9)
+Besides the economic parameters, the solver requires as inputs the existing technology capacity of the technology (which can be None) and its maximum potential foreseen for the future year to which the study is referring to. In the expansion capacity optimisation the objective function has been modified, adding also the investment made on the various technologies and minimising the total cost C tot{}^{\textnormal{ tot}}.
+Min C tot=Min​(Cop+∑n=1N(∑s=1SCs⋅Pn,sadded+∑s​t=1S​TCs​t⋅En,s​tadded+∑p=1PCp⋅Ppadded))\begin{split}\textnormal{Min C}^{\textnormal{ tot}}&=\textnormal{Min}\Big(\textnormal{C}^{\textnormal{op}}+\sum_{n=1}^{N}(\sum_{s=1}^{S}\textnormal{C}_{s}\cdot\textnormal{P}_{n,s}^{\textnormal{added}}+\sum_{st=1}^{ST}\textnormal{C}_{st}\cdot\textnormal{E}_{n,st}^{\textnormal{added}}+\sum_{p=1}^{P}\textnormal{C}_{p}\cdot\textnormal{P}_{p}^{\textnormal{added}}\big)\Big)\end{split}
+(C.10)
+Cs = capital cost for the expansion of the resource s
+C addeds​t{}_{st}^{\textnormal{ added}} = capital cost for the expansion of storage technology st
+Cp = capital cost for the expansion of power lines
+P addedn,s{}_{n,s}^{\textnormal{ added}} = power capacity added for source s in node n
+E addedn,s​t{}_{n,st}^{\textnormal{ added}} = storage capacity for storage st in node n
+P addedp{}_{p}^{\textnormal{ added}} = power capacity added for power line p
+The output of this function is the total annual cost for operation and optimization of the system. Insights are also given about the amount of power installed for each technology in each node; this is a very helpful information for policy makers, to understand which should be the aim of the incentives to introduce.
+Oemof framework allows to introduce a constraint on emissions of the system, modifying the main expansion capacity script. To bring about it correctly, it is necessary to bestow emission factors for the polluting commodity sources, in quantity of contaminants per unit of energy supplied. The total amount of emissions, COtotal2{}_{2}^{\textnormal{total}} is calculated as follows.
+CO2total=∑t=1T∑n=1N∑s=1SPt,n,s fossil source⋅co2sfactor\textnormal{CO}_{2}^{\textnormal{total}}=\sum_{t=1}^{T}\sum_{n=1}^{N}\sum_{s=1}^{S}\textnormal{P}_{t,n,s}^{\textnormal{ fossil source}}\cdot{\textnormal{co}_{2}}_{s}^{\textnormal{factor}}
+(C.11)
+P fossil sourcet,n,s{}_{t,n,s}^{\textnormal{ fossil source}} = thermal power at time t in node n from the fossil commodity source s
+co2sfactor{\textnormal{co}_{2}}_{s}^{\textnormal{factor}} = emission factor specific to the commodity source s in [ton of CO2MWhth\frac{\textnormal{ton of CO}_{2}}{\textnormal{MWh}_{\textnormal{th}}}]
+References
+[1]
+Seleshi Yalew et al.
+“Impacts of climate change on energy systems in global and regional scenarios”
+In Nature Energy 5.10
+Nature Publishing Group, 2020, pp. 794–802
+[2]
+“Paris Agreement” Context Object: ctx_ver=Z39.88-2004&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&rfr_id=info%3Asid%2Focoins.info%3Agenerator&rft.genre=article&rft.atitle=Paris Agreement&rft.title=International Legal Materials&rft.stitle=Int’l Legal Materials&rft.date=2016&rft.volume=55&rft.spage=743&rft_id=https://heinonline.org/HOL/Page?handle%3Dhein.journals/intlm55%26id%3D803%26div%3D%26collection%3D
+In International Legal Materials 55, 2016, pp. 743
+URL: https://heinonline.org/HOL/Page?handle=hein.journals/intlm55&id=803&div=&collection=
+[3]
+“Summary for Policymakers”
+URL: https://www.ipcc.ch/report/ar6/wg2/chapter/summary-for-policymakers/
+[4]
+Peter Berrill et al.
+“Environmental impacts of high penetration renewable energy scenarios for Europe” Publisher: IOP Publishing
+In Environmental Research Letters 11.1, 2016, pp. 014012
+DOI: 10.1088/1748-9326/11/1/014012
+[5]
+“Electrification - Energy System”
+In IEA
+URL: https://www.iea.org/energy-system/electricity/electrification
+[6]
+“European Electricity Review 2023”
+In Ember, 2023
+URL: https://ember-climate.org/insights/research/european-electricity-review-2023/
+[7]
+Francesco Colelli, Ian Wing and Enrica Cian
+“Air-conditioning adoption and electricity demand highlight climate change mitigation–adaptation tradeoffs” Number: 1 Publisher: Nature Publishing Group
+In Scientific Reports 13.1, 2023, pp. 4413
+DOI: 10.1038/s41598-023-31469-z
+[8]
+Alan. Hamlet, Se-Yeun Lee, Kristian.. Mickelson and Marketa. Elsner
+“Effects of projected climate change on energy supply and demand in the Pacific Northwest and Washington State”
+In Climatic Change 102.1, 2010, pp. 103–128
+DOI: 10.1007/s10584-010-9857-y
+[9]
+Verica Taseska, Natasa Markovska and John. Callaway
+“Evaluation of climate change impacts on energy demand”
+In Energy 48.1, 6th Dubrovnik Conference on Sustainable Development of Energy Water and Environmental Systems, SDEWES 2011, 2012, pp. 88–95
+DOI: 10.1016/j.energy.2012.06.053
+[10]
+Guido Franco and Alan. Sanstad
+“Climate change and electricity demand in California”
+In Climatic Change 87.1, 2008, pp. 139–151
+DOI: 10.1007/s10584-007-9364-y
+[11]
+Maximilian Auffhammer, Patrick Baylis and Catherine. Hausman
+“Climate change is projected to have severe impacts on the frequency and intensity of peak electricity demand across the United States” Publisher: Proceedings of the National Academy of Sciences
+In Proceedings of the National Academy of Sciences 114.8, 2017, pp. 1886–1891
+DOI: 10.1073/pnas.1613193114
+[12]
+Suchao Parkpoom and Gareth. Harrison
+“Analyzing the Impact of Climate Change on Future Electricity Demand in Thailand”
+In IEEE Transactions on Power Systems 23.3, 2008, pp. 1441–1448
+DOI: 10.1109/TPWRS.2008.922254
+[13]
+T. Ahmed, K.. Muttaqi and A.. Agalgaonkar
+“Climate change impacts on electricity demand in the State of New South Wales, Australia”
+In Applied Energy 98, 2012, pp. 376–383
+DOI: 10.1016/j.apenergy.2012.03.059
+[14]
+Leonie Wenz, Anders Levermann and Maximilian Auffhammer
+“North–south polarization of European electricity consumption under future warming”
+In Proceedings of the National Academy of Sciences 114.38
+National Acad Sciences, 2017, pp. E7910–E7918
+[15]
+Gunnar. Eskeland and Torben. Mideksa
+“Electricity demand in a changing climate”
+In Mitigation and Adaptation Strategies for Global Change 15.8, 2010, pp. 877–897
+DOI: 10.1007/s11027-010-9246-x
+[16]
+Christian Crowley and Frederick Joutz
+“Hourly Electricity Loads: Temperature Elasticities and Climate Change”
+[17]
+Matthew Bartos and Mikhail Chester
+“Impacts of climate change on electric power supply in the Western United States”
+In Nature Climate Change 5.8
+Nature Publishing Group, 2015, pp. 748–752
+[18]
+Maximilian Auffhammer, Patrick Baylis and Catherine Hausman
+“Climate change is projected to have severe impacts on the frequency and intensity of peak electricity demand across the United States”
+In Proceedings of the National Academy of Sciences 114.8
+National Acad Sciences, 2017, pp. 1886–1891
+[19]
+Francisco Fonseca, Paulina Jaramillo, Mario Bergés and Edson Severnini
+“Seasonal effects of climate change on intra-day electricity demand patterns”
+In Climatic Change 154.3
+Springer, 2019, pp. 435–451
+[20]
+Yasmin Romitti and Ian Sue
+“Heterogeneous climate change impacts on electricity demand in world cities circa mid-century”
+In Scientific reports 12.1
+Nature Publishing Group, 2022, pp. 1–14
+[21]
+IEA
+“The Future of Cooling”
+International Energy Agency, Paris, France, 2018
+URL: https://www.iea.org/reports/the-future-of-cooling
+[22]
+Matthew Bartos et al.
+“Impacts of rising air temperatures on electric transmission ampacity and peak electricity load in the United States”
+In Environmental Research Letters 11.11
+IOP Publishing, 2016, pp. 114008
+[23]
+Ethan Coffel and Justin Mankin
+“Thermal power generation is disadvantaged in a warming world”
+In Environmental Research Letters 16.2
+IOP Publishing, 2021, pp. 024043
+[24]
+MTH Van et al.
+“Multi-model assessment of global hydropower and cooling water discharge potential under climate change”
+In Global Environmental Change 40
+Elsevier, 2016, pp. 156–170
+[25]
+Kepa Solaun and Emilio Cerdá
+“Climate change impacts on renewable energy generation. A review of quantitative projections”
+In Renewable and Sustainable Energy Reviews 116, 2019, pp. 109415
+DOI: https://doi.org/10.1016/j.rser.2019.109415
+[26]
+Shibao Lu, Weidong Dai, Yao Tang and Min Guo
+“A review of the impact of hydropower reservoirs on global climate change”
+In Science of The Total Environment 711, 2020, pp. 134996
+DOI: https://doi.org/10.1016/j.scitotenv.2019.134996
+[27]
+Byman Hamududu and Aanund Killingtveit
+“Assessing Climate Change Impacts on Global Hydropower” Num Pages: 24
+In Climate Change and the Future of Sustainability
+Apple Academic Press, 2016
+[28]
+Sean.. Turner et al.
+“Climate impacts on hydropower and consequences for global electricity supply investment needs”
+In Energy 141, 2017, pp. 2081–2090
+DOI: 10.1016/j.energy.2017.11.089
+[29]
+Michelle.. van Vliet et al.
+“Vulnerability of US and European electricity supply to climate change” Publisher: Nature Publishing Group
+In Nature Climate Change 2.9, 2012, pp. 676–681
+DOI: 10.1038/nclimate1546
+[30]
+Sonia Jerez et al.
+“The impact of climate change on photovoltaic power generation in Europe” Publisher: Nature Publishing Group
+In Nature Communications 6.1, 2015, pp. 10014
+DOI: 10.1038/ncomms10014
+[31]
+Jennifer Cronin, Gabrial Anandarajah and Olivier Dessens
+“Climate change impacts on the energy system: a review of trends and gaps”
+In Climatic Change 151.2, 2018, pp. 79–93
+DOI: 10.1007/s10584-018-2265-4
+[32]
+H.. Bloomfield et al.
+“Quantifying the sensitivity of european power systems to energy scenarios and climate change projections”
+In Renewable Energy 164, 2021, pp. 1062–1075
+DOI: 10.1016/j.renene.2020.09.125
+[33]
+Jing Hu et al.
+“Implications of a Paris-proof scenario for future supply of weather-dependent variable renewable energy in Europe”
+In Advances in Applied Energy 10, 2023, pp. 100134
+DOI: 10.1016/j.adapen.2023.100134
+[34]
+Isabelle Tobin et al.
+“Climate change impacts on the power generation potential of a European mid-century wind farms scenario” Publisher: IOP Publishing
+In Environmental Research Letters 11.3, 2016, pp. 034013
+DOI: 10.1088/1748-9326/11/3/034013
+[35]
+Laibao Liu et al.
+“Climate change impacts on planned supply–demand match in global wind and solar energy systems” Publisher: Nature Publishing Group
+In Nature Energy 8.8, 2023, pp. 870–880
+DOI: 10.1038/s41560-023-01304-w
+[36]
+David… Gernaat et al.
+“Climate change impacts on renewable energy supply” Publisher: Nature Publishing Group
+In Nature Climate Change 11.2, 2021, pp. 119–125
+DOI: 10.1038/s41558-020-00949-9
+[37]
+Mathaios Panteli and Pierluigi Mancarella
+“Influence of extreme weather and climate change on the resilience of power systems: Impacts and possible mitigation strategies”
+In Electric Power Systems Research 127, 2015, pp. 259–270
+DOI: 10.1016/j.epsr.2015.06.012
+[38]
+Stuart. Cohen et al.
+“A multi-model framework for assessing long- and short-term climate influences on the electric grid”
+In Applied Energy 317, 2022, pp. 119193
+DOI: 10.1016/j.apenergy.2022.119193
+[39]
+Andrej Stankovski, Blazhe Gjorgiev, Leon Locher and Giovanni Sansavini
+“Power blackouts in Europe: Analyses, key insights, and recommendations from empirical evidence”
+In Joule 7.11, 2023, pp. 2468–2484
+DOI: 10.1016/j.joule.2023.09.005
+[40]
+I. Tobin et al.
+“Vulnerabilities and resilience of European power generation to 1.5 °C, 2 °C and 3 °C warming” Publisher: IOP Publishing
+In Environmental Research Letters 13.4, 2018, pp. 044024
+DOI: 10.1088/1748-9326/aab211
+[41]
+Stefan Pfenninger, Adam Hawkes and James Keirstead
+“Energy systems modeling for twenty-first century energy challenges”
+In Renewable and Sustainable Energy Reviews 33, 2014, pp. 74–86
+DOI: 10.1016/j.rser.2014.02.003
+[42]
+Santiago Arango-Aramburo et al.
+“Climate impacts on hydropower in Colombia: A multi-model assessment of power sector adaptation pathways”
+In Energy Policy 128, 2019, pp. 179–188
+DOI: 10.1016/j.enpol.2018.12.057
+[43]
+Andre de Lucena, Roberto Schaeffer and Alexandre Szklo
+“Least-cost adaptation options for global climate change impacts on the Brazilian electric power system”
+In Global Environmental Change 20.2, 2010, pp. 342–350
+DOI: 10.1016/j.gloenvcha.2010.01.004
+[44]
+Francesco Colelli et al.
+“Increased energy use for adaptation significantly impacts mitigation pathways”
+In Nature Communications 13.1
+Nature Publishing Group, 2022, pp. 1–12
+[45]
+Yuyu Zhou et al.
+“Modeling the effect of climate change on U.S. state-level buildings energy demands in an integrated assessment framework”
+In Applied Energy 113, 2014, pp. 1077–1088
+DOI: 10.1016/j.apenergy.2013.08.034
+[46]
+Paul Dowling
+“The impact of climate change on the European energy system”
+In Energy Policy 60, 2013, pp. 406–417
+DOI: 10.1016/j.enpol.2013.05.093
+[47]
+Kamia Handayani, Tatiana Filatova, Yoram Krozer and Pinto Anugrah
+“Seeking for a climate change mitigation and adaptation nexus: Analysis of a long-term power system expansion”
+In Applied Energy 262, 2020, pp. 114485
+DOI: 10.1016/j.apenergy.2019.114485
+[48]
+Alice Di, Federico Canti and Matteo Prina
+“Oemof Italy”, 2022
+URL: https://github.com/cerealice/oemof_Italy
+[49]
+Alice Di and Massimo Tavoni
+“Demand-side policies for power generation in response to the energy crisis: A model analysis for Italy”
+In Energy Strategy Reviews 52, 2024, pp. 101329
+DOI: 10.1016/j.esr.2024.101329
+[50]
+Alice Di et al.
+“Power system investment optimization to identify carbon neutrality scenarios for Italy”
+In Environmental Research: Energy 1.3, 2024, pp. 035001
+DOI: 10.1088/2753-3751/ad5b64
+[51]
+Terna Lightbox
+“ALLEGATO A.24 AL CODICE DI RETE INDIVIDUAZIONE ZONE DELLA RETE RILEVANTE”, 2021
+URL: https://lightbox.terna.it/it/insight/riorganizzazione-zone-mercato-elettrico
+[52]
+Terna
+“Allegato A.24 al codice di rete - Individuazione zone della rete rilevante”, 2021
+URL: https://download.terna.it/terna/Allegato
+[53]
+“EUR-Lex - 4536626 - EN - EUR-Lex” Doc ID: 4536626 Doc Sector: other Doc Title: European Climate Law Doc Type: other Usr_lan: en
+URL: https://eur-lex.europa.eu/EN/legal-content/summary/european-climate-law.html
+[54]
+European Commission
+“Fit for 55”, 2021
+URL: https://www.consilium.europa.eu/en/policies/green-deal/fit-for-55-the-eu-plan-for-a-green-transition/
+[55]
+“Our ambition for 2030 - European Commission”
+URL: https://climate.ec.europa.eu/eu-action/eu-emissions-trading-system-eu-ets/our-ambition-2030_en
+[56]
+“What is the EU ETS? - European Commission”
+URL: https://climate.ec.europa.eu/eu-action/eu-emissions-trading-system-eu-ets/what-eu-ets_en
+[57]
+“Secure energy transitions in the power sector – Analysis”
+In IEA
+URL: https://www.iea.org/reports/secure-energy-transitions-in-the-power-sector
+[58]
+ISPRA- per Protezione
+“Indicatori di efficienza e decarbonizzazione del sistema energetico nazionale e del settore elettrico”, 2021
+URL: https://www.isprambiente.gov.it/files2021/pubblicazioni/rapporti/r343-2021.pdf
+[59]
+“Download center - Terna spa”
+URL: https://www.terna.it/en/electric-system/transparency-report/download-center
+[60]
+Enrico Antonini et al.
+“Historical analysis of global distribution of and trends in wind droughts” Conference Name: EGU23, 2023
+DOI: 10.5194/egusphere-egu23-5419
+[61]
+Hans Hersbach et al.
+“The ERA5 global reanalysis”
+In Quarterly Journal of the Royal Meteorological Society 146.730
+Wiley Online Library, 2020, pp. 1999–2049
+[62]
+Vincent Viguie et al.
+“SECURES-Met: A European meteorological data set suitable for electricity modelling applications”
+In Sci Data, 2023
+URL: https://doi.org/10.1038/s41597-023-02494-4
+[63]
+Malcolm Mistry, Ian Wing and Enrica De
+“Simulated vs. empirical weather responsiveness of crop yields: US evidence and implications for the agricultural impacts of climate change”
+In Environmental Research Letters 12.7
+IOP Publishing, 2017, pp. 075007
+[64]
+Stephen Vavrus, Michael Notaro and David Lorenz
+“Interpreting climate model projections of extreme weather events”
+In Weather and Climate Extremes 10
+Elsevier, 2015, pp. 10–28
+[65]
+NW Arnell and NS Reynard
+“The effects of climate change due to global warming on river flows in Great Britain”
+In Journal of hydrology 183.3-4
+Elsevier, 1996, pp. 397–424
+[66]
+Francesco Colelli, Ian Sue and Enrica De
+“Air-conditioning adoption and electricity demand highlight climate change mitigation–adaptation tradeoffs”
+In Scientific Reports
+Springer Nature, 2023
+URL: https://www.nature.com/articles/s41598-023-31469-z
+[67]
+ISTAT
+“household budget survey (HBS)”, 2023
+DOI: https://www.istat.it/en/archivio/180353
+[68]
+Francesco Colelli et al.
+“Increased energy use for adaptation significantly impacts mitigation pathways”
+In Nature Communications, forthcoming
+[69]
+M. Giuliani, Y. Li, A. Castelletti and C. Gandolfi
+“A coupled human-natural systems analysis of irrigated agriculture under changing climate” _eprint: https://onlinelibrary.wiley.com/doi/pdf/10.1002/2016WR019363
+In Water Resources Research 52.9, 2016, pp. 6928–6947
+DOI: 10.1002/2016WR019363
+[70]
+Jonathan. Herman et al.
+“Climate Adaptation as a Control Problem: Review and Perspectives on Dynamic Water Resources Planning Under Uncertainty” Publisher: John Wiley & Sons, Ltd
+In Water Resources Research 56.2, 2020, pp. e24389
+DOI: 10.1029/2019WR025502
+[71]
+ENTSO-E: of Transmission
+“Unavailability of Production and Generation Units”, 2023
+URL: https://transparency.entsoe.eu/outage-domain/r2/unavailabilityOfProductionAndGenerationUnits/show
+[72]
+Vishwamitra Oree, Sayed Hassen and Peter Fleming
+“Generation expansion planning optimisation with renewable energy integration: A review”
+In Renewable and Sustainable Energy Reviews 69
+Elsevier, 2017, pp. 790–803
+[73]
+Shan Jin, Audun Botterud and Sarah Ryan
+“Temporal versus stochastic granularity in thermal generation capacity planning with wind power”
+In IEEE Transactions on Power Systems 29.5
+IEEE, 2014, pp. 2033–2041
+[74]
+Tim Tröndle, Stefan Pfenninger and Johan Lilliestam
+“Home-made or imported: On the possibility for renewable electricity autarky on all scales in Europe”
+In Energy Strategy Reviews 26, 2019, pp. 100388
+DOI: 10.1016/j.esr.2019.100388
+[75]
+Ministero delle Infrastrutture
+“Piano Nazionale Integrato per l’Energia e il Clima (PNIEC)”, 2019
+URL: https://energy.ec.europa.eu/system/files/2020-02/it_final_necp_main_en_0.pdf
+[76]
+“Fit for 55 - The EU’s plan for a green transition - Consilium”
+URL: https://www.consilium.europa.eu/en/policies/green-deal/fit-for-55-the-eu-plan-for-a-green-transition/
+[77]
+Terna
+“Rapporto di Adeguatezza Italia”, 2021
+URL: https://download.terna.it/terna/Terna_Rapporto_Adeguatezza_Italia_2021_8d9a51d27ad741c.pdf
+[78]
+H Ibrahim, A Ilinca and J Perron
+“Energy storage systems—Characteristics and comparisons”
+In Renewable and Sustainable Energy Reviews 12.5, 2008, pp. 1221–1250
+DOI: 10.1016/j.rser.2007.01.023
+[79]
+Silvia Ferrari and Francisco Cribari-Neto
+“Beta regression for modelling rates and proportions”
+In Journal of applied statistics 31.7
+Taylor & Francis, 2004, pp. 799–815
+[80]
+“IEEE Xplore Full-Text PDF:”
+URL: https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=6839078&casa_token=8qzbv9DeZnIAAAAA:3VUt-9W36BtwqHGtGnJHmiE0CBgUVPltt-ibxBvN2_IzHDXfsGG70YLw-rf2sAzYh4PnIZEVlUFF&tag=1
+[81]
+D.. Evans
+“Simplified method for predicting photovoltaic array output” ADS Bibcode: 1981SoEn…27..555E
+In Solar Energy 27, 1981, pp. 555–560
+DOI: 10.1016/0038-092X(81)90051-7
+[82]
+Swapnil Dubey, Jatin Sarvaiya and Bharath Seshadri
+“Temperature Dependent Photovoltaic (PV) Efficiency and Its Effect on PV Production in the World – A Review”
+In Energy Procedia 33, PV Asia Pacific Conference 2012, 2013, pp. 311–321
+DOI: 10.1016/j.egypro.2013.05.072
+[83]
+G. Notton, C. Cristofari, M. Mattei and P. Poggi
+“Modelling of a double-glass photovoltaic module using finite differences”
+In Applied Thermal Engineering 25.17, 2005, pp. 2854–2877
+DOI: 10.1016/j.applthermaleng.2005.02.008
+[84]
+Simon Hilpert et al.
+“The Open Energy Modelling Framework (oemof) - A new approach to facilitate open science in energy system modelling”
+In CoRR abs/1808.08070, 2018
+arXiv: http://arxiv.org/abs/1808.08070
+[85]
+Alice Di and Massimo Tavoni
+“Demand-side policies for power generation in response to the energy crisis: a model analysis for Italy” arXiv:2212.06744 [physics, q-fin]
+arXiv, 2022
+DOI: 10.48550/arXiv.2212.06744
+[86]
+Terna- Operator
+“Piano di sviluppo 2019 - Technical report”, 2019
+URL: https://download.terna.it/terna/0000/1188/36.PDF
+[87]
+Terna- Operator
+“Piano di sviluppo 2021 - Technical report”, 2021
+URL: https://download.terna.it/terna/Piano_Sviluppo_2021_8d94126f94dc233.pdf
+[88]
+Terna- Operator
+“Terna website page - Download centre section”, 2019
+URL: https://www.terna.it/it/sistema-elettrico/transparency-report/download-center
+[89]
+Assocarboni
+“Le Centrali a carbone in Italia”, 2021
+URL: https://assocarboni.it/assocarboni/il-carbone/le-centrali-in-italia/
+[90]
+Covenant of mayors
+“Technical annex to the SEAP template instructions document: THE EMISSION FACTORS”
+URL: https://eumayors.eu/IMG/pdf/technical_annex_en.pdf
+[91]
+International Agency
+“World Energy Outlook 2022”
+URL: https://iea.blob.core.windows.net/assets/830fe099-5530-48f2-a7c1-11f35d510983/WorldEnergyOutlook2022.pdf
+[92]
+Terna- Operator
+“Terna Generation Plants 2021 - Technical report”, 2021
+URL: https://download.terna.it/terna/3
+[93]
+Terna- Operator
+“Terna Production 2021 - Technical report”, 2021
+URL: https://download.terna.it/terna/5
+[94]
+Jonas Hörsch, Fabian Hofmann, David Schlachtberger and Tom Brown
+“PyPSA-Eur: An Open Optimisation Model of the European Transmission System”
+In Energy Strategy Reviews 22, 2018, pp. 207–215
+DOI: https://10.1016/j.esr.2018.08.012
+[95]
+Ministero dello Sviluppo
+“La situazione energetica nazionale nel 2019”, 2019
+URL: https://dgsaie.mise.gov.it/pub/sen/relazioni/relazione_annuale_situazione_energetica_nazionale_dati_2019.pdf
+[96]
+Python for Power
+“PyPSA - Eur Cost Assumptions”
+URL: https://pypsa-eur.readthedocs.io/en/latest/costs.html
+[97]
+Terna- Operator
+“Consistenza Fonti Rinnovabili”, 2021
+URL: https://www.terna.it/it/sistema-elettrico/dispacciamento/fonti-rinnovabili
+[98]
+Matteo Felice, Giuseppe Peronato, Konstantinos Kavvadias and Ayrton Bourn
+“JRC Hydro-power plants database”
+In GitHub repository
+GitHub, 2020
+URL: https://github.com/energy-modelling-toolkit/hydro-power-database
+[99]
+Matteo Prina et al.
+“Multi-objective investment optimization for energy system models in high temporal and spatial resolution”
+In Applied Energy 264, 2020, pp. 114728
+DOI: https://doi.org/10.1016/j.apenergy.2020.114728
+[100]
+U.S. of Energy
+“2020 Grid Energy Storage Technology Cost and Performance Assessment”, 2020
+URL: https://www.pnnl.gov/sites/default/files/media/file/Final
+[101]
+UNCC- Change
+“Italy. National Communication (NC)”, 2022
+URL: https://unfccc.int/documents/624766
+[102]
+Free Italia
+“AN OVERVIEW OF HYDROPOWER IN ITALY”, 2020
+URL: http://www.freeriversitalia.eu/news/201001_ITALY
+[103]
+Power Technology
+“Outlook for Battery Energy Storage”, 2022
+URL: https://www.power-technology.com/downloads/whitepapers/events/outlook-for-battery-energy-storage/
+[104]
+Paolo Colbertaldo, Giulio Guandalini and Stefano Campanari
+“Modelling the integrated power and transport energy system: The role of power-to-gas and hydrogen in long-term scenarios for Italy”
+In Energy 154, 2018, pp. 592–601
+DOI: https://doi.org/10.1016/j.energy.2018.04.089
+[105]
+Torbjørn Egeland-Eriksen, Amin Hajizadeh and Sabrina Sartori
+“Hydrogen-based systems for integration of renewable energy in power systems: Achievements and perspectives”
+In International Journal of Hydrogen Energy 46.63, 2021, pp. 31963–31983
+DOI: https://doi.org/10.1016/j.ijhydene.2021.06.218
+[106]
+Subodh Kharel and Bahman Shabani
+“Hydrogen as a Long-Term Large-Scale Energy Storage Solution to Support Renewables”
+In Energies 11, 2018, pp. 2825
+DOI: 10.3390/en11102825
+Experimental support, please
+view the build logs
+for errors. Generated by
+L
+A
+T
+E
+xml
+.
+Instructions for reporting errors
+We are continuing to improve HTML versions of papers, and your feedback helps enhance accessibility and mobile
+support. To report errors in the HTML that will help us improve conversion and rendering, choose any of the
+methods listed below:
+Click the "Report Issue" (
+) button, located in the page header.
+Tip: You can select the relevant text first, to include it in your report.
+Our team has already identified the following issues. We appreciate your time reviewing and reporting rendering errors we
+may not have found yet. Your efforts will help us improve the HTML versions for all readers, because disability
+should not be a barrier to accessing research. Thank you for your continued support in championing open access for
+all.
+Have a free development cycle? Help support accessibility at arXiv! Our collaborators at LaTeXML maintain a list of packages that need conversion, and welcome developer contributions.
+We gratefully acknowledge support from
+our major funders,
+member institutions, ,
+and all contributors.
+About
+·
+Help
+·
+Contact
+·
+Subscribe
+·
+Copyright
+·
+Privacy
+·
+Accessibility
+·
+Operational Status (opens in new tab)
+Major funding support from

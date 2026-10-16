@@ -1,0 +1,51 @@
+{
+  "snapshot_utc": "2026-10-15T14:54:36.877095+00:00",
+  "cutoff_epoch": 70,
+  "same_36_val_case_and_ABH_station_lists": true,
+  "matching_protocol_fields": {
+    "train": true,
+    "validation": true,
+    "normalization": true,
+    "loss": true,
+    "optimizer": true,
+    "scheduler": true
+  },
+  "windows": [
+    {
+      "epochs": [
+        21,
+        30
+      ],
+      "A_mean_H": 0.07425428119769156,
+      "historical_mean_H": 0.08596272850483572,
+      "relative_improvement": 0.13620376540846435,
+      "same_ratio_terminal_scenario": 0.028290870091889908
+    },
+    {
+      "epochs": [
+        41,
+        50
+      ],
+      "A_mean_H": 0.05726445429756598,
+      "historical_mean_H": 0.06464759410204939,
+      "relative_improvement": 0.11420594852808841,
+      "same_ratio_terminal_scenario": 0.02901133789985874
+    },
+    {
+      "epochs": [
+        61,
+        70
+      ],
+      "A_mean_H": 0.05148277047776245,
+      "historical_mean_H": 0.057053218865540295,
+      "relative_improvement": 0.09763600544442463,
+      "same_ratio_terminal_scenario": 0.029554033142599193
+    }
+  ],
+  "A_latest_H": 0.04921592624147211,
+  "A_best_H": 0.04858336507518118,
+  "historical_best_H": 0.03275178677442122,
+  "forecast_method": "historical best * (A mean H at61-70 / historical mean H at61-70)",
+  "conditional_estimate": 0.029554033142599193,
+  "uncertainty_note": "Conditional scenario, not confidence interval or probability; one seed, incomplete training; no GT or checkpoints opened."
+}

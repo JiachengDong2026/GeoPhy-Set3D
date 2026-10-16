@@ -1,0 +1,68 @@
+{
+  "protocol": "scheme_b_continuous_measurement_only_v1",
+  "checkpoint_sha256": "8039cafe48c0bc98aaa5187faf278c3793db00fe68fc7f0900f744525fe61c7d",
+  "stage": "gate",
+  "fixed_context": true,
+  "case_id": [
+    "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w1_inlet1_half"
+  ],
+  "observed_station_ids": [
+    [
+      36,
+      34,
+      5,
+      19
+    ]
+  ],
+  "heldout_station_ids": [
+    [
+      28,
+      26,
+      10,
+      52
+    ]
+  ],
+  "q_results": [
+    {
+      "samples": 96,
+      "seconds": 0.17747765174135566,
+      "finite": true,
+      "mean_ppm_m": 1129.2149658203125
+    },
+    {
+      "samples": 192,
+      "seconds": 0.09721517190337181,
+      "finite": true,
+      "mean_ppm_m": 1129.2242431640625
+    },
+    {
+      "samples": 384,
+      "seconds": 0.12953588692471385,
+      "finite": true,
+      "mean_ppm_m": 1129.22705078125
+    }
+  ],
+  "q96_vs_q384": {
+    "relative_l1": 1.1300933692837134e-05,
+    "maximum_absolute_ppm_m": 0.142578125
+  },
+  "q192_vs_q384": {
+    "relative_l1": 2.5483507215540158e-06,
+    "maximum_absolute_ppm_m": 0.02978515625
+  },
+  "sampled_c64_q384_vs_continuous_q384": {
+    "relative_l1": 0.00023819218040443957,
+    "maximum_absolute_ppm_m": 2.91748046875
+  },
+  "note": "Numerical diagnostics on one engineering field, not formal accuracy or universal Q96 qualification",
+  "gt_access": {
+    "gt_file_opened": false,
+    "gt_open_attempts": 0,
+    "forbidden_npy_attempts": 0,
+    "supervised_checkpoint_open_attempts": 0,
+    "projection_open_count": 3,
+    "unique_pool_a_projection_files": 1,
+    "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+    "audit_hook_inherited_by_workers": true
+  }
+}
