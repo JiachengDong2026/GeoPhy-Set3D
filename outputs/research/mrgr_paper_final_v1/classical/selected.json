@@ -1,0 +1,276 @@
+{
+  "frozen_at": "2026-10-18T15:48:50.322282+08:00",
+  "selected": {
+    "NNLS-NL": {
+      "method": "NNLS-NL",
+      "candidate": 1,
+      "mean_l1": 0.918670368220856,
+      "config": {
+        "iterations": 200,
+        "minimum_iterations": 40,
+        "tolerance": 1e-05,
+        "patience": 8,
+        "initial_step": 1000.0,
+        "step_bounds": [
+          1e-05,
+          1000000.0
+        ],
+        "max_backtracks": 20,
+        "armijo": 0.0001,
+        "resolution": 64
+      }
+    },
+    "Tikhonov": {
+      "method": "Tikhonov",
+      "candidate": 1,
+      "mean_l1": 0.8088865132445838,
+      "config": {
+        "iterations": 200,
+        "minimum_iterations": 40,
+        "tolerance": 1e-05,
+        "patience": 8,
+        "initial_step": 1000.0,
+        "step_bounds": [
+          1e-05,
+          1000000.0
+        ],
+        "max_backtracks": 20,
+        "armijo": 0.0001,
+        "resolution": 64,
+        "lambda": 0.001
+      }
+    },
+    "TV": {
+      "method": "TV",
+      "candidate": 0,
+      "mean_l1": 0.9113976911332179,
+      "config": {
+        "iterations": 200,
+        "minimum_iterations": 40,
+        "tolerance": 1e-05,
+        "patience": 8,
+        "initial_step": 1000.0,
+        "step_bounds": [
+          1e-05,
+          1000000.0
+        ],
+        "max_backtracks": 20,
+        "armijo": 0.0001,
+        "resolution": 64,
+        "epsilon": 0.0001,
+        "lambda": 1e-05
+      }
+    }
+  },
+  "scores": [
+    {
+      "method": "NNLS-NL",
+      "candidate": 0,
+      "mean_l1": 0.9321088271806323,
+      "config": {
+        "iterations": 100,
+        "minimum_iterations": 40,
+        "tolerance": 1e-05,
+        "patience": 8,
+        "initial_step": 1000.0,
+        "step_bounds": [
+          1e-05,
+          1000000.0
+        ],
+        "max_backtracks": 20,
+        "armijo": 0.0001,
+        "resolution": 64
+      }
+    },
+    {
+      "method": "NNLS-NL",
+      "candidate": 1,
+      "mean_l1": 0.918670368220856,
+      "config": {
+        "iterations": 200,
+        "minimum_iterations": 40,
+        "tolerance": 1e-05,
+        "patience": 8,
+        "initial_step": 1000.0,
+        "step_bounds": [
+          1e-05,
+          1000000.0
+        ],
+        "max_backtracks": 20,
+        "armijo": 0.0001,
+        "resolution": 64
+      }
+    },
+    {
+      "method": "Tikhonov",
+      "candidate": 0,
+      "mean_l1": 0.812706834177838,
+      "config": {
+        "iterations": 200,
+        "minimum_iterations": 40,
+        "tolerance": 1e-05,
+        "patience": 8,
+        "initial_step": 1000.0,
+        "step_bounds": [
+          1e-05,
+          1000000.0
+        ],
+        "max_backtracks": 20,
+        "armijo": 0.0001,
+        "resolution": 64,
+        "lambda": 0.0001
+      }
+    },
+    {
+      "method": "Tikhonov",
+      "candidate": 1,
+      "mean_l1": 0.8088865132445838,
+      "config": {
+        "iterations": 200,
+        "minimum_iterations": 40,
+        "tolerance": 1e-05,
+        "patience": 8,
+        "initial_step": 1000.0,
+        "step_bounds": [
+          1e-05,
+          1000000.0
+        ],
+        "max_backtracks": 20,
+        "armijo": 0.0001,
+        "resolution": 64,
+        "lambda": 0.001
+      }
+    },
+    {
+      "method": "TV",
+      "candidate": 0,
+      "mean_l1": 0.9113976911332179,
+      "config": {
+        "iterations": 200,
+        "minimum_iterations": 40,
+        "tolerance": 1e-05,
+        "patience": 8,
+        "initial_step": 1000.0,
+        "step_bounds": [
+          1e-05,
+          1000000.0
+        ],
+        "max_backtracks": 20,
+        "armijo": 0.0001,
+        "resolution": 64,
+        "epsilon": 0.0001,
+        "lambda": 1e-05
+      }
+    },
+    {
+      "method": "TV",
+      "candidate": 1,
+      "mean_l1": 0.9511219292406655,
+      "config": {
+        "iterations": 200,
+        "minimum_iterations": 40,
+        "tolerance": 1e-05,
+        "patience": 8,
+        "initial_step": 1000.0,
+        "step_bounds": [
+          1e-05,
+          1000000.0
+        ],
+        "max_backtracks": 20,
+        "armijo": 0.0001,
+        "resolution": 64,
+        "epsilon": 0.0001,
+        "lambda": 0.0001
+      }
+    }
+  ],
+  "search_sha256": "ad2440444fa917277f55e4e72251fd0ef2d84df343e485f9dff8a6794e7c3870",
+  "audit": {
+    "counts": {
+      "GT64_train": 6,
+      "own_array": 72
+    },
+    "denied": [],
+    "touched": [
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet1_half/gt_volume_64.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_1_g2_transient_scheme_a_v1_2s_p0100_w1_equal/gt_volume_64.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_crosswind_g2_transient_scheme_a_v1_2s_p0600_w2_equal/gt_volume_64.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_streamwise_g2_transient_scheme_a_v1_2s_p1500_w3_equal/gt_volume_64.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_p1500_w3_equal/gt_volume_64.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_p1500_w3_equal/gt_volume_64.npy",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/NNLS-NL/candidate0/predictions/Val-A-V4_d0_000.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/NNLS-NL/candidate0/predictions/Val-A-V4_d0_001.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/NNLS-NL/candidate0/predictions/Val-A-V4_d0_002.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/NNLS-NL/candidate0/predictions/Val-A-V4_d0_003.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/NNLS-NL/candidate0/predictions/Val-A-V4_d0_004.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/NNLS-NL/candidate0/predictions/Val-A-V4_d0_005.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/NNLS-NL/candidate0/predictions/clustered-V4_d0_000.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/NNLS-NL/candidate0/predictions/clustered-V4_d0_001.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/NNLS-NL/candidate0/predictions/clustered-V4_d0_002.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/NNLS-NL/candidate0/predictions/clustered-V4_d0_003.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/NNLS-NL/candidate0/predictions/clustered-V4_d0_004.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/NNLS-NL/candidate0/predictions/clustered-V4_d0_005.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/NNLS-NL/candidate1/predictions/Val-A-V4_d0_000.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/NNLS-NL/candidate1/predictions/Val-A-V4_d0_001.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/NNLS-NL/candidate1/predictions/Val-A-V4_d0_002.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/NNLS-NL/candidate1/predictions/Val-A-V4_d0_003.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/NNLS-NL/candidate1/predictions/Val-A-V4_d0_004.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/NNLS-NL/candidate1/predictions/Val-A-V4_d0_005.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/NNLS-NL/candidate1/predictions/clustered-V4_d0_000.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/NNLS-NL/candidate1/predictions/clustered-V4_d0_001.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/NNLS-NL/candidate1/predictions/clustered-V4_d0_002.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/NNLS-NL/candidate1/predictions/clustered-V4_d0_003.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/NNLS-NL/candidate1/predictions/clustered-V4_d0_004.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/NNLS-NL/candidate1/predictions/clustered-V4_d0_005.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/TV/candidate0/predictions/Val-A-V4_d0_000.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/TV/candidate0/predictions/Val-A-V4_d0_001.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/TV/candidate0/predictions/Val-A-V4_d0_002.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/TV/candidate0/predictions/Val-A-V4_d0_003.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/TV/candidate0/predictions/Val-A-V4_d0_004.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/TV/candidate0/predictions/Val-A-V4_d0_005.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/TV/candidate0/predictions/clustered-V4_d0_000.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/TV/candidate0/predictions/clustered-V4_d0_001.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/TV/candidate0/predictions/clustered-V4_d0_002.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/TV/candidate0/predictions/clustered-V4_d0_003.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/TV/candidate0/predictions/clustered-V4_d0_004.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/TV/candidate0/predictions/clustered-V4_d0_005.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/TV/candidate1/predictions/Val-A-V4_d0_000.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/TV/candidate1/predictions/Val-A-V4_d0_001.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/TV/candidate1/predictions/Val-A-V4_d0_002.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/TV/candidate1/predictions/Val-A-V4_d0_003.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/TV/candidate1/predictions/Val-A-V4_d0_004.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/TV/candidate1/predictions/Val-A-V4_d0_005.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/TV/candidate1/predictions/clustered-V4_d0_000.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/TV/candidate1/predictions/clustered-V4_d0_001.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/TV/candidate1/predictions/clustered-V4_d0_002.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/TV/candidate1/predictions/clustered-V4_d0_003.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/TV/candidate1/predictions/clustered-V4_d0_004.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/TV/candidate1/predictions/clustered-V4_d0_005.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/Tikhonov/candidate0/predictions/Val-A-V4_d0_000.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/Tikhonov/candidate0/predictions/Val-A-V4_d0_001.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/Tikhonov/candidate0/predictions/Val-A-V4_d0_002.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/Tikhonov/candidate0/predictions/Val-A-V4_d0_003.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/Tikhonov/candidate0/predictions/Val-A-V4_d0_004.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/Tikhonov/candidate0/predictions/Val-A-V4_d0_005.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/Tikhonov/candidate0/predictions/clustered-V4_d0_000.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/Tikhonov/candidate0/predictions/clustered-V4_d0_001.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/Tikhonov/candidate0/predictions/clustered-V4_d0_002.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/Tikhonov/candidate0/predictions/clustered-V4_d0_003.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/Tikhonov/candidate0/predictions/clustered-V4_d0_004.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/Tikhonov/candidate0/predictions/clustered-V4_d0_005.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/Tikhonov/candidate1/predictions/Val-A-V4_d0_000.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/Tikhonov/candidate1/predictions/Val-A-V4_d0_001.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/Tikhonov/candidate1/predictions/Val-A-V4_d0_002.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/Tikhonov/candidate1/predictions/Val-A-V4_d0_003.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/Tikhonov/candidate1/predictions/Val-A-V4_d0_004.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/Tikhonov/candidate1/predictions/Val-A-V4_d0_005.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/Tikhonov/candidate1/predictions/clustered-V4_d0_000.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/Tikhonov/candidate1/predictions/clustered-V4_d0_001.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/Tikhonov/candidate1/predictions/clustered-V4_d0_002.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/Tikhonov/candidate1/predictions/clustered-V4_d0_003.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/Tikhonov/candidate1/predictions/clustered-V4_d0_004.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/calibration/Tikhonov/candidate1/predictions/clustered-V4_d0_005.npz"
+    ]
+  },
+  "final_GT_read": false
+}

@@ -1,0 +1,83 @@
+{
+  "at": "2026-10-18T16:53:57.380672+08:00",
+  "first_visualization_GT64_at": "2026-10-18T16:53:37.778157+08:00",
+  "prediction_seal_at": "2026-10-18T16:53:37.750309+08:00",
+  "case_indices": [
+    0,
+    18,
+    35
+  ],
+  "methods": [
+    "GT",
+    "MRGR",
+    "NNLS-NL",
+    "Tikhonov",
+    "TV",
+    "SART"
+  ],
+  "conditions": [
+    "Val-A-V4",
+    "clustered-V4"
+  ],
+  "split": "val",
+  "test_GT_read": false,
+  "GT128_read": false,
+  "source_sha256": "f9c57c884fd024810c60978a7efb3c985116ef891096008ab018bc5b1569b979",
+  "slice": "same GT-peak z index for every method",
+  "linear": "shared [0,GT peak]; values above GT peak saturate and are counted",
+  "asinh": "same asinh(C/(0.001*GT peak)) color mapping per case; colorbar remains actual mass fraction",
+  "shape": "each displayed slice divided by its own slice maximum; linear [0,1]; cannot compare amplitudes",
+  "predictions_not_modified": true,
+  "figures": [
+    "Val-A-V4_case00_three_scales.png",
+    "Val-A-V4_case18_three_scales.png",
+    "Val-A-V4_case35_three_scales.png",
+    "Val-A-V4_shared_asinh_overview.png",
+    "clustered-V4_case00_three_scales.png",
+    "clustered-V4_case18_three_scales.png",
+    "clustered-V4_case35_three_scales.png",
+    "clustered-V4_shared_asinh_overview.png"
+  ],
+  "audit": {
+    "counts": {
+      "GT64_val": 3,
+      "own_array": 60
+    },
+    "denied": [],
+    "touched": [
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w1_inlet1_half/gt_volume_64.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_streamwise_g2_transient_scheme_a_v1_2s_asymmetric_p1000_w3_inlet1_half/gt_volume_64.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_p0300_w3_equal/gt_volume_64.npy",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_multiscale_formal_v1_seed20261011/evaluation/frozen_model_test_v1/predictions/Val-A-V4_draw0_000.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_multiscale_formal_v1_seed20261011/evaluation/frozen_model_test_v1/predictions/Val-A-V4_draw0_018.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_multiscale_formal_v1_seed20261011/evaluation/frozen_model_test_v1/predictions/Val-A-V4_draw0_035.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_multiscale_formal_v1_seed20261011/evaluation/frozen_model_test_v1/predictions/clustered-V4_draw0_000.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_multiscale_formal_v1_seed20261011/evaluation/frozen_model_test_v1/predictions/clustered-V4_draw0_018.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_multiscale_formal_v1_seed20261011/evaluation/frozen_model_test_v1/predictions/clustered-V4_draw0_035.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/val/NNLS-NL/frozen/predictions/Val-A-V4_d0_000.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/val/NNLS-NL/frozen/predictions/Val-A-V4_d0_018.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/val/NNLS-NL/frozen/predictions/Val-A-V4_d0_035.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/val/NNLS-NL/frozen/predictions/clustered-V4_d0_000.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/val/NNLS-NL/frozen/predictions/clustered-V4_d0_018.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/val/NNLS-NL/frozen/predictions/clustered-V4_d0_035.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/val/TV/frozen/predictions/Val-A-V4_d0_000.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/val/TV/frozen/predictions/Val-A-V4_d0_018.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/val/TV/frozen/predictions/Val-A-V4_d0_035.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/val/TV/frozen/predictions/clustered-V4_d0_000.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/val/TV/frozen/predictions/clustered-V4_d0_018.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/val/TV/frozen/predictions/clustered-V4_d0_035.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/val/Tikhonov/frozen/predictions/Val-A-V4_d0_000.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/val/Tikhonov/frozen/predictions/Val-A-V4_d0_018.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/val/Tikhonov/frozen/predictions/Val-A-V4_d0_035.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/val/Tikhonov/frozen/predictions/clustered-V4_d0_000.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/val/Tikhonov/frozen/predictions/clustered-V4_d0_018.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/classical/val/Tikhonov/frozen/predictions/clustered-V4_d0_035.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/evaluation/classical_slices_v2/sart_fixed_inputs/Val-A-V4_case00.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/evaluation/classical_slices_v2/sart_fixed_inputs/Val-A-V4_case18.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/evaluation/classical_slices_v2/sart_fixed_inputs/Val-A-V4_case35.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/evaluation/classical_slices_v2/sart_fixed_inputs/clustered-V4_case00.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/evaluation/classical_slices_v2/sart_fixed_inputs/clustered-V4_case18.npz",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/evaluation/classical_slices_v2/sart_fixed_inputs/clustered-V4_case35.npz"
+    ]
+  }
+}

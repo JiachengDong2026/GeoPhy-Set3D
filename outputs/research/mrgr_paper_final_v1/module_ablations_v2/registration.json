@@ -1,0 +1,76 @@
+{
+  "at": "2026-10-18T22:10:59.781576+08:00",
+  "reason": "User requested OARI/GCA and other module ablations and completion of final35 tests before test access",
+  "parent_registration_sha256": "2ad9fb0e10b061aff65b5a49cacbc5a629356429e2777966b11bbffb20569006",
+  "arms": [
+    "no_ray_relations",
+    "no_observability",
+    "uniform_fusion",
+    "zero_residual"
+  ],
+  "seeds": [
+    20261011,
+    20261019
+  ],
+  "runs": [
+    "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/training/no_ray_relations_seed20261011",
+    "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/training/no_observability_seed20261011",
+    "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/training/uniform_fusion_seed20261011",
+    "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/training/zero_residual_seed20261011",
+    "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/training/no_ray_relations_seed20261019",
+    "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/training/no_observability_seed20261019",
+    "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/training/uniform_fusion_seed20261019",
+    "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/training/zero_residual_seed20261019"
+  ],
+  "protocol_hashes": {
+    "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/training/no_ray_relations_seed20261011/protocol.json": "878e64fec6e93eaf8088de874e9574f31c076b8915faeab3806ed5543b5c78a6",
+    "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/training/no_observability_seed20261011/protocol.json": "c605686dca649f8e5a51b1514a3d40eb7ccbc2ef52808d226783146282f093fc",
+    "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/training/uniform_fusion_seed20261011/protocol.json": "5462e8320565d4c6fd126a8257d52c70d44560c92658a034d7e7e5a8a0128304",
+    "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/training/zero_residual_seed20261011/protocol.json": "d0f5944735459ea7fc2abcc0c4ede39a0c95d85162fe6b7d01c67ea4d867dfc2",
+    "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/training/no_ray_relations_seed20261019/protocol.json": "d5b99ded225c0b885a69d7eb22bea124bd5bea37c4d34e2f61ebad485a9cc0c1",
+    "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/training/no_observability_seed20261019/protocol.json": "aad7b3b71023e868b841665db0c655118374b7e19c70dd2d4501740c33f6e3b8",
+    "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/training/uniform_fusion_seed20261019/protocol.json": "2bafbbb57b6447cb8a55ae4b70a2df6c5a9670f182554f2c6c7c36992a3c9a5e",
+    "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/training/zero_residual_seed20261019/protocol.json": "faf647f1836e5ebbe547a3f4a407ffcdc89deeaf6f88c492e3e483624eb2817b"
+  },
+  "epochs": 300,
+  "updates": 24900,
+  "initialization": "fresh; identical full-model initial tensors for all retained parameters per seed",
+  "designs": {
+    "no_ray_relations": "zero first3 pairwise bias inputs (cosine, sine, azimuth difference); retain local descriptor and all validity masks",
+    "no_observability": "zero all5 descriptor inputs to both embedding and pairwise bias; retain pairwise ray relations and masks",
+    "uniform_fusion": "replace shared GCA at both C0/C1 by valid-view arithmetic mean; learned GCA parameters removed; OARI geometry retained",
+    "zero_residual": "same full-model parameter tensors; residual channel always zero in training and evaluation; path/mask channels remain; skip internal P(C0); retain external measurement losses"
+  },
+  "limitations": [
+    "no_ray_relations/no_observability preserve nominal parameters but zeroed-input weights cannot receive task gradients; report active capacity difference",
+    "uniform_fusion removes learned fusion parameters and changes computation, not a strict capacity-matched control",
+    "zero_residual retains contextual adapter and acquisition geometry, tests measurement residual information beyond extra capacity",
+    "historical seed11 full-model execution reused; CUDA backward nondeterminism remains",
+    "two seeds cannot establish seed-population uncertainty"
+  ],
+  "selection": "all300 epochs, lowest mean validation H4 relativeL1 only; no volume GT for training or selection",
+  "final_methods": 21,
+  "neural_methods": 17,
+  "classical_methods": 4,
+  "final_primary_comparators": 20,
+  "final_reconstructions": 12495,
+  "final_fields": 22610,
+  "primary": {
+    "condition": "Val-A-V4",
+    "stage": "C1",
+    "metric": "relative_l1",
+    "direction": "lower"
+  },
+  "statistics": {
+    "resamples": 20000,
+    "seed": 20261019,
+    "unit": "case; average five draws within each case first",
+    "ci": "percentile 2.5/97.5%",
+    "primary_multiplicity": "Also Bonferroni two-sided intervals for all predeclared comparator final outputs; improvement only if adjusted upper bound <0",
+    "secondary": "exploratory, no corrected claims",
+    "training_seed_uncertainty": false
+  },
+  "comparison_inclusion": "all eight trained ablations retained regardless of development results; no dropping based on test scores",
+  "test_GT_opened": false,
+  "GT128_opened": false
+}

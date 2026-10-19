@@ -1,5 +1,7 @@
 # GeoPhy-Set3D
 
+MRGR 论文最终 **35 例测试已完成并通过独立验收**：21 种方法、17 个固定布局，共 12,495 次重建、22,610 个阶段场。原始 MRGR 普通固定 V4 的三维相对 L1 为 **8.5159%**；四种经典对照为 NNLS-NL、Tikhonov、TV、SART，七项因素消融各用两个种子完整训练。全部预测封存后才进行测试 GT64 评分，未读 GT128，评分后未重新训练。完整结果、负结果、统计限制与清晰切面见[35例测试报告](docs/reports/mrgr_paper_final_test35_zh.md)、[预登记规则判读](docs/reports/mrgr_paper_final_interpretation_zh.md)、[验收记录](outputs/research/mrgr_paper_final_v1/final_acceptance.json)。Git 中保留代码、标量与图表证据；数据、权重及大体积预测数组保留本地。
+
 新增方案 A（集合初始化＋显式物理展开）独立实现与复现入口，支持 A0/A1/A2/A3 及参数匹配 A-control；配置、训练/续训、推理与冻结评价见 [中文实现与验收说明](docs/plan_a_implementation_zh.md)。工程验收和正式训练状态以该说明及实际运行产物为准，下面的历史阶段记录继续保留。
 
 方案 A 性能优化 v2：固定案例完整更新实测约 5.75 倍加速；真实 166/36 train/val 一轮约 5.58 分钟，300 轮线性估算约 28 小时/种子。以上为共享单张 RTX 4090 的测量；优化方式、数值核验和适用限制见 [性能优化说明](docs/plan_a_performance_v2_zh.md) 与 [测速报告](docs/reports/plan_a_perf_v2_zh.md)。正式长训练未启动。

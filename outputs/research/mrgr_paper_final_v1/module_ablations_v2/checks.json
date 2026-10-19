@@ -1,0 +1,97 @@
+{
+  "at": "2026-10-19T00:28:50.208714+08:00",
+  "passed": true,
+  "architecture": [
+    {
+      "arm": "no_ray_relations",
+      "parameters": 344678,
+      "retained_initial_tensors_exact": true,
+      "shape_range_gradient": true,
+      "view_permutation_passed": true,
+      "mechanism_invariance_passed": true
+    },
+    {
+      "arm": "no_observability",
+      "parameters": 344678,
+      "retained_initial_tensors_exact": true,
+      "shape_range_gradient": true,
+      "view_permutation_passed": true,
+      "mechanism_invariance_passed": true
+    },
+    {
+      "arm": "uniform_fusion",
+      "parameters": 342725,
+      "retained_initial_tensors_exact": true,
+      "shape_range_gradient": true,
+      "view_permutation_passed": true,
+      "mechanism_invariance_passed": true
+    },
+    {
+      "arm": "zero_residual",
+      "parameters": 344678,
+      "retained_initial_tensors_exact": true,
+      "shape_range_gradient": true,
+      "view_permutation_passed": true,
+      "mechanism_invariance_passed": true
+    }
+  ],
+  "resume": [
+    {
+      "arm": "no_ray_relations",
+      "passed": true,
+      "epochs": 2,
+      "workers": 4,
+      "train_subset": 4,
+      "val_subset": 2,
+      "float_rtol": 0.0001,
+      "float_atol": 1e-06,
+      "integer_and_RNG_exact": true
+    },
+    {
+      "arm": "no_observability",
+      "passed": true,
+      "epochs": 2,
+      "workers": 4,
+      "train_subset": 4,
+      "val_subset": 2,
+      "float_rtol": 0.0001,
+      "float_atol": 1e-06,
+      "integer_and_RNG_exact": true
+    },
+    {
+      "arm": "uniform_fusion",
+      "passed": true,
+      "epochs": 2,
+      "workers": 4,
+      "train_subset": 4,
+      "val_subset": 2,
+      "float_rtol": 0.0001,
+      "float_atol": 1e-06,
+      "integer_and_RNG_exact": true
+    },
+    {
+      "arm": "zero_residual",
+      "passed": true,
+      "epochs": 2,
+      "workers": 4,
+      "train_subset": 4,
+      "val_subset": 2,
+      "float_rtol": 0.0001,
+      "float_atol": 1e-06,
+      "integer_and_RNG_exact": true
+    }
+  ],
+  "audit": {
+    "counts": {
+      "Pool_A_geometry": 1,
+      "projection_val": 3
+    },
+    "denied": [],
+    "touched": [
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/geometry/train_geometry.npz",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w1_inlet1_half/projections_train.npy"
+    ]
+  },
+  "gpu_uuid": "GPU-cd80a78f-7d90-c291-4680-4895db9aac8b",
+  "source_sha256": "122ba286c2c7b6dda47a27e3c5cd867bd96ed67462fc53abfaeec4f653382d2c"
+}

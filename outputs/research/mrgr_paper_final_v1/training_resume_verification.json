@@ -1,0 +1,26 @@
+{
+  "at": "2026-10-18T15:44:56.428713+08:00",
+  "passed": true,
+  "checked_state_keys": [
+    "model",
+    "best_model",
+    "optimizer",
+    "scheduler",
+    "rng",
+    "epoch",
+    "updates",
+    "best_epoch",
+    "best_score",
+    "metrics_except_timing"
+  ],
+  "float_tolerance": {
+    "rtol": 0.0001,
+    "atol": 1e-06
+  },
+  "reason": "CUDA grid_sample backward uses nondeterministic atomics; integer/RNG states exact, floats checked with tolerance",
+  "epochs": 2,
+  "workers": 4,
+  "train_subset": 4,
+  "validation_subset": 2,
+  "gpu_uuid": "GPU-d3da1ea7-9229-8f8a-5054-854962d4b6b7"
+}

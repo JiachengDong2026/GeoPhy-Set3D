@@ -1,0 +1,14 @@
+{
+  "at": "2026-10-19T14:39:24.763600+08:00",
+  "passed": true,
+  "command": "CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=2 MKL_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 PYTHONPATH=src:tests python -m unittest test_classical_reconstruction test_classical_workflow_boundary -v",
+  "tests": 11,
+  "failures": 0,
+  "errors": 0,
+  "reported_runtime_seconds": 7.959,
+  "files": {
+    "/home/djc/projects/GeoPhy-Set3D/tests/test_classical_reconstruction.py": "35cedd4f6b6691931e9a258cd2c7519d91f2043e4a9534005cb6135c208235b4",
+    "/home/djc/projects/GeoPhy-Set3D/tests/test_classical_workflow_boundary.py": "23c0997bf9d91db88f54728e84332769cf0d1c081177903606581d385b26eb78"
+  },
+  "additional_verification": "Registered four-arm CUDA mechanism, gradient and cross-process recovery checks also passed before formal training; final test independent verification remains mandatory."
+}

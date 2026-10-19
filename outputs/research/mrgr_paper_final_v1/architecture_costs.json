@@ -1,0 +1,42 @@
+{
+  "at": "2026-10-18T15:54:12.458365+08:00",
+  "records": [
+    {
+      "arm": "multiscale",
+      "parameters": 344678,
+      "conv_linear_MACs_fixed_V4": 57827966976,
+      "twice_MACs_partial_FLOPs": 115655933952
+    },
+    {
+      "arm": "single_scale",
+      "parameters": 344678,
+      "conv_linear_MACs_fixed_V4": 58546716672,
+      "twice_MACs_partial_FLOPs": 117093433344
+    },
+    {
+      "arm": "no_feedback",
+      "parameters": 332166,
+      "conv_linear_MACs_fixed_V4": 29853507584,
+      "twice_MACs_partial_FLOPs": 59707015168
+    },
+    {
+      "arm": "no_consistency",
+      "parameters": 344678,
+      "conv_linear_MACs_fixed_V4": 57827966976,
+      "twice_MACs_partial_FLOPs": 115655933952
+    }
+  ],
+  "scope": "batch1 V4 C1; actual calls include both shared decoder passes when feedback enabled. Conv/linear MACs only; excludes lifting/interpolation/attention matmul/projection/nonlinearities/norm, so not total FLOPs.",
+  "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w1_inlet1_half",
+  "access": {
+    "counts": {
+      "Pool_A_geometry": 1,
+      "projection_val": 3
+    },
+    "denied": [],
+    "touched": [
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/geometry/train_geometry.npz",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w1_inlet1_half/projections_train.npy"
+    ]
+  }
+}
