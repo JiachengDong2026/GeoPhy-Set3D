@@ -1,0 +1,521 @@
+{
+  "at": "2026-10-21T01:16:50.775671+08:00",
+  "passed": true,
+  "source_sha256": "83c4d7d63bc5b7f6b8902f165df983b4ebd02000a1810c51bc803ea910447492",
+  "gpu_uuid": "GPU-37424437-e208-62d1-e617-53c421c94a49",
+  "batch": 1,
+  "views": 4,
+  "case": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w1_inlet1_half",
+  "condition": "Val-A-V4 development case0",
+  "timing_scope": "synchronized C0+C1 forward; excludes loading and output I/O; common single-device session",
+  "dtype": "FP32, TF32 disabled",
+  "results": [
+    {
+      "method": "MRGR",
+      "parameters": 344678,
+      "checkpoint_sha256": "650b4f2c0f0ab345b5fd99a7d629e0db388cede0937acb7e3191462cd57898d7",
+      "latency_seconds": [
+        0.024128554854542017,
+        0.024059556890279055,
+        0.02393990522250533,
+        0.023911308031529188,
+        0.023960030172020197,
+        0.023924713023006916,
+        0.023742062970995903,
+        0.023049284238368273,
+        0.02297100005671382,
+        0.022853159345686436
+      ],
+      "median_seconds": 0.023918010527268052,
+      "peak_allocated_bytes": 1157012480,
+      "warmups": 3,
+      "repetitions": 10
+    },
+    {
+      "method": "uniform_fusion_seed20261011",
+      "parameters": 342725,
+      "checkpoint_sha256": "64c1c4a41e66b518e415243be5796b89d36f3c27e5c4165e98b77af49de381fc",
+      "latency_seconds": [
+        0.022426127921789885,
+        0.022395762149244547,
+        0.022241769824177027,
+        0.02235881518572569,
+        0.02234694827347994,
+        0.02225903980433941,
+        0.02225032914429903,
+        0.02234836295247078,
+        0.022303214762359858,
+        0.02232801867648959
+      ],
+      "median_seconds": 0.022337483474984765,
+      "peak_allocated_bytes": 1156740096,
+      "warmups": 3,
+      "repetitions": 10
+    },
+    {
+      "method": "uniform_pruned_observability_seed20261011",
+      "parameters": 342341,
+      "checkpoint_sha256": "5561bb5056dc79cfe72e40c1e2e6a022bc3310f37be3850c020dc7e79b960a35",
+      "latency_seconds": [
+        0.020204067695885897,
+        0.020196376834064722,
+        0.0204053339548409,
+        0.020453968085348606,
+        0.020432465244084597,
+        0.020240419078618288,
+        0.02018078975379467,
+        0.020259122364223003,
+        0.020038207061588764,
+        0.020016035996377468
+      ],
+      "median_seconds": 0.020222243387252092,
+      "peak_allocated_bytes": 285534208,
+      "warmups": 3,
+      "repetitions": 10
+    },
+    {
+      "method": "uniform_no_feedback_seed20261011",
+      "parameters": 330213,
+      "checkpoint_sha256": "6d5bba73fb05c773d8a96506a6af6f1626568fc1f9717de837dcb106763a0575",
+      "latency_seconds": [
+        0.013095619156956673,
+        0.01318609481677413,
+        0.01302424306049943,
+        0.013032448943704367,
+        0.013102354947477579,
+        0.013066940009593964,
+        0.013010472059249878,
+        0.012991965282708406,
+        0.013012032955884933,
+        0.013024017214775085
+      ],
+      "median_seconds": 0.013028346002101898,
+      "peak_allocated_bytes": 1156682240,
+      "warmups": 3,
+      "repetitions": 10
+    },
+    {
+      "method": "uniform_zero_residual_seed20261011",
+      "parameters": 342725,
+      "checkpoint_sha256": "2e3b8ee23b1cdd0e2882078c1363b8cc423ec0044df37ea7e185754a3cccdd25",
+      "latency_seconds": [
+        0.02036362513899803,
+        0.020359153859317303,
+        0.021811431739479303,
+        0.02049637818709016,
+        0.02043565409258008,
+        0.020400559064000845,
+        0.020558520685881376,
+        0.02054561022669077,
+        0.020481305196881294,
+        0.020386469084769487
+      ],
+      "median_seconds": 0.020458479644730687,
+      "peak_allocated_bytes": 1156740096,
+      "warmups": 3,
+      "repetitions": 10
+    },
+    {
+      "method": "uniform_no_ray_relations_seed20261011",
+      "parameters": 342725,
+      "checkpoint_sha256": "f6afaa13bdcb851ee5e7ebee6086116be482157a3a12546c1164a22ff6e207f4",
+      "latency_seconds": [
+        0.02239044802263379,
+        0.02237995807081461,
+        0.022434018086642027,
+        0.022448243107646704,
+        0.022340897005051374,
+        0.02237824536859989,
+        0.022328180260956287,
+        0.022333229891955853,
+        0.02232692390680313,
+        0.022390137892216444
+      ],
+      "median_seconds": 0.02237910171970725,
+      "peak_allocated_bytes": 1156740096,
+      "warmups": 3,
+      "repetitions": 10
+    },
+    {
+      "method": "uniform_no_consistency_seed20261011",
+      "parameters": 342725,
+      "checkpoint_sha256": "f5eb47fa75cdf7966bdc070ad1daa28745607ebf7af07cc99c0608c87436ba11",
+      "latency_seconds": [
+        0.022344692144542933,
+        0.022434102836996317,
+        0.02230452513322234,
+        0.022503111977130175,
+        0.02309144288301468,
+        0.022493899799883366,
+        0.02240738971158862,
+        0.022349523846060038,
+        0.022345250006765127,
+        0.022472219076007605
+      ],
+      "median_seconds": 0.02242074627429247,
+      "peak_allocated_bytes": 1156740096,
+      "warmups": 3,
+      "repetitions": 10
+    },
+    {
+      "method": "uniform_single_scale_seed20261011",
+      "parameters": 342725,
+      "checkpoint_sha256": "c0cd20470043f013394e6bd0a34b317c7d96c054e012a0e59292fc8c8f0f2958",
+      "latency_seconds": [
+        0.0227652988396585,
+        0.02269432693719864,
+        0.022837089840322733,
+        0.022786530200392008,
+        0.02267451025545597,
+        0.022709688171744347,
+        0.02269511902704835,
+        0.022804201114922762,
+        0.022545836865901947,
+        0.022644512820988894
+      ],
+      "median_seconds": 0.022702403599396348,
+      "peak_allocated_bytes": 1156740096,
+      "warmups": 3,
+      "repetitions": 10
+    }
+  ],
+  "main_tensor_shapes": {
+    "uniform_fusion_seed20261011": [
+      {
+        "module": "encoder",
+        "inputs": [
+          [
+            4,
+            3,
+            64,
+            64
+          ]
+        ],
+        "outputs": [
+          4,
+          32,
+          64,
+          64
+        ]
+      },
+      {
+        "module": "lifting",
+        "inputs": [
+          [
+            1,
+            4,
+            32,
+            64,
+            64
+          ],
+          "dict"
+        ],
+        "outputs": [
+          [
+            1,
+            4,
+            32,
+            32,
+            32,
+            32
+          ],
+          [
+            1,
+            4,
+            32,
+            32,
+            32
+          ]
+        ]
+      },
+      {
+        "module": "interaction",
+        "inputs": [
+          [
+            1,
+            4,
+            32,
+            32,
+            32,
+            32
+          ],
+          [
+            1,
+            4,
+            4,
+            32,
+            32,
+            32
+          ],
+          [
+            1,
+            4,
+            32,
+            32,
+            32
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            32768,
+            4,
+            4,
+            3
+          ],
+          [
+            32768,
+            5
+          ],
+          "bool"
+        ],
+        "outputs": [
+          [
+            1,
+            4,
+            32,
+            32,
+            32,
+            32
+          ],
+          [
+            1,
+            4,
+            4,
+            4,
+            32,
+            32,
+            32
+          ],
+          [
+            32768,
+            4,
+            4,
+            4
+          ]
+        ]
+      },
+      {
+        "module": "fusion",
+        "inputs": [
+          [
+            1,
+            4,
+            32,
+            32,
+            32,
+            32
+          ],
+          [
+            1,
+            4,
+            4,
+            32,
+            32,
+            32
+          ],
+          [
+            1,
+            4,
+            32,
+            32,
+            32
+          ],
+          [
+            1,
+            4
+          ]
+        ],
+        "outputs": [
+          [
+            1,
+            32,
+            32,
+            32,
+            32
+          ],
+          [
+            1,
+            4,
+            32,
+            32,
+            32
+          ]
+        ]
+      },
+      {
+        "module": "decoder",
+        "inputs": [
+          [
+            1,
+            32,
+            32,
+            32,
+            32
+          ]
+        ],
+        "outputs": [
+          1,
+          1,
+          64,
+          64,
+          64
+        ]
+      },
+      {
+        "module": "residual_encoder",
+        "inputs": [
+          [
+            4,
+            3,
+            64,
+            64
+          ]
+        ],
+        "outputs": [
+          4,
+          16,
+          64,
+          64
+        ]
+      },
+      {
+        "module": "lifting",
+        "inputs": [
+          [
+            1,
+            4,
+            16,
+            64,
+            64
+          ],
+          "dict"
+        ],
+        "outputs": [
+          [
+            1,
+            4,
+            16,
+            32,
+            32,
+            32
+          ],
+          [
+            1,
+            4,
+            32,
+            32,
+            32
+          ]
+        ]
+      },
+      {
+        "module": "residual_adapter",
+        "inputs": [
+          [
+            4,
+            48,
+            32,
+            32,
+            32
+          ]
+        ],
+        "outputs": [
+          4,
+          32,
+          32,
+          32,
+          32
+        ]
+      },
+      {
+        "module": "fusion",
+        "inputs": [
+          [
+            1,
+            4,
+            32,
+            32,
+            32,
+            32
+          ],
+          [
+            1,
+            4,
+            4,
+            32,
+            32,
+            32
+          ],
+          [
+            1,
+            4,
+            32,
+            32,
+            32
+          ],
+          [
+            1,
+            4
+          ]
+        ],
+        "outputs": [
+          [
+            1,
+            32,
+            32,
+            32,
+            32
+          ],
+          [
+            1,
+            4,
+            32,
+            32,
+            32
+          ]
+        ]
+      },
+      {
+        "module": "decoder",
+        "inputs": [
+          [
+            1,
+            32,
+            32,
+            32,
+            32
+          ]
+        ],
+        "outputs": [
+          1,
+          1,
+          64,
+          64,
+          64
+        ]
+      }
+    ]
+  },
+  "audit": {
+    "counts": {
+      "Pool_A_geometry": 1,
+      "projection_val": 3,
+      "checkpoint": 16
+    },
+    "denied": [],
+    "touched": [
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/geometry/train_geometry.npz",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w1_inlet1_half/projections_train.npy",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_multiscale_formal_v1_seed20261011/checkpoints/best.pt",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/training/uniform_fusion_seed20261011/checkpoints/best.pt",
+      "/scratch/djc/GeoPhy-Set3D/mrgr_gca_uniform_observability_pruning_v1/training/uniform_pruned_observability_seed20261011/checkpoints/best.pt",
+      "/scratch/djc/GeoPhy-Set3D/mrgr_uniform_ablations_v1/training/uniform_no_consistency_seed20261011/checkpoints/best.pt",
+      "/scratch/djc/GeoPhy-Set3D/mrgr_uniform_ablations_v1/training/uniform_no_feedback_seed20261011/checkpoints/best.pt",
+      "/scratch/djc/GeoPhy-Set3D/mrgr_uniform_ablations_v1/training/uniform_no_ray_relations_seed20261011/checkpoints/best.pt",
+      "/scratch/djc/GeoPhy-Set3D/mrgr_uniform_ablations_v1/training/uniform_single_scale_seed20261011/checkpoints/best.pt",
+      "/scratch/djc/GeoPhy-Set3D/mrgr_uniform_ablations_v1/training/uniform_zero_residual_seed20261011/checkpoints/best.pt"
+    ]
+  }
+}

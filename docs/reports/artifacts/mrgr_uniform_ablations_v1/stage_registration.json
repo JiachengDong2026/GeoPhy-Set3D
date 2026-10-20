@@ -1,0 +1,73 @@
+{
+  "at": "2026-10-20T20:22:03.684749+08:00",
+  "experiment_id": "mrgr_uniform_ablations_v1",
+  "user_instruction": "/home/djc/.codex/attachments/29463d0e-fb3c-4066-8a03-b5e7f5b82d6d/已粘贴的文本.txt",
+  "user_instruction_sha256": "b8c9f0250e95078f18fb772e5669c1246b3095bd455a93d7874fe7d179f02426",
+  "source_commit": "a97a2f9bb680acdb8ebbd5042c29843a232cb45a",
+  "tasks": [
+    "uniform_no_feedback_seed20261011",
+    "uniform_no_feedback_seed20261019",
+    "uniform_zero_residual_seed20261011",
+    "uniform_zero_residual_seed20261019",
+    "uniform_no_ray_relations_seed20261011",
+    "uniform_no_consistency_seed20261011",
+    "uniform_single_scale_seed20261011"
+  ],
+  "previous_test_GT64_access_acknowledged": true,
+  "result_scope": "supplementary paired ablation on same previously used35cases; not independent confirmation",
+  "main_identity": {
+    "model": "MRGR-UniformFusion-v1",
+    "seed": 20261011,
+    "epoch": 285,
+    "parameters": 342725,
+    "sha256": "64c1c4a41e66b518e415243be5796b89d36f3c27e5c4165e98b77af49de381fc"
+  },
+  "OARI_research": "stopped; existing sealed metrics retained solely for original comparison family",
+  "training_GT64_forbidden": true,
+  "GT128_always_forbidden": true,
+  "evaluation_gate": "all included training complete, checkpoint hashes frozen, all7x595new predictions sealed, THEN current GT64 scoring",
+  "selection": "strict minimum validation projection H4 over all300epochs; no test selection",
+  "statistics": {
+    "seed": 20261020,
+    "resamples": 20000,
+    "unit": "case, never draw",
+    "primary_family": 14,
+    "primary_adjustment": "Bonferroni simultaneous paired bootstrap intervals, 14 predeclared comparisons",
+    "comparisons": [
+      "uniform4seed_case_mean-minus-MRGR",
+      "uniform4seed_case_mean-minus-LR4E4",
+      "uniform4seed_case_mean-minus-NNLS-NL",
+      "uniform4seed_case_mean-minus-Tikhonov",
+      "uniform4seed_case_mean-minus-TV",
+      "uniform4seed_case_mean-minus-SART",
+      "uniform2seed-minus-matchedGCA2seed",
+      "no_feedback-minus-uniform2seed",
+      "zero_residual-minus-uniform2seed",
+      "no_ray_relations-minus-uniform2seed",
+      "no_consistency-minus-uniform2seed",
+      "single_scale-minus-uniform2seed",
+      "pruned_descriptor-minus-uniform2seed",
+      "feedbackOARI2seed-minus-matchedUniform2seed"
+    ],
+    "secondary_intervals": "unadjusted95%, exploratory; seed-specific and seed-average case differences retained; no training-seed population CI"
+  },
+  "seed_scope": "Three unperformed two-seed comparisons remain missing in original Bonferroni14 family; corresponding single-seed comparisons exploratory95% case intervals only; no claims of stability across training seeds",
+  "primary_available": 11,
+  "original_family_denominator": 14,
+  "unperformed_two_seed_comparisons": 3,
+  "single_seed_policy": "three factors exploratory95% case CI only; no manufactured two-seed primary contrast",
+  "no_design_conflict": "Original pre-test seed-scope amendment explicitly defines this handling; latest user repeats same seven seeds",
+  "acceptance_conditions": [
+    "seven exact tasks complete or verified reuse",
+    "all300epochs/24900updates",
+    "no training GT/test access",
+    "595paired predictions per new model",
+    "seal before current GT64",
+    "independent arrays and bootstrap verification",
+    "all outcomes retained",
+    "report/export checks",
+    "GitHub sync",
+    "main identity unchanged",
+    "no feedback OARI restart"
+  ]
+}
