@@ -1,5 +1,7 @@
 # GeoPhy-Set3D
 
+2026-10-20 **当前暂定主模型为均匀融合MRGR，停止反馈OARI后续研究，7个消融继续暂缓。** 已完成实心气袋小测试：普通V4三维L1为86.75%，分散V6为59.26%，仍存在明显浓度低估。[当前模型决定](docs/mrgr_model_status_20261020_zh.md) · [气袋结果与图](docs/reports/mrgr_uniform_nonplume_gasbag_v1_zh.md) · [结果解读](docs/reports/mrgr_uniform_nonplume_gasbag_v1_interpretation_zh.md)。下文既有实验公告保留历史状态。
+
 2026-10-20 **均匀融合与反馈OARI双种子三维配对评价已完成**：两种子Control和两种子Treatment的35例/17布局评价、四种经典算法历史对比及独立验收归档。7个骨干消融暂缓，是否将反馈OARI作为最终模型等待审阅，未自动晋级。沿用此前已使用的35例，属于补充评价。[阶段总报告](docs/reports/mrgr_uniform_final_v1_zh.md)、[OARI结果](docs/reports/mrgr_uniform_oari_v1_zh.md)、[执行协议](docs/mrgr_uniform_final_v1_protocol_zh.md)。
 
 2026-10-20 新增反馈OARI、均匀融合与描述符结构删除的 **35例补充测试已完成并通过独立验收**：7个新增冻结模型各测试17布局，复用4个已核验历史模型，共13,090个场独立重算。反馈OARI相对匹配MRGR，普通/聚簇三维L1分别为 **8.5089%→8.3140% / 31.3236%→29.7930%**，峰值误差有所增加。本轮沿用此前已使用的35例，不构成全新独立保留集确认。[完整结果、配对区间与固定切面](docs/reports/mrgr_extension_test35_v1_zh.md)、[验收记录](docs/reports/artifacts/mrgr_extension_test35_v1/acceptance.json)、[导出哈希及完整原始指标入口](docs/reports/artifacts/mrgr_extension_test35_v1/export_manifest.json)。

@@ -1,0 +1,1072 @@
+{
+  "at": "2026-10-20T20:04:10.351677+08:00",
+  "registration": {
+    "at": "2026-10-20T20:00:40.117107+08:00",
+    "model_id": "MRGR-UniformFusion-v1",
+    "checkpoint": "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/training/uniform_fusion_seed20261011/checkpoints/best.pt",
+    "checkpoint_sha256": "64c1c4a41e66b518e415243be5796b89d36f3c27e5c4165e98b77af49de381fc",
+    "seed": 20261011,
+    "selected_epoch": 285,
+    "target_parameters": {
+      "center_xyz_m": [
+        0.3,
+        0.3,
+        0.3
+      ],
+      "peak_mass_fraction": 0.08,
+      "gasbag": {
+        "semiaxes_xyz_m": [
+          0.12,
+          0.09,
+          0.08
+        ],
+        "flat_core_radius": 0.85,
+        "edge": "half-cosine from normalized radius0.85 to1; zero outside"
+      },
+      "torus": {
+        "major_radius_m": 0.12,
+        "tube_sigma_m": 0.025,
+        "axis": "y"
+      }
+    },
+    "target_grid": [
+      64,
+      64,
+      64
+    ],
+    "axes": "XYZ,y vertical,[0,.6]^3m",
+    "settings": [
+      {
+        "name": "ordinary_V4",
+        "input_ids": [
+          4,
+          30,
+          47,
+          59
+        ],
+        "station_azimuth_deg": [
+          79.49763615169832,
+          118.4131590368775,
+          123.67549408542398,
+          49.02665343945023
+        ],
+        "coverage": {
+          "azimuth_min_deg": 49.02665343945023,
+          "azimuth_max_deg": 123.67549408542398,
+          "azimuth_span_deg": 74.64884064597375,
+          "largest_azimuth_gap_deg": 38.915522885179186,
+          "mean_pairwise_azimuth_distance_deg": 43.81034080385007
+        }
+      },
+      {
+        "name": "spread_V4",
+        "input_ids": [
+          49,
+          25,
+          3,
+          32
+        ],
+        "station_azimuth_deg": [
+          0.8163524690988577,
+          86.86595468518985,
+          130.64020018781179,
+          174.3906486036667
+        ],
+        "coverage": {
+          "azimuth_min_deg": 0.8163524690988577,
+          "azimuth_max_deg": 174.3906486036667,
+          "azimuth_span_deg": 173.57429613456785,
+          "largest_azimuth_gap_deg": 86.04960221609099,
+          "mean_pairwise_azimuth_distance_deg": 94.08285565105423
+        }
+      },
+      {
+        "name": "ordinary_V6",
+        "input_ids": [
+          19,
+          12,
+          49,
+          63,
+          18,
+          46
+        ],
+        "station_azimuth_deg": [
+          36.98272141927503,
+          158.07459032097356,
+          0.8163524690988577,
+          96.59779959510516,
+          47.68290798230768,
+          149.2051773986803
+        ],
+        "coverage": {
+          "azimuth_min_deg": 0.8163524690988577,
+          "azimuth_max_deg": 158.07459032097356,
+          "azimuth_span_deg": 157.2582378518747,
+          "largest_azimuth_gap_deg": 52.60737780357513,
+          "mean_pairwise_azimuth_distance_deg": 78.12489658735912
+        }
+      },
+      {
+        "name": "spread_V6",
+        "input_ids": [
+          49,
+          58,
+          18,
+          25,
+          3,
+          32
+        ],
+        "station_azimuth_deg": [
+          0.8163524690988577,
+          23.826831299533822,
+          47.68290798230768,
+          86.86595468518985,
+          130.64020018781179,
+          174.3906486036667
+        ],
+        "coverage": {
+          "azimuth_min_deg": 0.8163524690988577,
+          "azimuth_max_deg": 174.3906486036667,
+          "azimuth_span_deg": 173.57429613456785,
+          "largest_azimuth_gap_deg": 43.77424550262194,
+          "mean_pairwise_azimuth_distance_deg": 81.83297560270368
+        }
+      }
+    ],
+    "layout_source": "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_nonplume_views_v2/registration.json",
+    "layout_source_sha256": "5cb0cc288902473989f002a152f5e8ec32ad686de17aa92da7aa8044e282fbc2",
+    "config_sha256": "f14837a1ff45625aad710d4629776c43fe9e16c5aa7154450a5850263f375951",
+    "script_sha256": "b6c7a9746e6e4f772971d65aeeb9ba356ab0a778976cc2d00e8b3d9a5f05aee6",
+    "training_sources": {
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/__init__.py": "47441c8638d63363d06b204cb8d6b0e9a6524c9d598920036b9cd8cc3e9ff2b5",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/data/build_utils.py": "0fbaa994ae1b3b82094fc687efc767e3ce019b7f28f0987e37e80efef1ba31be",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/data/collate.py": "64ba5c126d89e0e709eb7f002c791a32a896e8ef098128fd71cf10f6daf8e83e",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/data/generation.py": "36374efc91e0e27d00ed817109472cdb39f30e6cedcbced7c6bc6392746f703c",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/data/measurement_only.py": "8ac516e07b785ac82686306ded38bbe0e47622087318af2741731e5d4f1271b2",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/data/measurement_sampling.py": "88f6e05beb64111c1a63fab90825f0f68e6ae2772a92f0be6187d9e55cc7a693",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/data/projection_audit.py": "77b5d7afc44326ae00e676f41a3989244fa040e1020992fd5c2e5d0fc9c87e09",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/data/projection_pool_dataset.py": "2ff2426b94043c4d2487e1b47c27340599df798816187774be2a5a2d62e0ee8e",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/data/rich_measurement.py": "09648bd196db21be9e4f673da4157a53024145f8429af6846e780c960b298e26",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/data/validation.py": "76b1e84a737fcb740ab5bb5b83feecb86c76693968516a2efcbf24d84d192f14",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/data/view_sampling.py": "fc858a69533b41f67be5fd050ecd0dd6fdb253d86ae382e02591c2ee815e1eb8",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/diagnostics/senseiver_signal_path.py": "ec182c4003e0abb303a99bf74bb3cd3ae531543664b325929a9aa9658210f742",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/__init__.py": "7e7c0e83968957f68b7808b2b644686a0a12f21bad15045831d70a52214a8338",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/analysis.py": "199f1457d0978a606c761ad4d11ca1edd10f6aafa95e198bc1e7ec25021131ad",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/b2_report.py": "fada1bbce57c3ffeb0056862e0756bbf63635764327b1b9c408f785c573916d1",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/b3_report.py": "73fb688b46965b915ab8b8e602ee333995121261c94985e72a54a3d371b524af",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/clustered_one_swap.py": "b506eca28a515b6026d3a75b57d3a15b2a177c092db209195cafd4e65fdace5b",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/comparison_report.py": "2e44d97c482a08e7a8c97b141d4a30b72305fe831e0496661d6efe79944ad0e1",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/deep_comparison.py": "d89dd67c0b7d3e19df5fd41dbd8411280141a616f5603896efb066cfc41c1389",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/experiments.py": "5aedd0c55eec76e4b874222bc7b19578c1b7d8f48af657bdf67a2adf60041182",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/figures.py": "816712bea9a5ac3bf35946eef78e8781cf20248f6d3bc427f6f8fb03b405486a",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/geometry_augmentation_formal_stats.py": "2ecd585ec7f6dcf1fc2bf74022bda08062deb2de9e032c372bbb8924277c6e8d",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/geometry_augmentation_sampler.py": "82214214c4576d4228dd7f668714ad83864536247f8a6dce6988c61b904f8b25",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/geometry_catalog.py": "60eb3fb4506426de22dde50d274f9eb15c7779298d465c88bdca586f50872e2f",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/geometry_sensitivity.py": "460817ff0b13ced548997a7dd691c647d8eb30e6ca9e0f6d2c6307c7eac73585",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/geometry_strata.py": "cc3c9d9557b446ea419a4842ac447afe2b512d86be76521190a4c203abec86e5",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/geometry_stratified_sampler.py": "976de22b042f7d392424965ce5a62ed24a0957e78bcab7ee493998e390feb0ba",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/matched_control.py": "55eacbce1ded9de9c9344f4c32e1836d729ef229175080ac1048b9680cb37611",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/measurement_consistency.py": "edee97bea059708eddcc772b3831858f918a1ccbcf4050f4c491d2aa768f9889",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/measurement_diagnostics.py": "2b920ed3da6310f68193bb8ef5e047f51c67c39f7686c683f847fed8fc3cd382",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/mrgr.py": "c796ede1a09fd06fae65c3d833184c9cfea5a0a1a37159dafa5f8187b3fa9c08",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/mrgr_report.py": "409822580c09530d2272c796fd02704b02af45d4a0f397d4b1dc5a3a5fac671d",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/oari_diagnostics.py": "ea656b350edd48da390281d4e25d5a3f56e9146b48a043c694a975d72c9cccfa",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/oari_report.py": "a907c8912468605c3fa55b59bdb987ca2086e0a451ff4f24be429986e3e4d73e",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/protocols.py": "60b4a82f96dfaec4947762855e6987a1fffedb987d96ab15dcdb2bd9e7caf878",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/ray_senseiver.py": "22fc91e943fe45bbb43d7e07c9ccfa1c26cc24b7c06a1b706338483f3ea24b94",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/report.py": "60799671d8f557c775490a2dd6755f18258cfa38ea755d19b0eec84cfe15067a",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/research.py": "17d9730664dd646a5dbeabf824d90eb7c7ab4e58dde3c9d65fa57f8f8474db93",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/research_integrity.py": "9a433d6ded5173fcc2c0921078693c849e490bc6a6e4c22647d0414bf1e68902",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/rvtc_failure_diagnostics.py": "47d1f9f28445af6d29a198c3e1f3b3a151073ab722d21a8bb4c3527c5b4deed4",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/selfsup_c0c1_diagnostic.py": "42fff49d6415869b7c91f213877428ef26c6d43ae1aeec68dd8238203361f665",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/selfsup_report.py": "685f66b86bb233116a0bdbe8a2ff835d16e63780332609613b3aa1cf5289c78a",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/selfsup_v2_integrity.py": "2aacd7d9220869a37bf214fcb512128211442bc67b274cc474d28c766ba05dde",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/selfsup_v2_report.py": "96df2a594503353517849af5751c8921f1144c172218659825ac58782c56a677",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/stratification.py": "de9ee3059ba4e59288021105671fdab907b670617212a7428d0e1ce03e43623f",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/summary.py": "73a8acd82a6ba703665993280af31ac95daeae413b81ff078c5d932b678b0d68",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/training_runs.py": "b2b9a3bffc3002d60d0f5896b3e8b7efefc3133fbf8238f67f4909a8c6e55cad",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/view_selection.py": "32a56947b18b30bf788768c3a939ff1cf06694caf4939512713ad64b1e230b60",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/geometry/tdlas.py": "d641d3ebbb0fe288b9ae770b9bb5f1b5c5cd4ff3a4729235a161e74f78fa6dce",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/__init__.py": "54484529fa097a5a63b2bd982de29e01b29b88cfa7cc0b0fbd3151a5470e77f0",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/attention_fusion.py": "d349c05cb1565889ff83b0f391fff5882782e6525bc61481d3e2db9ceba4329e",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/blocks.py": "2842f04765a4c9ba7bc5ac04135ec8ddd8c7537745fc6f79b6c6ab41b3033223",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/decoder3d.py": "3aab7052dcc19f356fc2245ada14e8fe085b858b26c91cd180e358a4cc0691ac",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/encoder2d.py": "fd6f7e6f9d14573dcfb2d2b494941f83f63a269993f8bbae9616594a32443e14",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/fusion.py": "5a7ae6fd64daa283c15af3545311f75c58b774cb86294b2996bc3b098c3868d1",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/geolift_deepsets_sum.py": "e877158c6e0bcbecad2ef6bb6f852dc93e8077155e946d8232a63255a6c90e23",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/geolift_gca_res3d.py": "cde73cf1249ade86f54a3fcfc2ce5e7c8f85852cb836d356f3eed7cb74376c04",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/geolift_gcsi_res3d.py": "fcad0a6ff1daa02716f16d3c2661a1caa73e25fa915c061ae32d510418d084d1",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/geolift_mean_res3d.py": "119db246431a2b4612620afc29d819951d0ae21ab0ff08a8846f22c66f2a443a",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/geolift_oari_mrgr_c0_adapter.py": "7900e5d37b4bf8c068b84d4ce950c21e85dc5566eb1f3f1b44a0dbe7e3ac5b00",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/geolift_oari_mrgr_res3d.py": "a095e2cf9bbd9e86fc0a999df4c7d7185fcb4133220ba6334211b91b70166c26",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/geolift_oari_mrgr_zero_residual.py": "cff44973dca6731ddcde04920eee7064c2ca7844a9fd74d3608d2a44163c1634",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/geolift_oari_res3d.py": "0c254b09b598c3f3bed1af29c7a17e3de26349024106c8849938ac8a2126b0ed",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/lifting.py": "0cf2fc39535fab45cf7e2f8bd8cdcac70c8ff3f830c816b936347cf7f3b39710",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/ray_relational_interaction.py": "25db37d18c84240bc86f5b0eeb1a0a009a9958dce8bd3f6875dcb92f30b1eac2",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/ray_senseiver_latent_residual.py": "ea02b34d4123891736628dfd25c3d2b1b0b32dbbbed244785460114124f94dd2",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/ray_senseiver_ss.py": "fa497b1a68d45bd20db0f7fd7118a4e7664c55c31b3c3a53b27b43b2ea5480cb",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/senseiver_core.py": "b45e02cde0e2f2597370b34596854ec1d8890ab5838d7c73968b50fee40f1da4",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/set_interaction.py": "1b80318623b8cd07f94bad70879e159af5f0cd54f083b172c8b4a8bbe0eaefb3",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/set_unrolled3d.py": "839d7c17ad9837e8baa97140647f3d74407ca64fefd065b9ca5e2796c0d3e8e3",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/physics/explicit_ray_operator.py": "5ddc059e59c5cff401666b40f89d3c74d21929db0c1f5ccf79e3aa2a8e8ebc85",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/physics/projectors.py": "fe3475e29abbba0d3495be9fc69909f3b8b1d7e8d40c25aed683094198f6e776",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/physics/representation_capacity.py": "f0b3491204a172951bec0a1354f95933548672d75343ce2f24ad4d3d395ce92a",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/reconstruction/classical.py": "261530dc8296446203140f581f8e7b736aa0bcb4b98d5141158e24d2a49b1867",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/__init__.py": "d253aa4cda19ba45b2d472981e2410da0a7fd319f8509be5acd8ed2d037ff0ae",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/comparison.py": "b5028eca4f820f79b8c5eb9e17f6c143042805fd961db85955afb57e6881ecf3",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/deep_comparison.py": "75fd31230809ee3874c7a77ba5320c3d1f691d06e35c4cdf409e6e29fb54b07e",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/engine.py": "4491b17bcbc2dbb89d227086b53dfe84d21ed6c86ba1010b64358168f7bc4bb6",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/geometry_augmentation_formal.py": "b8b2aed8470acd8391876e1bce260a6e8727ef4c9bdd5e4026e4dcb181d0e9f8",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/gt_read_guard.py": "42bf7c374d0f297050e801f4b5baf9a544b731a46157f65862eeaa3b4b5cfe50",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/losses.py": "a6bec7ce5ee00fbe11d8d159add0d42243775b5d443c07a8e59dadee759b4c5e",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/matched_control.py": "0c807bacef0acca1362c3ce6b283bea2165e26b845c4b6bc88743ef0734ae319",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/measurement_engine.py": "373bc13981c1e4afd63f5959ea76528e6cc53ea30353b44272b6fee378c3ac85",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/measurement_runs.py": "d2c3fc98b593917419c2b74c454888dcdfa7ff1255f1d6adf112d6a2204c8e65",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/metrics.py": "e5244421a7cba81702873d0b69e882468a4ee97012676097545729a1fc31461a",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/mrgr.py": "098b6ca504d53eab4a01f3ce4f2ba7f5a7e1417c79ec144bc837cc8a242c1b53",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/projection_losses.py": "d64e4fd327bf68e4f18ee3f9278ef453363042a7a0deaa71fc4a91283f6f05ad",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/ray_senseiver.py": "5883cd2126ebd06e3e3eb5dc16348085ebb6d01ce9739f78cec8a253cf81140c",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/research_selfsup.py": "654b84d5d35dfd1fc3c0db39b839ec4d77b6912588945b8f69084b41f035fc4b",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/rvtc_matched.py": "c8236c8dddc66fdf11e083ed516bd7797aecbdc837c749202b2c41a343692866",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/selfsup.py": "03cdee12b66aa1f7fdbd6a265ac7a23397ae03cee13fd18b1d8d721b6a91d909",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/selfsup_v2.py": "f4bb9c0159e6c4acaef188c0627d4ddcaa667d3c6851bb2055e34dac395a668e",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/senseiver_consistency_probe.py": "10127e7ad6adba39e5501815a844b4f205346872cfd679143cac1be86769edda",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/senseiver_init_probe.py": "b58c33db663a35f55254bf859158ab432fac018efc8fa636edcda88898ce002e",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/senseiver_readout.py": "4a335738a6a3834c7b0a6bca4c60672ed0ed7afbb69d81e401cb523b736e37a1",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/senseiver_relative_probe.py": "f64076d1cd087a403ed3d07f5a540e46ab34a8723a93cf488015caa503e2ef12",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/senseiver_single_repair.py": "8556c260a913c8df05b6f41b93535c74e5b01d2c7b4650d1e0ee4e296ec30ea1",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/senseiver_supervised_formal.py": "d0d2e18de0de39d4fd7bff5531adce024345f4f86922a0cb4d1ace0e75322237",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/senseiver_supervised_probe.py": "e84b92c03548c391e158f7cc3e28df2dad41ed64705dbe4f8a02fa1d74f1d70f",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/senseiver_supervised_stability.py": "f9206a7c3a9d92d5a6eb7b59d07580986cb5cbafc18ddb3516771e905c0ca6fc",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/utils.py": "51f397ff01ed89b6b930fdc0fee436bf754bcc40c0eaa58f5b3e7c005d14a1ae",
+      "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/physics/reference_projector.cpp": "3773bb832aeb04928e45d1baac4fcf0a9701502727ee6046a05fa85811881a0c",
+      "/home/djc/projects/GeoPhy-Set3D/scripts/probe_mrgr_multiscale_v1.py": "3e351ae163d1d67c4c12f9cbeef352653fb69690306783099da08d294e8f3892",
+      "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/common.py": "c0b6ee7ceac7a73fbfac59be9b303194bcde99bf953e461ca569f8fbb6a05bc8",
+      "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/models.py": "2d2728ae40c608eb5ba99f807fd98bbef6a15ba0d4b6047128d53744c8f45e2a",
+      "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/train.py": "7326efa795790f3e23786454ab42a582bc005784503ee1896f4443d2431941cc",
+      "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/interpret.py": "c263554d2356491236fc5e70bee4ef32f2f6882216a2233859e3d7a5470afcbd",
+      "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/sart.py": "171dd3ad7e2129a5b46248eedce56aad87f496f607ff3dfc309b9c25cd200e28",
+      "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/ablation_statistics.py": "415bdffb36b9a1b055ad8336a69a3604ac9d19d7ec21f7b0fa0ce8b9a5defff2",
+      "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/boundary_checks.py": "d0cb6a2418e7c65159a234a7befc21cd094b25756c71234373a6570df44c3254",
+      "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/module_integration_v2.py": "df630660bb0e1da7a9c8877ca7996165d86054a7ebe1dd8dd20d6679723f5712",
+      "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/module_models_v2.py": "9fa92889bf87cf4cf9426dad464bdc1d10716cae718399b5cf23012543e6d417",
+      "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/evaluation.py": "d3fa4829030b936308dd0aa9c5a5a86236752451adba28f2ab18f6066a43dba2",
+      "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/loss_checks.py": "858f9e600013bf2880c6516b0970459c837920e38a02b1acfa128fc8fbe0638a",
+      "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/module_train_v2.py": "54a9ee53ec02614dada8172714248b53cdd54ce98d5e96ebb0c68a0d8b1e2184",
+      "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/module_pipeline_v2.py": "8f827ccadf243e0015e01ff7441a13e477765abdf7424b04b8772fa0133f9d2c",
+      "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/scheduler.py": "9c5ba974dd364681532d12f21d756e1e6b42051ba6215fd025756edf4dafe796",
+      "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/final_recovery_v2.py": "b7d6026531f48b4692b2c1aa12f4e09b0b30a5f18925e5d31c6faa1bbd89c2ca",
+      "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/report.py": "eb96c9183a1eb6d07257726234cc80375f2a9eb2b51ec83c042c71441a80d8f3",
+      "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/sart_report.py": "19b967e47c7d1dea9ea4a41950a1e5c84b3b31d270985c17eeda5c0274613f5a",
+      "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/classical_slice_figures_v2.py": "f9c57c884fd024810c60978a7efb3c985116ef891096008ab018bc5b1569b979",
+      "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/publication_bundle_v1.py": "a0c3160101580149e61673ee33438e15fbc2c657c1833311e73e131d0a56c6da",
+      "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/audit.py": "5d73e3519f501caed67e48b542507d3a51a41d6eaa72bb33648e590275636fc5",
+      "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/publish_report_v1.py": "7c246b0f57081eaa32173e46e72e4a9bb933dfa3a73b1dba0e52f2af08bf4b9b",
+      "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/classical.py": "595615356475819a4c76955d574e404242f0cd17c9bc29f801c67052333503b5",
+      "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/sart_integration_checks.py": "b3bf3d01aa002211140d387b75d616742b653ca4f94238db49e50600f13f4a1d",
+      "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/solver.py": "55b749b6e9f36122e951ae6cd02421df120be48b1f9c05bee839b1422503f68f",
+      "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/finalize.py": "052eebfdcbcea3149553fffe5ce89853c3bec39d2153299dd759096d6a6b1130",
+      "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/module_registry_v2.py": "bd43e5e0803dfb3cdc678437782c5b0029a7044883da0d4b9eb5afb4c8e9f6b8",
+      "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/verify.py": "b2621cb5f1dea8e07c67360981b41e127828f6c60fa993819c045d23581d00c4",
+      "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/pipeline.py": "9a34d8f59ddeba3aa597fcd5e3839b47803661d998f1a7c1355a3b7fa6a382b6",
+      "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/costs.py": "484415d4985597d7b9c29f04d779054b5a35abe07d05558d1e3551e1d883da1e",
+      "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/architecture_costs.py": "b4b4f5bd80f5a95a29495a8263db720159a6398cc7968dd13c0f561176c0290f",
+      "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/sart_recovery_v2.py": "7eec0692a62a79b9e02605b853d530c9a756e203ce2e1be192b2bef7d5938b3a",
+      "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/sart_cache_checks_v2.py": "101eff5b960f950c5003ab22411ecb64d73a35250b7d8da6daf54d8bee05722d",
+      "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/module_checks_v2.py": "122ba286c2c7b6dda47a27e3c5cd867bd96ed67462fc53abfaeec4f653382d2c",
+      "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/checks.py": "7beac9243129d0d3d8bd9e291a32f4a56e0cb1a543d789e0a75a577c6c77b2db",
+      "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/sart_checks.py": "93c225d3bebbb9a8daf53446b598059e4218a515e80b67bdafdc15e45eb3633d",
+      "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/seal_recovery_v2.py": "e38ffd11958ba3d7c25b27e7d2cd04992116e0377882e45c7c2e4895bf327ab6",
+      "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/sart_pipeline.py": "bfd6ef229f7f7df0ec7978ff04f163e92fd307a09a67cef0401b9e6f657d01d4",
+      "/home/djc/projects/GeoPhy-Set3D/scripts/uniform_final_v1/runtime.py": "9fd3153711489befb689e34bc04d5a2b4683264b4a967b8f33352bb09782547e",
+      "/home/djc/projects/GeoPhy-Set3D/scripts/uniform_final_v1/uniform_models.py": "aef25b062945b0c9b111dc0964ed6ee90388deb3d7cac5ff01c9f06d75bcb38d",
+      "/home/djc/projects/GeoPhy-Set3D/scripts/uniform_final_v1/worker.py": "0841008a0f66940f6fff0f1676ade9e8663fa4642d09d8fc677ece4120117664",
+      "/home/djc/projects/GeoPhy-Set3D-uniform-oari-v1/scripts/uniform_feedback_oari_v1/feedback_model.py": "9f3affac59e9992756babf03de05a27745aad96c91e28b5a82c7c76eac138fa0"
+    },
+    "primary": "gasbag ordinary_V4/C1; other3 fixed layouts and same-model torus descriptive",
+    "projection": "continuous analytic field, independent NumPy float64,512-point trapezoidal rays;256-point convergence check",
+    "convergence_max_relative_L1": 0.002,
+    "noise": false,
+    "training": false,
+    "optimizer_steps": 0,
+    "feedback_OARI_research_stopped": true,
+    "ablations_held": true,
+    "model_selection": "existing uniform deployment seed fixed; no synthetic-target selection",
+    "no_dataset_GT_or_test_projection_read": true,
+    "GT128_read": false,
+    "synthetic128_generated": false
+  },
+  "targets": {
+    "gasbag": {
+      "peak": 0.07999999821186066,
+      "mean": 0.001015830785036087,
+      "integral_m3": 0.00023003473353469203
+    },
+    "torus": {
+      "peak": 0.07856123149394989,
+      "mean": 0.0010460175108164549,
+      "integral_m3": 0.00023687051414908708
+    }
+  },
+  "metrics": {
+    "gasbag/ordinary_V4/C0": {
+      "volume": {
+        "relative_l1": 1.0026265016662175,
+        "relative_l2": 0.9956579147692091,
+        "nmse": 0.9913346832425696,
+        "mae": 0.00101849891637253,
+        "rmse": 0.00869347381262475,
+        "peak_error": -0.06989434454590082,
+        "peak_absolute_error": 0.06989434454590082,
+        "peak_location_error_mm": 134.01187885209796,
+        "peak_tie_rule": "first lexicographic XYZ node",
+        "centroid_error_mm": 106.01970597618754,
+        "predicted_concentration_integral_m3": 2.700440451335174e-06,
+        "reference_concentration_integral_m3": 0.00023003473353469203,
+        "concentration_integral_relative_error": 0.9882607273699913,
+        "dice_0.0001": 0.16078471028415411,
+        "iou_0.0001": 0.08742027710578404,
+        "background_integral_m3_0.0001": 1.6450773534163108e-06,
+        "dice_0.001": 0.13466334164588528,
+        "iou_0.001": 0.07219251336898395,
+        "background_integral_m3_0.001": 1.6499317205375095e-06,
+        "peak_ratio": 0.12632067501544952,
+        "peak_ratio_absolute_error": 0.8736793249845505,
+        "dice_gt_peak_0.1": 0.008281573498964804,
+        "dice_gt_peak_0.5": 0.0,
+        "center_mean_over_GT_peak": 1.284977224713657e-05
+      },
+      "projection": {
+        "input": {
+          "relative_l1": 1.0023448628745528,
+          "relative_l2": 0.9958039344312885,
+          "valid_rays": 9690
+        },
+        "common_unobserved": {
+          "relative_l1": 1.0023204368859926,
+          "relative_l2": 0.995805207404064,
+          "valid_rays": 110846
+        },
+        "all64": {
+          "relative_l1": 1.0023287249735788,
+          "relative_l2": 0.9958184572086691,
+          "valid_rays": 141989
+        }
+      }
+    },
+    "gasbag/ordinary_V4/C1": {
+      "volume": {
+        "relative_l1": 0.8674645969608453,
+        "relative_l2": 0.8551475149064299,
+        "nmse": 0.7312772722506428,
+        "mae": 0.0008811972858565858,
+        "rmse": 0.007466623241269982,
+        "peak_error": -0.044475849717855453,
+        "peak_absolute_error": 0.044475849717855453,
+        "peak_location_error_mm": 62.45179546954286,
+        "peak_tie_rule": "first lexicographic XYZ node",
+        "centroid_error_mm": 20.55396047127927,
+        "predicted_concentration_integral_m3": 3.825320257508195e-05,
+        "reference_concentration_integral_m3": 0.00023003473353469203,
+        "concentration_integral_relative_error": 0.8337068407571029,
+        "dice_0.0001": 0.4548827265295856,
+        "iou_0.0001": 0.29440013022952954,
+        "background_integral_m3_0.0001": 3.6792083658246247e-06,
+        "dice_0.001": 0.8026018850391611,
+        "iou_0.001": 0.6702882483370288,
+        "background_integral_m3_0.001": 3.737354386417807e-06,
+        "peak_ratio": 0.4440518617630005,
+        "peak_ratio_absolute_error": 0.5559481382369995,
+        "dice_gt_peak_0.1": 0.6755464480874317,
+        "dice_gt_peak_0.5": 0.0,
+        "center_mean_over_GT_peak": 0.2087825983762741
+      },
+      "projection": {
+        "input": {
+          "relative_l1": 0.8527037623149916,
+          "relative_l2": 0.8274574330001238,
+          "valid_rays": 9690
+        },
+        "common_unobserved": {
+          "relative_l1": 0.854042835374325,
+          "relative_l2": 0.8325297912691566,
+          "valid_rays": 110846
+        },
+        "all64": {
+          "relative_l1": 0.8541041065364312,
+          "relative_l2": 0.8324232845242577,
+          "valid_rays": 141989
+        }
+      }
+    },
+    "gasbag/spread_V4/C0": {
+      "volume": {
+        "relative_l1": 0.863635616653802,
+        "relative_l2": 0.8430212918223275,
+        "nmse": 0.7106848984657859,
+        "mae": 0.0008773076895941146,
+        "rmse": 0.007360744503940679,
+        "peak_error": -0.038282059133052826,
+        "peak_absolute_error": 0.038282059133052826,
+        "peak_location_error_mm": 79.11070345636261,
+        "peak_tie_rule": "first lexicographic XYZ node",
+        "centroid_error_mm": 28.040647181664824,
+        "predicted_concentration_integral_m3": 4.750231464541685e-05,
+        "reference_concentration_integral_m3": 0.00023003473353469203,
+        "concentration_integral_relative_error": 0.7934993819607119,
+        "dice_0.0001": 0.3940285254453632,
+        "iou_0.0001": 0.24535213214458498,
+        "background_integral_m3_0.0001": 7.4022959667245065e-06,
+        "dice_0.001": 0.7229370794475268,
+        "iou_0.001": 0.5660935477907192,
+        "background_integral_m3_0.001": 7.577794281452604e-06,
+        "peak_ratio": 0.5214742422103882,
+        "peak_ratio_absolute_error": 0.4785257577896118,
+        "dice_gt_peak_0.1": 0.6522246292284619,
+        "dice_gt_peak_0.5": 0.006604623236265386,
+        "center_mean_over_GT_peak": 0.09744047373533249
+      },
+      "projection": {
+        "input": {
+          "relative_l1": 0.8281899198273854,
+          "relative_l2": 0.8173864703834198,
+          "valid_rays": 7388
+        },
+        "common_unobserved": {
+          "relative_l1": 0.8322545310812809,
+          "relative_l2": 0.8134033333777916,
+          "valid_rays": 110846
+        },
+        "all64": {
+          "relative_l1": 0.8328098386245022,
+          "relative_l2": 0.813779098052921,
+          "valid_rays": 141989
+        }
+      }
+    },
+    "gasbag/spread_V4/C1": {
+      "volume": {
+        "relative_l1": 0.6066747439359041,
+        "relative_l2": 0.5768279513171911,
+        "nmse": 0.33273048542078776,
+        "mae": 0.0006162789117008635,
+        "rmse": 0.005036507634580865,
+        "peak_error": -0.011130563914775848,
+        "peak_absolute_error": 0.011130563914775848,
+        "peak_location_error_mm": 91.84429296183767,
+        "peak_tie_rule": "first lexicographic XYZ node",
+        "centroid_error_mm": 12.748223498690605,
+        "predicted_concentration_integral_m3": 0.00012012425726752884,
+        "reference_concentration_integral_m3": 0.00023003473353469203,
+        "concentration_integral_relative_error": 0.4777994808796444,
+        "dice_0.0001": 0.41125911032922846,
+        "iou_0.0001": 0.258858516831182,
+        "background_integral_m3_0.0001": 1.2281991574244703e-05,
+        "dice_0.001": 0.7967871485943775,
+        "iou_0.001": 0.6622162883845126,
+        "background_integral_m3_0.001": 1.2813861294751471e-05,
+        "peak_ratio": 0.860867977142334,
+        "peak_ratio_absolute_error": 0.13913202285766602,
+        "dice_gt_peak_0.1": 0.8932308080171436,
+        "dice_gt_peak_0.5": 0.5348631950573698,
+        "center_mean_over_GT_peak": 0.5012924671173096
+      },
+      "projection": {
+        "input": {
+          "relative_l1": 0.5263668674200155,
+          "relative_l2": 0.5093250399621779,
+          "valid_rays": 7388
+        },
+        "common_unobserved": {
+          "relative_l1": 0.5312579802174154,
+          "relative_l2": 0.5083830507310744,
+          "valid_rays": 110846
+        },
+        "all64": {
+          "relative_l1": 0.5322776020481557,
+          "relative_l2": 0.5087787360655535,
+          "valid_rays": 141989
+        }
+      }
+    },
+    "gasbag/ordinary_V6/C0": {
+      "volume": {
+        "relative_l1": 0.8627474063654468,
+        "relative_l2": 0.8530197224332399,
+        "nmse": 0.7276426468600815,
+        "mae": 0.0008764054181952465,
+        "rmse": 0.007448044663356837,
+        "peak_error": -0.03961263224482536,
+        "peak_absolute_error": 0.03961263224482536,
+        "peak_location_error_mm": 79.11070345636261,
+        "peak_tie_rule": "first lexicographic XYZ node",
+        "centroid_error_mm": 14.67238762496541,
+        "predicted_concentration_integral_m3": 4.057515254506936e-05,
+        "reference_concentration_integral_m3": 0.00023003473353469203,
+        "concentration_integral_relative_error": 0.823612930440567,
+        "dice_0.0001": 0.4307363166339811,
+        "iou_0.0001": 0.2744830720290843,
+        "background_integral_m3_0.0001": 4.165780031776639e-06,
+        "dice_0.001": 0.8052659019812305,
+        "iou_0.001": 0.6740126554658521,
+        "background_integral_m3_0.001": 4.25866263669346e-06,
+        "peak_ratio": 0.5048421025276184,
+        "peak_ratio_absolute_error": 0.4951578974723816,
+        "dice_gt_peak_0.1": 0.6486766995329528,
+        "dice_gt_peak_0.5": 0.0012040939193257074,
+        "center_mean_over_GT_peak": 0.06201171875
+      },
+      "projection": {
+        "input": {
+          "relative_l1": 0.8482612628077212,
+          "relative_l2": 0.8367332622782124,
+          "valid_rays": 13689
+        },
+        "common_unobserved": {
+          "relative_l1": 0.8468122770695786,
+          "relative_l2": 0.8344039337036326,
+          "valid_rays": 110846
+        },
+        "all64": {
+          "relative_l1": 0.8469843042051606,
+          "relative_l2": 0.8344681454464539,
+          "valid_rays": 141989
+        }
+      }
+    },
+    "gasbag/ordinary_V6/C1": {
+      "volume": {
+        "relative_l1": 0.5920290103078679,
+        "relative_l2": 0.5733450308114504,
+        "nmse": 0.32872452435618293,
+        "mae": 0.0006014013238804275,
+        "rmse": 0.005006096910416502,
+        "peak_error": -0.01173999160528183,
+        "peak_absolute_error": 0.01173999160528183,
+        "peak_location_error_mm": 95.71310115353229,
+        "peak_tie_rule": "first lexicographic XYZ node",
+        "centroid_error_mm": 8.484729460774778,
+        "predicted_concentration_integral_m3": 0.00011683522373602198,
+        "reference_concentration_integral_m3": 0.00023003473353469203,
+        "concentration_integral_relative_error": 0.4920974674530974,
+        "dice_0.0001": 0.4375830366158261,
+        "iou_0.0001": 0.28006802721088436,
+        "background_integral_m3_0.0001": 9.037585504607192e-06,
+        "dice_0.001": 0.8535439795046968,
+        "iou_0.001": 0.7445065176908753,
+        "background_integral_m3_0.001": 9.544169487577937e-06,
+        "peak_ratio": 0.8532500863075256,
+        "peak_ratio_absolute_error": 0.14674991369247437,
+        "dice_gt_peak_0.1": 0.9100596219713307,
+        "dice_gt_peak_0.5": 0.5254274927825894,
+        "center_mean_over_GT_peak": 0.47284337878227234
+      },
+      "projection": {
+        "input": {
+          "relative_l1": 0.5310087797121699,
+          "relative_l2": 0.5175789886536445,
+          "valid_rays": 13689
+        },
+        "common_unobserved": {
+          "relative_l1": 0.5305650271772832,
+          "relative_l2": 0.5173905395900226,
+          "valid_rays": 110846
+        },
+        "all64": {
+          "relative_l1": 0.5305989803063873,
+          "relative_l2": 0.5172983626985268,
+          "valid_rays": 141989
+        }
+      }
+    },
+    "gasbag/spread_V6/C0": {
+      "volume": {
+        "relative_l1": 0.8681781093149394,
+        "relative_l2": 0.8558261702388649,
+        "nmse": 0.7324384336657225,
+        "mae": 0.0008819220937070222,
+        "rmse": 0.007472548843098486,
+        "peak_error": -0.04121779650449753,
+        "peak_absolute_error": 0.04121779650449753,
+        "peak_location_error_mm": 79.11070345636261,
+        "peak_tie_rule": "first lexicographic XYZ node",
+        "centroid_error_mm": 23.373790802934014,
+        "predicted_concentration_integral_m3": 4.131461916785737e-05,
+        "reference_concentration_integral_m3": 0.00023003473353469203,
+        "concentration_integral_relative_error": 0.8203983436195881,
+        "dice_0.0001": 0.3999308078187165,
+        "iou_0.0001": 0.24994594594594594,
+        "background_integral_m3_0.0001": 5.047136324258343e-06,
+        "dice_0.001": 0.7640098816798856,
+        "iou_0.001": 0.6181359141594782,
+        "background_integral_m3_0.001": 5.17180273884512e-06,
+        "peak_ratio": 0.4847775399684906,
+        "peak_ratio_absolute_error": 0.5152224600315094,
+        "dice_gt_peak_0.1": 0.6360644379005717,
+        "dice_gt_peak_0.5": 0.0,
+        "center_mean_over_GT_peak": 0.060595836490392685
+      },
+      "projection": {
+        "input": {
+          "relative_l1": 0.8499592214729402,
+          "relative_l2": 0.8372726817732499,
+          "valid_rays": 12042
+        },
+        "common_unobserved": {
+          "relative_l1": 0.848738008964324,
+          "relative_l2": 0.8326922263569623,
+          "valid_rays": 110846
+        },
+        "all64": {
+          "relative_l1": 0.8490165160800187,
+          "relative_l2": 0.8329542854393324,
+          "valid_rays": 141989
+        }
+      }
+    },
+    "gasbag/spread_V6/C1": {
+      "volume": {
+        "relative_l1": 0.59257895211804,
+        "relative_l2": 0.570656355598907,
+        "nmse": 0.32564867618542626,
+        "mae": 0.0006019599717286515,
+        "rmse": 0.004982621048673048,
+        "peak_error": -0.010824933648109436,
+        "peak_absolute_error": 0.010824933648109436,
+        "peak_location_error_mm": 95.23809523809523,
+        "peak_tie_rule": "first lexicographic XYZ node",
+        "centroid_error_mm": 9.47035265499599,
+        "predicted_concentration_integral_m3": 0.00011794692688664992,
+        "reference_concentration_integral_m3": 0.00023003473353469203,
+        "concentration_integral_relative_error": 0.4872647053151993,
+        "dice_0.0001": 0.41812343917231537,
+        "iou_0.0001": 0.2643211547135769,
+        "background_integral_m3_0.0001": 9.663829081668357e-06,
+        "dice_0.001": 0.833438751844824,
+        "iou_0.001": 0.7144406289535514,
+        "background_integral_m3_0.001": 1.018606839529679e-05,
+        "peak_ratio": 0.8646883368492126,
+        "peak_ratio_absolute_error": 0.13531166315078735,
+        "dice_gt_peak_0.1": 0.9021849593495935,
+        "dice_gt_peak_0.5": 0.533892691543387,
+        "center_mean_over_GT_peak": 0.5036481618881226
+      },
+      "projection": {
+        "input": {
+          "relative_l1": 0.5288720013152162,
+          "relative_l2": 0.5102552486671501,
+          "valid_rays": 12042
+        },
+        "common_unobserved": {
+          "relative_l1": 0.5305503703076729,
+          "relative_l2": 0.5106880818782297,
+          "valid_rays": 110846
+        },
+        "all64": {
+          "relative_l1": 0.5305619463434872,
+          "relative_l2": 0.5105628828600234,
+          "valid_rays": 141989
+        }
+      }
+    },
+    "torus/ordinary_V4/C0": {
+      "volume": {
+        "relative_l1": 1.0327791852084933,
+        "relative_l2": 0.9611710067565116,
+        "nmse": 0.9238497042293261,
+        "mae": 0.0010803051700015265,
+        "rmse": 0.006217275896991812,
+        "peak_error": -0.02967853844165802,
+        "peak_absolute_error": 0.02967853844165802,
+        "peak_location_error_mm": 191.66296949998195,
+        "peak_tie_rule": "first lexicographic XYZ node",
+        "centroid_error_mm": 35.899215120533015,
+        "predicted_concentration_integral_m3": 6.208008745493781e-05,
+        "reference_concentration_integral_m3": 0.00023687051414908708,
+        "concentration_integral_relative_error": 0.737915511865422,
+        "dice_0.0001": 0.2888400557642778,
+        "iou_0.0001": 0.16879781269850036,
+        "background_integral_m3_0.0001": 1.3693282376692425e-05,
+        "dice_0.001": 0.3313847816475905,
+        "iou_0.001": 0.19859868111163448,
+        "background_integral_m3_0.001": 2.354913249702023e-05,
+        "peak_ratio": 0.6222240924835205,
+        "peak_ratio_absolute_error": 0.3777759075164795,
+        "dice_gt_peak_0.1": 0.25047911077041013,
+        "dice_gt_peak_0.5": 0.0262582056892779,
+        "center_mean_over_GT_peak": 0.5067024230957031
+      },
+      "projection": {
+        "input": {
+          "relative_l1": 0.7796725316128555,
+          "relative_l2": 0.77817246015073,
+          "valid_rays": 9690
+        },
+        "common_unobserved": {
+          "relative_l1": 0.7805308177502013,
+          "relative_l2": 0.7965023275193247,
+          "valid_rays": 110846
+        },
+        "all64": {
+          "relative_l1": 0.7804897751254225,
+          "relative_l2": 0.7964827412741086,
+          "valid_rays": 141989
+        }
+      }
+    },
+    "torus/ordinary_V4/C1": {
+      "volume": {
+        "relative_l1": 0.9730137653925336,
+        "relative_l2": 0.9003498020043038,
+        "nmse": 0.8106297659691891,
+        "mae": 0.0010177894910072226,
+        "rmse": 0.005823857652294697,
+        "peak_error": -0.016835425049066544,
+        "peak_absolute_error": 0.016835425049066544,
+        "peak_location_error_mm": 200.4530017128494,
+        "peak_tie_rule": "first lexicographic XYZ node",
+        "centroid_error_mm": 16.796374536935502,
+        "predicted_concentration_integral_m3": 0.00014141572161860196,
+        "reference_concentration_integral_m3": 0.00023687051414908708,
+        "concentration_integral_relative_error": 0.4029830089801956,
+        "dice_0.0001": 0.4528318428897072,
+        "iou_0.0001": 0.2926843089476965,
+        "background_integral_m3_0.0001": 1.5722910096761397e-05,
+        "dice_0.001": 0.5517630710439465,
+        "iou_0.001": 0.3809895052473763,
+        "background_integral_m3_0.001": 3.272508079339095e-05,
+        "peak_ratio": 0.7857031226158142,
+        "peak_ratio_absolute_error": 0.2142968773841858,
+        "dice_gt_peak_0.1": 0.4990510893494269,
+        "dice_gt_peak_0.5": 0.1515469323544835,
+        "center_mean_over_GT_peak": 0.6242298483848572
+      },
+      "projection": {
+        "input": {
+          "relative_l1": 0.473043244748111,
+          "relative_l2": 0.501237253970282,
+          "valid_rays": 9690
+        },
+        "common_unobserved": {
+          "relative_l1": 0.5386230189944483,
+          "relative_l2": 0.5763633312793032,
+          "valid_rays": 110846
+        },
+        "all64": {
+          "relative_l1": 0.5387964932518433,
+          "relative_l2": 0.576680072848309,
+          "valid_rays": 141989
+        }
+      }
+    },
+    "torus/spread_V4/C0": {
+      "volume": {
+        "relative_l1": 0.9441300123035815,
+        "relative_l2": 0.8527685181268324,
+        "nmse": 0.7272141455082337,
+        "mae": 0.0009875765778909079,
+        "rmse": 0.005516081026366708,
+        "peak_error": -0.033333245664834976,
+        "peak_absolute_error": 0.033333245664834976,
+        "peak_location_error_mm": 169.83385238216195,
+        "peak_tie_rule": "first lexicographic XYZ node",
+        "centroid_error_mm": 37.92220920830067,
+        "predicted_concentration_integral_m3": 0.00010299483048987638,
+        "reference_concentration_integral_m3": 0.00023687051414908708,
+        "concentration_integral_relative_error": 0.5651850933837586,
+        "dice_0.0001": 0.38824863416142663,
+        "iou_0.0001": 0.24088618281357926,
+        "background_integral_m3_0.0001": 1.5383974245363726e-05,
+        "dice_0.001": 0.48764305855034,
+        "iou_0.001": 0.32243913138846236,
+        "background_integral_m3_0.001": 2.5707980258889346e-05,
+        "peak_ratio": 0.5757036209106445,
+        "peak_ratio_absolute_error": 0.42429637908935547,
+        "dice_gt_peak_0.1": 0.4444984605412413,
+        "dice_gt_peak_0.5": 0.03724819460281262,
+        "center_mean_over_GT_peak": 0.4230697453022003
+      },
+      "projection": {
+        "input": {
+          "relative_l1": 0.6318180472573163,
+          "relative_l2": 0.6375017693272658,
+          "valid_rays": 7388
+        },
+        "common_unobserved": {
+          "relative_l1": 0.6394390494128624,
+          "relative_l2": 0.6455573896385167,
+          "valid_rays": 110846
+        },
+        "all64": {
+          "relative_l1": 0.6399613566677331,
+          "relative_l2": 0.646782156954817,
+          "valid_rays": 141989
+        }
+      }
+    },
+    "torus/spread_V4/C1": {
+      "volume": {
+        "relative_l1": 0.8262230193507154,
+        "relative_l2": 0.7304950709740198,
+        "nmse": 0.5336230487173382,
+        "mae": 0.0008642437920538262,
+        "rmse": 0.004725162708521667,
+        "peak_error": -0.02299056202173233,
+        "peak_absolute_error": 0.02299056202173233,
+        "peak_location_error_mm": 179.18940687835027,
+        "peak_tie_rule": "first lexicographic XYZ node",
+        "centroid_error_mm": 29.12369642657236,
+        "predicted_concentration_integral_m3": 0.00020466919255407906,
+        "reference_concentration_integral_m3": 0.00023687051414908708,
+        "concentration_integral_relative_error": 0.13594482922741663,
+        "dice_0.0001": 0.5564814054675314,
+        "iou_0.0001": 0.38550345494355504,
+        "background_integral_m3_0.0001": 1.659090933498091e-05,
+        "dice_0.001": 0.6852306452203861,
+        "iou_0.001": 0.5211793557017055,
+        "background_integral_m3_0.001": 3.4317076231633395e-05,
+        "peak_ratio": 0.7073548436164856,
+        "peak_ratio_absolute_error": 0.2926451563835144,
+        "dice_gt_peak_0.1": 0.6694451356058722,
+        "dice_gt_peak_0.5": 0.3324474510751389,
+        "center_mean_over_GT_peak": 0.5541112422943115
+      },
+      "projection": {
+        "input": {
+          "relative_l1": 0.3784535437721649,
+          "relative_l2": 0.39329951636399524,
+          "valid_rays": 7388
+        },
+        "common_unobserved": {
+          "relative_l1": 0.40919193741653964,
+          "relative_l2": 0.420999818237918,
+          "valid_rays": 110846
+        },
+        "all64": {
+          "relative_l1": 0.41232499787105714,
+          "relative_l2": 0.4244944429746844,
+          "valid_rays": 141989
+        }
+      }
+    },
+    "torus/ordinary_V6/C0": {
+      "volume": {
+        "relative_l1": 0.9882803892070697,
+        "relative_l2": 0.9067103321124245,
+        "nmse": 0.8221236263594232,
+        "mae": 0.001033758647697752,
+        "rmse": 0.005865000352454532,
+        "peak_error": -0.03311426192522049,
+        "peak_absolute_error": 0.03311426192522049,
+        "peak_location_error_mm": 163.85381461033575,
+        "peak_tie_rule": "first lexicographic XYZ node",
+        "centroid_error_mm": 28.462947624457282,
+        "predicted_concentration_integral_m3": 9.88441018962778e-05,
+        "reference_concentration_integral_m3": 0.00023687051414908708,
+        "concentration_integral_relative_error": 0.5827082900066447,
+        "dice_0.0001": 0.3719069179740971,
+        "iou_0.0001": 0.22843099210968826,
+        "background_integral_m3_0.0001": 1.4416178502461471e-05,
+        "dice_0.001": 0.4829263977353149,
+        "iou_0.001": 0.3183275992769258,
+        "background_integral_m3_0.001": 2.6878179203789004e-05,
+        "peak_ratio": 0.5784910321235657,
+        "peak_ratio_absolute_error": 0.4215089678764343,
+        "dice_gt_peak_0.1": 0.4237832496088281,
+        "dice_gt_peak_0.5": 0.016991150442477877,
+        "center_mean_over_GT_peak": 0.48632580041885376
+      },
+      "projection": {
+        "input": {
+          "relative_l1": 0.6453474872091929,
+          "relative_l2": 0.6768425075903184,
+          "valid_rays": 13689
+        },
+        "common_unobserved": {
+          "relative_l1": 0.6456601994475442,
+          "relative_l2": 0.6742054061820386,
+          "valid_rays": 110846
+        },
+        "all64": {
+          "relative_l1": 0.6456635043033466,
+          "relative_l2": 0.6742624318793973,
+          "valid_rays": 141989
+        }
+      }
+    },
+    "torus/ordinary_V6/C1": {
+      "volume": {
+        "relative_l1": 0.84903060860174,
+        "relative_l2": 0.761251676709098,
+        "nmse": 0.5795041152924131,
+        "mae": 0.0008881009310589844,
+        "rmse": 0.0049241099324451865,
+        "peak_error": -0.023908473551273346,
+        "peak_absolute_error": 0.023908473551273346,
+        "peak_location_error_mm": 163.02135970117797,
+        "peak_tie_rule": "first lexicographic XYZ node",
+        "centroid_error_mm": 27.041874290342065,
+        "predicted_concentration_integral_m3": 0.00017416962714124497,
+        "reference_concentration_integral_m3": 0.00023687051414908708,
+        "concentration_integral_relative_error": 0.2647053274363138,
+        "dice_0.0001": 0.5202443069206811,
+        "iou_0.0001": 0.35157445877979443,
+        "background_integral_m3_0.0001": 1.2297498452658242e-05,
+        "dice_0.001": 0.660978861169301,
+        "iou_0.001": 0.4936283991352827,
+        "background_integral_m3_0.001": 2.7859602667930337e-05,
+        "peak_ratio": 0.6956708431243896,
+        "peak_ratio_absolute_error": 0.30432915687561035,
+        "dice_gt_peak_0.1": 0.6279683377308707,
+        "dice_gt_peak_0.5": 0.26284478096268254,
+        "center_mean_over_GT_peak": 0.44767823815345764
+      },
+      "projection": {
+        "input": {
+          "relative_l1": 0.4215326055558425,
+          "relative_l2": 0.45389678330829036,
+          "valid_rays": 13689
+        },
+        "common_unobserved": {
+          "relative_l1": 0.4348309950874957,
+          "relative_l2": 0.4684067369835981,
+          "valid_rays": 110846
+        },
+        "all64": {
+          "relative_l1": 0.43398561756316223,
+          "relative_l2": 0.46784854885528937,
+          "valid_rays": 141989
+        }
+      }
+    },
+    "torus/spread_V6/C0": {
+      "volume": {
+        "relative_l1": 0.9785435537945877,
+        "relative_l2": 0.8981959484997971,
+        "nmse": 0.8067559619014502,
+        "mae": 0.0010235737468145736,
+        "rmse": 0.005809925582574441,
+        "peak_error": -0.03477887436747551,
+        "peak_absolute_error": 0.03477887436747551,
+        "peak_location_error_mm": 176.64035229515625,
+        "peak_tie_rule": "first lexicographic XYZ node",
+        "centroid_error_mm": 30.20090701321451,
+        "predicted_concentration_integral_m3": 9.320752581002772e-05,
+        "reference_concentration_integral_m3": 0.00023687051414908708,
+        "concentration_integral_relative_error": 0.6065043125149693,
+        "dice_0.0001": 0.37963489356326197,
+        "iou_0.0001": 0.2342897239981288,
+        "background_integral_m3_0.0001": 1.4391169993507679e-05,
+        "dice_0.001": 0.47732030704815076,
+        "iou_0.001": 0.31347387717690195,
+        "background_integral_m3_0.001": 2.561328975061187e-05,
+        "peak_ratio": 0.5573023557662964,
+        "peak_ratio_absolute_error": 0.4426976442337036,
+        "dice_gt_peak_0.1": 0.4174189234369776,
+        "dice_gt_peak_0.5": 0.013323464100666173,
+        "center_mean_over_GT_peak": 0.44901400804519653
+      },
+      "projection": {
+        "input": {
+          "relative_l1": 0.6690005581490748,
+          "relative_l2": 0.6985319845580785,
+          "valid_rays": 12042
+        },
+        "common_unobserved": {
+          "relative_l1": 0.6710544461522593,
+          "relative_l2": 0.6903594640054043,
+          "valid_rays": 110846
+        },
+        "all64": {
+          "relative_l1": 0.6708132689151405,
+          "relative_l2": 0.6904825015002785,
+          "valid_rays": 141989
+        }
+      }
+    },
+    "torus/spread_V6/C1": {
+      "volume": {
+        "relative_l1": 0.8138707624010951,
+        "relative_l2": 0.7381076096155607,
+        "nmse": 0.5448028433723969,
+        "mae": 0.0008513231142991053,
+        "rmse": 0.0047744039493396616,
+        "peak_error": -0.025227464735507965,
+        "peak_absolute_error": 0.025227464735507965,
+        "peak_location_error_mm": 167.6839701110382,
+        "peak_tie_rule": "first lexicographic XYZ node",
+        "centroid_error_mm": 26.20554313334865,
+        "predicted_concentration_integral_m3": 0.00017629644062262502,
+        "reference_concentration_integral_m3": 0.00023687051414908708,
+        "concentration_integral_relative_error": 0.2557265252877213,
+        "dice_0.0001": 0.5414431492760053,
+        "iou_0.0001": 0.37121840606161166,
+        "background_integral_m3_0.0001": 1.0431321176498476e-05,
+        "dice_0.001": 0.6912467046192641,
+        "iou_0.001": 0.5281718923337421,
+        "background_integral_m3_0.001": 2.498227016005644e-05,
+        "peak_ratio": 0.6788815259933472,
+        "peak_ratio_absolute_error": 0.32111847400665283,
+        "dice_gt_peak_0.1": 0.6517354289456451,
+        "dice_gt_peak_0.5": 0.26284478096268254,
+        "center_mean_over_GT_peak": 0.4229116439819336
+      },
+      "projection": {
+        "input": {
+          "relative_l1": 0.41368711592964774,
+          "relative_l2": 0.451036562691442,
+          "valid_rays": 12042
+        },
+        "common_unobserved": {
+          "relative_l1": 0.4180438084485934,
+          "relative_l2": 0.4513373661999749,
+          "valid_rays": 110846
+        },
+        "all64": {
+          "relative_l1": 0.41804577784515756,
+          "relative_l2": 0.45204213724344233,
+          "valid_rays": 141989
+        }
+      }
+    }
+  },
+  "GT64_representation_projection_baseline": {
+    "gasbag": {
+      "relative_l1": 0.018225898866721834,
+      "relative_l2": 0.02360655457433546,
+      "valid_rays": 141989
+    },
+    "torus": {
+      "relative_l1": 0.012398171919243334,
+      "relative_l2": 0.011150699053303313,
+      "valid_rays": 141989
+    }
+  },
+  "reference_convergence": {
+    "gasbag": {
+      "reference256_vs512_relative_l1": 2.102873808729637e-05,
+      "passed": true
+    },
+    "torus": {
+      "reference256_vs512_relative_l1": 7.58262306094406e-17,
+      "passed": true
+    }
+  },
+  "input_max_over_training_scale": {
+    "gasbag": {
+      "ordinary_V4": 0.7099136114120483,
+      "spread_V4": 0.924044668674469,
+      "ordinary_V6": 0.924044668674469,
+      "spread_V6": 0.924044668674469
+    },
+    "torus": {
+      "ordinary_V4": 0.8505402207374573,
+      "spread_V4": 0.8379620909690857,
+      "ordinary_V6": 0.8505065441131592,
+      "spread_V6": 0.8505065441131592
+    }
+  },
+  "normalization_scale_ppm_m": 32284.894580078173,
+  "acceptance_sha256": "d6569d40891b40baa325dec4ef4161e6deffc02b84e3880efa27d0bcb2e4d708",
+  "rendering_amendment_sha256": "f5422af960e5aaf7468125f1a556095d8124e96bf5228c39b033855892cc938a"
+}
