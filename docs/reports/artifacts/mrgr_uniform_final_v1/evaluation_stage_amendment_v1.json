@@ -1,0 +1,34 @@
+{
+  "at": "2026-10-20T16:13:25.260190+08:00",
+  "stage": "four_run_priority_3D_evaluation",
+  "reason": "User explicitly requests 3D evaluation of current four completed300 runs before next steps or final-model decision",
+  "user_request": "现在四个实验跑完之后，先帮我完成三维测试，看结果怎么样，如果结果可以，再考虑下一步是否将均匀融合+反馈OARI作为最终模型",
+  "original_design_sha256": "82423f863bda3704fd75486a0f92c19b1a286dcf7b501e67bc236255e866f2ba",
+  "previous_seed_scope_sha256": "9b2243307bc1dc8107b6ce68a00735fb6b275a8075a21662091adebaf7dff225",
+  "included_runs": [
+    "/scratch/djc/GeoPhy-Set3D/mrgr_uniform_final_v1/training/uniform_seed20261020",
+    "/scratch/djc/GeoPhy-Set3D/mrgr_uniform_final_v1/training/uniform_feedback_oari_seed20261020",
+    "/scratch/djc/GeoPhy-Set3D/mrgr_uniform_final_v1/training/uniform_seed20261021",
+    "/scratch/djc/GeoPhy-Set3D/mrgr_uniform_final_v1/training/uniform_feedback_oari_seed20261021"
+  ],
+  "deferred_runs": [
+    "/scratch/djc/GeoPhy-Set3D/mrgr_uniform_final_v1/training/uniform_no_feedback_seed20261011",
+    "/scratch/djc/GeoPhy-Set3D/mrgr_uniform_final_v1/training/uniform_no_feedback_seed20261019",
+    "/scratch/djc/GeoPhy-Set3D/mrgr_uniform_final_v1/training/uniform_zero_residual_seed20261011",
+    "/scratch/djc/GeoPhy-Set3D/mrgr_uniform_final_v1/training/uniform_zero_residual_seed20261019",
+    "/scratch/djc/GeoPhy-Set3D/mrgr_uniform_final_v1/training/uniform_no_ray_relations_seed20261011",
+    "/scratch/djc/GeoPhy-Set3D/mrgr_uniform_final_v1/training/uniform_no_consistency_seed20261011",
+    "/scratch/djc/GeoPhy-Set3D/mrgr_uniform_final_v1/training/uniform_single_scale_seed20261011"
+  ],
+  "deferred_never_started": true,
+  "before_current_test_prediction_and_GT": true,
+  "training_budget_unchanged": true,
+  "automatic_promotion_to_final_model": false,
+  "resume_deferred_automatically": false,
+  "final_model_decision": "pending user review of complete paired3D results; existing uniform candidate retained",
+  "test_scope": "Same previously used35 cases and17 layouts; new predictions only for4 current runs; matched seeds; historical references verified and retained",
+  "statistics": "Original14-family Bonferroni denominator retained; five not-performed backbone ablation aggregates marked missing; two-seed OARI comparison retained",
+  "prediction_GT_boundary": "All4 included runs complete300/24900updates, H4-only selected weights frozen, all predictions sealed before current GT64 scoring; GT128 forbidden",
+  "future_experiments": "Deferred work, if later authorized, requires a new registered stage acknowledging current test access; never silently reopen accepted evidence",
+  "github_sync": "Publish this stage as supplementary paired comparison, no final OARI promotion or claim that deferred ablations finished"
+}

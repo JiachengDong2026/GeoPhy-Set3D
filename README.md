@@ -1,5 +1,7 @@
 # GeoPhy-Set3D
 
+2026-10-20 **均匀融合与反馈OARI双种子三维配对评价已完成**：两种子Control和两种子Treatment的35例/17布局评价、四种经典算法历史对比及独立验收归档。7个骨干消融暂缓，是否将反馈OARI作为最终模型等待审阅，未自动晋级。沿用此前已使用的35例，属于补充评价。[阶段总报告](docs/reports/mrgr_uniform_final_v1_zh.md)、[OARI结果](docs/reports/mrgr_uniform_oari_v1_zh.md)、[执行协议](docs/mrgr_uniform_final_v1_protocol_zh.md)。
+
 2026-10-20 新增反馈OARI、均匀融合与描述符结构删除的 **35例补充测试已完成并通过独立验收**：7个新增冻结模型各测试17布局，复用4个已核验历史模型，共13,090个场独立重算。反馈OARI相对匹配MRGR，普通/聚簇三维L1分别为 **8.5089%→8.3140% / 31.3236%→29.7930%**，峰值误差有所增加。本轮沿用此前已使用的35例，不构成全新独立保留集确认。[完整结果、配对区间与固定切面](docs/reports/mrgr_extension_test35_v1_zh.md)、[验收记录](docs/reports/artifacts/mrgr_extension_test35_v1/acceptance.json)、[导出哈希及完整原始指标入口](docs/reports/artifacts/mrgr_extension_test35_v1/export_manifest.json)。
 
 2026-10-20 追加开发实验已完成：GCA均匀融合/可观测性描述符删除的两种子300轮消融，以及残差反馈OARI的20轮筛查和单种子300轮延长实验。反馈OARI相对本轮匹配MRGR，普通/聚簇三维L1分别为 **9.4688%→9.0465% / 33.7562%→30.5974%**，聚簇质心误差降低，峰值误差略有增加。仅使用166训练/36已用开发例；不构成独立测试结论。[结果索引、完整报告与证据](docs/reports/mrgr_development_results_20261020_zh.md)。

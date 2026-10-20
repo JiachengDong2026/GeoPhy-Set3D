@@ -1,0 +1,103 @@
+{
+  "at": "2026-10-20T14:24:41.646998+08:00",
+  "old_pid": 3416393,
+  "reason": "Finalize downstream accepted-results export/GitHub sync and progress reporter; no worker/model/training changes. Existing worker GPU flock descriptors verified; only own controller receives SIGTERM.",
+  "new_controller_sha256": "8e2acca6e4f339762a2a6ba6431710a90c0dc8143b8684439f61bdfeff82ad58",
+  "snapshot": {
+    "at": "2026-10-20T14:24:37.580296+08:00",
+    "state": "training",
+    "controller_pid": 3416393,
+    "maximum_parallel": 4,
+    "running": {
+      "uniform_seed20261020_prefix20": {
+        "key": "uniform_seed20261020_prefix20",
+        "state": "running",
+        "attempt": 1,
+        "command": [
+          "/scratch/djc/envs/gas-torch/bin/python",
+          "/home/djc/projects/GeoPhy-Set3D/scripts/uniform_final_v1/worker.py",
+          "--target",
+          "/scratch/djc/GeoPhy-Set3D/mrgr_uniform_final_v1/training/uniform_seed20261020",
+          "--stop-after",
+          "20"
+        ],
+        "started_at": "2026-10-20T14:14:29.107901+08:00",
+        "gpu_uuid": "GPU-37424437-e208-62d1-e617-53c421c94a49",
+        "pid": 3415072,
+        "log": "/scratch/djc/GeoPhy-Set3D/mrgr_uniform_final_v1/scheduling/uniform_seed20261020_prefix20_attempt1.log",
+        "controller_pid": 3412334
+      },
+      "uniform_feedback_oari_seed20261020_prefix20": {
+        "key": "uniform_feedback_oari_seed20261020_prefix20",
+        "state": "running",
+        "attempt": 1,
+        "command": [
+          "/scratch/djc/envs/gas-torch/bin/python",
+          "/home/djc/projects/GeoPhy-Set3D/scripts/uniform_final_v1/worker.py",
+          "--target",
+          "/scratch/djc/GeoPhy-Set3D/mrgr_uniform_final_v1/training/uniform_feedback_oari_seed20261020",
+          "--stop-after",
+          "20"
+        ],
+        "started_at": "2026-10-20T14:14:29.336911+08:00",
+        "gpu_uuid": "GPU-cd80a78f-7d90-c291-4680-4895db9aac8b",
+        "pid": 3415080,
+        "log": "/scratch/djc/GeoPhy-Set3D/mrgr_uniform_final_v1/scheduling/uniform_feedback_oari_seed20261020_prefix20_attempt1.log",
+        "controller_pid": 3412334
+      },
+      "uniform_seed20261021_prefix20": {
+        "key": "uniform_seed20261021_prefix20",
+        "state": "running",
+        "attempt": 1,
+        "command": [
+          "/scratch/djc/envs/gas-torch/bin/python",
+          "/home/djc/projects/GeoPhy-Set3D/scripts/uniform_final_v1/worker.py",
+          "--target",
+          "/scratch/djc/GeoPhy-Set3D/mrgr_uniform_final_v1/training/uniform_seed20261021",
+          "--stop-after",
+          "20"
+        ],
+        "started_at": "2026-10-20T14:16:31.703609+08:00",
+        "gpu_uuid": "GPU-d3da1ea7-9229-8f8a-5054-854962d4b6b7",
+        "pid": 3416105,
+        "log": "/scratch/djc/GeoPhy-Set3D/mrgr_uniform_final_v1/scheduling/uniform_seed20261021_prefix20_attempt1.log",
+        "controller_pid": 3412334
+      },
+      "uniform_feedback_oari_seed20261021_prefix20": {
+        "key": "uniform_feedback_oari_seed20261021_prefix20",
+        "state": "running",
+        "attempt": 1,
+        "command": [
+          "/scratch/djc/envs/gas-torch/bin/python",
+          "/home/djc/projects/GeoPhy-Set3D/scripts/uniform_final_v1/worker.py",
+          "--target",
+          "/scratch/djc/GeoPhy-Set3D/mrgr_uniform_final_v1/training/uniform_feedback_oari_seed20261021",
+          "--stop-after",
+          "20"
+        ],
+        "started_at": "2026-10-20T14:16:31.955491+08:00",
+        "gpu_uuid": "GPU-fdd41417-bc2c-971b-b84d-6464cf7c5749",
+        "pid": 3416113,
+        "log": "/scratch/djc/GeoPhy-Set3D/mrgr_uniform_final_v1/scheduling/uniform_feedback_oari_seed20261021_prefix20_attempt1.log",
+        "controller_pid": 3412334
+      }
+    },
+    "pending": [
+      "uniform_seed20261020_full300",
+      "uniform_feedback_oari_seed20261020_full300",
+      "uniform_seed20261021_full300",
+      "uniform_feedback_oari_seed20261021_full300",
+      "uniform_no_feedback_seed20261011_full300",
+      "uniform_no_feedback_seed20261019_full300",
+      "uniform_zero_residual_seed20261011_full300",
+      "uniform_zero_residual_seed20261019_full300",
+      "uniform_no_ray_relations_seed20261011_full300",
+      "uniform_no_ray_relations_seed20261019_full300",
+      "uniform_no_consistency_seed20261011_full300",
+      "uniform_no_consistency_seed20261019_full300",
+      "uniform_single_scale_seed20261011_full300",
+      "uniform_single_scale_seed20261019_full300"
+    ],
+    "skipped": []
+  }
+}

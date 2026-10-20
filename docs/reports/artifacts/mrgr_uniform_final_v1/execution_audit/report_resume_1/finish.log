@@ -1,0 +1,32 @@
+Independent verification uniform_seed20261020 1190
+Independent verification uniform_feedback_oari_seed20261020 2380
+Independent verification uniform_seed20261021 3570
+Independent verification uniform_feedback_oari_seed20261021 4760
+Independent verification MRGR 5950
+Independent verification LR4E4 7140
+Independent verification multiscale_seed20261019 8330
+Independent verification uniform_fusion_seed20261011 9520
+Independent verification uniform_fusion_seed20261019 10710
+Independent verification NNLS-NL 11305
+Independent verification Tikhonov 11900
+Independent verification TV 12495
+Independent verification SART 13090
+Independent verification uniform_pruned_observability_seed20261011 14280
+Independent verification uniform_pruned_observability_seed20261019 15470
+OSError: [Errno 28] No space left on device
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/uniform_final_v1/finish.py", line 475, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/uniform_final_v1/finish.py", line 472, in main
+    summary=stats(all_methods(),lookup,computed);figures(all_methods());write_reports(summary);publish(summary)
+                                                                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/uniform_final_v1/finish.py", line 244, in write_reports
+    (root/'mrgr_uniform_final_model_v1_zh.md').write_text('\n'.join(model_report)+'\n')
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/pathlib.py", line 1047, in write_text
+    with self.open(mode='w', encoding=encoding, errors=errors, newline=newline) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 28] No space left on device

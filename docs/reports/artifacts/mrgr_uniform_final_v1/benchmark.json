@@ -1,0 +1,433 @@
+{
+  "at": "2026-10-20T17:18:44.262934+08:00",
+  "passed": true,
+  "source_sha256": "83c4d7d63bc5b7f6b8902f165df983b4ebd02000a1810c51bc803ea910447492",
+  "gpu_uuid": "GPU-37424437-e208-62d1-e617-53c421c94a49",
+  "batch": 1,
+  "views": 4,
+  "case": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w1_inlet1_half",
+  "condition": "Val-A-V4 development case0",
+  "timing_scope": "synchronized C0+C1 forward; excludes loading and output I/O; common single-device session",
+  "dtype": "FP32, TF32 disabled",
+  "results": [
+    {
+      "method": "MRGR",
+      "parameters": 344678,
+      "checkpoint_sha256": "650b4f2c0f0ab345b5fd99a7d629e0db388cede0937acb7e3191462cd57898d7",
+      "latency_seconds": [
+        0.02421234454959631,
+        0.023346129339188337,
+        0.02266989601776004,
+        0.02250626776367426,
+        0.022505327127873898,
+        0.022529855836182833,
+        0.022534724324941635,
+        0.022552231326699257,
+        0.022527425084263086,
+        0.022545646876096725
+      ],
+      "median_seconds": 0.02254018560051918,
+      "peak_allocated_bytes": 1157012480,
+      "warmups": 3,
+      "repetitions": 10
+    },
+    {
+      "method": "uniform_fusion_seed20261011",
+      "parameters": 342725,
+      "checkpoint_sha256": "64c1c4a41e66b518e415243be5796b89d36f3c27e5c4165e98b77af49de381fc",
+      "latency_seconds": [
+        0.021919039078056812,
+        0.021901868749409914,
+        0.021921870298683643,
+        0.02196737891063094,
+        0.022069731261581182,
+        0.021928527858108282,
+        0.021951952017843723,
+        0.021980457939207554,
+        0.02205518400296569,
+        0.021951652131974697
+      ],
+      "median_seconds": 0.02195180207490921,
+      "peak_allocated_bytes": 1156740096,
+      "warmups": 3,
+      "repetitions": 10
+    },
+    {
+      "method": "uniform_pruned_observability_seed20261011",
+      "parameters": 342341,
+      "checkpoint_sha256": "5561bb5056dc79cfe72e40c1e2e6a022bc3310f37be3850c020dc7e79b960a35",
+      "latency_seconds": [
+        0.019763257820159197,
+        0.01987473014742136,
+        0.01979122729972005,
+        0.019824345596134663,
+        0.01986485393717885,
+        0.019727129954844713,
+        0.01977871684357524,
+        0.019722725730389357,
+        0.019721481017768383,
+        0.019731365144252777
+      ],
+      "median_seconds": 0.019770987331867218,
+      "peak_allocated_bytes": 285534208,
+      "warmups": 3,
+      "repetitions": 10
+    },
+    {
+      "method": "uniform_feedback_oari_seed20261020",
+      "parameters": 353705,
+      "checkpoint_sha256": "615adbab5984fe393e68a2238844405f74159083c649842eb87eefd0c4448d3f",
+      "latency_seconds": [
+        0.025320335291326046,
+        0.02515589678660035,
+        0.025057430379092693,
+        0.024797214195132256,
+        0.02480047009885311,
+        0.024810581933707,
+        0.0248207850381732,
+        0.02480113785713911,
+        0.024783326778560877,
+        0.02480520959943533
+      ],
+      "median_seconds": 0.024807895766571164,
+      "peak_allocated_bytes": 1156790272,
+      "warmups": 3,
+      "repetitions": 10
+    }
+  ],
+  "main_tensor_shapes": {
+    "uniform_fusion_seed20261011": [
+      {
+        "module": "encoder",
+        "inputs": [
+          [
+            4,
+            3,
+            64,
+            64
+          ]
+        ],
+        "outputs": [
+          4,
+          32,
+          64,
+          64
+        ]
+      },
+      {
+        "module": "lifting",
+        "inputs": [
+          [
+            1,
+            4,
+            32,
+            64,
+            64
+          ],
+          "dict"
+        ],
+        "outputs": [
+          [
+            1,
+            4,
+            32,
+            32,
+            32,
+            32
+          ],
+          [
+            1,
+            4,
+            32,
+            32,
+            32
+          ]
+        ]
+      },
+      {
+        "module": "interaction",
+        "inputs": [
+          [
+            1,
+            4,
+            32,
+            32,
+            32,
+            32
+          ],
+          [
+            1,
+            4,
+            4,
+            32,
+            32,
+            32
+          ],
+          [
+            1,
+            4,
+            32,
+            32,
+            32
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            32768,
+            4,
+            4,
+            3
+          ],
+          [
+            32768,
+            5
+          ],
+          "bool"
+        ],
+        "outputs": [
+          [
+            1,
+            4,
+            32,
+            32,
+            32,
+            32
+          ],
+          [
+            1,
+            4,
+            4,
+            4,
+            32,
+            32,
+            32
+          ],
+          [
+            32768,
+            4,
+            4,
+            4
+          ]
+        ]
+      },
+      {
+        "module": "fusion",
+        "inputs": [
+          [
+            1,
+            4,
+            32,
+            32,
+            32,
+            32
+          ],
+          [
+            1,
+            4,
+            4,
+            32,
+            32,
+            32
+          ],
+          [
+            1,
+            4,
+            32,
+            32,
+            32
+          ],
+          [
+            1,
+            4
+          ]
+        ],
+        "outputs": [
+          [
+            1,
+            32,
+            32,
+            32,
+            32
+          ],
+          [
+            1,
+            4,
+            32,
+            32,
+            32
+          ]
+        ]
+      },
+      {
+        "module": "decoder",
+        "inputs": [
+          [
+            1,
+            32,
+            32,
+            32,
+            32
+          ]
+        ],
+        "outputs": [
+          1,
+          1,
+          64,
+          64,
+          64
+        ]
+      },
+      {
+        "module": "residual_encoder",
+        "inputs": [
+          [
+            4,
+            3,
+            64,
+            64
+          ]
+        ],
+        "outputs": [
+          4,
+          16,
+          64,
+          64
+        ]
+      },
+      {
+        "module": "lifting",
+        "inputs": [
+          [
+            1,
+            4,
+            16,
+            64,
+            64
+          ],
+          "dict"
+        ],
+        "outputs": [
+          [
+            1,
+            4,
+            16,
+            32,
+            32,
+            32
+          ],
+          [
+            1,
+            4,
+            32,
+            32,
+            32
+          ]
+        ]
+      },
+      {
+        "module": "residual_adapter",
+        "inputs": [
+          [
+            4,
+            48,
+            32,
+            32,
+            32
+          ]
+        ],
+        "outputs": [
+          4,
+          32,
+          32,
+          32,
+          32
+        ]
+      },
+      {
+        "module": "fusion",
+        "inputs": [
+          [
+            1,
+            4,
+            32,
+            32,
+            32,
+            32
+          ],
+          [
+            1,
+            4,
+            4,
+            32,
+            32,
+            32
+          ],
+          [
+            1,
+            4,
+            32,
+            32,
+            32
+          ],
+          [
+            1,
+            4
+          ]
+        ],
+        "outputs": [
+          [
+            1,
+            32,
+            32,
+            32,
+            32
+          ],
+          [
+            1,
+            4,
+            32,
+            32,
+            32
+          ]
+        ]
+      },
+      {
+        "module": "decoder",
+        "inputs": [
+          [
+            1,
+            32,
+            32,
+            32,
+            32
+          ]
+        ],
+        "outputs": [
+          1,
+          1,
+          64,
+          64,
+          64
+        ]
+      }
+    ]
+  },
+  "audit": {
+    "counts": {
+      "Pool_A_geometry": 1,
+      "projection_val": 3,
+      "checkpoint": 8
+    },
+    "denied": [],
+    "touched": [
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/geometry/train_geometry.npz",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w1_inlet1_half/projections_train.npy",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_multiscale_formal_v1_seed20261011/checkpoints/best.pt",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/training/uniform_fusion_seed20261011/checkpoints/best.pt",
+      "/scratch/djc/GeoPhy-Set3D/mrgr_gca_uniform_observability_pruning_v1/training/uniform_pruned_observability_seed20261011/checkpoints/best.pt",
+      "/scratch/djc/GeoPhy-Set3D/mrgr_uniform_final_v1/training/uniform_feedback_oari_seed20261020/checkpoints/best.pt"
+    ]
+  }
+}

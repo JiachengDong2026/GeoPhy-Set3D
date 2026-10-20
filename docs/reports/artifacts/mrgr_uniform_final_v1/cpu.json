@@ -1,0 +1,86 @@
+{
+  "passed": true,
+  "at": "2026-10-20T14:11:40.559989+08:00",
+  "results": [
+    {
+      "arm": "uniform",
+      "parameters": 342725,
+      "grid64": true,
+      "original_physics_checked": true,
+      "projection_intentionally_omitted": false
+    },
+    {
+      "arm": "uniform_feedback_oari",
+      "parameters": 353705,
+      "grid64": true,
+      "original_physics_checked": true,
+      "projection_intentionally_omitted": false
+    },
+    {
+      "arm": "uniform_no_feedback",
+      "parameters": 330213,
+      "grid64": true,
+      "original_physics_checked": false,
+      "projection_intentionally_omitted": true
+    },
+    {
+      "arm": "uniform_zero_residual",
+      "parameters": 342725,
+      "grid64": true,
+      "original_physics_checked": false,
+      "projection_intentionally_omitted": true
+    },
+    {
+      "arm": "uniform_no_ray_relations",
+      "parameters": 342725,
+      "grid64": true,
+      "original_physics_checked": true,
+      "projection_intentionally_omitted": false
+    },
+    {
+      "arm": "uniform_no_consistency",
+      "parameters": 342725,
+      "grid64": true,
+      "original_physics_checked": true,
+      "projection_intentionally_omitted": false
+    },
+    {
+      "arm": "uniform_single_scale",
+      "parameters": 342725,
+      "grid64": true,
+      "original_physics_checked": true,
+      "projection_intentionally_omitted": false
+    }
+  ],
+  "historical_uniform_bit_exact": true,
+  "feedback_nonzero_adapter_bypass_bit_exact": true,
+  "masked_fusion_nan_permutation_all_invalid_gradient": true,
+  "audit": {
+    "counts": {
+      "Pool_A_geometry": 1,
+      "projection_val": 3
+    },
+    "denied": [],
+    "touched": [
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/geometry/train_geometry.npz",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w1_inlet1_half/projections_train.npy"
+    ]
+  },
+  "boundary_probes": [
+    {
+      "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_p0100_w1_equal/projections_train.npy",
+      "reason": "array outside phase allowlist"
+    },
+    {
+      "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_p0100_w1_equal/gt_volume_64.npy",
+      "reason": "GT64 outside registered phase"
+    },
+    {
+      "path": "/data/djc/GeoPhy-Set3D/data/raw/Fluent/static_final_frame_partial_v1/targets/case1_g1_transient_scheme_a_v1_2s_p0100_w1_equal.npy",
+      "reason": "GT128 forbidden"
+    }
+  ],
+  "sources": {
+    "/home/djc/projects/GeoPhy-Set3D/scripts/uniform_final_v1/checks.py": "f60f8acc22d58ad192eb0b0f1beb2de4ff87e54418ba91b3a7179ce0619e8103"
+  }
+}

@@ -1,0 +1,425 @@
+{
+  "at": "2026-10-20T19:32:47.878765+08:00",
+  "main_model_id": "MRGR-UniformFusion-v1",
+  "deployment_seed": 20261011,
+  "deployment_checkpoint_sha256": "64c1c4a41e66b518e415243be5796b89d36f3c27e5c4165e98b77af49de381fc",
+  "seeds": [
+    {
+      "key": "uniform_fusion_seed20261011",
+      "kind": "neural",
+      "run": "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/training/uniform_fusion_seed20261011",
+      "checkpoint": "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/training/uniform_fusion_seed20261011/checkpoints/best.pt",
+      "checkpoint_sha256": "64c1c4a41e66b518e415243be5796b89d36f3c27e5c4165e98b77af49de381fc",
+      "best_epoch": 285,
+      "arm": "uniform_fusion",
+      "config": {
+        "dataset": {
+          "root": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1"
+        },
+        "experiment": {
+          "name": "uniform_fusion_seed20261011",
+          "output_root": "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/training/uniform_fusion_seed20261011"
+        },
+        "loader": {
+          "num_workers": 4,
+          "persistent_workers": true,
+          "pin_memory": true
+        },
+        "loss": {
+          "hold": 1.0,
+          "cross": 0.5,
+          "observed": 0.1,
+          "consistency": 0.05,
+          "beta": 0.01,
+          "relative_l1": 0.1,
+          "relative_epsilon": 1e-06,
+          "measurement_scale": 32284.894580078173
+        },
+        "model": {
+          "feature_channels": 32,
+          "input_channels": 3,
+          "lift_resolution": 32,
+          "name": "geolift_oari_mrgr_res3d",
+          "output_activation": "sigmoid",
+          "output_resolution": 64,
+          "gca": {
+            "distance_scale_m": 6.5,
+            "azimuth_scale_deg": 180.0
+          },
+          "set_interaction": {
+            "d_model": 32,
+            "num_heads": 4,
+            "num_blocks": 1,
+            "ffn_channels": 64
+          }
+        },
+        "normalization": {
+          "method": "linear_p99_5",
+          "statistics_file": "train_statistics.json"
+        },
+        "optimizer": {
+          "lr": 0.0002,
+          "name": "adamw",
+          "weight_decay": 0.0001
+        },
+        "train": {
+          "split": "train",
+          "geometry_pool": "train",
+          "a_views": [
+            3,
+            5
+          ],
+          "b_views": [
+            3,
+            5
+          ],
+          "heldout_views": 2
+        },
+        "training": {
+          "batch_size": 2,
+          "device": "cuda:0",
+          "early_stopping_patience": null,
+          "gradient_accumulation": 1,
+          "gradient_clip_norm": 1.0,
+          "max_epochs": 300,
+          "precision": "fp32",
+          "seed": 20261011
+        },
+        "validation": {
+          "split": "val",
+          "geometry_pool": "train",
+          "a_views": [
+            4,
+            4
+          ],
+          "b_views": [
+            4,
+            4
+          ],
+          "heldout_views": 4
+        },
+        "scheduler": {
+          "name": "cosine",
+          "T_max": 300
+        }
+      },
+      "parameters": 342725,
+      "seed": 20261011,
+      "prediction_root": "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/evaluation/test/uniform_fusion_seed20261011",
+      "source_metrics": "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/evaluation/test/metrics.jsonl",
+      "historical": true
+    },
+    {
+      "key": "uniform_fusion_seed20261019",
+      "kind": "neural",
+      "run": "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/training/uniform_fusion_seed20261019",
+      "checkpoint": "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/training/uniform_fusion_seed20261019/checkpoints/best.pt",
+      "checkpoint_sha256": "19bb5f698349c976358be782e9d43301afa9e1eec4a89ddb4e1ceeb8d9bd1424",
+      "best_epoch": 286,
+      "arm": "uniform_fusion",
+      "config": {
+        "dataset": {
+          "root": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1"
+        },
+        "experiment": {
+          "name": "uniform_fusion_seed20261019",
+          "output_root": "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/training/uniform_fusion_seed20261019"
+        },
+        "loader": {
+          "num_workers": 4,
+          "persistent_workers": true,
+          "pin_memory": true
+        },
+        "loss": {
+          "hold": 1.0,
+          "cross": 0.5,
+          "observed": 0.1,
+          "consistency": 0.05,
+          "beta": 0.01,
+          "relative_l1": 0.1,
+          "relative_epsilon": 1e-06,
+          "measurement_scale": 32284.894580078173
+        },
+        "model": {
+          "feature_channels": 32,
+          "input_channels": 3,
+          "lift_resolution": 32,
+          "name": "geolift_oari_mrgr_res3d",
+          "output_activation": "sigmoid",
+          "output_resolution": 64,
+          "gca": {
+            "distance_scale_m": 6.5,
+            "azimuth_scale_deg": 180.0
+          },
+          "set_interaction": {
+            "d_model": 32,
+            "num_heads": 4,
+            "num_blocks": 1,
+            "ffn_channels": 64
+          }
+        },
+        "normalization": {
+          "method": "linear_p99_5",
+          "statistics_file": "train_statistics.json"
+        },
+        "optimizer": {
+          "lr": 0.0002,
+          "name": "adamw",
+          "weight_decay": 0.0001
+        },
+        "train": {
+          "split": "train",
+          "geometry_pool": "train",
+          "a_views": [
+            3,
+            5
+          ],
+          "b_views": [
+            3,
+            5
+          ],
+          "heldout_views": 2
+        },
+        "training": {
+          "batch_size": 2,
+          "device": "cuda:0",
+          "early_stopping_patience": null,
+          "gradient_accumulation": 1,
+          "gradient_clip_norm": 1.0,
+          "max_epochs": 300,
+          "precision": "fp32",
+          "seed": 20261019
+        },
+        "validation": {
+          "split": "val",
+          "geometry_pool": "train",
+          "a_views": [
+            4,
+            4
+          ],
+          "b_views": [
+            4,
+            4
+          ],
+          "heldout_views": 4
+        },
+        "scheduler": {
+          "name": "cosine",
+          "T_max": 300
+        }
+      },
+      "parameters": 342725,
+      "seed": 20261019,
+      "prediction_root": "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/evaluation/test/uniform_fusion_seed20261019",
+      "source_metrics": "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/evaluation/test/metrics.jsonl",
+      "historical": true
+    },
+    {
+      "key": "uniform_seed20261020",
+      "kind": "neural",
+      "run": "/scratch/djc/GeoPhy-Set3D/mrgr_uniform_final_v1/training/uniform_seed20261020",
+      "checkpoint": "/scratch/djc/GeoPhy-Set3D/mrgr_uniform_final_v1/training/uniform_seed20261020/checkpoints/best.pt",
+      "checkpoint_sha256": "581cca5ba4c36359dc7c9b0d13aa4ca54416f0b7358e21cd61d5c63f46014cd2",
+      "best_epoch": 292,
+      "config": {
+        "dataset": {
+          "root": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1"
+        },
+        "experiment": {
+          "name": "uniform_seed20261020",
+          "output_root": "/scratch/djc/GeoPhy-Set3D/mrgr_uniform_final_v1/training/uniform_seed20261020"
+        },
+        "loader": {
+          "num_workers": 4,
+          "persistent_workers": true,
+          "pin_memory": true
+        },
+        "loss": {
+          "hold": 1.0,
+          "cross": 0.5,
+          "observed": 0.1,
+          "consistency": 0.05,
+          "beta": 0.01,
+          "relative_l1": 0.1,
+          "relative_epsilon": 1e-06,
+          "measurement_scale": 32284.894580078173
+        },
+        "model": {
+          "feature_channels": 32,
+          "input_channels": 3,
+          "lift_resolution": 32,
+          "name": "geolift_oari_mrgr_res3d",
+          "output_activation": "sigmoid",
+          "output_resolution": 64,
+          "gca": {
+            "distance_scale_m": 6.5,
+            "azimuth_scale_deg": 180.0
+          },
+          "set_interaction": {
+            "d_model": 32,
+            "num_heads": 4,
+            "num_blocks": 1,
+            "ffn_channels": 64
+          }
+        },
+        "normalization": {
+          "method": "linear_p99_5",
+          "statistics_file": "train_statistics.json"
+        },
+        "optimizer": {
+          "lr": 0.0002,
+          "name": "adamw",
+          "weight_decay": 0.0001
+        },
+        "train": {
+          "split": "train",
+          "geometry_pool": "train",
+          "a_views": [
+            3,
+            5
+          ],
+          "b_views": [
+            3,
+            5
+          ],
+          "heldout_views": 2
+        },
+        "training": {
+          "batch_size": 2,
+          "device": "cuda:0",
+          "early_stopping_patience": null,
+          "gradient_accumulation": 1,
+          "gradient_clip_norm": 1.0,
+          "max_epochs": 300,
+          "precision": "fp32",
+          "seed": 20261020
+        },
+        "validation": {
+          "split": "val",
+          "geometry_pool": "train",
+          "a_views": [
+            4,
+            4
+          ],
+          "b_views": [
+            4,
+            4
+          ],
+          "heldout_views": 4
+        },
+        "scheduler": {
+          "name": "cosine",
+          "T_max": 300
+        }
+      },
+      "arm": "uniform",
+      "parameters": 342725,
+      "seed": 20261020,
+      "historical": false
+    },
+    {
+      "key": "uniform_seed20261021",
+      "kind": "neural",
+      "run": "/scratch/djc/GeoPhy-Set3D/mrgr_uniform_final_v1/training/uniform_seed20261021",
+      "checkpoint": "/scratch/djc/GeoPhy-Set3D/mrgr_uniform_final_v1/training/uniform_seed20261021/checkpoints/best.pt",
+      "checkpoint_sha256": "aadaa583b87e87dc942588b5493c4aae3bf7da23e407ef06c84cae22f6322bdc",
+      "best_epoch": 291,
+      "config": {
+        "dataset": {
+          "root": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1"
+        },
+        "experiment": {
+          "name": "uniform_seed20261021",
+          "output_root": "/scratch/djc/GeoPhy-Set3D/mrgr_uniform_final_v1/training/uniform_seed20261021"
+        },
+        "loader": {
+          "num_workers": 4,
+          "persistent_workers": true,
+          "pin_memory": true
+        },
+        "loss": {
+          "hold": 1.0,
+          "cross": 0.5,
+          "observed": 0.1,
+          "consistency": 0.05,
+          "beta": 0.01,
+          "relative_l1": 0.1,
+          "relative_epsilon": 1e-06,
+          "measurement_scale": 32284.894580078173
+        },
+        "model": {
+          "feature_channels": 32,
+          "input_channels": 3,
+          "lift_resolution": 32,
+          "name": "geolift_oari_mrgr_res3d",
+          "output_activation": "sigmoid",
+          "output_resolution": 64,
+          "gca": {
+            "distance_scale_m": 6.5,
+            "azimuth_scale_deg": 180.0
+          },
+          "set_interaction": {
+            "d_model": 32,
+            "num_heads": 4,
+            "num_blocks": 1,
+            "ffn_channels": 64
+          }
+        },
+        "normalization": {
+          "method": "linear_p99_5",
+          "statistics_file": "train_statistics.json"
+        },
+        "optimizer": {
+          "lr": 0.0002,
+          "name": "adamw",
+          "weight_decay": 0.0001
+        },
+        "train": {
+          "split": "train",
+          "geometry_pool": "train",
+          "a_views": [
+            3,
+            5
+          ],
+          "b_views": [
+            3,
+            5
+          ],
+          "heldout_views": 2
+        },
+        "training": {
+          "batch_size": 2,
+          "device": "cuda:0",
+          "early_stopping_patience": null,
+          "gradient_accumulation": 1,
+          "gradient_clip_norm": 1.0,
+          "max_epochs": 300,
+          "precision": "fp32",
+          "seed": 20261021
+        },
+        "validation": {
+          "split": "val",
+          "geometry_pool": "train",
+          "a_views": [
+            4,
+            4
+          ],
+          "b_views": [
+            4,
+            4
+          ],
+          "heldout_views": 4
+        },
+        "scheduler": {
+          "name": "cosine",
+          "T_max": 300
+        }
+      },
+      "arm": "uniform",
+      "parameters": 342725,
+      "seed": 20261021,
+      "historical": false
+    }
+  ],
+  "selection": "each seed H4 only; deployment seed fixed pretraining; no test ranking"
+}
