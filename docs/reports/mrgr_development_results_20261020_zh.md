@@ -1,5 +1,7 @@
 # MRGR 追加开发实验结果索引（2026-10-20）
 
+后续已按用户要求完成[35例补充测试](mrgr_extension_test35_v1_zh.md)，包含新增反馈OARI、描述符结构删除和双重简化，并核验复用均匀融合既有测试。反馈OARI相对匹配对照的普通/聚簇三维L1为8.5089%→8.3140% / 31.3236%→29.7930%，峰值误差增加。该补充测试沿用此前已使用的35例，不构成全新独立保留集确认；下文仍为开发集结果，不与测试数值混用。[补充测试验收](artifacts/mrgr_extension_test35_v1/acceptance.json)、[完整原始指标（gzip）](artifacts/mrgr_extension_test35_v1/all_metrics.jsonl.gz)、[导出SHA256清单](artifacts/mrgr_extension_test35_v1/export_manifest.json)。
+
 GCA/可观测性描述符消融、反馈OARI的20轮筛查及300轮延长训练均已完成并通过独立重算。本轮只使用166训练案例和36个此前已使用的开发案例，不读取test投影、test GT64或任何GT128。全部结果为开发集探索性观察，既有35例正式测试与冻结主模型保持原样。
 
 ## 反馈OARI：相同300轮预算

@@ -1,0 +1,78 @@
+"""Durable four-GPU supplementary prediction queue; seal then score then verify."""
+from runtime import *
+import fcntl
+import time
+import shutil
+import traceback
+
+def snapshot():
+    raw=resources();append(BASE/'scheduling/resources.jsonl',raw)
+    busy={line.split(',')[0].strip() for line in raw['gpu_processes'].splitlines() if line.strip()}
+    result=[]
+    for line in raw['gpus'].splitlines():
+        i,uuid,name,total,used,free,util,mu=[x.strip() for x in line.split(',')]
+        result.append(dict(index=int(i),uuid=uuid,idle=uuid not in busy and int(used)<100 and int(free)>=20000 and int(util)<=5))
+    return result
+
+def acquire(dev):
+    GPU_LOCKS.mkdir(parents=True,exist_ok=True);f=(GPU_LOCKS/(dev['uuid']+'.lock')).open('a')
+    try:fcntl.flock(f,fcntl.LOCK_EX|fcntl.LOCK_NB)
+    except BlockingIOError:f.close();return None
+    return f
+
+def launch(key,command,dev=None,lock=None):
+    path=BASE/'scheduling'/f'{key}.json';assert not path.exists(),'Existing task requires inspection: '+str(path)
+    env=dict(os.environ,OMP_NUM_THREADS='2',MKL_NUM_THREADS='2',OPENBLAS_NUM_THREADS='2',PYTHONUNBUFFERED='1',CUDA_VISIBLE_DEVICES='' if dev is None else dev['uuid'])
+    logpath=BASE/'scheduling'/f'{key}.log'
+    with logpath.open('x') as log:p=subprocess.Popen(command,cwd=PROJECT,stdout=log,stderr=subprocess.STDOUT,env=env)
+    record=dict(key=key,state='running',started_at=now(),pid=p.pid,command=command,gpu_uuid=None if dev is None else dev['uuid'],log=str(logpath))
+    write(path,record);append(BASE/'scheduling/events.jsonl',record)
+    return dict(proc=p,record=record,lock=lock)
+
+def collect(active):
+    for key,item in list(active.items()):
+        p=item['proc']
+        if p.poll() is None:continue
+        r=item['record'];r.update(state='complete' if p.returncode==0 else 'failed',exit_code=p.returncode,finished_at=now())
+        write(BASE/'scheduling'/f'{key}.json',r);append(BASE/'scheduling/events.jsonl',r)
+        if item['lock'] is not None:item['lock'].close()
+        del active[key]
+        assert p.returncode==0,'Task failed; inspect preserved log '+r['log']
+
+def run_gpu(tasks):
+    active={};stable={};pending=list(tasks)
+    while active or pending:
+        collect(active);devices=snapshot();occupied={v['record']['gpu_uuid'] for v in active.values()}
+        for dev in devices:
+            uuid=dev['uuid'];stable[uuid]=stable.get(uuid,0)+1 if dev['idle'] and uuid not in occupied else 0
+            if not pending or stable[uuid]<2:continue
+            lock=acquire(dev)
+            if lock is None:continue
+            fresh=next(x for x in snapshot() if x['uuid']==uuid)
+            memory={line.split(':')[0]:int(line.split()[1])*1024 for line in Path('/proc/meminfo').read_text().splitlines()}
+            if not fresh['idle'] or memory['MemAvailable']<16*1024**3 or shutil.disk_usage(BASE).free<20*1024**3:
+                lock.close();stable[uuid]=0;continue
+            key,command=pending.pop(0);active[key]=launch(key,command,dev,lock);stable[uuid]=0
+        write(BASE/'status.json',dict(at=now(),state='GPU_tasks',pid=os.getpid(),running={k:v['record'] for k,v in active.items()},pending=[x[0] for x in pending]))
+        if active or pending:time.sleep(15)
+
+def main():
+    from register import main as register
+    register();BASE.joinpath('scheduling').mkdir(exist_ok=True)
+    controller_lock=(BASE/'controller.lock').open('a');fcntl.flock(controller_lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+    try:
+        lock=verified(BASE/'final_lock.json');verify_hashes(lock['sources'])
+        run_gpu([('predict_'+m['key'],args('evaluate.py','predict','--key',m['key'])) for m in lock['methods']])
+        # A separate scoring process seals every new prediction before opening GT.
+        run_gpu([('seal_and_score',args('evaluate.py','score'))])
+        task=launch('independent_analysis_and_figures',args('finish.py'));active={'independent_analysis_and_figures':task}
+        while active:
+            collect(active);snapshot()
+            write(BASE/'status.json',dict(at=now(),state='independent_analysis',pid=os.getpid()))
+            if active:time.sleep(15)
+        assert verified(BASE/'acceptance.json')['completed']
+        write(BASE/'status.json',dict(at=now(),state='complete',pid=os.getpid(),report=str(REPORT)))
+    except BaseException:
+        write(BASE/'status.json',dict(at=now(),state='failed',pid=os.getpid(),traceback=traceback.format_exc()));raise
+
+if __name__=='__main__':main()

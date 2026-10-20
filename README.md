@@ -1,5 +1,7 @@
 # GeoPhy-Set3D
 
+2026-10-20 新增反馈OARI、均匀融合与描述符结构删除的 **35例补充测试已完成并通过独立验收**：7个新增冻结模型各测试17布局，复用4个已核验历史模型，共13,090个场独立重算。反馈OARI相对匹配MRGR，普通/聚簇三维L1分别为 **8.5089%→8.3140% / 31.3236%→29.7930%**，峰值误差有所增加。本轮沿用此前已使用的35例，不构成全新独立保留集确认。[完整结果、配对区间与固定切面](docs/reports/mrgr_extension_test35_v1_zh.md)、[验收记录](docs/reports/artifacts/mrgr_extension_test35_v1/acceptance.json)、[导出哈希及完整原始指标入口](docs/reports/artifacts/mrgr_extension_test35_v1/export_manifest.json)。
+
 2026-10-20 追加开发实验已完成：GCA均匀融合/可观测性描述符删除的两种子300轮消融，以及残差反馈OARI的20轮筛查和单种子300轮延长实验。反馈OARI相对本轮匹配MRGR，普通/聚簇三维L1分别为 **9.4688%→9.0465% / 33.7562%→30.5974%**，聚簇质心误差降低，峰值误差略有增加。仅使用166训练/36已用开发例；不构成独立测试结论。[结果索引、完整报告与证据](docs/reports/mrgr_development_results_20261020_zh.md)。
 
 MRGR 论文最终 **35 例测试已完成并通过独立验收**：21 种方法、17 个固定布局，共 12,495 次重建、22,610 个阶段场。原始 MRGR 普通固定 V4 的三维相对 L1 为 **8.5159%**；四种经典对照为 NNLS-NL、Tikhonov、TV、SART，七项因素消融各用两个种子完整训练。全部预测封存后才进行测试 GT64 评分，未读 GT128，评分后未重新训练。完整结果、负结果、统计限制与清晰切面见[35例测试报告](docs/reports/mrgr_paper_final_test35_zh.md)、[预登记规则判读](docs/reports/mrgr_paper_final_interpretation_zh.md)、[验收记录](outputs/research/mrgr_paper_final_v1/final_acceptance.json)。Git 中保留代码、标量与图表证据；数据、权重及大体积预测数组保留本地。

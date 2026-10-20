@@ -1,0 +1,1164 @@
+{
+  "locked_at": "2026-10-20T12:52:23.421688+08:00",
+  "methods": [
+    {
+      "key": "pruned_observability_seed20261011",
+      "kind": "neural",
+      "run": "/scratch/djc/GeoPhy-Set3D/mrgr_gca_uniform_observability_pruning_v1/training/pruned_observability_seed20261011",
+      "checkpoint": "/scratch/djc/GeoPhy-Set3D/mrgr_gca_uniform_observability_pruning_v1/training/pruned_observability_seed20261011/checkpoints/best.pt",
+      "checkpoint_sha256": "14923de78d56ff66121b6eb64dd3c6d0c8b90ecb9f25cf9cbabff92942a44421",
+      "best_epoch": 293,
+      "arm": "pruned_observability",
+      "config": {
+        "dataset": {
+          "root": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1"
+        },
+        "experiment": {
+          "name": "pruned_observability_seed20261011",
+          "output_root": "/scratch/djc/GeoPhy-Set3D/mrgr_gca_uniform_observability_pruning_v1/training/pruned_observability_seed20261011"
+        },
+        "loader": {
+          "num_workers": 4,
+          "persistent_workers": true,
+          "pin_memory": true
+        },
+        "loss": {
+          "hold": 1.0,
+          "cross": 0.5,
+          "observed": 0.1,
+          "consistency": 0.05,
+          "beta": 0.01,
+          "relative_l1": 0.1,
+          "relative_epsilon": 1e-06,
+          "measurement_scale": 32284.894580078173
+        },
+        "model": {
+          "feature_channels": 32,
+          "input_channels": 3,
+          "lift_resolution": 32,
+          "name": "geolift_oari_mrgr_res3d",
+          "output_activation": "sigmoid",
+          "output_resolution": 64,
+          "gca": {
+            "distance_scale_m": 6.5,
+            "azimuth_scale_deg": 180.0
+          },
+          "set_interaction": {
+            "d_model": 32,
+            "num_heads": 4,
+            "num_blocks": 1,
+            "ffn_channels": 64
+          }
+        },
+        "normalization": {
+          "method": "linear_p99_5",
+          "statistics_file": "train_statistics.json"
+        },
+        "optimizer": {
+          "lr": 0.0002,
+          "name": "adamw",
+          "weight_decay": 0.0001
+        },
+        "train": {
+          "split": "train",
+          "geometry_pool": "train",
+          "a_views": [
+            3,
+            5
+          ],
+          "b_views": [
+            3,
+            5
+          ],
+          "heldout_views": 2
+        },
+        "training": {
+          "batch_size": 2,
+          "device": "cuda:0",
+          "early_stopping_patience": null,
+          "gradient_accumulation": 1,
+          "gradient_clip_norm": 1.0,
+          "max_epochs": 300,
+          "precision": "fp32",
+          "seed": 20261011
+        },
+        "validation": {
+          "split": "val",
+          "geometry_pool": "train",
+          "a_views": [
+            4,
+            4
+          ],
+          "b_views": [
+            4,
+            4
+          ],
+          "heldout_views": 4
+        },
+        "scheduler": {
+          "name": "cosine",
+          "T_max": 300
+        }
+      },
+      "parameters": 344294,
+      "seed": 20261011
+    },
+    {
+      "key": "uniform_pruned_observability_seed20261011",
+      "kind": "neural",
+      "run": "/scratch/djc/GeoPhy-Set3D/mrgr_gca_uniform_observability_pruning_v1/training/uniform_pruned_observability_seed20261011",
+      "checkpoint": "/scratch/djc/GeoPhy-Set3D/mrgr_gca_uniform_observability_pruning_v1/training/uniform_pruned_observability_seed20261011/checkpoints/best.pt",
+      "checkpoint_sha256": "5561bb5056dc79cfe72e40c1e2e6a022bc3310f37be3850c020dc7e79b960a35",
+      "best_epoch": 278,
+      "arm": "uniform_pruned_observability",
+      "config": {
+        "dataset": {
+          "root": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1"
+        },
+        "experiment": {
+          "name": "uniform_pruned_observability_seed20261011",
+          "output_root": "/scratch/djc/GeoPhy-Set3D/mrgr_gca_uniform_observability_pruning_v1/training/uniform_pruned_observability_seed20261011"
+        },
+        "loader": {
+          "num_workers": 4,
+          "persistent_workers": true,
+          "pin_memory": true
+        },
+        "loss": {
+          "hold": 1.0,
+          "cross": 0.5,
+          "observed": 0.1,
+          "consistency": 0.05,
+          "beta": 0.01,
+          "relative_l1": 0.1,
+          "relative_epsilon": 1e-06,
+          "measurement_scale": 32284.894580078173
+        },
+        "model": {
+          "feature_channels": 32,
+          "input_channels": 3,
+          "lift_resolution": 32,
+          "name": "geolift_oari_mrgr_res3d",
+          "output_activation": "sigmoid",
+          "output_resolution": 64,
+          "gca": {
+            "distance_scale_m": 6.5,
+            "azimuth_scale_deg": 180.0
+          },
+          "set_interaction": {
+            "d_model": 32,
+            "num_heads": 4,
+            "num_blocks": 1,
+            "ffn_channels": 64
+          }
+        },
+        "normalization": {
+          "method": "linear_p99_5",
+          "statistics_file": "train_statistics.json"
+        },
+        "optimizer": {
+          "lr": 0.0002,
+          "name": "adamw",
+          "weight_decay": 0.0001
+        },
+        "train": {
+          "split": "train",
+          "geometry_pool": "train",
+          "a_views": [
+            3,
+            5
+          ],
+          "b_views": [
+            3,
+            5
+          ],
+          "heldout_views": 2
+        },
+        "training": {
+          "batch_size": 2,
+          "device": "cuda:0",
+          "early_stopping_patience": null,
+          "gradient_accumulation": 1,
+          "gradient_clip_norm": 1.0,
+          "max_epochs": 300,
+          "precision": "fp32",
+          "seed": 20261011
+        },
+        "validation": {
+          "split": "val",
+          "geometry_pool": "train",
+          "a_views": [
+            4,
+            4
+          ],
+          "b_views": [
+            4,
+            4
+          ],
+          "heldout_views": 4
+        },
+        "scheduler": {
+          "name": "cosine",
+          "T_max": 300
+        }
+      },
+      "parameters": 342341,
+      "seed": 20261011
+    },
+    {
+      "key": "pruned_observability_seed20261019",
+      "kind": "neural",
+      "run": "/scratch/djc/GeoPhy-Set3D/mrgr_gca_uniform_observability_pruning_v1/training/pruned_observability_seed20261019",
+      "checkpoint": "/scratch/djc/GeoPhy-Set3D/mrgr_gca_uniform_observability_pruning_v1/training/pruned_observability_seed20261019/checkpoints/best.pt",
+      "checkpoint_sha256": "b2fe16478827b1f82e64436da162cedd18935cc5d3569fed29939ccfe09323a5",
+      "best_epoch": 300,
+      "arm": "pruned_observability",
+      "config": {
+        "dataset": {
+          "root": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1"
+        },
+        "experiment": {
+          "name": "pruned_observability_seed20261019",
+          "output_root": "/scratch/djc/GeoPhy-Set3D/mrgr_gca_uniform_observability_pruning_v1/training/pruned_observability_seed20261019"
+        },
+        "loader": {
+          "num_workers": 4,
+          "persistent_workers": true,
+          "pin_memory": true
+        },
+        "loss": {
+          "hold": 1.0,
+          "cross": 0.5,
+          "observed": 0.1,
+          "consistency": 0.05,
+          "beta": 0.01,
+          "relative_l1": 0.1,
+          "relative_epsilon": 1e-06,
+          "measurement_scale": 32284.894580078173
+        },
+        "model": {
+          "feature_channels": 32,
+          "input_channels": 3,
+          "lift_resolution": 32,
+          "name": "geolift_oari_mrgr_res3d",
+          "output_activation": "sigmoid",
+          "output_resolution": 64,
+          "gca": {
+            "distance_scale_m": 6.5,
+            "azimuth_scale_deg": 180.0
+          },
+          "set_interaction": {
+            "d_model": 32,
+            "num_heads": 4,
+            "num_blocks": 1,
+            "ffn_channels": 64
+          }
+        },
+        "normalization": {
+          "method": "linear_p99_5",
+          "statistics_file": "train_statistics.json"
+        },
+        "optimizer": {
+          "lr": 0.0002,
+          "name": "adamw",
+          "weight_decay": 0.0001
+        },
+        "train": {
+          "split": "train",
+          "geometry_pool": "train",
+          "a_views": [
+            3,
+            5
+          ],
+          "b_views": [
+            3,
+            5
+          ],
+          "heldout_views": 2
+        },
+        "training": {
+          "batch_size": 2,
+          "device": "cuda:0",
+          "early_stopping_patience": null,
+          "gradient_accumulation": 1,
+          "gradient_clip_norm": 1.0,
+          "max_epochs": 300,
+          "precision": "fp32",
+          "seed": 20261019
+        },
+        "validation": {
+          "split": "val",
+          "geometry_pool": "train",
+          "a_views": [
+            4,
+            4
+          ],
+          "b_views": [
+            4,
+            4
+          ],
+          "heldout_views": 4
+        },
+        "scheduler": {
+          "name": "cosine",
+          "T_max": 300
+        }
+      },
+      "parameters": 344294,
+      "seed": 20261019
+    },
+    {
+      "key": "uniform_pruned_observability_seed20261019",
+      "kind": "neural",
+      "run": "/scratch/djc/GeoPhy-Set3D/mrgr_gca_uniform_observability_pruning_v1/training/uniform_pruned_observability_seed20261019",
+      "checkpoint": "/scratch/djc/GeoPhy-Set3D/mrgr_gca_uniform_observability_pruning_v1/training/uniform_pruned_observability_seed20261019/checkpoints/best.pt",
+      "checkpoint_sha256": "35c40040518e164b32b80e1419f0a009048f311fceeb0b80f195d012090fba7e",
+      "best_epoch": 287,
+      "arm": "uniform_pruned_observability",
+      "config": {
+        "dataset": {
+          "root": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1"
+        },
+        "experiment": {
+          "name": "uniform_pruned_observability_seed20261019",
+          "output_root": "/scratch/djc/GeoPhy-Set3D/mrgr_gca_uniform_observability_pruning_v1/training/uniform_pruned_observability_seed20261019"
+        },
+        "loader": {
+          "num_workers": 4,
+          "persistent_workers": true,
+          "pin_memory": true
+        },
+        "loss": {
+          "hold": 1.0,
+          "cross": 0.5,
+          "observed": 0.1,
+          "consistency": 0.05,
+          "beta": 0.01,
+          "relative_l1": 0.1,
+          "relative_epsilon": 1e-06,
+          "measurement_scale": 32284.894580078173
+        },
+        "model": {
+          "feature_channels": 32,
+          "input_channels": 3,
+          "lift_resolution": 32,
+          "name": "geolift_oari_mrgr_res3d",
+          "output_activation": "sigmoid",
+          "output_resolution": 64,
+          "gca": {
+            "distance_scale_m": 6.5,
+            "azimuth_scale_deg": 180.0
+          },
+          "set_interaction": {
+            "d_model": 32,
+            "num_heads": 4,
+            "num_blocks": 1,
+            "ffn_channels": 64
+          }
+        },
+        "normalization": {
+          "method": "linear_p99_5",
+          "statistics_file": "train_statistics.json"
+        },
+        "optimizer": {
+          "lr": 0.0002,
+          "name": "adamw",
+          "weight_decay": 0.0001
+        },
+        "train": {
+          "split": "train",
+          "geometry_pool": "train",
+          "a_views": [
+            3,
+            5
+          ],
+          "b_views": [
+            3,
+            5
+          ],
+          "heldout_views": 2
+        },
+        "training": {
+          "batch_size": 2,
+          "device": "cuda:0",
+          "early_stopping_patience": null,
+          "gradient_accumulation": 1,
+          "gradient_clip_norm": 1.0,
+          "max_epochs": 300,
+          "precision": "fp32",
+          "seed": 20261019
+        },
+        "validation": {
+          "split": "val",
+          "geometry_pool": "train",
+          "a_views": [
+            4,
+            4
+          ],
+          "b_views": [
+            4,
+            4
+          ],
+          "heldout_views": 4
+        },
+        "scheduler": {
+          "name": "cosine",
+          "T_max": 300
+        }
+      },
+      "parameters": 342341,
+      "seed": 20261019
+    },
+    {
+      "key": "feedback_oari_seed20261011",
+      "kind": "neural",
+      "run": "/scratch/djc/GeoPhy-Set3D/mrgr_feedback_oari_long_v1/training/feedback_oari_seed20261011",
+      "checkpoint": "/scratch/djc/GeoPhy-Set3D/mrgr_feedback_oari_long_v1/training/feedback_oari_seed20261011/checkpoints/best.pt",
+      "checkpoint_sha256": "8c7a31276f778dbf38e23dfb91871949b79fb71019988d6dca9314a4271a5358",
+      "best_epoch": 292,
+      "arm": "feedback_oari",
+      "config": {
+        "dataset": {
+          "root": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1"
+        },
+        "experiment": {
+          "name": "feedback_oari_seed20261011",
+          "output_root": "/scratch/djc/GeoPhy-Set3D/mrgr_feedback_oari_pilot_v1/training/feedback_oari_seed20261011"
+        },
+        "loader": {
+          "num_workers": 4,
+          "persistent_workers": true,
+          "pin_memory": true
+        },
+        "loss": {
+          "hold": 1.0,
+          "cross": 0.5,
+          "observed": 0.1,
+          "consistency": 0.05,
+          "beta": 0.01,
+          "relative_l1": 0.1,
+          "relative_epsilon": 1e-06,
+          "measurement_scale": 32284.894580078173
+        },
+        "model": {
+          "feature_channels": 32,
+          "input_channels": 3,
+          "lift_resolution": 32,
+          "name": "geolift_oari_mrgr_res3d",
+          "output_activation": "sigmoid",
+          "output_resolution": 64,
+          "gca": {
+            "distance_scale_m": 6.5,
+            "azimuth_scale_deg": 180.0
+          },
+          "set_interaction": {
+            "d_model": 32,
+            "num_heads": 4,
+            "num_blocks": 1,
+            "ffn_channels": 64
+          }
+        },
+        "normalization": {
+          "method": "linear_p99_5",
+          "statistics_file": "train_statistics.json"
+        },
+        "optimizer": {
+          "lr": 0.0002,
+          "name": "adamw",
+          "weight_decay": 0.0001
+        },
+        "train": {
+          "split": "train",
+          "geometry_pool": "train",
+          "a_views": [
+            3,
+            5
+          ],
+          "b_views": [
+            3,
+            5
+          ],
+          "heldout_views": 2
+        },
+        "training": {
+          "batch_size": 2,
+          "device": "cuda:0",
+          "early_stopping_patience": null,
+          "gradient_accumulation": 1,
+          "gradient_clip_norm": 1.0,
+          "max_epochs": 300,
+          "precision": "fp32",
+          "seed": 20261011
+        },
+        "validation": {
+          "split": "val",
+          "geometry_pool": "train",
+          "a_views": [
+            4,
+            4
+          ],
+          "b_views": [
+            4,
+            4
+          ],
+          "heldout_views": 4
+        },
+        "scheduler": {
+          "name": "cosine",
+          "T_max": 300
+        }
+      },
+      "parameters": 355658,
+      "seed": 20261011
+    },
+    {
+      "key": "baseline_seed20261011",
+      "kind": "neural",
+      "run": "/scratch/djc/GeoPhy-Set3D/mrgr_feedback_oari_long_v1/training/baseline_seed20261011",
+      "checkpoint": "/scratch/djc/GeoPhy-Set3D/mrgr_feedback_oari_long_v1/training/baseline_seed20261011/checkpoints/best.pt",
+      "checkpoint_sha256": "44ebf575425377a43f9042104f618cc09598308795a71ccac350f93737165264",
+      "best_epoch": 282,
+      "arm": "baseline",
+      "config": {
+        "dataset": {
+          "root": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1"
+        },
+        "experiment": {
+          "name": "baseline_seed20261011",
+          "output_root": "/scratch/djc/GeoPhy-Set3D/mrgr_feedback_oari_pilot_v1/training/baseline_seed20261011"
+        },
+        "loader": {
+          "num_workers": 4,
+          "persistent_workers": true,
+          "pin_memory": true
+        },
+        "loss": {
+          "hold": 1.0,
+          "cross": 0.5,
+          "observed": 0.1,
+          "consistency": 0.05,
+          "beta": 0.01,
+          "relative_l1": 0.1,
+          "relative_epsilon": 1e-06,
+          "measurement_scale": 32284.894580078173
+        },
+        "model": {
+          "feature_channels": 32,
+          "input_channels": 3,
+          "lift_resolution": 32,
+          "name": "geolift_oari_mrgr_res3d",
+          "output_activation": "sigmoid",
+          "output_resolution": 64,
+          "gca": {
+            "distance_scale_m": 6.5,
+            "azimuth_scale_deg": 180.0
+          },
+          "set_interaction": {
+            "d_model": 32,
+            "num_heads": 4,
+            "num_blocks": 1,
+            "ffn_channels": 64
+          }
+        },
+        "normalization": {
+          "method": "linear_p99_5",
+          "statistics_file": "train_statistics.json"
+        },
+        "optimizer": {
+          "lr": 0.0002,
+          "name": "adamw",
+          "weight_decay": 0.0001
+        },
+        "train": {
+          "split": "train",
+          "geometry_pool": "train",
+          "a_views": [
+            3,
+            5
+          ],
+          "b_views": [
+            3,
+            5
+          ],
+          "heldout_views": 2
+        },
+        "training": {
+          "batch_size": 2,
+          "device": "cuda:0",
+          "early_stopping_patience": null,
+          "gradient_accumulation": 1,
+          "gradient_clip_norm": 1.0,
+          "max_epochs": 300,
+          "precision": "fp32",
+          "seed": 20261011
+        },
+        "validation": {
+          "split": "val",
+          "geometry_pool": "train",
+          "a_views": [
+            4,
+            4
+          ],
+          "b_views": [
+            4,
+            4
+          ],
+          "heldout_views": 4
+        },
+        "scheduler": {
+          "name": "cosine",
+          "T_max": 300
+        }
+      },
+      "parameters": 344678,
+      "seed": 20261011
+    },
+    {
+      "key": "feedback_oari_zero_residual_seed20261011",
+      "kind": "neural",
+      "run": "/scratch/djc/GeoPhy-Set3D/mrgr_feedback_oari_long_v1/training/feedback_oari_zero_residual_seed20261011",
+      "checkpoint": "/scratch/djc/GeoPhy-Set3D/mrgr_feedback_oari_long_v1/training/feedback_oari_zero_residual_seed20261011/checkpoints/best.pt",
+      "checkpoint_sha256": "bcce09a904e05348e2fdba75b6d25979f070fa2e1ce211c7b9079227c8882db0",
+      "best_epoch": 293,
+      "arm": "feedback_oari_zero_residual",
+      "config": {
+        "dataset": {
+          "root": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1"
+        },
+        "experiment": {
+          "name": "feedback_oari_zero_residual_seed20261011",
+          "output_root": "/scratch/djc/GeoPhy-Set3D/mrgr_feedback_oari_pilot_v1/training/feedback_oari_zero_residual_seed20261011"
+        },
+        "loader": {
+          "num_workers": 4,
+          "persistent_workers": true,
+          "pin_memory": true
+        },
+        "loss": {
+          "hold": 1.0,
+          "cross": 0.5,
+          "observed": 0.1,
+          "consistency": 0.05,
+          "beta": 0.01,
+          "relative_l1": 0.1,
+          "relative_epsilon": 1e-06,
+          "measurement_scale": 32284.894580078173
+        },
+        "model": {
+          "feature_channels": 32,
+          "input_channels": 3,
+          "lift_resolution": 32,
+          "name": "geolift_oari_mrgr_res3d",
+          "output_activation": "sigmoid",
+          "output_resolution": 64,
+          "gca": {
+            "distance_scale_m": 6.5,
+            "azimuth_scale_deg": 180.0
+          },
+          "set_interaction": {
+            "d_model": 32,
+            "num_heads": 4,
+            "num_blocks": 1,
+            "ffn_channels": 64
+          }
+        },
+        "normalization": {
+          "method": "linear_p99_5",
+          "statistics_file": "train_statistics.json"
+        },
+        "optimizer": {
+          "lr": 0.0002,
+          "name": "adamw",
+          "weight_decay": 0.0001
+        },
+        "train": {
+          "split": "train",
+          "geometry_pool": "train",
+          "a_views": [
+            3,
+            5
+          ],
+          "b_views": [
+            3,
+            5
+          ],
+          "heldout_views": 2
+        },
+        "training": {
+          "batch_size": 2,
+          "device": "cuda:0",
+          "early_stopping_patience": null,
+          "gradient_accumulation": 1,
+          "gradient_clip_norm": 1.0,
+          "max_epochs": 300,
+          "precision": "fp32",
+          "seed": 20261011
+        },
+        "validation": {
+          "split": "val",
+          "geometry_pool": "train",
+          "a_views": [
+            4,
+            4
+          ],
+          "b_views": [
+            4,
+            4
+          ],
+          "heldout_views": 4
+        },
+        "scheduler": {
+          "name": "cosine",
+          "T_max": 300
+        }
+      },
+      "parameters": 355658,
+      "seed": 20261011
+    }
+  ],
+  "sources": {
+    "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/ablation_statistics.py": "415bdffb36b9a1b055ad8336a69a3604ac9d19d7ec21f7b0fa0ce8b9a5defff2",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/architecture_costs.py": "b4b4f5bd80f5a95a29495a8263db720159a6398cc7968dd13c0f561176c0290f",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/audit.py": "5d73e3519f501caed67e48b542507d3a51a41d6eaa72bb33648e590275636fc5",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/boundary_checks.py": "d0cb6a2418e7c65159a234a7befc21cd094b25756c71234373a6570df44c3254",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/checks.py": "7beac9243129d0d3d8bd9e291a32f4a56e0cb1a543d789e0a75a577c6c77b2db",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/classical.py": "595615356475819a4c76955d574e404242f0cd17c9bc29f801c67052333503b5",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/classical_slice_figures_v2.py": "f9c57c884fd024810c60978a7efb3c985116ef891096008ab018bc5b1569b979",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/common.py": "c0b6ee7ceac7a73fbfac59be9b303194bcde99bf953e461ca569f8fbb6a05bc8",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/costs.py": "484415d4985597d7b9c29f04d779054b5a35abe07d05558d1e3551e1d883da1e",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/evaluation.py": "d3fa4829030b936308dd0aa9c5a5a86236752451adba28f2ab18f6066a43dba2",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/final_recovery_v2.py": "b7d6026531f48b4692b2c1aa12f4e09b0b30a5f18925e5d31c6faa1bbd89c2ca",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/finalize.py": "052eebfdcbcea3149553fffe5ce89853c3bec39d2153299dd759096d6a6b1130",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/interpret.py": "c263554d2356491236fc5e70bee4ef32f2f6882216a2233859e3d7a5470afcbd",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/loss_checks.py": "858f9e600013bf2880c6516b0970459c837920e38a02b1acfa128fc8fbe0638a",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/models.py": "2d2728ae40c608eb5ba99f807fd98bbef6a15ba0d4b6047128d53744c8f45e2a",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/module_checks_v2.py": "122ba286c2c7b6dda47a27e3c5cd867bd96ed67462fc53abfaeec4f653382d2c",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/module_integration_v2.py": "df630660bb0e1da7a9c8877ca7996165d86054a7ebe1dd8dd20d6679723f5712",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/module_models_v2.py": "9fa92889bf87cf4cf9426dad464bdc1d10716cae718399b5cf23012543e6d417",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/module_pipeline_v2.py": "8f827ccadf243e0015e01ff7441a13e477765abdf7424b04b8772fa0133f9d2c",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/module_registry_v2.py": "bd43e5e0803dfb3cdc678437782c5b0029a7044883da0d4b9eb5afb4c8e9f6b8",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/module_train_v2.py": "54a9ee53ec02614dada8172714248b53cdd54ce98d5e96ebb0c68a0d8b1e2184",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/pipeline.py": "9a34d8f59ddeba3aa597fcd5e3839b47803661d998f1a7c1355a3b7fa6a382b6",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/publication_bundle_v1.py": "a0c3160101580149e61673ee33438e15fbc2c657c1833311e73e131d0a56c6da",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/publish_report_v1.py": "7c246b0f57081eaa32173e46e72e4a9bb933dfa3a73b1dba0e52f2af08bf4b9b",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/report.py": "eb96c9183a1eb6d07257726234cc80375f2a9eb2b51ec83c042c71441a80d8f3",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/sart.py": "171dd3ad7e2129a5b46248eedce56aad87f496f607ff3dfc309b9c25cd200e28",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/sart_cache_checks_v2.py": "101eff5b960f950c5003ab22411ecb64d73a35250b7d8da6daf54d8bee05722d",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/sart_checks.py": "93c225d3bebbb9a8daf53446b598059e4218a515e80b67bdafdc15e45eb3633d",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/sart_integration_checks.py": "b3bf3d01aa002211140d387b75d616742b653ca4f94238db49e50600f13f4a1d",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/sart_pipeline.py": "bfd6ef229f7f7df0ec7978ff04f163e92fd307a09a67cef0401b9e6f657d01d4",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/sart_recovery_v2.py": "7eec0692a62a79b9e02605b853d530c9a756e203ce2e1be192b2bef7d5938b3a",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/sart_report.py": "19b967e47c7d1dea9ea4a41950a1e5c84b3b31d270985c17eeda5c0274613f5a",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/scheduler.py": "9c5ba974dd364681532d12f21d756e1e6b42051ba6215fd025756edf4dafe796",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/seal_recovery_v2.py": "e38ffd11958ba3d7c25b27e7d2cd04992116e0377882e45c7c2e4895bf327ab6",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/solver.py": "55b749b6e9f36122e951ae6cd02421df120be48b1f9c05bee839b1422503f68f",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/train.py": "7326efa795790f3e23786454ab42a582bc005784503ee1896f4443d2431941cc",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/verify.py": "b2621cb5f1dea8e07c67360981b41e127828f6c60fa993819c045d23581d00c4",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/probe_mrgr_multiscale_v1.py": "3e351ae163d1d67c4c12f9cbeef352653fb69690306783099da08d294e8f3892",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/report_historical_reconstruction_v1.py": "56465f17d6cda715c52fd097dcee8f31a37681a33619868d80148005a8bddbbc",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/train_mrgr_multiscale_formal_v1.py": "db5fdb03f96e865f5939eec1b84f7741489c30598497f2d15b3fc9a73dd77304",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/__init__.py": "47441c8638d63363d06b204cb8d6b0e9a6524c9d598920036b9cd8cc3e9ff2b5",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/data/build_utils.py": "0fbaa994ae1b3b82094fc687efc767e3ce019b7f28f0987e37e80efef1ba31be",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/data/collate.py": "64ba5c126d89e0e709eb7f002c791a32a896e8ef098128fd71cf10f6daf8e83e",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/data/generation.py": "36374efc91e0e27d00ed817109472cdb39f30e6cedcbced7c6bc6392746f703c",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/data/measurement_only.py": "8ac516e07b785ac82686306ded38bbe0e47622087318af2741731e5d4f1271b2",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/data/measurement_sampling.py": "88f6e05beb64111c1a63fab90825f0f68e6ae2772a92f0be6187d9e55cc7a693",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/data/projection_audit.py": "77b5d7afc44326ae00e676f41a3989244fa040e1020992fd5c2e5d0fc9c87e09",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/data/projection_pool_dataset.py": "2ff2426b94043c4d2487e1b47c27340599df798816187774be2a5a2d62e0ee8e",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/data/rich_measurement.py": "09648bd196db21be9e4f673da4157a53024145f8429af6846e780c960b298e26",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/data/validation.py": "76b1e84a737fcb740ab5bb5b83feecb86c76693968516a2efcbf24d84d192f14",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/data/view_sampling.py": "fc858a69533b41f67be5fd050ecd0dd6fdb253d86ae382e02591c2ee815e1eb8",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/diagnostics/senseiver_signal_path.py": "ec182c4003e0abb303a99bf74bb3cd3ae531543664b325929a9aa9658210f742",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/__init__.py": "7e7c0e83968957f68b7808b2b644686a0a12f21bad15045831d70a52214a8338",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/analysis.py": "199f1457d0978a606c761ad4d11ca1edd10f6aafa95e198bc1e7ec25021131ad",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/b2_report.py": "fada1bbce57c3ffeb0056862e0756bbf63635764327b1b9c408f785c573916d1",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/b3_report.py": "73fb688b46965b915ab8b8e602ee333995121261c94985e72a54a3d371b524af",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/clustered_one_swap.py": "b506eca28a515b6026d3a75b57d3a15b2a177c092db209195cafd4e65fdace5b",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/comparison_report.py": "2e44d97c482a08e7a8c97b141d4a30b72305fe831e0496661d6efe79944ad0e1",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/deep_comparison.py": "d89dd67c0b7d3e19df5fd41dbd8411280141a616f5603896efb066cfc41c1389",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/experiments.py": "5aedd0c55eec76e4b874222bc7b19578c1b7d8f48af657bdf67a2adf60041182",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/figures.py": "816712bea9a5ac3bf35946eef78e8781cf20248f6d3bc427f6f8fb03b405486a",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/geometry_augmentation_formal_stats.py": "2ecd585ec7f6dcf1fc2bf74022bda08062deb2de9e032c372bbb8924277c6e8d",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/geometry_augmentation_sampler.py": "82214214c4576d4228dd7f668714ad83864536247f8a6dce6988c61b904f8b25",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/geometry_catalog.py": "60eb3fb4506426de22dde50d274f9eb15c7779298d465c88bdca586f50872e2f",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/geometry_sensitivity.py": "460817ff0b13ced548997a7dd691c647d8eb30e6ca9e0f6d2c6307c7eac73585",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/geometry_strata.py": "cc3c9d9557b446ea419a4842ac447afe2b512d86be76521190a4c203abec86e5",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/geometry_stratified_sampler.py": "976de22b042f7d392424965ce5a62ed24a0957e78bcab7ee493998e390feb0ba",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/matched_control.py": "55eacbce1ded9de9c9344f4c32e1836d729ef229175080ac1048b9680cb37611",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/measurement_consistency.py": "edee97bea059708eddcc772b3831858f918a1ccbcf4050f4c491d2aa768f9889",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/measurement_diagnostics.py": "2b920ed3da6310f68193bb8ef5e047f51c67c39f7686c683f847fed8fc3cd382",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/mrgr.py": "c796ede1a09fd06fae65c3d833184c9cfea5a0a1a37159dafa5f8187b3fa9c08",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/mrgr_report.py": "409822580c09530d2272c796fd02704b02af45d4a0f397d4b1dc5a3a5fac671d",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/oari_diagnostics.py": "ea656b350edd48da390281d4e25d5a3f56e9146b48a043c694a975d72c9cccfa",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/oari_report.py": "a907c8912468605c3fa55b59bdb987ca2086e0a451ff4f24be429986e3e4d73e",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/protocols.py": "60b4a82f96dfaec4947762855e6987a1fffedb987d96ab15dcdb2bd9e7caf878",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/ray_senseiver.py": "22fc91e943fe45bbb43d7e07c9ccfa1c26cc24b7c06a1b706338483f3ea24b94",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/report.py": "60799671d8f557c775490a2dd6755f18258cfa38ea755d19b0eec84cfe15067a",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/research.py": "17d9730664dd646a5dbeabf824d90eb7c7ab4e58dde3c9d65fa57f8f8474db93",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/research_integrity.py": "9a433d6ded5173fcc2c0921078693c849e490bc6a6e4c22647d0414bf1e68902",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/rvtc_failure_diagnostics.py": "47d1f9f28445af6d29a198c3e1f3b3a151073ab722d21a8bb4c3527c5b4deed4",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/selfsup_c0c1_diagnostic.py": "42fff49d6415869b7c91f213877428ef26c6d43ae1aeec68dd8238203361f665",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/selfsup_report.py": "685f66b86bb233116a0bdbe8a2ff835d16e63780332609613b3aa1cf5289c78a",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/selfsup_v2_integrity.py": "2aacd7d9220869a37bf214fcb512128211442bc67b274cc474d28c766ba05dde",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/selfsup_v2_report.py": "96df2a594503353517849af5751c8921f1144c172218659825ac58782c56a677",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/stratification.py": "de9ee3059ba4e59288021105671fdab907b670617212a7428d0e1ce03e43623f",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/summary.py": "73a8acd82a6ba703665993280af31ac95daeae413b81ff078c5d932b678b0d68",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/training_runs.py": "b2b9a3bffc3002d60d0f5896b3e8b7efefc3133fbf8238f67f4909a8c6e55cad",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/view_selection.py": "32a56947b18b30bf788768c3a939ff1cf06694caf4939512713ad64b1e230b60",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/geometry/tdlas.py": "d641d3ebbb0fe288b9ae770b9bb5f1b5c5cd4ff3a4729235a161e74f78fa6dce",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/__init__.py": "54484529fa097a5a63b2bd982de29e01b29b88cfa7cc0b0fbd3151a5470e77f0",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/attention_fusion.py": "d349c05cb1565889ff83b0f391fff5882782e6525bc61481d3e2db9ceba4329e",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/blocks.py": "2842f04765a4c9ba7bc5ac04135ec8ddd8c7537745fc6f79b6c6ab41b3033223",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/decoder3d.py": "3aab7052dcc19f356fc2245ada14e8fe085b858b26c91cd180e358a4cc0691ac",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/encoder2d.py": "fd6f7e6f9d14573dcfb2d2b494941f83f63a269993f8bbae9616594a32443e14",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/fusion.py": "5a7ae6fd64daa283c15af3545311f75c58b774cb86294b2996bc3b098c3868d1",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/geolift_deepsets_sum.py": "e877158c6e0bcbecad2ef6bb6f852dc93e8077155e946d8232a63255a6c90e23",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/geolift_gca_res3d.py": "cde73cf1249ade86f54a3fcfc2ce5e7c8f85852cb836d356f3eed7cb74376c04",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/geolift_gcsi_res3d.py": "fcad0a6ff1daa02716f16d3c2661a1caa73e25fa915c061ae32d510418d084d1",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/geolift_mean_res3d.py": "119db246431a2b4612620afc29d819951d0ae21ab0ff08a8846f22c66f2a443a",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/geolift_oari_mrgr_c0_adapter.py": "7900e5d37b4bf8c068b84d4ce950c21e85dc5566eb1f3f1b44a0dbe7e3ac5b00",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/geolift_oari_mrgr_res3d.py": "a095e2cf9bbd9e86fc0a999df4c7d7185fcb4133220ba6334211b91b70166c26",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/geolift_oari_mrgr_zero_residual.py": "cff44973dca6731ddcde04920eee7064c2ca7844a9fd74d3608d2a44163c1634",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/geolift_oari_res3d.py": "0c254b09b598c3f3bed1af29c7a17e3de26349024106c8849938ac8a2126b0ed",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/lifting.py": "0cf2fc39535fab45cf7e2f8bd8cdcac70c8ff3f830c816b936347cf7f3b39710",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/ray_relational_interaction.py": "25db37d18c84240bc86f5b0eeb1a0a009a9958dce8bd3f6875dcb92f30b1eac2",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/ray_senseiver_latent_residual.py": "ea02b34d4123891736628dfd25c3d2b1b0b32dbbbed244785460114124f94dd2",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/ray_senseiver_ss.py": "fa497b1a68d45bd20db0f7fd7118a4e7664c55c31b3c3a53b27b43b2ea5480cb",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/senseiver_core.py": "b45e02cde0e2f2597370b34596854ec1d8890ab5838d7c73968b50fee40f1da4",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/set_interaction.py": "1b80318623b8cd07f94bad70879e159af5f0cd54f083b172c8b4a8bbe0eaefb3",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/set_unrolled3d.py": "839d7c17ad9837e8baa97140647f3d74407ca64fefd065b9ca5e2796c0d3e8e3",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/physics/explicit_ray_operator.py": "5ddc059e59c5cff401666b40f89d3c74d21929db0c1f5ccf79e3aa2a8e8ebc85",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/physics/projectors.py": "fe3475e29abbba0d3495be9fc69909f3b8b1d7e8d40c25aed683094198f6e776",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/physics/reference_projector.cpp": "3773bb832aeb04928e45d1baac4fcf0a9701502727ee6046a05fa85811881a0c",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/physics/representation_capacity.py": "f0b3491204a172951bec0a1354f95933548672d75343ce2f24ad4d3d395ce92a",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/reconstruction/classical.py": "261530dc8296446203140f581f8e7b736aa0bcb4b98d5141158e24d2a49b1867",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/__init__.py": "d253aa4cda19ba45b2d472981e2410da0a7fd319f8509be5acd8ed2d037ff0ae",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/comparison.py": "b5028eca4f820f79b8c5eb9e17f6c143042805fd961db85955afb57e6881ecf3",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/deep_comparison.py": "75fd31230809ee3874c7a77ba5320c3d1f691d06e35c4cdf409e6e29fb54b07e",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/engine.py": "4491b17bcbc2dbb89d227086b53dfe84d21ed6c86ba1010b64358168f7bc4bb6",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/geometry_augmentation_formal.py": "b8b2aed8470acd8391876e1bce260a6e8727ef4c9bdd5e4026e4dcb181d0e9f8",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/gt_read_guard.py": "42bf7c374d0f297050e801f4b5baf9a544b731a46157f65862eeaa3b4b5cfe50",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/losses.py": "a6bec7ce5ee00fbe11d8d159add0d42243775b5d443c07a8e59dadee759b4c5e",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/matched_control.py": "0c807bacef0acca1362c3ce6b283bea2165e26b845c4b6bc88743ef0734ae319",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/measurement_engine.py": "373bc13981c1e4afd63f5959ea76528e6cc53ea30353b44272b6fee378c3ac85",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/measurement_runs.py": "d2c3fc98b593917419c2b74c454888dcdfa7ff1255f1d6adf112d6a2204c8e65",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/metrics.py": "e5244421a7cba81702873d0b69e882468a4ee97012676097545729a1fc31461a",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/mrgr.py": "098b6ca504d53eab4a01f3ce4f2ba7f5a7e1417c79ec144bc837cc8a242c1b53",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/projection_losses.py": "d64e4fd327bf68e4f18ee3f9278ef453363042a7a0deaa71fc4a91283f6f05ad",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/ray_senseiver.py": "5883cd2126ebd06e3e3eb5dc16348085ebb6d01ce9739f78cec8a253cf81140c",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/research_selfsup.py": "654b84d5d35dfd1fc3c0db39b839ec4d77b6912588945b8f69084b41f035fc4b",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/rvtc_matched.py": "c8236c8dddc66fdf11e083ed516bd7797aecbdc837c749202b2c41a343692866",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/selfsup.py": "03cdee12b66aa1f7fdbd6a265ac7a23397ae03cee13fd18b1d8d721b6a91d909",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/selfsup_v2.py": "f4bb9c0159e6c4acaef188c0627d4ddcaa667d3c6851bb2055e34dac395a668e",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/senseiver_consistency_probe.py": "10127e7ad6adba39e5501815a844b4f205346872cfd679143cac1be86769edda",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/senseiver_init_probe.py": "b58c33db663a35f55254bf859158ab432fac018efc8fa636edcda88898ce002e",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/senseiver_readout.py": "4a335738a6a3834c7b0a6bca4c60672ed0ed7afbb69d81e401cb523b736e37a1",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/senseiver_relative_probe.py": "f64076d1cd087a403ed3d07f5a540e46ab34a8723a93cf488015caa503e2ef12",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/senseiver_single_repair.py": "8556c260a913c8df05b6f41b93535c74e5b01d2c7b4650d1e0ee4e296ec30ea1",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/senseiver_supervised_formal.py": "d0d2e18de0de39d4fd7bff5531adce024345f4f86922a0cb4d1ace0e75322237",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/senseiver_supervised_probe.py": "e84b92c03548c391e158f7cc3e28df2dad41ed64705dbe4f8a02fa1d74f1d70f",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/senseiver_supervised_stability.py": "f9206a7c3a9d92d5a6eb7b59d07580986cb5cbafc18ddb3516771e905c0ca6fc",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/utils.py": "51f397ff01ed89b6b930fdc0fee436bf754bcc40c0eaa58f5b3e7c005d14a1ae",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/mrgr_extension_test35_v1/evaluate.py": "d4fe8114aacd7417655435f04422f73cbf17f77dfb66d5db50dfa0a9e81038e2",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/mrgr_extension_test35_v1/controller.py": "322cd3ccc80e9c8bf1f01ea0173d340f3e512febe2e69965fb2d58e09bfec82f",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/mrgr_extension_test35_v1/register.py": "9d72f5e507b6e66f244099486bc2e73f388dd927a06de2439d9b6135f10ad29c",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/mrgr_extension_test35_v1/finish.py": "ff391ffa085e9ae80a1033c80ce242e5a600dad13718fc4dd1a3d5e1b32dd59c",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/mrgr_extension_test35_v1/runtime.py": "9b69afecf96c860eac3fcafac625925008bafb33962993469d9b83bd681b2237",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/pruning_v1/train_worker.py": "e6e9ca55f37f2703eeac97b050597a0eeb4284927548f6785a1f5def9f129cd6",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/pruning_v1/evaluate.py": "d2630b44ed2913244ae35d00e8612de7556477ab85e314f8106c053630b77109",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/pruning_v1/reuse.py": "bad7844ed2cd48655f97349b03c70fac0fe599285aa897792a36bb5fdefaad02",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/pruning_v1/report.py": "e8ef01d0f4439f31acf875f0d54e0ac3b3962d71260ed1a413d477a8290257eb",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/pruning_v1/register.py": "bfc432883cde9505be13ebe285df29c46b5fed094d1898d268ab677b576d01b5",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/pruning_v1/methods.py": "c616061c1d8116eea95e3e844307da5070496b4c52027b5d2993a2f7fc2df4c0",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/pruning_v1/pruned_models.py": "0302481544cf78d4c6a7988321ce39905fb0ac2cfa3bddb246a1e98c82592797",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/pruning_v1/analysis.py": "46b6be799e47799a6a9c50299565a8e9a566438137986af05814dde0746c79af",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/pruning_v1/verify.py": "ca8d999ce7225aa19dbc9d4343ace2a2b8ee173f8152a6eecd3ae2ab653076a8",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/pruning_v1/runtime.py": "61fb2d7efa1714757e38f2c7c597c3c950f6d418409c8ab3a578e01f9ba52234",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/pruning_v1/pipeline.py": "bdf60276b0734cfc6772b9e008a449f61cce7f2ebbef9363e2541a82acc79b60",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/pruning_v1/checks.py": "0ca5bec4ee974c3fa657c36ece03ae6146faaa8b2ddaeaf893326513197f8801",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/feedback_oari_long_v1/evaluate.py": "e2223719b2ed4cefa8d1fdb08c0772fed3580a53ba23ed0e81f6f1cc778b0607",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/feedback_oari_long_v1/controller.py": "e38e3a3a766fe28e29efdf9db70c463886bfc13cb471f73762ec50db5bd4cf70",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/feedback_oari_long_v1/register.py": "78d16ef1b40afa6fe3575f1f9d7131b444d9a1e620fac93cddf0d08251d08f3b",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/feedback_oari_long_v1/long_report.py": "961027abb810dd9c68200406c24d707cc44b953355ec2604fbe69ba160dff5e3",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/feedback_oari_long_v1/worker.py": "1ea220b58e04e12a65dc4059d6c06d7ba6c602323b403f4bfd47d670d9d8f32b",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/feedback_oari_long_v1/pilot_models.py": "2def095fb64298b08f2e8db03d03291bfa9eb1fade5554a0173a70ff9c95b8d3",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/feedback_oari_long_v1/runtime.py": "9d4922699f2819aadef40982e42a3b489cfbfc75114df205b3eaac8fd48e08a0",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/feedback_oari_long_v1/analyze.py": "f80744ebf0b2291426f0560797cd5b048cbe30e47002096f721e97a6ca15a3ad"
+  },
+  "data_identity": {
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/source_index.jsonl": "cfc482fc84847c90620f0115edafbb12b2ad3cbd2c2ca21b6445ad0025924707",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/train_statistics.json": "7511c5c9035f645838e433db058c4f4c2fc5a95f7dbf03986481da1af62808d2",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/geometry/train_geometry.npz": "83f583dcc38370e5c66873585c724ab116076d9a9f29f80f674c5c03c96fe3f9",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_p0100_w1_equal/projections_train.npy": "f253f2ce156c1db12f3c3f2999a6eb0ad670e2e04262afb387ab91bf22e813e1",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_p0600_w3_equal/projections_train.npy": "ec5ef5d5a419b690b941245ca9bba5de94be1a9b7900f09d5da867809af32b63",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_p1500_w0_equal/projections_train.npy": "c64f4e3e065a45b5fe3fcff03a972afee16185e5cb4ba7359224f1d214caec29",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_p1500_w1_equal/projections_train.npy": "5b8f99b862e43b58cd68416b52d63a00d1e314973e5a17c016295474d0a5aff8",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_1_g2_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet1_half/projections_train.npy": "2db4b6309b709df9d615851af843d5e9d7d6e7a039c3725c90e8be2b66801c1f",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_1_g2_transient_scheme_a_v1_2s_asymmetric_p0300_w3_inlet1_half/projections_train.npy": "019ccfd56bdd7a1cbbb365b00cfde0a1ed1d05dbb632ddc06428bb79d9b5949b",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_1_g2_transient_scheme_a_v1_2s_asymmetric_p1500_w3_inlet2_half/projections_train.npy": "0aabf4ccdeaa8de7546d3a0bbb255f0b170a8bf55e0379c4ab0597c28498fd8e",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_1_g2_transient_scheme_a_v1_2s_p0100_w3_equal/projections_train.npy": "477bfc676e7c8ded2a6aa2a58c1bd9054e573a2e5973879f75e22264912d6516",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_1_g2_transient_scheme_a_v1_2s_p1000_w0_equal/projections_train.npy": "0fb8f1a51bd120ce9e4ce5ceb9b2f17ce9188d8f72fb282927ebf9fcc3ed0297",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_1_g2_transient_scheme_a_v1_2s_p1500_w3_equal/projections_train.npy": "82806e3e23b2728b2406c128eef10fba7aa80a18300085327603c03bf58f637e",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_crosswind_g2_transient_scheme_a_v1_2s_asymmetric_p1500_w3_inlet1_half/projections_train.npy": "c004f7fc0773ff577bbee45fed3587480a28269a8206d85dce613e054de5723b",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_crosswind_g2_transient_scheme_a_v1_2s_p0100_w2_equal/projections_train.npy": "1567d378551a5ba80ee0e5772e06d68486ad0ac11bbd74a781818b4bd9b42ab2",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_crosswind_g2_transient_scheme_a_v1_2s_p0600_w0_equal/projections_train.npy": "8585d26fafd7328e23c01a45ae0e68dbd0ae4c221d9446164e5b37f46695d346",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_crosswind_g2_transient_scheme_a_v1_2s_p0600_w3_equal/projections_train.npy": "cf1f68c4e796d447ff69640e1772a242fc297c0016e490619216a5b63e9b4b3c",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_crosswind_g2_transient_scheme_a_v1_2s_p1000_w1_equal/projections_train.npy": "b8c0ba3abb7060cc505ec9d4314af7fd478d1a65d947c40e277a4d4d3b74c415",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_streamwise_g2_transient_scheme_a_v1_2s_asymmetric_p0300_w1_inlet2_half/projections_train.npy": "1a97dfc222722ea97cb5ad08ce43f5cc7ff7b19081903e2b55a0be3126e78b4c",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_streamwise_g2_transient_scheme_a_v1_2s_asymmetric_p0300_w3_inlet2_half/projections_train.npy": "6c87b5a80de1cf8b838f67a8a25de8938fdf23167d8b39f65b3af82b1a389e64",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_streamwise_g2_transient_scheme_a_v1_2s_asymmetric_p1000_w0_inlet1_half/projections_train.npy": "0245cabe0e8806c4bb71a70458dbb1c0c0d3fb2299ca24a785607f6b4d0c57fa",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_streamwise_g2_transient_scheme_a_v1_2s_p0300_w1_equal/projections_train.npy": "69e1c5ec14bd8a39e10c623ded73c11b0003ddda167283fad239b62044a120c0",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_streamwise_g2_transient_scheme_a_v1_2s_p0600_w2_equal/projections_train.npy": "f843a4241dc2386883643eb9804d9af1a89597be016d080e40b6d4af1a327e27",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_streamwise_g2_transient_scheme_a_v1_2s_p1500_w1_equal/projections_train.npy": "f0ea70a8fdb4776c52b022544ad0fd2c0797c0ca03b9f6669b9fe1a43a104d0c",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_asymmetric_p1000_w0_inlet2_half/projections_train.npy": "b9c2ab3777758d86b4d7288afd340c179e0e3cf0ad8bdc71f84309598e5e97dd",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_asymmetric_p1000_w1_inlet1_half/projections_train.npy": "d4fd3ba9d6afedd0ea3d4aa78a0eac4008b50cc3ba1a4115aeb8da1f30d09378",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_asymmetric_p1000_w3_inlet1_half/projections_train.npy": "78e4013c20903b49a72d9354f48eafddb1bcd2ec63754d9d17781d3f07796c24",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_asymmetric_p1500_w1_inlet3_half/projections_train.npy": "2a991c9fbeab8c473373af2f9f46773c69b3764bd48ef03274ad91701e9a0ebb",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_asymmetric_p1500_w3_inlet1_half/projections_train.npy": "a9eb2b0f4e80ad1cddd00e6afab1dddda8fccd09c44ab863568bd6401ea55d54",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_p0100_w2_equal/projections_train.npy": "dea63b8fd34da9ace414a5259cbf0a0c405f04723c1701abb2f0091038635278",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_p0300_w2_equal/projections_train.npy": "588cfe5c54683542f6d37161a6bf00a669a21bc89280266e7954d402be677600",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet1_half/projections_train.npy": "c7962bcb49a6099757da9bbe16d337163fd37ad7a78cdecea1101121e88d4778",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_asymmetric_p0300_w1_inlet2_half/projections_train.npy": "8e301b2aeaef43caed7863f8f84412ff96bb65bd6943c2ad3ce9c7122c4fd404",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_asymmetric_p1000_w0_inlet1_half/projections_train.npy": "3c8adae177062a587adc65d459cb58147be4c5cb6372ab72a5faa26199c0407e",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_asymmetric_p1500_w0_inlet2_half/projections_train.npy": "60715f8ed612fdf03262e94d10379ba9816d6935191f8a9c48ff616d1858553d",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_p0300_w0_equal/projections_train.npy": "32aaba682da280ac91420590a32e341c339e3ec58161c4f574f46e00676e07f0",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_p1000_w1_equal/projections_train.npy": "5774c1379ee9943fc6b0c123f644ac69c95a9fe6e2b2ad2d0871906eb6ab9769",
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_p1000_w2_equal/projections_train.npy": "b166b1fefbebbb3422af57a66c7d3ee24024ad137183f0fac8b9c8ed601f8b13"
+  },
+  "gt64_stat_only": {
+    "case1_g1_transient_scheme_a_v1_2s_p0100_w1_equal": {
+      "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_p0100_w1_equal/gt_volume_64.npy",
+      "size": 1048704,
+      "mtime_ns": 1791637263919557635,
+      "source_GT128_hash_from_existing_manifest": "2ea005180979d7192969b92eb674e9dc0a84164b432380a831c42945f73814fd"
+    },
+    "case1_g1_transient_scheme_a_v1_2s_p0600_w3_equal": {
+      "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_p0600_w3_equal/gt_volume_64.npy",
+      "size": 1048704,
+      "mtime_ns": 1791637266439579335,
+      "source_GT128_hash_from_existing_manifest": "66bd5c383bf34f23be5cb0c0042d0a310a441e4705c41e4690768ff895600f18"
+    },
+    "case1_g1_transient_scheme_a_v1_2s_p1500_w0_equal": {
+      "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_p1500_w0_equal/gt_volume_64.npy",
+      "size": 1048704,
+      "mtime_ns": 1791637267643589703,
+      "source_GT128_hash_from_existing_manifest": "556fa5fee85e3349631c9e57e48c475ffe711afbac4d2abfba82b3fb224e9112"
+    },
+    "case1_g1_transient_scheme_a_v1_2s_p1500_w1_equal": {
+      "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_p1500_w1_equal/gt_volume_64.npy",
+      "size": 1048704,
+      "mtime_ns": 1791637267879591735,
+      "source_GT128_hash_from_existing_manifest": "b8058633b23e34eb0fdba334e53e6b1b3864fec8435d6d29f6d7e0ac9a2a1e31"
+    },
+    "case2_1_g2_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet1_half": {
+      "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_1_g2_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet1_half/gt_volume_64.npy",
+      "size": 1048704,
+      "mtime_ns": 1791637268607598004,
+      "source_GT128_hash_from_existing_manifest": "9ddedaf27c7bc99f696aa303cd24b2895f4f25d68be32787b11b6c5edcf8e4ce"
+    },
+    "case2_1_g2_transient_scheme_a_v1_2s_asymmetric_p0300_w3_inlet1_half": {
+      "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_1_g2_transient_scheme_a_v1_2s_asymmetric_p0300_w3_inlet1_half/gt_volume_64.npy",
+      "size": 1048704,
+      "mtime_ns": 1791637269567606269,
+      "source_GT128_hash_from_existing_manifest": "da7fcea2b79c3f7e65755f769e63fbaa4920267e864b242b490f04932e604f00"
+    },
+    "case2_1_g2_transient_scheme_a_v1_2s_asymmetric_p1500_w3_inlet2_half": {
+      "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_1_g2_transient_scheme_a_v1_2s_asymmetric_p1500_w3_inlet2_half/gt_volume_64.npy",
+      "size": 1048704,
+      "mtime_ns": 1791637272787633994,
+      "source_GT128_hash_from_existing_manifest": "7d872df7a7ffb7925d7490be71aa42c1acc2c08a50dd8fe15b1c0abddf677407"
+    },
+    "case2_1_g2_transient_scheme_a_v1_2s_p0100_w3_equal": {
+      "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_1_g2_transient_scheme_a_v1_2s_p0100_w3_equal/gt_volume_64.npy",
+      "size": 1048704,
+      "mtime_ns": 1791637273759642363,
+      "source_GT128_hash_from_existing_manifest": "e4f7ffd4d3f62a5b54c8f325d54394df78c2bf713c9ca75bad138e69835aae14"
+    },
+    "case2_1_g2_transient_scheme_a_v1_2s_p1000_w0_equal": {
+      "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_1_g2_transient_scheme_a_v1_2s_p1000_w0_equal/gt_volume_64.npy",
+      "size": 1048704,
+      "mtime_ns": 1791637275927661029,
+      "source_GT128_hash_from_existing_manifest": "c7405381976a35e1b0b600a48aa2e8c242e8050f2d332ddbcaed16610fc3344a"
+    },
+    "case2_1_g2_transient_scheme_a_v1_2s_p1500_w3_equal": {
+      "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_1_g2_transient_scheme_a_v1_2s_p1500_w3_equal/gt_volume_64.npy",
+      "size": 1048704,
+      "mtime_ns": 1791637277591675354,
+      "source_GT128_hash_from_existing_manifest": "25e3936d285a1cd45471cf0bf4d2ce8a78d4c942a89a4922dc6f6ff91cde8d1b"
+    },
+    "case2_crosswind_g2_transient_scheme_a_v1_2s_asymmetric_p1500_w3_inlet1_half": {
+      "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_crosswind_g2_transient_scheme_a_v1_2s_asymmetric_p1500_w3_inlet1_half/gt_volume_64.npy",
+      "size": 1048704,
+      "mtime_ns": 1791637281719710890,
+      "source_GT128_hash_from_existing_manifest": "2504959f9288444441ec28edf95da13a52be9911cf62a1e14caeaa36edf927cd"
+    },
+    "case2_crosswind_g2_transient_scheme_a_v1_2s_p0100_w2_equal": {
+      "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_crosswind_g2_transient_scheme_a_v1_2s_p0100_w2_equal/gt_volume_64.npy",
+      "size": 1048704,
+      "mtime_ns": 1791637282663719016,
+      "source_GT128_hash_from_existing_manifest": "202d22c5741165163cad496b0140ce769e4a870539ed496fd17fb48fd8d2ddc9"
+    },
+    "case2_crosswind_g2_transient_scheme_a_v1_2s_p0600_w0_equal": {
+      "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_crosswind_g2_transient_scheme_a_v1_2s_p0600_w0_equal/gt_volume_64.npy",
+      "size": 1048704,
+      "mtime_ns": 1791637284119731549,
+      "source_GT128_hash_from_existing_manifest": "ccdb7a5d7759e40a37984080402bb816b30009fbae459b5a7131d6ff6329d266"
+    },
+    "case2_crosswind_g2_transient_scheme_a_v1_2s_p0600_w3_equal": {
+      "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_crosswind_g2_transient_scheme_a_v1_2s_p0600_w3_equal/gt_volume_64.npy",
+      "size": 1048704,
+      "mtime_ns": 1791637284831737678,
+      "source_GT128_hash_from_existing_manifest": "a86a45ac14bcfffb50cb032d8a44d199f9cef7621bca5bdbb7fc500e27d32658"
+    },
+    "case2_crosswind_g2_transient_scheme_a_v1_2s_p1000_w1_equal": {
+      "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_crosswind_g2_transient_scheme_a_v1_2s_p1000_w1_equal/gt_volume_64.npy",
+      "size": 1048704,
+      "mtime_ns": 1791637285315741845,
+      "source_GT128_hash_from_existing_manifest": "e304066324b2b9cc1c613f1a192c56a1672dce179194cc29c9e46afe88bee182"
+    },
+    "case2_streamwise_g2_transient_scheme_a_v1_2s_asymmetric_p0300_w1_inlet2_half": {
+      "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_streamwise_g2_transient_scheme_a_v1_2s_asymmetric_p0300_w1_inlet2_half/gt_volume_64.npy",
+      "size": 1048704,
+      "mtime_ns": 1791637287727762606,
+      "source_GT128_hash_from_existing_manifest": "1da217dcb61cee40d13868e72a8970857e3b25890e4f5c5c1abe8f556e1208db"
+    },
+    "case2_streamwise_g2_transient_scheme_a_v1_2s_asymmetric_p0300_w3_inlet2_half": {
+      "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_streamwise_g2_transient_scheme_a_v1_2s_asymmetric_p0300_w3_inlet2_half/gt_volume_64.npy",
+      "size": 1048704,
+      "mtime_ns": 1791637288235766978,
+      "source_GT128_hash_from_existing_manifest": "f8c91f5b95d314ea2db5c521bcf3fdbd9b429cbb7460cfcef2b7a60390a7635f"
+    },
+    "case2_streamwise_g2_transient_scheme_a_v1_2s_asymmetric_p1000_w0_inlet1_half": {
+      "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_streamwise_g2_transient_scheme_a_v1_2s_asymmetric_p1000_w0_inlet1_half/gt_volume_64.npy",
+      "size": 1048704,
+      "mtime_ns": 1791637288471769009,
+      "source_GT128_hash_from_existing_manifest": "97e6151390a4dde9145f08063331f6af0ab0676c0f7c9fd60a7c05566288b39c"
+    },
+    "case2_streamwise_g2_transient_scheme_a_v1_2s_p0300_w1_equal": {
+      "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_streamwise_g2_transient_scheme_a_v1_2s_p0300_w1_equal/gt_volume_64.npy",
+      "size": 1048704,
+      "mtime_ns": 1791637292527803918,
+      "source_GT128_hash_from_existing_manifest": "728bdcc29001ca9014295aea906688eafdf552a607cb89ca35ab99dee0ba5562"
+    },
+    "case2_streamwise_g2_transient_scheme_a_v1_2s_p0600_w2_equal": {
+      "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_streamwise_g2_transient_scheme_a_v1_2s_p0600_w2_equal/gt_volume_64.npy",
+      "size": 1048704,
+      "mtime_ns": 1791637293747814418,
+      "source_GT128_hash_from_existing_manifest": "4d78560ed858848397d951575ab99ce2b97d3248299757805656d7870fe12495"
+    },
+    "case2_streamwise_g2_transient_scheme_a_v1_2s_p1500_w1_equal": {
+      "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_streamwise_g2_transient_scheme_a_v1_2s_p1500_w1_equal/gt_volume_64.npy",
+      "size": 1048704,
+      "mtime_ns": 1791637295431828911,
+      "source_GT128_hash_from_existing_manifest": "b145b31abf03d0fc21cb464f914677f458333fe28c1bf73926c213953150f273"
+    },
+    "case3_crosswind_g3_transient_scheme_a_v1_2s_asymmetric_p1000_w0_inlet2_half": {
+      "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_asymmetric_p1000_w0_inlet2_half/gt_volume_64.npy",
+      "size": 1048704,
+      "mtime_ns": 1791637298551855760,
+      "source_GT128_hash_from_existing_manifest": "72cf3c5155f6ebc6ab574e3de922a97f16fbf99555e6d963d021f20ce82b2f83"
+    },
+    "case3_crosswind_g3_transient_scheme_a_v1_2s_asymmetric_p1000_w1_inlet1_half": {
+      "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_asymmetric_p1000_w1_inlet1_half/gt_volume_64.npy",
+      "size": 1048704,
+      "mtime_ns": 1791637299039859960,
+      "source_GT128_hash_from_existing_manifest": "2293405628769c867c726c78cafc53e5a8a27ee6e30e02c800810a5bb3e601e7"
+    },
+    "case3_crosswind_g3_transient_scheme_a_v1_2s_asymmetric_p1000_w3_inlet1_half": {
+      "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_asymmetric_p1000_w3_inlet1_half/gt_volume_64.npy",
+      "size": 1048704,
+      "mtime_ns": 1791637299763866190,
+      "source_GT128_hash_from_existing_manifest": "f1985ef0528efe14dc101c6138a8b50c0b91320baa1ebaa752018f75acdd7867"
+    },
+    "case3_crosswind_g3_transient_scheme_a_v1_2s_asymmetric_p1500_w1_inlet3_half": {
+      "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_asymmetric_p1500_w1_inlet3_half/gt_volume_64.npy",
+      "size": 1048704,
+      "mtime_ns": 1791637301711882953,
+      "source_GT128_hash_from_existing_manifest": "a7aacb54c21e8c6a14d6b0106046fbd5925ce5e0299d6168f0d24f7fe9ccaa86"
+    },
+    "case3_crosswind_g3_transient_scheme_a_v1_2s_asymmetric_p1500_w3_inlet1_half": {
+      "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_asymmetric_p1500_w3_inlet1_half/gt_volume_64.npy",
+      "size": 1048704,
+      "mtime_ns": 1791637301951885018,
+      "source_GT128_hash_from_existing_manifest": "8202f92852a9ed63894a41f89fa7fd1961a6154dc75c5eacf6f1519cf6c63c1a"
+    },
+    "case3_crosswind_g3_transient_scheme_a_v1_2s_p0100_w2_equal": {
+      "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_p0100_w2_equal/gt_volume_64.npy",
+      "size": 1048704,
+      "mtime_ns": 1791637303147895309,
+      "source_GT128_hash_from_existing_manifest": "c438b8a46ac0b0203987300f2344c4197403c5437481057595df0659de244ff1"
+    },
+    "case3_crosswind_g3_transient_scheme_a_v1_2s_p0300_w2_equal": {
+      "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_p0300_w2_equal/gt_volume_64.npy",
+      "size": 1048704,
+      "mtime_ns": 1791637304087903397,
+      "source_GT128_hash_from_existing_manifest": "0cc23f9c9cf1bbe1336149530b48a8fbaa91b203c80ece20ae86a66e4dff442a"
+    },
+    "case3_streamwise_g3_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet1_half": {
+      "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet1_half/gt_volume_64.npy",
+      "size": 1048704,
+      "mtime_ns": 1791637307459932411,
+      "source_GT128_hash_from_existing_manifest": "6e9df3ad647691aeaa10ed422711490f731afc95ac338dc7a441d787a300b34a"
+    },
+    "case3_streamwise_g3_transient_scheme_a_v1_2s_asymmetric_p0300_w1_inlet2_half": {
+      "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_asymmetric_p0300_w1_inlet2_half/gt_volume_64.npy",
+      "size": 1048704,
+      "mtime_ns": 1791637308455940980,
+      "source_GT128_hash_from_existing_manifest": "2646a9b1726a0f8f8097755fc0860c0b36b3e2e3c3b870b8c891b5c65cdd140b"
+    },
+    "case3_streamwise_g3_transient_scheme_a_v1_2s_asymmetric_p1000_w0_inlet1_half": {
+      "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_asymmetric_p1000_w0_inlet1_half/gt_volume_64.npy",
+      "size": 1048704,
+      "mtime_ns": 1791637309695951649,
+      "source_GT128_hash_from_existing_manifest": "13b488308ed09dcdc5cec1f1b86bb79a13a9e11f162217cd03706137aadff89e"
+    },
+    "case3_streamwise_g3_transient_scheme_a_v1_2s_asymmetric_p1500_w0_inlet2_half": {
+      "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_asymmetric_p1500_w0_inlet2_half/gt_volume_64.npy",
+      "size": 1048704,
+      "mtime_ns": 1791637312259973708,
+      "source_GT128_hash_from_existing_manifest": "3eee027bdfd133798aaaa0c122c1370901c9b0f58ccff077dd710e9a5d8a685a"
+    },
+    "case3_streamwise_g3_transient_scheme_a_v1_2s_p0300_w0_equal": {
+      "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_p0300_w0_equal/gt_volume_64.npy",
+      "size": 1048704,
+      "mtime_ns": 1791637315187998897,
+      "source_GT128_hash_from_existing_manifest": "9fc505af481b86a70632b8d7699851b3e5d3b38060ebe3aa3d9bf52b3fea694c"
+    },
+    "case3_streamwise_g3_transient_scheme_a_v1_2s_p1000_w1_equal": {
+      "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_p1000_w1_equal/gt_volume_64.npy",
+      "size": 1048704,
+      "mtime_ns": 1791637317404017960,
+      "source_GT128_hash_from_existing_manifest": "68bc76d5dbd3d3309bbe46e846e611b257e605228fc1f623696666411c395d89"
+    },
+    "case3_streamwise_g3_transient_scheme_a_v1_2s_p1000_w2_equal": {
+      "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_p1000_w2_equal/gt_volume_64.npy",
+      "size": 1048704,
+      "mtime_ns": 1791637317652020093,
+      "source_GT128_hash_from_existing_manifest": "28cfb1289a06455b39caac0c468dc85896bb0391248cbb755f92a363281d118d"
+    }
+  },
+  "evidence": {
+    "/scratch/djc/GeoPhy-Set3D/mrgr_extension_test35_v1/registration.json": "77587f1ffd826b97cc2a9ddc0f6a421b43d618eaabed595211c06021d7206f2f",
+    "/scratch/djc/GeoPhy-Set3D/mrgr_extension_test35_v1/layouts.json": "2e1c1099f73177dee6d4de2dc26c21585c96879c1031784e04f3d4ec0dd071fd",
+    "/scratch/djc/GeoPhy-Set3D/mrgr_extension_test35_v1/training_audit.json": "454871ff37fce996d5762fa6e627188d86f901e7b18b5e968df7f0624913a437",
+    "/scratch/djc/GeoPhy-Set3D/mrgr_extension_test35_v1/reuse_audit.json": "b06cbf081bb2e1583f285a057fe319ee6bc64a3658b6323e53ae9e9a523a1896",
+    "/scratch/djc/GeoPhy-Set3D/mrgr_extension_test35_v1/reuse_methods.json": "0744d8d0fe9d9990d2b11434185374e3c4540c2c39dc4bfaf41222e66af48d83",
+    "/scratch/djc/GeoPhy-Set3D/mrgr_extension_test35_v1/pre_GT_implementation_amendment.json": "e6a11a72f3e89020b4ee7fceab0c9a4f1386249deeabb2602a2c9f8d360f6902"
+  },
+  "source_commit": "ba6ad4e86ceaba35bab52da0a227b011d8c8cb43",
+  "cases": 35,
+  "layouts": 17,
+  "new_models": 7,
+  "new_reconstructions": 4165,
+  "new_fields": 8330,
+  "test_scope": "Explicit user-requested supplementary evaluation of previously frozen development-selected models; historical35case test already used, not a new independent holdout",
+  "no_training": true,
+  "no_checkpoint_selection_on_test": true,
+  "no_test_tuning": true,
+  "GT128_forbidden": true,
+  "primary": "C1 ordinary fixedV4 relativeL1; also report all17 layouts, per-case5draw aggregates, peaks, centroid,Dice and projection",
+  "comparisons": "feedback_vs_matchedbaseline,feedback_vs_zeroresidual; C-A,D-B,D-C,B-A and (D-C)-(B-A) within each seed and descriptive two-seed case means",
+  "bootstrap": "case paired20000 seed20261020; exploratory unadjusted95% intervals; training seed population uncertainty not covered",
+  "figures": "fixed case indices0,17,34; GT peak y slice, shared asinh scale; clustered draw0 for image only, five draws for numerical aggregate",
+  "pre_GT_implementation_amendment": "/scratch/djc/GeoPhy-Set3D/mrgr_extension_test35_v1/pre_GT_implementation_amendment.json"
+}

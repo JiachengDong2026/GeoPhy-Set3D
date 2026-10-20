@@ -1,0 +1,23 @@
+Traceback (most recent call last):
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/mrgr_extension_test35_v1/evaluate.py", line 18, in <module>
+    p=argparse.ArgumentParser();p.add_argument('action',choices=['predict','seal','score']);p.add_argument('--key');a=p.parse_args();main(a.action,a.key)
+                                                                                                                                     ^^^^^^^^^^^^^^^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/mrgr_extension_test35_v1/evaluate.py", line 11, in main
+    if not seal.exists():engine.seal('test',mm)
+                         ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/evaluation.py", line 143, in seal
+    target,rr=verify_predictions(m,split,arrays=True);manifests[str(target/'manifest.jsonl')]=sha(target/'manifest.jsonl');counts[m['key']]=len(rr)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/evaluation.py", line 109, in verify_predictions
+    if m['kind']=='neural':assert b['checkpoint_sha256']==m['checkpoint_sha256'] and sha(m['checkpoint'])==m['checkpoint_sha256']
+                                                                                     ^^^^^^^^^^^^^^^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/common.py", line 25, in sha
+    with Path(p).open('rb') as f:
+         ^^^^^^^^^^^^^^^^^^
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/common.py", line 94, in audit
+    self.denied.append(dict(path=s,reason=reason));raise PermissionError(reason+': '+s)
+                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: foreign checkpoint: /scratch/djc/GeoPhy-Set3D/mrgr_gca_uniform_observability_pruning_v1/training/pruned_observability_seed20261011/checkpoints/best.pt

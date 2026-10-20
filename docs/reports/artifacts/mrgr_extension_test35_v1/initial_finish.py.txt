@@ -1,0 +1,183 @@
+"""Merge sealed results, independent field recomputation, paired statistics and report."""
+from runtime import *
+import csv
+import math
+import numpy as np
+import evaluation as engine
+METRICS=('volume.relative_l1','volume.relative_l2','morphology.absolute_peak_ratio_error','morphology.peak_ratio','morphology.gt_peak_location_ratio','morphology.centroid_distance_mm','morphology.dice_0.1','morphology.dice_0.5','measurement.observed.relative_l1','measurement.observed.relative_l2','measurement.heldout.relative_l1','measurement.heldout.relative_l2')
+
+def value(r,k):
+    for p in k.split('.'):r=r[p]
+    return r
+
+def all_methods():return methods()+verified(BASE/'reuse_methods.json')
+def root_for(m):return Path(m.get('prediction_root',BASE/'evaluation/test'/m['key']))
+
+def independent(mm,lookup):
+    source={r['case_id']:r for r in rows(DATA/'source_index.jsonl') if r['split']=='test'}
+    count=0;errors={};computed={};allowed={}
+    for m in mm:
+        root=root_for(m)
+        for r in rows(root/'manifest.jsonl'):allowed[str((root/r['prediction']).resolve())]='sealed_test_prediction'
+    with TestGuard(gt_splits=['test']) as guard:
+        guard.allowed.update(allowed)
+        gt={c:np.load(DATA/r['gt_volume_64_path'],allow_pickle=False).astype(np.float64).squeeze() for c,r in source.items()}
+        coords=np.linspace(0,.6,64)
+        center=lambda c:np.array([np.dot(c.sum(axis=tuple(j for j in range(3) if j!=i)),coords)/c.sum() for i in range(3)])
+        for m in mm:
+            root=root_for(m)
+            for r in rows(root/'manifest.jsonl'):
+                path=root/r['prediction'];assert sha(path)==r['sha256'];g=gt[r['case_id']]
+                with np.load(path,allow_pickle=False) as z:
+                    assert set(z.files)=={'C0','C1'}
+                    for stage in z.files:
+                        p=z[stage].astype(np.float64);assert p.shape==(64,)*3 and np.isfinite(p).all() and p.min()>=0 and p.max()<=1
+                        row=lookup[m['key'],stage,r['condition'],r['draw'],r['case_id']]
+                        vals={'volume.relative_l1':float(np.abs(p-g).sum()/max(np.abs(g).sum(),1e-6)),
+                            'volume.relative_l2':float(np.sqrt(np.square(p-g).sum()/max(np.square(g).sum(),1e-12))),
+                            'morphology.peak_ratio':float(p.max()/g.max()),'morphology.gt_peak_location_ratio':float(p[np.unravel_index(g.argmax(),g.shape)]/g.max())}
+                        if p.sum()>0:vals['morphology.centroid_distance_mm']=float(np.linalg.norm(center(p)-center(g))*1000)
+                        for fraction in (.1,.5):
+                            pm=p>=g.max()*fraction;gm=g>=g.max()*fraction
+                            vals['morphology.dice_'+str(fraction)]=float(2*(pm&gm).sum()/(pm.sum()+gm.sum()))
+                        for k,v in vals.items():
+                            expected=value(row,k);assert math.isclose(v,expected,rel_tol=1e-8,abs_tol=1e-9),(m['key'],r['case_id'],k,v,expected)
+                            errors[k]=max(errors.get(k,0.),abs(v-expected))
+                        computed[m['key'],stage,r['condition'],r['draw'],r['case_id']]=vals['volume.relative_l1'];count+=1
+            print('Independent field verification',m['key'],count,flush=True)
+        assert not guard.denied and guard.counts['GT64_test']==35
+    assert count==11*35*17*2
+    freeze(BASE/'analysis/independent_fields.json',dict(at=now(),passed=True,methods=11,fields=count,cases=35,metrics_max_absolute_difference=errors,audit=guard.summary(),GT128_read=False))
+    return computed
+
+def panels_and_pairs(mm,lookup,computed):
+    cases=verified(BASE/'registration.json')['cases']['test'];layouts=verified(BASE/'layouts.json')['test']
+    panels=[(s['condition'],[s['draw']]) for s in layouts]+[(c,list(range(5))) for c in ('V3','V6','clustered-V4')]
+    vectors={};summaries=[];csvrows=[]
+    for m in mm:
+        for stage in ('C0','C1'):
+            for condition,draws in panels:
+                stats={}
+                for metric in METRICS:
+                    array=[]
+                    for case in cases:
+                        vv=[value(lookup[m['key'],stage,condition,d,case],metric) for d in draws]
+                        a=None if any(v is None for v in vv) else float(np.mean(vv));array.append(np.nan if a is None else a)
+                        csvrows.append(dict(method=m['key'],arm=m['arm'],seed=m['seed'],stage=stage,condition=condition,draws=','.join(map(str,draws)),case_id=case,metric=metric,value=a))
+                    x=np.array(array);finite=x[np.isfinite(x)];vectors[m['key'],stage,condition,tuple(draws),metric]=x
+                    stats[metric]=dict(valid_cases=len(finite),mean=float(finite.mean()) if len(finite) else None,median=float(np.median(finite)) if len(finite) else None,p90=float(np.quantile(finite,.9)) if len(finite) else None,max=float(finite.max()) if len(finite) else None)
+                summaries.append(dict(method=m['key'],arm=m['arm'],seed=m['seed'],stage=stage,condition=condition,draws=draws,metrics=stats))
+    def key(arm,seed):return 'MRGR' if arm=='multiscale' and seed==20261011 else f'{arm}_seed{seed}'
+    expressions=[]
+    for label,terms in [('feedback-baseline',{'feedback_oari':1,'baseline':-1}),('feedback-zero_residual',{'feedback_oari':1,'feedback_oari_zero_residual':-1})]:
+        expressions.append((label,20261011,[(key(a,20261011),c) for a,c in terms.items()]))
+    for label,terms in [('B-A',{'uniform_fusion':1,'multiscale':-1}),('C-A',{'pruned_observability':1,'multiscale':-1}),('D-B',{'uniform_pruned_observability':1,'uniform_fusion':-1}),('D-C',{'uniform_pruned_observability':1,'pruned_observability':-1}),('(D-C)-(B-A)',{'uniform_pruned_observability':1,'pruned_observability':-1,'uniform_fusion':-1,'multiscale':1})]:
+        for seeds in ([20261011],[20261019],[20261011,20261019]):
+            expressions.append((label,seeds[0] if len(seeds)==1 else 'two_seed_case_mean',[(key(a,seed),c/len(seeds)) for seed in seeds for a,c in terms.items()]))
+    indices=np.random.default_rng(20261020).integers(0,35,(20000,35));weights=np.stack([(indices==i).mean(1) for i in range(35)],1);paired=[];checks=0
+    for condition,draws in [('Val-A-V4',[0]),('spread-V4',[0]),('V3',list(range(5))),('V6',list(range(5))),('clustered-V4',list(range(5)))]:
+        for label,seed,terms in expressions:
+            for metric in METRICS:
+                delta=sum(c*vectors[k,'C1',condition,tuple(draws),metric] for k,c in terms);finite=np.isfinite(delta)
+                r=dict(comparison=label,seed=seed,condition=condition,draws=draws,metric=metric,valid_pairs=int(finite.sum()),case_differences={case:float(v) if np.isfinite(v) else None for case,v in zip(cases,delta)})
+                if finite.all():
+                    ci=np.quantile(weights@delta,[.025,.975]).tolist()
+                    r.update(delta=float(delta.mean()),ci95=ci,wins_lower=int((delta<-1e-8).sum()),ties=int((np.abs(delta)<=1e-8).sum()),losses_lower=int((delta>1e-8).sum()))
+                    if metric=='volume.relative_l1':
+                        independent_delta=np.array([sum(c*np.mean([computed[k,'C1',condition,d,case] for d in draws]) for k,c in terms) for case in cases])
+                        np.testing.assert_allclose(delta,independent_delta,rtol=1e-10,atol=1e-10)
+                        np.testing.assert_allclose(np.quantile(independent_delta[indices].mean(1),[.025,.975]),ci,rtol=1e-10,atol=1e-10);checks+=1
+                else:r.update(delta=None,ci95=None,wins_lower=None,ties=None,losses_lower=None)
+                paired.append(r)
+    BASE.joinpath('analysis').mkdir(exist_ok=True)
+    with (BASE/'analysis/per_case_metrics.csv').open('w',newline='') as f:
+        w=csv.DictWriter(f,fieldnames=list(csvrows[0]),lineterminator='\n');w.writeheader();w.writerows(csvrows)
+    jsonl(BASE/'analysis/paired_statistics.jsonl',paired)
+    compact=[{k:v for k,v in r.items() if k!='case_differences'} for r in paired]
+    write(BASE/'analysis/summary.json',dict(at=now(),split='supplementary_test35',cases=35,layouts=17,new_models=7,reused_models=4,panels=summaries,paired=compact,statistics=dict(seed=20261020,resamples=20000,unit='case; draw mean within case',unadjusted=True),limitations=['previously used35-case test; supplemental comparison, not an independent new holdout','feedback single seed','two-seed means descriptive; case bootstrap excludes training seed uncertainty','no test tuning or post-test selection','timings across GPUs/shared workloads not a matched speed comparison']))
+    freeze(BASE/'analysis/independent_verification.json',dict(at=now(),passed=True,fields=11*35*17*2,models=11,cases=35,all_relative_L1_pairings_and_intervals_verified=checks,field_verification_sha256=sha(BASE/'analysis/independent_fields.json'),GT128_read=False))
+
+
+def figures(mm):
+    import matplotlib
+    matplotlib.use('Agg')
+    import matplotlib.pyplot as plt
+    from matplotlib.colors import AsinhNorm
+    chosen=['MRGR','baseline_seed20261011','feedback_oari_seed20261011','uniform_fusion_seed20261011','pruned_observability_seed20261011','uniform_pruned_observability_seed20261011']
+    lookup={};allowed={}
+    for m in mm:
+        if m['key'] not in chosen:continue
+        root=root_for(m)
+        for r in rows(root/'manifest.jsonl'):
+            path=root/r['prediction'];lookup[m['key'],r['condition'],r['draw'],r['case_id']]=path;allowed[str(path.resolve())]='sealed_test_prediction'
+    source={r['case_id']:r for r in rows(DATA/'source_index.jsonl')};cases=verified(BASE/'registration.json')['cases']['test']
+    files=[]
+    with TestGuard(gt_splits=['test']) as guard:
+        guard.allowed.update(allowed)
+        for index in (0,17,34):
+            case=cases[index];g=np.load(DATA/source[case]['gt_volume_64_path'],allow_pickle=False).squeeze();y=np.unravel_index(g.argmax(),g.shape)[1]
+            fig,axes=plt.subplots(7,2,figsize=(10,22),constrained_layout=True);norm=AsinhNorm(linear_width=float(g.max())*.02,vmin=0,vmax=float(g.max()))
+            for col,condition in enumerate(('Val-A-V4','clustered-V4')):
+                fields=[('GT',g)]
+                for k in chosen:
+                    with np.load(lookup[k,condition,0,case],allow_pickle=False) as z:fields.append((k.replace('_seed20261011',''),z['C1']))
+                for row,(name,a) in enumerate(fields):
+                    image=axes[row,col].imshow(a[:,y,:].T,origin='lower',extent=[0,600,0,600],cmap='magma',norm=norm)
+                    axes[row,col].set_title(f'{name} | {condition} d0 | peak/GT={a.max()/g.max():.3f}',fontsize=8)
+                    axes[row,col].set_xlabel('x (mm)');axes[row,col].set_ylabel('z (mm)')
+            fig.colorbar(image,ax=axes,label='Mass fraction; shared asinh scale; above GT peak saturates',shrink=.7)
+            fig.suptitle(f'Fixed supplementary test case index{index}; GT peak y={y}; {case}',fontsize=8)
+            path=BASE/'analysis'/f'fixed_case_{index}.png';fig.savefig(path,dpi=160);fig.savefig(path.with_suffix('.pdf'));plt.close(fig);files.append(str(path))
+        assert not guard.denied
+    write(BASE/'analysis/figure_audit.json',dict(at=now(),files={p:sha(p) for p in files},audit=guard.summary(),selection='registered case indices0/17/34; clustered draw0 image only'))
+
+
+def report():
+    s=read(BASE/'analysis/summary.json');artifact='artifacts/mrgr_extension_test35_v1/'
+    lines=['# 新增反馈OARI、均匀融合与描述符结构删除：补充35例测试','',f'完成统计：{s["at"]}；所有新增模型保持开发阶段冻结的最佳验证H4检查点，未重新训练、选轮或调参。','',
+        '**本轮为用户明确要求的补充测试。35例与此前正式测试相同，已使用过；本结果不能称作全新独立保留集确认。既有35例主报告与主模型不修改。**','',
+        '7个新模型各35例×17布局＝4165次重建、8330个C0/C1场，全部预测封存后才读取本轮test GT64评分；另核验复用原始MRGR两种子和均匀融合两种子的既有35例预测。总计11个模型、13090个场独立重算。GT128始终禁止。','',
+        '均匀融合两种子的35例测试早已包含在原正式测试；此处复用其完全相同的检查点、595条预测清单及文件SHA，不重复执行。新增的是反馈OARI及其匹配baseline/零残差对照、结构删除两个种子和双重简化两个种子。','',
+        '## C1三维重建结果','', '聚簇V4先将5个draw在案例内平均，再跨35例汇总。下表逐种子，不能把不同seed的模型做不配对排名。','',
+        '| 模型 | 种子 | 普通V4 L1 | 聚簇V4 L1 | 聚簇V4 L2 | 聚簇质心mm | 聚簇峰比绝对误差 |','|---|---:|---:|---:|---:|---:|---:|']
+    for m in all_methods():
+        def panel(c):return next(p for p in s['panels'] if p['method']==m['key'] and p['stage']=='C1' and p['condition']==c and len(p['draws'])==(1 if c=='Val-A-V4' else 5))
+        a=panel('Val-A-V4')['metrics'];b=panel('clustered-V4')['metrics']
+        lines.append(f'| {m["key"].replace("_seed"+str(m["seed"]),"")} | {m["seed"]} | {100*a["volume.relative_l1"]["mean"]:.4f}% | {100*b["volume.relative_l1"]["mean"]:.4f}% | {100*b["volume.relative_l2"]["mean"]:.4f}% | {b["morphology.centroid_distance_mm"]["mean"]:.4f} | {b["morphology.absolute_peak_ratio_error"]["mean"]:.4f} |')
+    lines+=['','## 配对差值','', '比较栏按所写表达式计算，L1负值表示下降；95%区间为未做多重校正的探索性案例bootstrap20000次（seed20261020）。两种子均值只作描述，区间不覆盖训练种子总体方差。','',
+        '| 比较 | 种子 | 布局 | L1差百分点 | 95%案例区间 | 降/平/升 |','|---|---|---|---:|---|---:|']
+    for r in s['paired']:
+        if r['metric']!='volume.relative_l1' or r['condition'] not in ('Val-A-V4','clustered-V4'):continue
+        if r['comparison'] not in ('feedback-baseline','feedback-zero_residual') and r['seed']!='two_seed_case_mean':continue
+        lo,hi=[100*x for x in r['ci95']]
+        lines.append(f'| {r["comparison"]} | {r["seed"]} | {r["condition"]} | {100*r["delta"]:+.4f} | [{lo:+.4f}, {hi:+.4f}] | {r["wins_lower"]}/{r["ties"]}/{r["losses_lower"]} |')
+    lines+=['','## 解读与边界','']
+    for cond in ('Val-A-V4','clustered-V4'):
+        rr=[r for r in s['paired'] if r['comparison']=='feedback-baseline' and r['condition']==cond]
+        vals={r['metric']:r['delta'] for r in rr}
+        lines+=[f'{cond}：反馈OARI相对本轮匹配baseline的三维L1变化{100*vals["volume.relative_l1"]:+.4f}个百分点，峰比绝对误差变化{vals["morphology.absolute_peak_ratio_error"]:+.4f}，质心误差变化{vals["morphology.centroid_distance_mm"]:+.4f} mm。','']
+    lines+=['OARI只有一个训练种子；描述符删除和双重简化各两个种子。保留全部正负结果，不以本次测试选择新主模型。历史冻结MRGR与本轮续训匹配baseline不同，明确分开列出。计时来自不同GPU及运行负载，不能据此作严格速度排名。','',
+        f'[完整统计]({artifact}summary.json)；[逐案例CSV]({artifact}per_case_metrics.csv)；[独立复核]({artifact}independent_verification.json)；[冻结清单]({artifact}final_lock.json)；[访问边界]({artifact}boundary_checks.json)。','']
+    for index in (0,17,34):lines +=[f'![预登记固定案例{index}：共享asinh色标]({artifact}fixed_case_{index}.png)','']
+    lines+=['图固定显示seed20261011及原始冻结MRGR；切面在GT峰值y处，不按模型效果挑图。聚簇图仅draw0，数值表使用全部5draw。共享asinh色标增强低浓度可见性，超过GT峰值部分饱和。','',
+        f'运行产物：`{BASE}`；代码：`scripts/mrgr_extension_test35_v1/`。大数组/权重仅留scratch，仓库保留小型标量、CSV、图表和验收证据。']
+    REPORT.write_text('\n'.join(lines)+'\n')
+
+
+def main():
+    lock=verified(BASE/'final_lock.json');verify_hashes(lock['sources']);verify_hashes(verified(BASE/'reuse_audit.json')['evidence'])
+    seal=verified(BASE/'evaluation/test/all_predictions_sealed.json');access=read(BASE/'evaluation/test/gt_access.json')
+    assert access['unique_GT64_files']==35 and access['first_GT64_at']>seal['sealed_at'] and not access['gt128_read'] and not access['audit']['denied']
+    new=rows(BASE/'evaluation/test/metrics.jsonl');assert len(new)==8330
+    reused=verified(BASE/'reuse_methods.json');keys={m['key'] for m in reused}
+    old=[r for r in rows(HISTORY/'evaluation/test/metrics.jsonl') if r['method'] in keys]
+    assert len(old)==4760
+    rr=new+old;lookup={(r['method'],r['stage'],r['condition'],r['draw'],r['case_id']):r for r in rr};assert len(lookup)==13090
+    BASE.joinpath('analysis').mkdir(exist_ok=True);jsonl(BASE/'analysis/all_metrics.jsonl',rr)
+    mm=all_methods();computed=independent(mm,lookup);panels_and_pairs(mm,lookup,computed);figures(mm);report()
+    verify_hashes(lock['sources']);verify_hashes(verified(BASE/'reuse_audit.json')['evidence'])
+    evidence=[BASE/'final_lock.json',BASE/'analysis/summary.json',BASE/'analysis/independent_verification.json',BASE/'analysis/independent_fields.json',BASE/'evaluation/test/all_predictions_sealed.json',BASE/'evaluation/test/gt_access.json',BASE/'boundary_checks.json',REPORT]
+    freeze(BASE/'acceptance.json',dict(at=now(),completed=True,supplementary_test=True,previously_used_test_set=True,cases=35,layouts=17,new_models=7,reused_models=4,new_reconstructions=4165,new_fields=8330,independently_verified_fields=13090,all_new_predictions_before_GT=True,GT128_read=False,no_test_tuning=True,evidence={str(p):sha(p) for p in evidence}))
+    print('Supplementary35-case acceptance passed',flush=True)
+
+if __name__=='__main__':main()
