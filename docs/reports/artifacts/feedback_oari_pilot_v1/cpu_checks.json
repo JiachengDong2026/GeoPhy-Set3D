@@ -1,0 +1,39 @@
+{
+  "passed": true,
+  "at": "2026-10-19T17:13:02.904250+08:00",
+  "results": [
+    {
+      "arm": "feedback_oari",
+      "parameters": 355658,
+      "retained_tensors_exact": true,
+      "grid64_range": true,
+      "initial_C0_C1_equal": true,
+      "permutation": true,
+      "original_physics": true
+    },
+    {
+      "arm": "feedback_oari_zero_residual",
+      "parameters": 355658,
+      "retained_tensors_exact": true,
+      "grid64_range": true,
+      "initial_C0_C1_equal": true,
+      "permutation": true,
+      "original_physics": true
+    }
+  ],
+  "nonzero_adapter_bypass_bit_exact": true,
+  "forbidden_before_bytes": [
+    {
+      "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_p0100_w1_equal/gt_volume_64.npy",
+      "reason": "GT64 outside registered phase"
+    },
+    {
+      "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_p0100_w1_equal/projections_train.npy",
+      "reason": "array outside phase allowlist"
+    },
+    {
+      "path": "/data/djc/GeoPhy-Set3D/data/raw/Fluent/static_final_frame_partial_v1/targets/case1_g1_transient_scheme_a_v1_2s_p0100_w1_equal.npy",
+      "reason": "GT128 forbidden"
+    }
+  ]
+}

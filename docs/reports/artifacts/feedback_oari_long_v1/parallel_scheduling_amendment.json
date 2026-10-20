@@ -1,0 +1,14 @@
+{
+  "at": "2026-10-19T22:11:38.823025+08:00",
+  "reason": "User explicitly authorized idle GPU3; parallelize waiting matched-budget controls.",
+  "overrides": "design scheduling clause only: maximum concurrent training increases from1 to2",
+  "unchanged": "all model sources,300-epoch budgets,optimizer/scheduler/RNG,checkpoint selection,data boundaries,evaluation/statistics",
+  "original_design_sha256": "2cb05408528b23b6d0fd0b4fbcf8f73da535ccdc6040b30b2323f5c6903e3cb9",
+  "sources": {
+    "/home/djc/projects/GeoPhy-Set3D-feedback-oari-pilot-v1/scripts/feedback_oari_parallel_v1/controller.py": "b9b525fc9447c11a057da3d38ec81238ecc41b647ae37a237c79eb6a07c590b1"
+  },
+  "old_controller_pid": 2972561,
+  "attached_worker_pid": 2972742,
+  "preferred_additional_gpu": "GPU-fdd41417-bc2c-971b-b84d-6464cf7c5749",
+  "signal_scope": "SIGTERM only serial scheduler PID; no signal sent to any training worker or process group"
+}

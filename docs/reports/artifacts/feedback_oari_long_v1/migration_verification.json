@@ -1,0 +1,77 @@
+{
+  "passed": true,
+  "at": "2026-10-19T21:27:31.838405+08:00",
+  "runs": [
+    {
+      "arm": "feedback_oari",
+      "origin_checkpoint": "/scratch/djc/GeoPhy-Set3D/mrgr_feedback_oari_pilot_v1/training/feedback_oari_seed20261011/checkpoints/last.pt",
+      "origin_sha256": "cec58c9576231482fc7199659b11e4abbd0fc16f2650079a682777e895a48517",
+      "migrated_checkpoint_sha256": "27a4c20aa2513eb9b55fb03d80aeeecf20459c4510575f37885008a1daa479de",
+      "unchanged_fields": [
+        "model",
+        "optimizer",
+        "scheduler",
+        "rng",
+        "config",
+        "arm",
+        "epoch",
+        "updates",
+        "volumetric_gt_used",
+        "best_model",
+        "best_epoch",
+        "best_score",
+        "metrics",
+        "elapsed_seconds"
+      ],
+      "exact": true
+    },
+    {
+      "arm": "baseline",
+      "origin_checkpoint": "/scratch/djc/GeoPhy-Set3D/mrgr_feedback_oari_pilot_v1/training/baseline_seed20261011/checkpoints/last.pt",
+      "origin_sha256": "28087d7d2636d75c4bdf571ef8347577ed77e7ebdb90e8e3f3b28b194a145ced",
+      "migrated_checkpoint_sha256": "13cea4e2cc140552c50f0e9a7bd56d98e807965cd0d92cd3c5fe31edec674318",
+      "unchanged_fields": [
+        "model",
+        "optimizer",
+        "scheduler",
+        "rng",
+        "config",
+        "arm",
+        "epoch",
+        "updates",
+        "volumetric_gt_used",
+        "best_model",
+        "best_epoch",
+        "best_score",
+        "metrics",
+        "elapsed_seconds"
+      ],
+      "exact": true
+    },
+    {
+      "arm": "feedback_oari_zero_residual",
+      "origin_checkpoint": "/scratch/djc/GeoPhy-Set3D/mrgr_feedback_oari_pilot_v1/training/feedback_oari_zero_residual_seed20261011/checkpoints/last.pt",
+      "origin_sha256": "018a933de17d7ee15f1ef3b69d05419e9d6e6fa077cfd901ba265fac529b5323",
+      "migrated_checkpoint_sha256": "62d4dcc5cd3aa02aedd2e45164e0106df932c1fef474c8ad5a8d0c925b28e57b",
+      "unchanged_fields": [
+        "model",
+        "optimizer",
+        "scheduler",
+        "rng",
+        "config",
+        "arm",
+        "epoch",
+        "updates",
+        "volumetric_gt_used",
+        "best_model",
+        "best_epoch",
+        "best_score",
+        "metrics",
+        "elapsed_seconds"
+      ],
+      "exact": true
+    }
+  ],
+  "states": "model/best/optimizer/scheduler/RNG/loader RNG/metrics/config/counters exact; only protocol binding explicitly migrated",
+  "pilot_acceptance_sha256": "ae85493edeb8c451cb3f1c4bc32e1393083314014cad820328b949faa6048257"
+}

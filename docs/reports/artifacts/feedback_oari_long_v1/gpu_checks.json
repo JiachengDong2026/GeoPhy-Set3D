@@ -1,0 +1,42 @@
+{
+  "passed": true,
+  "at": "2026-10-19T19:25:38.273579+08:00",
+  "gradients": [
+    {
+      "arm": "baseline",
+      "full_objective_backward": true,
+      "steps": 2
+    },
+    {
+      "arm": "feedback_oari",
+      "full_objective_backward": true,
+      "steps": 2
+    },
+    {
+      "arm": "feedback_oari_zero_residual",
+      "full_objective_backward": true,
+      "steps": 2
+    }
+  ],
+  "resume": [
+    {
+      "arm": "feedback_oari",
+      "passed": true,
+      "epochs": 2,
+      "workers": 4,
+      "float_rtol": 0.0001,
+      "float_atol": 1e-06,
+      "RNG_integer_exact": true
+    },
+    {
+      "arm": "feedback_oari_zero_residual",
+      "passed": true,
+      "epochs": 2,
+      "workers": 4,
+      "float_rtol": 0.0001,
+      "float_atol": 1e-06,
+      "RNG_integer_exact": true
+    }
+  ],
+  "gpu_uuid": "GPU-d3da1ea7-9229-8f8a-5054-854962d4b6b7"
+}

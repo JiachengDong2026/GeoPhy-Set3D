@@ -1,0 +1,153 @@
+{
+  "at": "2026-10-19T16:17:39.280089+08:00",
+  "passed": true,
+  "unit": {
+    "permutation": true,
+    "invalid_NaN_excluded": true,
+    "all_invalid_exact_zero": true,
+    "gradient": true,
+    "shape": [
+      2,
+      32,
+      2,
+      2,
+      2
+    ]
+  },
+  "boundary": {
+    "passed": true,
+    "blocked_before_file_bytes": [
+      {
+        "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_p0100_w1_equal/gt_volume_64.npy",
+        "reason": "GT64 outside registered phase"
+      },
+      {
+        "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_p0100_w1_equal/projections_train.npy",
+        "reason": "array outside phase allowlist"
+      },
+      {
+        "path": "/data/djc/GeoPhy-Set3D/data/raw/Fluent/static_final_frame_partial_v1/targets/case1_g1_transient_scheme_a_v1_2s_p0100_w1_equal.npy",
+        "reason": "GT128 forbidden"
+      }
+    ]
+  },
+  "architecture": [
+    {
+      "arm": "pruned_observability",
+      "parameters": 344294,
+      "actual_grid": [
+        64,
+        64,
+        64
+      ],
+      "full_width_reference_matches": true,
+      "feedback_source_inherited": true,
+      "physics_and_signed_residual_exact": true,
+      "descriptor_attributes_parameters_eigensolver_absent": true,
+      "view_permutation": true,
+      "ray_relations_active": true,
+      "full_objective_backward": [
+        {
+          "step": 0,
+          "loss": 57.009159088134766,
+          "gradient_norm": 382.7143249511719
+        },
+        {
+          "step": 1,
+          "loss": 41.36772155761719,
+          "gradient_norm": 402.2734375
+        }
+      ]
+    },
+    {
+      "arm": "uniform_pruned_observability",
+      "parameters": 342341,
+      "actual_grid": [
+        64,
+        64,
+        64
+      ],
+      "full_width_reference_matches": true,
+      "feedback_source_inherited": true,
+      "physics_and_signed_residual_exact": true,
+      "descriptor_attributes_parameters_eigensolver_absent": true,
+      "view_permutation": true,
+      "ray_relations_active": true,
+      "full_objective_backward": [
+        {
+          "step": 0,
+          "loss": 57.09589767456055,
+          "gradient_norm": 380.2237548828125
+        },
+        {
+          "step": 1,
+          "loss": 41.78177261352539,
+          "gradient_norm": 392.10015869140625
+        }
+      ]
+    }
+  ],
+  "resume": [
+    {
+      "arm": "pruned_observability",
+      "passed": true,
+      "workers": 4,
+      "subset_train": 4,
+      "subset_val": 2,
+      "epochs": 2,
+      "float_rtol": 0.0001,
+      "float_atol": 1e-06,
+      "integer_RNG_exact": true,
+      "restored": [
+        "model",
+        "best_model",
+        "optimizer",
+        "scheduler",
+        "rng",
+        "loader_rng",
+        "epoch_sampling",
+        "updates",
+        "best_epoch",
+        "best_score"
+      ]
+    },
+    {
+      "arm": "uniform_pruned_observability",
+      "passed": true,
+      "workers": 4,
+      "subset_train": 4,
+      "subset_val": 2,
+      "epochs": 2,
+      "float_rtol": 0.0001,
+      "float_atol": 1e-06,
+      "integer_RNG_exact": true,
+      "restored": [
+        "model",
+        "best_model",
+        "optimizer",
+        "scheduler",
+        "rng",
+        "loader_rng",
+        "epoch_sampling",
+        "updates",
+        "best_epoch",
+        "best_score"
+      ]
+    }
+  ],
+  "audit": {
+    "counts": {
+      "Pool_A_geometry": 5,
+      "projection_val": 3,
+      "projection_train": 12
+    },
+    "denied": [],
+    "touched": [
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/geometry/train_geometry.npz",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet1_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w1_inlet1_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w1_inlet1_half/projections_train.npy"
+    ]
+  },
+  "gpu_uuid": "GPU-fdd41417-bc2c-971b-b84d-6464cf7c5749"
+}
