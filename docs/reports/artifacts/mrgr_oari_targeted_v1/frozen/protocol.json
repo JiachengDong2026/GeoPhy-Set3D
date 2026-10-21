@@ -1,0 +1,133 @@
+{
+  "model": {
+    "key": "uniform_fusion_seed20261019",
+    "kind": "neural",
+    "run": "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/training/uniform_fusion_seed20261019",
+    "checkpoint": "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/training/uniform_fusion_seed20261019/checkpoints/best.pt",
+    "checkpoint_sha256": "19bb5f698349c976358be782e9d43301afa9e1eec4a89ddb4e1ceeb8d9bd1424",
+    "best_epoch": 286,
+    "arm": "uniform",
+    "config": {
+      "dataset": {
+        "root": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1"
+      },
+      "experiment": {
+        "name": "uniform_fusion_seed20261019",
+        "output_root": "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/training/uniform_fusion_seed20261019"
+      },
+      "loader": {
+        "num_workers": 4,
+        "persistent_workers": true,
+        "pin_memory": true
+      },
+      "loss": {
+        "hold": 1.0,
+        "cross": 0.5,
+        "observed": 0.1,
+        "consistency": 0.05,
+        "beta": 0.01,
+        "relative_l1": 0.1,
+        "relative_epsilon": 1e-06,
+        "measurement_scale": 32284.894580078173
+      },
+      "model": {
+        "feature_channels": 32,
+        "input_channels": 3,
+        "lift_resolution": 32,
+        "name": "geolift_oari_mrgr_res3d",
+        "output_activation": "sigmoid",
+        "output_resolution": 64,
+        "gca": {
+          "distance_scale_m": 6.5,
+          "azimuth_scale_deg": 180.0
+        },
+        "set_interaction": {
+          "d_model": 32,
+          "num_heads": 4,
+          "num_blocks": 1,
+          "ffn_channels": 64
+        }
+      },
+      "normalization": {
+        "method": "linear_p99_5",
+        "statistics_file": "train_statistics.json"
+      },
+      "optimizer": {
+        "lr": 0.0002,
+        "name": "adamw",
+        "weight_decay": 0.0001
+      },
+      "train": {
+        "split": "train",
+        "geometry_pool": "train",
+        "a_views": [
+          3,
+          5
+        ],
+        "b_views": [
+          3,
+          5
+        ],
+        "heldout_views": 2
+      },
+      "training": {
+        "batch_size": 2,
+        "device": "cuda:0",
+        "early_stopping_patience": null,
+        "gradient_accumulation": 1,
+        "gradient_clip_norm": 1.0,
+        "max_epochs": 300,
+        "precision": "fp32",
+        "seed": 20261019
+      },
+      "validation": {
+        "split": "val",
+        "geometry_pool": "train",
+        "a_views": [
+          4,
+          4
+        ],
+        "b_views": [
+          4,
+          4
+        ],
+        "heldout_views": 4
+      },
+      "scheduler": {
+        "name": "cosine",
+        "T_max": 300
+      }
+    },
+    "parameters": 342725,
+    "seed": 20261019,
+    "prediction_root": "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/evaluation/test/uniform_fusion_seed20261019",
+    "source_metrics": "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/evaluation/test/metrics.jsonl",
+    "historical": true
+  },
+  "seed": 20261019,
+  "training_allowed": false,
+  "return_stages": true,
+  "condition_draws": [
+    {
+      "condition": "Val-A-V4",
+      "draw": 0
+    },
+    {
+      "condition": "clustered-V4",
+      "draw": 0
+    }
+  ],
+  "cases_sha256": "a46e1fee6611f5d7549ce540ad8726a3e8299a29d736d65d8e335ba0d2ab9f88",
+  "layouts_sha256": "b802bbfafede76b58713294f3ca4dd19864df47dab2723d7929013380b31654a",
+  "parent_protocol_sha256": "c79a8c1352df86046d00432d9ae8b8f7857e22ed1154fca59c6b70ece668af6f",
+  "planned_predictions": 70,
+  "engineering_noop_forwards": 2,
+  "intervention": "OARI v2 obs_token: remove five input contributions to first observability affine; retain learned bias and SiLU",
+  "sources": {
+    "/home/djc/projects/GeoPhy-Set3D/scripts/oari_targeted_v1/predict.py": "7916b6d5b6ea0aab8f4d68d4cd587ddfb296bab4c9f6fb20f02f773c3155d23d",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/oari_mechanism_v2/interventions.py": "682951357b258e5650e2daf6daf9f6326112bb2155bb821304f9d293b0978154",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/oari_mechanism_v2/runtime.py": "747c3dd4153c4ca084dc71234dbd73a11435300eedf49ef72e96ef48f6f80d08"
+  },
+  "GT64_before_global_prediction_seal_forbidden": true,
+  "GT128_forbidden": true
+}

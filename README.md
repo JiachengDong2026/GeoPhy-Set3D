@@ -1,5 +1,7 @@
 # GeoPhy-Set3D
 
+2026-10-22 **四项 OARI 定向实验已完成**：普通集合交互双种子、no-ray 第二种子各完整 300 轮，冻结 token 第二种子完成 70 份预测。普通交互相对 OARI 的 C1 L1 变化方向未在两种子间一致；聚簇布局下 no-ray 消融与冻结 token 效应均在第二种子复现。普通交互成本较低，但未证明性能等效，不自动替换正式 Uniform Fusion 模型。这是同一已使用 35 案例上的探索性比较。[中文报告](docs/reports/mrgr_oari_targeted_v1_zh.md) · [验收](docs/reports/artifacts/mrgr_oari_targeted_v1/acceptance.json) · [最终复核与资源异常](docs/reports/artifacts/mrgr_oari_targeted_v1/completion_review.json)。下方旧公告保留历史状态。
+
 2026-10-20 **当前暂定主模型为均匀融合MRGR，停止反馈OARI后续研究，7个消融继续暂缓。** 已完成实心气袋小测试：普通V4三维L1为86.75%，分散V6为59.26%，仍存在明显浓度低估。[当前模型决定](docs/mrgr_model_status_20261020_zh.md) · [气袋结果与图](docs/reports/mrgr_uniform_nonplume_gasbag_v1_zh.md) · [结果解读](docs/reports/mrgr_uniform_nonplume_gasbag_v1_interpretation_zh.md)。下文既有实验公告保留历史状态。
 
 2026-10-20 **均匀融合与反馈OARI双种子三维配对评价已完成**：两种子Control和两种子Treatment的35例/17布局评价、四种经典算法历史对比及独立验收归档。7个骨干消融暂缓，是否将反馈OARI作为最终模型等待审阅，未自动晋级。沿用此前已使用的35例，属于补充评价。[阶段总报告](docs/reports/mrgr_uniform_final_v1_zh.md)、[OARI结果](docs/reports/mrgr_uniform_oari_v1_zh.md)、[执行协议](docs/mrgr_uniform_final_v1_protocol_zh.md)。

@@ -1,0 +1,26 @@
+/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/measurement_consistency.py:17: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  return dict(relative_l1=float(d.abs().sum()/y.abs().sum().clamp_min(1e-6)),
+uniform_plain_set_interaction seed=20261019 epoch=1/300 valH=12.6867282 best=12.6867282@1 sec=31.16
+uniform_plain_set_interaction seed=20261019 epoch=2/300 valH=6.2092263 best=6.2092263@2 sec=30.40
+uniform_plain_set_interaction seed=20261019 epoch=3/300 valH=2.9001919 best=2.9001919@3 sec=30.62
+uniform_plain_set_interaction seed=20261019 epoch=4/300 valH=1.4404367 best=1.4404367@4 sec=31.33
+Traceback (most recent call last):
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/oari_targeted_v1/stage.py", line 139, in <module>
+    else:train(a.target)
+         ^^^^^^^^^^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/oari_targeted_v1/stage.py", line 125, in train
+    engine.train(target,300)
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/train.py", line 67, in train
+    tr=selfsup.run_epoch(model,loader,config,opt);va=selfsup.run_epoch(model,vloader,config);torch.cuda.synchronize();scheduler.step();score=selfsup.selection_metric(va)
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/selfsup.py", line 157, in run_epoch
+    (loss*n/group_samples).backward()
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/site-packages/torch/_tensor.py", line 631, in backward
+    torch.autograd.backward(
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/site-packages/torch/autograd/__init__.py", line 381, in backward
+    _engine_run_backward(
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/site-packages/torch/autograd/graph.py", line 869, in _engine_run_backward
+    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt

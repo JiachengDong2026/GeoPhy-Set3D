@@ -1,0 +1,12 @@
+{
+  "model_id": "Multi-scale MRGR + Plain Set Interaction + Uniform Fusion",
+  "arm": "uniform_plain_set_interaction",
+  "factory": "scripts/oari_targeted_v1/variants.py:model_for",
+  "formal_baseline_registry": "configs/mrgr_uniform_fusion_v1.json",
+  "training_protocol": "scripts/oari_targeted_v1/stage.py:register",
+  "seeds": [20261011, 20261019],
+  "parameters": 342209,
+  "intervention": "Replace only ObservabilityAwareRayInteraction with GeometryConditionedSetInteraction; skip OARI-only descriptors",
+  "unchanged": ["Encoder", "GeometryLifting", "geometry_descriptor", "Multi-scale MRGR", "Uniform Fusion", "Physics Residual Feedback", "loss", "training protocol"],
+  "default_model_modified": false
+}

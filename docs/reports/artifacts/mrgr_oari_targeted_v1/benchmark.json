@@ -1,0 +1,146 @@
+{
+  "at": "2026-10-22T04:48:50.716316+08:00",
+  "protocol": "same exclusiveGPU, validation cases0/17/34 fixedV4, one warmup each +3 measured forwards, batch1 FP32/TF32off return_stagesTrue",
+  "records": [
+    {
+      "key": "uniform_fusion_seed20261011",
+      "parameters": 342725,
+      "mean_seconds": 0.02539938993545042,
+      "median_seconds": 0.025312375277280807,
+      "sd_seconds": 0.00021931774390651214,
+      "peak_allocated_bytes": 1157002240,
+      "timings": [
+        0.02578855212777853,
+        0.025479136034846306,
+        0.025351017247885466,
+        0.025284895207732916,
+        0.025722380727529526,
+        0.025244999676942825,
+        0.025187024381011724,
+        0.025224128738045692,
+        0.025312375277280807
+      ],
+      "gpu_uuid": "GPU-37424437-e208-62d1-e617-53c421c94a49"
+    },
+    {
+      "key": "uniform_fusion_seed20261019",
+      "parameters": 342725,
+      "mean_seconds": 0.02352406167321735,
+      "median_seconds": 0.024121063761413097,
+      "sd_seconds": 0.0010069397951183846,
+      "peak_allocated_bytes": 1156740096,
+      "timings": [
+        0.024387866258621216,
+        0.024122222792357206,
+        0.024144731927663088,
+        0.024121063761413097,
+        0.024271581787616014,
+        0.024108003359287977,
+        0.022162067238241434,
+        0.02216678997501731,
+        0.022232227958738804
+      ],
+      "gpu_uuid": "GPU-37424437-e208-62d1-e617-53c421c94a49"
+    },
+    {
+      "key": "uniform_no_ray_relations_seed20261011",
+      "parameters": 342725,
+      "mean_seconds": 0.022433303503526583,
+      "median_seconds": 0.022410073317587376,
+      "sd_seconds": 0.00020284142148554343,
+      "peak_allocated_bytes": 1156740096,
+      "timings": [
+        0.022556239739060402,
+        0.02288404433056712,
+        0.022446040995419025,
+        0.022410073317587376,
+        0.022319281939417124,
+        0.022506164386868477,
+        0.022270708344876766,
+        0.02227400243282318,
+        0.022233176045119762
+      ],
+      "gpu_uuid": "GPU-37424437-e208-62d1-e617-53c421c94a49"
+    },
+    {
+      "key": "uniform_no_ray_relations_seed20261019",
+      "parameters": 342725,
+      "mean_seconds": 0.0222361847344372,
+      "median_seconds": 0.022166555281728506,
+      "sd_seconds": 0.00020204023143090524,
+      "peak_allocated_bytes": 1156740096,
+      "timings": [
+        0.02232469990849495,
+        0.02195856673642993,
+        0.022352254949510098,
+        0.022641917690634727,
+        0.022333255968987942,
+        0.022053138818591833,
+        0.022140377201139927,
+        0.022154896054416895,
+        0.022166555281728506
+      ],
+      "gpu_uuid": "GPU-37424437-e208-62d1-e617-53c421c94a49"
+    },
+    {
+      "key": "uniform_plain_set_interaction_seed20261011",
+      "parameters": 342209,
+      "mean_seconds": 0.019301545133607254,
+      "median_seconds": 0.019299653824418783,
+      "sd_seconds": 0.00011246097765382507,
+      "peak_allocated_bytes": 270852096,
+      "timings": [
+        0.019470185041427612,
+        0.019378261640667915,
+        0.019385652616620064,
+        0.019299653824418783,
+        0.019096202682703733,
+        0.019287412986159325,
+        0.019354370888322592,
+        0.019192158710211515,
+        0.019250007811933756
+      ],
+      "gpu_uuid": "GPU-37424437-e208-62d1-e617-53c421c94a49"
+    },
+    {
+      "key": "uniform_plain_set_interaction_seed20261019",
+      "parameters": 342209,
+      "mean_seconds": 0.019315982858339947,
+      "median_seconds": 0.019380513578653336,
+      "sd_seconds": 0.0001613675061630784,
+      "peak_allocated_bytes": 270852096,
+      "timings": [
+        0.019380513578653336,
+        0.019033380784094334,
+        0.019194412976503372,
+        0.01914659095928073,
+        0.019408466760069132,
+        0.01948079699650407,
+        0.01928596291691065,
+        0.019504313822835684,
+        0.019409406930208206
+      ],
+      "gpu_uuid": "GPU-37424437-e208-62d1-e617-53c421c94a49"
+    }
+  ],
+  "audit": {
+    "counts": {
+      "Pool_A_geometry": 1,
+      "checkpoint": 12,
+      "projection_val": 54
+    },
+    "denied": [],
+    "touched": [
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/geometry/train_geometry.npz",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w1_inlet1_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_streamwise_g2_transient_scheme_a_v1_2s_asymmetric_p1000_w1_inlet1_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_p0300_w2_equal/projections_train.npy",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/training/uniform_fusion_seed20261011/checkpoints/best.pt",
+      "/home/djc/projects/GeoPhy-Set3D/outputs/research/mrgr_paper_final_v1/training/uniform_fusion_seed20261019/checkpoints/best.pt",
+      "/scratch/djc/GeoPhy-Set3D/mrgr_oari_targeted_v1/training/uniform_no_ray_relations_seed20261019/checkpoints/best.pt",
+      "/scratch/djc/GeoPhy-Set3D/mrgr_oari_targeted_v1/training/uniform_plain_set_interaction_seed20261011/checkpoints/best.pt",
+      "/scratch/djc/GeoPhy-Set3D/mrgr_oari_targeted_v1/training/uniform_plain_set_interaction_seed20261019/checkpoints/best.pt",
+      "/scratch/djc/GeoPhy-Set3D/mrgr_uniform_ablations_v1/training/uniform_no_ray_relations_seed20261011/checkpoints/best.pt"
+    ]
+  }
+}
