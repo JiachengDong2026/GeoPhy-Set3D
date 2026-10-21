@@ -1,0 +1,34 @@
+{
+  "at": "2026-10-21T19:50:20.492336+08:00",
+  "reason": "report import collision after completed independent analysis",
+  "sources": {
+    "/home/djc/projects/GeoPhy-Set3D/scripts/no_spatial_lifting_v1/finish_recovery_v3.py": "2380c90f6729d2fff42c008e20ec5e0a2a29f4608aa88794994ba09e92ae1d21"
+  },
+  "original_report_source_sha256": "f071032932b99ec38b94bf4c3b3fdcf7973d950faf5f5444ae6e570387f7753f",
+  "resolved_report_failures": {
+    "/scratch/djc/GeoPhy-Set3D/mrgr_no_spatial_lifting_v1/evaluation_failure_score.json": "85b33f926af8dd18203bcf43930963e7be5933116bc52c60d5b3777e7f2d28cd"
+  },
+  "completed_analysis_evidence": {
+    "/scratch/djc/GeoPhy-Set3D/mrgr_no_spatial_lifting_v1/all_predictions_sealed.json": "dae377b140dc721d04d1866e4089adfeab3d77e39f1fa2cf07dd9cef2c7b9af5",
+    "/scratch/djc/GeoPhy-Set3D/mrgr_no_spatial_lifting_v1/metric_verification.json": "e6d3f0ca5a0cbacac6a6a7cff660d189b7045a14bbc1469b03279d9d21808482",
+    "/scratch/djc/GeoPhy-Set3D/mrgr_no_spatial_lifting_v1/statistics.json": "6b95470f39e085ab86f11ac9921e59028f210ed878825b62c2a0f8e0b9d86e5b",
+    "/scratch/djc/GeoPhy-Set3D/mrgr_no_spatial_lifting_v1/independent_statistics_verification.json": "78fd407c460b84545507eaaf13300f9f332e98037c718187b88c8de9c5a081b0",
+    "/scratch/djc/GeoPhy-Set3D/mrgr_no_spatial_lifting_v1/per_case_metrics.csv": "411d47d29f5e13e4022322f6cfab9f5fd975500e094d021582375c2df849b602",
+    "/scratch/djc/GeoPhy-Set3D/mrgr_no_spatial_lifting_v1/paired_case_metrics.csv": "f21ac70d74a4c0dd9b3f0345d3e7328e27aca675abeefbd1b27d81dfa18f6fcc",
+    "/scratch/djc/GeoPhy-Set3D/mrgr_no_spatial_lifting_v1/case_aggregates.csv": "18891577efa647382956094538306ed4b562e1fb25faf725bbcb89095df9b66c",
+    "/scratch/djc/GeoPhy-Set3D/mrgr_no_spatial_lifting_v1/paired_statistics.csv": "b3f794cec9e21dd7d66dfd595ed69684a4d090b02ee14698b7ef3f1be3be21c7"
+  },
+  "anomalies": [
+    "controller and both workers absent after conversation interruption; actual exit signal unknown; registered recovery from committed epochs268/260 on original GPU UUIDs",
+    "original completed-status progress repeats seed keyword and raises TypeError; workers completed; registered status-only post-training continuation",
+    "score completed metrics/statistics then imported another report module without finish; report-only recovery uses existing verified results"
+  ],
+  "anomalies_zh": [
+    "会话中断后发现原控制器及两个worker退出，实际信号/退出码不可得；保留原始状态、环境、指标、GT访问审计及检查点副本，从268/260轮完整恢复原训练状态，在原GPU UUID完成300轮。",
+    "首个任务完成时，控制器progress()重复传入seed触发TypeError；第二个worker继续完成。独立v2入口修复状态合并并衔接冻结评价，不重新训练。",
+    "35例评分和150组独立统计核验完成后，通用模块名report导入了另一个同名模块，缺少finish而退出。独立v3报告入口保留原始报告生成逻辑、补充异常披露并核验该已解决失败；未重做推理、评分或统计。"
+  ],
+  "no_repeated_training_prediction_scoring_or_statistics": true,
+  "GT64_read": false,
+  "GT128_read": false
+}

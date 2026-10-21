@@ -29,3 +29,17 @@ This is supplementary analysis on a previously used test set.
 
 Scratch root: `/scratch/djc/GeoPhy-Set3D/mrgr_no_spatial_lifting_v1`.
 Final report: `docs/reports/mrgr_no_spatial_lifting_v1_zh.md`.
+
+Completed execution used separately registered recovery entries after three
+preserved execution anomalies: process exit after session interruption, duplicate
+`seed` in the original controller's completed-status merge, and a same-name
+`report` import collision after successful scoring/statistics. The original frozen
+sources remain unchanged. `recovery_controller_v1.py` restored canonical training
+state; `post_training_controller_v2.py` continued the locked evaluation;
+`finish_recovery_v3.py` generated the report from existing verified statistics.
+These entries require their immutable recovery registrations; do not rerun any
+registration or completed inference/scoring. `final_integrity_review.py` additionally
+checked saved evidence/exports and archived complete logs, without GT access.
+
+Execution details: `docs/reports/mrgr_no_spatial_lifting_v1_execution_addendum_zh.md`.
+Final supplemented acceptance: `docs/reports/artifacts/mrgr_no_spatial_lifting_v1/acceptance_recovery_v1.json`.

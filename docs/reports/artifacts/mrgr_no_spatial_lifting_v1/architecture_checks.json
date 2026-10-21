@@ -1,0 +1,91 @@
+{
+  "at": "2026-10-21T16:58:31.279090+08:00",
+  "passed": true,
+  "results": [
+    {
+      "seed": 20261011,
+      "passed": true,
+      "parameters": 342725,
+      "trainable_parameters": 342725,
+      "both_lifting_calls_replaced": true,
+      "original_visibility_descriptors_relations_observability_equal": true,
+      "independent_resize_repeat_equal": true,
+      "feature_range_preserved": true,
+      "depth_constant_but_plane_nonconstant": true,
+      "zero_init_gated_branches": "residual encoder and context internal zero gradients at first step are expected; all tested branches nonzero at secondstep",
+      "gradients": [
+        {
+          "step": 1,
+          "loss": 57.41917419433594,
+          "gradient_abs_sums": {
+            "encoder": 19243.328125,
+            "interaction": 1790.769775390625,
+            "decoder_context": 97.71255493164062,
+            "residual_encoder": 0.0,
+            "residual_adapter": 128.2689208984375
+          }
+        },
+        {
+          "step": 2,
+          "loss": 43.82197570800781,
+          "gradient_abs_sums": {
+            "encoder": 19061.86328125,
+            "interaction": 1309.59716796875,
+            "decoder_context": 58.30207824707031,
+            "residual_encoder": 3.842822313308716,
+            "residual_adapter": 101.01606750488281
+          }
+        }
+      ]
+    },
+    {
+      "seed": 20261019,
+      "passed": true,
+      "parameters": 342725,
+      "trainable_parameters": 342725,
+      "both_lifting_calls_replaced": true,
+      "original_visibility_descriptors_relations_observability_equal": true,
+      "independent_resize_repeat_equal": true,
+      "feature_range_preserved": true,
+      "depth_constant_but_plane_nonconstant": true,
+      "zero_init_gated_branches": "residual encoder and context internal zero gradients at first step are expected; all tested branches nonzero at secondstep",
+      "gradients": [
+        {
+          "step": 1,
+          "loss": 63.365360260009766,
+          "gradient_abs_sums": {
+            "encoder": 10919.7841796875,
+            "interaction": 990.8998413085938,
+            "decoder_context": 38.40747833251953,
+            "residual_encoder": 0.0,
+            "residual_adapter": 55.38270568847656
+          }
+        },
+        {
+          "step": 2,
+          "loss": 56.38602066040039,
+          "gradient_abs_sums": {
+            "encoder": 11256.6962890625,
+            "interaction": 1551.697998046875,
+            "decoder_context": 31.588747024536133,
+            "residual_encoder": 0.7223791480064392,
+            "residual_adapter": 89.89461517333984
+          }
+        }
+      ]
+    }
+  ],
+  "audit": {
+    "counts": {
+      "Pool_A_geometry": 2,
+      "projection_train": 12
+    },
+    "denied": [],
+    "touched": [
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/geometry/train_geometry.npz",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet1_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w1_inlet1_half/projections_train.npy"
+    ]
+  },
+  "gpu_uuid": "GPU-37424437-e208-62d1-e617-53c421c94a49"
+}

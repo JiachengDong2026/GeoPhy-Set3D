@@ -1,0 +1,39 @@
+{
+  "at": "2026-10-21T16:57:40.738629+08:00",
+  "candidates": [
+    {
+      "name": "global_pool_broadcast",
+      "selected": false,
+      "parameters": 0,
+      "information": "erases all detector-local variation",
+      "isolation": "confounds spatial mapping with destruction of2D local information",
+      "interface": "compatible",
+      "stability": "trainable but broad information bottleneck"
+    },
+    {
+      "name": "fixed_planar_resize_extrusion",
+      "selected": true,
+      "parameters": 0,
+      "information": "keeps32x32 local detector variation; no view/voxel geometry in feature values",
+      "isolation": "removes acquisition-conditioned spatial correspondence; also changes sample coverage/density, imposes constant depth before geometry tokens",
+      "interface": "same shapes/channels/dtype and original visibility",
+      "compute": "1024 bilinear samples and32768 broadcast positions per feature; original32768 irregular samples",
+      "stability": "convex bilinear interpolation, bounded by input feature range, ordinary autograd"
+    },
+    {
+      "name": "fixed_permutation_or_flip",
+      "selected": false,
+      "parameters": 0,
+      "information": "retains invertible wrong mapping",
+      "isolation": "still uses spatial geometric sampling and could learn inverse permutation; does not remove target mechanism"
+    }
+  ],
+  "selected": "fixed_planar_resize_extrusion",
+  "scope": "both main and residual feature-lifting calls",
+  "limitations": [
+    "not a pure operator-only effect",
+    "changes detector sampling density and depth structure",
+    "geometry descriptors, OARI, Uniform Fusion and physics still provide geometric information and may compensate",
+    "feedback branch retained but its feature lifting is intentionally replaced by same factor"
+  ]
+}
