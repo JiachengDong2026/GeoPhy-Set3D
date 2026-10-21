@@ -1,0 +1,30 @@
+{
+  "at": "2026-10-21T21:03:15.229517+08:00",
+  "formal_inference_failures_so_far": 0,
+  "checks": [
+    {
+      "phase": "before_protocol",
+      "issue": "CPU checks imported the unrelated paper_final_v1/verify.py due shared sys.path ordering",
+      "exception": "ImportError: cannot import name 'rebuild' from 'verify'",
+      "resolution": "Use importlib with a unique module name; all18 CPU mechanism checks subsequently passed before protocol freeze",
+      "scientific_design_changed": false
+    },
+    {
+      "phase": "supplementary_metadata_audit",
+      "issue": "Historical official complete.json is not accompanied by a standalone .sha256 sidecar",
+      "exception": "FileNotFoundError: complete.json.sha256",
+      "resolution": "Use the official immutable all_predictions_sealed.json SHA sidecar and its manifest hash/checkpoint entry; verify every A0/P1/P2 input ID. Do not generate or overwrite a historical sidecar",
+      "scientific_design_changed": false
+    },
+    {
+      "phase": "report_supplement_registration",
+      "issue": "Geometry audit established0 actual historical mask contamination, whereas generic report wording could imply observed contamination",
+      "resolution": "Separately registered final interpretation script preserves original sources/acceptance and generates corrected final report plus reporting-only acceptance",
+      "scientific_design_changed": false
+    }
+  ],
+  "checkpoint_unchanged": true,
+  "GT64_read": false,
+  "GT128_read": false,
+  "no_training": true
+}
