@@ -1,0 +1,56 @@
+{
+  "at": "2026-10-21T14:29:50.247015+08:00",
+  "sources": {
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/geolift_oari_mrgr_res3d.py": "a095e2cf9bbd9e86fc0a999df4c7d7185fcb4133220ba6334211b91b70166c26",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/geolift_oari_res3d.py": "0c254b09b598c3f3bed1af29c7a17e3de26349024106c8849938ac8a2126b0ed",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/ray_relational_interaction.py": "25db37d18c84240bc86f5b0eeb1a0a009a9958dce8bd3f6875dcb92f30b1eac2",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/lifting.py": "0cf2fc39535fab45cf7e2f8bd8cdcac70c8ff3f830c816b936347cf7f3b39710"
+  },
+  "relation_shape": "[B*32^3,V,V,3]",
+  "relation_axes": [
+    1,
+    2
+  ],
+  "relation_channels": [
+    "abs(dot(unit station-to-voxel directions))",
+    "sqrt(1-cos_abs^2)",
+    "abs(azimuth_i-azimuth_j)/180"
+  ],
+  "physical_channels_range": [
+    0,
+    1
+  ],
+  "self_pair": [
+    1,
+    0,
+    0
+  ],
+  "standardization": "none; only natural formula normalization",
+  "masked_pairs": "local visibility AND input view_mask; invalid pair zeroed before descriptor and again in interaction",
+  "token_path": "32feature+16geometry+8observability embedding -> Linear56to32",
+  "pair_bias": "3relation+5observability -> Linear8to16 -> SiLU -> Linear16to4 -> attention logits",
+  "affine_weights": {
+    "relation_column_L2": [
+      1.757416844367981,
+      2.508991241455078,
+      1.5050253868103027
+    ],
+    "observability_column_L2": [
+      1.9611163139343262,
+      1.7426220178604126,
+      0.7729281187057495,
+      0.793804407119751,
+      1.674623727798462
+    ],
+    "output_layer_L2": 1.7626844644546509
+  },
+  "order_aggregation": "view-wise encoder/lifting; set interaction equivariant; masked uniform fusion invariant up to FP32 summation",
+  "cached_geometry": "no persistent case/view feature cache in canonical forward; nonpersistent voxel coordinate grid is independent of view order",
+  "residual_path": "original P(C0),signed residual,residual encoder,lifting,adapter,uniformfusion,decoder; no extra OARI in feedback",
+  "selected_views": "historical layouts exact input_ids and heldout_ids; heldout tensors omitted from forward, never permuted into input",
+  "first_affine_neutralization": "zero explicit-relation learned contribution, not physical-neutral zero angles",
+  "no_structure_change": true,
+  "no_weight_change": true,
+  "GT64_read": false,
+  "GT128_read": false
+}

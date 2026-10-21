@@ -1,0 +1,36 @@
+{
+  "at": "2026-10-21T14:35:05.753308+08:00",
+  "extra_jobs": [
+    {
+      "index": 11,
+      "pid": 45890,
+      "log": "/scratch/djc/GeoPhy-Set3D/mrgr_geometry_utilization_v1/scheduling/parallel_layout11_controller.log",
+      "controller_source": "import sys\nfrom pathlib import Path\nsys.path.insert(0, '/home/djc/projects/GeoPhy-Set3D/scripts/geometry_utilization_v1')\nfrom diagnostic import BASE,HERE,scheduler\nold=scheduler()\noriginal_write=old.write\ndef isolated_write(path,value):\n    if Path(path)==BASE/'status.json':\n        path=BASE/'scheduling'/'parallel_layout11_status.json'\n    return original_write(path,value)\nold.write=isolated_write\nold.progress=lambda:None\nold.run_gpu_once('predict_layout11',[sys.executable,str(HERE/'diagnostic.py'),'predict','--layout-index','11'],BASE/'predictions'/'layout11'/'complete.json')\n"
+    },
+    {
+      "index": 12,
+      "pid": 45891,
+      "log": "/scratch/djc/GeoPhy-Set3D/mrgr_geometry_utilization_v1/scheduling/parallel_layout12_controller.log",
+      "controller_source": "import sys\nfrom pathlib import Path\nsys.path.insert(0, '/home/djc/projects/GeoPhy-Set3D/scripts/geometry_utilization_v1')\nfrom diagnostic import BASE,HERE,scheduler\nold=scheduler()\noriginal_write=old.write\ndef isolated_write(path,value):\n    if Path(path)==BASE/'status.json':\n        path=BASE/'scheduling'/'parallel_layout12_status.json'\n    return original_write(path,value)\nold.write=isolated_write\nold.progress=lambda:None\nold.run_gpu_once('predict_layout12',[sys.executable,str(HERE/'diagnostic.py'),'predict','--layout-index','12'],BASE/'predictions'/'layout12'/'complete.json')\n"
+    },
+    {
+      "index": 13,
+      "pid": 45892,
+      "log": "/scratch/djc/GeoPhy-Set3D/mrgr_geometry_utilization_v1/scheduling/parallel_layout13_controller.log",
+      "controller_source": "import sys\nfrom pathlib import Path\nsys.path.insert(0, '/home/djc/projects/GeoPhy-Set3D/scripts/geometry_utilization_v1')\nfrom diagnostic import BASE,HERE,scheduler\nold=scheduler()\noriginal_write=old.write\ndef isolated_write(path,value):\n    if Path(path)==BASE/'status.json':\n        path=BASE/'scheduling'/'parallel_layout13_status.json'\n    return original_write(path,value)\nold.write=isolated_write\nold.progress=lambda:None\nold.run_gpu_once('predict_layout13',[sys.executable,str(HERE/'diagnostic.py'),'predict','--layout-index','13'],BASE/'predictions'/'layout13'/'complete.json')\n"
+    }
+  ],
+  "previous_wave_complete": true,
+  "serial_completed_layouts": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    14,
+    15,
+    16
+  ],
+  "definitions_unchanged": true,
+  "scheduler_policy": "original idle rechecks/UUID locks; disjoint distant11/12/13; no model code changes"
+}

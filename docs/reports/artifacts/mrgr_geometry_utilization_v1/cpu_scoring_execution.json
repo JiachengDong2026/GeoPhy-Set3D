@@ -1,0 +1,37 @@
+{
+  "at": "2026-10-21T14:40:52.975533+08:00",
+  "adapter": "/home/djc/projects/GeoPhy-Set3D/scripts/geometry_utilization_v1/score_shards.py",
+  "adapter_sha256": "f26377f87dafc6a5a176def50dc5df073b5e907966e3cc9212d8c0b413ff5d2f",
+  "jobs": [
+    {
+      "layouts": [
+        8,
+        9,
+        10
+      ]
+    },
+    {
+      "layouts": [
+        11,
+        12,
+        13
+      ]
+    },
+    {
+      "layouts": [
+        14,
+        15,
+        16
+      ]
+    }
+  ],
+  "numerical_sources": {
+    "/home/djc/projects/GeoPhy-Set3D/scripts/geometry_utilization_v1/diagnostic.py": "beafd03a6c0d5791dc7b0c244371ff8d6617872f121d1214fecbe3340046952b",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/geometry_utilization_v1/analyze.py": "1b2a62688a66d8127597e5b03b8497db0819e4ef8afbc823e7ad84c19a4b0355"
+  },
+  "reason": "CPU-only disjoint future layout scoring after global seal; primary analyzer independently verifies and merges shard manifests/CSVs; no extra inference/GT scope/statistic changes",
+  "registration_sources_unchanged": true,
+  "GT64_gate": "requires verified all_predictions_sealed.json before any GT64 load",
+  "concurrency": "3shard CPUs plus primary CPU; OMP/MKL/OpenBLAS2threads, available host memory sufficient",
+  "preservation": "no existing metric/checkpoint/report overwritten; primary owns layouts0-7 and final merge"
+}

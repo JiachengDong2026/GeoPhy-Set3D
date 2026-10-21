@@ -1,0 +1,22 @@
+{
+  "at": "2026-10-21T14:25:55.045488+08:00",
+  "experiment": "P2",
+  "actual_affine": "z=W_rel*r + W_obs*o + b -> zneutral=W_obs*o+b at pairwise_bias[0] forward output",
+  "semantic": "zero additive explicit relation contribution in learned affine coordinates; NOT zero physical angles/direction differences",
+  "equal_zero_feature_input": "algebraically matches registered no_ray_relations input zero at first3channels; physical-neutrality NOT claimed",
+  "unchanged": [
+    "observability token embedding",
+    "observability pair input",
+    "all weights",
+    "module structure",
+    "geometric lifting",
+    "measurements",
+    "geometry",
+    "visibility",
+    "uniform fusion",
+    "physics projector",
+    "residual feedback"
+  ],
+  "numerical_assertion": "original affine equals retained part plus removed part",
+  "limitation": "removes all3channels, including self cos1 cue; inference distribution shift possible; not a retrained structural ablation"
+}

@@ -1,0 +1,27 @@
+{
+  "at": "2026-10-21T14:32:36.819897+08:00",
+  "extra_jobs": [
+    {
+      "index": 14,
+      "pid": 44264,
+      "log": "/scratch/djc/GeoPhy-Set3D/mrgr_geometry_utilization_v1/scheduling/parallel_layout14_controller.log",
+      "controller_source": "import sys\nfrom pathlib import Path\nsys.path.insert(0, '/home/djc/projects/GeoPhy-Set3D/scripts/geometry_utilization_v1')\nfrom diagnostic import BASE,HERE,scheduler\nold=scheduler()\noriginal_write=old.write\ndef isolated_write(path,value):\n    if Path(path)==BASE/'status.json':\n        path=BASE/'scheduling'/'parallel_layout14_status.json'\n    return original_write(path,value)\nold.write=isolated_write\nold.progress=lambda:None\nold.run_gpu_once('predict_layout14',[sys.executable,str(HERE/'diagnostic.py'),'predict','--layout-index','14'],BASE/'predictions'/'layout14'/'complete.json')\n"
+    },
+    {
+      "index": 15,
+      "pid": 44265,
+      "log": "/scratch/djc/GeoPhy-Set3D/mrgr_geometry_utilization_v1/scheduling/parallel_layout15_controller.log",
+      "controller_source": "import sys\nfrom pathlib import Path\nsys.path.insert(0, '/home/djc/projects/GeoPhy-Set3D/scripts/geometry_utilization_v1')\nfrom diagnostic import BASE,HERE,scheduler\nold=scheduler()\noriginal_write=old.write\ndef isolated_write(path,value):\n    if Path(path)==BASE/'status.json':\n        path=BASE/'scheduling'/'parallel_layout15_status.json'\n    return original_write(path,value)\nold.write=isolated_write\nold.progress=lambda:None\nold.run_gpu_once('predict_layout15',[sys.executable,str(HERE/'diagnostic.py'),'predict','--layout-index','15'],BASE/'predictions'/'layout15'/'complete.json')\n"
+    },
+    {
+      "index": 16,
+      "pid": 44266,
+      "log": "/scratch/djc/GeoPhy-Set3D/mrgr_geometry_utilization_v1/scheduling/parallel_layout16_controller.log",
+      "controller_source": "import sys\nfrom pathlib import Path\nsys.path.insert(0, '/home/djc/projects/GeoPhy-Set3D/scripts/geometry_utilization_v1')\nfrom diagnostic import BASE,HERE,scheduler\nold=scheduler()\noriginal_write=old.write\ndef isolated_write(path,value):\n    if Path(path)==BASE/'status.json':\n        path=BASE/'scheduling'/'parallel_layout16_status.json'\n    return original_write(path,value)\nold.write=isolated_write\nold.progress=lambda:None\nold.run_gpu_once('predict_layout16',[sys.executable,str(HERE/'diagnostic.py'),'predict','--layout-index','16'],BASE/'predictions'/'layout16'/'complete.json')\n"
+    }
+  ],
+  "definition_unchanged": true,
+  "reason": "four idle devices; disjoint distant layout14/15/16 finish before serial frontier reaches them; no duplicate input/model runs",
+  "scheduler": "reuse original run_gpu_once/reserve/launch/inherited UUID flock; per-controller status isolated to avoid temporary filename races",
+  "global_prediction_seal_still_waits_for_all17": true
+}

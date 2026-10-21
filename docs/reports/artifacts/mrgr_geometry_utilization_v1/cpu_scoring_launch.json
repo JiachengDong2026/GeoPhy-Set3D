@@ -1,0 +1,36 @@
+{
+  "at": "2026-10-21T14:41:33.054726+08:00",
+  "jobs": [
+    {
+      "layouts": [
+        8,
+        9,
+        10
+      ],
+      "pid": 49626,
+      "log": "/scratch/djc/GeoPhy-Set3D/mrgr_geometry_utilization_v1/scheduling/CPU_shard_08.log",
+      "wrapper_source": "import sys,time,subprocess\nfrom pathlib import Path\nseal=Path('/scratch/djc/GeoPhy-Set3D/mrgr_geometry_utilization_v1/all_predictions_sealed.json')\nwhile not seal.exists():time.sleep(5)\nsubprocess.run([sys.executable,'/home/djc/projects/GeoPhy-Set3D/scripts/geometry_utilization_v1/score_shards.py',*['8', '9', '10']],cwd='/home/djc/projects/GeoPhy-Set3D',check=True)\n"
+    },
+    {
+      "layouts": [
+        11,
+        12,
+        13
+      ],
+      "pid": 49627,
+      "log": "/scratch/djc/GeoPhy-Set3D/mrgr_geometry_utilization_v1/scheduling/CPU_shard_11.log",
+      "wrapper_source": "import sys,time,subprocess\nfrom pathlib import Path\nseal=Path('/scratch/djc/GeoPhy-Set3D/mrgr_geometry_utilization_v1/all_predictions_sealed.json')\nwhile not seal.exists():time.sleep(5)\nsubprocess.run([sys.executable,'/home/djc/projects/GeoPhy-Set3D/scripts/geometry_utilization_v1/score_shards.py',*['11', '12', '13']],cwd='/home/djc/projects/GeoPhy-Set3D',check=True)\n"
+    },
+    {
+      "layouts": [
+        14,
+        15,
+        16
+      ],
+      "pid": 49628,
+      "log": "/scratch/djc/GeoPhy-Set3D/mrgr_geometry_utilization_v1/scheduling/CPU_shard_14.log",
+      "wrapper_source": "import sys,time,subprocess\nfrom pathlib import Path\nseal=Path('/scratch/djc/GeoPhy-Set3D/mrgr_geometry_utilization_v1/all_predictions_sealed.json')\nwhile not seal.exists():time.sleep(5)\nsubprocess.run([sys.executable,'/home/djc/projects/GeoPhy-Set3D/scripts/geometry_utilization_v1/score_shards.py',*['14', '15', '16']],cwd='/home/djc/projects/GeoPhy-Set3D',check=True)\n"
+    }
+  ],
+  "source_plan_sha256": "a44ffb30307f82ecaf0f3ecc48e35866c45c48db33fe40dec12a6923935468f2"
+}

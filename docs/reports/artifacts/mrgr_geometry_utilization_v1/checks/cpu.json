@@ -1,0 +1,41 @@
+{
+  "at": "2026-10-21T14:26:09.048105+08:00",
+  "passed": true,
+  "checks": [
+    {
+      "P0": true,
+      "Rprime_PRPt_exact": true,
+      "observability_invariant": true
+    },
+    {
+      "P1": true,
+      "actual_tensor_change": 0.14921759068965912,
+      "changed_output": 0.006284542381763458
+    },
+    {
+      "P2": true,
+      "affine_contribution_removed": 0.35284435749053955,
+      "zero3_algebraic_equivalence": true
+    },
+    {
+      "padding_fixed": true,
+      "masked_pair_mismatch_safe": true
+    }
+  ],
+  "state_before": "c6f2a4522f0c721ec7436d64ecec14193413d9b548adc93c166ae1c95ba3df10",
+  "state_after": "c6f2a4522f0c721ec7436d64ecec14193413d9b548adc93c166ae1c95ba3df10",
+  "no_gradients": true,
+  "audit": {
+    "counts": {
+      "Pool_A_geometry": 1,
+      "projection_val": 3
+    },
+    "denied": [],
+    "touched": [
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/geometry/train_geometry.npz",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w1_inlet1_half/projections_train.npy"
+    ]
+  },
+  "real_GT_read": false,
+  "synthetic_bootstrap_verified": true
+}
