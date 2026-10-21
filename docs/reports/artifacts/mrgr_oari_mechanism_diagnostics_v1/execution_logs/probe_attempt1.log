@@ -1,0 +1,31 @@
+A/C sampled input 1/15 complete; cumulative forwards=3
+A/C sampled input 2/15 complete; cumulative forwards=6
+A/C sampled input 3/15 complete; cumulative forwards=9
+/scratch/djc/envs/gas-torch/lib/python3.12/site-packages/scipy/spatial/distance.py:1290: RuntimeWarning: invalid value encountered in sqrt
+  return np.sqrt(js / 2.0)
+Traceback (most recent call last):
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/oari_mechanism_v1/probe.py", line 209, in <module>
+    try:run()
+        ^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/oari_mechanism_v1/probe.py", line 191, in run
+    for mode in ('P1','P2'):changes.extend(summarize_C(plan,collected['A'],collected[mode],mode))
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/oari_mechanism_v1/probe.py", line 124, in summarize_C
+    independent_distribution_check(baseline['weights'],changed['weights'],baseline['mask'])
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/oari_mechanism_v1/probe.py", line 88, in independent_distribution_check
+    np.testing.assert_allclose(distances['js'][:,head][mask][ids],expected,atol=1e-14,rtol=1e-7)
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/site-packages/numpy/testing/_private/utils.py", line 1780, in assert_allclose
+    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/site-packages/numpy/testing/_private/utils.py", line 852, in assert_array_compare
+    flagged = func_assert_same_pos(x, y, func=isnan, hasval='nan')
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/site-packages/numpy/testing/_private/utils.py", line 795, in func_assert_same_pos
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-07, atol=1e-14
+
+nan location mismatch:
+ ACTUAL: array([1.548248e-05, 5.325005e-06, 1.892719e-07, ..., 3.313967e-02,
+       1.715414e-02, 4.946527e-06], shape=(1024,))
+ DESIRED: array([1.548248e-05, 5.325005e-06, 1.892719e-07, ..., 3.313967e-02,
+       1.715414e-02, 4.946527e-06], shape=(1024,))

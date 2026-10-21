@@ -1,0 +1,36 @@
+{
+  "at": "2026-10-21T17:47:11.474614+08:00",
+  "reason": "independent SciPy Jensen-Shannon distance sqrt of negative floating roundoff near0; reproduced on GT-free synthetic data",
+  "original_protocol_sha256": "bc215382d727b30886ab90ff875a0c350b59aff9958f296b196f6f01bdd6e6c0",
+  "original_sources_unchanged": true,
+  "sources": {
+    "/home/djc/projects/GeoPhy-Set3D/scripts/oari_mechanism_v1/probe_recovery_v1.py": "801c0ae20f4d50ad8c5c839462063820edcabd4d25981d0d21313cfbe4595986",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/oari_mechanism_v1/finish_recovery_v1.py": "0601750cff05c30055c7b85334dc269b0f4adef668f0ebffeb584d757ce9613b",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/oari_mechanism_v1/recovery_v1.py": "dad54007c18dee648ce44cbec96301594b37538023921ca5ed3cd867d74b348f"
+  },
+  "original_failure_files": {
+    "/scratch/djc/GeoPhy-Set3D/mrgr_oari_mechanism_diagnostics_v1/probe_failure.json": "77a3131b80eb06d7f243ee0ceff5919dead64bc5ca0b2c50d0710c2e4233f3f9",
+    "/scratch/djc/GeoPhy-Set3D/mrgr_oari_mechanism_diagnostics_v1/controller_failure.json": "c54ea7ce5ab9c43ba7b47e80bc801bd6349adb271c4dfc99e65cb985b5023937"
+  },
+  "original_forward_calls": 12,
+  "original_manifest": "/scratch/djc/GeoPhy-Set3D/mrgr_oari_mechanism_diagnostics_v1/failed_attempt1_prediction_manifest.jsonl",
+  "original_manifest_sha256": "aae69a0c287e193932912c07daf362360c2334ea53d280a5319ca66bbd3f4c32",
+  "recovery_forward_calls": 45,
+  "total_planned_calls": 57,
+  "only_changes": [
+    "independent JS via SciPy rel_entr without sqrt; nonnegative roundoff correction bounded at1e-12",
+    "separate recovery output directory",
+    "explicit failure and total-cost accounting"
+  ],
+  "unchanged": [
+    "checkpoint",
+    "model structure/weights",
+    "A/P1/P2 semantics",
+    "case indices/layouts/draws",
+    "case-level statistics",
+    "all training jobs"
+  ],
+  "repeats_reason": "attention summaries existed only in process memory at failure; archived volumes cannot reconstruct missing attention",
+  "GT64_read": false,
+  "GT128_read": false
+}
