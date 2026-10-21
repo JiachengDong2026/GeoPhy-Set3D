@@ -1,0 +1,30 @@
+Traceback (most recent call last):
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/observability_error_pairing_v1/score.py", line 130, in <module>
+    try:{'authorize':authorize,'score':score,'summaries':summaries}[a.action]()
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/observability_error_pairing_v1/score.py", line 122, in summaries
+    freeze(ART/'statistics.json',dict(at=now(),seed=SEED,resamples=RESAMPLES,n_cases=35,draws=[0],
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/common.py", line 40, in freeze
+    write(p,v);p.with_suffix(p.suffix+'.sha256').write_text(sha(p)+'\n')
+    ^^^^^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/common.py", line 30, in write
+    t=p.with_suffix(p.suffix+'.tmp');t.write_text(json.dumps(v,indent=2,ensure_ascii=False,allow_nan=False)+'\n');t.replace(p)
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/json/__init__.py", line 238, in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/json/encoder.py", line 202, in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/json/encoder.py", line 432, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/json/encoder.py", line 326, in _iterencode_list
+    yield from chunks
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/json/encoder.py", line 398, in _iterencode_dict
+    yield _floatstr(value)
+          ^^^^^^^^^^^^^^^^
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/json/encoder.py", line 240, in floatstr
+    raise ValueError(
+ValueError: Out of range float values are not JSON compliant: nan

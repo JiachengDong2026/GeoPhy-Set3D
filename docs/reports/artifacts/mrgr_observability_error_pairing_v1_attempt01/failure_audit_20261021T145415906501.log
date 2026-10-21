@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/observability_error_pairing_v1/analyze.py", line 237, in <module>
+    {'audit':audit,'historical':historical}[args.action]()
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/observability_error_pairing_v1/analyze.py", line 73, in audit
+    models = [m for m in verified(ROOT/'docs/reports/artifacts/mrgr_uniform_final_v1/reuse_methods.json') if m['key'] in KEYS]
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/common.py", line 42, in verified
+    p=Path(p);assert sha(p)==p.with_suffix(p.suffix+'.sha256').read_text().strip(),p
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/pathlib.py", line 1027, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/djc/projects/GeoPhy-Set3D/docs/reports/artifacts/mrgr_uniform_final_v1/reuse_methods.json.sha256'
