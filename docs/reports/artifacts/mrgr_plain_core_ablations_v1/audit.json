@@ -1,0 +1,139 @@
+{
+  "at": "2026-10-22T23:47:12.768468+08:00",
+  "baseline_checks": [
+    {
+      "key": "uniform_plain_set_interaction_seed20261011",
+      "seed": 20261011,
+      "best_epoch": 298,
+      "parameters": 342209,
+      "checkpoint_sha256": "0ccea9b24a77e9d5fac025c626a98b167c3ab57fa202688e3e4acc75261bc18c",
+      "selected_by": "strict minimum validation H4 only",
+      "epochs": 300,
+      "updates": 24900,
+      "protocol_sha256": "1ed429b54e31a7c4d5bd5a63cee53e394cad53fe5750a5f34626f1ddec98548b",
+      "prediction_manifest_sha256": "914f54ea87c460a6470b091b1a8188a5571b42bb9b95d279a339933898782a93"
+    },
+    {
+      "key": "uniform_plain_set_interaction_seed20261019",
+      "seed": 20261019,
+      "best_epoch": 279,
+      "parameters": 342209,
+      "checkpoint_sha256": "fe19095926c6fad4194cfd6addcf96fed523b94631e754d021600f1b7313525d",
+      "selected_by": "strict minimum validation H4 only",
+      "epochs": 300,
+      "updates": 24900,
+      "protocol_sha256": "389eee0db5a046f4251fbb1a4829c39f4ba7608459a7e3bcb7eff8002c25395b",
+      "prediction_manifest_sha256": "cafd23bc3d38005265c1cc84ec09fb067aae042ce75d455a205d990e0b4b6999"
+    }
+  ],
+  "initialization": [
+    {
+      "key": "uniform_plain_set_interaction_no_geometry_lifting_seed20261011",
+      "parameters": 342209,
+      "parameter_delta": 0,
+      "all_retained_state_bit_exact": true,
+      "CPU_RNG_exact": true,
+      "removed_keys": []
+    },
+    {
+      "key": "uniform_plain_set_interaction_no_geometry_lifting_seed20261019",
+      "parameters": 342209,
+      "parameter_delta": 0,
+      "all_retained_state_bit_exact": true,
+      "CPU_RNG_exact": true,
+      "removed_keys": []
+    },
+    {
+      "key": "uniform_plain_set_interaction_single_scale_mrgr_seed20261011",
+      "parameters": 342209,
+      "parameter_delta": 0,
+      "all_retained_state_bit_exact": true,
+      "CPU_RNG_exact": true,
+      "removed_keys": []
+    },
+    {
+      "key": "uniform_plain_set_interaction_single_scale_mrgr_seed20261019",
+      "parameters": 342209,
+      "parameter_delta": 0,
+      "all_retained_state_bit_exact": true,
+      "CPU_RNG_exact": true,
+      "removed_keys": []
+    },
+    {
+      "key": "uniform_plain_set_interaction_no_prf_seed20261011",
+      "parameters": 329697,
+      "parameter_delta": -12512,
+      "all_retained_state_bit_exact": true,
+      "CPU_RNG_exact": true,
+      "removed_keys": [
+        "residual_adapter.0.bias",
+        "residual_adapter.0.weight",
+        "residual_adapter.2.bias",
+        "residual_adapter.2.weight",
+        "residual_encoder.0.bias",
+        "residual_encoder.0.weight",
+        "residual_encoder.1.bias",
+        "residual_encoder.1.weight",
+        "residual_encoder.3.body.0.bias",
+        "residual_encoder.3.body.0.weight",
+        "residual_encoder.3.body.1.bias",
+        "residual_encoder.3.body.1.weight",
+        "residual_encoder.3.body.3.bias",
+        "residual_encoder.3.body.3.weight",
+        "residual_encoder.3.body.4.bias",
+        "residual_encoder.3.body.4.weight",
+        "residual_encoder.4.body.0.bias",
+        "residual_encoder.4.body.0.weight",
+        "residual_encoder.4.body.1.bias",
+        "residual_encoder.4.body.1.weight",
+        "residual_encoder.4.body.3.bias",
+        "residual_encoder.4.body.3.weight",
+        "residual_encoder.4.body.4.bias",
+        "residual_encoder.4.body.4.weight"
+      ]
+    },
+    {
+      "key": "uniform_plain_set_interaction_no_prf_seed20261019",
+      "parameters": 329697,
+      "parameter_delta": -12512,
+      "all_retained_state_bit_exact": true,
+      "CPU_RNG_exact": true,
+      "removed_keys": [
+        "residual_adapter.0.bias",
+        "residual_adapter.0.weight",
+        "residual_adapter.2.bias",
+        "residual_adapter.2.weight",
+        "residual_encoder.0.bias",
+        "residual_encoder.0.weight",
+        "residual_encoder.1.bias",
+        "residual_encoder.1.weight",
+        "residual_encoder.3.body.0.bias",
+        "residual_encoder.3.body.0.weight",
+        "residual_encoder.3.body.1.bias",
+        "residual_encoder.3.body.1.weight",
+        "residual_encoder.3.body.3.bias",
+        "residual_encoder.3.body.3.weight",
+        "residual_encoder.3.body.4.bias",
+        "residual_encoder.3.body.4.weight",
+        "residual_encoder.4.body.0.bias",
+        "residual_encoder.4.body.0.weight",
+        "residual_encoder.4.body.1.bias",
+        "residual_encoder.4.body.1.weight",
+        "residual_encoder.4.body.3.bias",
+        "residual_encoder.4.body.3.weight",
+        "residual_encoder.4.body.4.bias",
+        "residual_encoder.4.body.4.weight"
+      ]
+    }
+  ],
+  "candidates": [],
+  "historical_reuse": "two plain baseline checkpoints/420 predictions; OARI module ablation results are incompatible and not reused as current results",
+  "formal_definitions": {
+    "geometry": "/home/djc/projects/GeoPhy-Set3D/scripts/no_spatial_lifting_v1/runtime.py",
+    "single": "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/models.py",
+    "prf": "historical NoFeedback adapted only to PlainSetStage0"
+  },
+  "GT64_read": false,
+  "GT128_read": false,
+  "conflicts": []
+}

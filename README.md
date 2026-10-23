@@ -1,5 +1,7 @@
 # GeoPhy-Set3D
 
+2026-10-23 **普通集合交互最终架构的双种子核心消融已完成**：GeometryLifting、单尺度 MRGR、无 PRF 各两个种子，共六项，均完成 300 轮 / 24,900 次更新；完整普通交互基线复用，未重训。三个模块在两种子、普通及聚簇 V4 的 C1 相对 L1 配对差均支持保留，12 个案例级 95% bootstrap 区间均高于零；多尺度的普通布局收益较小，峰值定位等辅助指标不全面一致。结果限于此前已使用的 35 案例，属于探索性消融。 [中文正式报告](docs/reports/mrgr_plain_core_ablations_v1_zh.md) · [实验追踪表](docs/reports/mrgr_plain_final_experiment_tracking_v1_zh.md) · [正式协议](docs/mrgr_plain_core_ablations_v1_protocol_zh.md) · [验收与文件身份](docs/reports/artifacts/mrgr_plain_core_ablations_v1/acceptance.json)。下方公告保留历史状态。
+
 2026-10-22 **四项 OARI 定向实验已完成**：普通集合交互双种子、no-ray 第二种子各完整 300 轮，冻结 token 第二种子完成 70 份预测。普通交互相对 OARI 的 C1 L1 变化方向未在两种子间一致；聚簇布局下 no-ray 消融与冻结 token 效应均在第二种子复现。普通交互成本较低，但未证明性能等效，不自动替换正式 Uniform Fusion 模型。这是同一已使用 35 案例上的探索性比较。[中文报告](docs/reports/mrgr_oari_targeted_v1_zh.md) · [验收](docs/reports/artifacts/mrgr_oari_targeted_v1/acceptance.json) · [最终复核与资源异常](docs/reports/artifacts/mrgr_oari_targeted_v1/completion_review.json)。下方旧公告保留历史状态。
 
 2026-10-20 **当前暂定主模型为均匀融合MRGR，停止反馈OARI后续研究，7个消融继续暂缓。** 已完成实心气袋小测试：普通V4三维L1为86.75%，分散V6为59.26%，仍存在明显浓度低估。[当前模型决定](docs/mrgr_model_status_20261020_zh.md) · [气袋结果与图](docs/reports/mrgr_uniform_nonplume_gasbag_v1_zh.md) · [结果解读](docs/reports/mrgr_uniform_nonplume_gasbag_v1_interpretation_zh.md)。下文既有实验公告保留历史状态。

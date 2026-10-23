@@ -1,0 +1,208 @@
+{
+  "at": "2026-10-23T06:47:03.087761+08:00",
+  "completed": true,
+  "runs": [
+    {
+      "key": "uniform_plain_set_interaction_no_prf_seed20261011",
+      "arm": "uniform_plain_set_interaction_no_prf",
+      "seed": 20261011,
+      "config": {
+        "dataset": {
+          "root": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1"
+        },
+        "experiment": {
+          "name": "uniform_plain_set_interaction_no_prf_seed20261011",
+          "output_root": "/scratch/djc/GeoPhy-Set3D/mrgr_plain_core_ablations_v1/training/uniform_plain_set_interaction_no_prf_seed20261011"
+        },
+        "loader": {
+          "num_workers": 4,
+          "persistent_workers": true,
+          "pin_memory": true
+        },
+        "loss": {
+          "hold": 1.0,
+          "cross": 0.5,
+          "observed": 0.1,
+          "consistency": 0.05,
+          "beta": 0.01,
+          "relative_l1": 0.1,
+          "relative_epsilon": 1e-06,
+          "measurement_scale": 32284.894580078173
+        },
+        "model": {
+          "feature_channels": 32,
+          "input_channels": 3,
+          "lift_resolution": 32,
+          "name": "geolift_oari_mrgr_res3d",
+          "output_activation": "sigmoid",
+          "output_resolution": 64,
+          "gca": {
+            "distance_scale_m": 6.5,
+            "azimuth_scale_deg": 180.0
+          },
+          "set_interaction": {
+            "d_model": 32,
+            "num_heads": 4,
+            "num_blocks": 1,
+            "ffn_channels": 64
+          }
+        },
+        "normalization": {
+          "method": "linear_p99_5",
+          "statistics_file": "train_statistics.json"
+        },
+        "optimizer": {
+          "lr": 0.0002,
+          "name": "adamw",
+          "weight_decay": 0.0001
+        },
+        "train": {
+          "split": "train",
+          "geometry_pool": "train",
+          "a_views": [
+            3,
+            5
+          ],
+          "b_views": [
+            3,
+            5
+          ],
+          "heldout_views": 2
+        },
+        "training": {
+          "batch_size": 2,
+          "device": "cuda:0",
+          "early_stopping_patience": null,
+          "gradient_accumulation": 1,
+          "gradient_clip_norm": 1.0,
+          "max_epochs": 300,
+          "precision": "fp32",
+          "seed": 20261011
+        },
+        "validation": {
+          "split": "val",
+          "geometry_pool": "train",
+          "a_views": [
+            4,
+            4
+          ],
+          "b_views": [
+            4,
+            4
+          ],
+          "heldout_views": 4
+        },
+        "scheduler": {
+          "name": "cosine",
+          "T_max": 300
+        }
+      },
+      "parameters": 329697,
+      "checkpoint": "/scratch/djc/GeoPhy-Set3D/mrgr_plain_core_ablations_v1/training/uniform_plain_set_interaction_no_prf_seed20261011/checkpoints/best.pt",
+      "checkpoint_sha256": "873dd93fa8161adbaf6ec1e7155c103728bfe756399390c17dda1de027704266",
+      "best_epoch": 278,
+      "run": "/scratch/djc/GeoPhy-Set3D/mrgr_plain_core_ablations_v1/training/uniform_plain_set_interaction_no_prf_seed20261011"
+    },
+    {
+      "key": "uniform_plain_set_interaction_no_prf_seed20261019",
+      "arm": "uniform_plain_set_interaction_no_prf",
+      "seed": 20261019,
+      "config": {
+        "dataset": {
+          "root": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1"
+        },
+        "experiment": {
+          "name": "uniform_plain_set_interaction_no_prf_seed20261019",
+          "output_root": "/scratch/djc/GeoPhy-Set3D/mrgr_plain_core_ablations_v1/training/uniform_plain_set_interaction_no_prf_seed20261019"
+        },
+        "loader": {
+          "num_workers": 4,
+          "persistent_workers": true,
+          "pin_memory": true
+        },
+        "loss": {
+          "hold": 1.0,
+          "cross": 0.5,
+          "observed": 0.1,
+          "consistency": 0.05,
+          "beta": 0.01,
+          "relative_l1": 0.1,
+          "relative_epsilon": 1e-06,
+          "measurement_scale": 32284.894580078173
+        },
+        "model": {
+          "feature_channels": 32,
+          "input_channels": 3,
+          "lift_resolution": 32,
+          "name": "geolift_oari_mrgr_res3d",
+          "output_activation": "sigmoid",
+          "output_resolution": 64,
+          "gca": {
+            "distance_scale_m": 6.5,
+            "azimuth_scale_deg": 180.0
+          },
+          "set_interaction": {
+            "d_model": 32,
+            "num_heads": 4,
+            "num_blocks": 1,
+            "ffn_channels": 64
+          }
+        },
+        "normalization": {
+          "method": "linear_p99_5",
+          "statistics_file": "train_statistics.json"
+        },
+        "optimizer": {
+          "lr": 0.0002,
+          "name": "adamw",
+          "weight_decay": 0.0001
+        },
+        "train": {
+          "split": "train",
+          "geometry_pool": "train",
+          "a_views": [
+            3,
+            5
+          ],
+          "b_views": [
+            3,
+            5
+          ],
+          "heldout_views": 2
+        },
+        "training": {
+          "batch_size": 2,
+          "device": "cuda:0",
+          "early_stopping_patience": null,
+          "gradient_accumulation": 1,
+          "gradient_clip_norm": 1.0,
+          "max_epochs": 300,
+          "precision": "fp32",
+          "seed": 20261019
+        },
+        "validation": {
+          "split": "val",
+          "geometry_pool": "train",
+          "a_views": [
+            4,
+            4
+          ],
+          "b_views": [
+            4,
+            4
+          ],
+          "heldout_views": 4
+        },
+        "scheduler": {
+          "name": "cosine",
+          "T_max": 300
+        }
+      },
+      "parameters": 329697,
+      "checkpoint": "/scratch/djc/GeoPhy-Set3D/mrgr_plain_core_ablations_v1/training/uniform_plain_set_interaction_no_prf_seed20261019/checkpoints/best.pt",
+      "checkpoint_sha256": "7ed0fcff103141ff5ddd9340b75e0c2989ca4fbf3f5f34956285e607558a533a",
+      "best_epoch": 287,
+      "run": "/scratch/djc/GeoPhy-Set3D/mrgr_plain_core_ablations_v1/training/uniform_plain_set_interaction_no_prf_seed20261019"
+    }
+  ]
+}
