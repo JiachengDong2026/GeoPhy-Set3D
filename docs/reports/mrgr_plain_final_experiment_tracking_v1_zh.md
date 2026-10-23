@@ -16,3 +16,11 @@
 完整状态：`/scratch/djc/GeoPhy-Set3D/mrgr_plain_core_ablations_v1/status.json`。日志、GPU快照和异常记录：`/scratch/djc/GeoPhy-Set3D/mrgr_plain_core_ablations_v1/scheduling/`。
 
 完整模型不重训。OARI历史消融只复用定义，不能代替普通交互消融。所有六项300轮及全局预测封存完成后才允许本轮GT64评分，GT128禁止。
+
+## 2026-10-24 追加：独立深度学习对照准备
+
+上表消融结论及权重身份不变。最终Plain再次冻结并通过集成前/后逐位CPU回归；未重训主模型。新增Ray-DeepSets-v1（104577参数）、Ray-Senseiver-v1（254913）、Ray-GNOT-v1（527109）的独立实现与配置，CPU/GPU/5epoch工程pilot和四方法Val mini评价均通过。
+
+DeepSets/GNOT各seed20261011/20261019，4项正式300epoch/24900updates已登记并进入GPU持久队列；当前有效输出为 `/scratch/djc/GeoPhy-Set3D/deep_baselines_v1/training_registered_v2/`。Senseiver保留历史科学NO-GO，未自动重复300轮；所有未运行正式指标留空。mini训练量不对等，不构成正式精度比较。未启动新test/GT128或Pool B访问。
+
+具体状态、哈希和完整边界见[执行报告](deep_learning_baselines_status_zh.md)、[正式状态CSV](artifacts/deep_baselines_v1/formal_comparison_status.csv)及实时 `deep_baselines_v1/queue_status.json`，不将队列中任务视为已完成。

@@ -1,0 +1,74 @@
+"""One-shot locked GPU jobs; double idle snapshots, inherited UUID lock, conflict stop."""
+from baseline_context import *
+import argparse
+import fcntl
+import os
+import signal
+import subprocess
+import time
+
+
+def run(key, command, recover_reason=None):
+    ROOT.joinpath('scheduling').mkdir(exist_ok=True)
+    task_lock = (ROOT / 'scheduling' / (key + '.controller.lock')).open('a')
+    fcntl.flock(task_lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    s = c.scheduler(); s.BASE = ROOT; s.progress = lambda: None
+    prior_path = ROOT / 'scheduling' / (key + '.json')
+    if prior_path.exists():
+        prior = c.read(prior_path)
+        assert prior['state'] != 'complete', 'Completed job must not be repeated'
+        assert not s.alive(prior['pid']), 'Existing task process is still alive'
+        assert recover_reason, 'Inspect failed task and provide --recover-reason before resuming'
+        c.append(ROOT / 'scheduling/recovery.jsonl', dict(at=c.now(), key=key, prior=prior,
+            inspected=True, reason=recover_reason, action='resume authoritative last.pt; no config/budget change'))
+    # Existing global UUID lock namespace and 15-second double snapshots.
+    uuid, lock = s.wait_gpu()
+    item = s.launch(key, command, uuid, lock)
+    process = item['process']
+    conflict = None
+    def stop_signal(signum, frame):
+        raise KeyboardInterrupt('Controller received signal ' + str(signum))
+    signal.signal(signal.SIGTERM, stop_signal)
+    try:
+        while process.poll() is None:
+            snapshot = s.snapshot()
+            foreign = []
+            for line in snapshot['gpu_processes'].splitlines():
+                fields = [x.strip() for x in line.split(',')]
+                if fields[0] != uuid or len(fields) < 2:
+                    continue
+                pid = int(fields[1])
+                if pid != process.pid:
+                    foreign.append(dict(pid=pid, process=line))
+            if foreign:
+                conflict = foreign
+                c.append(ROOT / 'scheduling/events.jsonl', dict(at=c.now(), event='foreign_gpu_conflict', key=key, foreign=foreign,
+                    action='terminate only own child; preserve checkpoint and replay interrupted epoch'))
+                process.terminate()
+                try: process.wait(timeout=30)
+                except subprocess.TimeoutExpired:
+                    process.kill(); process.wait()
+                break
+            time.sleep(15)
+        s.finish(item, valid=process.returncode == 0 and conflict is None)
+    finally:
+        if process.poll() is None:
+            process.terminate()
+            try: process.wait(timeout=30)
+            except subprocess.TimeoutExpired:
+                process.kill(); process.wait()
+            record = dict(item['record'], state='interrupted', finished_at=c.now(), exit_code=process.returncode)
+            c.write(s.task_path(key), record)
+            c.append(ROOT / 'scheduling/events.jsonl', record)
+        lock.close()
+        task_lock.close()
+
+
+if __name__ == '__main__':
+    ap = argparse.ArgumentParser()
+    ap.add_argument('--key', required=True)
+    ap.add_argument('--recover-reason')
+    ap.add_argument('command', nargs=argparse.REMAINDER)
+    a = ap.parse_args()
+    assert a.command
+    run(a.key, a.command[1:] if a.command[0] == '--' else a.command, a.recover_reason)

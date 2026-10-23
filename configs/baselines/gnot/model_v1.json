@@ -1,0 +1,47 @@
+{
+  "model_id": "ray_gnot_v1",
+  "display_name": "Ray-GNOT-v1 (independent ray-integral adaptation)",
+  "implementation": "geophy_set3d.models.baseline_gnot_v1:RayGNOTV1",
+  "settings": {
+    "width": 64,
+    "layers": 2,
+    "heads": 4,
+    "experts": 2,
+    "inner_multiplier": 4,
+    "query_chunk_size": 8192,
+    "checkpoint_chunks": true,
+    "output_bias_logit": 0.0
+  },
+  "parameter_count": 527109,
+  "parameter_bytes_fp32": 2108436,
+  "input": {
+    "tokenizer": "geophy_set3d.models.ray_senseiver_ss:ray_tokens",
+    "all_ray_features": 203,
+    "measurement_branch_features": 203,
+    "geometry_branch_features": 202,
+    "projection_scale_ppm_m": 32284.894580078173,
+    "geometry": "entry XYZ, exit XYZ, direction XYZ, normalized path length, entry/exit Fourier features",
+    "mask": "input_valid_ray AND view_mask; zero measurements retained; padding excluded; empty set has zero source contribution"
+  },
+  "output": {
+    "dtype": "float32",
+    "shape": ["B", 1, 64, 64, 64],
+    "quantity": "CH4 mass fraction",
+    "range": [0, 1],
+    "axis_order": "XYZ",
+    "grid_m": "endpoint nodes in [0,0.6]^3"
+  },
+  "attention": "heterogeneous feature-softmax normalized linear attention; global query self statistics",
+  "geometry_gating": "XYZ MLP -> softmax over 2 experts; two gated FFN stages per block",
+  "geolift": false,
+  "mrgr": false,
+  "prf": false,
+  "gt_for_training": false,
+  "initialization": "PyTorch Linear defaults; final output bias fixed at neutral logit 0; no concentration prior",
+  "reference": {
+    "paper": "https://arxiv.org/abs/2302.14376v3",
+    "repository": "https://github.com/thu-ml/GNOT",
+    "commit": "5ee2e6925a43f9a340a6016bad4da2c82a452cbe",
+    "license_status": "NO_EXPLICIT_LICENSE_FOUND; no original source vendored"
+  }
+}

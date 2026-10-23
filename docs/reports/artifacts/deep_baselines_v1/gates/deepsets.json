@@ -1,0 +1,17 @@
+{
+  "at": "2026-10-24T00:18:26.187689+08:00",
+  "arm": "deepsets",
+  "eligible_for_formal": true,
+  "engineering_passed": true,
+  "scientific_effectiveness_established": false,
+  "uses_volume_GT": false,
+  "reason": "Engineering finite loss/gradients/checkpoint/stable memory and fixed pilot pass; proceed exact300, no tuning",
+  "pilot_sha256": "513c3b10ce806632026eeb2f301a32bfa68a6e81e987939780b709f7559b66e5",
+  "smoke_sha256": "5b4f3c81081c28da2733b423199234f267a582bcd0096e14cf1cdd34a5755800",
+  "epoch1_H4": 269.9656703006307,
+  "epoch5_H4": 266.2334504203322,
+  "pilot_validation_cases": 2,
+  "pilot_train_cases": 4,
+  "pilot_updates": 10,
+  "risks": "Default sigmoid initialization near0.5 gives very large relative projection errors; short pilot is engineering only. No output-scale prior selected or tuned."
+}

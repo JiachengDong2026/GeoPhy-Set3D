@@ -1,0 +1,70 @@
+"""New DeepSets dispatch through unchanged canonical engine: interrupted epoch recovery."""
+from baseline_context import *
+import argparse
+import math
+import subprocess
+import torch
+
+
+def target_for(name):
+    target = ROOT / 'resume_check' / name
+    if (target / 'protocol.json').exists(): return target
+    prior = c.verified(ROOT / 'pilots/deepsets_seed20261011/protocol.json')
+    prior['config'] = training_config('deepsets', SEEDS[0], target)
+    prior['phase'] = 'engineering recovery check only; 4train/2val; 2epochs; NOT formal'
+    prior['planned_updates'] = 4
+    prior['sources'] = source_identity()
+    prior['registered_at'] = c.now()
+    c.freeze(target / 'protocol.json', prior)
+    return target
+
+
+def step(name, stop):
+    c.backend()
+    target = target_for(name)
+    p = c.verified(target / 'protocol.json')
+    engine = c.canonical_worker.engine
+    engine.OUT = ROOT
+    engine.model_for = lambda config, arm, device: build_model(arm, device, config['training']['seed'])
+    with c.AccessGuard(splits=['train', 'val'], output=ROOT) as guard:
+        engine.train(target, stop_after=stop)
+        c.write(target / 'boundary_audit.json', guard.summary())
+
+
+def same(a, b):
+    import numpy as np
+    if isinstance(a, torch.Tensor):
+        if a.is_floating_point(): torch.testing.assert_close(a, b, rtol=1e-4, atol=1e-6)
+        else: assert torch.equal(a, b)
+    elif isinstance(a, np.ndarray): assert np.array_equal(a, b)
+    elif isinstance(a, dict):
+        assert a.keys() == b.keys()
+        for k in a: same(a[k], b[k])
+    elif isinstance(a, (tuple, list)):
+        assert len(a) == len(b)
+        for x, y in zip(a, b): same(x, y)
+    elif isinstance(a, float): assert math.isclose(a, b, rel_tol=1e-4, abs_tol=1e-6), (a, b)
+    else: assert a == b, (a, b)
+
+
+def main():
+    ap = argparse.ArgumentParser(); ap.add_argument('--name'); ap.add_argument('--stop', type=int)
+    args = ap.parse_args()
+    if args.name:
+        step(args.name, args.stop); return
+    for name, stop in [('uninterrupted', 2), ('resumed', 1), ('resumed', 2)]:
+        subprocess.run([c.sys.executable, __file__, '--name', name, '--stop', str(stop)], check=True)
+    states = [torch.load(ROOT / 'resume_check' / name / 'checkpoints/last.pt', map_location='cpu', weights_only=False)
+              for name in ('uninterrupted', 'resumed')]
+    keys = ['model', 'best_model', 'optimizer', 'scheduler', 'rng', 'epoch', 'updates', 'best_epoch', 'best_score']
+    for key in keys: same(states[0][key], states[1][key])
+    for a, b in zip(states[0]['metrics'], states[1]['metrics']):
+        for key in ('epoch', 'learning_rate', 'loader_rng_sha256'): same(a[key], b[key])
+        for split in ('train', 'val'):
+            same({k: v for k, v in a[split].items() if k != 'seconds'}, {k: v for k, v in b[split].items() if k != 'seconds'})
+    c.freeze(ROOT / 'checks/resume.json', dict(at=c.now(), passed=True, arm='deepsets', epochs=2,
+        keys=keys, workers=4, integer_RNG_exact=True, float_tolerance=dict(rtol=1e-4, atol=1e-6),
+        audit='same canonical engine as all3 baselines; actual fresh processes uninterrupted2 vs1+resume1; not formal training'))
+
+
+if __name__ == '__main__': main()

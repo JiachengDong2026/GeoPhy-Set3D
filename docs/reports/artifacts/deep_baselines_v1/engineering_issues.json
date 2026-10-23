@@ -1,0 +1,33 @@
+{
+  "at": "2026-10-24T00:27:28.808811+08:00",
+  "issues": [
+    {
+      "stage": "main_anchor_precheck",
+      "failure": "inherited guard output root rejected own NPZ",
+      "action": "new script output allowlist set to this stage ROOT; old model/guard untouched; failed NPZ and failure JSON retained"
+    },
+    {
+      "stage": "queue_import_precheck",
+      "failure": "local queue.py shadowed Python stdlib queue.Queue during torch import",
+      "action": "renamed new scheduler script formal_queue.py before any scheduling/updates"
+    },
+    {
+      "stage": "resume_engineering_attempt1",
+      "failure": "own nested trainer PID misclassified as foreign GPU process",
+      "action": "stopped own check parent only; trainer checkpoints preserved; no foreign user process terminated; isolated process-group ownership implemented; fresh v2 check PASS"
+    },
+    {
+      "stage": "formal_registration_v1",
+      "failure": "independent audit found exceptional startup cleanup and descendant TERM edge paths",
+      "action": "hardened scheduler before any formal update; original four protocols retained unstarted; new formal v2 registrations and source hashes; architecture/loss/optimizer/budget/seeds unchanged"
+    },
+    {
+      "stage": "mini_v1_to_v2",
+      "failure": "scheduler-only source identity changed after successful mini_v1",
+      "action": "all four mini predictions/scoring repeated with final v2 source identities; same selected weights, no model/parameter choice from GT; v1 preserved"
+    }
+  ],
+  "no_main_training": true,
+  "no_foreign_process_terminated": true,
+  "no_test_or_GT128": true
+}

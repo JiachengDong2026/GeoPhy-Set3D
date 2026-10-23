@@ -1,0 +1,33 @@
+{
+  "at": "2026-10-24T00:22:33.551390+08:00",
+  "jobs": [
+    {
+      "target": "/scratch/djc/GeoPhy-Set3D/deep_baselines_v1/training_registered_v2/deepsets_seed20261011",
+      "protocol_sha256": "7d4185cfa2cec670780c53cd560ce39ea0ec91e61460795dfe079eb51637c79c"
+    },
+    {
+      "target": "/scratch/djc/GeoPhy-Set3D/deep_baselines_v1/training_registered_v2/deepsets_seed20261019",
+      "protocol_sha256": "a57537629f2a5733b6772aca44c448e4d5eba4c48dbff433f449fc7aa9dfb486"
+    },
+    {
+      "target": "/scratch/djc/GeoPhy-Set3D/deep_baselines_v1/training_registered_v2/gnot_seed20261011",
+      "protocol_sha256": "990d88ae6487fc8f1312ab57354d26f4e9d6356afc9b59254241a53561217b2b"
+    },
+    {
+      "target": "/scratch/djc/GeoPhy-Set3D/deep_baselines_v1/training_registered_v2/gnot_seed20261019",
+      "protocol_sha256": "9e679b20d718646e4b3ea2fa2564a80ecc30dbd7603f2ab18578cd13cbe16493"
+    }
+  ],
+  "formal_epochs": 300,
+  "formal_updates": 24900,
+  "excluded": {
+    "senseiver": "historical scientific NO_GO; no duplicate full300"
+  },
+  "scheduling": "one UUID locked job per idle GPU; double15s snapshots; up to4 independent controllers; no foreign processes terminated",
+  "no_test": true,
+  "no_GT128": true,
+  "no_auto_hyperparameter_search": true,
+  "registration_revision": 2,
+  "pretraining_mini_evaluation_passed": true,
+  "gate_note": "Architecture/loss/optimizer/seeds unchanged; all four v1 registrations never trained. This revision only hardens scheduling failure paths after independent code audit; no choice made from mini GT scores."
+}

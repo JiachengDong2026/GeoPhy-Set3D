@@ -1,0 +1,18 @@
+{
+  "name": "ray_deepsets_v1",
+  "factory": "geophy_set3d.models.baseline_deepsets_v1.RayDeepSetsV1",
+  "kwargs": {
+    "hidden_dim": 128,
+    "query_chunk_size": 16384,
+    "decoder_checkpoint": true,
+    "output_bias_logit": 0.0
+  },
+  "pooling": "masked_mean",
+  "ray_token_dim": 203,
+  "query_feature_dim": 96,
+  "resolution": 64,
+  "output": "CH4_mass_fraction_FP32_sigmoid",
+  "uses_geolift": false,
+  "reference": "Zaheer et al., Deep Sets, NeurIPS 2017, arXiv:1703.06114",
+  "initialization": "PyTorch Linear defaults, final bias explicitly output_bias_logit; zero is standard sigmoid prior and is not GT calibrated"
+}

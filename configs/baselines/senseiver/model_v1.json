@@ -1,0 +1,34 @@
+{
+  "name": "Ray-Senseiver-V1",
+  "factory": "geophy_set3d.models.baseline_senseiver_v1:RaySenseiverV1",
+  "settings": {
+    "query_chunk_size": 16384,
+    "decoder_checkpoint": true
+  },
+  "architecture": {
+    "ray_token_channels": 203,
+    "fourier_bands": 16,
+    "num_latents": 64,
+    "latent_channels": 64,
+    "preprocessing_channels": 64,
+    "encoder_blocks": 3,
+    "encoder_block_sharing": "block_1 independent; block_n reused twice",
+    "self_attention_layers_per_block": 3,
+    "attention_heads": 4,
+    "dropout": 0.0,
+    "output_resolution": 64,
+    "output_activation": "original sigmoid",
+    "initialization": "original PyTorch/core initialization; no fitted prior or warm start",
+    "geometry_lifting": false,
+    "parameters": 254913
+  },
+  "source": {
+    "paper": "https://www.nature.com/articles/s42256-023-00746-x",
+    "repository": "https://github.com/OrchardLANL/Senseiver",
+    "commit": "e443eb0ca188b5e83a0e6ce5afb8db7d90393de1",
+    "license": "BSD-3-Clause; LANL notice retained",
+    "identity": "ray-integral measurement-only adaptation, not original supervised replication"
+  },
+  "historical_self_supervised_decision": "REPAIR_FAILED_NO_GO",
+  "formal_training_gate": "blocked pending independently registered unified-objective pilot; engineering success alone does not override historical scientific NO-GO"
+}

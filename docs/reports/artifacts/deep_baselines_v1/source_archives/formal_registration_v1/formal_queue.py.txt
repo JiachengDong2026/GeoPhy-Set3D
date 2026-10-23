@@ -1,0 +1,66 @@
+"""Durable finite queue of exactly the registered eligible dual-seed jobs."""
+from baseline_context import *
+import argparse
+import fcntl
+import signal
+import subprocess
+import time
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument('--plan', required=True)
+    args = ap.parse_args()
+    plan = c.verified(Path(args.plan))
+    lock = (ROOT / 'queue.lock').open('a')
+    fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    def stop_signal(signum, frame):
+        raise KeyboardInterrupt('Queue received signal ' + str(signum))
+    signal.signal(signal.SIGTERM, stop_signal)
+    assert plan['formal_epochs'] == 300 and plan['formal_updates'] == 24900
+    active = []
+    for job in plan['jobs']:
+        target = Path(job['target'])
+        protocol = c.verified(target / 'protocol.json')
+        assert sha(target / 'protocol.json') == job['protocol_sha256']
+        assert protocol['arm'] in ('deepsets', 'gnot') and protocol['seed'] in SEEDS
+        assert c.verified(ROOT / 'gates' / (protocol['arm'] + '.json'))['eligible_for_formal']
+        if (target / 'summary.json').exists():
+            summary = c.read(target / 'summary.json')
+            assert summary['completed'] and summary['epochs'] == 300 and summary['updates'] == 24900
+            continue
+        key = target.name + '_formal300'
+        command = [c.sys.executable, str(HERE / 'controller.py'), '--key', key,
+                   '--', c.sys.executable, str(HERE / 'run.py'), 'train', '--target', str(target)]
+        log = ROOT / 'scheduling' / (key + '_controller.log')
+        # Existing incomplete scheduling records require an inspected manual
+        # recovery via controller --recover-reason; never auto-overwrite/retry.
+        record = ROOT / 'scheduling' / (key + '.json')
+        assert not record.exists(), 'Inspect incomplete prior attempt and recover explicitly: ' + key
+        with log.open('x') as stream:
+            process = subprocess.Popen(command, cwd=PROJECT, stdout=stream, stderr=subprocess.STDOUT)
+        active.append(dict(key=key, target=str(target), pid=process.pid, process=process))
+    try:
+        while active:
+            states = []
+            for job in list(active):
+                code = job['process'].poll()
+                if code is not None:
+                    assert code == 0, 'Queue stopped on failed controller: ' + job['key']
+                    result = c.read(Path(job['target']) / 'summary.json')
+                    assert result['completed'] and result['updates'] == 24900
+                    active.remove(job)
+                states.append(dict(key=job['key'], pid=job['pid'], exit_code=code))
+            c.write(ROOT / 'queue_status.json', dict(at=c.now(), state='active' if active else 'complete',
+                controller_pid=c.os.getpid(), plan_sha256=sha(args.plan), jobs=states))
+            if active: time.sleep(15)
+    finally:
+        # Failure must not leave another job running without an observer.
+        for job in active:
+            if job['process'].poll() is None: job['process'].terminate()
+        for job in active:
+            if job['process'].poll() is None: job['process'].wait(timeout=45)
+    c.freeze(ROOT / 'queue_complete.json', dict(at=c.now(), completed=True, plan_sha256=sha(args.plan)))
+
+
+if __name__ == '__main__': main()
