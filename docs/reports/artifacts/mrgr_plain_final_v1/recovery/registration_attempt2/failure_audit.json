@@ -1,0 +1,9 @@
+{
+  "at": "2026-10-23T14:24:38.454737+08:00",
+  "phase": "registration CPU validation before freeze/inference/GT64",
+  "reason": "return_stages contains auxiliary residual tensors besides C0/C1; shape/range volume assertion must target C0/C1 only",
+  "fix": "validate canonical volume outputs by key, no model change",
+  "models_changed": false,
+  "GT64_read": false,
+  "GT128_read": false
+}

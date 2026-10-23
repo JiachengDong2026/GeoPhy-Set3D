@@ -1,0 +1,17 @@
+Traceback (most recent call last):
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/plain_final_v1/register.py", line 152, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/plain_final_v1/register.py", line 63, in main
+    p=verified(Path(m['run'])/'protocol.json');verify_hashes(p['sources']);verify_hashes(p['data_files'])
+                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/common.py", line 49, in verify_hashes
+    for p,h in mapping.items():assert sha(p)==h,p
+                                      ^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/paper_final_v1/common.py", line 25, in sha
+    with Path(p).open('rb') as f:
+         ^^^^^^^^^^^^^^^^^^
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'geometry/train_geometry.npz'

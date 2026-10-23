@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/plain_final_v1/register.py", line 154, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/plain_final_v1/register.py", line 150, in main
+    p=Path(path);dst=BASE/'source_snapshot'/p.relative_to(PROJECT);dst.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(p,dst)
+                                            ^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/pathlib.py", line 682, in relative_to
+    raise ValueError(f"{str(self)!r} is not in the subpath of {str(other)!r}")
+ValueError: '/home/djc/projects/GeoPhy-Set3D-uniform-oari-v1/scripts/uniform_feedback_oari_v1/feedback_model.py' is not in the subpath of '/home/djc/projects/GeoPhy-Set3D'
