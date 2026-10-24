@@ -1,0 +1,2672 @@
+{
+  "state": {
+    "name": "fresh_v1",
+    "path": null,
+    "original": true
+  },
+  "checkpoint_sha256": null,
+  "state_sha256": "8c9110129de6785693515d1dacd2287b083bf1c9c6b4caefb3cfaebad36076d8",
+  "optimizer_updates": 0,
+  "cases": [
+    {
+      "index": 0,
+      "case": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet1_half",
+      "responses": [
+        {
+          "branch": "A",
+          "intervention": "normal",
+          "output": {
+            "mean": 0.49828338842189623,
+            "std": 0.0057084366919319725,
+            "min": 0.4783095419406891,
+            "max": 0.5205362439155579,
+            "spatial_cv": 0.011456205092469675,
+            "peak_xyz_m": [
+              0.07619047619047618,
+              0.48571428571428565,
+              0.3333333333333333
+            ],
+            "below_1e_10": 0.0
+          },
+          "difference": {
+            "mae": 0.0,
+            "rmse": 0.0,
+            "stabilized_relative_mae": 0.0,
+            "spatial_correlation": 1.0,
+            "peak_displacement_m": 0.0
+          },
+          "H": {
+            "relative_l1": 174.64814666365783,
+            "relative_l2": 70.59960515450726,
+            "discrepancy": 25.73541259765625,
+            "valid_rays": 9401
+          },
+          "zero_H_l1": 1.0,
+          "input_mae_ppm_m": 0.0,
+          "input_rmse_ppm_m": 0.0,
+          "representation": {
+            "tokens": {
+              "l2": 944.7091722463994,
+              "delta_l2": 0.0,
+              "delta_mae": 0.0,
+              "relative_delta_l2": 0.0,
+              "shape": [
+                1,
+                8873,
+                203
+              ]
+            },
+            "phi": {
+              "l2": 34.77259942919532,
+              "delta_l2": 0.0,
+              "delta_mae": 0.0,
+              "relative_delta_l2": 0.0,
+              "shape": [
+                1,
+                8873,
+                128
+              ]
+            },
+            "masked_mean": {
+              "l2": 0.31305959830767244,
+              "delta_l2": 0.0,
+              "delta_mae": 0.0,
+              "relative_delta_l2": 0.0,
+              "shape": [
+                1,
+                128
+              ]
+            },
+            "decoder_latent": {
+              "l2": 0.31305959830767244,
+              "delta_l2": 0.0,
+              "delta_mae": 0.0,
+              "relative_delta_l2": 0.0,
+              "shape": [
+                1,
+                128
+              ]
+            },
+            "decoder_query_first_chunk": {
+              "l2": 67.83732332030307,
+              "delta_l2": 0.0,
+              "delta_mae": 0.0,
+              "relative_delta_l2": 0.0,
+              "shape": [
+                1,
+                16384,
+                128
+              ]
+            },
+            "logits_first_chunk": {
+              "l2": 3.428614862226782,
+              "delta_l2": 0.0,
+              "delta_mae": 0.0,
+              "relative_delta_l2": 0.0,
+              "shape": [
+                1,
+                16384,
+                1
+              ]
+            }
+          },
+          "repeat_bitwise": true
+        },
+        {
+          "branch": "A",
+          "intervention": "zero",
+          "output": {
+            "mean": 0.4982838910090095,
+            "std": 0.005708416187417153,
+            "min": 0.4783097505569458,
+            "max": 0.5205363631248474,
+            "spatial_cv": 0.011456152387061493,
+            "peak_xyz_m": [
+              0.07619047619047618,
+              0.48571428571428565,
+              0.3333333333333333
+            ],
+            "below_1e_10": 0.0
+          },
+          "difference": {
+            "mae": 5.307280162014649e-07,
+            "rmse": 6.208616323203126e-07,
+            "stabilized_relative_mae": 0.00012649554381298533,
+            "spatial_correlation": 0.9999999979676183,
+            "peak_displacement_m": 0.0
+          },
+          "H": {
+            "relative_l1": 174.64827245641857,
+            "relative_l2": 70.59965662251847,
+            "discrepancy": 25.735431671142578,
+            "valid_rays": 9401
+          },
+          "zero_H_l1": 1.0,
+          "input_mae_ppm_m": 1647.2565159460726,
+          "input_rmse_ppm_m": 4516.058672370385,
+          "representation": {
+            "tokens": {
+              "l2": 944.6172789313732,
+              "delta_l2": 13.17636030038232,
+              "delta_mae": 0.0002513424485493334,
+              "relative_delta_l2": 0.013947530824804629,
+              "shape": [
+                1,
+                8873,
+                203
+              ]
+            },
+            "phi": {
+              "l2": 34.785036406255834,
+              "delta_l2": 0.3185974280401603,
+              "delta_mae": 8.817501091703167e-05,
+              "relative_delta_l2": 0.009162312661982459,
+              "shape": [
+                1,
+                8873,
+                128
+              ]
+            },
+            "masked_mean": {
+              "l2": 0.31318747361450006,
+              "delta_l2": 0.0010703170997402214,
+              "delta_mae": 7.755083483118597e-05,
+              "relative_delta_l2": 0.003418892458580115,
+              "shape": [
+                1,
+                128
+              ]
+            },
+            "decoder_latent": {
+              "l2": 0.31318747361450006,
+              "delta_l2": 0.0010703170997402214,
+              "delta_mae": 7.755083483118597e-05,
+              "relative_delta_l2": 0.003418892458580115,
+              "shape": [
+                1,
+                128
+              ]
+            },
+            "decoder_query_first_chunk": {
+              "l2": 67.83654304598042,
+              "delta_l2": 0.009156009279493251,
+              "delta_mae": 4.887047176135292e-06,
+              "relative_delta_l2": 0.00013497008477563182,
+              "shape": [
+                1,
+                16384,
+                128
+              ]
+            },
+            "logits_first_chunk": {
+              "l2": 3.4284841670410566,
+              "delta_l2": 0.0002740883197724865,
+              "delta_mae": 1.8340936511762607e-06,
+              "relative_delta_l2": 7.994141389052792e-05,
+              "shape": [
+                1,
+                16384,
+                1
+              ]
+            }
+          },
+          "repeat_bitwise": true
+        },
+        {
+          "branch": "A",
+          "intervention": "half",
+          "output": {
+            "mean": 0.49828362648975144,
+            "std": 0.005708426150135174,
+            "min": 0.47830966114997864,
+            "max": 0.5205363035202026,
+            "spatial_cv": 0.011456178462754653,
+            "peak_xyz_m": [
+              0.07619047619047618,
+              0.48571428571428565,
+              0.3333333333333333
+            ],
+            "below_1e_10": 0.0
+          },
+          "difference": {
+            "mae": 2.545233428463689e-07,
+            "rmse": 3.0104562737641396e-07,
+            "stabilized_relative_mae": 6.0663970402174284e-05,
+            "spatial_correlation": 0.9999999994807457,
+            "peak_displacement_m": 0.0
+          },
+          "H": {
+            "relative_l1": 174.64820620818338,
+            "relative_l2": 70.59962955573486,
+            "discrepancy": 25.73542022705078,
+            "valid_rays": 9401
+          },
+          "zero_H_l1": 1.0,
+          "input_mae_ppm_m": 823.6282579730363,
+          "input_rmse_ppm_m": 2258.0293361851923,
+          "representation": {
+            "tokens": {
+              "l2": 944.6402530981849,
+              "delta_l2": 6.58818015019116,
+              "delta_mae": 0.0001256712242746667,
+              "relative_delta_l2": 0.006973765412402314,
+              "shape": [
+                1,
+                8873,
+                203
+              ]
+            },
+            "phi": {
+              "l2": 34.77839733918929,
+              "delta_l2": 0.1591637149839492,
+              "delta_mae": 4.4030946524131524e-05,
+              "relative_delta_l2": 0.004577273991495563,
+              "shape": [
+                1,
+                8873,
+                128
+              ]
+            },
+            "masked_mean": {
+              "l2": 0.3131223154098053,
+              "delta_l2": 0.0005346052007454704,
+              "delta_mae": 3.8709247874635366e-05,
+              "relative_delta_l2": 0.0017076786772723855,
+              "shape": [
+                1,
+                128
+              ]
+            },
+            "decoder_latent": {
+              "l2": 0.3131223154098053,
+              "delta_l2": 0.0005346052007454704,
+              "delta_mae": 3.8709247874635366e-05,
+              "relative_delta_l2": 0.0017076786772723855,
+              "shape": [
+                1,
+                128
+              ]
+            },
+            "decoder_query_first_chunk": {
+              "l2": 67.83693343533284,
+              "delta_l2": 0.0045740955427378185,
+              "delta_mae": 2.439273751379114e-06,
+              "relative_delta_l2": 6.742741781158743e-05,
+              "shape": [
+                1,
+                16384,
+                128
+              ]
+            },
+            "logits_first_chunk": {
+              "l2": 3.428553020001694,
+              "delta_l2": 0.0001316448900686681,
+              "delta_mae": 8.743444936953892e-07,
+              "relative_delta_l2": 3.8395939864522635e-05,
+              "shape": [
+                1,
+                16384,
+                1
+              ]
+            }
+          },
+          "repeat_bitwise": true
+        },
+        {
+          "branch": "A",
+          "intervention": "one_half",
+          "output": {
+            "mean": 0.49828317727281046,
+            "std": 0.0057084477156338674,
+            "min": 0.47830942273139954,
+            "max": 0.5205361843109131,
+            "spatial_cv": 0.011456232070440716,
+            "peak_xyz_m": [
+              0.07619047619047618,
+              0.48571428571428565,
+              0.3333333333333333
+            ],
+            "below_1e_10": 0.0
+          },
+          "difference": {
+            "mae": 2.3352765765594086e-07,
+            "rmse": 2.8015665263887457e-07,
+            "stabilized_relative_mae": 5.565978646084402e-05,
+            "spatial_correlation": 0.9999999994816493,
+            "peak_displacement_m": 0.0
+          },
+          "H": {
+            "relative_l1": 174.64809387530357,
+            "relative_l2": 70.59958352872987,
+            "discrepancy": 25.73540496826172,
+            "valid_rays": 9401
+          },
+          "zero_H_l1": 1.0,
+          "input_mae_ppm_m": 823.6282569315714,
+          "input_rmse_ppm_m": 2258.0293346570274,
+          "representation": {
+            "tokens": {
+              "l2": 944.824026322301,
+              "delta_l2": 6.588180174201676,
+              "delta_mae": 0.0001256712247547461,
+              "relative_delta_l2": 0.006973765437818089,
+              "shape": [
+                1,
+                8873,
+                203
+              ]
+            },
+            "phi": {
+              "l2": 34.76763903166866,
+              "delta_l2": 0.1589303761852864,
+              "delta_mae": 4.3925348182659364e-05,
+              "relative_delta_l2": 0.004570563570000101,
+              "shape": [
+                1,
+                8873,
+                128
+              ]
+            },
+            "masked_mean": {
+              "l2": 0.31299930585084434,
+              "delta_l2": 0.0005336283151231889,
+              "delta_mae": 3.857730166600959e-05,
+              "relative_delta_l2": 0.0017045582311095387,
+              "shape": [
+                1,
+                128
+              ]
+            },
+            "decoder_latent": {
+              "l2": 0.31299930585084434,
+              "delta_l2": 0.0005336283151231889,
+              "delta_mae": 3.857730166600959e-05,
+              "relative_delta_l2": 0.0017045582311095387,
+              "shape": [
+                1,
+                128
+              ]
+            },
+            "decoder_query_first_chunk": {
+              "l2": 67.83771269532308,
+              "delta_l2": 0.004567244379701678,
+              "delta_mae": 2.431233948556501e-06,
+              "relative_delta_l2": 6.732642380562125e-05,
+              "shape": [
+                1,
+                16384,
+                128
+              ]
+            },
+            "logits_first_chunk": {
+              "l2": 3.4286694972077396,
+              "delta_l2": 0.00012100445128784388,
+              "delta_mae": 7.919315931914639e-07,
+              "relative_delta_l2": 3.5292517868062656e-05,
+              "shape": [
+                1,
+                16384,
+                1
+              ]
+            }
+          },
+          "repeat_bitwise": true
+        },
+        {
+          "branch": "A",
+          "intervention": "permuted",
+          "output": {
+            "mean": 0.4982832522048284,
+            "std": 0.005708444842690193,
+            "min": 0.47830942273139954,
+            "max": 0.5205361247062683,
+            "spatial_cv": 0.011456224581964542,
+            "peak_xyz_m": [
+              0.07619047619047618,
+              0.48571428571428565,
+              0.3333333333333333
+            ],
+            "below_1e_10": 0.0
+          },
+          "difference": {
+            "mae": 1.3621706784761045e-07,
+            "rmse": 1.4340884032933945e-07,
+            "stabilized_relative_mae": 3.2466445237465945e-05,
+            "spatial_correlation": 0.9999999999701625,
+            "peak_displacement_m": 0.0
+          },
+          "H": {
+            "relative_l1": 174.64811253040412,
+            "relative_l2": 70.59959145368991,
+            "discrepancy": 25.735408782958984,
+            "valid_rays": 9401
+          },
+          "zero_H_l1": 1.0,
+          "input_mae_ppm_m": 2900.697271435513,
+          "input_rmse_ppm_m": 5932.265487159433,
+          "representation": {
+            "tokens": {
+              "l2": 944.7091722463997,
+              "delta_l2": 17.308381733783108,
+              "delta_mae": 0.0004425955202071081,
+              "relative_delta_l2": 0.018321386350707233,
+              "shape": [
+                1,
+                8873,
+                203
+              ]
+            },
+            "phi": {
+              "l2": 34.77228847404169,
+              "delta_l2": 0.41478726871010557,
+              "delta_mae": 0.00015373052793850604,
+              "relative_delta_l2": 0.011928566616214699,
+              "shape": [
+                1,
+                8873,
+                128
+              ]
+            },
+            "masked_mean": {
+              "l2": 0.3130562950204756,
+              "delta_l2": 0.0001055110959735396,
+              "delta_mae": 7.627742073523791e-06,
+              "relative_delta_l2": 0.00033703197903500834,
+              "shape": [
+                1,
+                128
+              ]
+            },
+            "decoder_latent": {
+              "l2": 0.3130562950204756,
+              "delta_l2": 0.0001055110959735396,
+              "delta_mae": 7.627742073523791e-06,
+              "relative_delta_l2": 0.00033703197903500834,
+              "shape": [
+                1,
+                128
+              ]
+            },
+            "decoder_query_first_chunk": {
+              "l2": 67.8372461847355,
+              "delta_l2": 0.0009277739236216382,
+              "delta_mae": 5.109165214739214e-07,
+              "relative_delta_l2": 1.3676452404246973e-05,
+              "shape": [
+                1,
+                16384,
+                128
+              ]
+            },
+            "logits_first_chunk": {
+              "l2": 3.428659442896894,
+              "delta_l2": 7.386793936428996e-05,
+              "delta_mae": 5.611350424317152e-07,
+              "relative_delta_l2": 2.1544542718430308e-05,
+              "shape": [
+                1,
+                16384,
+                1
+              ]
+            }
+          },
+          "repeat_bitwise": true
+        },
+        {
+          "branch": "B",
+          "intervention": "normal",
+          "output": {
+            "mean": 0.4982935730970439,
+            "std": 0.0057077723238302906,
+            "min": 0.47832411527633667,
+            "max": 0.5205466747283936,
+            "spatial_cv": 0.011454637651364384,
+            "peak_xyz_m": [
+              0.07619047619047618,
+              0.48571428571428565,
+              0.3333333333333333
+            ],
+            "below_1e_10": 0.0
+          },
+          "difference": {
+            "mae": 0.0,
+            "rmse": 0.0,
+            "stabilized_relative_mae": 0.0,
+            "spatial_correlation": 1.0,
+            "peak_displacement_m": 0.0
+          },
+          "H": {
+            "relative_l1": 174.65070706265863,
+            "relative_l2": 70.60063508363241,
+            "discrepancy": 25.735790252685547,
+            "valid_rays": 9401
+          },
+          "zero_H_l1": 1.0,
+          "input_mae_ppm_m": 0.0,
+          "input_rmse_ppm_m": 0.0,
+          "representation": {
+            "tokens": {
+              "l2": 896.5900934470134,
+              "delta_l2": 0.0,
+              "delta_mae": 0.0,
+              "relative_delta_l2": 0.0,
+              "shape": [
+                1,
+                7990,
+                203
+              ]
+            },
+            "phi": {
+              "l2": 32.91900619325768,
+              "delta_l2": 0.0,
+              "delta_mae": 0.0,
+              "relative_delta_l2": 0.0,
+              "shape": [
+                1,
+                7990,
+                128
+              ]
+            },
+            "masked_mean": {
+              "l2": 0.3134995082741973,
+              "delta_l2": 0.0,
+              "delta_mae": 0.0,
+              "relative_delta_l2": 0.0,
+              "shape": [
+                1,
+                128
+              ]
+            },
+            "decoder_latent": {
+              "l2": 0.3134995082741973,
+              "delta_l2": 0.0,
+              "delta_mae": 0.0,
+              "relative_delta_l2": 0.0,
+              "shape": [
+                1,
+                128
+              ]
+            },
+            "decoder_query_first_chunk": {
+              "l2": 67.8323936004987,
+              "delta_l2": 0.0,
+              "delta_mae": 0.0,
+              "relative_delta_l2": 0.0,
+              "shape": [
+                1,
+                16384,
+                128
+              ]
+            },
+            "logits_first_chunk": {
+              "l2": 3.4255282437770735,
+              "delta_l2": 0.0,
+              "delta_mae": 0.0,
+              "relative_delta_l2": 0.0,
+              "shape": [
+                1,
+                16384,
+                1
+              ]
+            }
+          },
+          "repeat_bitwise": true
+        },
+        {
+          "branch": "B",
+          "intervention": "zero",
+          "output": {
+            "mean": 0.49829436708944286,
+            "std": 0.005707744033491997,
+            "min": 0.4783245921134949,
+            "max": 0.5205470323562622,
+            "spatial_cv": 0.011454562624962342,
+            "peak_xyz_m": [
+              0.07619047619047618,
+              0.48571428571428565,
+              0.3333333333333333
+            ],
+            "below_1e_10": 0.0
+          },
+          "difference": {
+            "mae": 8.01659666649357e-07,
+            "rmse": 8.90755646234454e-07,
+            "stabilized_relative_mae": 0.00019107032677779907,
+            "spatial_correlation": 0.9999999975103008,
+            "peak_displacement_m": 0.0
+          },
+          "H": {
+            "relative_l1": 174.6509062005224,
+            "relative_l2": 70.60071624148085,
+            "discrepancy": 25.73581886291504,
+            "valid_rays": 9401
+          },
+          "zero_H_l1": 1.0,
+          "input_mae_ppm_m": 1802.4262598179453,
+          "input_rmse_ppm_m": 4715.611114674877,
+          "representation": {
+            "tokens": {
+              "l2": 896.4950279049478,
+              "delta_l2": 13.056056411929422,
+              "delta_mae": 0.0002750186296668052,
+              "relative_delta_l2": 0.014561901260512877,
+              "shape": [
+                1,
+                7990,
+                203
+              ]
+            },
+            "phi": {
+              "l2": 32.934575560443456,
+              "delta_l2": 0.31087033034265865,
+              "delta_mae": 9.512611397234198e-05,
+              "relative_delta_l2": 0.00944349074566928,
+              "shape": [
+                1,
+                7990,
+                128
+              ]
+            },
+            "masked_mean": {
+              "l2": 0.3136453074970227,
+              "delta_l2": 0.0011547683075662004,
+              "delta_mae": 8.35933064990968e-05,
+              "relative_delta_l2": 0.0036834772530367123,
+              "shape": [
+                1,
+                128
+              ]
+            },
+            "decoder_latent": {
+              "l2": 0.3136453074970227,
+              "delta_l2": 0.0011547683075662004,
+              "delta_mae": 8.35933064990968e-05,
+              "relative_delta_l2": 0.0036834772530367123,
+              "shape": [
+                1,
+                128
+              ]
+            },
+            "decoder_query_first_chunk": {
+              "l2": 67.83169628593456,
+              "delta_l2": 0.009989415361532637,
+              "delta_mae": 5.374059693519275e-06,
+              "relative_delta_l2": 0.0001472661486835575,
+              "shape": [
+                1,
+                16384,
+                128
+              ]
+            },
+            "logits_first_chunk": {
+              "l2": 3.4253064807027154,
+              "delta_l2": 0.0004189245022321203,
+              "delta_mae": 2.972094651276791e-06,
+              "relative_delta_l2": 0.0001222948615277519,
+              "shape": [
+                1,
+                16384,
+                1
+              ]
+            }
+          },
+          "repeat_bitwise": true
+        },
+        {
+          "branch": "B",
+          "intervention": "half",
+          "output": {
+            "mean": 0.4982939558246926,
+            "std": 0.005707757855534033,
+            "min": 0.47832438349723816,
+            "max": 0.5205468535423279,
+            "spatial_cv": 0.011454599817666881,
+            "peak_xyz_m": [
+              0.07619047619047618,
+              0.48571428571428565,
+              0.3333333333333333
+            ],
+            "below_1e_10": 0.0
+          },
+          "difference": {
+            "mae": 3.87360387321678e-07,
+            "rmse": 4.335315650465566e-07,
+            "stabilized_relative_mae": 9.232480922443723e-05,
+            "spatial_correlation": 0.9999999993667643,
+            "peak_displacement_m": 0.0
+          },
+          "H": {
+            "relative_l1": 174.65080321290927,
+            "relative_l2": 70.60067429457189,
+            "discrepancy": 25.735801696777344,
+            "valid_rays": 9401
+          },
+          "zero_H_l1": 1.0,
+          "input_mae_ppm_m": 901.2131299089726,
+          "input_rmse_ppm_m": 2357.8055573374386,
+          "representation": {
+            "tokens": {
+              "l2": 896.5187952355212,
+              "delta_l2": 6.528028205964711,
+              "delta_mae": 0.0001375093148334026,
+              "relative_delta_l2": 0.007280950630256439,
+              "shape": [
+                1,
+                7990,
+                203
+              ]
+            },
+            "phi": {
+              "l2": 32.92635824608446,
+              "delta_l2": 0.15523954124799705,
+              "delta_mae": 4.7490837175924925e-05,
+              "relative_delta_l2": 0.004715802789933328,
+              "shape": [
+                1,
+                7990,
+                128
+              ]
+            },
+            "masked_mean": {
+              "l2": 0.3135710285420082,
+              "delta_l2": 0.0005766130798865485,
+              "delta_mae": 4.17039298099553e-05,
+              "relative_delta_l2": 0.0018392790568022936,
+              "shape": [
+                1,
+                128
+              ]
+            },
+            "decoder_latent": {
+              "l2": 0.3135710285420082,
+              "delta_l2": 0.0005766130798865485,
+              "delta_mae": 4.17039298099553e-05,
+              "relative_delta_l2": 0.0018392790568022936,
+              "shape": [
+                1,
+                128
+              ]
+            },
+            "decoder_query_first_chunk": {
+              "l2": 67.8320450438859,
+              "delta_l2": 0.004987665483262127,
+              "delta_mae": 2.680868349400087e-06,
+              "relative_delta_l2": 7.352925672411268e-05,
+              "shape": [
+                1,
+                16384,
+                128
+              ]
+            },
+            "logits_first_chunk": {
+              "l2": 3.4254211825250516,
+              "delta_l2": 0.0002029471907494891,
+              "delta_mae": 1.4320042680537881e-06,
+              "relative_delta_l2": 5.924551669313181e-05,
+              "shape": [
+                1,
+                16384,
+                1
+              ]
+            }
+          },
+          "repeat_bitwise": true
+        },
+        {
+          "branch": "B",
+          "intervention": "one_half",
+          "output": {
+            "mean": 0.4982932189316216,
+            "std": 0.005707787331468322,
+            "min": 0.47832387685775757,
+            "max": 0.520546555519104,
+            "spatial_cv": 0.011454675910914964,
+            "peak_xyz_m": [
+              0.07619047619047618,
+              0.48571428571428565,
+              0.3333333333333333
+            ],
+            "below_1e_10": 0.0
+          },
+          "difference": {
+            "mae": 3.607437975006178e-07,
+            "rmse": 4.083656593440513e-07,
+            "stabilized_relative_mae": 8.59809195086471e-05,
+            "spatial_correlation": 0.9999999993691573,
+            "peak_displacement_m": 0.0
+          },
+          "H": {
+            "relative_l1": 174.6506182153116,
+            "relative_l2": 70.6005988542612,
+            "discrepancy": 25.73577880859375,
+            "valid_rays": 9401
+          },
+          "zero_H_l1": 1.0,
+          "input_mae_ppm_m": 901.2131291490884,
+          "input_rmse_ppm_m": 2357.8055555353376,
+          "representation": {
+            "tokens": {
+              "l2": 896.7089112020543,
+              "delta_l2": 6.528028220253569,
+              "delta_mae": 0.00013750931505443167,
+              "relative_delta_l2": 0.0072809506461933285,
+              "shape": [
+                1,
+                7990,
+                203
+              ]
+            },
+            "phi": {
+              "l2": 32.9125138701087,
+              "delta_l2": 0.1548859092908706,
+              "delta_mae": 4.7354754959911645e-05,
+              "relative_delta_l2": 0.0047050603041167635,
+              "shape": [
+                1,
+                7990,
+                128
+              ]
+            },
+            "masked_mean": {
+              "l2": 0.3134307173482929,
+              "delta_l2": 0.0005752296373219945,
+              "delta_mae": 4.153404239559677e-05,
+              "relative_delta_l2": 0.0018348661549378862,
+              "shape": [
+                1,
+                128
+              ]
+            },
+            "decoder_latent": {
+              "l2": 0.3134307173482929,
+              "delta_l2": 0.0005752296373219945,
+              "delta_mae": 4.153404239559677e-05,
+              "relative_delta_l2": 0.0018348661549378862,
+              "shape": [
+                1,
+                128
+              ]
+            },
+            "decoder_query_first_chunk": {
+              "l2": 67.83274203953079,
+              "delta_l2": 0.004974608043831438,
+              "delta_mae": 2.6689925550923016e-06,
+              "relative_delta_l2": 7.333676109278362e-05,
+              "shape": [
+                1,
+                16384,
+                128
+              ]
+            },
+            "logits_first_chunk": {
+              "l2": 3.4256276680294473,
+              "delta_l2": 0.00019007327660899975,
+              "delta_mae": 1.3255090074437703e-06,
+              "relative_delta_l2": 5.54872892828407e-05,
+              "shape": [
+                1,
+                16384,
+                1
+              ]
+            }
+          },
+          "repeat_bitwise": true
+        },
+        {
+          "branch": "B",
+          "intervention": "permuted",
+          "output": {
+            "mean": 0.49829366564040356,
+            "std": 0.005707778103006065,
+            "min": 0.47832414507865906,
+            "max": 0.5205467939376831,
+            "spatial_cv": 0.011454647121934548,
+            "peak_xyz_m": [
+              0.07619047619047618,
+              0.48571428571428565,
+              0.3333333333333333
+            ],
+            "below_1e_10": 0.0
+          },
+          "difference": {
+            "mae": 9.261316336051095e-08,
+            "rmse": 1.0351878610361454e-07,
+            "stabilized_relative_mae": 2.2073740420520018e-05,
+            "spatial_correlation": 0.9999999999674868,
+            "peak_displacement_m": 0.0
+          },
+          "H": {
+            "relative_l1": 174.65073033451867,
+            "relative_l2": 70.60064454747756,
+            "discrepancy": 25.735794067382812,
+            "valid_rays": 9401
+          },
+          "zero_H_l1": 1.0,
+          "input_mae_ppm_m": 3124.409238374682,
+          "input_rmse_ppm_m": 6144.773377523464,
+          "representation": {
+            "tokens": {
+              "l2": 896.5900934470131,
+              "delta_l2": 17.01296097894871,
+              "delta_mae": 0.00047673004258519966,
+              "relative_delta_l2": 0.018975182865941558,
+              "shape": [
+                1,
+                7990,
+                203
+              ]
+            },
+            "phi": {
+              "l2": 32.921043122510454,
+              "delta_l2": 0.40337248680720733,
+              "delta_mae": 0.00016405465690139757,
+              "relative_delta_l2": 0.012253483122762808,
+              "shape": [
+                1,
+                7990,
+                128
+              ]
+            },
+            "masked_mean": {
+              "l2": 0.31350544801127406,
+              "delta_l2": 0.00010761437892142419,
+              "delta_mae": 7.518927418459498e-06,
+              "relative_delta_l2": 0.0003432680947853385,
+              "shape": [
+                1,
+                128
+              ]
+            },
+            "decoder_latent": {
+              "l2": 0.31350544801127406,
+              "delta_l2": 0.00010761437892142419,
+              "delta_mae": 7.518927418459498e-06,
+              "relative_delta_l2": 0.0003432680947853385,
+              "shape": [
+                1,
+                128
+              ]
+            },
+            "decoder_query_first_chunk": {
+              "l2": 67.83246941680243,
+              "delta_l2": 0.001034261420498169,
+              "delta_mae": 5.65479461266268e-07,
+              "relative_delta_l2": 1.5247308337510368e-05,
+              "shape": [
+                1,
+                16384,
+                128
+              ]
+            },
+            "logits_first_chunk": {
+              "l2": 3.4254992123307555,
+              "delta_l2": 5.739230444149143e-05,
+              "delta_mae": 4.2304933156600555e-07,
+              "relative_delta_l2": 1.6754293165076703e-05,
+              "shape": [
+                1,
+                16384,
+                1
+              ]
+            }
+          },
+          "repeat_bitwise": true
+        }
+      ],
+      "gradients": {
+        "observed": {
+          "loss": 26.790447235107422,
+          "layers": {
+            "tokens": {
+              "present": true,
+              "l2": 5.9535874067049565e-05,
+              "max_abs": 1.9943448137382802e-07,
+              "finite_fraction": 1.0
+            },
+            "phi": {
+              "present": true,
+              "l2": 0.0018853948848596312,
+              "max_abs": 4.6872701204847544e-06,
+              "finite_fraction": 1.0
+            },
+            "masked_mean": {
+              "present": true,
+              "l2": 0.17759779300568895,
+              "max_abs": 0.04159014672040939,
+              "finite_fraction": 1.0
+            },
+            "decoder_latent": {
+              "present": true,
+              "l2": 0.17759779300568895,
+              "max_abs": 0.04159014672040939,
+              "finite_fraction": 1.0
+            },
+            "decoder_query_first_chunk": {
+              "present": true,
+              "l2": 0.0012590689446674737,
+              "max_abs": 3.430373226365191e-06,
+              "finite_fraction": 1.0
+            },
+            "logits_first_chunk": {
+              "present": true,
+              "l2": 0.002287704159525229,
+              "max_abs": 3.896737325703725e-05,
+              "finite_fraction": 1.0
+            },
+            "raw_measurement": {
+              "present": true,
+              "l2": 1.0873442945415889e-10,
+              "max_abs": 3.2993150312493613e-12,
+              "finite_fraction": 1.0
+            },
+            "readout_weight": {
+              "present": true,
+              "l2": 2.7703056781712676,
+              "max_abs": 0.5194582343101501,
+              "finite_fraction": 1.0
+            },
+            "readout_bias": {
+              "present": true,
+              "l2": 9.64669132232666,
+              "max_abs": 9.64669132232666,
+              "finite_fraction": 1.0
+            },
+            "token_measurement_channel": {
+              "present": true,
+              "l2": 3.5104794446851434e-06,
+              "max_abs": 1.0651802995198523e-07,
+              "finite_fraction": 1.0
+            },
+            "token_geometry_channels": {
+              "present": true,
+              "l2": 5.943228781559757e-05,
+              "max_abs": 1.9943448137382802e-07,
+              "finite_fraction": 1.0
+            }
+          }
+        },
+        "cross": {
+          "loss": 26.79043960571289,
+          "layers": {
+            "tokens": {
+              "present": true,
+              "l2": 6.127039412941731e-05,
+              "max_abs": 2.0525048682884517e-07,
+              "finite_fraction": 1.0
+            },
+            "phi": {
+              "present": true,
+              "l2": 0.0019407125279471747,
+              "max_abs": 4.825229552807286e-06,
+              "finite_fraction": 1.0
+            },
+            "masked_mean": {
+              "present": true,
+              "l2": 0.18280852745155138,
+              "max_abs": 0.042814262211322784,
+              "finite_fraction": 1.0
+            },
+            "decoder_latent": {
+              "present": true,
+              "l2": 0.18280852745155138,
+              "max_abs": 0.042814262211322784,
+              "finite_fraction": 1.0
+            },
+            "decoder_query_first_chunk": {
+              "present": true,
+              "l2": 0.0012914571357539918,
+              "max_abs": 3.3146184250654187e-06,
+              "finite_fraction": 1.0
+            },
+            "logits_first_chunk": {
+              "present": true,
+              "l2": 0.002346552882381955,
+              "max_abs": 3.765245492104441e-05,
+              "finite_fraction": 1.0
+            },
+            "raw_measurement": {
+              "present": true,
+              "l2": 1.1191218581332852e-10,
+              "max_abs": 3.3949197619786986e-12,
+              "finite_fraction": 1.0
+            },
+            "readout_weight": {
+              "present": true,
+              "l2": 2.770310848107853,
+              "max_abs": 0.5194527506828308,
+              "finite_fraction": 1.0
+            },
+            "readout_bias": {
+              "present": true,
+              "l2": 9.64669132232666,
+              "max_abs": 9.64669132232666,
+              "finite_fraction": 1.0
+            },
+            "token_measurement_channel": {
+              "present": true,
+              "l2": 3.6130729656725673e-06,
+              "max_abs": 1.0960462049069974e-07,
+              "finite_fraction": 1.0
+            },
+            "token_geometry_channels": {
+              "present": true,
+              "l2": 6.11637711436996e-05,
+              "max_abs": 2.0525048682884517e-07,
+              "finite_fraction": 1.0
+            }
+          }
+        },
+        "consistency": {
+          "loss": 2.0440573280211538e-05,
+          "layers": {
+            "tokens": {
+              "present": true,
+              "l2": 6.2761400334337814e-06,
+              "max_abs": 2.1032189323477724e-08,
+              "finite_fraction": 1.0
+            },
+            "phi": {
+              "present": true,
+              "l2": 0.00019851707724745994,
+              "max_abs": 4.934729531669291e-07,
+              "finite_fraction": 1.0
+            },
+            "masked_mean": {
+              "present": true,
+              "l2": 0.01869963434378412,
+              "max_abs": 0.004378585610538721,
+              "finite_fraction": 1.0
+            },
+            "decoder_latent": {
+              "present": true,
+              "l2": 0.01869963434378412,
+              "max_abs": 0.004378585610538721,
+              "finite_fraction": 1.0
+            },
+            "decoder_query_first_chunk": {
+              "present": true,
+              "l2": 0.0001348004502243187,
+              "max_abs": 1.6848572670369322e-07,
+              "finite_fraction": 1.0
+            },
+            "logits_first_chunk": {
+              "present": true,
+              "l2": 0.00024492983645101453,
+              "max_abs": 1.9139160940540023e-06,
+              "finite_fraction": 1.0
+            },
+            "raw_measurement": {
+              "present": true,
+              "l2": 1.148658788419784e-11,
+              "max_abs": 3.4802691869888214e-13,
+              "finite_fraction": 1.0
+            },
+            "readout_weight": {
+              "present": true,
+              "l2": 0.00031034243037404165,
+              "max_abs": 7.196166552603245e-05,
+              "finite_fraction": 1.0
+            },
+            "readout_bias": {
+              "present": true,
+              "l2": 1.0125339031219482e-05,
+              "max_abs": 1.0125339031219482e-05,
+              "finite_fraction": 1.0
+            },
+            "token_measurement_channel": {
+              "present": true,
+              "l2": 3.708432631124913e-07,
+              "max_abs": 1.1236012120718897e-08,
+              "finite_fraction": 1.0
+            },
+            "token_geometry_channels": {
+              "present": true,
+              "l2": 6.265174298730583e-06,
+              "max_abs": 2.1032189323477724e-08,
+              "finite_fraction": 1.0
+            }
+          }
+        },
+        "representation_shapes": {
+          "tokens": [
+            1,
+            8873,
+            203
+          ],
+          "phi": [
+            1,
+            8873,
+            128
+          ],
+          "masked_mean": [
+            1,
+            128
+          ],
+          "decoder_latent": [
+            1,
+            128
+          ],
+          "decoder_query_first_chunk": [
+            1,
+            16384,
+            128
+          ],
+          "logits_first_chunk": [
+            1,
+            16384,
+            1
+          ],
+          "raw_measurement": [
+            1,
+            4,
+            1,
+            64,
+            64
+          ],
+          "readout_weight": [
+            1,
+            128
+          ],
+          "readout_bias": [
+            1
+          ]
+        },
+        "query_scope": "first query chunk only for operator/query/readout taps; complete token/encoder/latent tensors",
+        "logits": {
+          "mean": -0.006867341406040783,
+          "std": 0.022836831273124747,
+          "min": -0.08681629598140717,
+          "max": 0.08219112455844879,
+          "spatial_cv": 22836831273124.746,
+          "peak_xyz_m": [
+            0.07619047619047618,
+            0.48571428571428565,
+            0.3333333333333333
+          ],
+          "below_1e_10": 0.6188430786132812,
+          "fraction_below_minus12": 0.0
+        },
+        "sigmoid_derivative_mean": 0.24996447563171387
+      },
+      "finite_difference": [
+        {
+          "function": "output_mean_div_fixed_scale",
+          "epsilon": 0.01,
+          "AD": -0.00010706660174549922,
+          "FD": -0.00010654077797767059,
+          "abs_error": 5.25823767828635e-07,
+          "relative_error": 0.004911183872992767,
+          "observable": true,
+          "within_tolerance": true,
+          "interpretation": "resolved"
+        },
+        {
+          "function": "mean_logit",
+          "epsilon": 0.01,
+          "AD": -1.797088298322118e-06,
+          "FD": -1.797034446249235e-06,
+          "abs_error": 5.3852072883056644e-11,
+          "relative_error": 2.9966292103363284e-05,
+          "observable": true,
+          "within_tolerance": true,
+          "interpretation": "resolved"
+        },
+        {
+          "function": "output_mean_div_fixed_scale",
+          "epsilon": 0.001,
+          "AD": -0.00010706660174549922,
+          "FD": -0.00011296536683857994,
+          "abs_error": 5.898765093080718e-06,
+          "relative_error": 0.05221746503518786,
+          "observable": true,
+          "within_tolerance": false,
+          "interpretation": "resolved"
+        },
+        {
+          "function": "mean_logit",
+          "epsilon": 0.001,
+          "AD": -1.797088298322118e-06,
+          "FD": -1.860430171030103e-06,
+          "abs_error": 6.334187270798502e-08,
+          "relative_error": 0.034046896085819345,
+          "observable": true,
+          "within_tolerance": true,
+          "interpretation": "resolved"
+        }
+      ],
+      "raw": "/scratch/djc/GeoPhy-Set3D/deep_baselines_identifiability_v1/C/deepsets/fresh_v1_case0.npz",
+      "raw_sha256": "422f47a4f3a4930416b493a140899a76bbb3f322e0e19cd9fe9a80795d7a2404",
+      "H_in_backward": false
+    },
+    {
+      "index": 1,
+      "case": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w1_inlet1_half",
+      "responses": [
+        {
+          "branch": "A",
+          "intervention": "normal",
+          "output": {
+            "mean": 0.49829592975049763,
+            "std": 0.0057076408936084025,
+            "min": 0.4783278703689575,
+            "max": 0.5205446481704712,
+            "spatial_cv": 0.011454319718136735,
+            "peak_xyz_m": [
+              0.07619047619047618,
+              0.48571428571428565,
+              0.3333333333333333
+            ],
+            "below_1e_10": 0.0
+          },
+          "difference": {
+            "mae": 0.0,
+            "rmse": 0.0,
+            "stabilized_relative_mae": 0.0,
+            "spatial_correlation": 1.0,
+            "peak_displacement_m": 0.0
+          },
+          "H": {
+            "relative_l1": 387.12239219632664,
+            "relative_l2": 107.24081708704529,
+            "discrepancy": 47.588897705078125,
+            "valid_rays": 8973
+          },
+          "zero_H_l1": 1.0,
+          "input_mae_ppm_m": 0.0,
+          "input_rmse_ppm_m": 0.0,
+          "representation": {
+            "tokens": {
+              "l2": 909.9533536737472,
+              "delta_l2": 0.0,
+              "delta_mae": 0.0,
+              "relative_delta_l2": 0.0,
+              "shape": [
+                1,
+                8233,
+                203
+              ]
+            },
+            "phi": {
+              "l2": 33.6328833163692,
+              "delta_l2": 0.0,
+              "delta_mae": 0.0,
+              "relative_delta_l2": 0.0,
+              "shape": [
+                1,
+                8233,
+                128
+              ]
+            },
+            "masked_mean": {
+              "l2": 0.3164026188673257,
+              "delta_l2": 0.0,
+              "delta_mae": 0.0,
+              "relative_delta_l2": 0.0,
+              "shape": [
+                1,
+                128
+              ]
+            },
+            "decoder_latent": {
+              "l2": 0.3164026188673257,
+              "delta_l2": 0.0,
+              "delta_mae": 0.0,
+              "relative_delta_l2": 0.0,
+              "shape": [
+                1,
+                128
+              ]
+            },
+            "decoder_query_first_chunk": {
+              "l2": 67.84376962527658,
+              "delta_l2": 0.0,
+              "delta_mae": 0.0,
+              "relative_delta_l2": 0.0,
+              "shape": [
+                1,
+                16384,
+                128
+              ]
+            },
+            "logits_first_chunk": {
+              "l2": 3.424725218027402,
+              "delta_l2": 0.0,
+              "delta_mae": 0.0,
+              "relative_delta_l2": 0.0,
+              "shape": [
+                1,
+                16384,
+                1
+              ]
+            }
+          },
+          "repeat_bitwise": true
+        },
+        {
+          "branch": "A",
+          "intervention": "zero",
+          "output": {
+            "mean": 0.4982961833451327,
+            "std": 0.0057076253179106605,
+            "min": 0.47832801938056946,
+            "max": 0.520544707775116,
+            "spatial_cv": 0.011454282630853331,
+            "peak_xyz_m": [
+              0.07619047619047618,
+              0.48571428571428565,
+              0.3333333333333333
+            ],
+            "below_1e_10": 0.0
+          },
+          "difference": {
+            "mae": 2.622357442305656e-07,
+            "rmse": 3.025753695520812e-07,
+            "stabilized_relative_mae": 6.250217071837476e-05,
+            "spatial_correlation": 0.9999999995856133,
+            "peak_displacement_m": 0.0
+          },
+          "H": {
+            "relative_l1": 387.1225328078449,
+            "relative_l2": 107.24085621106063,
+            "discrepancy": 47.58891677856445,
+            "valid_rays": 8973
+          },
+          "zero_H_l1": 1.0,
+          "input_mae_ppm_m": 728.1789083298896,
+          "input_rmse_ppm_m": 3017.5595005956206,
+          "representation": {
+            "tokens": {
+              "l2": 909.9138323579076,
+              "delta_l2": 8.48077507338085,
+              "delta_mae": 0.00011110732781626767,
+              "relative_delta_l2": 0.009320010788620632,
+              "shape": [
+                1,
+                8233,
+                203
+              ]
+            },
+            "phi": {
+              "l2": 33.63712811761504,
+              "delta_l2": 0.20165994658850905,
+              "delta_mae": 3.845462195526359e-05,
+              "relative_delta_l2": 0.005995916100668083,
+              "shape": [
+                1,
+                8233,
+                128
+              ]
+            },
+            "masked_mean": {
+              "l2": 0.3164540253393594,
+              "delta_l2": 0.00047023155480146263,
+              "delta_mae": 3.427272565659223e-05,
+              "relative_delta_l2": 0.0014861809819552748,
+              "shape": [
+                1,
+                128
+              ]
+            },
+            "decoder_latent": {
+              "l2": 0.3164540253393594,
+              "delta_l2": 0.00047023155480146263,
+              "delta_mae": 3.427272565659223e-05,
+              "relative_delta_l2": 0.0014861809819552748,
+              "shape": [
+                1,
+                128
+              ]
+            },
+            "decoder_query_first_chunk": {
+              "l2": 67.84343849359556,
+              "delta_l2": 0.004062460714484988,
+              "delta_mae": 2.16100354592709e-06,
+              "relative_delta_l2": 5.9879643140752535e-05,
+              "shape": [
+                1,
+                16384,
+                128
+              ]
+            },
+            "logits_first_chunk": {
+              "l2": 3.4246555449803426,
+              "delta_l2": 0.00013631654007637722,
+              "delta_mae": 9.332669721473508e-07,
+              "relative_delta_l2": 3.980364303647515e-05,
+              "shape": [
+                1,
+                16384,
+                1
+              ]
+            }
+          },
+          "repeat_bitwise": true
+        },
+        {
+          "branch": "A",
+          "intervention": "half",
+          "output": {
+            "mean": 0.4982960505664096,
+            "std": 0.00570763295135595,
+            "min": 0.47832798957824707,
+            "max": 0.5205446481704712,
+            "spatial_cv": 0.01145430100212138,
+            "peak_xyz_m": [
+              0.07619047619047618,
+              0.48571428571428565,
+              0.3333333333333333
+            ],
+            "below_1e_10": 0.0
+          },
+          "difference": {
+            "mae": 1.2591704035003204e-07,
+            "rmse": 1.4875637102393933e-07,
+            "stabilized_relative_mae": 3.00115011986717e-05,
+            "spatial_correlation": 0.9999999998853659,
+            "peak_displacement_m": 0.0
+          },
+          "H": {
+            "relative_l1": 387.1224589949454,
+            "relative_l2": 107.24083567527025,
+            "discrepancy": 47.588905334472656,
+            "valid_rays": 8973
+          },
+          "zero_H_l1": 1.0,
+          "input_mae_ppm_m": 364.0894541649448,
+          "input_rmse_ppm_m": 1508.7797502978103,
+          "representation": {
+            "tokens": {
+              "l2": 909.9237128477948,
+              "delta_l2": 4.240387536690425,
+              "delta_mae": 5.5553663908133833e-05,
+              "relative_delta_l2": 0.004660005394310316,
+              "shape": [
+                1,
+                8233,
+                203
+              ]
+            },
+            "phi": {
+              "l2": 33.63483167673336,
+              "delta_l2": 0.10072756898539409,
+              "delta_mae": 1.920467142222314e-05,
+              "relative_delta_l2": 0.0029949132828694987,
+              "shape": [
+                1,
+                8233,
+                128
+              ]
+            },
+            "masked_mean": {
+              "l2": 0.31642790386542685,
+              "delta_l2": 0.00023490246363471276,
+              "delta_mae": 1.7106742291161936e-05,
+              "relative_delta_l2": 0.0007424163063998289,
+              "shape": [
+                1,
+                128
+              ]
+            },
+            "decoder_latent": {
+              "l2": 0.31642790386542685,
+              "delta_l2": 0.00023490246363471276,
+              "delta_mae": 1.7106742291161936e-05,
+              "relative_delta_l2": 0.0007424163063998289,
+              "shape": [
+                1,
+                128
+              ]
+            },
+            "decoder_query_first_chunk": {
+              "l2": 67.84360432119449,
+              "delta_l2": 0.0020296859530617908,
+              "delta_mae": 1.0787316780395262e-06,
+              "relative_delta_l2": 2.9917057443482474e-05,
+              "shape": [
+                1,
+                16384,
+                128
+              ]
+            },
+            "logits_first_chunk": {
+              "l2": 3.42469200567502,
+              "delta_l2": 6.555949861821985e-05,
+              "delta_mae": 4.4557486322815976e-07,
+              "relative_delta_l2": 1.914299526079388e-05,
+              "shape": [
+                1,
+                16384,
+                1
+              ]
+            }
+          },
+          "repeat_bitwise": true
+        },
+        {
+          "branch": "A",
+          "intervention": "one_half",
+          "output": {
+            "mean": 0.4982958210899824,
+            "std": 0.005707649126577427,
+            "min": 0.4783278703689575,
+            "max": 0.5205445885658264,
+            "spatial_cv": 0.011454338738166417,
+            "peak_xyz_m": [
+              0.07619047619047618,
+              0.48571428571428565,
+              0.3333333333333333
+            ],
+            "below_1e_10": 0.0
+          },
+          "difference": {
+            "mae": 1.1576275937841274e-07,
+            "rmse": 1.3898014905435633e-07,
+            "stabilized_relative_mae": 2.7591294888991515e-05,
+            "spatial_correlation": 0.9999999998858008,
+            "peak_displacement_m": 0.0
+          },
+          "H": {
+            "relative_l1": 387.12233183524256,
+            "relative_l2": 107.2408002548473,
+            "discrepancy": 47.588890075683594,
+            "valid_rays": 8973
+          },
+          "zero_H_l1": 1.0,
+          "input_mae_ppm_m": 364.08945639788203,
+          "input_rmse_ppm_m": 1508.7797602526348,
+          "representation": {
+            "tokens": {
+              "l2": 910.0027529057438,
+              "delta_l2": 4.240387600602302,
+              "delta_mae": 5.5553664710422685e-05,
+              "relative_delta_l2": 0.004660005464546748,
+              "shape": [
+                1,
+                8233,
+                203
+              ]
+            },
+            "phi": {
+              "l2": 33.63128095876935,
+              "delta_l2": 0.1005537814298783,
+              "delta_mae": 1.9163629922821417e-05,
+              "relative_delta_l2": 0.0029897460911696063,
+              "shape": [
+                1,
+                8233,
+                128
+              ]
+            },
+            "masked_mean": {
+              "l2": 0.3163781899292134,
+              "delta_l2": 0.00023453885759826363,
+              "delta_mae": 1.7068789759377978e-05,
+              "relative_delta_l2": 0.0007412671185778356,
+              "shape": [
+                1,
+                128
+              ]
+            },
+            "decoder_latent": {
+              "l2": 0.3163781899292134,
+              "delta_l2": 0.00023453885759826363,
+              "delta_mae": 1.7068789759377978e-05,
+              "relative_delta_l2": 0.0007412671185778356,
+              "shape": [
+                1,
+                128
+              ]
+            },
+            "decoder_query_first_chunk": {
+              "l2": 67.84393444323939,
+              "delta_l2": 0.002026457671278507,
+              "delta_mae": 1.0751120647862692e-06,
+              "relative_delta_l2": 2.986947338674278e-05,
+              "shape": [
+                1,
+                16384,
+                128
+              ]
+            },
+            "logits_first_chunk": {
+              "l2": 3.424755243075549,
+              "delta_l2": 6.054136355084331e-05,
+              "delta_mae": 4.0547570723248327e-07,
+              "relative_delta_l2": 1.7677728780154328e-05,
+              "shape": [
+                1,
+                16384,
+                1
+              ]
+            }
+          },
+          "repeat_bitwise": true
+        },
+        {
+          "branch": "A",
+          "intervention": "permuted",
+          "output": {
+            "mean": 0.4982959837126373,
+            "std": 0.005707638200271976,
+            "min": 0.47832798957824707,
+            "max": 0.5205446481704712,
+            "spatial_cv": 0.011454313072616533,
+            "peak_xyz_m": [
+              0.07619047619047618,
+              0.48571428571428565,
+              0.3333333333333333
+            ],
+            "below_1e_10": 0.0
+          },
+          "difference": {
+            "mae": 5.3962594392942265e-08,
+            "rmse": 6.557469545310602e-08,
+            "stabilized_relative_mae": 1.2861630656226026e-05,
+            "spatial_correlation": 0.999999999978806,
+            "peak_displacement_m": 0.0
+          },
+          "H": {
+            "relative_l1": 387.1224218078734,
+            "relative_l2": 107.24082526376517,
+            "discrepancy": 47.588897705078125,
+            "valid_rays": 8973
+          },
+          "zero_H_l1": 1.0,
+          "input_mae_ppm_m": 1382.162391401254,
+          "input_rmse_ppm_m": 4162.9558996897595,
+          "representation": {
+            "tokens": {
+              "l2": 909.9533536737468,
+              "delta_l2": 11.699882837018025,
+              "delta_mae": 0.0002108937352003558,
+              "relative_delta_l2": 0.012857673187072925,
+              "shape": [
+                1,
+                8233,
+                203
+              ]
+            },
+            "phi": {
+              "l2": 33.63230784382264,
+              "delta_l2": 0.2790508860921821,
+              "delta_mae": 7.303501498497616e-05,
+              "relative_delta_l2": 0.008296965902901562,
+              "shape": [
+                1,
+                8233,
+                128
+              ]
+            },
+            "masked_mean": {
+              "l2": 0.31640143731746423,
+              "delta_l2": 5.079494427676267e-05,
+              "delta_mae": 3.614434376686404e-06,
+              "relative_delta_l2": 0.00016053895021033967,
+              "shape": [
+                1,
+                128
+              ]
+            },
+            "decoder_latent": {
+              "l2": 0.31640143731746423,
+              "delta_l2": 5.079494427676267e-05,
+              "delta_mae": 3.614434376686404e-06,
+              "relative_delta_l2": 0.00016053895021033967,
+              "shape": [
+                1,
+                128
+              ]
+            },
+            "decoder_query_first_chunk": {
+              "l2": 67.84377540956667,
+              "delta_l2": 0.0004666817710339824,
+              "delta_mae": 2.567357038803095e-07,
+              "relative_delta_l2": 6.8787712359088994e-06,
+              "shape": [
+                1,
+                16384,
+                128
+              ]
+            },
+            "logits_first_chunk": {
+              "l2": 3.424708066948523,
+              "delta_l2": 3.071797845470372e-05,
+              "delta_mae": 2.3586363706584734e-07,
+              "relative_delta_l2": 8.96947243913393e-06,
+              "shape": [
+                1,
+                16384,
+                1
+              ]
+            }
+          },
+          "repeat_bitwise": true
+        },
+        {
+          "branch": "B",
+          "intervention": "normal",
+          "output": {
+            "mean": 0.4982811959225728,
+            "std": 0.005708226848912312,
+            "min": 0.4783107340335846,
+            "max": 0.5205334424972534,
+            "spatial_cv": 0.01145583436746689,
+            "peak_xyz_m": [
+              0.07619047619047618,
+              0.48571428571428565,
+              0.3333333333333333
+            ],
+            "below_1e_10": 0.0
+          },
+          "difference": {
+            "mae": 0.0,
+            "rmse": 0.0,
+            "stabilized_relative_mae": 0.0,
+            "spatial_correlation": 1.0000000000000002,
+            "peak_displacement_m": 0.0
+          },
+          "H": {
+            "relative_l1": 387.11418374542984,
+            "relative_l2": 107.238538204222,
+            "discrepancy": 47.587890625,
+            "valid_rays": 8973
+          },
+          "zero_H_l1": 1.0,
+          "input_mae_ppm_m": 0.0,
+          "input_rmse_ppm_m": 0.0,
+          "representation": {
+            "tokens": {
+              "l2": 943.2880720724312,
+              "delta_l2": 0.0,
+              "delta_mae": 0.0,
+              "relative_delta_l2": 0.0,
+              "shape": [
+                1,
+                8846,
+                203
+              ]
+            },
+            "phi": {
+              "l2": 34.87608735533634,
+              "delta_l2": 0.0,
+              "delta_mae": 0.0,
+              "relative_delta_l2": 0.0,
+              "shape": [
+                1,
+                8846,
+                128
+              ]
+            },
+            "masked_mean": {
+              "l2": 0.3159860268961229,
+              "delta_l2": 0.0,
+              "delta_mae": 0.0,
+              "relative_delta_l2": 0.0,
+              "shape": [
+                1,
+                128
+              ]
+            },
+            "decoder_latent": {
+              "l2": 0.3159860268961229,
+              "delta_l2": 0.0,
+              "delta_mae": 0.0,
+              "relative_delta_l2": 0.0,
+              "shape": [
+                1,
+                128
+              ]
+            },
+            "decoder_query_first_chunk": {
+              "l2": 67.84559455429753,
+              "delta_l2": 0.0,
+              "delta_mae": 0.0,
+              "relative_delta_l2": 0.0,
+              "shape": [
+                1,
+                16384,
+                128
+              ]
+            },
+            "logits_first_chunk": {
+              "l2": 3.429053625489213,
+              "delta_l2": 0.0,
+              "delta_mae": 0.0,
+              "relative_delta_l2": 0.0,
+              "shape": [
+                1,
+                16384,
+                1
+              ]
+            }
+          },
+          "repeat_bitwise": true
+        },
+        {
+          "branch": "B",
+          "intervention": "zero",
+          "output": {
+            "mean": 0.49828147921061827,
+            "std": 0.005708212168302913,
+            "min": 0.4783109128475189,
+            "max": 0.520533561706543,
+            "spatial_cv": 0.01145579839199705,
+            "peak_xyz_m": [
+              0.07619047619047618,
+              0.48571428571428565,
+              0.3333333333333333
+            ],
+            "below_1e_10": 0.0
+          },
+          "difference": {
+            "mae": 2.896058504120447e-07,
+            "rmse": 3.2988035223656216e-07,
+            "stabilized_relative_mae": 6.902565611947537e-05,
+            "spatial_correlation": 0.9999999995649155,
+            "peak_displacement_m": 0.0
+          },
+          "H": {
+            "relative_l1": 387.1143404790189,
+            "relative_l2": 107.23858182633535,
+            "discrepancy": 47.58790969848633,
+            "valid_rays": 8973
+          },
+          "zero_H_l1": 1.0,
+          "input_mae_ppm_m": 741.7578499255676,
+          "input_rmse_ppm_m": 3050.538171611476,
+          "representation": {
+            "tokens": {
+              "l2": 943.2462084839477,
+              "delta_l2": 8.886905804674555,
+              "delta_mae": 0.00011317923622456031,
+              "relative_delta_l2": 0.009421200233296458,
+              "shape": [
+                1,
+                8846,
+                203
+              ]
+            },
+            "phi": {
+              "l2": 34.88062512012141,
+              "delta_l2": 0.21222892745257765,
+              "delta_mae": 3.931097395656496e-05,
+              "relative_delta_l2": 0.006085227545460452,
+              "shape": [
+                1,
+                8846,
+                128
+              ]
+            },
+            "masked_mean": {
+              "l2": 0.3160345839048193,
+              "delta_l2": 0.00048175564783180675,
+              "delta_mae": 3.49794627254596e-05,
+              "relative_delta_l2": 0.0015246106056144657,
+              "shape": [
+                1,
+                128
+              ]
+            },
+            "decoder_latent": {
+              "l2": 0.3160345839048193,
+              "delta_l2": 0.00048175564783180675,
+              "delta_mae": 3.49794627254596e-05,
+              "relative_delta_l2": 0.0015246106056144657,
+              "shape": [
+                1,
+                128
+              ]
+            },
+            "decoder_query_first_chunk": {
+              "l2": 67.84523508149715,
+              "delta_l2": 0.004148264614538225,
+              "delta_mae": 2.215354725731978e-06,
+              "relative_delta_l2": 6.114272624169172e-05,
+              "shape": [
+                1,
+                16384,
+                128
+              ]
+            },
+            "logits_first_chunk": {
+              "l2": 3.4289761565576273,
+              "delta_l2": 0.00015041697448236,
+              "delta_mae": 1.0439233371073442e-06,
+              "relative_delta_l2": 4.386544828703297e-05,
+              "shape": [
+                1,
+                16384,
+                1
+              ]
+            }
+          },
+          "repeat_bitwise": true
+        },
+        {
+          "branch": "B",
+          "intervention": "half",
+          "output": {
+            "mean": 0.4982813313715724,
+            "std": 0.005708219399744287,
+            "min": 0.47831085324287415,
+            "max": 0.5205335021018982,
+            "spatial_cv": 0.011455816303676892,
+            "peak_xyz_m": [
+              0.07619047619047618,
+              0.48571428571428565,
+              0.3333333333333333
+            ],
+            "below_1e_10": 0.0
+          },
+          "difference": {
+            "mae": 1.3920771380071528e-07,
+            "rmse": 1.618862315152311e-07,
+            "stabilized_relative_mae": 3.31792460971185e-05,
+            "spatial_correlation": 0.9999999998802283,
+            "peak_displacement_m": 0.0
+          },
+          "H": {
+            "relative_l1": 387.1142589827642,
+            "relative_l2": 107.23855917650162,
+            "discrepancy": 47.58789825439453,
+            "valid_rays": 8973
+          },
+          "zero_H_l1": 1.0,
+          "input_mae_ppm_m": 370.8789249627838,
+          "input_rmse_ppm_m": 1525.269085805738,
+          "representation": {
+            "tokens": {
+              "l2": 943.2566745552548,
+              "delta_l2": 4.4434529023372775,
+              "delta_mae": 5.6589618112280153e-05,
+              "relative_delta_l2": 0.004710600116648229,
+              "shape": [
+                1,
+                8846,
+                203
+              ]
+            },
+            "phi": {
+              "l2": 34.878170695275024,
+              "delta_l2": 0.10600608497804768,
+              "delta_mae": 1.9631558421228125e-05,
+              "relative_delta_l2": 0.003039506235260873,
+              "shape": [
+                1,
+                8846,
+                128
+              ]
+            },
+            "masked_mean": {
+              "l2": 0.316009868127061,
+              "delta_l2": 0.00024065596648924952,
+              "delta_mae": 1.7457176454627188e-05,
+              "relative_delta_l2": 0.0007616031912966919,
+              "shape": [
+                1,
+                128
+              ]
+            },
+            "decoder_latent": {
+              "l2": 0.316009868127061,
+              "delta_l2": 0.00024065596648924952,
+              "delta_mae": 1.7457176454627188e-05,
+              "relative_delta_l2": 0.0007616031912966919,
+              "shape": [
+                1,
+                128
+              ]
+            },
+            "decoder_query_first_chunk": {
+              "l2": 67.84541484797742,
+              "delta_l2": 0.002072279289575035,
+              "delta_mae": 1.1057392156138532e-06,
+              "relative_delta_l2": 3.0544050843515986e-05,
+              "shape": [
+                1,
+                16384,
+                128
+              ]
+            },
+            "logits_first_chunk": {
+              "l2": 3.429016548783509,
+              "delta_l2": 7.248629020826153e-05,
+              "delta_mae": 4.996524456402085e-07,
+              "relative_delta_l2": 2.1138861658344617e-05,
+              "shape": [
+                1,
+                16384,
+                1
+              ]
+            }
+          },
+          "repeat_bitwise": true
+        },
+        {
+          "branch": "B",
+          "intervention": "one_half",
+          "output": {
+            "mean": 0.49828107265386734,
+            "std": 0.005708234555418351,
+            "min": 0.4783106744289398,
+            "max": 0.5205334424972534,
+            "spatial_cv": 0.0114558526676842,
+            "peak_xyz_m": [
+              0.07619047619047618,
+              0.48571428571428565,
+              0.3333333333333333
+            ],
+            "below_1e_10": 0.0
+          },
+          "difference": {
+            "mae": 1.2858879472332774e-07,
+            "rmse": 1.518410960184967e-07,
+            "stabilized_relative_mae": 3.064829634056688e-05,
+            "spatial_correlation": 0.9999999998802912,
+            "peak_displacement_m": 0.0
+          },
+          "H": {
+            "relative_l1": 387.11411542792155,
+            "relative_l2": 107.23851917713834,
+            "discrepancy": 47.5878791809082,
+            "valid_rays": 8973
+          },
+          "zero_H_l1": 1.0,
+          "input_mae_ppm_m": 370.87892687128056,
+          "input_rmse_ppm_m": 1525.269093057586,
+          "representation": {
+            "tokens": {
+              "l2": 943.3403989458355,
+              "delta_l2": 4.443452928143962,
+              "delta_mae": 5.658961845663904e-05,
+              "relative_delta_l2": 0.004710600144006451,
+              "shape": [
+                1,
+                8846,
+                203
+              ]
+            },
+            "phi": {
+              "l2": 34.87437278246267,
+              "delta_l2": 0.10582142504389096,
+              "delta_mae": 1.9587289320833588e-05,
+              "relative_delta_l2": 0.003034211491837526,
+              "shape": [
+                1,
+                8846,
+                128
+              ]
+            },
+            "masked_mean": {
+              "l2": 0.31596303700362144,
+              "delta_l2": 0.00024027280859241452,
+              "delta_mae": 1.740588959364686e-05,
+              "relative_delta_l2": 0.0007603906126880784,
+              "shape": [
+                1,
+                128
+              ]
+            },
+            "decoder_latent": {
+              "l2": 0.31596303700362144,
+              "delta_l2": 0.00024027280859241452,
+              "delta_mae": 1.740588959364686e-05,
+              "relative_delta_l2": 0.0007603906126880784,
+              "shape": [
+                1,
+                128
+              ]
+            },
+            "decoder_query_first_chunk": {
+              "l2": 67.84577359557599,
+              "delta_l2": 0.0020692613811476436,
+              "delta_mae": 1.1022555364523385e-06,
+              "relative_delta_l2": 3.0499568833339536e-05,
+              "shape": [
+                1,
+                16384,
+                128
+              ]
+            },
+            "logits_first_chunk": {
+              "l2": 3.4290874549624175,
+              "delta_l2": 6.72668863151205e-05,
+              "delta_mae": 4.571956626620022e-07,
+              "relative_delta_l2": 1.961674959385441e-05,
+              "shape": [
+                1,
+                16384,
+                1
+              ]
+            }
+          },
+          "repeat_bitwise": true
+        },
+        {
+          "branch": "B",
+          "intervention": "permuted",
+          "output": {
+            "mean": 0.49828124389023287,
+            "std": 0.005708225308043322,
+            "min": 0.47831079363822937,
+            "max": 0.5205335021018982,
+            "spatial_cv": 0.011455830172288795,
+            "peak_xyz_m": [
+              0.07619047619047618,
+              0.48571428571428565,
+              0.3333333333333333
+            ],
+            "below_1e_10": 0.0
+          },
+          "difference": {
+            "mae": 4.796902430825867e-08,
+            "rmse": 6.06938735591077e-08,
+            "stabilized_relative_mae": 1.1433102513563412e-05,
+            "spatial_correlation": 0.9999999999788166,
+            "peak_displacement_m": 0.0
+          },
+          "H": {
+            "relative_l1": 387.1142103668955,
+            "relative_l2": 107.23854559062083,
+            "discrepancy": 47.587890625,
+            "valid_rays": 8973
+          },
+          "zero_H_l1": 1.0,
+          "input_mae_ppm_m": 1398.1412200981028,
+          "input_rmse_ppm_m": 4173.654497493289,
+          "representation": {
+            "tokens": {
+              "l2": 943.2880720724312,
+              "delta_l2": 12.15879700378416,
+              "delta_mae": 0.00021333182451875693,
+              "relative_delta_l2": 0.012889802557421224,
+              "shape": [
+                1,
+                8846,
+                203
+              ]
+            },
+            "phi": {
+              "l2": 34.875296332474555,
+              "delta_l2": 0.28943548760386156,
+              "delta_mae": 7.374322915232436e-05,
+              "relative_delta_l2": 0.008298966700448279,
+              "shape": [
+                1,
+                8846,
+                128
+              ]
+            },
+            "masked_mean": {
+              "l2": 0.31598241729642196,
+              "delta_l2": 4.9050387627968596e-05,
+              "delta_mae": 3.4435583984304685e-06,
+              "relative_delta_l2": 0.00015522960970705644,
+              "shape": [
+                1,
+                128
+              ]
+            },
+            "decoder_latent": {
+              "l2": 0.31598241729642196,
+              "delta_l2": 4.9050387627968596e-05,
+              "delta_mae": 3.4435583984304685e-06,
+              "relative_delta_l2": 0.00015522960970705644,
+              "shape": [
+                1,
+                128
+              ]
+            },
+            "decoder_query_first_chunk": {
+              "l2": 67.84557540970984,
+              "delta_l2": 0.00042217852205963776,
+              "delta_mae": 2.3402773056053444e-07,
+              "relative_delta_l2": 6.222637222550447e-06,
+              "shape": [
+                1,
+                16384,
+                128
+              ]
+            },
+            "logits_first_chunk": {
+              "l2": 3.4290392963686536,
+              "delta_l2": 2.6871940395763184e-05,
+              "delta_mae": 2.0480716500514973e-07,
+              "relative_delta_l2": 7.836547144091233e-06,
+              "shape": [
+                1,
+                16384,
+                1
+              ]
+            }
+          },
+          "repeat_bitwise": true
+        }
+      ],
+      "gradients": {
+        "observed": {
+          "loss": 48.36335372924805,
+          "layers": {
+            "tokens": {
+              "present": true,
+              "l2": 0.00011328077828306335,
+              "max_abs": 3.59592490895011e-07,
+              "finite_fraction": 1.0
+            },
+            "phi": {
+              "present": true,
+              "l2": 0.003561461374198019,
+              "max_abs": 9.194970516546164e-06,
+              "finite_fraction": 1.0
+            },
+            "masked_mean": {
+              "present": true,
+              "l2": 0.32315233326312964,
+              "max_abs": 0.07570219039916992,
+              "finite_fraction": 1.0
+            },
+            "decoder_latent": {
+              "present": true,
+              "l2": 0.32315233326312964,
+              "max_abs": 0.07570219039916992,
+              "finite_fraction": 1.0
+            },
+            "decoder_query_first_chunk": {
+              "present": true,
+              "l2": 0.002335537524406172,
+              "max_abs": 6.4196419771178626e-06,
+              "finite_fraction": 1.0
+            },
+            "logits_first_chunk": {
+              "present": true,
+              "l2": 0.0042436269530643795,
+              "max_abs": 7.29240127839148e-05,
+              "finite_fraction": 1.0
+            },
+            "raw_measurement": {
+              "present": true,
+              "l2": 1.9044517160152725e-10,
+              "max_abs": 6.534269653135638e-12,
+              "finite_fraction": 1.0
+            },
+            "readout_weight": {
+              "present": true,
+              "l2": 4.984719074502504,
+              "max_abs": 0.9357098937034607,
+              "finite_fraction": 1.0
+            },
+            "readout_bias": {
+              "present": true,
+              "l2": 17.35759162902832,
+              "max_abs": 17.35759162902832,
+              "finite_fraction": 1.0
+            },
+            "token_measurement_channel": {
+              "present": true,
+              "l2": 6.1485020296839555e-06,
+              "max_abs": 2.1095819136007776e-07,
+              "finite_fraction": 1.0
+            },
+            "token_geometry_channels": {
+              "present": true,
+              "l2": 0.00011311379514103277,
+              "max_abs": 3.59592490895011e-07,
+              "finite_fraction": 1.0
+            }
+          }
+        },
+        "cross": {
+          "loss": 48.36335754394531,
+          "layers": {
+            "tokens": {
+              "present": true,
+              "l2": 0.0001140949597192341,
+              "max_abs": 3.6227382338438474e-07,
+              "finite_fraction": 1.0
+            },
+            "phi": {
+              "present": true,
+              "l2": 0.0035866132736185794,
+              "max_abs": 9.262115781893954e-06,
+              "finite_fraction": 1.0
+            },
+            "masked_mean": {
+              "present": true,
+              "l2": 0.3254345130966641,
+              "max_abs": 0.07625500112771988,
+              "finite_fraction": 1.0
+            },
+            "decoder_latent": {
+              "present": true,
+              "l2": 0.3254345130966641,
+              "max_abs": 0.07625500112771988,
+              "finite_fraction": 1.0
+            },
+            "decoder_query_first_chunk": {
+              "present": true,
+              "l2": 0.0023486862335030446,
+              "max_abs": 6.2934586821938865e-06,
+              "finite_fraction": 1.0
+            },
+            "logits_first_chunk": {
+              "present": true,
+              "l2": 0.004267517905404374,
+              "max_abs": 7.149063458200544e-05,
+              "finite_fraction": 1.0
+            },
+            "raw_measurement": {
+              "present": true,
+              "l2": 1.9214659931701437e-10,
+              "max_abs": 6.589093853870409e-12,
+              "finite_fraction": 1.0
+            },
+            "readout_weight": {
+              "present": true,
+              "l2": 4.984722021166228,
+              "max_abs": 0.9357165098190308,
+              "finite_fraction": 1.0
+            },
+            "readout_bias": {
+              "present": true,
+              "l2": 17.35759162902832,
+              "max_abs": 17.35759162902832,
+              "finite_fraction": 1.0
+            },
+            "token_measurement_channel": {
+              "present": true,
+              "l2": 6.203432435098849e-06,
+              "max_abs": 2.1272819594742032e-07,
+              "finite_fraction": 1.0
+            },
+            "token_geometry_channels": {
+              "present": true,
+              "l2": 0.00011392619215683819,
+              "max_abs": 3.6227382338438474e-07,
+              "finite_fraction": 1.0
+            }
+          }
+        },
+        "consistency": {
+          "loss": 2.956880780402571e-05,
+          "layers": {
+            "tokens": {
+              "present": true,
+              "l2": 6.5710498298057906e-06,
+              "max_abs": 2.084762051879352e-08,
+              "finite_fraction": 1.0
+            },
+            "phi": {
+              "present": true,
+              "l2": 0.00020629805057595203,
+              "max_abs": 5.325158554114751e-07,
+              "finite_fraction": 1.0
+            },
+            "masked_mean": {
+              "present": true,
+              "l2": 0.018718635068221735,
+              "max_abs": 0.004384202882647514,
+              "finite_fraction": 1.0
+            },
+            "decoder_latent": {
+              "present": true,
+              "l2": 0.018718635068221735,
+              "max_abs": 0.004384202882647514,
+              "finite_fraction": 1.0
+            },
+            "decoder_query_first_chunk": {
+              "present": true,
+              "l2": 0.00013480122219444694,
+              "max_abs": 1.684814918689881e-07,
+              "finite_fraction": 1.0
+            },
+            "logits_first_chunk": {
+              "present": true,
+              "l2": 0.00024493123907170356,
+              "max_abs": 1.9138678908348083e-06,
+              "finite_fraction": 1.0
+            },
+            "raw_measurement": {
+              "present": true,
+              "l2": 1.1089948415595442e-11,
+              "max_abs": 3.7929750486276337e-13,
+              "finite_fraction": 1.0
+            },
+            "readout_weight": {
+              "present": true,
+              "l2": 0.000344698708520042,
+              "max_abs": 8.345587411895394e-05,
+              "finite_fraction": 1.0
+            },
+            "readout_bias": {
+              "present": true,
+              "l2": 1.4726072549819946e-05,
+              "max_abs": 1.4726072549819946e-05,
+              "finite_fraction": 1.0
+            },
+            "token_measurement_channel": {
+              "present": true,
+              "l2": 3.5803780023084396e-07,
+              "max_abs": 1.2245579661396278e-08,
+              "finite_fraction": 1.0
+            },
+            "token_geometry_channels": {
+              "present": true,
+              "l2": 6.561288349051317e-06,
+              "max_abs": 2.084762051879352e-08,
+              "finite_fraction": 1.0
+            }
+          }
+        },
+        "representation_shapes": {
+          "tokens": [
+            1,
+            8233,
+            203
+          ],
+          "phi": [
+            1,
+            8233,
+            128
+          ],
+          "masked_mean": [
+            1,
+            128
+          ],
+          "decoder_latent": [
+            1,
+            128
+          ],
+          "decoder_query_first_chunk": [
+            1,
+            16384,
+            128
+          ],
+          "logits_first_chunk": [
+            1,
+            16384,
+            1
+          ],
+          "raw_measurement": [
+            1,
+            4,
+            1,
+            64,
+            64
+          ],
+          "readout_weight": [
+            1,
+            128
+          ],
+          "readout_bias": [
+            1
+          ]
+        },
+        "query_scope": "first query chunk only for operator/query/readout taps; complete token/encoder/latent tensors",
+        "logits": {
+          "mean": -0.006817168776630911,
+          "std": 0.022833643515319673,
+          "min": -0.08674272894859314,
+          "max": 0.0822247713804245,
+          "spatial_cv": 22833643515319.67,
+          "peak_xyz_m": [
+            0.07619047619047618,
+            0.48571428571428565,
+            0.3333333333333333
+          ],
+          "below_1e_10": 0.6180572509765625,
+          "fraction_below_minus12": 0.0
+        },
+        "sigmoid_derivative_mean": 0.24996450543403625
+      },
+      "finite_difference": [
+        {
+          "function": "output_mean_div_fixed_scale",
+          "epsilon": 0.01,
+          "AD": -5.468573370918928e-05,
+          "FD": -5.249678309837691e-05,
+          "abs_error": 2.1889506108123706e-06,
+          "relative_error": 0.040027818268890555,
+          "observable": true,
+          "within_tolerance": true,
+          "interpretation": "resolved"
+        },
+        {
+          "function": "mean_logit",
+          "epsilon": 0.01,
+          "AD": -9.178894301414508e-07,
+          "FD": -8.904368214990299e-07,
+          "abs_error": 2.7452608642420898e-08,
+          "relative_error": 0.029908404804476645,
+          "observable": true,
+          "within_tolerance": true,
+          "interpretation": "resolved"
+        },
+        {
+          "function": "output_mean_div_fixed_scale",
+          "epsilon": 0.001,
+          "AD": -5.468573370918928e-05,
+          "FD": -6.295874754869146e-05,
+          "abs_error": 8.273013839502183e-06,
+          "relative_error": 0.13140372325710487,
+          "observable": true,
+          "within_tolerance": false,
+          "interpretation": "resolved"
+        },
+        {
+          "function": "mean_logit",
+          "epsilon": 0.001,
+          "AD": -9.178894301414508e-07,
+          "FD": -1.078537009702174e-06,
+          "abs_error": 1.6064757956072322e-07,
+          "relative_error": 0.1489495289596824,
+          "observable": true,
+          "within_tolerance": false,
+          "interpretation": "resolved"
+        }
+      ],
+      "raw": "/scratch/djc/GeoPhy-Set3D/deep_baselines_identifiability_v1/C/deepsets/fresh_v1_case1.npz",
+      "raw_sha256": "048c9e120b42e4d56d93d7adf5b0f526472462bccaba21cadccb038b321d753b",
+      "H_in_backward": false
+    }
+  ]
+}

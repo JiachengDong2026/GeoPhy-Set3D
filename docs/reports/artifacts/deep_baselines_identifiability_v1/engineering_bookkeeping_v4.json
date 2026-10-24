@@ -1,0 +1,18 @@
+{
+  "at": "2026-10-24T18:30:06.983491+08:00",
+  "reason": "Duplicate at keyword in status write AFTER complete200update result and checkpoint were sealed",
+  "exact_diff": "--- \n+++ \n@@ -61,7 +61,7 @@\n             initial_state_sha256=initial_hash,final_state_sha256=state_hash(net.state_dict()),audit=access.summary())\n         assert result['final_state_sha256']!=initial_hash and not access.denied\n         c.verify_hashes(registration['sources']);c.freeze(target/'result.json',result)\n-    c.write(target/'status.json',dict(at=c.now(),**result));print('DONE',name,result['status'],flush=True)\n+    c.write(target/'status.json',dict(result,at=c.now()));print('DONE',name,result['status'],flush=True)\n \n if __name__=='__main__':\n     ap=argparse.ArgumentParser();ap.add_argument('--experiment',choices=['A','B'],required=True)\n",
+  "sources": {
+    "/home/djc/projects/GeoPhy-Set3D/scripts/deep_baselines_identifiability_v1/train_fixed_v2.py": "e5419b0e99832e45094c32655895d82fefe717014b1950b0947d2fc0bfe953a1",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/deep_baselines_identifiability_v1/resume_v4.py": "e303990b2592e8413fe1378eef028c6fb8e025cf93dcfce70a45be6f2f6b5276"
+  },
+  "original_registered_sources_unchanged": true,
+  "numerical_operations_unchanged": true,
+  "thresholds_unchanged": true,
+  "completed_first_run_accepted_without_retraining": true,
+  "first_run_result_sha256": "585db44b9d2e49d8699d6f58c8084d32b4003ea3d5897c41fe242c8fe56fc497",
+  "completed_updates": 200,
+  "remaining_updates": 1800,
+  "optimizer_steps_verified": true,
+  "scientific_status": "NO_GO"
+}

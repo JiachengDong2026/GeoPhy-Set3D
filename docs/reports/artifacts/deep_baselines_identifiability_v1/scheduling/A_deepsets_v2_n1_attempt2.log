@@ -1,0 +1,17 @@
+A_deepsets_v2_n1 10 AB 2.1493491285232595 H 2.0654293568852595
+A_deepsets_v2_n1 25 AB 2.1185247016726816 H 2.0363972850748464
+A_deepsets_v2_n1 50 AB 1.8011717234004352 H 1.7382857412859078
+A_deepsets_v2_n1 100 AB 1.0002383263916221 H 1.0002104106134193
+A_deepsets_v2_n1 150 AB 1.0001183214127 H 1.0001041304473732
+A_deepsets_v2_n1 200 AB 1.0000941893973343 H 1.0000828129430477
+Traceback (most recent call last):
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/deep_baselines_identifiability_v1/engineering_dispatch_v3.py", line 25, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/deep_baselines_identifiability_v1/engineering_dispatch_v3.py", line 23, in main
+    memory.install();worker=load_training();worker.run(a.experiment,a.arm,a.version,a.n)
+                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/deep_baselines_identifiability_v1/train.py", line 64, in run
+    c.write(target/'status.json',dict(at=c.now(),**result));print('DONE',name,result['status'],flush=True)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: dict() got multiple values for keyword argument 'at'

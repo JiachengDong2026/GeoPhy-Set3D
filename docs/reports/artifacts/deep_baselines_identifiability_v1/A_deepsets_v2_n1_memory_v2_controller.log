@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/deep_baselines_identifiability_v1/launch.py", line 29, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/deep_baselines_identifiability_v1/launch.py", line 27, in main
+    controller.run(a.key,cmd,a.recover_reason)
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/deep_baselines_v1/controller.py", line 82, in run
+    s.finish(item, valid=process.returncode == 0 and conflict is None)
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/uniform_final_v1/controller.py", line 81, in finish
+    assert valid,'Task failed; preserve evidence and block next phase: '+r['key']+' log='+r['log']
+           ^^^^^
+AssertionError: Task failed; preserve evidence and block next phase: A_deepsets_v2_n1 log=/scratch/djc/GeoPhy-Set3D/deep_baselines_identifiability_v1/scheduling/A_deepsets_v2_n1_attempt1.log

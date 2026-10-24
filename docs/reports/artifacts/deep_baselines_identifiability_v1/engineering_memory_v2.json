@@ -1,0 +1,20 @@
+{
+  "at": "2026-10-24T18:18:40.439965+08:00",
+  "reason": "C GNOT input-gradient OOM before any optimizer updates",
+  "change": "weak references in read-only taps and GC of unreachable graphs between gradient diagnostics",
+  "adapter_sha256": "b27aedb19af66be7e8c4a9e44137e8b25fc981d284dba6a9d5f9007f1d77453c",
+  "sources": {
+    "/home/djc/projects/GeoPhy-Set3D/scripts/deep_baselines_identifiability_v1/engineering_memory_v2.py": "b27aedb19af66be7e8c4a9e44137e8b25fc981d284dba6a9d5f9007f1d77453c",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/deep_baselines_identifiability_v1/recover_sequence_v2.py": "aa9fc1e1cd114adf885bdc42ab8a3b4e29bf8b9cda476c4ba83aa012b571d886",
+    "/home/djc/projects/GeoPhy-Set3D/tests/test_baseline_identifiability_memory_v2.py": "28e47b86098eb2934113c6352ac8f413ceb3a549d8053fcedc879ab772dff218"
+  },
+  "original_sources_unchanged": true,
+  "thresholds_unchanged": true,
+  "optimizer_updates_before_recovery": 0,
+  "failed_partial_arrays_original_hashes": {
+    "/scratch/djc/GeoPhy-Set3D/deep_baselines_identifiability_v1/C/gnot/fresh_v1_case0.npz": "df911448126bcef705ff0fa4bc01a64463c6db1cb6648250ef6db691fc9482af"
+  },
+  "failed_partial_arrays_preserved_at": "/scratch/djc/GeoPhy-Set3D/deep_baselines_identifiability_v1/engineering_failures/C_gnot_attempt1",
+  "tests": "1 passed: forward and raw input gradient bitwise equal; output graph does not retain Trace owner",
+  "applies_to": "retried C GNOT and all ten previously registered training diagnostics; C DeepSets remains initial successful run"
+}

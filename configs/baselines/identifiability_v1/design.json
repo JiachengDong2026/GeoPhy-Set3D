@@ -1,0 +1,38 @@
+{
+  "seed": 20261011,
+  "train_case_indices": [0, 1, 2, 3],
+  "C_case_indices": [0, 1],
+  "views": {"A": 4, "B": 4, "H": 4},
+  "A_scales": [1, 2, 4],
+  "A_consistency": "v2",
+  "B_conditions": ["v2", "v3"],
+  "updates_per_run": 200,
+  "total_training_update_limit": 2000,
+  "evaluation_updates": [0, 10, 25, 50, 100, 150, 200],
+  "batch_size_maximum": 2,
+  "optimizer": {"name": "AdamW", "lr": 0.0002, "weight_decay": 0.0001},
+  "scheduler": "none: fixed diagnostic learning rate, no formal epoch interpretation",
+  "gradient_clip_norm": 1.0,
+  "weights": {"cross": 0.5, "observed": 0.1, "consistency": 0.05},
+  "initial_mass_fraction": 0.004195626187323315,
+  "reference_quadrature": [128, 256],
+  "reference_units": "mass fraction -> mole fraction -> ppm*m, geometry in metres",
+  "gate": {
+    "train_relative_l1_max": 0.99,
+    "train_absolute_improvement_min": 0.01,
+    "last_two_H_relative_l1_max": 0.99,
+    "mean_min": 1e-8,
+    "spatial_cv_min": 0.05,
+    "intervention_MAE_divided_by_fixed_init_scale_min": 0.001,
+    "measurement_input_gradient_l2_min": 1e-12,
+    "finite_difference_relative_tolerance": 0.05,
+    "finite_difference_absolute_tolerance": 1e-8,
+    "all_cases_required": true
+  },
+  "synthetic_cases": [
+    {"name": "single_left", "components": [{"center": [0.2, 0.30, 0.25], "sigma": [0.07, 0.09, 0.11], "angle": 0.0, "peak": 0.04195626187323315}]},
+    {"name": "rotated_right", "components": [{"center": [0.42, 0.28, 0.37], "sigma": [0.11, 0.06, 0.09], "angle": 0.7, "peak": 0.04195626187323315}]},
+    {"name": "rotated_high", "components": [{"center": [0.29, 0.40, 0.30], "sigma": [0.08, 0.12, 0.06], "angle": -0.6, "peak": 0.03356500949858652}]},
+    {"name": "double", "components": [{"center": [0.2, 0.24, 0.27], "sigma": [0.065, 0.08, 0.09], "angle": 0.3, "peak": 0.03356500949858652}, {"center": [0.41, 0.39, 0.35], "sigma": [0.08, 0.07, 0.065], "angle": -0.5, "peak": 0.02517375712393989}]}
+  ]
+}
