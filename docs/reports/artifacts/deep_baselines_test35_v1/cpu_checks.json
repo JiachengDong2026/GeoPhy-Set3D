@@ -1,0 +1,54 @@
+{
+  "at": "2026-10-24T16:11:11.213569+08:00",
+  "passed": true,
+  "model_checks": [
+    {
+      "method": "ray_deepsets_v1_seed20261011",
+      "parameters": 104577,
+      "output_min": 3.2284918864948774e-17,
+      "output_max": 5.652969776241928e-16,
+      "output_mean": 1.4746424065690682e-16
+    },
+    {
+      "method": "ray_gnot_v1_seed20261011",
+      "parameters": 527109,
+      "output_min": 1.1077969271078292e-11,
+      "output_max": 1.50200008680601e-11,
+      "output_mean": 1.2728463248679045e-11
+    }
+  ],
+  "frozen_main_bitwise_regression": {
+    "passed": true,
+    "bitwise_equal": true,
+    "output_hashes": {
+      "C0": "f0f2b7e320956730a9b728096762d044d135ea63e1b6060e8780947e384a3cbe",
+      "C1": "bb058073e9dadf8d47e52b9eb08108f83c9747c17b6ac5d7e884fcb84bbeb7be"
+    },
+    "anchor_sha256": "2a7b40743b3de14a05efd13c8169e7365f1bc8bd40e088b9cb4f7e98aad7aeb1",
+    "audit": {
+      "counts": {
+        "Pool_A_geometry": 1,
+        "projection_val": 3
+      },
+      "denied": [],
+      "touched": [
+        "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/geometry/train_geometry.npz",
+        "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w1_inlet1_half/projections_train.npy"
+      ]
+    }
+  },
+  "audit": {
+    "counts": {
+      "Pool_A_geometry": 1,
+      "projection_test": 3,
+      "checkpoint": 2
+    },
+    "denied": [],
+    "touched": [
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/geometry/train_geometry.npz",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_p0100_w1_equal/projections_train.npy",
+      "/scratch/djc/GeoPhy-Set3D/deep_baselines_v1/training_registered_v2/deepsets_seed20261011/checkpoints/best.pt",
+      "/scratch/djc/GeoPhy-Set3D/deep_baselines_v1/training_registered_v2/gnot_seed20261011/checkpoints/best.pt"
+    ]
+  }
+}

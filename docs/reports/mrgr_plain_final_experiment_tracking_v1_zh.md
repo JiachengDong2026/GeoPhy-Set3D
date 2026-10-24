@@ -24,3 +24,16 @@
 DeepSets/GNOT各seed20261011/20261019，4项正式300epoch/24900updates已登记并进入GPU持久队列；当前有效输出为 `/scratch/djc/GeoPhy-Set3D/deep_baselines_v1/training_registered_v2/`。Senseiver保留历史科学NO-GO，未自动重复300轮；所有未运行正式指标留空。mini训练量不对等，不构成正式精度比较。未启动新test/GT128或Pool B访问。
 
 具体状态、哈希和完整边界见[执行报告](deep_learning_baselines_status_zh.md)、[正式状态CSV](artifacts/deep_baselines_v1/formal_comparison_status.csv)及实时 `deep_baselines_v1/queue_status.json`，不将队列中任务视为已完成。
+
+## 2026-10-24 追加：暂停训练及两个seed20261011完整预算模型评价
+
+用户要求暂停训练，队列及本任务训练进程组已于16:05:23+08停止，未干预其他用户任务。DeepSets seed20261019保留epoch240/19920updates；GNOT seed20261019无完整epoch提交；后续训练不自动恢复。
+
+| 独立对照 | 种子 | 完整预算 | best epoch | 当前评价结论 | checkpoint SHA256 |
+|---|---:|---|---:|---|---|
+| Ray-DeepSets-v1 | 20261011 | 300 / 24900 | 291 | 35案例/17设置已完成，近零塌缩 | `f42ce9f3a1ca2093ccfcb1452314113c3922b02649ad11ddf540a5ea411a53e7` |
+| Ray-GNOT-v1 | 20261011 | 300 / 24900 | 300 | 35案例/17设置已完成，近零塌缩 | `c86c90cd5b2fdbefe389d6253a31b843f45967ae5c5d763b60041d9077d709c7` |
+
+主模型595份C1预测复用，两基线新生成1190份，共1785份全部封存后评分35个授权GT64；未读GT128/Pool B，未使用test选模，Plain双种子权重未改。结果仍是历史案例上的单训练种子探索性比较，不能替代独立测试或完整三算法双种子比较。科学失败如实保留，不自动做测试后修复。
+
+[本次正式中文报告](deep_baselines_seed20261011_test35_v1_zh.md) · [当前追踪CSV](artifacts/deep_baselines_test35_v1/experiment_tracking.csv) · [验收](artifacts/deep_baselines_test35_v1/acceptance.json)。此前队列描述为历史启动状态，以此条和暂停记录为准。

@@ -1,6 +1,8 @@
 # 最终主模型冻结与三种深度学习基线：执行状态
 
-本轮已完成最终 Plain 模型冻结、三模型独立实现、CPU/GPU 验证、固定小规模训练和四方法验证评价入口的实际集成。**正式比较尚未完成**：DeepSets/GNOT 双种子共4项已登记并进入持久 GPU 队列；Senseiver 保留历史科学 NO-GO，不重复同一路线300轮。本文及导出状态为2026-10-24（北京时间）快照，运行中的 epoch 以 scratch 状态为准。
+截至2026-10-24（北京时间），**训练队列已按用户要求暂停**。DeepSets、GNOT的seed20261011均完成300epoch/24900次有效更新，已固定best checkpoint并完成35案例/17设置的探索性评价；两者出现近零输出塌缩，不能视为成功学习基线。DeepSets seed20261019暂停在240epoch/19920updates，GNOT seed20261019没有完整epoch提交；Senseiver保留历史科学NO-GO。最终Plain模型未重训。
+
+本次完整结果、checkpoint哈希、逐案例指标、配对bootstrap和科学边界见[seed20261011评价正式报告](deep_baselines_seed20261011_test35_v1_zh.md)与[更新追踪表](artifacts/deep_baselines_test35_v1/experiment_tracking.csv)。以下工程/pilot/mini记录保留其原有范围，mini不是本次完整预算结果。
 
 ## 1. 主模型与历史成果保护
 
@@ -51,27 +53,29 @@ CPU合并验证：模型/旧Senseiver回归20项、统一objective与统计9项�
 
 这两例验证子集的H4值不等于完整36例selector或三维误差，不能用于正式模型优劣结论。三者无异常NaN/Inf或严格常量输出，但短pilot不足以保证条件重建能力。原Senseiver科学记录为 `REPAIR_FAILED_NO_GO`，包括原自监督113epoch/9379updates近零塌缩，以及有限初始化/loss/读出修复失败；监督旧checkpoint有GT，不能warm-start或计入本轮自监督成绩。
 
-## 5. 正式训练真实状态
+## 5. 正式训练与暂停状态
 
-当前有效计划为 scratch `formal_queue_plan_v2.json`；**只有** `training_registered_v2/` 下4项协议可作为本轮当前正式任务。早先 `training/` 中4份未启动登记已保留并标记superseded，正式更新为0，不应手动启动。
+当前有效正式登记仍为scratch `formal_queue_plan_v2.json`、`training_registered_v2/`。早先未启动登记保留且不应手动启动。
 
-| 实验 | 种子 | 快照状态 | 预算 |
+| 实验 | 种子 | 当前状态 | 已提交epoch / 更新 |
 |---|---:|---|---|
-| DeepSets | 20261011 | 等待独占空闲GPU | 300epoch/24900updates |
-| DeepSets | 20261019 | 等待独占空闲GPU | 同上 |
-| GNOT | 20261011 | GPU0正式训练中，已提交完整epoch，实时进度见状态CSV | 同上 |
-| GNOT | 20261019 | GPU3冲突后已复核，排队等待GPU0恢复 | 同上 |
-| Senseiver | 两个种子 | 历史科学NO-GO阻塞，未启动正式训练 | 不重复同一路线300轮 |
+| DeepSets | 20261011 | 完成训练及35案例探索性评价；近零塌缩 | 300 / 24900 |
+| GNOT | 20261011 | 完成训练及35案例探索性评价；近零塌缩 | 300 / 24900 |
+| DeepSets | 20261019 | 用户要求暂停，last.pt可恢复 | 240 / 19920 |
+| GNOT | 20261019 | 用户要求暂停，无完整epoch提交 | 0 / 0 |
+| Senseiver | 两个种子 | 历史科学NO-GO，未启动新正式训练 | 0 / 0 |
 
-GNOT正式前两轮完整166train/36val每轮约139/137秒，H4约1.0016/1.0010，已接近零场基准1，**存在塌缩风险，尚无有效性结论**。短期改善不能证明模型利用观测。当前不按前期效果调整网络、loss、seed、输出bias或提前截短登记预算。完整训练成本和结果待完成后报告，不把上述pilot作为正式训练完成。
+DeepSets seed11 best epoch291，H4 L1=1.0000000000000386；GNOT best epoch300，H4 L1=1.0000000013047552。两者均按验证H4严格最小值选模、完整训练后固定，未因GT结果替换权重；实测测试三维L1/L2约1与塌缩一致。未更改网络、loss、seed或训练预算。
 
-所有正式设置逐字段对齐冻结主模型：数据划分/归一化/A-B-H采样、300轮、24900updates、batch2、AdamW2e-4/wd1e-4、cosine300、FP32/TF32off、clip1、loss及H4最低值选模。不承诺不同架构共享模块初始化逐参数相同；实际初态state hash已登记并在CUDA构建时核验。
+正式设置逐字段对齐冻结主模型：数据划分/归一化/A-B-H采样、300轮、24900updates、batch2、AdamW2e-4/wd1e-4、cosine300、FP32/TF32off、clip1、loss及H4最低值选模。不同架构不承诺共享模块初始化逐参数相同；初态state hash已登记。
 
-## 6. 资源、锁与异常
+暂停时间为2026-10-24 16:05:23+08，记录见 `user_pause_20261024.json` / `queue_status.json`。没有自动恢复训练；本次后续GPU任务仅为固定模型评价。
+
+## 6. 资源、锁与异常（历史恢复记录）
 
 重新检查四张RTX4090后，只有GPU0持续空闲，GPU1–3为其他用户任务。使用全局UUID flock、15秒双空闲快照、锁FD继承、独立run/controller锁及资源快照，不依赖旧截图。原4个控制器允许空闲卡动态并行；之后发生一次真实冲突：GPU3在其他用户多段训练间隙通过双空闲快照，本任务seed19开始后，对方下一段PID1377578启动。冲突监控只停止本任务的进程组，没有终止对方进程。
 
-原队列按故障协议整体停止，也中断了GPU0上GNOT seed11尚未提交的epoch4。已检查日志/PID归属/哈希并保存 `inspected_resource_recovery.json`：seed11的权威last.pt完整提交epoch3/249updates，seed19没有完整epoch提交。使用新增独立 `recover_queue.py` 在**当前进程中仅过滤GPU调度到UUID为GPU0的卡**，不修改冻结训练worker、模型或配置；按原last.pt恢复RNG/AdamW/cosine并重播未提交epoch，之后依次执行剩余原4项。GPU1–3的短暂空档不再视为可抢用资源。原队列启动记录保留，当前持久恢复队列见 `inspected_recovery_launch.json` / `queue_status.json`。
+原队列按故障协议整体停止，也中断了GPU0上GNOT seed11尚未提交的epoch4。已检查日志/PID归属/哈希并保存 `inspected_resource_recovery.json`：seed11的权威last.pt完整提交epoch3/249updates，seed19没有完整epoch提交。使用新增独立 `recover_queue.py` 在**当前进程中仅过滤GPU调度到UUID为GPU0的卡**，不修改冻结训练worker、模型或配置；按原last.pt恢复RNG/AdamW/cosine并重播未提交epoch，之后依次执行剩余原4项。GPU1–3的短暂空档不再视为可抢用资源。原队列启动记录保留，暂停前的持久恢复队列记录见 `inspected_recovery_launch.json` / `queue_status.json`。
 
 24900指正式完整epoch提交的更新数，中断epoch内已执行但未提交的步骤会重播，具体被丢弃步数无法从epoch粒度日志精确恢复，不能宣称总计算尝试次数恰好24900。没有更改正式有效更新预算或丢弃已提交checkpoint。
 
@@ -81,7 +85,7 @@ GNOT正式前两轮完整166train/36val每轮约139/137秒，H4约1.0016/1.0010�
 
 ## 7. 四方法统一验证评价：已实际跑通，但非正式比较
 
-固定使用官方Val G1–G5清单的case_index0、1及draw0，每方法10条。四方法全部40份预测封存后，才只读这两个验证案例GT64；GT阶段不读checkpoint/测量，inference阶段不读GT。最终v2保存了逐预测hash、输入/H哈希、逐draw/逐case CSV、各组统计、paired CSV、参数与推理成本。GT128、Pool B和test均未读。
+固定使用官方Val G1–G5清单的case_index0、1及draw0，每方法10条。四方法全部40份预测封存后，才只读这两个验证案例GT64；GT阶段不读checkpoint/测量，inference阶段不读GT。最终v2保存了逐预测hash、输入/H哈希、逐draw/逐case CSV、各组统计、paired CSV、参数与推理成本。该历史mini阶段未读GT128、Pool B或test；本次35案例评价的test访问边界见第8节。
 
 | 方法 | G1三维relative L1 | G5三维relative L1 | 训练量说明 |
 |---|---:|---:|---|
@@ -96,16 +100,18 @@ GNOT正式前两轮完整166train/36val每轮约139/137秒，H4约1.0016/1.0010�
 
 独立统计复核另用bincount权重重算真实保存的mean/median/P90/P95/max/CI和配对统计，而非调用同一汇总函数。最终v2共2990个统计字段，最大差异0.0；31个输入JSON均有哈希，只读保存的JSON、没有再读GT/预测/测量/checkpoint数组。机器证据在 `artifacts/deep_baselines_v1/independent_review/`。
 
-## 8. 测试边界与未完成工作
+## 8. 本次测试边界与未完成工作
 
-本轮**未执行正式测试**，也未做完整900条Val正式比较。三种基线尚未全部得到有效且完整预算的冻结checkpoint，Senseiver科学门槛未通过，不能宣布具备最终三算法公平比较条件。原35例参与过模型开发，沿用探索性标签；独立数据审计仍为 `BLOCKED_NO_INDEPENDENT_DATA`，不以重新命名作为独立测试。
+用户本次明确要求先暂停训练、完成两个seed20261011已完成模型的测试，因此对这两个已固定checkpoint执行35案例评价，不再等待全部三算法/双种子完成。新预测1190份、复用Plain C1预测595份，全局封存后才读取35个授权GT64评分；GT128/Pool B未读。完整指标、主模型历史重算对照及独立数值统计复核已保存。
 
-下一步是保持源码/配置冻结，完成已排队的4项训练并验收完整预算与H4选模；如最终仍塌缩，按失败基线如实报告，不自动扩大搜索。完成后可预先登记各选定checkpoint，对完整36例Val900清单评分。Senseiver只保留当前适配失败与监督可学性诊断的边界，若后续要改变任务或结构必须另行定义独立研究，不能将其补成当前成功自监督对照。
+这不是全部三算法的双种子正式比较，也不是完整Val900评价。两个已完成自监督适配在当前协议下塌缩；Senseiver科学门槛未通过，不能宣称对充分调优的原始算法全面优越。35案例参与过模型开发，沿用探索性标签；独立数据审计仍为 `BLOCKED_NO_INDEPENDENT_DATA`。不按测试结果搜索架构、epoch或超参数。
+
+训练保持暂停；本次不自动追加训练、修复或扩大搜索。
 
 ## 9. 复核入口
 
 完整本地根目录：`/scratch/djc/GeoPhy-Set3D/deep_baselines_v1/`。代码、配置、日志、source/checkpoint/prediction hashes和CSV的小体积导出位于 [Git证据目录](artifacts/deep_baselines_v1/)。权重、全部64³预测及完整GPU进程快照保留本地，未把GT数组放入Git。
 
-当前队列：`queue_status.json` / `inspected_recovery_queue.log`（原 `formal_queue_v2.log` 保留故障记录）；单任务：`training_registered_v2/<arm>_seed<seed>/status.json`、`metrics.jsonl`、`checkpoints/last.pt`及`best.pt`。last.pt是完整epoch提交权威，禁止用test GT选择checkpoint。进程和GPU状态是快照，不能将等待误写为完成。
+队列已暂停：`queue_status.json` / `user_pause_20261024.json`；暂停前日志为 `inspected_recovery_queue.log`（原 `formal_queue_v2.log` 保留故障记录）；单任务：`training_registered_v2/<arm>_seed<seed>/status.json`、`metrics.jsonl`、`checkpoints/last.pt`及`best.pt`。last.pt是完整epoch提交权威，禁止用test GT选择checkpoint。进程和GPU状态是快照，不能将等待误写为完成。
 
-正式汇总CSV：[formal_comparison_status.csv](artifacts/deep_baselines_v1/formal_comparison_status.csv)；工程指标：[mini_integration_summary.csv](artifacts/deep_baselines_v1/mini_integration_summary.csv)。待训练完成后，运行 `scripts/deep_baselines_v1/deliver.py` 可重新导出状态；不要覆盖原始scratch实验记录或修改登记哈希对应的数值源码。
+正式汇总CSV：[formal_comparison_status.csv](artifacts/deep_baselines_v1/formal_comparison_status.csv)；工程指标：[mini_integration_summary.csv](artifacts/deep_baselines_v1/mini_integration_summary.csv)。本次新增证据目录为 [deep_baselines_test35_v1](artifacts/deep_baselines_test35_v1/)，主入口为 `scripts/deep_baselines_test35_v1/run.py`；不要覆盖原始scratch实验记录或修改登记哈希对应的数值源码。
