@@ -1,0 +1,171 @@
+{
+  "at": "2026-10-24T17:38:50.491810+08:00",
+  "rows": [
+    {
+      "arm": "zero",
+      "stage": "zero",
+      "cases": [
+        "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w1_inlet1_half",
+        "case1_g1_transient_scheme_a_v1_2s_p0300_w2_equal"
+      ],
+      "heldout_relative_l1": 1.0,
+      "total_loss": 0.21988260746002197,
+      "parts": {
+        "hold": 0.13726916909217834,
+        "cross": 0.13768905401229858,
+        "observed": 0.13768905401229858,
+        "consistency": 0.0
+      },
+      "outputs": [
+        {
+          "min": 0.0,
+          "max": 0.0,
+          "mean": 0.0,
+          "std": 0.0
+        },
+        {
+          "min": 0.0,
+          "max": 0.0,
+          "mean": 0.0,
+          "std": 0.0
+        }
+      ]
+    },
+    {
+      "arm": "deepsets",
+      "stage": "fresh",
+      "cases": [
+        "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w1_inlet1_half",
+        "case1_g1_transient_scheme_a_v1_2s_p0300_w2_equal"
+      ],
+      "heldout_relative_l1": 270.88192376288214,
+      "total_loss": 57.22861862182617,
+      "parts": {
+        "hold": 35.66881561279297,
+        "cross": 35.933006286621094,
+        "observed": 35.933013916015625,
+        "consistency": 2.661933467607014e-05
+      },
+      "outputs": [
+        {
+          "min": 0.4782750606536865,
+          "max": 0.5205190777778625,
+          "mean": 0.49824664720472356,
+          "std": 0.0057089814480403775
+        },
+        {
+          "min": 0.4782852530479431,
+          "max": 0.5205278396606445,
+          "mean": 0.49825892522721915,
+          "std": 0.0057085626980159804
+        }
+      ]
+    },
+    {
+      "arm": "deepsets",
+      "stage": "failed",
+      "cases": [
+        "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w1_inlet1_half",
+        "case1_g1_transient_scheme_a_v1_2s_p0300_w2_equal"
+      ],
+      "heldout_relative_l1": 1.0000000000006555,
+      "total_loss": 0.21988260746002197,
+      "parts": {
+        "hold": 0.13726916909217834,
+        "cross": 0.13768905401229858,
+        "observed": 0.13768905401229858,
+        "consistency": 2.369210605479566e-09
+      },
+      "outputs": [
+        {
+          "min": 9.278408830390957e-18,
+          "max": 4.121469091948333e-16,
+          "mean": 7.495312148266367e-17,
+          "std": 4.0715421755126716e-17
+        },
+        {
+          "min": 8.609549139514506e-19,
+          "max": 1.7954970735027664e-14,
+          "mean": 2.3405731548359504e-15,
+          "std": 2.5376587159419533e-15
+        }
+      ]
+    },
+    {
+      "arm": "gnot",
+      "stage": "fresh",
+      "cases": [
+        "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w1_inlet1_half",
+        "case1_g1_transient_scheme_a_v1_2s_p0300_w2_equal"
+      ],
+      "heldout_relative_l1": 224.65833123054443,
+      "total_loss": 47.51120376586914,
+      "parts": {
+        "hold": 29.61296844482422,
+        "cross": 29.82598876953125,
+        "observed": 29.822559356689453,
+        "consistency": 0.05970742553472519
+      },
+      "outputs": [
+        {
+          "min": 0.32756245136260986,
+          "max": 0.4718964099884033,
+          "mean": 0.3900095023747667,
+          "std": 0.03222389326648185
+        },
+        {
+          "min": 0.335361510515213,
+          "max": 0.4670625627040863,
+          "mean": 0.38919908707430295,
+          "std": 0.028021136372480278
+        }
+      ]
+    },
+    {
+      "arm": "gnot",
+      "stage": "failed",
+      "cases": [
+        "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w1_inlet1_half",
+        "case1_g1_transient_scheme_a_v1_2s_p0300_w2_equal"
+      ],
+      "heldout_relative_l1": 1.0000000037165016,
+      "total_loss": 0.21988260746002197,
+      "parts": {
+        "hold": 0.13726916909217834,
+        "cross": 0.13768905401229858,
+        "observed": 0.13768905401229858,
+        "consistency": 2.20161844310951e-09
+      },
+      "outputs": [
+        {
+          "min": 1.1073786852777712e-11,
+          "max": 1.5023723584639548e-11,
+          "mean": 1.2728196130537666e-11,
+          "std": 7.211512938929721e-13
+        },
+        {
+          "min": 1.1072561270641934e-11,
+          "max": 1.502587464174976e-11,
+          "mean": 1.2728119527827643e-11,
+          "std": 7.214467222169767e-13
+        }
+      ]
+    }
+  ],
+  "scope": "same first2fixed-val cases, identical A/B/H inputs, full64cubed K96; diagnostic not full36-case selector",
+  "access": {
+    "counts": {
+      "Pool_A_geometry": 1,
+      "projection_val": 6,
+      "checkpoint": 2
+    },
+    "denied": [],
+    "touched": [
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/geometry/train_geometry.npz",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w1_inlet1_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_p0300_w2_equal/projections_train.npy",
+      "/scratch/djc/GeoPhy-Set3D/deep_baselines_v1/training_registered_v2/deepsets_seed20261011/checkpoints/best.pt",
+      "/scratch/djc/GeoPhy-Set3D/deep_baselines_v1/training_registered_v2/gnot_seed20261011/checkpoints/best.pt"
+    ]
+  }
+}

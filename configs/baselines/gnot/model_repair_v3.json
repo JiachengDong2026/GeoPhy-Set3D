@@ -1,0 +1,38 @@
+{
+  "name": "ray_gnot_measurement_init_homogeneous_consistency_v3",
+  "factory": "geophy_set3d.models.baseline_measurement_init_v2.RayGNOTMeasurementInitV2",
+  "kwargs": {
+    "width": 64,
+    "layers": 2,
+    "heads": 4,
+    "experts": 2,
+    "inner_multiplier": 4,
+    "query_chunk_size": 8192,
+    "checkpoint_chunks": true,
+    "mass_fraction": 0.004195626187323315
+  },
+  "repair": "readout weight*0.01 and bias=logit(train A/B measurement LS mass fraction); same forward/parameters as v1; independent objective adapter removes absolute-epsilon amplitude reward",
+  "calibration": {
+    "train_cases": 166,
+    "station_epoch": 0,
+    "branches": [
+      "A",
+      "B"
+    ],
+    "valid_rays": 2977913,
+    "numerator_length_y": 5584229016.382529,
+    "denominator_1e6_length_squared": 739679647543.5016,
+    "mole_fraction": 0.007549523682215568,
+    "mass_fraction": 0.004195626187323315,
+    "output_bias_logit": -5.4695082277569576,
+    "derivation": "argmin_chi sum_valid(y_ppm_m -1e6*path_length_m*chi)^2; then exact mole_to_mass",
+    "uses_GT_statistics": false,
+    "uses_val_statistics": false,
+    "uses_test": false
+  },
+  "calibration_audit_sha256": "219a1ab3733626e8c66f6ab14b61a41309479bd9073201cbb88758bebf9a9020",
+  "GT_used": false,
+  "test_used": false,
+  "original_model_config_sha256": "bc9706d3b8f8269865679ff873ae9b2d1422a99fee04633d439ac21994e6f1b3",
+  "objective_adapter": "geophy_set3d.training.baseline_consistency_repair_v3.homogeneous_consistency"
+}

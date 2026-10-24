@@ -1,0 +1,189 @@
+{
+  "val": {
+    "loss": {
+      "total": 0.512694776058197,
+      "hold": 0.3203553110361099,
+      "cross": 0.32048410342799294,
+      "observed": 0.3204847152034442,
+      "consistency": 0.0009790096131231014
+    },
+    "measurement": {
+      "heldout": {
+        "relative_l1": 1.933147621648297,
+        "relative_l2": 0.9227663199903241
+      },
+      "cross": {
+        "relative_l1": 1.9355714785278677,
+        "relative_l2": 0.9210723516832873
+      },
+      "observed": {
+        "relative_l1": 1.935569367710936,
+        "relative_l2": 0.9210715751416666
+      }
+    },
+    "output": {
+      "min": 0.004160335287451744,
+      "max": 0.004190927371382713,
+      "mean": 0.0041726201048327815,
+      "std": 5.506793508162046e-06,
+      "fraction_near_one": 0.0,
+      "case_to_case_mean_absolute_difference": 6.203665650770875e-06
+    },
+    "gradient_norm_max": 0.0,
+    "case_station_digest": "8ee6f530b867b124624aa6ad2f4830f3deecd56744882c7f471ef8235d7b44ef",
+    "sample_count": 36,
+    "gt_used": false,
+    "seconds": 5.082795403897762
+  },
+  "zero": {
+    "relative_l1": 1.0,
+    "relative_l2": 1.0,
+    "measurement_discrepancy": 0.1876649409532547
+  },
+  "health": {
+    "min": 0.0041625406593084335,
+    "max": 0.004188941791653633,
+    "mean": 0.00417406689018307,
+    "std": 5.747889374897589e-06,
+    "relative_measurement_zero_change": 1.672689541010186e-05,
+    "relative_measurement_half_change": 8.379095561394934e-06,
+    "case_relative_difference": 0.001727956929244101,
+    "fraction_below_1e_10": 0.0,
+    "fraction_above_0999": 0.0,
+    "sigmoid_derivative_mean": 0.004156644456088543
+  },
+  "dependency": {
+    "rows": [
+      {
+        "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w1_inlet1_half",
+        "normal_H_L1": 2.002418402195283,
+        "zero_input_H_L1": 2.002390464085994,
+        "H_benefit": -2.7938109288694335e-05,
+        "relative_output_change": 2.3393322408082895e-05,
+        "passed": false
+      },
+      {
+        "case_id": "case1_g1_transient_scheme_a_v1_2s_p0300_w2_equal",
+        "normal_H_L1": 4.566749223358294,
+        "zero_input_H_L1": 4.566711262915863,
+        "H_benefit": -3.796044243120633e-05,
+        "relative_output_change": 1.0213032510364428e-05,
+        "passed": false
+      },
+      {
+        "case_id": "case1_g1_transient_scheme_a_v1_2s_p1000_w1_equal",
+        "normal_H_L1": 1.7626099664056327,
+        "zero_input_H_L1": 1.762590646219979,
+        "H_benefit": -1.932018565375948e-05,
+        "relative_output_change": 2.0590405256371014e-05,
+        "passed": false
+      },
+      {
+        "case_id": "case1_g1_transient_scheme_a_v1_2s_p1000_w2_equal",
+        "normal_H_L1": 2.4920455519241917,
+        "zero_input_H_L1": 2.492019141060326,
+        "H_benefit": -2.6410863865677925e-05,
+        "relative_output_change": 1.5702036762377247e-05,
+        "passed": false
+      }
+    ],
+    "passed_cases": 0,
+    "passed": false
+  },
+  "gradients": {
+    "parts": {
+      "hold": {
+        "loss": 0.4426742494106293,
+        "gradient_l2": 1.4827967677076677,
+        "groups": {
+          "encoder": 0.021357013834669394,
+          "decoder_latent": 0.06385006483289508,
+          "output": 1.4812674645401513
+        },
+        "output_bias_gradient": 0.3319135010242462,
+        "output_weight_gradient_l2": 1.4436019982471056
+      },
+      "cross": {
+        "loss": 0.4473290741443634,
+        "gradient_l2": 1.4884264135677987,
+        "groups": {
+          "encoder": 0.021432846908373243,
+          "decoder_latent": 0.06409626895815011,
+          "output": 1.4868912165943233
+        },
+        "output_bias_gradient": 0.33277302980422974,
+        "output_weight_gradient_l2": 1.4491747998844928
+      },
+      "observed": {
+        "loss": 0.447331964969635,
+        "gradient_l2": 1.4876962828354083,
+        "groups": {
+          "encoder": 0.021444719326360565,
+          "decoder_latent": 0.0641028529607918,
+          "output": 1.486159876398765
+        },
+        "output_bias_gradient": 0.33273929357528687,
+        "output_weight_gradient_l2": 1.448432166422926
+      },
+      "consistency": {
+        "loss": 0.000978019437752664,
+        "gradient_l2": 0.6709669302694276,
+        "groups": {
+          "encoder": 0.013288615798110972,
+          "decoder_latent": 0.030094224778456444,
+          "output": 0.6701599598904225
+        },
+        "output_bias_gradient": -3.954395651817322e-06,
+        "output_weight_gradient_l2": 0.6701599598787558
+      },
+      "total": {
+        "loss": 0.7111208438873291,
+        "gradient_l2": 2.3675443161116556,
+        "groups": {
+          "encoder": 0.03426083653316214,
+          "decoder_latent": 0.1023916631747742,
+          "output": 2.3650810199959236
+        },
+        "output_bias_gradient": 0.5315737128257751,
+        "output_weight_gradient_l2": 2.304568857504062
+      }
+    },
+    "pairwise_gradient_cosines": {
+      "hold__observed": 0.9999744892120361,
+      "cross__hold": 0.9999789595603943,
+      "cross__observed": 0.9999991655349731,
+      "consistency__hold": -0.25276604294776917,
+      "consistency__cross": -0.25026002526283264,
+      "consistency__observed": -0.24912577867507935
+    },
+    "weighted_gradient_norms": {
+      "hold": 1.4827967677076677,
+      "cross": 0.7442132067838994,
+      "observed": 0.14876962828354084,
+      "consistency": 0.033548346513471376
+    },
+    "logits_quantiles": [
+      -5.477458477020264,
+      -5.4772844314575195,
+      -5.475261211395264,
+      -5.4718828201293945,
+      -5.471109390258789
+    ],
+    "fraction_logits_below_minus12": 0.0,
+    "outputs": [
+      {
+        "min": 0.0041625406593084335,
+        "max": 0.004188941791653633,
+        "mean": 0.00417406689018307,
+        "std": 5.747889374897589e-06
+      },
+      {
+        "min": 0.004162552300840616,
+        "max": 0.004182037431746721,
+        "mean": 0.0041700175634487024,
+        "std": 4.490553420235542e-06
+      }
+    ],
+    "all_gradients_finite": true
+  }
+}

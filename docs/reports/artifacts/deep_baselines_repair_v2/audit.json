@@ -1,0 +1,2200 @@
+{
+  "at": "2026-10-24T17:20:30.414798+08:00",
+  "physical": {
+    "measurements": {
+      "A": {
+        "unit": "ppm_m",
+        "raw": {
+          "min": 0.0,
+          "max": 28154.703125,
+          "mean": 1203.1356556911,
+          "std": 3665.1101329894573
+        },
+        "normalized": {
+          "min": 0.0,
+          "max": 0.8720704913139343,
+          "mean": 0.03726621138506649,
+          "std": 0.11352399731078266
+        },
+        "valid_rays": 14206,
+        "valid_exact_zero": 16,
+        "valid_below_1e_6": 10850,
+        "path_length_m": {
+          "min": 8.932665514294058e-05,
+          "max": 0.7712971568107605,
+          "mean": 0.48219926355322795,
+          "std": 0.19890121164426175
+        },
+        "max_direction_norm_error": 5.960464477539063e-08,
+        "stations": [
+          [
+            10,
+            17,
+            40
+          ],
+          [
+            43,
+            23,
+            25,
+            14
+          ]
+        ]
+      },
+      "B": {
+        "unit": "ppm_m",
+        "raw": {
+          "min": 0.0,
+          "max": 21258.138671875,
+          "mean": 1208.3573758488083,
+          "std": 3653.84852864411
+        },
+        "normalized": {
+          "min": 0.0,
+          "max": 0.6584546566009521,
+          "mean": 0.03742795021529307,
+          "std": 0.11317517778809075
+        },
+        "valid_rays": 21127,
+        "valid_exact_zero": 31,
+        "valid_below_1e_6": 16198,
+        "path_length_m": {
+          "min": 8.932665514294058e-05,
+          "max": 0.8000967502593994,
+          "mean": 0.43964691923700056,
+          "std": 0.22745386817536914
+        },
+        "max_direction_norm_error": 5.960464477539063e-08,
+        "stations": [
+          [
+            1,
+            23,
+            6,
+            28,
+            59
+          ],
+          [
+            46,
+            60,
+            13,
+            55
+          ]
+        ]
+      },
+      "H": {
+        "unit": "ppm_m",
+        "raw": {
+          "min": 1.1368653105668632e-33,
+          "max": 25015.74609375,
+          "mean": 1183.215256409053,
+          "std": 3637.3397347034966
+        },
+        "normalized": {
+          "min": 3.521353739568048e-38,
+          "max": 0.774843692779541,
+          "mean": 0.036649192197139094,
+          "std": 0.11266383045298622
+        },
+        "valid_rays": 8834,
+        "valid_exact_zero": 0,
+        "valid_below_1e_6": 6852,
+        "path_length_m": {
+          "min": 0.0015164724318310618,
+          "max": 0.7264487743377686,
+          "mean": 0.43367355917155564,
+          "std": 0.22553604315115997
+        },
+        "max_direction_norm_error": 5.960464477539063e-08,
+        "stations": [
+          [
+            16,
+            51
+          ],
+          [
+            53,
+            61
+          ]
+        ]
+      }
+    },
+    "zero_relative_l1": [
+      1.0,
+      1.0
+    ],
+    "zero_projection_max": 0.0,
+    "XYZ_numpy_reference_max_abs_ppm_m": 1.8189894035458565e-12,
+    "AD": 72.14384742281123,
+    "FD": 72.14384742285085,
+    "relative_AD_FD_error": 5.491786806678401e-13,
+    "zero_constant_field_loss_derivative": -85.5734703728541,
+    "note": "Constant direction can increase L1 due to valid near-zero rays; a negative gradient on illuminated localized directions is separately checked"
+  },
+  "localized_zero_gradient": {
+    "loss": 0.13440965116024017,
+    "gradient": {
+      "min": -0.0006786943413317204,
+      "max": 0.0,
+      "mean": -0.00016321845797504582,
+      "std": 9.517924628674906e-05
+    },
+    "fraction_negative": 0.9985466003417969,
+    "negative_nodes": 523526,
+    "positive_nodes": 0,
+    "conclusion": "Negative voxel gradient supports increasing illuminated regions; background-positive gradients suppress spatially uniform predictions"
+  },
+  "calibration": {
+    "train_cases": 166,
+    "station_epoch": 0,
+    "branches": [
+      "A",
+      "B"
+    ],
+    "valid_rays": 2977913,
+    "numerator_length_y": 5584229016.382529,
+    "denominator_1e6_length_squared": 739679647543.5016,
+    "mole_fraction": 0.007549523682215568,
+    "mass_fraction": 0.004195626187323315,
+    "output_bias_logit": -5.4695082277569576,
+    "derivation": "argmin_chi sum_valid(y_ppm_m -1e6*path_length_m*chi)^2; then exact mole_to_mass",
+    "uses_GT_statistics": false,
+    "uses_val_statistics": false,
+    "uses_test": false
+  },
+  "models": {
+    "deepsets": {
+      "fresh": {
+        "gradients": {
+          "parts": {
+            "hold": {
+              "loss": 37.163795471191406,
+              "gradient_l2": 14.502055044680164,
+              "groups": {
+                "encoder": 0.31277060657054784,
+                "decoder_latent": 4.1458041839408715,
+                "output": 13.893310719012128
+              },
+              "output_bias_gradient": 13.3544340133667,
+              "output_weight_gradient_l2": 3.8318631131150656
+            },
+            "cross": {
+              "loss": 37.38836669921875,
+              "gradient_l2": 14.591425619016578,
+              "groups": {
+                "encoder": 0.31449215886733006,
+                "decoder_latent": 4.171992418188188,
+                "output": 13.978743703920054
+              },
+              "output_bias_gradient": 13.435375213623047,
+              "output_weight_gradient_l2": 3.859529557996417
+            },
+            "observed": {
+              "loss": 37.388370513916016,
+              "gradient_l2": 14.591431580637614,
+              "groups": {
+                "encoder": 0.31452885956900956,
+                "decoder_latent": 4.171997384292117,
+                "output": 13.978747618953088
+              },
+              "output_bias_gradient": 13.43537712097168,
+              "output_weight_gradient_l2": 3.8595370981061174
+            },
+            "consistency": {
+              "loss": 6.566475349245593e-05,
+              "gradient_l2": 0.0013054923100012828,
+              "groups": {
+                "encoder": 0.0010354682853302337,
+                "decoder_latent": 0.000661174176531674,
+                "output": 0.0004415476303134397
+              },
+              "output_bias_gradient": -3.2729825761634856e-05,
+              "output_weight_gradient_l2": 0.0004403329062664146
+            },
+            "total": {
+              "loss": 59.59682083129883,
+              "gradient_l2": 23.25688418633245,
+              "groups": {
+                "encoder": 0.501472197759524,
+                "decoder_latent": 6.648941468153957,
+                "output": 22.280546785131133
+              },
+              "output_bias_gradient": 21.415658950805664,
+              "output_weight_gradient_l2": 6.14754558724004
+            }
+          },
+          "pairwise_gradient_cosines": {
+            "hold__observed": 0.9999954700469971,
+            "cross__hold": 0.9999954104423523,
+            "cross__observed": 1.0000001192092896,
+            "consistency__hold": -0.03714114800095558,
+            "consistency__cross": -0.037233270704746246,
+            "consistency__observed": -0.037241484969854355
+          },
+          "weighted_gradient_norms": {
+            "hold": 14.502055044680164,
+            "cross": 7.295712809508289,
+            "observed": 1.4591431580637615,
+            "consistency": 6.527461550006414e-05
+          },
+          "logits_quantiles": [
+            -0.0868934616446495,
+            -0.05903020408004522,
+            -0.007027320796623826,
+            0.04586798883974552,
+            0.0822601318359375
+          ],
+          "fraction_logits_below_minus12": 0.0,
+          "outputs": [
+            {
+              "min": 0.47829028964042664,
+              "max": 0.5205340385437012,
+              "mean": 0.4982689194487193,
+              "std": 0.005708284470710534
+            },
+            {
+              "min": 0.4782944917678833,
+              "max": 0.520553469657898,
+              "mean": 0.4982797494433271,
+              "std": 0.005707998157604805
+            }
+          ],
+          "all_gradients_finite": true
+        },
+        "health": {
+          "min": 0.47829028964042664,
+          "max": 0.5205340385437012,
+          "mean": 0.4982689194487193,
+          "std": 0.005708284470710534,
+          "relative_measurement_zero_change": 9.171773172056419e-07,
+          "relative_measurement_half_change": 4.411203349263815e-07,
+          "case_relative_difference": 5.056610825704411e-05,
+          "fraction_below_1e_10": 0.0,
+          "fraction_above_0999": 0.0,
+          "sigmoid_derivative_mean": 0.2499644160270691
+        }
+      },
+      "failed": {
+        "gradients": {
+          "parts": {
+            "hold": {
+              "loss": 0.13440965116024017,
+              "gradient_l2": 1.0999276219786169e-13,
+              "groups": {
+                "encoder": 3.941688840668144e-14,
+                "decoder_latent": 4.295685794209102e-14,
+                "output": 9.327070815638524e-14
+              },
+              "output_bias_gradient": 1.1732448169997182e-15,
+              "output_weight_gradient_l2": 9.326332878786265e-14
+            },
+            "cross": {
+              "loss": 0.13735413551330566,
+              "gradient_l2": 2.026275476084879e-13,
+              "groups": {
+                "encoder": 7.37094440113472e-14,
+                "decoder_latent": 7.099040950621428e-14,
+                "output": 1.748862563825646e-13
+              },
+              "output_bias_gradient": 2.3175547767629928e-15,
+              "output_weight_gradient_l2": 1.7487089984146825e-13
+            },
+            "observed": {
+              "loss": 0.13735413551330566,
+              "gradient_l2": 1.775485025817648e-13,
+              "groups": {
+                "encoder": 6.442341500898254e-14,
+                "decoder_latent": 6.379166276553346e-14,
+                "output": 1.5265555387608993e-13
+              },
+              "output_bias_gradient": 2.007804145314515e-15,
+              "output_weight_gradient_l2": 1.52642349470027e-13
+            },
+            "consistency": {
+              "loss": 2.0782056076029676e-09,
+              "gradient_l2": 1.6856287482317496e-07,
+              "groups": {
+                "encoder": 6.279691626996845e-08,
+                "decoder_latent": 5.544738821515292e-08,
+                "output": 1.462722708367996e-07
+              },
+              "output_bias_gradient": 2.0782058296475725e-09,
+              "output_weight_gradient_l2": 1.462575067348123e-07
+            },
+            "total": {
+              "loss": 0.21682213246822357,
+              "gradient_l2": 8.428368041559763e-09,
+              "groups": {
+                "encoder": 3.1399275528793193e-09,
+                "decoder_latent": 2.7724436096566635e-09,
+                "output": 7.3138088051253554e-09
+              },
+              "output_bias_gradient": 1.0391279503529915e-10,
+              "output_weight_gradient_l2": 7.313070584163477e-09
+            }
+          },
+          "pairwise_gradient_cosines": {
+            "hold__observed": 0.9817169308662415,
+            "cross__hold": 0.9881077408790588,
+            "cross__observed": 0.9986402988433838,
+            "consistency__hold": 0.9709148406982422,
+            "consistency__cross": 0.9907371401786804,
+            "consistency__observed": 0.9869978427886963
+          },
+          "weighted_gradient_norms": {
+            "hold": 1.0999276219786169e-13,
+            "cross": 1.0131377380424395e-13,
+            "observed": 1.775485025817648e-14,
+            "consistency": 8.428143741158748e-09
+          },
+          "logits_quantiles": [
+            -40.763145446777344,
+            -39.82944202423096,
+            -36.514360427856445,
+            -32.58773326873779,
+            -31.70756721496582
+          ],
+          "fraction_logits_below_minus12": 1.0,
+          "outputs": [
+            {
+              "min": 1.9805731345561427e-18,
+              "max": 1.2461020383204417e-15,
+              "mean": 1.6702982516547926e-16,
+              "std": 1.7229181028085076e-16
+            },
+            {
+              "min": 1.552845484430485e-17,
+              "max": 1.6965963207352282e-14,
+              "mean": 2.2452356035107712e-15,
+              "std": 2.3670135630731287e-15
+            }
+          ],
+          "all_gradients_finite": true
+        },
+        "health": {
+          "min": 1.9805731345561427e-18,
+          "max": 1.2461020383204417e-15,
+          "mean": 1.6702982516547926e-16,
+          "std": 1.7229181028085076e-16,
+          "relative_measurement_zero_change": 0.005645583383738995,
+          "relative_measurement_half_change": 0.002794932806864381,
+          "case_relative_difference": 0.2707417607307434,
+          "fraction_below_1e_10": 1.0,
+          "fraction_above_0999": 0.0,
+          "sigmoid_derivative_mean": 1.670298282357543e-16
+        }
+      }
+    },
+    "gnot": {
+      "fresh": {
+        "gradients": {
+          "parts": {
+            "hold": {
+              "loss": 29.028841018676758,
+              "gradient_l2": 301.50923517639643,
+              "groups": {
+                "encoder": 93.36652021681803,
+                "decoder_latent": 279.3004335087861,
+                "output": 64.66668107350327
+              },
+              "output_bias_gradient": 14.469649314880371,
+              "output_weight_gradient_l2": 63.0270488740078
+            },
+            "cross": {
+              "loss": 29.24036407470703,
+              "gradient_l2": 303.190657387203,
+              "groups": {
+                "encoder": 93.73768629101018,
+                "decoder_latent": 280.89566762298045,
+                "output": 65.08029506949487
+              },
+              "output_bias_gradient": 14.556998252868652,
+              "output_weight_gradient_l2": 63.431369275765256
+            },
+            "observed": {
+              "loss": 29.250333786010742,
+              "gradient_l2": 303.1992214860391,
+              "groups": {
+                "encoder": 93.75406234197114,
+                "decoder_latent": 280.9051286853013,
+                "output": 65.0557636371471
+              },
+              "output_bias_gradient": 14.556081771850586,
+              "output_weight_gradient_l2": 63.406410289997886
+            },
+            "consistency": {
+              "loss": 0.061492789536714554,
+              "gradient_l2": 2.1072476379392002,
+              "groups": {
+                "encoder": 0.8316253623869684,
+                "decoder_latent": 1.8839690057587024,
+                "output": 0.4467131625278675
+              },
+              "output_bias_gradient": -0.02273646369576454,
+              "output_weight_gradient_l2": 0.4461341757748001
+            },
+            "total": {
+              "loss": 46.57713317871094,
+              "gradient_l2": 483.404307893528,
+              "groups": {
+                "encoder": 149.6058088685519,
+                "decoder_latent": 447.82102284370916,
+                "output": 103.70225813366419
+              },
+              "output_bias_gradient": 23.202619552612305,
+              "output_weight_gradient_l2": 101.07322488135942
+            }
+          },
+          "pairwise_gradient_cosines": {
+            "hold__observed": 0.9999821186065674,
+            "cross__hold": 0.9999837875366211,
+            "cross__observed": 0.9999989867210388,
+            "consistency__hold": -0.17414020001888275,
+            "consistency__cross": -0.17297111451625824,
+            "consistency__observed": -0.1719600409269333
+          },
+          "weighted_gradient_norms": {
+            "hold": 301.50923517639643,
+            "cross": 151.5953286936015,
+            "observed": 30.31992214860391,
+            "consistency": 0.10536238189696001
+          },
+          "logits_quantiles": [
+            -0.7950538396835327,
+            -0.7776435911655426,
+            -0.5753258466720581,
+            -0.23745009675621986,
+            -0.16011816263198853
+          ],
+          "fraction_logits_below_minus12": 0.0,
+          "outputs": [
+            {
+              "min": 0.3110845386981964,
+              "max": 0.46005576848983765,
+              "mean": 0.3740049937779304,
+              "std": 0.03237134414265292
+            },
+            {
+              "min": 0.3111538589000702,
+              "max": 0.4192649722099304,
+              "mean": 0.35133863973703683,
+              "std": 0.02473199636681519
+            }
+          ],
+          "all_gradients_finite": true
+        },
+        "health": {
+          "min": 0.3110845386981964,
+          "max": 0.46005576848983765,
+          "mean": 0.3740049937779304,
+          "std": 0.03237134414265292,
+          "relative_measurement_zero_change": 0.001047504018060863,
+          "relative_measurement_half_change": 0.0005247771623544395,
+          "case_relative_difference": 0.10836876928806305,
+          "fraction_below_1e_10": 0.0,
+          "fraction_above_0999": 0.0,
+          "sigmoid_derivative_mean": 0.23307734727859497
+        }
+      },
+      "failed": {
+        "gradients": {
+          "parts": {
+            "hold": {
+              "loss": 0.13440965116024017,
+              "gradient_l2": 2.4129091426542138e-08,
+              "groups": {
+                "encoder": 9.551916486015267e-10,
+                "decoder_latent": 1.1332267764571692e-08,
+                "output": 2.1280986097850837e-08
+              },
+              "output_bias_gradient": 3.877596022050511e-10,
+              "output_weight_gradient_l2": 2.1277453132078997e-08
+            },
+            "cross": {
+              "loss": 0.13735413551330566,
+              "gradient_l2": 2.4031388005474863e-08,
+              "groups": {
+                "encoder": 9.493059290684517e-10,
+                "decoder_latent": 1.1285701171799686e-08,
+                "output": 2.1195267792211448e-08
+              },
+              "output_bias_gradient": 3.8623323983522084e-10,
+              "output_weight_gradient_l2": 2.1191748409888277e-08
+            },
+            "observed": {
+              "loss": 0.13735413551330566,
+              "gradient_l2": 2.403122336331259e-08,
+              "groups": {
+                "encoder": 9.494320232913268e-10,
+                "decoder_latent": 1.1285699887902738e-08,
+                "output": 2.1195076154870544e-08
+              },
+              "output_bias_gradient": 3.862289377210004e-10,
+              "output_weight_gradient_l2": 2.119155681913032e-08
+            },
+            "consistency": {
+              "loss": 2.215754246748247e-09,
+              "gradient_l2": 2.6420002000473383e-06,
+              "groups": {
+                "encoder": 1.974616910288662e-06,
+                "decoder_latent": 1.705621938660378e-06,
+                "output": 4.1461659037313787e-07
+              },
+              "output_bias_gradient": 2.215209349287761e-09,
+              "output_weight_gradient_l2": 4.146106726317899e-07
+            },
+            "total": {
+              "loss": 0.21682213246822357,
+              "gradient_l2": 1.409220345923348e-07,
+              "groups": {
+                "encoder": 9.888327315212704e-08,
+                "decoder_latent": 8.930436282927672e-08,
+                "output": 4.588952935062573e-08
+              },
+              "output_bias_gradient": 7.302669580155907e-10,
+              "output_weight_gradient_l2": 4.588371839979811e-08
+            }
+          },
+          "pairwise_gradient_cosines": {
+            "hold__observed": 0.9999983310699463,
+            "cross__hold": 0.9999985098838806,
+            "cross__observed": 0.9999998807907104,
+            "consistency__hold": 0.0906914621591568,
+            "consistency__cross": 0.09042301774024963,
+            "consistency__observed": 0.09052679687738419
+          },
+          "weighted_gradient_norms": {
+            "hold": 2.4129091426542138e-08,
+            "cross": 1.2015694002737432e-08,
+            "observed": 2.403122336331259e-09,
+            "consistency": 1.321000100023669e-07
+          },
+          "logits_quantiles": [
+            -25.226543426513672,
+            -25.199024200439453,
+            -25.0877742767334,
+            -24.974864959716797,
+            -24.921361923217773
+          ],
+          "fraction_logits_below_minus12": 1.0,
+          "outputs": [
+            {
+              "min": 1.1073955120954881e-11,
+              "max": 1.502415379606159e-11,
+              "mean": 1.2727801667830143e-11,
+              "std": 7.218269228030285e-13
+            },
+            {
+              "min": 1.1072645404730519e-11,
+              "max": 1.5020573326807174e-11,
+              "mean": 1.2726959482917321e-11,
+              "std": 7.219064358839289e-13
+            }
+          ],
+          "all_gradients_finite": true
+        },
+        "health": {
+          "min": 1.1073955120954881e-11,
+          "max": 1.502415379606159e-11,
+          "mean": 1.2727801667830143e-11,
+          "std": 7.218269228030285e-13,
+          "relative_measurement_zero_change": 0.00016073454753495753,
+          "relative_measurement_half_change": 9.188253170577809e-05,
+          "case_relative_difference": 0.00021927844500169158,
+          "fraction_below_1e_10": 1.0,
+          "fraction_above_0999": 0.0,
+          "sigmoid_derivative_mean": 1.272780145167296e-11
+        }
+      }
+    }
+  },
+  "historical_training_trajectories": {
+    "deepsets": [
+      {
+        "epoch": 1,
+        "train": {
+          "loss": {
+            "total": 21.259984457708267,
+            "hold": 13.281146472656584,
+            "cross": 13.278134359293674,
+            "observed": 13.277672075722592,
+            "consistency": 0.24007430912533015
+          },
+          "measurement": {
+            "heldout": {
+              "relative_l1": 80.9175759986833,
+              "relative_l2": 30.511780187567144
+            },
+            "cross": {
+              "relative_l1": 80.91735831496244,
+              "relative_l2": 30.633631570378384
+            },
+            "observed": {
+              "relative_l1": 80.90879507940484,
+              "relative_l2": 30.623963111906615
+            }
+          },
+          "output": {
+            "min": 2.4262084252768545e-07,
+            "max": 0.5205287337303162,
+            "mean": 0.28211958350165905,
+            "std": 0.2034093053079554,
+            "fraction_near_one": 0.0,
+            "case_to_case_mean_absolute_difference": 0.0018402300109820707
+          },
+          "gradient_norm_max": 115.66519165039062,
+          "case_station_digest": "2a5ab466d172e66ef262ebd86e5c7409860b27ac0799a9725155d61bebe31386",
+          "sample_count": 166,
+          "gt_used": false,
+          "seconds": 14.120596093125641
+        },
+        "val": {
+          "loss": {
+            "total": 0.3348170651329888,
+            "hold": 0.1876992964082294,
+            "cross": 0.1871541010008918,
+            "observed": 0.18715455383062363,
+            "consistency": 0.6965052597224712
+          },
+          "measurement": {
+            "heldout": {
+              "relative_l1": 1.0006233832232807,
+              "relative_l2": 0.9997598236052584
+            },
+            "cross": {
+              "relative_l1": 1.000627531562958,
+              "relative_l2": 0.9997611402103703
+            },
+            "observed": {
+              "relative_l1": 1.0006354976089606,
+              "relative_l2": 0.9997689946622046
+            }
+          },
+          "output": {
+            "min": 5.797147295538707e-08,
+            "max": 7.730303332209587e-05,
+            "mean": 3.3573142811999587e-06,
+            "std": 5.283560526209758e-06,
+            "fraction_near_one": 0.0,
+            "case_to_case_mean_absolute_difference": 3.9744156247983094e-06
+          },
+          "gradient_norm_max": 0.0,
+          "case_station_digest": "8ee6f530b867b124624aa6ad2f4830f3deecd56744882c7f471ef8235d7b44ef",
+          "sample_count": 36,
+          "gt_used": false,
+          "seconds": 1.5177802448160946
+        },
+        "learning_rate": 0.0002,
+        "seconds": 15.641378317028284,
+        "peak_allocated_bytes": 686269440,
+        "loader_rng_sha256": "b78ff6bb125357f6e5e32447cae013dbd4c0b87b1f46dca2d59f39fd2018210c"
+      },
+      {
+        "epoch": 2,
+        "train": {
+          "loss": {
+            "total": 0.3115256863186158,
+            "hold": 0.19244311543473278,
+            "cross": 0.1924405677849988,
+            "observed": 0.19244029130562243,
+            "consistency": 0.07236518717066916
+          },
+          "measurement": {
+            "heldout": {
+              "relative_l1": 1.0000159917349831,
+              "relative_l2": 0.9999717375431201
+            },
+            "cross": {
+              "relative_l1": 1.00002025314294,
+              "relative_l2": 0.9999740268837475
+            },
+            "observed": {
+              "relative_l1": 1.000019375331609,
+              "relative_l2": 0.9999741042848266
+            }
+          },
+          "output": {
+            "min": 5.420957194419984e-13,
+            "max": 0.00011620244185905904,
+            "mean": 3.7986962362300404e-07,
+            "std": 2.859323344238499e-06,
+            "fraction_near_one": 0.0,
+            "case_to_case_mean_absolute_difference": 6.657856023447753e-06
+          },
+          "gradient_norm_max": 0.45198938250541687,
+          "case_station_digest": "3eb388067ed098d1801e052b6b3ef5a0d539872d3f0b32cba83a4d7fd11f64c7",
+          "sample_count": 166,
+          "gt_used": false,
+          "seconds": 13.96123244613409
+        },
+        "val": {
+          "loss": {
+            "total": 0.29995574553807575,
+            "hold": 0.187664941781097,
+            "cross": 0.18711918426884544,
+            "observed": 0.18711918344100317,
+            "consistency": 0.0003858897630885218
+          },
+          "measurement": {
+            "heldout": {
+              "relative_l1": 1.00000003251989,
+              "relative_l2": 0.9999999832597598
+            },
+            "cross": {
+              "relative_l1": 1.0000000330479815,
+              "relative_l2": 0.9999999832915315
+            },
+            "observed": {
+              "relative_l1": 1.0000000315446556,
+              "relative_l2": 0.9999999838930206
+            }
+          },
+          "output": {
+            "min": 3.090901558137904e-13,
+            "max": 9.702355363572224e-09,
+            "mean": 2.3482120364664e-10,
+            "std": 5.423001595148442e-10,
+            "fraction_near_one": 0.0,
+            "case_to_case_mean_absolute_difference": 1.6136073194383023e-10
+          },
+          "gradient_norm_max": 0.0,
+          "case_station_digest": "8ee6f530b867b124624aa6ad2f4830f3deecd56744882c7f471ef8235d7b44ef",
+          "sample_count": 36,
+          "gt_used": false,
+          "seconds": 1.3553961869329214
+        },
+        "learning_rate": 0.00019999451693655123,
+        "seconds": 15.318975419737399,
+        "peak_allocated_bytes": 667557376,
+        "loader_rng_sha256": "8da853be0e3ccc339764b0f99da68a3b4bad11c5c6940fbff3fdddce8e7eb7ca"
+      },
+      {
+        "epoch": 3,
+        "train": {
+          "loss": {
+            "total": 0.30786444569926663,
+            "hold": 0.1924887777092945,
+            "cross": 0.1922636536589588,
+            "observed": 0.1922636527612985,
+            "consistency": 0.0003495073116488151
+          },
+          "measurement": {
+            "heldout": {
+              "relative_l1": 1.000000035378535,
+              "relative_l2": 0.9999999846003657
+            },
+            "cross": {
+              "relative_l1": 1.0000000348041647,
+              "relative_l2": 0.9999999845948113
+            },
+            "observed": {
+              "relative_l1": 1.0000000326046372,
+              "relative_l2": 0.9999999847213662
+            }
+          },
+          "output": {
+            "min": 2.999829930901837e-13,
+            "max": 2.423580625077193e-08,
+            "mean": 2.2919282469671305e-10,
+            "std": 6.505607463364812e-10,
+            "fraction_near_one": 0.0,
+            "case_to_case_mean_absolute_difference": 1.3013345361618482e-10
+          },
+          "gradient_norm_max": 0.013578280806541443,
+          "case_station_digest": "03d077f297c7c1df56b8675b8f9a30188a656db12d7c5b04d9dc9cee283a9875",
+          "sample_count": 166,
+          "gt_used": false,
+          "seconds": 13.706959523260593
+        },
+        "val": {
+          "loss": {
+            "total": 0.2999514796667629,
+            "hold": 0.187664941781097,
+            "cross": 0.18711918261316088,
+            "observed": 0.18711918344100317,
+            "consistency": 0.00030057283465288894
+          },
+          "measurement": {
+            "heldout": {
+              "relative_l1": 1.0000000250365186,
+              "relative_l2": 0.9999999870180069
+            },
+            "cross": {
+              "relative_l1": 1.0000000254746428,
+              "relative_l2": 0.99999998704267
+            },
+            "observed": {
+              "relative_l1": 1.0000000242310536,
+              "relative_l2": 0.9999999875084846
+            }
+          },
+          "output": {
+            "min": 2.2407432625961426e-13,
+            "max": 7.699798132421165e-09,
+            "mean": 1.8212338373121808e-10,
+            "std": 4.2456979996321936e-10,
+            "fraction_near_one": 0.0,
+            "case_to_case_mean_absolute_difference": 1.2337820274361492e-10
+          },
+          "gradient_norm_max": 0.0,
+          "case_station_digest": "8ee6f530b867b124624aa6ad2f4830f3deecd56744882c7f471ef8235d7b44ef",
+          "sample_count": 36,
+          "gt_used": false,
+          "seconds": 1.3024408807978034
+        },
+        "learning_rate": 0.00019997806834748456,
+        "seconds": 15.012235085014254,
+        "peak_allocated_bytes": 686372864,
+        "loader_rng_sha256": "e400cd01c4025e9401c3806291188945bc3b8c852d6c4c36d6bd35e194d7adab"
+      },
+      {
+        "epoch": 5,
+        "train": {
+          "loss": {
+            "total": 0.3078716688127403,
+            "hold": 0.19251624198563128,
+            "cross": 0.19221549436270471,
+            "observed": 0.19221549274691616,
+            "consistency": 0.0005225874724930187
+          },
+          "measurement": {
+            "heldout": {
+              "relative_l1": 1.0000000140726433,
+              "relative_l2": 0.9999999805795927
+            },
+            "cross": {
+              "relative_l1": 1.0000000117505656,
+              "relative_l2": 0.9999999789947014
+            },
+            "observed": {
+              "relative_l1": 1.0000000124981516,
+              "relative_l2": 0.9999999793265201
+            }
+          },
+          "output": {
+            "min": 7.745824923306721e-14,
+            "max": 1.4064090692045284e-07,
+            "mean": 2.844729499239371e-10,
+            "std": 2.3207609009602434e-09,
+            "fraction_near_one": 0.0,
+            "case_to_case_mean_absolute_difference": 4.056031038069238e-11
+          },
+          "gradient_norm_max": 0.04262135177850723,
+          "case_station_digest": "2c8dd85c72027d469cca9dad5a186070f6d11f43adf9913e028e07357023f9ce",
+          "sample_count": 166,
+          "gt_used": false,
+          "seconds": 13.173663484863937
+        },
+        "val": {
+          "loss": {
+            "total": 0.2999434736039903,
+            "hold": 0.1876649401254124,
+            "cross": 0.18711918261316088,
+            "observed": 0.18711918344100317,
+            "consistency": 0.00014043976631859955
+          },
+          "measurement": {
+            "heldout": {
+              "relative_l1": 1.0000000113052896,
+              "relative_l2": 0.9999999939985772
+            },
+            "cross": {
+              "relative_l1": 1.0000000115361778,
+              "relative_l2": 0.9999999940098461
+            },
+            "observed": {
+              "relative_l1": 1.0000000108387814,
+              "relative_l2": 0.9999999942228855
+            }
+          },
+          "output": {
+            "min": 8.712985438393342e-14,
+            "max": 3.7973739708263565e-09,
+            "mean": 8.423525206832957e-11,
+            "std": 2.0126487036545836e-10,
+            "fraction_near_one": 0.0,
+            "case_to_case_mean_absolute_difference": 5.479559681742122e-11
+          },
+          "gradient_norm_max": 0.0,
+          "case_station_digest": "8ee6f530b867b124624aa6ad2f4830f3deecd56744882c7f471ef8235d7b44ef",
+          "sample_count": 36,
+          "gt_used": false,
+          "seconds": 1.3515067282132804
+        },
+        "learning_rate": 0.00019991228300988585,
+        "seconds": 14.527106683701277,
+        "peak_allocated_bytes": 668081152,
+        "loader_rng_sha256": "62608a5b0ee4bea3b2635968b51ef9561e74654c80103852d8deb3da7e98872f"
+      },
+      {
+        "epoch": 10,
+        "train": {
+          "loss": {
+            "total": 0.30857613610934065,
+            "hold": 0.1929238828190838,
+            "cross": 0.1927369073571929,
+            "observed": 0.19273690663906465,
+            "consistency": 0.00020221495104025567
+          },
+          "measurement": {
+            "heldout": {
+              "relative_l1": 1.0000000192551186,
+              "relative_l2": 0.9999999933701127
+            },
+            "cross": {
+              "relative_l1": 1.0000000215777114,
+              "relative_l2": 0.999999993537648
+            },
+            "observed": {
+              "relative_l1": 1.0000000176938113,
+              "relative_l2": 0.9999999932114064
+            }
+          },
+          "output": {
+            "min": 2.349276711209082e-14,
+            "max": 5.3012353617987173e-08,
+            "mean": 1.071984671410768e-10,
+            "std": 8.868843272083821e-10,
+            "fraction_near_one": 0.0,
+            "case_to_case_mean_absolute_difference": 8.538685099574998e-10
+          },
+          "gradient_norm_max": 0.017445895820856094,
+          "case_station_digest": "b0369711200c898fff061fcd81c6240eac6dce522fa816dd9903c8520a875a15",
+          "sample_count": 166,
+          "gt_used": false,
+          "seconds": 13.582476747222245
+        },
+        "val": {
+          "loss": {
+            "total": 0.29993823915719986,
+            "hold": 0.1876649409532547,
+            "cross": 0.18711917930179173,
+            "observed": 0.18711917930179173,
+            "consistency": 3.579208731076101e-05
+          },
+          "measurement": {
+            "heldout": {
+              "relative_l1": 1.0000000026612887,
+              "relative_l2": 0.9999999984945551
+            },
+            "cross": {
+              "relative_l1": 1.0000000027335652,
+              "relative_l2": 0.9999999984967691
+            },
+            "observed": {
+              "relative_l1": 1.0000000024833409,
+              "relative_l2": 0.9999999985463811
+            }
+          },
+          "output": {
+            "min": 1.6600756481814118e-14,
+            "max": 1.1068476135633887e-09,
+            "mean": 2.1186751966800007e-11,
+            "std": 5.317392835193216e-11,
+            "fraction_near_one": 0.0,
+            "case_to_case_mean_absolute_difference": 1.2423013386846688e-11
+          },
+          "gradient_norm_max": 0.0,
+          "case_station_digest": "8ee6f530b867b124624aa6ad2f4830f3deecd56744882c7f471ef8235d7b44ef",
+          "sample_count": 36,
+          "gt_used": false,
+          "seconds": 1.355846269056201
+        },
+        "learning_rate": 0.000199556196460308,
+        "seconds": 14.940398112870753,
+        "peak_allocated_bytes": 680895488,
+        "loader_rng_sha256": "d17e99d0c6c953124ec45301de36a74a424bf98eed55c1e7618e92e40449c761"
+      },
+      {
+        "epoch": 25,
+        "train": {
+          "loss": {
+            "total": 0.30849639568702286,
+            "hold": 0.1930769409939467,
+            "cross": 0.19236385095191288,
+            "observed": 0.19236385086214686,
+            "consistency": 2.2913342151760648e-05
+          },
+          "measurement": {
+            "heldout": {
+              "relative_l1": 1.0000000048952966,
+              "relative_l2": 0.9999999992372423
+            },
+            "cross": {
+              "relative_l1": 1.0000000049248066,
+              "relative_l2": 0.999999999241909
+            },
+            "observed": {
+              "relative_l1": 1.000000004379358,
+              "relative_l2": 0.9999999992971214
+            }
+          },
+          "output": {
+            "min": 8.757896099344654e-16,
+            "max": 5.582433182382829e-09,
+            "mean": 1.1889050182280744e-11,
+            "std": 1.1233961750990993e-10,
+            "fraction_near_one": 0.0,
+            "case_to_case_mean_absolute_difference": 1.8043334683502466e-12
+          },
+          "gradient_norm_max": 0.002050253329798579,
+          "case_station_digest": "5ba74c091350e351e8c3ea1dea386c7a6553d492a6ec2ad3bf66ef3b6c8a965e",
+          "sample_count": 166,
+          "gt_used": false,
+          "seconds": 13.705082279164344
+        },
+        "val": {
+          "loss": {
+            "total": 0.2999367316563924,
+            "hold": 0.1876649409532547,
+            "cross": 0.18711917930179173,
+            "observed": 0.18711917930179173,
+            "consistency": 5.6883303223287385e-06
+          },
+          "measurement": {
+            "heldout": {
+              "relative_l1": 1.0000000003692615,
+              "relative_l2": 0.9999999997654473
+            },
+            "cross": {
+              "relative_l1": 1.0000000003835525,
+              "relative_l2": 0.999999999765635
+            },
+            "observed": {
+              "relative_l1": 1.000000000322795,
+              "relative_l2": 0.9999999997720957
+            }
+          },
+          "output": {
+            "min": 1.8098476751017382e-15,
+            "max": 2.1455459631170015e-10,
+            "mean": 3.317912717596927e-12,
+            "std": 9.070205529756174e-12,
+            "fraction_near_one": 0.0,
+            "case_to_case_mean_absolute_difference": 1.6394765590694443e-12
+          },
+          "gradient_norm_max": 0.0,
+          "case_station_digest": "8ee6f530b867b124624aa6ad2f4830f3deecd56744882c7f471ef8235d7b44ef",
+          "sample_count": 36,
+          "gt_used": false,
+          "seconds": 1.431483430787921
+        },
+        "learning_rate": 0.00019685831611286308,
+        "seconds": 15.139034717809409,
+        "peak_allocated_bytes": 686564352,
+        "loader_rng_sha256": "bf28f00f85aa12ae82345282f5b3f0c74acc5ebd58a3510b89a6c15ab56fd112"
+      },
+      {
+        "epoch": 100,
+        "train": {
+          "loss": {
+            "total": 0.3078032437577305,
+            "hold": 0.1926166594746601,
+            "cross": 0.19197763026837844,
+            "observed": 0.19197763026837844,
+            "consistency": 2.1682048418193928e-07
+          },
+          "measurement": {
+            "heldout": {
+              "relative_l1": 1.0000000000251656,
+              "relative_l2": 0.9999999999915025
+            },
+            "cross": {
+              "relative_l1": 1.0000000000234128,
+              "relative_l2": 0.9999999999909417
+            },
+            "observed": {
+              "relative_l1": 1.0000000000224778,
+              "relative_l2": 0.9999999999916497
+            }
+          },
+          "output": {
+            "min": 3.100040994404988e-17,
+            "max": 2.778914945378297e-11,
+            "mean": 1.2452657389908e-13,
+            "std": 5.744764557664725e-13,
+            "fraction_near_one": 0.0,
+            "case_to_case_mean_absolute_difference": 2.1531254678646705e-14
+          },
+          "gradient_norm_max": 1.2247221093275584e-05,
+          "case_station_digest": "b69f41f7baa9fa5a120aaafa7f7ea1837d17ede5e1355334148032da3c79f80f",
+          "sample_count": 166,
+          "gt_used": false,
+          "seconds": 13.920850234106183
+        },
+        "val": {
+          "loss": {
+            "total": 0.2999364584684372,
+            "hold": 0.1876649409532547,
+            "cross": 0.18711917930179173,
+            "observed": 0.18711917930179173,
+            "consistency": 1.9413821637318898e-07
+          },
+          "measurement": {
+            "heldout": {
+              "relative_l1": 1.000000000009388,
+              "relative_l2": 0.9999999999922766
+            },
+            "cross": {
+              "relative_l1": 1.0000000000102094,
+              "relative_l2": 0.9999999999922787
+            },
+            "observed": {
+              "relative_l1": 1.0000000000063034,
+              "relative_l2": 0.999999999992414
+            }
+          },
+          "output": {
+            "min": 2.948627237638381e-17,
+            "max": 9.837494534259417e-12,
+            "mean": 1.1015586485879558e-13,
+            "std": 3.606632113832714e-13,
+            "fraction_near_one": 0.0,
+            "case_to_case_mean_absolute_difference": 3.945599704637394e-14
+          },
+          "gradient_norm_max": 0.0,
+          "case_station_digest": "8ee6f530b867b124624aa6ad2f4830f3deecd56744882c7f471ef8235d7b44ef",
+          "sample_count": 36,
+          "gt_used": false,
+          "seconds": 1.3167490041814744
+        },
+        "learning_rate": 0.00015090414157503722,
+        "seconds": 15.239698333665729,
+        "peak_allocated_bytes": 678752768,
+        "loader_rng_sha256": "d9fcb2c43a3604169ff58627bc11c628723aa498828848e4329a16b45b8815a4"
+      },
+      {
+        "epoch": 300,
+        "train": {
+          "loss": {
+            "total": 0.3078754258802138,
+            "hold": 0.1923210139734199,
+            "cross": 0.19259068459631448,
+            "observed": 0.19259068459631448,
+            "consistency": 3.04837979163762e-09
+          },
+          "measurement": {
+            "heldout": {
+              "relative_l1": 1.0000000000001066,
+              "relative_l2": 0.9999999999998768
+            },
+            "cross": {
+              "relative_l1": 1.0000000000001477,
+              "relative_l2": 0.9999999999998873
+            },
+            "observed": {
+              "relative_l1": 1.0000000000001086,
+              "relative_l2": 0.9999999999998781
+            }
+          },
+          "output": {
+            "min": 3.0547233953132056e-20,
+            "max": 5.067480723236484e-13,
+            "mean": 1.6381087474305528e-15,
+            "std": 1.0080454877903564e-14,
+            "fraction_near_one": 0.0,
+            "case_to_case_mean_absolute_difference": 3.857081545736534e-14
+          },
+          "gradient_norm_max": 2.420350426746154e-07,
+          "case_station_digest": "5caf89ff4d1665d6c4a01ad2ca3d62072c5dcc9c09fa6f74ff4be0cc860942be",
+          "sample_count": 166,
+          "gt_used": false,
+          "seconds": 13.642943605780602
+        },
+        "val": {
+          "loss": {
+            "total": 0.299936449362172,
+            "hold": 0.1876649409532547,
+            "cross": 0.18711917930179173,
+            "observed": 0.18711917930179173,
+            "consistency": 1.7158268639335457e-09
+          },
+          "measurement": {
+            "heldout": {
+              "relative_l1": 1.0000000000000386,
+              "relative_l2": 0.9999999999999347
+            },
+            "cross": {
+              "relative_l1": 1.0000000000000517,
+              "relative_l2": 0.9999999999999347
+            },
+            "observed": {
+              "relative_l1": 0.9999999999999853,
+              "relative_l2": 0.9999999999999347
+            }
+          },
+          "output": {
+            "min": 9.312085265983157e-20,
+            "max": 1.255895750893951e-13,
+            "mean": 9.427722345223614e-16,
+            "std": 4.104233403925402e-15,
+            "fraction_near_one": 0.0,
+            "case_to_case_mean_absolute_difference": 1.953411390011567e-16
+          },
+          "gradient_norm_max": 0.0,
+          "case_station_digest": "8ee6f530b867b124624aa6ad2f4830f3deecd56744882c7f471ef8235d7b44ef",
+          "sample_count": 36,
+          "gt_used": false,
+          "seconds": 1.4247106928378344
+        },
+        "learning_rate": 5.483063448785682e-09,
+        "seconds": 15.069459738675505,
+        "peak_allocated_bytes": 682917888,
+        "loader_rng_sha256": "da5a4d3ec4bb2d82ac9d5fedb33d1959fcf5d2d71860b2901e2f58671e399359"
+      }
+    ],
+    "gnot": [
+      {
+        "epoch": 1,
+        "train": {
+          "loss": {
+            "total": 0.9502830900341631,
+            "hold": 0.5958886399685618,
+            "cross": 0.588992835527443,
+            "observed": 0.5892255525273012,
+            "consistency": 0.019509582983677734
+          },
+          "measurement": {
+            "heldout": {
+              "relative_l1": 3.125400221611802,
+              "relative_l2": 1.884070501475623
+            },
+            "cross": {
+              "relative_l1": 3.1231454357242407,
+              "relative_l2": 1.9074253158341055
+            },
+            "observed": {
+              "relative_l1": 3.1225299265629864,
+              "relative_l2": 1.9065973755836965
+            }
+          },
+          "output": {
+            "min": 1.0190180546487682e-05,
+            "max": 0.47742611169815063,
+            "mean": 0.009918242869326353,
+            "std": 0.04848388453412967,
+            "fraction_near_one": 0.0,
+            "case_to_case_mean_absolute_difference": 0.16753210127353668
+          },
+          "gradient_norm_max": 250.35299682617188,
+          "case_station_digest": "2a5ab466d172e66ef262ebd86e5c7409860b27ac0799a9725155d61bebe31386",
+          "sample_count": 166,
+          "gt_used": false,
+          "seconds": 133.64124777866527
+        },
+        "val": {
+          "loss": {
+            "total": 0.3004038284222285,
+            "hold": 0.18773242500093248,
+            "cross": 0.1871872138645914,
+            "observed": 0.18718724366691378,
+            "consistency": 0.007181514429652857
+          },
+          "measurement": {
+            "heldout": {
+              "relative_l1": 1.0015982172082118,
+              "relative_l2": 0.9992545564530568
+            },
+            "cross": {
+              "relative_l1": 1.0016022042166697,
+              "relative_l2": 0.9992556816456238
+            },
+            "observed": {
+              "relative_l1": 1.0016024399841643,
+              "relative_l2": 0.9992556932180923
+            }
+          },
+          "output": {
+            "min": 1.0084764653583989e-05,
+            "max": 1.2200771379866637e-05,
+            "mean": 1.0874283715464924e-05,
+            "std": 3.43912081537195e-07,
+            "fraction_near_one": 0.0,
+            "case_to_case_mean_absolute_difference": 1.3511576111925804e-07
+          },
+          "gradient_norm_max": 0.0,
+          "case_station_digest": "8ee6f530b867b124624aa6ad2f4830f3deecd56744882c7f471ef8235d7b44ef",
+          "sample_count": 36,
+          "gt_used": false,
+          "seconds": 5.378922414965928
+        },
+        "learning_rate": 0.0002,
+        "seconds": 139.04120926419273,
+        "peak_allocated_bytes": 2199733248,
+        "loader_rng_sha256": "b78ff6bb125357f6e5e32447cae013dbd4c0b87b1f46dca2d59f39fd2018210c"
+      },
+      {
+        "epoch": 2,
+        "train": {
+          "loss": {
+            "total": 0.3083765944802617,
+            "hold": 0.19250049163778143,
+            "cross": 0.19250271164150123,
+            "observed": 0.1925027344420732,
+            "consistency": 0.007489471296577838
+          },
+          "measurement": {
+            "heldout": {
+              "relative_l1": 1.0013375151544737,
+              "relative_l2": 0.9993918451867965
+            },
+            "cross": {
+              "relative_l1": 1.001378927870328,
+              "relative_l2": 0.9994075078355902
+            },
+            "observed": {
+              "relative_l1": 1.001379129043163,
+              "relative_l2": 0.9994075821808259
+            }
+          },
+          "output": {
+            "min": 6.192045020725345e-06,
+            "max": 1.2109912859159522e-05,
+            "mean": 8.712163969311767e-06,
+            "std": 1.7090346767380938e-06,
+            "fraction_near_one": 0.0,
+            "case_to_case_mean_absolute_difference": 7.583275163369763e-08
+          },
+          "gradient_norm_max": 0.08472320437431335,
+          "case_station_digest": "3eb388067ed098d1801e052b6b3ef5a0d539872d3f0b32cba83a4d7fd11f64c7",
+          "sample_count": 166,
+          "gt_used": false,
+          "seconds": 131.6671744491905
+        },
+        "val": {
+          "loss": {
+            "total": 0.3003387798865636,
+            "hold": 0.1877058959669537,
+            "cross": 0.187160424888134,
+            "observed": 0.1871604116426574,
+            "consistency": 0.006732565651570137
+          },
+          "measurement": {
+            "heldout": {
+              "relative_l1": 1.0010014813349974,
+              "relative_l2": 0.9995270368316924
+            },
+            "cross": {
+              "relative_l1": 1.0010034842077955,
+              "relative_l2": 0.9995277612662967
+            },
+            "observed": {
+              "relative_l1": 1.0010033682757282,
+              "relative_l2": 0.9995277179893686
+            }
+          },
+          "output": {
+            "min": 6.394756383087952e-06,
+            "max": 7.74314503360074e-06,
+            "mean": 6.898616119441512e-06,
+            "std": 2.0683609108688808e-07,
+            "fraction_near_one": 0.0,
+            "case_to_case_mean_absolute_difference": 9.598447091109716e-08
+          },
+          "gradient_norm_max": 0.0,
+          "case_station_digest": "8ee6f530b867b124624aa6ad2f4830f3deecd56744882c7f471ef8235d7b44ef",
+          "sample_count": 36,
+          "gt_used": false,
+          "seconds": 5.337376011069864
+        },
+        "learning_rate": 0.00019999451693655123,
+        "seconds": 137.0239382358268,
+        "peak_allocated_bytes": 2181533184,
+        "loader_rng_sha256": "8da853be0e3ccc339764b0f99da68a3b4bad11c5c6940fbff3fdddce8e7eb7ca"
+      },
+      {
+        "epoch": 3,
+        "train": {
+          "loss": {
+            "total": 0.30814986379749804,
+            "hold": 0.19252575269664626,
+            "cross": 0.19229853404573646,
+            "observed": 0.1922985300960311,
+            "consistency": 0.004899813303392919
+          },
+          "measurement": {
+            "heldout": {
+              "relative_l1": 1.0009033905537543,
+              "relative_l2": 0.9995928562829107
+            },
+            "cross": {
+              "relative_l1": 1.0008881053015917,
+              "relative_l2": 0.9995920995757167
+            },
+            "observed": {
+              "relative_l1": 1.0008880693001458,
+              "relative_l2": 0.999592094336617
+            }
+          },
+          "output": {
+            "min": 4.596824510372244e-06,
+            "max": 7.981504495546687e-06,
+            "mean": 5.9602566908730095e-06,
+            "std": 8.833675396611474e-07,
+            "fraction_near_one": 0.0,
+            "case_to_case_mean_absolute_difference": 4.859784041855164e-08
+          },
+          "gradient_norm_max": 0.05625797435641289,
+          "case_station_digest": "03d077f297c7c1df56b8675b8f9a30188a656db12d7c5b04d9dc9cee283a9875",
+          "sample_count": 166,
+          "gt_used": false,
+          "seconds": 127.9295520670712
+        },
+        "val": {
+          "loss": {
+            "total": 0.3001752942800522,
+            "hold": 0.1876934783326255,
+            "cross": 0.18714790874057347,
+            "observed": 0.18714790294567743,
+            "consistency": 0.0038612788759766975
+          },
+          "measurement": {
+            "heldout": {
+              "relative_l1": 1.0007197488792121,
+              "relative_l2": 0.9996541959372538
+            },
+            "cross": {
+              "relative_l1": 1.0007208953760403,
+              "relative_l2": 0.9996547619338126
+            },
+            "observed": {
+              "relative_l1": 1.0007209078678272,
+              "relative_l2": 0.9996547918707535
+            }
+          },
+          "output": {
+            "min": 4.6472769099636935e-06,
+            "max": 5.6767316891637165e-06,
+            "mean": 5.033600587012188e-06,
+            "std": 1.792345719618067e-07,
+            "fraction_near_one": 0.0,
+            "case_to_case_mean_absolute_difference": 3.1372383294378126e-08
+          },
+          "gradient_norm_max": 0.0,
+          "case_station_digest": "8ee6f530b867b124624aa6ad2f4830f3deecd56744882c7f471ef8235d7b44ef",
+          "sample_count": 36,
+          "gt_used": false,
+          "seconds": 5.361438125837594
+        },
+        "learning_rate": 0.00019997806834748456,
+        "seconds": 133.308725039009,
+        "peak_allocated_bytes": 2199853568,
+        "loader_rng_sha256": "e400cd01c4025e9401c3806291188945bc3b8c852d6c4c36d6bd35e194d7adab"
+      },
+      {
+        "epoch": 5,
+        "train": {
+          "loss": {
+            "total": 0.3080058394067259,
+            "hold": 0.19253367041967,
+            "cross": 0.19223236786313805,
+            "observed": 0.19223237271050372,
+            "consistency": 0.0026549751325426287
+          },
+          "measurement": {
+            "heldout": {
+              "relative_l1": 1.0004314665875098,
+              "relative_l2": 0.9998036848155806
+            },
+            "cross": {
+              "relative_l1": 1.0004258883137185,
+              "relative_l2": 0.9998046382752948
+            },
+            "observed": {
+              "relative_l1": 1.0004259369263049,
+              "relative_l2": 0.999804652142723
+            }
+          },
+          "output": {
+            "min": 2.2301444460026687e-06,
+            "max": 4.3804943743452895e-06,
+            "mean": 2.8489677763801926e-06,
+            "std": 3.6623283389925816e-07,
+            "fraction_near_one": 0.0,
+            "case_to_case_mean_absolute_difference": 5.660939044511386e-08
+          },
+          "gradient_norm_max": 0.03575095161795616,
+          "case_station_digest": "2c8dd85c72027d469cca9dad5a186070f6d11f43adf9913e028e07357023f9ce",
+          "sample_count": 166,
+          "gt_used": false,
+          "seconds": 135.28842308931053
+        },
+        "val": {
+          "loss": {
+            "total": 0.30004097852442,
+            "hold": 0.18767763011985356,
+            "cross": 0.1871319239338239,
+            "observed": 0.1871319313844045,
+            "consistency": 0.0016838468436617404
+          },
+          "measurement": {
+            "heldout": {
+              "relative_l1": 1.0003377406670875,
+              "relative_l2": 0.9998332503240045
+            },
+            "cross": {
+              "relative_l1": 1.000337955245848,
+              "relative_l2": 0.9998335170463223
+            },
+            "observed": {
+              "relative_l1": 1.0003379927197684,
+              "relative_l2": 0.9998335221824483
+            }
+          },
+          "output": {
+            "min": 2.2134624941827497e-06,
+            "max": 2.729168045334518e-06,
+            "mean": 2.4227385008796573e-06,
+            "std": 9.126856126355305e-08,
+            "fraction_near_one": 0.0,
+            "case_to_case_mean_absolute_difference": 5.454534094237065e-09
+          },
+          "gradient_norm_max": 0.0,
+          "case_station_digest": "8ee6f530b867b124624aa6ad2f4830f3deecd56744882c7f471ef8235d7b44ef",
+          "sample_count": 36,
+          "gt_used": false,
+          "seconds": 5.40059292409569
+        },
+        "learning_rate": 0.00019991228300988585,
+        "seconds": 140.70818968489766,
+        "peak_allocated_bytes": 2181816832,
+        "loader_rng_sha256": "62608a5b0ee4bea3b2635968b51ef9561e74654c80103852d8deb3da7e98872f"
+      },
+      {
+        "epoch": 10,
+        "train": {
+          "loss": {
+            "total": 0.30859666129192675,
+            "hold": 0.19292565336428494,
+            "cross": 0.19273865617901445,
+            "observed": 0.19273865707667479,
+            "consistency": 0.0005562947377498003
+          },
+          "measurement": {
+            "heldout": {
+              "relative_l1": 1.000053191427283,
+              "relative_l2": 0.9999736746456483
+            },
+            "cross": {
+              "relative_l1": 1.000053151929967,
+              "relative_l2": 0.999973666147548
+            },
+            "observed": {
+              "relative_l1": 1.0000531521820213,
+              "relative_l2": 0.9999736657538486
+            }
+          },
+          "output": {
+            "min": 2.9914275501141674e-07,
+            "max": 5.198253916205431e-07,
+            "mean": 3.8617262362437494e-07,
+            "std": 4.351272871226086e-08,
+            "fraction_near_one": 0.0,
+            "case_to_case_mean_absolute_difference": 2.534440205323055e-09
+          },
+          "gradient_norm_max": 0.012164849787950516,
+          "case_station_digest": "b0369711200c898fff061fcd81c6240eac6dce522fa816dd9903c8520a875a15",
+          "sample_count": 166,
+          "gt_used": false,
+          "seconds": 133.33474778896198
+        },
+        "val": {
+          "loss": {
+            "total": 0.29996347592936623,
+            "hold": 0.18766643106937408,
+            "cross": 0.1871206627951728,
+            "observed": 0.18712066196733051,
+            "consistency": 0.0004927825357299298
+          },
+          "measurement": {
+            "heldout": {
+              "relative_l1": 1.0000434457629734,
+              "relative_l2": 0.99997754252324
+            },
+            "cross": {
+              "relative_l1": 1.0000433153032462,
+              "relative_l2": 0.9999775777738346
+            },
+            "observed": {
+              "relative_l1": 1.0000433145722536,
+              "relative_l2": 0.9999775767706782
+            }
+          },
+          "output": {
+            "min": 2.9771035769954324e-07,
+            "max": 3.6648484069701226e-07,
+            "mean": 3.2637528630314387e-07,
+            "std": 1.2817147422968947e-08,
+            "fraction_near_one": 0.0,
+            "case_to_case_mean_absolute_difference": 6.583279506850686e-10
+          },
+          "gradient_norm_max": 0.0,
+          "case_station_digest": "8ee6f530b867b124624aa6ad2f4830f3deecd56744882c7f471ef8235d7b44ef",
+          "sample_count": 36,
+          "gt_used": false,
+          "seconds": 5.33620267175138
+        },
+        "learning_rate": 0.000199556196460308,
+        "seconds": 138.68970950786024,
+        "peak_allocated_bytes": 2182116352,
+        "loader_rng_sha256": "d17e99d0c6c953124ec45301de36a74a424bf98eed55c1e7618e92e40449c761"
+      },
+      {
+        "epoch": 25,
+        "train": {
+          "loss": {
+            "total": 0.3084973696484623,
+            "hold": 0.1930771096643195,
+            "cross": 0.19236400436206036,
+            "observed": 0.19236400400299625,
+            "consistency": 3.712582150340944e-05
+          },
+          "measurement": {
+            "heldout": {
+              "relative_l1": 1.0000056835623194,
+              "relative_l2": 0.9999970357372988
+            },
+            "cross": {
+              "relative_l1": 1.0000055546924194,
+              "relative_l2": 0.9999970335736417
+            },
+            "observed": {
+              "relative_l1": 1.000005554848413,
+              "relative_l2": 0.9999970336389175
+            }
+          },
+          "output": {
+            "min": 3.8202809804488425e-08,
+            "max": 5.145459169852984e-08,
+            "mean": 4.366245294100251e-08,
+            "std": 2.196908209447009e-09,
+            "fraction_near_one": 0.0,
+            "case_to_case_mean_absolute_difference": 1.1924287722905484e-10
+          },
+          "gradient_norm_max": 0.0025640735402703285,
+          "case_station_digest": "5ba74c091350e351e8c3ea1dea386c7a6553d492a6ec2ad3bf66ef3b6c8a965e",
+          "sample_count": 166,
+          "gt_used": false,
+          "seconds": 136.0494630378671
+        },
+        "val": {
+          "loss": {
+            "total": 0.2999393915136655,
+            "hold": 0.18766510403818554,
+            "cross": 0.18711935066514546,
+            "observed": 0.18711934983730316,
+            "consistency": 5.3528679220309845e-05
+          },
+          "measurement": {
+            "heldout": {
+              "relative_l1": 1.0000053259109531,
+              "relative_l2": 0.9999971197235313
+            },
+            "cross": {
+              "relative_l1": 1.000005298263569,
+              "relative_l2": 0.9999971241249974
+            },
+            "observed": {
+              "relative_l1": 1.0000052984322947,
+              "relative_l2": 0.9999971240547474
+            }
+          },
+          "output": {
+            "min": 3.8089311260591785e-08,
+            "max": 4.728245883711679e-08,
+            "mean": 4.1844122882710934e-08,
+            "std": 1.718525689396144e-09,
+            "fraction_near_one": 0.0,
+            "case_to_case_mean_absolute_difference": 7.270662147737132e-11
+          },
+          "gradient_norm_max": 0.0,
+          "case_station_digest": "8ee6f530b867b124624aa6ad2f4830f3deecd56744882c7f471ef8235d7b44ef",
+          "sample_count": 36,
+          "gt_used": false,
+          "seconds": 5.361731159035116
+        },
+        "learning_rate": 0.00019685831611286308,
+        "seconds": 141.43013701494783,
+        "peak_allocated_bytes": 2199570944,
+        "loader_rng_sha256": "bf28f00f85aa12ae82345282f5b3f0c74acc5ebd58a3510b89a6c15ab56fd112"
+      },
+      {
+        "epoch": 100,
+        "train": {
+          "loss": {
+            "total": 0.3078032715852002,
+            "hold": 0.19261666297553534,
+            "cross": 0.19197763107627272,
+            "observed": 0.19197763107627272,
+            "consistency": 6.268951706767646e-07
+          },
+          "measurement": {
+            "heldout": {
+              "relative_l1": 1.0000001257099256,
+              "relative_l2": 0.9999999278270514
+            },
+            "cross": {
+              "relative_l1": 1.0000001210643021,
+              "relative_l2": 0.999999927454505
+            },
+            "observed": {
+              "relative_l1": 1.0000001210652414,
+              "relative_l2": 0.9999999274546609
+            }
+          },
+          "output": {
+            "min": 9.182795079887285e-10,
+            "max": 1.2442319397010237e-09,
+            "mean": 1.0520012829403343e-09,
+            "std": 5.298018677716564e-11,
+            "fraction_near_one": 0.0,
+            "case_to_case_mean_absolute_difference": 1.8313027650617865e-12
+          },
+          "gradient_norm_max": 6.483717152150348e-05,
+          "case_station_digest": "b69f41f7baa9fa5a120aaafa7f7ea1837d17ede5e1355334148032da3c79f80f",
+          "sample_count": 166,
+          "gt_used": false,
+          "seconds": 132.56774943275377
+        },
+        "val": {
+          "loss": {
+            "total": 0.2999364783366521,
+            "hold": 0.1876649392975701,
+            "cross": 0.18711918592453003,
+            "observed": 0.18711918592453003,
+            "consistency": 5.710210536512427e-07
+          },
+          "measurement": {
+            "heldout": {
+              "relative_l1": 1.0000001192712356,
+              "relative_l2": 0.9999999293561534
+            },
+            "cross": {
+              "relative_l1": 1.0000001184439833,
+              "relative_l2": 0.9999999294575672
+            },
+            "observed": {
+              "relative_l1": 1.0000001184455787,
+              "relative_l2": 0.9999999294571398
+            }
+          },
+          "output": {
+            "min": 9.164545233808497e-10,
+            "max": 1.1796879029191132e-09,
+            "mean": 1.0251476087772302e-09,
+            "std": 4.8558406562037266e-11,
+            "fraction_near_one": 0.0,
+            "case_to_case_mean_absolute_difference": 6.186691861314558e-13
+          },
+          "gradient_norm_max": 0.0,
+          "case_station_digest": "8ee6f530b867b124624aa6ad2f4830f3deecd56744882c7f471ef8235d7b44ef",
+          "sample_count": 36,
+          "gt_used": false,
+          "seconds": 5.844287903979421
+        },
+        "learning_rate": 0.00015090414157503722,
+        "seconds": 138.43107788497582,
+        "peak_allocated_bytes": 2188122112,
+        "loader_rng_sha256": "d9fcb2c43a3604169ff58627bc11c628723aa498828848e4329a16b45b8815a4"
+      },
+      {
+        "epoch": 300,
+        "train": {
+          "loss": {
+            "total": 0.3078754258802138,
+            "hold": 0.1923210139734199,
+            "cross": 0.19259068441678243,
+            "observed": 0.19259068441678243,
+            "consistency": 2.745259062913138e-09
+          },
+          "measurement": {
+            "heldout": {
+              "relative_l1": 1.000000001295679,
+              "relative_l2": 0.9999999991080081
+            },
+            "cross": {
+              "relative_l1": 1.000000001293571,
+              "relative_l2": 0.9999999991190482
+            },
+            "observed": {
+              "relative_l1": 1.0000000012935728,
+              "relative_l2": 0.9999999991190491
+            }
+          },
+          "output": {
+            "min": 1.106857053928545e-11,
+            "max": 1.50442852620003e-11,
+            "mean": 1.2731269817035276e-11,
+            "std": 7.218816190486643e-13,
+            "fraction_near_one": 0.0,
+            "case_to_case_mean_absolute_difference": 2.9843162127008253e-15
+          },
+          "gradient_norm_max": 5.853158313584572e-07,
+          "case_station_digest": "5caf89ff4d1665d6c4a01ad2ca3d62072c5dcc9c09fa6f74ff4be0cc860942be",
+          "sample_count": 166,
+          "gt_used": false,
+          "seconds": 134.97139666089788
+        },
+        "val": {
+          "loss": {
+            "total": 0.299936449362172,
+            "hold": 0.1876649409532547,
+            "cross": 0.18711918012963402,
+            "observed": 0.18711918012963402,
+            "consistency": 2.580494990528987e-09
+          },
+          "measurement": {
+            "heldout": {
+              "relative_l1": 1.0000000013047552,
+              "relative_l2": 0.9999999991210176
+            },
+            "cross": {
+              "relative_l1": 1.0000000012899204,
+              "relative_l2": 0.9999999991222247
+            },
+            "observed": {
+              "relative_l1": 1.000000001289939,
+              "relative_l2": 0.9999999991222287
+            }
+          },
+          "output": {
+            "min": 1.107002770700527e-11,
+            "max": 1.503820158677005e-11,
+            "mean": 1.2731092884674881e-11,
+            "std": 7.218180055926563e-13,
+            "fraction_near_one": 0.0,
+            "case_to_case_mean_absolute_difference": 3.1924522341201744e-15
+          },
+          "gradient_norm_max": 0.0,
+          "case_station_digest": "8ee6f530b867b124624aa6ad2f4830f3deecd56744882c7f471ef8235d7b44ef",
+          "sample_count": 36,
+          "gt_used": false,
+          "seconds": 5.5055209579877555
+        },
+        "learning_rate": 5.483063448785682e-09,
+        "seconds": 140.49713810300454,
+        "peak_allocated_bytes": 2193004544,
+        "loader_rng_sha256": "da5a4d3ec4bb2d82ac9d5fedb33d1959fcf5d2d71860b2901e2f58671e399359"
+      }
+    ]
+  },
+  "main_regression": {
+    "passed": true,
+    "bitwise_equal": true,
+    "output_hashes": {
+      "C0": "f0f2b7e320956730a9b728096762d044d135ea63e1b6060e8780947e384a3cbe",
+      "C1": "bb058073e9dadf8d47e52b9eb08108f83c9747c17b6ac5d7e884fcb84bbeb7be"
+    },
+    "anchor_sha256": "2a7b40743b3de14a05efd13c8169e7365f1bc8bd40e088b9cb4f7e98aad7aeb1",
+    "audit": {
+      "counts": {
+        "Pool_A_geometry": 1,
+        "projection_val": 3
+      },
+      "denied": [],
+      "touched": [
+        "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/geometry/train_geometry.npz",
+        "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w1_inlet1_half/projections_train.npy"
+      ]
+    }
+  },
+  "old_evidence_sha256": {
+    "/scratch/djc/GeoPhy-Set3D/deep_baselines_v1/training_registered_v2/deepsets_seed20261011/protocol.json": "7d4185cfa2cec670780c53cd560ce39ea0ec91e61460795dfe079eb51637c79c",
+    "/scratch/djc/GeoPhy-Set3D/deep_baselines_v1/training_registered_v2/deepsets_seed20261011/metrics.jsonl": "b280497adb6e621e79153a511bd8143ae4fca5921f03ca754d72ca864ac025d7",
+    "/scratch/djc/GeoPhy-Set3D/deep_baselines_v1/training_registered_v2/deepsets_seed20261011/summary.json": "7064422076e2a632aa5b75e30e74b826511b3a839d51d02e14aa3282385cbe47",
+    "/scratch/djc/GeoPhy-Set3D/deep_baselines_v1/training_registered_v2/deepsets_seed20261011/checkpoints/best.pt": "f42ce9f3a1ca2093ccfcb1452314113c3922b02649ad11ddf540a5ea411a53e7",
+    "/scratch/djc/GeoPhy-Set3D/deep_baselines_v1/training_registered_v2/gnot_seed20261011/protocol.json": "990d88ae6487fc8f1312ab57354d26f4e9d6356afc9b59254241a53561217b2b",
+    "/scratch/djc/GeoPhy-Set3D/deep_baselines_v1/training_registered_v2/gnot_seed20261011/metrics.jsonl": "5aa2f790af8f7ba675d6ebb374f5b3952738cb653f70352ef07d9ac5946ba6f5",
+    "/scratch/djc/GeoPhy-Set3D/deep_baselines_v1/training_registered_v2/gnot_seed20261011/summary.json": "31cd96629d4221b4d36e66b50970677e1ecdfd9e42a5d64c1935346dd1b91797",
+    "/scratch/djc/GeoPhy-Set3D/deep_baselines_v1/training_registered_v2/gnot_seed20261011/checkpoints/best.pt": "c86c90cd5b2fdbefe389d6253a31b843f45967ae5c5d763b60041d9077d709c7"
+  },
+  "sources": {
+    "/home/djc/projects/GeoPhy-Set3D/scripts/deep_baselines_repair_v2/audit.py": "e55b8b092cc6c2e3de64a57ab61ce40f16b4c76fd756c0f689cf55b252d2e970",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/deep_baselines_repair_v2/launch.py": "1783ed57e1936d9ebb11450027b1db47e2081d76ac3105e46c5316083e5a5148",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/deep_baselines_repair_v2/repair_context.py": "da6adbebdc116e0fd2adbd607d107c4febcfa155927ca884a4e7bf0651805d5a",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/__init__.py": "47441c8638d63363d06b204cb8d6b0e9a6524c9d598920036b9cd8cc3e9ff2b5",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/data/build_utils.py": "0fbaa994ae1b3b82094fc687efc767e3ce019b7f28f0987e37e80efef1ba31be",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/data/collate.py": "64ba5c126d89e0e709eb7f002c791a32a896e8ef098128fd71cf10f6daf8e83e",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/data/generation.py": "36374efc91e0e27d00ed817109472cdb39f30e6cedcbced7c6bc6392746f703c",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/data/measurement_only.py": "8ac516e07b785ac82686306ded38bbe0e47622087318af2741731e5d4f1271b2",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/data/measurement_sampling.py": "88f6e05beb64111c1a63fab90825f0f68e6ae2772a92f0be6187d9e55cc7a693",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/data/projection_audit.py": "77b5d7afc44326ae00e676f41a3989244fa040e1020992fd5c2e5d0fc9c87e09",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/data/projection_pool_dataset.py": "2ff2426b94043c4d2487e1b47c27340599df798816187774be2a5a2d62e0ee8e",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/data/rich_measurement.py": "09648bd196db21be9e4f673da4157a53024145f8429af6846e780c960b298e26",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/data/validation.py": "76b1e84a737fcb740ab5bb5b83feecb86c76693968516a2efcbf24d84d192f14",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/data/view_sampling.py": "fc858a69533b41f67be5fd050ecd0dd6fdb253d86ae382e02591c2ee815e1eb8",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/diagnostics/senseiver_signal_path.py": "ec182c4003e0abb303a99bf74bb3cd3ae531543664b325929a9aa9658210f742",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/__init__.py": "7e7c0e83968957f68b7808b2b644686a0a12f21bad15045831d70a52214a8338",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/analysis.py": "199f1457d0978a606c761ad4d11ca1edd10f6aafa95e198bc1e7ec25021131ad",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/b2_report.py": "fada1bbce57c3ffeb0056862e0756bbf63635764327b1b9c408f785c573916d1",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/b3_report.py": "73fb688b46965b915ab8b8e602ee333995121261c94985e72a54a3d371b524af",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/clustered_one_swap.py": "b506eca28a515b6026d3a75b57d3a15b2a177c092db209195cafd4e65fdace5b",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/comparison_report.py": "2e44d97c482a08e7a8c97b141d4a30b72305fe831e0496661d6efe79944ad0e1",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/deep_comparison.py": "d89dd67c0b7d3e19df5fd41dbd8411280141a616f5603896efb066cfc41c1389",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/experiments.py": "5aedd0c55eec76e4b874222bc7b19578c1b7d8f48af657bdf67a2adf60041182",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/figures.py": "816712bea9a5ac3bf35946eef78e8781cf20248f6d3bc427f6f8fb03b405486a",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/geometry_augmentation_formal_stats.py": "2ecd585ec7f6dcf1fc2bf74022bda08062deb2de9e032c372bbb8924277c6e8d",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/geometry_augmentation_sampler.py": "82214214c4576d4228dd7f668714ad83864536247f8a6dce6988c61b904f8b25",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/geometry_catalog.py": "60eb3fb4506426de22dde50d274f9eb15c7779298d465c88bdca586f50872e2f",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/geometry_sensitivity.py": "460817ff0b13ced548997a7dd691c647d8eb30e6ca9e0f6d2c6307c7eac73585",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/geometry_strata.py": "cc3c9d9557b446ea419a4842ac447afe2b512d86be76521190a4c203abec86e5",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/geometry_stratified_sampler.py": "976de22b042f7d392424965ce5a62ed24a0957e78bcab7ee493998e390feb0ba",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/matched_control.py": "55eacbce1ded9de9c9344f4c32e1836d729ef229175080ac1048b9680cb37611",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/measurement_consistency.py": "edee97bea059708eddcc772b3831858f918a1ccbcf4050f4c491d2aa768f9889",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/measurement_diagnostics.py": "2b920ed3da6310f68193bb8ef5e047f51c67c39f7686c683f847fed8fc3cd382",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/mrgr.py": "c796ede1a09fd06fae65c3d833184c9cfea5a0a1a37159dafa5f8187b3fa9c08",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/mrgr_report.py": "409822580c09530d2272c796fd02704b02af45d4a0f397d4b1dc5a3a5fac671d",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/oari_diagnostics.py": "ea656b350edd48da390281d4e25d5a3f56e9146b48a043c694a975d72c9cccfa",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/oari_report.py": "a907c8912468605c3fa55b59bdb987ca2086e0a451ff4f24be429986e3e4d73e",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/protocols.py": "60b4a82f96dfaec4947762855e6987a1fffedb987d96ab15dcdb2bd9e7caf878",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/ray_senseiver.py": "22fc91e943fe45bbb43d7e07c9ccfa1c26cc24b7c06a1b706338483f3ea24b94",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/report.py": "60799671d8f557c775490a2dd6755f18258cfa38ea755d19b0eec84cfe15067a",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/research.py": "17d9730664dd646a5dbeabf824d90eb7c7ab4e58dde3c9d65fa57f8f8474db93",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/research_integrity.py": "9a433d6ded5173fcc2c0921078693c849e490bc6a6e4c22647d0414bf1e68902",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/rvtc_failure_diagnostics.py": "47d1f9f28445af6d29a198c3e1f3b3a151073ab722d21a8bb4c3527c5b4deed4",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/selfsup_c0c1_diagnostic.py": "42fff49d6415869b7c91f213877428ef26c6d43ae1aeec68dd8238203361f665",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/selfsup_report.py": "685f66b86bb233116a0bdbe8a2ff835d16e63780332609613b3aa1cf5289c78a",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/selfsup_v2_integrity.py": "2aacd7d9220869a37bf214fcb512128211442bc67b274cc474d28c766ba05dde",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/selfsup_v2_report.py": "96df2a594503353517849af5751c8921f1144c172218659825ac58782c56a677",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/stratification.py": "de9ee3059ba4e59288021105671fdab907b670617212a7428d0e1ce03e43623f",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/summary.py": "73a8acd82a6ba703665993280af31ac95daeae413b81ff078c5d932b678b0d68",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/training_runs.py": "b2b9a3bffc3002d60d0f5896b3e8b7efefc3133fbf8238f67f4909a8c6e55cad",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/evaluation/view_selection.py": "32a56947b18b30bf788768c3a939ff1cf06694caf4939512713ad64b1e230b60",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/geometry/tdlas.py": "d641d3ebbb0fe288b9ae770b9bb5f1b5c5cd4ff3a4729235a161e74f78fa6dce",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/__init__.py": "54484529fa097a5a63b2bd982de29e01b29b88cfa7cc0b0fbd3151a5470e77f0",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/attention_fusion.py": "d349c05cb1565889ff83b0f391fff5882782e6525bc61481d3e2db9ceba4329e",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/baseline_deepsets_v1.py": "c224f30557ce6d1780b3ab3056d169d7746a738fbeb41158581aa66571289171",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/baseline_gnot_v1.py": "292cc957e7bef03c4c213dea52cf9daf1ea4327152d950c4a61b81fcf5af57fd",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/baseline_senseiver_v1.py": "592a1c2e901f94a5d6b8f9de6e6d330469ac666df2e265f143cab7f15dfb1f40",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/blocks.py": "2842f04765a4c9ba7bc5ac04135ec8ddd8c7537745fc6f79b6c6ab41b3033223",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/decoder3d.py": "3aab7052dcc19f356fc2245ada14e8fe085b858b26c91cd180e358a4cc0691ac",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/encoder2d.py": "fd6f7e6f9d14573dcfb2d2b494941f83f63a269993f8bbae9616594a32443e14",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/fusion.py": "5a7ae6fd64daa283c15af3545311f75c58b774cb86294b2996bc3b098c3868d1",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/geolift_deepsets_sum.py": "e877158c6e0bcbecad2ef6bb6f852dc93e8077155e946d8232a63255a6c90e23",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/geolift_gca_res3d.py": "cde73cf1249ade86f54a3fcfc2ce5e7c8f85852cb836d356f3eed7cb74376c04",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/geolift_gcsi_res3d.py": "fcad0a6ff1daa02716f16d3c2661a1caa73e25fa915c061ae32d510418d084d1",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/geolift_mean_res3d.py": "119db246431a2b4612620afc29d819951d0ae21ab0ff08a8846f22c66f2a443a",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/geolift_oari_mrgr_c0_adapter.py": "7900e5d37b4bf8c068b84d4ce950c21e85dc5566eb1f3f1b44a0dbe7e3ac5b00",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/geolift_oari_mrgr_res3d.py": "a095e2cf9bbd9e86fc0a999df4c7d7185fcb4133220ba6334211b91b70166c26",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/geolift_oari_mrgr_zero_residual.py": "cff44973dca6731ddcde04920eee7064c2ca7844a9fd74d3608d2a44163c1634",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/geolift_oari_res3d.py": "0c254b09b598c3f3bed1af29c7a17e3de26349024106c8849938ac8a2126b0ed",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/geolift_plain_set_mrgr.py": "ee686b8b156e43fcde45ae73ea94aeecd811de9048bc3471ba38af05e5beeaf0",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/lifting.py": "0cf2fc39535fab45cf7e2f8bd8cdcac70c8ff3f830c816b936347cf7f3b39710",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/ray_relational_interaction.py": "25db37d18c84240bc86f5b0eeb1a0a009a9958dce8bd3f6875dcb92f30b1eac2",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/ray_senseiver_latent_residual.py": "ea02b34d4123891736628dfd25c3d2b1b0b32dbbbed244785460114124f94dd2",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/ray_senseiver_ss.py": "fa497b1a68d45bd20db0f7fd7118a4e7664c55c31b3c3a53b27b43b2ea5480cb",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/senseiver_core.py": "b45e02cde0e2f2597370b34596854ec1d8890ab5838d7c73968b50fee40f1da4",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/set_interaction.py": "1b80318623b8cd07f94bad70879e159af5f0cd54f083b172c8b4a8bbe0eaefb3",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/set_unrolled3d.py": "839d7c17ad9837e8baa97140647f3d74407ca64fefd065b9ca5e2796c0d3e8e3",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/physics/explicit_ray_operator.py": "5ddc059e59c5cff401666b40f89d3c74d21929db0c1f5ccf79e3aa2a8e8ebc85",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/physics/projectors.py": "fe3475e29abbba0d3495be9fc69909f3b8b1d7e8d40c25aed683094198f6e776",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/physics/representation_capacity.py": "f0b3491204a172951bec0a1354f95933548672d75343ce2f24ad4d3d395ce92a",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/reconstruction/classical.py": "261530dc8296446203140f581f8e7b736aa0bcb4b98d5141158e24d2a49b1867",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/__init__.py": "d253aa4cda19ba45b2d472981e2410da0a7fd319f8509be5acd8ed2d037ff0ae",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/comparison.py": "b5028eca4f820f79b8c5eb9e17f6c143042805fd961db85955afb57e6881ecf3",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/deep_comparison.py": "75fd31230809ee3874c7a77ba5320c3d1f691d06e35c4cdf409e6e29fb54b07e",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/engine.py": "4491b17bcbc2dbb89d227086b53dfe84d21ed6c86ba1010b64358168f7bc4bb6",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/geometry_augmentation_formal.py": "b8b2aed8470acd8391876e1bce260a6e8727ef4c9bdd5e4026e4dcb181d0e9f8",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/gt_read_guard.py": "42bf7c374d0f297050e801f4b5baf9a544b731a46157f65862eeaa3b4b5cfe50",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/losses.py": "a6bec7ce5ee00fbe11d8d159add0d42243775b5d443c07a8e59dadee759b4c5e",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/matched_control.py": "0c807bacef0acca1362c3ce6b283bea2165e26b845c4b6bc88743ef0734ae319",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/measurement_engine.py": "373bc13981c1e4afd63f5959ea76528e6cc53ea30353b44272b6fee378c3ac85",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/measurement_runs.py": "d2c3fc98b593917419c2b74c454888dcdfa7ff1255f1d6adf112d6a2204c8e65",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/metrics.py": "e5244421a7cba81702873d0b69e882468a4ee97012676097545729a1fc31461a",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/mrgr.py": "098b6ca504d53eab4a01f3ce4f2ba7f5a7e1417c79ec144bc837cc8a242c1b53",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/projection_losses.py": "d64e4fd327bf68e4f18ee3f9278ef453363042a7a0deaa71fc4a91283f6f05ad",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/ray_senseiver.py": "5883cd2126ebd06e3e3eb5dc16348085ebb6d01ce9739f78cec8a253cf81140c",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/research_selfsup.py": "654b84d5d35dfd1fc3c0db39b839ec4d77b6912588945b8f69084b41f035fc4b",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/rvtc_matched.py": "c8236c8dddc66fdf11e083ed516bd7797aecbdc837c749202b2c41a343692866",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/selfsup.py": "03cdee12b66aa1f7fdbd6a265ac7a23397ae03cee13fd18b1d8d721b6a91d909",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/selfsup_v2.py": "f4bb9c0159e6c4acaef188c0627d4ddcaa667d3c6851bb2055e34dac395a668e",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/senseiver_consistency_probe.py": "10127e7ad6adba39e5501815a844b4f205346872cfd679143cac1be86769edda",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/senseiver_init_probe.py": "b58c33db663a35f55254bf859158ab432fac018efc8fa636edcda88898ce002e",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/senseiver_readout.py": "4a335738a6a3834c7b0a6bca4c60672ed0ed7afbb69d81e401cb523b736e37a1",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/senseiver_relative_probe.py": "f64076d1cd087a403ed3d07f5a540e46ab34a8723a93cf488015caa503e2ef12",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/senseiver_single_repair.py": "8556c260a913c8df05b6f41b93535c74e5b01d2c7b4650d1e0ee4e296ec30ea1",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/senseiver_supervised_formal.py": "d0d2e18de0de39d4fd7bff5531adce024345f4f86922a0cb4d1ace0e75322237",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/senseiver_supervised_probe.py": "e84b92c03548c391e158f7cc3e28df2dad41ed64705dbe4f8a02fa1d74f1d70f",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/senseiver_supervised_stability.py": "f9206a7c3a9d92d5a6eb7b59d07580986cb5cbafc18ddb3516771e905c0ca6fc",
+    "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/utils.py": "51f397ff01ed89b6b930fdc0fee436bf754bcc40c0eaa58f5b3e7c005d14a1ae"
+  },
+  "access": {
+    "counts": {
+      "Pool_A_geometry": 2,
+      "projection_train": 1002,
+      "checkpoint": 2
+    },
+    "denied": [],
+    "touched": [
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/geometry/train_geometry.npz",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet1_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w1_inlet1_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w3_inlet1_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w0_inlet1_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w1_inlet1_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1000_w3_inlet1_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w0_inlet1_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_asymmetric_p1500_w3_inlet1_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_p0100_w0_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_p0100_w2_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_p0100_w3_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_p0300_w0_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_p0300_w1_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_p0300_w3_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_p0600_w0_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_p0600_w1_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_p0600_w2_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_p1000_w0_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_p1000_w3_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_p1500_w2_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case1_g1_transient_scheme_a_v1_2s_p1500_w3_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_1_g2_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet2_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_1_g2_transient_scheme_a_v1_2s_asymmetric_p0300_w1_inlet1_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_1_g2_transient_scheme_a_v1_2s_asymmetric_p0300_w1_inlet2_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_1_g2_transient_scheme_a_v1_2s_asymmetric_p1000_w0_inlet2_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_1_g2_transient_scheme_a_v1_2s_asymmetric_p1000_w1_inlet1_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_1_g2_transient_scheme_a_v1_2s_asymmetric_p1000_w1_inlet2_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_1_g2_transient_scheme_a_v1_2s_asymmetric_p1000_w3_inlet1_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_1_g2_transient_scheme_a_v1_2s_asymmetric_p1000_w3_inlet2_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_1_g2_transient_scheme_a_v1_2s_asymmetric_p1500_w0_inlet1_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_1_g2_transient_scheme_a_v1_2s_asymmetric_p1500_w0_inlet2_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_1_g2_transient_scheme_a_v1_2s_asymmetric_p1500_w1_inlet2_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_1_g2_transient_scheme_a_v1_2s_p0100_w0_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_1_g2_transient_scheme_a_v1_2s_p0100_w1_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_1_g2_transient_scheme_a_v1_2s_p0100_w2_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_1_g2_transient_scheme_a_v1_2s_p0300_w0_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_1_g2_transient_scheme_a_v1_2s_p0300_w1_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_1_g2_transient_scheme_a_v1_2s_p0300_w3_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_1_g2_transient_scheme_a_v1_2s_p0600_w1_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_1_g2_transient_scheme_a_v1_2s_p0600_w2_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_1_g2_transient_scheme_a_v1_2s_p0600_w3_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_1_g2_transient_scheme_a_v1_2s_p1000_w1_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_1_g2_transient_scheme_a_v1_2s_p1000_w2_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_1_g2_transient_scheme_a_v1_2s_p1000_w3_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_1_g2_transient_scheme_a_v1_2s_p1500_w0_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_1_g2_transient_scheme_a_v1_2s_p1500_w1_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_1_g2_transient_scheme_a_v1_2s_p1500_w2_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_crosswind_g2_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet1_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_crosswind_g2_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet2_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_crosswind_g2_transient_scheme_a_v1_2s_asymmetric_p0300_w1_inlet1_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_crosswind_g2_transient_scheme_a_v1_2s_asymmetric_p0300_w1_inlet2_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_crosswind_g2_transient_scheme_a_v1_2s_asymmetric_p0300_w3_inlet2_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_crosswind_g2_transient_scheme_a_v1_2s_asymmetric_p1000_w0_inlet1_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_crosswind_g2_transient_scheme_a_v1_2s_asymmetric_p1000_w0_inlet2_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_crosswind_g2_transient_scheme_a_v1_2s_asymmetric_p1000_w1_inlet1_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_crosswind_g2_transient_scheme_a_v1_2s_asymmetric_p1000_w1_inlet2_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_crosswind_g2_transient_scheme_a_v1_2s_asymmetric_p1000_w3_inlet2_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_crosswind_g2_transient_scheme_a_v1_2s_asymmetric_p1500_w0_inlet1_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_crosswind_g2_transient_scheme_a_v1_2s_asymmetric_p1500_w1_inlet1_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_crosswind_g2_transient_scheme_a_v1_2s_asymmetric_p1500_w1_inlet2_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_crosswind_g2_transient_scheme_a_v1_2s_asymmetric_p1500_w3_inlet2_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_crosswind_g2_transient_scheme_a_v1_2s_p0100_w3_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_crosswind_g2_transient_scheme_a_v1_2s_p0300_w0_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_crosswind_g2_transient_scheme_a_v1_2s_p0300_w1_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_crosswind_g2_transient_scheme_a_v1_2s_p0300_w2_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_crosswind_g2_transient_scheme_a_v1_2s_p0300_w3_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_crosswind_g2_transient_scheme_a_v1_2s_p0600_w2_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_crosswind_g2_transient_scheme_a_v1_2s_p1000_w0_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_crosswind_g2_transient_scheme_a_v1_2s_p1000_w2_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_crosswind_g2_transient_scheme_a_v1_2s_p1000_w3_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_crosswind_g2_transient_scheme_a_v1_2s_p1500_w0_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_crosswind_g2_transient_scheme_a_v1_2s_p1500_w1_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_crosswind_g2_transient_scheme_a_v1_2s_p1500_w2_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_crosswind_g2_transient_scheme_a_v1_2s_p1500_w3_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_streamwise_g2_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet1_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_streamwise_g2_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet2_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_streamwise_g2_transient_scheme_a_v1_2s_asymmetric_p0300_w1_inlet1_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_streamwise_g2_transient_scheme_a_v1_2s_asymmetric_p0300_w3_inlet1_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_streamwise_g2_transient_scheme_a_v1_2s_asymmetric_p1000_w1_inlet2_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_streamwise_g2_transient_scheme_a_v1_2s_asymmetric_p1000_w3_inlet2_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_streamwise_g2_transient_scheme_a_v1_2s_asymmetric_p1500_w0_inlet1_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_streamwise_g2_transient_scheme_a_v1_2s_asymmetric_p1500_w0_inlet2_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_streamwise_g2_transient_scheme_a_v1_2s_asymmetric_p1500_w1_inlet1_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_streamwise_g2_transient_scheme_a_v1_2s_asymmetric_p1500_w3_inlet1_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_streamwise_g2_transient_scheme_a_v1_2s_asymmetric_p1500_w3_inlet2_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_streamwise_g2_transient_scheme_a_v1_2s_p0100_w0_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_streamwise_g2_transient_scheme_a_v1_2s_p0100_w1_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_streamwise_g2_transient_scheme_a_v1_2s_p0100_w2_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_streamwise_g2_transient_scheme_a_v1_2s_p0300_w0_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_streamwise_g2_transient_scheme_a_v1_2s_p0300_w2_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_streamwise_g2_transient_scheme_a_v1_2s_p0300_w3_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_streamwise_g2_transient_scheme_a_v1_2s_p0600_w1_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_streamwise_g2_transient_scheme_a_v1_2s_p0600_w3_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_streamwise_g2_transient_scheme_a_v1_2s_p1000_w0_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_streamwise_g2_transient_scheme_a_v1_2s_p1000_w1_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_streamwise_g2_transient_scheme_a_v1_2s_p1000_w2_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_streamwise_g2_transient_scheme_a_v1_2s_p1000_w3_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_streamwise_g2_transient_scheme_a_v1_2s_p1500_w0_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_streamwise_g2_transient_scheme_a_v1_2s_p1500_w2_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case2_streamwise_g2_transient_scheme_a_v1_2s_p1500_w3_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet1_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet3_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_asymmetric_p0300_w1_inlet1_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_asymmetric_p0300_w1_inlet2_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_asymmetric_p0300_w1_inlet3_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_asymmetric_p0300_w3_inlet2_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_asymmetric_p0300_w3_inlet3_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_asymmetric_p1000_w0_inlet1_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_asymmetric_p1000_w0_inlet3_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_asymmetric_p1000_w1_inlet2_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_asymmetric_p1000_w1_inlet3_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_asymmetric_p1000_w3_inlet3_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_asymmetric_p1500_w0_inlet1_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_asymmetric_p1500_w0_inlet2_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_asymmetric_p1500_w1_inlet1_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_asymmetric_p1500_w1_inlet2_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_asymmetric_p1500_w3_inlet2_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_p0100_w0_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_p0100_w1_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_p0100_w3_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_p0300_w0_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_p0300_w1_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_p0300_w3_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_p0600_w1_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_p0600_w2_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_p0600_w3_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_p1000_w0_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_p1000_w1_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_p1000_w2_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_p1000_w3_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_p1500_w0_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_p1500_w2_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_crosswind_g3_transient_scheme_a_v1_2s_p1500_w3_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet2_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet3_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_asymmetric_p0300_w1_inlet1_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_asymmetric_p0300_w1_inlet3_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_asymmetric_p0300_w3_inlet1_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_asymmetric_p0300_w3_inlet2_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_asymmetric_p1000_w0_inlet2_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_asymmetric_p1000_w0_inlet3_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_asymmetric_p1000_w1_inlet2_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_asymmetric_p1000_w1_inlet3_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_asymmetric_p1000_w3_inlet1_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_asymmetric_p1000_w3_inlet2_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_asymmetric_p1000_w3_inlet3_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_asymmetric_p1500_w0_inlet1_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_asymmetric_p1500_w0_inlet3_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_asymmetric_p1500_w1_inlet1_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_asymmetric_p1500_w1_inlet2_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_asymmetric_p1500_w3_inlet1_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_asymmetric_p1500_w3_inlet2_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_asymmetric_p1500_w3_inlet3_half/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_p0100_w1_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_p0100_w2_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_p0100_w3_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_p0600_w0_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_p0600_w1_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_p0600_w2_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_p0600_w3_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_p1000_w0_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_p1000_w3_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_p1500_w0_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_p1500_w1_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_p1500_w2_equal/projections_train.npy",
+      "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/samples/case3_streamwise_g3_transient_scheme_a_v1_2s_p1500_w3_equal/projections_train.npy",
+      "/scratch/djc/GeoPhy-Set3D/deep_baselines_v1/training_registered_v2/deepsets_seed20261011/checkpoints/best.pt",
+      "/scratch/djc/GeoPhy-Set3D/deep_baselines_v1/training_registered_v2/gnot_seed20261011/checkpoints/best.pt"
+    ]
+  },
+  "GT_used": false,
+  "GT128_used": false,
+  "test_used": false
+}

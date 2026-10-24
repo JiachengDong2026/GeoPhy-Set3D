@@ -37,3 +37,18 @@ DeepSets/GNOT各seed20261011/20261019，4项正式300epoch/24900updates已登记
 主模型595份C1预测复用，两基线新生成1190份，共1785份全部封存后评分35个授权GT64；未读GT128/Pool B，未使用test选模，Plain双种子权重未改。结果仍是历史案例上的单训练种子探索性比较，不能替代独立测试或完整三算法双种子比较。科学失败如实保留，不自动做测试后修复。
 
 [本次正式中文报告](deep_baselines_seed20261011_test35_v1_zh.md) · [当前追踪CSV](artifacts/deep_baselines_test35_v1/experiment_tracking.csv) · [验收](artifacts/deep_baselines_test35_v1/acceptance.json)。此前队列描述为历史启动状态，以此条和暂停记录为准。
+
+## 2026-10-24 追加：塌缩审计与修复pilot最终NO-GO
+
+完成独立物理/尺度/掩码、损失梯度、原优化器/恢复审计，以及每模型两个有依据的修复候选。v2仅修改末层初始化，尺度来自全166个train案例合法A/B测量；v3保持相同初态，仅将独立基线consistency改为齐次比值。这是新的loss协议，原selfsup.py和冻结Plain均未修改。
+
+| 修复pilot | 种子 | epoch / 更新 | 初始完整val H L1 | 最终完整val H L1 | 零场 | 测量干预通过案例 | 正式训练资格 |
+|---|---:|---|---:|---:|---:|---:|---|
+| DeepSets v2 | 20261011 | 20 / 320 | 1.938704265 | 1.000001102 | 1.0 | 0/4 | NO-GO，近零塌缩 |
+| DeepSets v3 | 20261011 | 30 / 480 | 1.938704265 | 1.000662862 | 1.0 | 0/4 | NO-GO，pilot预算耗尽 |
+| GNOT v2 | 20261011 | 10 / 160 | 1.933147622 | 1.000190454 | 1.0 | 0/4 | NO-GO，无足够科学趋势 |
+| GNOT v3 | 20261011 | 10 / 160 | 1.933147622 | 1.000256099 | 1.0 | 0/4 | NO-GO，无足够科学趋势 |
+
+均使用固定32train/完整36val、64³、FP32、全部有效射线与原测量信息边界；未降低<=.99科学门槛。共1120次pilot更新，另4次独立smoke更新；新增正式训练更新为0。没有修复成功结论，不自动开展更多搜索、第二种子或Senseiver；原队列继续暂停。源码/数据身份、30个共同epoch的站位与LR、全部GO条件已独立复核，主模型最终CPU逐位回归通过。原失败和双种子Plain权重未覆盖，无GT数组/GT128/test/Pool B访问。
+
+[根因与修复报告](deep_baselines_collapse_root_cause_repair_zh.md) · [完整pilot追踪及checkpoint哈希](artifacts/deep_baselines_repair_v2/pilot_summary.csv) · [独立复核](artifacts/deep_baselines_repair_v2/independent_pilot_verification.json) · [最终验收](artifacts/deep_baselines_repair_v2/acceptance.json)。权重保留在独立scratch目录，Git同步代码、配置、诊断日志与报告；这些pilot不进入正式精度排名。

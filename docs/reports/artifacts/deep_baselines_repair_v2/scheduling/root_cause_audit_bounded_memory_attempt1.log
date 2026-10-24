@@ -1,0 +1,14 @@
+/home/djc/projects/GeoPhy-Set3D/scripts/deep_baselines_repair_v2/audit.py:99: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  return dict(loss=float(loss),gradient=tensor_stats(grad),fraction_negative=float((grad<0).float().mean()),
+train scale audit 0 /166
+train scale audit 30 /166
+train scale audit 60 /166
+train scale audit 90 /166
+train scale audit 120 /166
+train scale audit 150 /166
+audited deepsets fresh
+audited deepsets failed
+audited gnot fresh
+audited gnot failed
+AUDIT COMPLETE {"train_cases": 166, "station_epoch": 0, "branches": ["A", "B"], "valid_rays": 2977913, "numerator_length_y": 5584229016.382529, "denominator_1e6_length_squared": 739679647543.5016, "mole_fraction": 0.007549523682215568, "mass_fraction": 0.004195626187323315, "output_bias_logit": -5.4695082277569576, "derivation": "argmin_chi sum_valid(y_ppm_m -1e6*path_length_m*chi)^2; then exact mole_to_mass", "uses_GT_statistics": false, "uses_val_statistics": false, "uses_test": false}

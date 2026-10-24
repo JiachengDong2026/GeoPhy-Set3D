@@ -1,0 +1,67 @@
+/home/djc/projects/GeoPhy-Set3D/scripts/deep_baselines_repair_v2/audit.py:96: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  return dict(loss=float(loss),gradient=tensor_stats(grad),fraction_negative=float((grad<0).float().mean()),
+train scale audit 0 /166
+train scale audit 30 /166
+train scale audit 60 /166
+train scale audit 90 /166
+train scale audit 120 /166
+train scale audit 150 /166
+audited deepsets fresh
+audited deepsets failed
+Traceback (most recent call last):
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/deep_baselines_repair_v2/audit.py", line 161, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/deep_baselines_repair_v2/audit.py", line 147, in main
+    models[arm][stage]=dict(gradients=gradient_audit(m,batch),health=health(m,batch))
+                                      ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/deep_baselines_repair_v2/audit.py", line 14, in gradient_audit
+    total,parts,volumes,_=ss.objective(model,batch)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/training/selfsup.py", line 93, in objective
+    ca,cb=model(batch['A']),model(batch['B'])
+                            ^^^^^^^^^^^^^^^^^
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/baseline_gnot_v1.py", line 200, in forward
+    decoded = self.forward_tokens(tokens, excluded, counts)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/baseline_gnot_v1.py", line 196, in forward_tokens
+    return self.decode_queries(branches, excluded, coords, chunk_size)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/baseline_gnot_v1.py", line 173, in decode_queries
+    intermediate = [self._run(block.before_self, state, pos, *stats)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/baseline_gnot_v1.py", line 143, in _run
+    return fn(*args)
+           ^^^^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/baseline_gnot_v1.py", line 95, in before_self
+    return self._experts(x, coordinates, 0)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/src/geophy_set3d/models/baseline_gnot_v1.py", line 86, in _experts
+    weights = self.gate(coordinates).softmax(-1)
+              ^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/site-packages/torch/nn/modules/container.py", line 253, in forward
+    input = module(input)
+            ^^^^^^^^^^^^^
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/site-packages/torch/nn/modules/activation.py", line 816, in forward
+    return F.gelu(input, approximate=self.approximate)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 16.00 MiB. GPU 0 has a total capacity of 23.52 GiB of which 9.75 MiB is free. Including non-PyTorch memory, this process has 23.50 GiB memory in use. Of the allocated memory 23.00 GiB is allocated by PyTorch, and 45.78 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)
