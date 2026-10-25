@@ -1,0 +1,30 @@
+{
+  "models": {
+    "deeponet": {
+      "checkpoint_epoch": 6,
+      "updates": 96,
+      "manifest": "source_manifest_deeponet_pilot.json",
+      "manifest_sha256": "b439da184ad7973cccc3a31e8f27b2fc0733aefc7627761b62208c18181e5480",
+      "config_exact": true
+    },
+    "fno": {
+      "checkpoint_epoch": 18,
+      "updates": 288,
+      "manifest": "source_manifest.json",
+      "manifest_sha256": "e88cdda4b2d89e104b185374b8d50acdabb459f296f0090a65a81da490713f34",
+      "config_exact": true
+    }
+  },
+  "all_models_physics_loss_and_config_identical_across_resource_revision": true,
+  "differences": {
+    "scripts/classical_operators_v1/launch.py": {
+      "before": "8e6033747f7f3a8098872c0aa6948bf0a1c8fb86c275912f8a3150a74482f87d",
+      "after": "5d33a6b835427ae631cfcd459663e894bc52e51fdad4d7ca5d27ee41f8385bcc"
+    },
+    "scripts/classical_operators_v1/worker.py": {
+      "before": "0356d0928505120267f49fa2b97d459ec1d87bee6de8ceb4fc92ad744585197e",
+      "after": "177b90325e9c76359710997b91eec19f99a5006479af5b2c4377925edf5c908f"
+    }
+  },
+  "GT_read": false
+}
