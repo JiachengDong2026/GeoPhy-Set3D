@@ -1,0 +1,352 @@
+{
+  "base_commit": "3f977a3e31c4e128435bb8caa8556eb6457bd34b",
+  "github_main_verified": false,
+  "github_issue": "configured proxies 7897 refused; 17890/direct bounded verification attempted separately",
+  "deepsets": {
+    "checkpoint": "/data/djc/GeoPhy-Set3D/outputs/checkpoints/deepsets_selfsup_v1/best.pt",
+    "sha256": "949fb63be9068f676e7c6740fa8ce67b766d1f4d3ced86127e38b67a8eccdad0",
+    "best_epoch": 292,
+    "completed_epochs": 300,
+    "optimizer_steps": 24900,
+    "selection_metric": "mean held-out measurement relative L1",
+    "volumetric_gt_used": false,
+    "source_manifest_sha256": "f56b55d0f2ff20c1d667ee4aa58378b6e0017325f16ebb539edcaea761852128"
+  },
+  "training_complete": {
+    "completed": true,
+    "epochs": 300,
+    "optimizer_steps": 24900,
+    "steps_per_epoch": 83,
+    "best_epoch": 292,
+    "best_val_heldout_relative_l1": 0.06072932818975515,
+    "total_epoch_seconds": 4840.007293926552,
+    "mean_epoch_seconds": 16.13335764642184,
+    "peak_gpu_allocated_bytes": 2699810304,
+    "all_historical_station_digests_equal": true,
+    "access": {
+      "gt_file_opened": false,
+      "gt_open_attempts": 0,
+      "forbidden_npy_attempts": 0,
+      "supervised_checkpoint_open_attempts": 0,
+      "projection_open_count": 182124,
+      "unique_pool_a_projection_files": 202,
+      "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+      "audit_hook_inherited_by_workers": true
+    },
+    "identity": {
+      "name": "geolift_deepsets_sum",
+      "model_config": {
+        "feature_channels": 32,
+        "input_channels": 3,
+        "lift_resolution": 32,
+        "name": "geolift_deepsets_sum",
+        "output_activation": "sigmoid",
+        "output_resolution": 64,
+        "v_ref": 4
+      },
+      "parameter_count": 306625,
+      "fp32_parameter_bytes": 1226500,
+      "information": "full station measurements/valid rays/path/geometry, H excluded from network",
+      "labels": "no volumetric labels",
+      "selector": "mean held-out measurement relative L1"
+    },
+    "stopping_reason": "full preregistered budget; no early stopping"
+  },
+  "independent_review": {
+    "passed": true,
+    "epochs": 300,
+    "optimizer_steps": 24900,
+    "optimizer_state_steps": [
+      24900
+    ],
+    "best_selected_only_from_heldout": true,
+    "exact_epoch_case_batch_counts": true,
+    "paired_rows": 900,
+    "case_groups": 180,
+    "scalar_and_bootstrap_checks": 300,
+    "all50_win_loss_tie_counts_checked": true,
+    "access": {
+      "gt_file_opened": false,
+      "gt_open_attempts": 0,
+      "forbidden_npy_attempts": 0,
+      "supervised_checkpoint_open_attempts": 0,
+      "projection_open_count": 0,
+      "unique_pool_a_projection_files": 0,
+      "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+      "audit_hook_inherited_by_workers": true
+    }
+  },
+  "predictions": {
+    "count": 900,
+    "all_prediction_row_and_array_hashes_verified": true,
+    "seal_sha256": "44b27ac577169c5c5c7be53c98d324f38d478cb7929715caedd451c5bc9489ef",
+    "station_manifest_sha256": "0a9ffb547c756627b974dcc84fe800fadec07e4b391bb6114b3d4fd6142870aa"
+  },
+  "current_primary": {
+    "key": "uniform_plain_set_interaction_seed20261011",
+    "config": {
+      "dataset": {
+        "root": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1"
+      },
+      "experiment": {
+        "name": "uniform_plain_set_interaction_seed20261011",
+        "output_root": "/scratch/djc/GeoPhy-Set3D/mrgr_oari_targeted_v1/training/uniform_plain_set_interaction_seed20261011"
+      },
+      "loader": {
+        "num_workers": 4,
+        "persistent_workers": true,
+        "pin_memory": true
+      },
+      "loss": {
+        "hold": 1.0,
+        "cross": 0.5,
+        "observed": 0.1,
+        "consistency": 0.05,
+        "beta": 0.01,
+        "relative_l1": 0.1,
+        "relative_epsilon": 1e-06,
+        "measurement_scale": 32284.894580078173
+      },
+      "model": {
+        "feature_channels": 32,
+        "input_channels": 3,
+        "lift_resolution": 32,
+        "name": "geolift_oari_mrgr_res3d",
+        "output_activation": "sigmoid",
+        "output_resolution": 64,
+        "gca": {
+          "distance_scale_m": 6.5,
+          "azimuth_scale_deg": 180.0
+        },
+        "set_interaction": {
+          "d_model": 32,
+          "num_heads": 4,
+          "num_blocks": 1,
+          "ffn_channels": 64
+        }
+      },
+      "normalization": {
+        "method": "linear_p99_5",
+        "statistics_file": "train_statistics.json"
+      },
+      "optimizer": {
+        "lr": 0.0002,
+        "name": "adamw",
+        "weight_decay": 0.0001
+      },
+      "train": {
+        "split": "train",
+        "geometry_pool": "train",
+        "a_views": [
+          3,
+          5
+        ],
+        "b_views": [
+          3,
+          5
+        ],
+        "heldout_views": 2
+      },
+      "training": {
+        "batch_size": 2,
+        "device": "cuda:0",
+        "early_stopping_patience": null,
+        "gradient_accumulation": 1,
+        "gradient_clip_norm": 1.0,
+        "max_epochs": 300,
+        "precision": "fp32",
+        "seed": 20261011
+      },
+      "validation": {
+        "split": "val",
+        "geometry_pool": "train",
+        "a_views": [
+          4,
+          4
+        ],
+        "b_views": [
+          4,
+          4
+        ],
+        "heldout_views": 4
+      },
+      "scheduler": {
+        "name": "cosine",
+        "T_max": 300
+      }
+    },
+    "parameters": 342209,
+    "checkpoint": "/scratch/djc/GeoPhy-Set3D/mrgr_oari_targeted_v1/training/uniform_plain_set_interaction_seed20261011/checkpoints/best.pt",
+    "checkpoint_sha256": "0ccea9b24a77e9d5fac025c626a98b167c3ab57fa202688e3e4acc75261bc18c",
+    "best_epoch": 298
+  },
+  "historical_reference_checkpoint": {
+    "checkpoint": "/data/djc/GeoPhy-Set3D/outputs/checkpoints/selfsup_oari_mrgr_v1/best.pt",
+    "sha256": "1573cd84dffeabeb58fbbfb1afec9c9dc865a0a674e21229711bb25b22e3c026",
+    "config": {
+      "dataset": {
+        "root": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1"
+      },
+      "experiment": {
+        "name": "selfsup_oari_mrgr_v1",
+        "output_root": "/data/djc/GeoPhy-Set3D/outputs"
+      },
+      "loader": {
+        "num_workers": 4,
+        "persistent_workers": true,
+        "pin_memory": true
+      },
+      "loss": {
+        "hold": 1.0,
+        "cross": 0.5,
+        "observed": 0.1,
+        "consistency": 0.05,
+        "beta": 0.01,
+        "relative_l1": 0.1,
+        "relative_epsilon": 1e-06,
+        "measurement_scale": 32284.894580078173
+      },
+      "model": {
+        "feature_channels": 32,
+        "input_channels": 3,
+        "lift_resolution": 32,
+        "name": "geolift_oari_mrgr_res3d",
+        "output_activation": "sigmoid",
+        "output_resolution": 64,
+        "gca": {
+          "distance_scale_m": 6.5,
+          "azimuth_scale_deg": 180.0
+        },
+        "set_interaction": {
+          "d_model": 32,
+          "num_heads": 4,
+          "num_blocks": 1,
+          "ffn_channels": 64
+        }
+      },
+      "normalization": {
+        "method": "linear_p99_5",
+        "statistics_file": "train_statistics.json"
+      },
+      "optimizer": {
+        "lr": 0.0002,
+        "name": "adamw",
+        "weight_decay": 0.0001
+      },
+      "train": {
+        "split": "train",
+        "geometry_pool": "train",
+        "a_views": [
+          3,
+          5
+        ],
+        "b_views": [
+          3,
+          5
+        ],
+        "heldout_views": 2
+      },
+      "training": {
+        "batch_size": 2,
+        "device": "cuda:3",
+        "early_stopping_patience": null,
+        "gradient_accumulation": 1,
+        "gradient_clip_norm": 1.0,
+        "max_epochs": 300,
+        "precision": "fp32",
+        "seed": 20261011
+      },
+      "validation": {
+        "split": "val",
+        "geometry_pool": "train",
+        "a_views": [
+          4,
+          4
+        ],
+        "b_views": [
+          4,
+          4
+        ],
+        "heldout_views": 4
+      },
+      "scheduler": {
+        "name": "cosine",
+        "T_max": 300
+      }
+    },
+    "canonical_state_sha256": "dc47c74fd66d8b6c02be31b71a1071abca67e391a7629f1fa51d5bca914ecd58",
+    "parameter_count": 332070,
+    "epoch_zero_based": 277,
+    "training_source_commit": "3f76c3fe3cb17f75e4244bf67424b00355eca6bf",
+    "freeze_record": "/data/djc/GeoPhy-Set3D/outputs/comparisons/selfsup_mrgr_v1/frozen_checkpoint.json",
+    "freeze_record_sha256": "86693748379fdcc8fd27bb22635f260bfa44b5c8d3a1167ecd9533954b4473d2"
+  },
+  "comparison_warning": "Historical DeepSets table refers to SelfSup-MRGR v1, not current Plain primary. Reuse its checkpoint/predictions only; no relabelled primary scores.",
+  "protected_file_count": 4835,
+  "protected_manifest_sha256": "98dbce2eb7d1bd03fdcec8f25205565c6a6891085108409c98d9ca8b9ce1330a",
+  "evidence_sha256": {
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/training_source_manifest.json": "f56b55d0f2ff20c1d667ee4aa58378b6e0017325f16ebb539edcaea761852128",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/train.log": "43ac82a11cf372716dede3256824bf288d064321deae05a0f89eceb2766ad6e9",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/training_access_audit.json": "2e5b7f0c22775b0000a25fdbe40f239aa1a0085958c52d6e4ee0bb153e54ff82",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/timing.json": "7d625a2fa2f5582e78cb5b5d217dfe0fb0f00896b5c9c6abca91e4583c21415b",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/artifact_manifest.json": "3174f24192d963cf4c959470008189845af02cf84d15619c4a49dbce33ceb978",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/training_process_observer.json": "7e7a8efc31dac3f0510390056ca5ef8e7bc1cc8efc56141a7f857eb47c683a35",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/history_before.json.gz": "d97086c27a59314f90ebf024b19d3eed3724c49ab28c662e47e75f4a386bb065",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/validation_station_ids.json": "875933ca6cc824331ed338431b6a85143c09bc5d2bfaac47f0ac9fd6e40fa58a",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/smoke.log": "99cf1af3aa254343ccf11d1d35e731ac8ce53999ebb4a8159a20b172bed48157",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/frozen_best.json": "76498d369f9b97573a660ef4a1a3c66a0f6f967d368b2f080a26f22ac28f6f89",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/inference_failure.json": "41e5981b225c3ba81704f295f21c0dfcd58733814b4e1cb1d2159366c8181fb6",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/contrasts.json": "69dc6c3b51becbf418bd8fc99aa657a8f74cb433e649b2869a15297d12bcb8ec",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/integrity.json": "4399876decfb9eff44df57901c72be95709d40e20c6055e2f251de9ba259cc6b",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/evaluation_source_manifest_counts.json": "ea109edecf3134daa21344ff34951c0c608f28c43c10c1ba972b7361f1493034",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/audit.log": "9f0ed15aa41c748c4afcb6be8413d8fb36450845fcb9865dc4f0270710c22881",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/timing.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/independent_audit.json": "a5d7872bdedc4a8b355ee9f5af93e11e3e18d9124468406988f91b31c098bba3",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/evaluation_source_manifest_original.json": "ca9be905f9f33081fa20ec0b97b5b3310216ff49067e0ba73c45d4201fd7205d",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/deepsets_900.csv": "41934209eff04a0a88666a3e617510def232b0ebc78d050d4c57d5c9e669f32a",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/protocol.sha256": "60cb1156f5c6d41073d6f8e1fc2964e11e0b9b5e64fe5b8b11738c5fe246ad81",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/selector_replay.json": "2cee4d0c7a3630344c507a0dab67b9c34063cab5c2e6f63dbdf217f2c62cd1e9",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/gt_access.json": "24cb749079f06579a70667c168333bee8e5e2f70c3192567884d2461d8d51ed5",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/report.log": "12aa4fe5551be4951425564f4978c56dd8cc69bfd05d718ac1ef1407ea2e3915",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/geometry_layouts.json": "3fb5045dfabba2df4bef770c45266a77cae85a15974dbee73a2d44b183899ec1",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/first_posthoc_gt_boundary.json": "a470148741778ae582fbbb3252d382e43fed25b119f38f1d42563a3d3490d7f8",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/infer_attempt1.log": "39945f251457b5a2a5b4cf934d620dedbf079e5a7c99eb2795bf8df24d1cbd18",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/statistics_tests.log": "516551f9f4f0db2962dc0ef69687d65874cb5a973b15e0290f159444629c7c92",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/evaluation_source_manifest.json": "6124c4106e1567596d9876a74ad5af6e24a20bd298e7bed2162bd99b4ef0890e",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/engineering_smoke.json": "03c8ad37f5b1b54c0206b7c9474ed38aaf717da7575e2358e3d9b4f25d37cd09",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/station_subsets.json": "0a9ffb547c756627b974dcc84fe800fadec07e4b391bb6114b3d4fd6142870aa",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/full_tests.log": "bc6e65f3887194d32766f723c9bfe8418e31305a811f3b093fc9e2ea39ed1721",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/gt_complete.json": "af610f249026c2b74b08e38bc435f344622e678087473b06e42f24cd46a07590",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/paper_source.json": "a94914e32154eea85bbdec804544fb32519732006996d8b91f7b0cb6136fd5b5",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/metrics.jsonl.gz": "134e2d3af3449ba7f697c1093c852ea49232d26d6d391f810a08b2f79655b4db",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/prediction_recovery.json": "4dc1a35fd5abb80500f345cf6fd8782bd82c342af43d16a0da04a475907ad83b",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/GT128_metadata_protection.json": "bdddc3c0c24e7a1802b053e8f7ecba3efeef2188aed792755d75ce7424ba7e59",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/smoke_attempt1.log": "c8e78e8d6eb304f27ccfb614cd978e6dcae2fe83c5d44b0705439a612bdfaae2",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/recovery_boundary_tests.log": "8ba738eb0277ff735d044fe6f044a11003680ce5ee97d0a14141bf7dc65ae136",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/training_complete.json": "d99b97d3648b0cd05e28f81da42c1ab16f05bf43d351fe57cf6d308f5e0a09ef",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/dataset_before.json.gz": "800127a098348bbd8448874eca6280bbce13a79aea00509172dd11c09571e3e4",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/inference_access.json": "eb4d35397e758f032b11bcc8e51a144f9906a67dc14ef6d43b769bb586356960",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/predictions_complete.json": "44b27ac577169c5c5c7be53c98d324f38d478cb7929715caedd451c5bc9489ef",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/paper_excerpt.txt": "762b6349d4735e5439233da83c8f86fac3d4d1fb2e89666079ff2270aa9fb3af",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/selector.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/actual_training_inputs.jsonl.gz": "152ed1ec7543dc75f970cfafc4c251600ffa35b97f0c42d864e47c4ae122e236",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/necessary_tests.log": "f9b563cb188e09a955fa1d293dc1150d02a817f9fb7e060593d54fe03d7c25ff",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/tails.csv": "6636a433dcc6ad9bfdc96244020193e72c9f121261fd23ae8a2f5c8f5782b7c1",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/evaluation_source_manifest_timing.json": "71bfb493ea46907a8f06df1cefa1d9373be270cac560c2162fa57612ce1bb493",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/paired_900.csv": "dce6a81c3f8947db01f74d6948312b07ae6ed86461d06ff58c006ad2e001c822",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/paired_statistics.csv": "e7131a8384b91956c3af641ba48348ee678dde888c374b0b3eae8821c382eae1",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/access_sessions.jsonl.gz": "781cc1291ab0586005f89bd3fdb7e23f719cb0258fe6394c3d96b4ddac88a3c7",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/gt.log": "77935fb61f0484ef480a8ce98f9c02ea9437989de4a805ac2d3c06c446721bb4",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/figure_gt_access.json": "0f2ca0231441ec11bcf51b81cc5d38aa985bb01b7736beb3555882b030799df8",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/infer.log": "ca1d88832b16e063fb42489ea0659c139d6b6e42f9dcc9e4941652925e4ad866",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/inference_events.jsonl.gz": "69d70ac76a6c0e1b1ff231687e272bed5d0b3c40806febdc5e8915736a9f0e80",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/environment.json": "7c8c21a7e050d5b16f2f5c5335f680215a152aac5efd36eb9c7f7735426b587f",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/protocol.json": "f27667a8214dc68d9390b31164dda9db8ec30bc14027e7f178008ce0720ffb03",
+    "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/docs/reports/artifacts/deepsets_selfsup_v1/case_group_180.csv": "efc12afb4c4c1381c6cc80c4554d976541fa3ca48d72606c5c8ba61dea40e276",
+    "/data/djc/GeoPhy-Set3D/outputs/checkpoints/deepsets_selfsup_v1/best.pt": "949fb63be9068f676e7c6740fa8ce67b766d1f4d3ced86127e38b67a8eccdad0",
+    "/scratch/djc/GeoPhy-Set3D/mrgr_oari_targeted_v1/training/uniform_plain_set_interaction_seed20261011/checkpoints/best.pt": "0ccea9b24a77e9d5fac025c626a98b167c3ab57fa202688e3e4acc75261bc18c",
+    "/scratch/djc/GeoPhy-Set3D/mrgr_oari_targeted_v1/training/uniform_plain_set_interaction_seed20261019/checkpoints/best.pt": "fe19095926c6fad4194cfd6addcf96fed523b94631e754d021600f1b7313525d",
+    "/scratch/djc/GeoPhy-Set3D/deep_baselines_v1/queue_status.json": "0a06128265843c566560da45f136ccf6a60ad685c101b87c6e96d65f01fc2b12"
+  },
+  "new_updates": 0
+}

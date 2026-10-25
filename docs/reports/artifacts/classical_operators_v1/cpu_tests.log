@@ -1,0 +1,32 @@
+F....                                                                    [100%]
+=================================== FAILURES ===================================
+______________________ test_backprojection_numpy_adjoint _______________________
+
+    def test_backprojection_numpy_adjoint():
+        b=rays();a=FixedRayBackprojection(cache_entries=0);actual=a(b).numpy()[0]
+        numerator,coverage=numpy_transpose(b)
+        expected=np.divide(numerator,coverage,out=np.zeros_like(numerator),where=coverage>0)
+>       np.testing.assert_allclose(actual[0],expected,rtol=2e-5,atol=2e-6)
+E       AssertionError: 
+E       Not equal to tolerance rtol=2e-05, atol=2e-06
+E       
+E       Mismatched elements: 256 / 262144 (0.0977%)
+E       First 5 mismatches are at indices:
+E        [0, 20, 31]: 2.0 (ACTUAL), 0.0 (DESIRED)
+E        [0, 20, 32]: 2.0 (ACTUAL), 0.0 (DESIRED)
+E        [0, 22, 31]: 0.0 (ACTUAL), 2.0000000373062083 (DESIRED)
+E        [0, 22, 32]: 0.0 (ACTUAL), 2.0000000373062075 (DESIRED)
+E        [1, 20, 31]: 2.000000476837158 (ACTUAL), 0.0 (DESIRED)
+E       Max absolute difference among violations: 2.00000048
+E       Max relative difference among violations: 1.
+E        ACTUAL: array([[[0., 0., 0., ..., 0., 0., 0.],
+E               [0., 0., 0., ..., 0., 0., 0.],
+E               [0., 0., 0., ..., 0., 0., 0.],...
+E        DESIRED: array([[[0., 0., 0., ..., 0., 0., 0.],
+E               [0., 0., 0., ..., 0., 0., 0.],
+E               [0., 0., 0., ..., 0., 0., 0.],...
+
+tests/test_classical_operators_v1.py:40: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_classical_operators_v1.py::test_backprojection_numpy_adjoint
+1 failed, 4 passed in 2.62s
