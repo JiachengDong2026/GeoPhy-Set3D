@@ -44,3 +44,5 @@ FNO：Li et al., Fourier Neural Operator for Parametric Partial Differential Equ
 只使用GPU0既有全局UUID flock，15秒双空闲快照，60秒有界获取；controller持续冲突监测，只停止自身新session进程组。GPU1–3不使用，不恢复旧queue，不终止他人。home新增worktree因配额失败，改scratch成功；新大数组/checkpoint仅scratch。所有起始tracked文件逐字节保护，包括model registry，不修改任何旧源码或结果。新模型仅在独立training.classical_operators.REGISTRY注册，历史build_model白名单不动。Git只新增源码、配置、协议、标量、身份、审计、报告。所有阶段独立提交且运行前source manifest封存。
 
 工程测试附记（首次GPU/optimizer之前）：首个独立NumPy fixture在y=.2的格点上，FP32与FP64计算使极小支持分别落在格点两侧；coverage归一化后的值/二值支持对这种舍入不连续。保留cpu_tests.log，合成fixture改为y=.213、z=.307，避开该精度边界，未改模型/算子/容差/科学门槛。第二次5项CPU测试全部通过。真实回投影按既有FP32 stencil定义，薄弱覆盖处归一化敏感性作为限制报告。
+
+两项smoke均已通过（各1独立临时更新）。pilot前静态审查修订：独立optimizer观察器增加no_grad，避免诊断更新范数产生无用计算图（不改AdamW数值）；正式评价复用旧factory时隔离Python通用context模块名，防止新旧入口同名导入冲突。旧source manifest保留为source_manifest_smoke.json，pilot前重新封存源码及登记，不更改模型/输入/loss/超参/门槛，不重跑已通过smoke。

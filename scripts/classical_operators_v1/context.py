@@ -16,12 +16,19 @@ from geophy_set3d.data.collate import projection_pool_collate
 from geophy_set3d.models.geolift_oari_mrgr_res3d import project_input
 from geophy_set3d.evaluation.measurement_consistency import relative_projection_metrics
 
-def register():
+def register(revision=False):
     paths=list((PROJECT/'src').rglob('*.py'))+list((PROJECT/'scripts/classical_operators_v1').glob('*.py'))
     paths+=list((PROJECT/'configs/classical_operators_v1').glob('*.yaml'))
     paths+=[PROJECT/'docs/classical_operators_v1_protocol_zh.md',PROJECT/'tests/test_classical_operators_v1.py']
     m=dict(commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=PROJECT,text=True).strip(),sha256={str(p.relative_to(PROJECT)):sha(p) for p in sorted(paths)})
-    target=ART/'source_manifest.json';assert not target.exists();write(target,m)
+    target=ART/'source_manifest.json'
+    if revision:
+        assert not (ROOT/'deeponet/pilot').exists() and not (ROOT/'fno/pilot').exists()
+        assert not (ART/'source_manifest_smoke.json').exists()
+        (ART/'source_manifest_smoke.json').write_bytes(target.read_bytes())
+        (ROOT/'registration_smoke.json').write_bytes((ROOT/'registration.json').read_bytes())
+    else:assert not target.exists()
+    write(target,m)
     write(ROOT/'registration.json',dict(source_manifest_sha256=sha(target),protocol_sha256=sha(PROJECT/'docs/classical_operators_v1_protocol_zh.md'),
         models={arm:load_config(arm) for arm in ['deeponet','fno']},pilot_train_indices=list(range(32)),pilot_val_count=36,epochs=30,updates=480))
 
@@ -38,4 +45,4 @@ def setup():
 def no_forbidden(a):
     assert not any(a[k] for k in ['gt_open_attempts','forbidden_npy_attempts','supervised_checkpoint_open_attempts'])
 
-if __name__=='__main__':register()
+if __name__=='__main__':register('--prepilot-revision' in sys.argv)

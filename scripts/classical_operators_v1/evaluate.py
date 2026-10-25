@@ -45,7 +45,14 @@ def infer(arm,primary=False):
         assert sha(freeze['checkpoint'])==freeze['sha256']
         if primary:
             sys.path.insert(0,str(PROJECT/'scripts/deep_baselines_v1'))
-            import baseline_context as bc
+            # Legacy scripts use the generic module name context. Isolate that
+            # import so their original factory receives its original context.
+            import importlib
+            own_context=sys.modules.pop('context',None)
+            try:
+                bc=importlib.import_module('baseline_context')
+            finally:
+                if own_context is not None:sys.modules['context']=own_context
             m=bc.c.model_for(freeze['config'],bc.c.PLAIN,'cuda:0').eval()
             ck=torch.load(freeze['checkpoint'],map_location='cuda:0',weights_only=False);m.load_state_dict(ck['model']);del ck
         else:m=load(arm,c,freeze)

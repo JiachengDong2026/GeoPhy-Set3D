@@ -10,6 +10,7 @@ from torch.utils.data import Subset
 class TrackedAdamW(torch.optim.AdamW):
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs);self.updates=0;self.trace=[]
+    @torch.no_grad()
     def step(self,closure=None):
         params=[p for g in self.param_groups for p in g['params']]
         before=[p.detach().clone() for p in params]
