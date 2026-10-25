@@ -66,11 +66,20 @@ def main():
     checks['finite_nonzero_initial_to_final_net_parameter_change']=math.isfinite(delta) and delta>0
     checks['optimizer_steps_independently_9379']=sorted({int(v['step']) for v in saved['optimizer']['state'].values()})==[9379]
     assert all(checks.values()),checks
-    gates=dict(normal_zero_cases_passing=sum(r['dependency_pass'] for r in summary),required_cases=2,
-        wrong_error_increases_cases=sum(r['wrong_error_increases'] for r in summary),
-        val_H_L1=d['validation_replay']['measurement']['heldout']['relative_l1'],val_below_zero_baseline=False,
-        sustained_near_zero_output=True,epoch0_full_val_improvement='NOT_VERIFIABLE_FROM_HISTORY',
-        consecutive_passes='NOT_ESTABLISHED',outcome='NO_GO_EXISTING_SAME_PROTOCOL_FAILED')
+    dependent=sum(r['dependency_pass'] for r in summary)
+    wrong_increases=sum(r['wrong_error_increases'] for r in summary)
+    val_l1=d['validation_replay']['measurement']['heldout']['relative_l1']
+    # Descriptive collapse check uses the historical diagnostic's 1e-6 level;
+    # it is not a new training stopping rule. Classify from actual saved values.
+    collapse=all(r['val']['output']['mean']<1e-6 for r in hist[-5:]) and all(
+        r['logit_fraction_below_minus10']==1 for r in recomputed if r['mode']=='normal')
+    necessary_failure=dependent<2 or wrong_increases<2 or val_l1>=1 or collapse
+    gates=dict(normal_zero_cases_passing=dependent,required_cases=2,
+        wrong_error_increases_cases=wrong_increases,
+        val_H_L1=val_l1,val_below_zero_baseline=val_l1<1,
+        sustained_near_zero_output=collapse,epoch0_full_val_improvement='NOT_VERIFIABLE_FROM_HISTORY',
+        consecutive_passes='NOT_ESTABLISHED',
+        outcome='NO_GO_EXISTING_SAME_PROTOCOL_FAILED' if necessary_failure else 'INCONCLUSIVE_MISSING_GATE_EVIDENCE')
     write(ART/'independent_review.json',dict(checks=checks,all_passed=True,gates=gates,case_summary=summary,
         initial_to_final_net_parameter_change_L2=delta,
         norm_scope='net change over 9379 historical updates, not individual optimizer-step norm; per-step norms not in original full-run logs',
