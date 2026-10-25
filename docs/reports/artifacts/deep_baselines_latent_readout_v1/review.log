@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/deep_baselines_latent_readout_v1/review_latent.py", line 121, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/deep_baselines_latent_readout_v1/review_latent.py", line 56, in main
+    close(float(np.sum(dp*dt)/den) if den>0 else None,r['difference_cosine']);close(np.abs(dp-dt).mean()/np.abs(dt).mean(),r['difference_relative_l1']);counts['pairs']+=1
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/deep_baselines_latent_readout_v1/review_latent.py", line 9, in close
+    else:assert np.isclose(float(a),float(b),atol=2e-9,rtol=2e-6),(a,b)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (-0.029202549780992917, '-0.02920276135711145')

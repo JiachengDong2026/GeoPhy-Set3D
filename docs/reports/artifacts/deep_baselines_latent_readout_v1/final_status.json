@@ -1,0 +1,107 @@
+{
+  "at": "2026-10-25T21:28:36.731711+08:00",
+  "state": "COMPLETE",
+  "task": "frozen representation / independent analytical ridge diagnostic",
+  "decisions": [
+    {
+      "arm": "gnot",
+      "status": "INCONCLUSIVE",
+      "evidence": [
+        {
+          "branch": "A",
+          "upstream_layer": "block1_measurement_operator",
+          "median_normalized_l2": 0.0004924144947660384,
+          "meaningful_response": true,
+          "unseen_improvement": [
+            false,
+            false
+          ],
+          "unseen_difference_gate": false,
+          "probe_stable": false,
+          "category": "D"
+        },
+        {
+          "branch": "B",
+          "upstream_layer": "block1_measurement_operator",
+          "median_normalized_l2": 0.0005402743570303157,
+          "meaningful_response": true,
+          "unseen_improvement": [
+            false,
+            false
+          ],
+          "unseen_difference_gate": false,
+          "probe_stable": false,
+          "category": "D"
+        }
+      ]
+    },
+    {
+      "arm": "deepsets",
+      "status": "NO-GO",
+      "evidence": [
+        {
+          "branch": "A",
+          "upstream_layer": "pooled_latent",
+          "median_normalized_l2": 0.0002644699417556207,
+          "meaningful_response": true,
+          "unseen_improvement": [
+            false,
+            false
+          ],
+          "unseen_difference_gate": false,
+          "probe_stable": true,
+          "category": "C"
+        },
+        {
+          "branch": "B",
+          "upstream_layer": "pooled_latent",
+          "median_normalized_l2": 0.0002895878597440124,
+          "meaningful_response": true,
+          "unseen_improvement": [
+            false,
+            false
+          ],
+          "unseen_difference_gate": false,
+          "probe_stable": true,
+          "category": "C"
+        }
+      ]
+    }
+  ],
+  "independent_review_passed": true,
+  "neural_updates": 0,
+  "remaining_diagnostic_updates": 100,
+  "original_checkpoints_unchanged": true,
+  "main_checkpoints_unchanged": true,
+  "historical_tracked_files_unchanged": true,
+  "old_queue_paused": true,
+  "formal_training_started": false,
+  "real_GT_access": false,
+  "GT128_access": false,
+  "synthetically_supervised_probe": true,
+  "case_split": {
+    "seen": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "unseen": [
+      6,
+      7
+    ]
+  },
+  "scratch": "/scratch/djc/GeoPhy-Set3D/deep_baselines_latent_readout_v1",
+  "source_seal_verified": {
+    "/home/djc/projects/GeoPhy-Set3D/scripts/deep_baselines_latent_readout_v1/evaluate_latent.py": true,
+    "/home/djc/projects/GeoPhy-Set3D/scripts/deep_baselines_latent_readout_v1/prepare_latent.py": true,
+    "/home/djc/projects/GeoPhy-Set3D/scripts/deep_baselines_latent_readout_v1/launch_latent.py": true,
+    "/home/djc/projects/GeoPhy-Set3D/scripts/deep_baselines_latent_readout_v1/extract_latent.py": true,
+    "/home/djc/projects/GeoPhy-Set3D/scripts/deep_baselines_latent_readout_v1/latent_context.py": true,
+    "/home/djc/projects/GeoPhy-Set3D/scripts/deep_baselines_latent_readout_v1/ridge_latent.py": true,
+    "/home/djc/projects/GeoPhy-Set3D/scripts/deep_baselines_latent_readout_v1/test_latent.py": true,
+    "/home/djc/projects/GeoPhy-Set3D/docs/deep_baselines_latent_readout_v1_protocol_zh.md": true
+  }
+}
