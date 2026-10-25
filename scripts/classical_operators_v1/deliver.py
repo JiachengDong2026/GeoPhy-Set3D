@@ -13,7 +13,7 @@ def main():
         source=read(pilot/'result.json') if complete else read(root/'terminal_audit/result.json')
         review=read(ART/(arm+'_independent_review.json'));assert review['all_passed']
         status[arm]=dict(status=review['status'],engineering=True,formal_epochs=0,formal_updates=0,GT64_evaluated=False,
-            pilot_completed=complete,pilot_epochs=source.get('epochs',source.get('checkpoint',{}).get('epoch')),
+            pilot_completed=complete,pilot_epochs=source['epochs'] if complete else source['checkpoint']['epoch'],
             actual_updates=source.get('optimizer_steps',source.get('actual_training_updates')),independently_reviewed=True)
         if complete:assert source['status']=='NO_GO','GO requires completing formal phase, not final delivery now'
         for p in sorted(pilot.glob('*.pt')):
@@ -58,7 +58,7 @@ def main():
         '| GeoLift-DeepSets-Sum | 原共享几何提升及masked sum/4 | 306,625 | 已有正式自监督协议 |',
         '| DeepONet | 全站完整测量/几何CNN branch；station-ID排序5槽；坐标MLP trunk；64维内积 | 222,033 | 原selfsup目标，H不输入 |',
         '| FNO | 固定K96线性射线伴随3通道+XYZ；4层3D谱卷积，width16/modes8 | 4,196,657 | 原selfsup目标，H不输入 |','',
-        'DeepONet依据Lu et al., NMI2021, arXiv:1910.03193；FNO依据Li et al., ICLR2021, arXiv:2010.08895。文献标识清楚；网络不可达，未声称本轮取得并逐段核对全文。没有MRGR/OARI/GCA/新attention，也没有使用GT构造输入。模型只读取合法measurement/geometry字段。','',
+        'DeepONet依据Lu et al., NMI2021, arXiv:1910.03193；FNO依据Li et al., ICLR2021, arXiv:2010.08895。pilot后已成功下载并核查两篇arXiv原始PDF的架构段落，文件SHA见paper_sources.json：DeepONet第2.1节/图1D/式2，FNO式2/式4/图2。该文献复核未改动任何模型或门槛。没有MRGR/OARI/GCA/新attention，也没有使用GT构造输入。模型只读取合法measurement/geometry字段。DeepONet的CNN、末层线性trunk与最终sigmoid，以及FNO的GELU/无batch norm/width16/modes8/padding/sigmoid均为运行前固定的任务适配；原FNO论文实验采用ReLU及batch normalization，不声称逐项复现原论文实验超参。','',
         'DeepONet保留全部有效射线（含0测量），常规CNN下采样不是筛射线；padding在排序后剔除，最多5真实station，完整XYZ/z最快64³查询分块。FNO的T为归一化**摩尔分数线积分**，非线性质量投影P没有全局线性伴随：用已知chi导数将J_P(0)^T转换为T^T，固定计算加权回投影、log1p支持度和可见性，不把测量积分称作局部浓度真值。CPU固定顺序累积与512条有界缓存保持相同输入重复一致。薄弱支持处归一化对舍入敏感；输入在模型参数外确定，不经GT选择。','',
         '所有原训练字段逐项严格一致：Pool A、166/36拆分、原A/B/H sampler与mask、FP32、AdamW2e-4/wd1e-4、clip1、seed20261011、cosine T_max300、batch2、loader4workers。pilot固定前32个train/完整36Val，每轮16更新，上限30轮480更新，独立于正式预算。直接调用training.selfsup.objective/run_epoch/selection_metric；不复制loss、不改epsilon/权重。','',
         '预登记交集门槛：最后两次Val H<=.99，相对真正epoch0至少改善5%且绝对改善.01；非零/非恒定/非饱和；train0/1/2至少2例置零响应>=1e-3且绝对MA>=1e-8，错配H增加>=1e-6；Val前4例至少2例正常H优于置零.001；工程/访问/独立复核通过。不同loss及解析GT可辨识性实验的专用门槛不混用。所有阈值在训练前登记，失败后未降低。','',
@@ -76,14 +76,24 @@ def main():
             number=str(u.get('exact_process_updates')) if u.get('exact_interrupted_epoch_count_available') else f"{u['process_lower_bound']}–{u['process_upper_bound']}（精确中断计数缺失）"
             lines += [f"pilot在第{len(h)+1}轮因下一次更新前FP32梯度norm非正而停止；权威last.pt为第{len(h)}轮/{t['checkpoint']['updates']}更新，进程实际更新{number}。完整轮训练+Val实测{sum(x['seconds'] for x in h):.3f}秒，峰值{max(x['peak_gpu_bytes'] for x in h):,} bytes，不含epoch0/干预/中断轮；全部进程时间见调度日志。",'',
                 f"只读末态重放完整36Val与日志精确一致；另封存{r['full_fields_recomputed']}个完整干预场/原始logit/H投影，第二套NumPy FP64重算sigmoid、场统计、测量L1及科学门槛通过。",'']
-        else:lines += [f"完成30轮/{status[arm]['actual_updates']}更新，但科学门槛失败；不推广pilot权重为正式结果。",'']
+        else:
+            summary=read(p/'result.json')
+            lines += [f"完成30轮/{status[arm]['actual_updates']}更新；训练+诊断总墙钟{summary['seconds']:.3f}秒，峰值{summary['peak_gpu_bytes']:,} bytes，初态至末态参数净变化L2={summary['parameter_net_change_l2']:.6g}。最后两轮Val H均低于.99，确有测量拟合改善及条件响应；仍未通过输出健康度与Val置零收益联合门槛，不推广pilot权重为正式结果。",'']
+            normal=[x for x in read(ART/(arm+'_interventions.json')) if x['epoch']==30 and x['mode']=='normal']
+            lines += [f"固定14个normal分支：最小输出均值{min(x['mean'] for x in normal):.6g}，最大近零比例{max(x['nearzero'] for x in normal):.6g}，最大abs(logit)>10比例{max(x['saturated'] for x in normal):.6g}。饱和比例按每个完整场独立检查，不能用聚合std掩盖。",'']
+            lines += ['| Val案例索引 | normal-zero相对MA | 正常H相对zero的改善（正值有利） |','|---|---:|---:|']
+            for i in range(4):
+                pair=[x for x in normal if x['split']=='val' and x['index']==i]
+                lines.append(f"| {i} | {sum(x['normal_zero_relative_MA'] for x in pair)/2:.6g} | {sum(x['zero_H_increase'] for x in pair)/2:.6g} |")
+            lines+=['']
         checks=r.get('necessary_conditions',r.get('diagnostic_checks',{}))
         lines += ['```json',json.dumps(checks,ensure_ascii=False,indent=2),'```','']
         if 'cases' in r:
             lines += ['| train案例索引 | normal-zero相对MA | 绝对MA | 错配H增加 |','|---|---:|---:|---:|']
             for i,v in enumerate(r['cases']['train']):lines.append(f"| {i} | {v['normal_zero_relative_MA']:.6g} | {v['normal_zero_absolute_MA']:.6g} | {v['wrong_H_increase']:.6g} |")
             lines+=['']
-    lines+=['**解释边界：** loss从巨大初始值下降不等于学会利用测量；接近零预测与响应消失均违反必要条件。工程断言在30轮上限之前停止，因此不写成30轮完成。必要塌缩失败已证实，NO-GO不因缺失最终两次成功而降格为“可能继续训练”。末态梯度FP32/FP64范数见terminal_audit；单次末态梯度诊断不证明中断瞬间唯一机制。未实施任何学习率/损失/初始化搜索或修复候选，未将失败外推为经典算法能力上限。','',
+    lines+=['**解释边界：** loss从巨大初始值下降不等于学会利用测量；DeepONet的近零塌缩违反必要条件；FNO有响应且最后误差小于1，但部分完整场饱和及验证置零收益低于预定.001仍违反其他必要条件。DeepONet工程断言在30轮上限之前停止，因此不写成30轮完成；其必要塌缩失败已证实。FNO完成30轮但联合门槛失败，两者均按独立证据判NO-GO。DeepONet置零相对差0.02–0.15来自极小分母，绝对差约1e-20或更小，不能称有用测量依赖。末态梯度FP32/FP64范数见terminal_audit；单次末态梯度诊断不证明中断瞬间唯一机制。未实施任何学习率/损失/初始化搜索或修复候选，未将失败外推为经典算法能力上限。','',
+        '![测量误差与输出幅度曲线](artifacts/classical_operators_v1/pilot_measurement_curves.png)','',
         '## 4. 正式三维对比状态','',
         '两个新模型均未获得正式训练准入：formal=0epoch/0update、新900预测=0、新GT64评分=0。故无新三维Relative L1/L2、峰值/积分、95%CI或精度排名；不拿pilot单例代替正式全量。新增正式/selector/infer/GT入口采用完整预算、checkpoint哈希、measurement-only replay和900封存前置校验；由于本轮未获准入，这些完整路径未做端到端科学运行，不声称已经验证。','',
         '## 5. 独立复核、保护、偏离与资源','',
@@ -96,6 +106,7 @@ def main():
         '- DeepONet/FNO均未完成正式预算，不生成伪造的主模型配对精度；单seed/小pilot/开发Val限制保留。','',
         '## 6. 交付与复算','',
         '- [训练前协议](../classical_operators_v1_protocol_zh.md)、[中断审计/资源修订](../classical_operators_v1_terminal_audit_zh.md)。',
+        '- [文献架构与适配核对](artifacts/classical_operators_v1/paper_sources.json)。',
         '- [历史冻结审计](artifacts/classical_operators_v1/history_audit.json)、[状态](artifacts/classical_operators_v1/experiment_status.json)、[checkpoint路径与SHA](artifacts/classical_operators_v1/checkpoint_manifest.json)、[保护核验](artifacts/classical_operators_v1/integrity.json)。',
         '- [DeepONet独立复核](artifacts/classical_operators_v1/deeponet_independent_review.json)、[FNO独立复核](artifacts/classical_operators_v1/fno_independent_review.json)；逐例干预/曲线/压缩日志均同目录。',
         f'- 大数组、checkpoint、完整资源快照仅在`{ROOT}`；配置`configs/classical_operators_v1/{{deeponet,fno}}.yaml`，代码`scripts/classical_operators_v1`与独立models模块。',

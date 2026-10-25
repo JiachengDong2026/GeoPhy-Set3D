@@ -13,6 +13,12 @@ def main():
             axes[0,j].plot(epochs,y,label=split)
         axes[0,j].axhline(1,color='black',linestyle='--',linewidth=1,label='zero field')
         axes[0,j].axhline(.99,color='red',linestyle=':',linewidth=1,label='gate <=0.99')
+        if arm=='fno':
+            zoom=axes[0,j].inset_axes([.45,.24,.5,.33])
+            late=[r for r in h if r['epoch']>=20]
+            zoom.plot([r['epoch'] for r in late],[r['val']['measurement']['heldout']['relative_l1'] for r in late],color='tab:orange')
+            zoom.axhline(1,color='black',linestyle='--',linewidth=.8);zoom.axhline(.99,color='red',linestyle=':',linewidth=.8)
+            zoom.set_title('Final Val epochs',fontsize=8);zoom.tick_params(labelsize=7);zoom.set_ylim(.985,1.005)
         axes[0,j].set_yscale('log');axes[0,j].set_ylabel('Held-out measurement Relative L1');axes[0,j].set_title(arm+' (pilot only)');axes[0,j].legend(fontsize=8)
         for key in ['mean','std']:
             y=[initial['val']['output'][key]]+[r['val']['output'][key] for r in h]

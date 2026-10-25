@@ -1,0 +1,35 @@
+/scratch/djc/GeoPhy-Set3D-classical-operators-v1/src/geophy_set3d/evaluation/measurement_consistency.py:17: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  return dict(relative_l1=float(d.abs().sum()/y.abs().sum().clamp_min(1e-6)),
+deeponet pilot 1/30 steps=16 valH=77.055596696 mean=0.2372 seconds=4.20
+deeponet pilot 2/30 steps=32 valH=1.001116644 mean=3.785e-06 seconds=4.30
+deeponet pilot 3/30 steps=48 valH=1.000000000 mean=1.817e-16 seconds=4.50
+deeponet pilot 4/30 steps=64 valH=1.000000000 mean=1.19e-20 seconds=4.59
+deeponet pilot 5/30 steps=80 valH=1.000000000 mean=1.172e-21 seconds=4.56
+deeponet pilot 6/30 steps=96 valH=1.000000000 mean=7.176e-22 seconds=4.75
+Traceback (most recent call last):
+  File "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/scripts/classical_operators_v1/worker.py", line 158, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/scripts/classical_operators_v1/worker.py", line 154, in main
+    elif a.phase=='pilot':pilot(a.arm,c)
+                          ^^^^^^^^^^^^^^
+  File "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/scripts/classical_operators_v1/worker.py", line 108, in pilot
+    tr=run_epoch(model,train_loader,c,opt)
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/src/geophy_set3d/training/selfsup.py", line 160, in run_epoch
+    gradient_max=max(gradient_max,float(norm)); optimizer.step(); optimizer.zero_grad(set_to_none=True)
+                                                ^^^^^^^^^^^^^^^^
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/site-packages/torch/optim/lr_scheduler.py", line 166, in wrapper
+    return func.__get__(opt, opt.__class__)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/site-packages/torch/optim/optimizer.py", line 533, in wrapper
+    out = func(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/scripts/classical_operators_v1/worker.py", line 20, in step
+    assert grad>0 and math.isfinite(grad)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

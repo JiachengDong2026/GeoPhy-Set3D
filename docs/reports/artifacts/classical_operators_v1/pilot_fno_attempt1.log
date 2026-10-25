@@ -1,0 +1,34 @@
+/scratch/djc/GeoPhy-Set3D-classical-operators-v1/src/geophy_set3d/evaluation/measurement_consistency.py:17: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  return dict(relative_l1=float(d.abs().sum()/y.abs().sum().clamp_min(1e-6)),
+fno pilot 1/30 steps=16 valH=136.178661664 mean=0.4849 seconds=7.94
+fno pilot 2/30 steps=32 valH=134.382559846 mean=0.4762 seconds=16.85
+fno pilot 3/30 steps=48 valH=132.329380439 mean=0.4663 seconds=16.55
+fno pilot 4/30 steps=64 valH=129.710617075 mean=0.4538 seconds=17.77
+fno pilot 5/30 steps=80 valH=125.741004065 mean=0.4355 seconds=16.53
+fno pilot 6/30 steps=96 valH=118.112573592 mean=0.4017 seconds=16.69
+fno pilot 7/30 steps=112 valH=100.237789229 mean=0.3288 seconds=17.15
+fno pilot 8/30 steps=128 valH=64.215441781 mean=0.202 seconds=17.69
+fno pilot 9/30 steps=144 valH=25.216291063 mean=0.08177 seconds=18.51
+fno pilot 10/30 steps=160 valH=5.319374836 mean=0.01983 seconds=17.23
+fno pilot 11/30 steps=176 valH=1.376498464 mean=0.002279 seconds=17.69
+fno pilot 12/30 steps=192 valH=1.027589562 mean=0.0002061 seconds=17.48
+fno pilot 13/30 steps=208 valH=1.007677754 mean=6.466e-05 seconds=17.24
+fno pilot 14/30 steps=224 valH=1.004988749 mean=4.443e-05 seconds=17.65
+fno pilot 15/30 steps=240 valH=1.004081453 mean=3.765e-05 seconds=17.21
+fno pilot 16/30 steps=256 valH=1.003418581 mean=3.292e-05 seconds=17.92
+fno pilot 17/30 steps=272 valH=1.003136335 mean=3.134e-05 seconds=18.93
+fno pilot 18/30 steps=288 valH=1.002759505 mean=2.969e-05 seconds=19.31
+fno pilot 19/30 steps=304 valH=1.002567710 mean=3.184e-05 seconds=18.71
+fno pilot 20/30 steps=320 valH=1.002840613 mean=6.722e-05 seconds=18.76
+fno pilot 21/30 steps=336 valH=1.001587750 mean=5.63e-05 seconds=18.33
+fno pilot 22/30 steps=352 valH=1.000235180 mean=7.762e-05 seconds=17.21
+fno pilot 23/30 steps=368 valH=0.996139260 mean=6.948e-05 seconds=17.45
+fno pilot 24/30 steps=384 valH=0.996820077 mean=5.359e-05 seconds=17.78
+fno pilot 25/30 steps=400 valH=0.992046658 mean=0.0001407 seconds=16.40
+fno pilot 26/30 steps=416 valH=0.997949484 mean=3.783e-05 seconds=16.91
+fno pilot 27/30 steps=432 valH=0.991688946 mean=8.996e-05 seconds=16.82
+fno pilot 28/30 steps=448 valH=0.991668020 mean=7.262e-05 seconds=17.18
+fno pilot 29/30 steps=464 valH=0.989101038 mean=8.793e-05 seconds=17.46
+fno pilot 30/30 steps=480 valH=0.989392991 mean=7.921e-05 seconds=17.01
+{"arm": "fno", "status": "NO_GO", "engineering": true, "training_improved": true, "epochs": 30, "optimizer_steps": 480, "initial_val_H": 137.86466346929203, "last_val_H": 0.9893929912498766, "best_val_H": 0.9891010380063696, "zero_baseline": {"relative_l1": 1.0, "relative_l2": 1.0, "measurement_discrepancy": 0.1876649409532547}, "final_checks": {"0": {"healthy_fields": false, "train_zero_2of3": false, "train_wrong_2of3": false, "val_zero_benefit_2of4": false, "val_below_zero": false, "val_initial_improvement": false, "val_healthy": false}, "10": {"healthy_fields": true, "train_zero_2of3": true, "train_wrong_2of3": true, "val_zero_benefit_2of4": true, "val_below_zero": false, "val_initial_improvement": true, "val_healthy": true}, "20": {"healthy_fields": true, "train_zero_2of3": true, "train_wrong_2of3": false, "val_zero_benefit_2of4": false, "val_below_zero": false, "val_initial_improvement": true, "val_healthy": true}, "29": {"healthy_fields": false, "train_zero_2of3": true, "train_wrong_2of3": true, "val_zero_benefit_2of4": false, "val_below_zero": true, "val_initial_improvement": true, "val_healthy": true}, "30": {"healthy_fields": false, "train_zero_2of3": true, "train_wrong_2of3": true, "val_zero_benefit_2of4": false, "val_below_zero": true, "val_initial_improvement": true, "val_healthy": true}}, "parameters": 4196657, "initial_state_sha256": "d3c9ba93462b740f8e18da24f7552070a1480e64bcd00cd81ed8ff2782d374c8", "final_state_sha256": "9e2ca18cab3f2c33503bebdfa3523ada3cc76a659156aab3fe50207c30ff9737", "parameter_net_change_l2": 38.84493399747525, "checkpoint": "/scratch/djc/GeoPhy-Set3D/classical_operators_v1/fno/pilot/last.pt", "checkpoint_sha256": "ae19e360b976bef6a18ddb9e4b7c90ac4804f9d9de6dfb7c989d1aee6a5eb452", "pilot_best_sha256": "3cdd893ff373934f078e1cd9b7c77226f18185983320fd988b57b159483d86d3", "peak_gpu_bytes": 1613342208, "seconds": 611.2585147069767, "access": {"gt_file_opened": false, "gt_open_attempts": 0, "forbidden_npy_attempts": 0, "supervised_checkpoint_open_attempts": 0, "projection_open_count": 6642, "unique_pool_a_projection_files": 68, "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied", "audit_hook_inherited_by_workers": true}, "formal_started": false, "formal_updates": 0, "formal_eligibility": "blocked by failed necessary pilot gates"}

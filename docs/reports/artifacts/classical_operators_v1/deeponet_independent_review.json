@@ -1,0 +1,85 @@
+{
+  "all_passed": true,
+  "scientific_GO": false,
+  "status": "NO_GO",
+  "necessary_conditions": {
+    "healthy_fields": false,
+    "train_zero_2of3": false,
+    "train_wrong_2of3": false,
+    "val_zero_benefit_2of4": false,
+    "val_below_zero": false,
+    "val_initial_improvement": true,
+    "val_healthy": false
+  },
+  "full_fields_recomputed": 42,
+  "cases": {
+    "train": [
+      {
+        "normal_zero_relative_MA": 0.14632060166278094,
+        "normal_zero_absolute_MA": 5.0488521116003415e-20,
+        "wrong_H_increase": 0.0,
+        "zero_H_increase": 0.0
+      },
+      {
+        "normal_zero_relative_MA": 0.075639737594557,
+        "normal_zero_absolute_MA": 2.6514541915219523e-27,
+        "wrong_H_increase": 0.0,
+        "zero_H_increase": 0.0
+      },
+      {
+        "normal_zero_relative_MA": 0.018543328616944514,
+        "normal_zero_absolute_MA": 3.3741684686397797e-22,
+        "wrong_H_increase": 0.0,
+        "zero_H_increase": 0.0
+      }
+    ],
+    "val": [
+      {
+        "normal_zero_relative_MA": 0.20727472447705797,
+        "normal_zero_absolute_MA": 5.936664204774785e-27,
+        "wrong_H_increase": 0.0,
+        "zero_H_increase": 0.0
+      },
+      {
+        "normal_zero_relative_MA": 0.05535049528224051,
+        "normal_zero_absolute_MA": 1.4316753047364095e-22,
+        "wrong_H_increase": 0.0,
+        "zero_H_increase": 0.0
+      },
+      {
+        "normal_zero_relative_MA": 0.26210680210220566,
+        "normal_zero_absolute_MA": 2.7865815094520025e-27,
+        "wrong_H_increase": 0.0,
+        "zero_H_increase": 0.0
+      },
+      {
+        "normal_zero_relative_MA": 0.17383371053107582,
+        "normal_zero_absolute_MA": 5.861780236524464e-30,
+        "wrong_H_increase": 0.0,
+        "zero_H_increase": 0.0
+      }
+    ]
+  },
+  "checkpoint": {
+    "epoch": 6,
+    "updates": 96,
+    "optimizer_steps": [
+      96
+    ],
+    "scheduler_epoch": 6,
+    "RNG_saved": true
+  },
+  "actual_training_updates": {
+    "authoritative_checkpoint": 96,
+    "process_lower_bound": 96,
+    "process_upper_bound": 111,
+    "exact_interrupted_epoch_count_available": false,
+    "exact_process_updates": null,
+    "reason": "Per-step telemetry was only persisted at pilot completion; interrupted epoch in-memory counter lost. No replay or fabricated exact count."
+  },
+  "new_updates": 0,
+  "GT_read": false,
+  "model_forwards": 0,
+  "review_definition": "Second NumPy FP64 numerical implementation, not external-person review",
+  "limitations": "Incomplete 30-epoch pilot; necessary collapse/zero-baseline failure independently confirmed. No precision rank or formal training."
+}

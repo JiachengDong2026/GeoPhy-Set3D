@@ -1,0 +1,253 @@
+{
+  "source_manifest_sha256": "e88cdda4b2d89e104b185374b8d50acdabb459f296f0090a65a81da490713f34",
+  "protocol_sha256": "0b9e850e76810b5ff27502e66feed8441e9e2126b3a155f9b48ffa0019af4bde",
+  "models": {
+    "deeponet": {
+      "dataset": {
+        "root": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1"
+      },
+      "experiment": {
+        "name": "deeponet_selfsup_v1",
+        "output_root": "/scratch/djc/GeoPhy-Set3D/classical_operators_v1"
+      },
+      "loader": {
+        "num_workers": 4,
+        "persistent_workers": true,
+        "pin_memory": true
+      },
+      "loss": {
+        "hold": 1.0,
+        "cross": 0.5,
+        "observed": 0.1,
+        "consistency": 0.05,
+        "beta": 0.01,
+        "relative_l1": 0.1,
+        "relative_epsilon": 1e-06,
+        "measurement_scale": 32284.894580078173
+      },
+      "model": {
+        "name": "deeponet_v1",
+        "settings": {
+          "features": 64,
+          "width": 128,
+          "max_views": 5,
+          "query_chunk": 8192
+        }
+      },
+      "normalization": {
+        "method": "linear_p99_5",
+        "statistics_file": "train_statistics.json"
+      },
+      "optimizer": {
+        "lr": 0.0002,
+        "name": "adamw",
+        "weight_decay": 0.0001
+      },
+      "train": {
+        "split": "train",
+        "geometry_pool": "train",
+        "a_views": [
+          3,
+          5
+        ],
+        "b_views": [
+          3,
+          5
+        ],
+        "heldout_views": 2
+      },
+      "training": {
+        "batch_size": 2,
+        "device": "cuda:0",
+        "early_stopping_patience": null,
+        "gradient_accumulation": 1,
+        "gradient_clip_norm": 1.0,
+        "max_epochs": 300,
+        "precision": "fp32",
+        "seed": 20261011
+      },
+      "validation": {
+        "split": "val",
+        "geometry_pool": "train",
+        "a_views": [
+          4,
+          4
+        ],
+        "b_views": [
+          4,
+          4
+        ],
+        "heldout_views": 4
+      },
+      "scheduler": {
+        "name": "cosine",
+        "T_max": 300
+      },
+      "comparison": {
+        "output": "/scratch/djc/GeoPhy-Set3D/classical_operators_v1/deeponet",
+        "reference_artifact": "/home/djc/projects/GeoPhy-Set3D/docs/reports/artifacts/selfsup_v1_c0c1_geometry",
+        "reference_predictions": "/data/djc/GeoPhy-Set3D/outputs/diagnostics/selfsup_v1_c0c1_geometry",
+        "bootstrap_seed": 2026101801,
+        "bootstrap_samples": 10000,
+        "tie_epsilon": 1e-08,
+        "timing_warmup": 10,
+        "timing_repeats": 30,
+        "representative_cases": [
+          0,
+          18,
+          35
+        ],
+        "representative_groups": [
+          "G1",
+          "G3",
+          "G5"
+        ],
+        "representative_draw": 0,
+        "slice_y_index": 32
+      }
+    },
+    "fno": {
+      "dataset": {
+        "root": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1"
+      },
+      "experiment": {
+        "name": "fno_selfsup_v1",
+        "output_root": "/scratch/djc/GeoPhy-Set3D/classical_operators_v1"
+      },
+      "loader": {
+        "num_workers": 4,
+        "persistent_workers": true,
+        "pin_memory": true
+      },
+      "loss": {
+        "hold": 1.0,
+        "cross": 0.5,
+        "observed": 0.1,
+        "consistency": 0.05,
+        "beta": 0.01,
+        "relative_l1": 0.1,
+        "relative_epsilon": 1e-06,
+        "measurement_scale": 32284.894580078173
+      },
+      "model": {
+        "name": "fno_v1",
+        "settings": {
+          "width": 16,
+          "modes": 8,
+          "layers": 4,
+          "padding": 8,
+          "activation_checkpoint": true
+        }
+      },
+      "normalization": {
+        "method": "linear_p99_5",
+        "statistics_file": "train_statistics.json"
+      },
+      "optimizer": {
+        "lr": 0.0002,
+        "name": "adamw",
+        "weight_decay": 0.0001
+      },
+      "train": {
+        "split": "train",
+        "geometry_pool": "train",
+        "a_views": [
+          3,
+          5
+        ],
+        "b_views": [
+          3,
+          5
+        ],
+        "heldout_views": 2
+      },
+      "training": {
+        "batch_size": 2,
+        "device": "cuda:0",
+        "early_stopping_patience": null,
+        "gradient_accumulation": 1,
+        "gradient_clip_norm": 1.0,
+        "max_epochs": 300,
+        "precision": "fp32",
+        "seed": 20261011
+      },
+      "validation": {
+        "split": "val",
+        "geometry_pool": "train",
+        "a_views": [
+          4,
+          4
+        ],
+        "b_views": [
+          4,
+          4
+        ],
+        "heldout_views": 4
+      },
+      "scheduler": {
+        "name": "cosine",
+        "T_max": 300
+      },
+      "comparison": {
+        "output": "/scratch/djc/GeoPhy-Set3D/classical_operators_v1/fno",
+        "reference_artifact": "/home/djc/projects/GeoPhy-Set3D/docs/reports/artifacts/selfsup_v1_c0c1_geometry",
+        "reference_predictions": "/data/djc/GeoPhy-Set3D/outputs/diagnostics/selfsup_v1_c0c1_geometry",
+        "bootstrap_seed": 2026101801,
+        "bootstrap_samples": 10000,
+        "tie_epsilon": 1e-08,
+        "timing_warmup": 10,
+        "timing_repeats": 30,
+        "representative_cases": [
+          0,
+          18,
+          35
+        ],
+        "representative_groups": [
+          "G1",
+          "G3",
+          "G5"
+        ],
+        "representative_draw": 0,
+        "slice_y_index": 32
+      }
+    }
+  },
+  "pilot_train_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31
+  ],
+  "pilot_val_count": 36,
+  "epochs": 30,
+  "updates": 480,
+  "resource_amendment": "idle GPU1 under same global UUID lock"
+}

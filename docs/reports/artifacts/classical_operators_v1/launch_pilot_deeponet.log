@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/scripts/classical_operators_v1/launch.py", line 28, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/scripts/classical_operators_v1/launch.py", line 27, in main
+    controller.run(a.phase+'_'+a.arm,command,a.recover_reason)
+  File "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/scripts/deep_baselines_v1/controller.py", line 82, in run
+    s.finish(item, valid=process.returncode == 0 and conflict is None)
+  File "/scratch/djc/GeoPhy-Set3D-classical-operators-v1/scripts/uniform_final_v1/controller.py", line 81, in finish
+    assert valid,'Task failed; preserve evidence and block next phase: '+r['key']+' log='+r['log']
+           ^^^^^
+AssertionError: Task failed; preserve evidence and block next phase: pilot_deeponet log=/scratch/djc/GeoPhy-Set3D/classical_operators_v1/scheduling/pilot_deeponet_attempt1.log

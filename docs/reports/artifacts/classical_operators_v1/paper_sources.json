@@ -1,0 +1,32 @@
+{
+  "reviewed_at": "2026-10-26T00:21:33.703770+08:00",
+  "review_timing": "After pilots; structural attribution only, no model/config/loss/gate changes",
+  "sources": {
+    "deeponet": {
+      "url": "https://arxiv.org/pdf/1910.03193",
+      "citation": "Lu et al., NMI 2021, arXiv:1910.03193 (downloaded arXiv original manuscript title differs from journal title)",
+      "pdf": "/scratch/djc/GeoPhy-Set3D/classical_operators_v1/deeponet_paper.pdf",
+      "pdf_sha256": "4b0bea3d69cbcb044b4e6b754de87ad3dc6efe7e5f2606cb090bca0e00bbad4a",
+      "text_sha256": "72366105d49edf51b60ddc0b0379d424d422a0801ad0528fad668650f8158b7b"
+    },
+    "fno": {
+      "url": "https://arxiv.org/pdf/2010.08895",
+      "citation": "Li et al., ICLR2021, arXiv:2010.08895v3",
+      "pdf": "/scratch/djc/GeoPhy-Set3D/classical_operators_v1/fno_paper.pdf",
+      "pdf_sha256": "6cd2645d4a50d1a61a261529b33747c674d78851bdbe6993b0961f81a17dc6f2",
+      "text_sha256": "f651ee44546b7682be1e9a200e5a115ca46027feff3ab9b3d0c4a10b5782c345"
+    }
+  },
+  "architecture_mapping": {
+    "deeponet": {
+      "source": "Section2.1 / Figure1D / Eq2",
+      "canonical": "single branch vector and trunk vector, inner product plus scalar bias; branch CNN permitted by high-level architecture",
+      "adaptations": "variable station geometry/masks, sorted padded slots, CNN branch, linear final trunk layer, final sigmoid for concentration range; not official experiment reproduction"
+    },
+    "fno": {
+      "source": "Eq2 and Eq4 / Figure2",
+      "canonical": "sigma(Wv + inverseFFT(R*FFT(v))), truncated complex spectral modes, pointwise channel mixing, four layers",
+      "adaptations": "fixed ray-adjoint input, 3D grid, width16/modes8, GELU, no batch norm, padding and sigmoid; paper experiments describe ReLU/batch normalization, dimensions/training budget differ under common task protocol"
+    }
+  }
+}
