@@ -6,6 +6,8 @@ from diagnostics import diagnose,gates
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('arm',choices=['deeponet','fno']);a=ap.parse_args();arm=a.arm
     verify();c=load_config(arm);target=ROOT/arm/'terminal_audit';target.mkdir(exist_ok=False)
+    failure=ROOT/arm/'pilot/failure_state.pt'
+    exact_failure_updates=int(torch.load(failure,map_location='cpu',weights_only=False)['optimizer_steps']) if failure.exists() else None
     reg=dict(script_sha256=sha(__file__),checkpoint=str(ROOT/arm/'pilot/last.pt'),checkpoint_sha256=sha(ROOT/arm/'pilot/last.pt'),
         source_manifest_sha256=sha(ART/'source_manifest.json'),new_updates=0,mode='saved last complete epoch only, not interrupted in-memory state')
     write(target/'registration.json',reg);setup();began=time.perf_counter()
@@ -34,7 +36,7 @@ def main():
             validation_replay=validation,logged_validation_exact=True,gradient_diagnostic=gradients,model_hash_before=before,model_hash_after=after,
             access=access,new_updates=0,optimizer_created=False,seconds=time.perf_counter()-began,peak_gpu_bytes=torch.cuda.max_memory_allocated(),
             actual_training_updates=dict(authoritative_checkpoint=ck['optimizer_steps'],process_lower_bound=ck['optimizer_steps'],
-                process_upper_bound=ck['optimizer_steps']+15,exact_interrupted_epoch_count_available=False,
+                process_upper_bound=ck['optimizer_steps']+15,exact_interrupted_epoch_count_available=exact_failure_updates is not None,exact_process_updates=exact_failure_updates,
                 reason='Per-step telemetry was only persisted at pilot completion; interrupted epoch in-memory counter lost. No replay or fabricated exact count.'),
             formal_started=False,formal_updates=0)
         write(target/'result.json',result);write(ART/(arm+'_terminal_audit.json'),result);print(json.dumps(result),flush=True)

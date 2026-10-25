@@ -5,7 +5,9 @@ sys.path.insert(0,str(PROJECT/'scripts/deep_baselines_v1'))
 import controller
 UUID='GPU-37424437-e208-62d1-e617-53c421c94a49'
 def main():
-    ap=argparse.ArgumentParser();ap.add_argument('phase',choices=['smoke','pilot','formal','evaluate']);ap.add_argument('arm',choices=['deeponet','fno']);ap.add_argument('--recover-reason');a=ap.parse_args()
+    ap=argparse.ArgumentParser();ap.add_argument('phase',choices=['smoke','pilot','formal','evaluate']);ap.add_argument('arm',choices=['deeponet','fno']);ap.add_argument('--recover-reason');ap.add_argument('--gpu',choices=['0','1'],default='0');a=ap.parse_args()
+    global UUID
+    if a.gpu=='1':UUID='GPU-cd80a78f-7d90-c291-4680-4895db9aac8b'
     original=controller.c.scheduler
     def restricted():
         s=original();devices=s.devices;s.devices=lambda snap:[r for r in devices(snap) if r['uuid']==UUID]

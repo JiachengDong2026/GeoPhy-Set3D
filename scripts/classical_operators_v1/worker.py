@@ -9,7 +9,7 @@ from torch.utils.data import Subset
 
 class TrackedAdamW(torch.optim.AdamW):
     def __init__(self,*args,**kwargs):
-        super().__init__(*args,**kwargs);self.updates=0;self.trace=[]
+        super().__init__(*args,**kwargs);self.updates=0;self.trace=[];self.journal=None;self.failure_snapshot=None
     @torch.no_grad()
     def step(self,closure=None):
         params=[p for g in self.param_groups for p in g['params']]
@@ -17,11 +17,16 @@ class TrackedAdamW(torch.optim.AdamW):
         grads=[p.grad for p in params if p.grad is not None]
         assert grads and all(torch.isfinite(g).all() for g in grads)
         grad=float(torch.linalg.vector_norm(torch.stack([g.norm() for g in grads])))
-        assert grad>0 and math.isfinite(grad)
+        if not (grad>0 and math.isfinite(grad)):
+            if self.failure_snapshot is not None:self.failure_snapshot()
+            raise FloatingPointError('Nonpositive or nonfinite FP32 gradient norm; preserve current state and stop')
         result=super().step(closure)
         update=float(torch.linalg.vector_norm(torch.stack([(p-b).norm() for p,b in zip(params,before)])))
         assert update>0 and math.isfinite(update) and all(torch.isfinite(p).all() for p in params)
         self.updates+=1;self.trace.append(dict(update=self.updates,postclip_gradient_norm=grad,actual_parameter_update_l2=update))
+        if self.journal is not None:
+            with self.journal.open('a') as stream:
+                stream.write(json.dumps(self.trace[-1],allow_nan=False)+'\n');stream.flush();os.fsync(stream.fileno())
         return result
 
 def optimizer(model,c):return TrackedAdamW(model.parameters(),lr=c['optimizer']['lr'],weight_decay=c['optimizer']['weight_decay'])
@@ -93,6 +98,13 @@ def pilot(arm,c):
         model=build_model(c);initial=state_hash(model.state_dict());assert initial==read(ROOT/arm/'smoke/result.json')['initial_state_sha256']
         opt=optimizer(model,c);scheduler=torch.optim.lr_scheduler.CosineAnnealingLR(opt,T_max=300)
         generator=torch.Generator().manual_seed(20261011)
+        opt.journal=target/'actual_updates.jsonl'
+        def failure_snapshot():
+            atomic_checkpoint(target/'failure_state.pt',dict(model=model.state_dict(),optimizer=opt.state_dict(),scheduler=scheduler.state_dict(),
+                rng=rng_state(generator),optimizer_steps=opt.updates,config=c,pilot_only=True,volumetric_gt_used=False,
+                source_manifest_sha256=sha(ART/'source_manifest.json'),epoch_in_progress=len(records)+1 if 'records' in locals() else None))
+            write(target/'failure_access.json',guard.summary())
+        opt.failure_snapshot=failure_snapshot
         train,val=make_dataset(c),make_dataset(c,validation=True);assert (len(train),len(val))==(166,36)
         subset=Subset(train,list(range(32)))
         train_loader=make_loader(subset,c,True,generator);val_loader=make_loader(val,c)
@@ -148,7 +160,7 @@ def pilot(arm,c):
 
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('phase',choices=['smoke','pilot','formal']);ap.add_argument('arm',choices=['deeponet','fno']);a=ap.parse_args()
-    verify();assert os.environ.get('CUDA_VISIBLE_DEVICES')=='GPU-37424437-e208-62d1-e617-53c421c94a49','Use locked launcher'
+    verify();assert os.environ.get('CUDA_VISIBLE_DEVICES') in ('GPU-37424437-e208-62d1-e617-53c421c94a49','GPU-cd80a78f-7d90-c291-4680-4895db9aac8b'),'Use locked launcher'
     c=load_config(a.arm)
     if a.phase=='smoke':smoke(a.arm,c)
     elif a.phase=='pilot':pilot(a.arm,c)
