@@ -1,0 +1,74 @@
+{
+  "checks": {
+    "all_historical_evidence_files_unchanged": true,
+    "all_preexisting_tracked_files_unchanged": true,
+    "selfsup_best_last_sha_unchanged": true,
+    "supervised_sha_unchanged": true,
+    "frozen_main_checkpoint_sha_correct": true,
+    "18_full_fields_logits_H_metrics_independently_recomputed": true,
+    "no_diagnostic_weight_updates": true,
+    "full_val_selector_replayed_exactly": true,
+    "no_forbidden_access": true,
+    "113_consecutive_epochs_83_steps_each": true,
+    "all_log_numbers_finite": true,
+    "all_epochs_nonzero_finite_gradient": true,
+    "finite_nonzero_initial_to_final_net_parameter_change": true,
+    "optimizer_steps_independently_9379": true
+  },
+  "all_passed": true,
+  "gates": {
+    "normal_zero_cases_passing": 0,
+    "required_cases": 2,
+    "wrong_error_increases_cases": 2,
+    "val_H_L1": 1.000000950284751,
+    "val_below_zero_baseline": false,
+    "sustained_near_zero_output": true,
+    "epoch0_full_val_improvement": "NOT_VERIFIABLE_FROM_HISTORY",
+    "consecutive_passes": "NOT_ESTABLISHED",
+    "outcome": "NO_GO_EXISTING_SAME_PROTOCOL_FAILED"
+  },
+  "case_summary": [
+    {
+      "case_index": 0,
+      "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w0_inlet1_half",
+      "normal_zero_relative_MA": 1.9427639900526368e-05,
+      "dependency_pass": false,
+      "normal_H_L1": 1.000001242531825,
+      "zero_input_H_L1": 1.0000012425533322,
+      "wrong_H_L1": 1.0000012425450673,
+      "wrong_minus_normal": 1.3242296148519017e-11,
+      "wrong_error_increases": true
+    },
+    {
+      "case_index": 1,
+      "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w1_inlet1_half",
+      "normal_zero_relative_MA": 6.313324606347172e-06,
+      "dependency_pass": false,
+      "normal_H_L1": 1.0000053226319394,
+      "zero_input_H_L1": 1.0000053226636552,
+      "wrong_H_L1": 1.0000053226417764,
+      "wrong_minus_normal": 9.837020087388737e-12,
+      "wrong_error_increases": true
+    },
+    {
+      "case_index": 2,
+      "case_id": "case1_g1_transient_scheme_a_v1_2s_asymmetric_p0300_w3_inlet1_half",
+      "normal_zero_relative_MA": 3.882567307174851e-06,
+      "dependency_pass": false,
+      "normal_H_L1": 1.000020212490737,
+      "zero_input_H_L1": 1.0000202125619977,
+      "wrong_H_L1": 1.0000202123310045,
+      "wrong_minus_normal": -1.597324494895247e-10,
+      "wrong_error_increases": false
+    }
+  ],
+  "initial_to_final_net_parameter_change_L2": 3.2367102321426864,
+  "norm_scope": "net change over 9379 historical updates, not individual optimizer-step norm; per-step norms not in original full-run logs",
+  "raw_arrays_sha256": {
+    "/scratch/djc/GeoPhy-Set3D/senseiver_selfsup_decision_v1/case0.npz": "44d6ab8637c7ff42baa844484f4fe164990616d8c2e53ddbac2b7a9816f2cec7",
+    "/scratch/djc/GeoPhy-Set3D/senseiver_selfsup_decision_v1/case1.npz": "0c418005928fea640500d317a9c38d21b0f8d0ebcc1f98d8d8b78a4dd57d3591",
+    "/scratch/djc/GeoPhy-Set3D/senseiver_selfsup_decision_v1/case2.npz": "690b6c8cfc336068056e73a106cd007d536a0c2227f599a5fbd65cdd85a5c295"
+  },
+  "new_updates": 0,
+  "review_method": "separate CPU NumPy reductions from saved volumes/logits/Pdiff-H/reference/mask; no call to diagnostic metric functions; same agent, not external reviewer"
+}

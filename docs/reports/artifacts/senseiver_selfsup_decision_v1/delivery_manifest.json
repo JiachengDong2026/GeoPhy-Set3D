@@ -1,0 +1,80 @@
+{
+  "status": "SEALED_NO_GO",
+  "new_training_updates": 0,
+  "files_sha256": {
+    "scripts/senseiver_selfsup_decision_v1/launch.py": "48198f0a2d697d1b3dc2f2611179854f08c1f1bdad6e67da087c728e32812e12",
+    "scripts/senseiver_selfsup_decision_v1/seal.py": "b2a034391516207cc6a5e3be9cc35a454bf64bb29ddb87d04f6a0d844c314113",
+    "scripts/senseiver_selfsup_decision_v1/diagnose.py": "5785cc1fcd6384b89b670d0cf4cd923cccce57048f47d05294ed90ae9e2b7e85",
+    "scripts/senseiver_selfsup_decision_v1/audit.py": "21d0c53ae0e48f639892207ea289d5c2acb9122384290387472d847ea99c6365",
+    "scripts/senseiver_selfsup_decision_v1/review.py": "1067638841a8e5a01dcd77b51d0f2166d1da8d7824f4c0107df727345f55c208",
+    "docs/senseiver_selfsup_decision_v1_protocol_zh.md": "d65787e0a75cb6695c2a806c72b8efac4448f70e5fc7297920a876ec85efcd5d",
+    "docs/reports/senseiver_selfsup_decision_v1_zh.md": "1d59837af30b8a071a67d961138045af9a400d57467e6f1c7b12b6db15158050",
+    "docs/reports/artifacts/senseiver_selfsup_decision_v1/final_checkpoint_diagnostic.json": "43276cb34e31eb81b0710df10ac31304a8fd92e32fa15ed49fbc64ae934f06ed",
+    "docs/reports/artifacts/senseiver_selfsup_decision_v1/independent_review.json": "13db1877be6bd93f7700ae2de2fbe73db91945db962034e12898cebf4e794e36",
+    "docs/reports/artifacts/senseiver_selfsup_decision_v1/training_curve.csv": "9c406bb811b05fe9d91923096ec7b4f6795b0c370a0791b9bebcf035e0906740",
+    "docs/reports/artifacts/senseiver_selfsup_decision_v1/experiment_status.csv": "73fb8154b3c432d10be71398d04d6e196893902847fa0dc02ab1455d4fcde98a",
+    "docs/reports/artifacts/senseiver_selfsup_decision_v1/case_summary.csv": "a1432cfea31e1eafd3a8c2f9ef07cbdae4737ed5e277f5a6a2466f45eab951c4",
+    "docs/reports/artifacts/senseiver_selfsup_decision_v1/training_curves.png": "eeb9096b00ef43ab770d0ecd63d0b4be7968c71d8f3e6c3affd4c019f163b7cd",
+    "docs/reports/artifacts/senseiver_selfsup_decision_v1/resource_and_execution.json": "041e769b7523838d534f9bfcf27e74cd3f749ea70be993b4fa75237f2cfebbb4",
+    "docs/reports/artifacts/senseiver_selfsup_decision_v1/history_audit.json": "9466ab0b4fad7a8e61098c299495c81b423bf9cf9164bbac1f6da66f30897fb2",
+    "docs/reports/artifacts/senseiver_selfsup_decision_v1/interventions.csv": "de157e3bfe3e630338ed98d5b8c45aa72dbafd2e54ac2a95fc993085eb58e1e8"
+  },
+  "raw_arrays_sha256": {
+    "/scratch/djc/GeoPhy-Set3D/senseiver_selfsup_decision_v1/case0.npz": "44d6ab8637c7ff42baa844484f4fe164990616d8c2e53ddbac2b7a9816f2cec7",
+    "/scratch/djc/GeoPhy-Set3D/senseiver_selfsup_decision_v1/case1.npz": "0c418005928fea640500d317a9c38d21b0f8d0ebcc1f98d8d8b78a4dd57d3591",
+    "/scratch/djc/GeoPhy-Set3D/senseiver_selfsup_decision_v1/case2.npz": "690b6c8cfc336068056e73a106cd007d536a0c2227f599a5fbd65cdd85a5c295"
+  },
+  "preregistration_commit": "2bb3d2c",
+  "historical_git_evidence": [
+    "09e46265534bd3554a292a0f74c989da27f23da9 2026-10-14 docs: record GT-free evidence of near-zero collapse and weak measurement dependence",
+    "098c086c50203ae1d26a5de7c0e434c4e01a8fac 2026-10-14 docs: preregister Ray-Senseiver-SS full-budget adaptation and frozen comparison"
+  ],
+  "original_training_checkpoints": {
+    "best": {
+      "path": "/data/djc/GeoPhy-Set3D/outputs/checkpoints/ray_senseiver_selfsup_v1/best.pt",
+      "sha256": "c2a748696a806aba28f9483679edead0a69bb986b8e04ce7e123f2985a12ad91",
+      "completed_epochs": 113,
+      "updates": 9379,
+      "optimizer_state_steps": [
+        9379
+      ],
+      "scheduler_last_epoch": 113,
+      "model_state_sha256": "2ae0e2ba26606085a80c69e8bd193504efa45c6c164902a6a9394b71b2e2b39f",
+      "initial_state_sha256": "1fd1e876755be64371fa85c584410063b8f3b7f135f9ab7630e495ededf8e1e1",
+      "best_val_metric": 1.000000950284751,
+      "rng_keys": [
+        "python",
+        "numpy",
+        "torch",
+        "cuda",
+        "loader"
+      ],
+      "training_signal": "TDLAS measurements only",
+      "selection_metric": "mean held-out measurement relative L1"
+    },
+    "last": {
+      "path": "/data/djc/GeoPhy-Set3D/outputs/checkpoints/ray_senseiver_selfsup_v1/last.pt",
+      "sha256": "567ec1f88bdaa1e78cd14665727ee353add0cd1ce457256ff9bb963b95e367b9",
+      "completed_epochs": 113,
+      "updates": 9379,
+      "optimizer_state_steps": [
+        9379
+      ],
+      "scheduler_last_epoch": 113,
+      "model_state_sha256": "2ae0e2ba26606085a80c69e8bd193504efa45c6c164902a6a9394b71b2e2b39f",
+      "initial_state_sha256": "1fd1e876755be64371fa85c584410063b8f3b7f135f9ab7630e495ededf8e1e1",
+      "best_val_metric": 1.000000950284751,
+      "rng_keys": [
+        "python",
+        "numpy",
+        "torch",
+        "cuda",
+        "loader"
+      ],
+      "training_signal": "TDLAS measurements only",
+      "selection_metric": "mean held-out measurement relative L1"
+    }
+  },
+  "historical_files_preserved": true,
+  "scope": "Git contains audit code/protocol/config identity/scalars/curves/report; large predictions and original weights remain at hashed local paths"
+}
