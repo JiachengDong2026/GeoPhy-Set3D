@@ -1,0 +1,31 @@
+gnot 10 loss 0.1483401358127594
+gnot 25 loss 0.10612183064222336
+gnot 50 loss 0.07880261540412903
+gnot 100 loss 0.08730816841125488
+gnot 150 loss 0.07520286738872528
+gnot 200 loss 0.08140609413385391
+TRAIN COMPLETE gnot 200 updates,no H/truth opens
+deepsets 10 loss 0.16757185757160187
+deepsets 25 loss 0.16544730961322784
+deepsets 50 loss 0.15692569315433502
+deepsets 100 loss 0.08825624734163284
+deepsets 150 loss 0.07505268603563309
+deepsets 200 loss 0.08199624717235565
+TRAIN COMPLETE deepsets 200 updates,no H/truth opens
+Traceback (most recent call last):
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/deep_baselines_identifiability_v2/evaluate_v2.py", line 79, in <module>
+    p=argparse.ArgumentParser();p.add_argument('--arm',choices=['gnot','deepsets'],required=True);a=p.parse_args();main(a.arm)
+                                                                                                                   ^^^^^^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/deep_baselines_identifiability_v2/evaluate_v2.py", line 59, in main
+    assert value_hash(changed)==value_hash(other)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError
+Traceback (most recent call last):
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/deep_baselines_identifiability_v2/pipeline_v2.py", line 21, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/home/djc/projects/GeoPhy-Set3D/scripts/deep_baselines_identifiability_v2/pipeline_v2.py", line 15, in main
+    subprocess.run([sys.executable,str(HERE/'evaluate_v2.py'),'--arm',arm],cwd=PROJECT,check=True)
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/scratch/djc/envs/gas-torch/bin/python', '/home/djc/projects/GeoPhy-Set3D/scripts/deep_baselines_identifiability_v2/evaluate_v2.py', '--arm', 'gnot']' returned non-zero exit status 1.

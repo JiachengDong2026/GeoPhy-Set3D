@@ -72,3 +72,20 @@ DeepSets/GNOT各seed20261011/20261019，4项正式300epoch/24900updates已登记
 仅使用 GPU0 既有资源锁与双快照；GPU0 已释放，其他用户 GPU1–3 未干预。原正式队列仍暂停；无新正式 300 epoch、第二种子或 Senseiver 训练。唯一后续建议是另行授权“相同几何、不同解析羽流及物理合法测量交换”实验，本轮未执行。
 
 [完整中文报告](deep_baselines_identifiability_v1_zh.md) · [十项配置/结果/checkpoint SHA](artifacts/deep_baselines_identifiability_v1/experiment_summary.csv) · [独立状态](artifacts/deep_baselines_identifiability_v1/final_status.json) · [交付复核](artifacts/deep_baselines_identifiability_v1/delivery_verification.json)。原始 checkpoint 和完整数组保留于 `/scratch/djc/GeoPhy-Set3D/deep_baselines_identifiability_v1/`，Git 仅同步代码及小体积证据。
+
+## 2026-10-25 追加：固定几何、变化测量诊断 v2 完成
+
+本轮两个 fresh seed20261011 模型沿用 v2 测量尺度初始化与 v3 齐次一致性。固定唯一 train 几何、A/B/H 互斥站位、掩码和元数据，8 个解析羽流中前 6 个训练、后 2 个未见；geometry-only 生成不调用任何真实投影 getter。训练 worker 在文件访问层只允许训练 A/B，训练完成退出后独立进程评价七个固定节点，终态固定 update200，无 H/真场选模。
+
+| 模型 | 本轮更新 | seen / unseen H L1 | seen / unseen 三维 L1 | 交换测量平均场 MAE | 终态 checkpoint SHA256 | 判定 |
+|---|---:|---|---|---:|---|---|
+| Ray-GNOT v2初始化/v3损失 | 200 | 0.999544 / 0.982997 | 1.019577 / 0.999535 | 5.17143e-10 | `a69e1b2cbeda198be13d34feb90a8fd41a56940a1e10d8c03ca5f99c4419c6e2` | NO-GO |
+| Ray-DeepSets v2初始化/v3损失 | 200 | 0.999063 / 0.989864 | 1.010480 / 0.998645 | 5.18356e-8 | `ca2abaab4bf06a0d5d39d81187b8f08eba36aabd7c5714d2f97683cf04486607` | NO-GO |
+
+两个模型均未通过有意义的配对响应、真实差分方向及正确测量匹配优势；部分误差略低于零场不能代替有效条件重建。DeepSets 交换响应约为 GNOT 的 100 倍，但均很弱，且 DeepSets 方向多数不符，不构成重建质量优势。固定几何排除了本轮输入几何差异识别案例，却不能反向证明 v1 一定使用了几何捷径；共同模板、条件读出受抑制和有限优化预算仍未唯一分离。
+
+独立 NumPy 从原始数组重算 1344 个测量指标字段、224 条 case/branch 记录、784 条配对及 1568 条交换，核验全部 400 条更新和 checkpoint 状态。5 项 CPU 工程测试及两个完整配置 GPU 前向/反向/保存 smoke 通过。首次 smoke 的严格确定性开关不兼容、首次评价交换伴随字段的 CPU/GPU 舍入、首次复核 CUDA 有限比例均值舍入均保留失败证据并明确恢复；新增代码适配未更改模型、物理算子、阈值或 checkpoint。224 个梯度分支经整数 finite_count/Boolean all 重新审计全部有限，原始错误梯度标志保留，科学总判定不变。
+
+v1 的 2000 加本轮 400 为 **2400/2500 updates**，所有修复/复核均为 0 optimizer updates，没有重放训练。剩余100不自动使用；主模型双种子权重、冻结源码/配置及历史结果哈希未变，无真实测量、GT/GT128、val/test/Pool B 数组访问。GPU0已释放，GPU1–3其他用户任务未干预，原正式队列仍暂停；不启动正式300epoch、第二种子或Senseiver。
+
+[本轮完整报告](deep_baselines_identifiability_v2_zh.md) · [独立科学状态及终态哈希](artifacts/deep_baselines_identifiability_v2/final_status.json) · [逐例结果](artifacts/deep_baselines_identifiability_v2/case_metrics.csv) · [独立复核](artifacts/deep_baselines_identifiability_v2/independent_review.json) · [输入对齐与交付复核](artifacts/deep_baselines_identifiability_v2/delivery_verification.json)。原始数组/权重保留于 `/scratch/djc/GeoPhy-Set3D/deep_baselines_identifiability_v2/`，Git只同步小型证据。

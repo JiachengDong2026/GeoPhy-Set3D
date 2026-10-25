@@ -1,0 +1,62 @@
+{
+  "at": "2026-10-25T15:01:43.793923+08:00",
+  "passed": true,
+  "tests": 5,
+  "optimizer_updates": 0,
+  "log_sha256": "33e3725ccb7147560248df9b4654282c21a2c3341b5eff321ea0e50c1dd8b90f",
+  "ctx_sha256": "b2df284cee07e3199b55083a195645b2cbe8706a0ab93e7233bdcf0b8fd729f7",
+  "expected_denials": [
+    {
+      "phase": "train",
+      "reads": {},
+      "denied": [
+        {
+          "path": "/scratch/djc/GeoPhy-Set3D/deep_baselines_identifiability_v2/inputs/H_0.pt",
+          "reason": "training cannot read H/truth/unseen/checkpoints"
+        },
+        {
+          "path": "/scratch/djc/GeoPhy-Set3D/deep_baselines_identifiability_v2/inputs/truth_0.npy",
+          "reason": "training cannot read H/truth/unseen/checkpoints"
+        },
+        {
+          "path": "/scratch/djc/GeoPhy-Set3D/deep_baselines_identifiability_v2/inputs/unseen_AB.pt",
+          "reason": "training cannot read H/truth/unseen/checkpoints"
+        },
+        {
+          "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/geometry/train_geometry.npz",
+          "reason": "real data outside geometry-only capability"
+        },
+        {
+          "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/train_statistics.json",
+          "reason": "real data outside geometry-only capability"
+        }
+      ]
+    },
+    {
+      "phase": "smoke",
+      "reads": {},
+      "denied": [
+        {
+          "path": "/scratch/djc/GeoPhy-Set3D/deep_baselines_identifiability_v2/inputs/H_0.pt",
+          "reason": "smoke AB-only"
+        },
+        {
+          "path": "/scratch/djc/GeoPhy-Set3D/deep_baselines_identifiability_v2/inputs/truth_0.npy",
+          "reason": "smoke AB-only"
+        },
+        {
+          "path": "/scratch/djc/GeoPhy-Set3D/deep_baselines_identifiability_v2/inputs/unseen_AB.pt",
+          "reason": "smoke AB-only"
+        },
+        {
+          "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/geometry/train_geometry.npz",
+          "reason": "real data outside geometry-only capability"
+        },
+        {
+          "path": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/train_statistics.json",
+          "reason": "real data outside geometry-only capability"
+        }
+      ]
+    }
+  ]
+}

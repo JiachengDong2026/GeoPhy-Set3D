@@ -1,0 +1,56 @@
+{
+  "at": "2026-10-25T15:16:16.149057+08:00",
+  "passed": true,
+  "optimizer_updates": 0,
+  "source_sha256": "e90f255241b1a0a12c131126531ef2a81ed062e12bafae6a3994f2e84f494f30",
+  "pairs": [
+    {
+      "branch": "A",
+      "differing_original_fields": [
+        "input_projection"
+      ],
+      "maximum_normalized_roundoff": 5.960464477539063e-08,
+      "raw_exact": true,
+      "corrected_input_exact": true,
+      "models": [
+        {
+          "arm": "gnot",
+          "full64_output_bitwise_equal": true
+        },
+        {
+          "arm": "deepsets",
+          "full64_output_bitwise_equal": true
+        }
+      ]
+    },
+    {
+      "branch": "B",
+      "differing_original_fields": [
+        "input_projection"
+      ],
+      "maximum_normalized_roundoff": 5.960464477539063e-08,
+      "raw_exact": true,
+      "corrected_input_exact": true,
+      "models": [
+        {
+          "arm": "gnot",
+          "full64_output_bitwise_equal": true
+        },
+        {
+          "arm": "deepsets",
+          "full64_output_bitwise_equal": true
+        }
+      ]
+    }
+  ],
+  "audit": {
+    "phase": "evaluate",
+    "reads": {
+      "/scratch/djc/GeoPhy-Set3D/deep_baselines_identifiability_v2/inputs/train_AB.pt": 1
+    },
+    "denied": []
+  },
+  "only_normalized_companion_field_changed": true,
+  "original_sources_unchanged": true,
+  "thresholds_unchanged": true
+}
