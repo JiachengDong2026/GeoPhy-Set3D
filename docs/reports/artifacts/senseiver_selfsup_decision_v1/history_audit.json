@@ -1,0 +1,654 @@
+{
+  "base_commit": "542f7abfd152354400c13d310afea128f6bd39c3",
+  "outcome": "NO_GO_EXISTING_SAME_PROTOCOL_FAILED",
+  "new_training_updates": 0,
+  "history": {
+    "completed_epochs": 113,
+    "actual_updates": 9379,
+    "planned_epochs": 300,
+    "planned_updates": 24900,
+    "all_epochs_consecutive": true,
+    "each_epoch_updates": 83,
+    "all_val_H_L1_above_one": true,
+    "best_epoch_1based": 113,
+    "original_exit": [
+      "FAILED_LEARNING",
+      "NEAR_ZERO_COLLAPSE",
+      "EARLY_TERMINATED"
+    ],
+    "stopped_at": "2026-10-14T17:09:25.585846+08:00",
+    "stop_reason": "Explicit user request supersedes prior full-budget instruction after no-GT collapse diagnosis",
+    "epoch0_full_val_available": false,
+    "missing_gate_evidence": "no full-Val epoch0, no two consecutive passing conditional checks"
+  },
+  "config": {
+    "dataset": {
+      "root": "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1"
+    },
+    "experiment": {
+      "name": "ray_senseiver_selfsup_v1",
+      "output_root": "/data/djc/GeoPhy-Set3D/outputs"
+    },
+    "loader": {
+      "num_workers": 4,
+      "persistent_workers": true,
+      "pin_memory": true
+    },
+    "loss": {
+      "hold": 1.0,
+      "cross": 0.5,
+      "observed": 0.1,
+      "consistency": 0.05,
+      "beta": 0.01,
+      "relative_l1": 0.1,
+      "relative_epsilon": 1e-06,
+      "measurement_scale": 32284.894580078173
+    },
+    "model": {
+      "name": "ray_senseiver_ss",
+      "num_latents": 64,
+      "latent_channels": 64,
+      "preproc_channels": 64,
+      "num_layers": 3,
+      "self_layers_per_block": 3,
+      "cross_heads": 4,
+      "self_heads": 4,
+      "decoder_channels": 64,
+      "decoder_heads": 4,
+      "output_query_size": 1,
+      "space_bands": 16,
+      "dropout": 0.0,
+      "output_resolution": 64,
+      "output_activation": "sigmoid"
+    },
+    "normalization": {
+      "method": "linear_p99_5",
+      "statistics_file": "train_statistics.json"
+    },
+    "optimizer": {
+      "lr": 0.0002,
+      "name": "adamw",
+      "weight_decay": 0.0001
+    },
+    "train": {
+      "split": "train",
+      "geometry_pool": "train",
+      "a_views": [
+        3,
+        5
+      ],
+      "b_views": [
+        3,
+        5
+      ],
+      "heldout_views": 2
+    },
+    "training": {
+      "batch_size": 2,
+      "device": "cuda:0",
+      "early_stopping_patience": null,
+      "gradient_accumulation": 1,
+      "gradient_clip_norm": 1.0,
+      "max_epochs": 300,
+      "precision": "fp32",
+      "seed": 20261011
+    },
+    "validation": {
+      "split": "val",
+      "geometry_pool": "train",
+      "a_views": [
+        4,
+        4
+      ],
+      "b_views": [
+        4,
+        4
+      ],
+      "heldout_views": 4
+    },
+    "scheduler": {
+      "name": "cosine",
+      "T_max": 300
+    },
+    "comparison": {
+      "output": "/data/djc/GeoPhy-Set3D/outputs/comparisons/ray_senseiver_selfsup_v1",
+      "reference_artifact": "/home/djc/projects/GeoPhy-Set3D/docs/reports/artifacts/selfsup_v1_c0c1_geometry",
+      "reference_predictions": "/data/djc/GeoPhy-Set3D/outputs/diagnostics/selfsup_v1_c0c1_geometry",
+      "bootstrap_seed": 2026101801,
+      "bootstrap_samples": 10000,
+      "tie_epsilon": 1e-08,
+      "timing_warmup": 10,
+      "timing_repeats": 30,
+      "representative_cases": [
+        0,
+        18,
+        35
+      ],
+      "representative_groups": [
+        "G1",
+        "G3",
+        "G5"
+      ],
+      "representative_draw": 0,
+      "slice_y_index": 32,
+      "deepsets_artifact": "/home/djc/projects/GeoPhy-Set3D/docs/reports/artifacts/deepsets_selfsup_v1"
+    },
+    "runtime": {
+      "query_chunk_size": 16384,
+      "decoder_checkpoint": true
+    }
+  },
+  "source_comparison": {
+    "configs/train_ray_senseiver_selfsup_v1.yaml": {
+      "expected": "91ea77ed89f3dc11c7b7dfdc9bfc915a83528ee04af198a5482fdf19ada7810b",
+      "actual": "91ea77ed89f3dc11c7b7dfdc9bfc915a83528ee04af198a5482fdf19ada7810b"
+    },
+    "scripts/train_ray_senseiver_selfsup.py": {
+      "expected": "756957b4f531df7ff0b017b697167d68ea3f9a2a66a30299d745d6147de10af4",
+      "actual": "756957b4f531df7ff0b017b697167d68ea3f9a2a66a30299d745d6147de10af4"
+    },
+    "src/geophy_set3d/data/build_utils.py": {
+      "expected": "0fbaa994ae1b3b82094fc687efc767e3ce019b7f28f0987e37e80efef1ba31be",
+      "actual": "0fbaa994ae1b3b82094fc687efc767e3ce019b7f28f0987e37e80efef1ba31be"
+    },
+    "src/geophy_set3d/data/collate.py": {
+      "expected": "64ba5c126d89e0e709eb7f002c791a32a896e8ef098128fd71cf10f6daf8e83e",
+      "actual": "64ba5c126d89e0e709eb7f002c791a32a896e8ef098128fd71cf10f6daf8e83e"
+    },
+    "src/geophy_set3d/data/generation.py": {
+      "expected": "36374efc91e0e27d00ed817109472cdb39f30e6cedcbced7c6bc6392746f703c",
+      "actual": "36374efc91e0e27d00ed817109472cdb39f30e6cedcbced7c6bc6392746f703c"
+    },
+    "src/geophy_set3d/data/measurement_only.py": {
+      "expected": "8ac516e07b785ac82686306ded38bbe0e47622087318af2741731e5d4f1271b2",
+      "actual": "8ac516e07b785ac82686306ded38bbe0e47622087318af2741731e5d4f1271b2"
+    },
+    "src/geophy_set3d/data/measurement_sampling.py": {
+      "expected": "88f6e05beb64111c1a63fab90825f0f68e6ae2772a92f0be6187d9e55cc7a693",
+      "actual": "88f6e05beb64111c1a63fab90825f0f68e6ae2772a92f0be6187d9e55cc7a693"
+    },
+    "src/geophy_set3d/data/projection_audit.py": {
+      "expected": "77b5d7afc44326ae00e676f41a3989244fa040e1020992fd5c2e5d0fc9c87e09",
+      "actual": "77b5d7afc44326ae00e676f41a3989244fa040e1020992fd5c2e5d0fc9c87e09"
+    },
+    "src/geophy_set3d/data/projection_pool_dataset.py": {
+      "expected": "2ff2426b94043c4d2487e1b47c27340599df798816187774be2a5a2d62e0ee8e",
+      "actual": "2ff2426b94043c4d2487e1b47c27340599df798816187774be2a5a2d62e0ee8e"
+    },
+    "src/geophy_set3d/data/rich_measurement.py": {
+      "expected": "09648bd196db21be9e4f673da4157a53024145f8429af6846e780c960b298e26",
+      "actual": "09648bd196db21be9e4f673da4157a53024145f8429af6846e780c960b298e26"
+    },
+    "src/geophy_set3d/data/validation.py": {
+      "expected": "76b1e84a737fcb740ab5bb5b83feecb86c76693968516a2efcbf24d84d192f14",
+      "actual": "76b1e84a737fcb740ab5bb5b83feecb86c76693968516a2efcbf24d84d192f14"
+    },
+    "src/geophy_set3d/data/view_sampling.py": {
+      "expected": "fc858a69533b41f67be5fd050ecd0dd6fdb253d86ae382e02591c2ee815e1eb8",
+      "actual": "fc858a69533b41f67be5fd050ecd0dd6fdb253d86ae382e02591c2ee815e1eb8"
+    },
+    "src/geophy_set3d/evaluation/__init__.py": {
+      "expected": "7e7c0e83968957f68b7808b2b644686a0a12f21bad15045831d70a52214a8338",
+      "actual": "7e7c0e83968957f68b7808b2b644686a0a12f21bad15045831d70a52214a8338"
+    },
+    "src/geophy_set3d/evaluation/analysis.py": {
+      "expected": "199f1457d0978a606c761ad4d11ca1edd10f6aafa95e198bc1e7ec25021131ad",
+      "actual": "199f1457d0978a606c761ad4d11ca1edd10f6aafa95e198bc1e7ec25021131ad"
+    },
+    "src/geophy_set3d/evaluation/b2_report.py": {
+      "expected": "fada1bbce57c3ffeb0056862e0756bbf63635764327b1b9c408f785c573916d1",
+      "actual": "fada1bbce57c3ffeb0056862e0756bbf63635764327b1b9c408f785c573916d1"
+    },
+    "src/geophy_set3d/evaluation/b3_report.py": {
+      "expected": "73fb688b46965b915ab8b8e602ee333995121261c94985e72a54a3d371b524af",
+      "actual": "73fb688b46965b915ab8b8e602ee333995121261c94985e72a54a3d371b524af"
+    },
+    "src/geophy_set3d/evaluation/clustered_one_swap.py": {
+      "expected": "b506eca28a515b6026d3a75b57d3a15b2a177c092db209195cafd4e65fdace5b",
+      "actual": "b506eca28a515b6026d3a75b57d3a15b2a177c092db209195cafd4e65fdace5b"
+    },
+    "src/geophy_set3d/evaluation/comparison_report.py": {
+      "expected": "2e44d97c482a08e7a8c97b141d4a30b72305fe831e0496661d6efe79944ad0e1",
+      "actual": "2e44d97c482a08e7a8c97b141d4a30b72305fe831e0496661d6efe79944ad0e1"
+    },
+    "src/geophy_set3d/evaluation/deep_comparison.py": {
+      "expected": "d89dd67c0b7d3e19df5fd41dbd8411280141a616f5603896efb066cfc41c1389",
+      "actual": "d89dd67c0b7d3e19df5fd41dbd8411280141a616f5603896efb066cfc41c1389"
+    },
+    "src/geophy_set3d/evaluation/experiments.py": {
+      "expected": "5aedd0c55eec76e4b874222bc7b19578c1b7d8f48af657bdf67a2adf60041182",
+      "actual": "5aedd0c55eec76e4b874222bc7b19578c1b7d8f48af657bdf67a2adf60041182"
+    },
+    "src/geophy_set3d/evaluation/figures.py": {
+      "expected": "816712bea9a5ac3bf35946eef78e8781cf20248f6d3bc427f6f8fb03b405486a",
+      "actual": "816712bea9a5ac3bf35946eef78e8781cf20248f6d3bc427f6f8fb03b405486a"
+    },
+    "src/geophy_set3d/evaluation/geometry_augmentation_formal_stats.py": {
+      "expected": "2ecd585ec7f6dcf1fc2bf74022bda08062deb2de9e032c372bbb8924277c6e8d",
+      "actual": "2ecd585ec7f6dcf1fc2bf74022bda08062deb2de9e032c372bbb8924277c6e8d"
+    },
+    "src/geophy_set3d/evaluation/geometry_augmentation_sampler.py": {
+      "expected": "82214214c4576d4228dd7f668714ad83864536247f8a6dce6988c61b904f8b25",
+      "actual": "82214214c4576d4228dd7f668714ad83864536247f8a6dce6988c61b904f8b25"
+    },
+    "src/geophy_set3d/evaluation/geometry_catalog.py": {
+      "expected": "60eb3fb4506426de22dde50d274f9eb15c7779298d465c88bdca586f50872e2f",
+      "actual": "60eb3fb4506426de22dde50d274f9eb15c7779298d465c88bdca586f50872e2f"
+    },
+    "src/geophy_set3d/evaluation/geometry_sensitivity.py": {
+      "expected": "460817ff0b13ced548997a7dd691c647d8eb30e6ca9e0f6d2c6307c7eac73585",
+      "actual": "460817ff0b13ced548997a7dd691c647d8eb30e6ca9e0f6d2c6307c7eac73585"
+    },
+    "src/geophy_set3d/evaluation/geometry_strata.py": {
+      "expected": "cc3c9d9557b446ea419a4842ac447afe2b512d86be76521190a4c203abec86e5",
+      "actual": "cc3c9d9557b446ea419a4842ac447afe2b512d86be76521190a4c203abec86e5"
+    },
+    "src/geophy_set3d/evaluation/geometry_stratified_sampler.py": {
+      "expected": "976de22b042f7d392424965ce5a62ed24a0957e78bcab7ee493998e390feb0ba",
+      "actual": "976de22b042f7d392424965ce5a62ed24a0957e78bcab7ee493998e390feb0ba"
+    },
+    "src/geophy_set3d/evaluation/matched_control.py": {
+      "expected": "55eacbce1ded9de9c9344f4c32e1836d729ef229175080ac1048b9680cb37611",
+      "actual": "55eacbce1ded9de9c9344f4c32e1836d729ef229175080ac1048b9680cb37611"
+    },
+    "src/geophy_set3d/evaluation/measurement_consistency.py": {
+      "expected": "edee97bea059708eddcc772b3831858f918a1ccbcf4050f4c491d2aa768f9889",
+      "actual": "edee97bea059708eddcc772b3831858f918a1ccbcf4050f4c491d2aa768f9889"
+    },
+    "src/geophy_set3d/evaluation/measurement_diagnostics.py": {
+      "expected": "2b920ed3da6310f68193bb8ef5e047f51c67c39f7686c683f847fed8fc3cd382",
+      "actual": "2b920ed3da6310f68193bb8ef5e047f51c67c39f7686c683f847fed8fc3cd382"
+    },
+    "src/geophy_set3d/evaluation/mrgr.py": {
+      "expected": "c796ede1a09fd06fae65c3d833184c9cfea5a0a1a37159dafa5f8187b3fa9c08",
+      "actual": "c796ede1a09fd06fae65c3d833184c9cfea5a0a1a37159dafa5f8187b3fa9c08"
+    },
+    "src/geophy_set3d/evaluation/mrgr_report.py": {
+      "expected": "409822580c09530d2272c796fd02704b02af45d4a0f397d4b1dc5a3a5fac671d",
+      "actual": "409822580c09530d2272c796fd02704b02af45d4a0f397d4b1dc5a3a5fac671d"
+    },
+    "src/geophy_set3d/evaluation/oari_diagnostics.py": {
+      "expected": "ea656b350edd48da390281d4e25d5a3f56e9146b48a043c694a975d72c9cccfa",
+      "actual": "ea656b350edd48da390281d4e25d5a3f56e9146b48a043c694a975d72c9cccfa"
+    },
+    "src/geophy_set3d/evaluation/oari_report.py": {
+      "expected": "a907c8912468605c3fa55b59bdb987ca2086e0a451ff4f24be429986e3e4d73e",
+      "actual": "a907c8912468605c3fa55b59bdb987ca2086e0a451ff4f24be429986e3e4d73e"
+    },
+    "src/geophy_set3d/evaluation/protocols.py": {
+      "expected": "60b4a82f96dfaec4947762855e6987a1fffedb987d96ab15dcdb2bd9e7caf878",
+      "actual": "60b4a82f96dfaec4947762855e6987a1fffedb987d96ab15dcdb2bd9e7caf878"
+    },
+    "src/geophy_set3d/evaluation/report.py": {
+      "expected": "60799671d8f557c775490a2dd6755f18258cfa38ea755d19b0eec84cfe15067a",
+      "actual": "60799671d8f557c775490a2dd6755f18258cfa38ea755d19b0eec84cfe15067a"
+    },
+    "src/geophy_set3d/evaluation/research_integrity.py": {
+      "expected": "9a433d6ded5173fcc2c0921078693c849e490bc6a6e4c22647d0414bf1e68902",
+      "actual": "9a433d6ded5173fcc2c0921078693c849e490bc6a6e4c22647d0414bf1e68902"
+    },
+    "src/geophy_set3d/evaluation/rvtc_failure_diagnostics.py": {
+      "expected": "47d1f9f28445af6d29a198c3e1f3b3a151073ab722d21a8bb4c3527c5b4deed4",
+      "actual": "47d1f9f28445af6d29a198c3e1f3b3a151073ab722d21a8bb4c3527c5b4deed4"
+    },
+    "src/geophy_set3d/evaluation/selfsup_c0c1_diagnostic.py": {
+      "expected": "42fff49d6415869b7c91f213877428ef26c6d43ae1aeec68dd8238203361f665",
+      "actual": "42fff49d6415869b7c91f213877428ef26c6d43ae1aeec68dd8238203361f665"
+    },
+    "src/geophy_set3d/evaluation/selfsup_report.py": {
+      "expected": "685f66b86bb233116a0bdbe8a2ff835d16e63780332609613b3aa1cf5289c78a",
+      "actual": "685f66b86bb233116a0bdbe8a2ff835d16e63780332609613b3aa1cf5289c78a"
+    },
+    "src/geophy_set3d/evaluation/selfsup_v2_integrity.py": {
+      "expected": "2aacd7d9220869a37bf214fcb512128211442bc67b274cc474d28c766ba05dde",
+      "actual": "2aacd7d9220869a37bf214fcb512128211442bc67b274cc474d28c766ba05dde"
+    },
+    "src/geophy_set3d/evaluation/selfsup_v2_report.py": {
+      "expected": "96df2a594503353517849af5751c8921f1144c172218659825ac58782c56a677",
+      "actual": "96df2a594503353517849af5751c8921f1144c172218659825ac58782c56a677"
+    },
+    "src/geophy_set3d/evaluation/stratification.py": {
+      "expected": "de9ee3059ba4e59288021105671fdab907b670617212a7428d0e1ce03e43623f",
+      "actual": "de9ee3059ba4e59288021105671fdab907b670617212a7428d0e1ce03e43623f"
+    },
+    "src/geophy_set3d/evaluation/summary.py": {
+      "expected": "73a8acd82a6ba703665993280af31ac95daeae413b81ff078c5d932b678b0d68",
+      "actual": "73a8acd82a6ba703665993280af31ac95daeae413b81ff078c5d932b678b0d68"
+    },
+    "src/geophy_set3d/evaluation/training_runs.py": {
+      "expected": "b2b9a3bffc3002d60d0f5896b3e8b7efefc3133fbf8238f67f4909a8c6e55cad",
+      "actual": "b2b9a3bffc3002d60d0f5896b3e8b7efefc3133fbf8238f67f4909a8c6e55cad"
+    },
+    "src/geophy_set3d/evaluation/view_selection.py": {
+      "expected": "32a56947b18b30bf788768c3a939ff1cf06694caf4939512713ad64b1e230b60",
+      "actual": "32a56947b18b30bf788768c3a939ff1cf06694caf4939512713ad64b1e230b60"
+    },
+    "src/geophy_set3d/models/__init__.py": {
+      "expected": "54484529fa097a5a63b2bd982de29e01b29b88cfa7cc0b0fbd3151a5470e77f0",
+      "actual": "54484529fa097a5a63b2bd982de29e01b29b88cfa7cc0b0fbd3151a5470e77f0"
+    },
+    "src/geophy_set3d/models/attention_fusion.py": {
+      "expected": "d349c05cb1565889ff83b0f391fff5882782e6525bc61481d3e2db9ceba4329e",
+      "actual": "d349c05cb1565889ff83b0f391fff5882782e6525bc61481d3e2db9ceba4329e"
+    },
+    "src/geophy_set3d/models/blocks.py": {
+      "expected": "2842f04765a4c9ba7bc5ac04135ec8ddd8c7537745fc6f79b6c6ab41b3033223",
+      "actual": "2842f04765a4c9ba7bc5ac04135ec8ddd8c7537745fc6f79b6c6ab41b3033223"
+    },
+    "src/geophy_set3d/models/decoder3d.py": {
+      "expected": "3aab7052dcc19f356fc2245ada14e8fe085b858b26c91cd180e358a4cc0691ac",
+      "actual": "3aab7052dcc19f356fc2245ada14e8fe085b858b26c91cd180e358a4cc0691ac"
+    },
+    "src/geophy_set3d/models/encoder2d.py": {
+      "expected": "fd6f7e6f9d14573dcfb2d2b494941f83f63a269993f8bbae9616594a32443e14",
+      "actual": "fd6f7e6f9d14573dcfb2d2b494941f83f63a269993f8bbae9616594a32443e14"
+    },
+    "src/geophy_set3d/models/fusion.py": {
+      "expected": "5a7ae6fd64daa283c15af3545311f75c58b774cb86294b2996bc3b098c3868d1",
+      "actual": "5a7ae6fd64daa283c15af3545311f75c58b774cb86294b2996bc3b098c3868d1"
+    },
+    "src/geophy_set3d/models/geolift_deepsets_sum.py": {
+      "expected": "e877158c6e0bcbecad2ef6bb6f852dc93e8077155e946d8232a63255a6c90e23",
+      "actual": "e877158c6e0bcbecad2ef6bb6f852dc93e8077155e946d8232a63255a6c90e23"
+    },
+    "src/geophy_set3d/models/geolift_gca_res3d.py": {
+      "expected": "cde73cf1249ade86f54a3fcfc2ce5e7c8f85852cb836d356f3eed7cb74376c04",
+      "actual": "cde73cf1249ade86f54a3fcfc2ce5e7c8f85852cb836d356f3eed7cb74376c04"
+    },
+    "src/geophy_set3d/models/geolift_gcsi_res3d.py": {
+      "expected": "fcad0a6ff1daa02716f16d3c2661a1caa73e25fa915c061ae32d510418d084d1",
+      "actual": "fcad0a6ff1daa02716f16d3c2661a1caa73e25fa915c061ae32d510418d084d1"
+    },
+    "src/geophy_set3d/models/geolift_mean_res3d.py": {
+      "expected": "119db246431a2b4612620afc29d819951d0ae21ab0ff08a8846f22c66f2a443a",
+      "actual": "119db246431a2b4612620afc29d819951d0ae21ab0ff08a8846f22c66f2a443a"
+    },
+    "src/geophy_set3d/models/geolift_oari_mrgr_res3d.py": {
+      "expected": "a095e2cf9bbd9e86fc0a999df4c7d7185fcb4133220ba6334211b91b70166c26",
+      "actual": "a095e2cf9bbd9e86fc0a999df4c7d7185fcb4133220ba6334211b91b70166c26"
+    },
+    "src/geophy_set3d/models/geolift_oari_mrgr_zero_residual.py": {
+      "expected": "cff44973dca6731ddcde04920eee7064c2ca7844a9fd74d3608d2a44163c1634",
+      "actual": "cff44973dca6731ddcde04920eee7064c2ca7844a9fd74d3608d2a44163c1634"
+    },
+    "src/geophy_set3d/models/geolift_oari_res3d.py": {
+      "expected": "0c254b09b598c3f3bed1af29c7a17e3de26349024106c8849938ac8a2126b0ed",
+      "actual": "0c254b09b598c3f3bed1af29c7a17e3de26349024106c8849938ac8a2126b0ed"
+    },
+    "src/geophy_set3d/models/lifting.py": {
+      "expected": "0cf2fc39535fab45cf7e2f8bd8cdcac70c8ff3f830c816b936347cf7f3b39710",
+      "actual": "0cf2fc39535fab45cf7e2f8bd8cdcac70c8ff3f830c816b936347cf7f3b39710"
+    },
+    "src/geophy_set3d/models/ray_relational_interaction.py": {
+      "expected": "25db37d18c84240bc86f5b0eeb1a0a009a9958dce8bd3f6875dcb92f30b1eac2",
+      "actual": "25db37d18c84240bc86f5b0eeb1a0a009a9958dce8bd3f6875dcb92f30b1eac2"
+    },
+    "src/geophy_set3d/models/ray_senseiver_ss.py": {
+      "expected": "fa497b1a68d45bd20db0f7fd7118a4e7664c55c31b3c3a53b27b43b2ea5480cb",
+      "actual": "fa497b1a68d45bd20db0f7fd7118a4e7664c55c31b3c3a53b27b43b2ea5480cb"
+    },
+    "src/geophy_set3d/models/senseiver_core.py": {
+      "expected": "b45e02cde0e2f2597370b34596854ec1d8890ab5838d7c73968b50fee40f1da4",
+      "actual": "b45e02cde0e2f2597370b34596854ec1d8890ab5838d7c73968b50fee40f1da4"
+    },
+    "src/geophy_set3d/models/set_interaction.py": {
+      "expected": "1b80318623b8cd07f94bad70879e159af5f0cd54f083b172c8b4a8bbe0eaefb3",
+      "actual": "1b80318623b8cd07f94bad70879e159af5f0cd54f083b172c8b4a8bbe0eaefb3"
+    },
+    "src/geophy_set3d/physics/projectors.py": {
+      "expected": "fe3475e29abbba0d3495be9fc69909f3b8b1d7e8d40c25aed683094198f6e776",
+      "actual": "fe3475e29abbba0d3495be9fc69909f3b8b1d7e8d40c25aed683094198f6e776"
+    },
+    "src/geophy_set3d/physics/representation_capacity.py": {
+      "expected": "f0b3491204a172951bec0a1354f95933548672d75343ce2f24ad4d3d395ce92a",
+      "actual": "f0b3491204a172951bec0a1354f95933548672d75343ce2f24ad4d3d395ce92a"
+    },
+    "src/geophy_set3d/training/__init__.py": {
+      "expected": "d253aa4cda19ba45b2d472981e2410da0a7fd319f8509be5acd8ed2d037ff0ae",
+      "actual": "d253aa4cda19ba45b2d472981e2410da0a7fd319f8509be5acd8ed2d037ff0ae"
+    },
+    "src/geophy_set3d/training/comparison.py": {
+      "expected": "b5028eca4f820f79b8c5eb9e17f6c143042805fd961db85955afb57e6881ecf3",
+      "actual": "b5028eca4f820f79b8c5eb9e17f6c143042805fd961db85955afb57e6881ecf3"
+    },
+    "src/geophy_set3d/training/deep_comparison.py": {
+      "expected": "75fd31230809ee3874c7a77ba5320c3d1f691d06e35c4cdf409e6e29fb54b07e",
+      "actual": "75fd31230809ee3874c7a77ba5320c3d1f691d06e35c4cdf409e6e29fb54b07e"
+    },
+    "src/geophy_set3d/training/engine.py": {
+      "expected": "4491b17bcbc2dbb89d227086b53dfe84d21ed6c86ba1010b64358168f7bc4bb6",
+      "actual": "4491b17bcbc2dbb89d227086b53dfe84d21ed6c86ba1010b64358168f7bc4bb6"
+    },
+    "src/geophy_set3d/training/geometry_augmentation_formal.py": {
+      "expected": "b8b2aed8470acd8391876e1bce260a6e8727ef4c9bdd5e4026e4dcb181d0e9f8",
+      "actual": "b8b2aed8470acd8391876e1bce260a6e8727ef4c9bdd5e4026e4dcb181d0e9f8"
+    },
+    "src/geophy_set3d/training/gt_read_guard.py": {
+      "expected": "42bf7c374d0f297050e801f4b5baf9a544b731a46157f65862eeaa3b4b5cfe50",
+      "actual": "42bf7c374d0f297050e801f4b5baf9a544b731a46157f65862eeaa3b4b5cfe50"
+    },
+    "src/geophy_set3d/training/losses.py": {
+      "expected": "a6bec7ce5ee00fbe11d8d159add0d42243775b5d443c07a8e59dadee759b4c5e",
+      "actual": "a6bec7ce5ee00fbe11d8d159add0d42243775b5d443c07a8e59dadee759b4c5e"
+    },
+    "src/geophy_set3d/training/matched_control.py": {
+      "expected": "0c807bacef0acca1362c3ce6b283bea2165e26b845c4b6bc88743ef0734ae319",
+      "actual": "0c807bacef0acca1362c3ce6b283bea2165e26b845c4b6bc88743ef0734ae319"
+    },
+    "src/geophy_set3d/training/measurement_engine.py": {
+      "expected": "373bc13981c1e4afd63f5959ea76528e6cc53ea30353b44272b6fee378c3ac85",
+      "actual": "373bc13981c1e4afd63f5959ea76528e6cc53ea30353b44272b6fee378c3ac85"
+    },
+    "src/geophy_set3d/training/measurement_runs.py": {
+      "expected": "d2c3fc98b593917419c2b74c454888dcdfa7ff1255f1d6adf112d6a2204c8e65",
+      "actual": "d2c3fc98b593917419c2b74c454888dcdfa7ff1255f1d6adf112d6a2204c8e65"
+    },
+    "src/geophy_set3d/training/metrics.py": {
+      "expected": "e5244421a7cba81702873d0b69e882468a4ee97012676097545729a1fc31461a",
+      "actual": "e5244421a7cba81702873d0b69e882468a4ee97012676097545729a1fc31461a"
+    },
+    "src/geophy_set3d/training/mrgr.py": {
+      "expected": "098b6ca504d53eab4a01f3ce4f2ba7f5a7e1417c79ec144bc837cc8a242c1b53",
+      "actual": "098b6ca504d53eab4a01f3ce4f2ba7f5a7e1417c79ec144bc837cc8a242c1b53"
+    },
+    "src/geophy_set3d/training/projection_losses.py": {
+      "expected": "d64e4fd327bf68e4f18ee3f9278ef453363042a7a0deaa71fc4a91283f6f05ad",
+      "actual": "d64e4fd327bf68e4f18ee3f9278ef453363042a7a0deaa71fc4a91283f6f05ad"
+    },
+    "src/geophy_set3d/training/ray_senseiver.py": {
+      "expected": "5883cd2126ebd06e3e3eb5dc16348085ebb6d01ce9739f78cec8a253cf81140c",
+      "actual": "5883cd2126ebd06e3e3eb5dc16348085ebb6d01ce9739f78cec8a253cf81140c"
+    },
+    "src/geophy_set3d/training/rvtc_matched.py": {
+      "expected": "c8236c8dddc66fdf11e083ed516bd7797aecbdc837c749202b2c41a343692866",
+      "actual": "c8236c8dddc66fdf11e083ed516bd7797aecbdc837c749202b2c41a343692866"
+    },
+    "src/geophy_set3d/training/selfsup.py": {
+      "expected": "03cdee12b66aa1f7fdbd6a265ac7a23397ae03cee13fd18b1d8d721b6a91d909",
+      "actual": "03cdee12b66aa1f7fdbd6a265ac7a23397ae03cee13fd18b1d8d721b6a91d909"
+    },
+    "src/geophy_set3d/training/selfsup_v2.py": {
+      "expected": "f4bb9c0159e6c4acaef188c0627d4ddcaa667d3c6851bb2055e34dac395a668e",
+      "actual": "f4bb9c0159e6c4acaef188c0627d4ddcaa667d3c6851bb2055e34dac395a668e"
+    },
+    "src/geophy_set3d/training/utils.py": {
+      "expected": "51f397ff01ed89b6b930fdc0fee436bf754bcc40c0eaa58f5b3e7c005d14a1ae",
+      "actual": "51f397ff01ed89b6b930fdc0fee436bf754bcc40c0eaa58f5b3e7c005d14a1ae"
+    },
+    "tests/test_ray_senseiver.py": {
+      "expected": "d7ed0915870673b59e7d67c7b6057f74a243ed98f91d79b5c1d888599d3fd207",
+      "actual": "d7ed0915870673b59e7d67c7b6057f74a243ed98f91d79b5c1d888599d3fd207"
+    }
+  },
+  "metadata": {
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/source_index.jsonl": {
+      "expected": "cfc482fc84847c90620f0115edafbb12b2ad3cbd2c2ca21b6445ad0025924707",
+      "actual": "cfc482fc84847c90620f0115edafbb12b2ad3cbd2c2ca21b6445ad0025924707"
+    },
+    "/data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1/train_statistics.json": {
+      "expected": "7511c5c9035f645838e433db058c4f4c2fc5a95f7dbf03986481da1af62808d2",
+      "actual": "7511c5c9035f645838e433db058c4f4c2fc5a95f7dbf03986481da1af62808d2"
+    }
+  },
+  "checkpoints": {
+    "best": {
+      "path": "/data/djc/GeoPhy-Set3D/outputs/checkpoints/ray_senseiver_selfsup_v1/best.pt",
+      "sha256": "c2a748696a806aba28f9483679edead0a69bb986b8e04ce7e123f2985a12ad91",
+      "completed_epochs": 113,
+      "updates": 9379,
+      "optimizer_state_steps": [
+        9379
+      ],
+      "scheduler_last_epoch": 113,
+      "model_state_sha256": "2ae0e2ba26606085a80c69e8bd193504efa45c6c164902a6a9394b71b2e2b39f",
+      "initial_state_sha256": "1fd1e876755be64371fa85c584410063b8f3b7f135f9ab7630e495ededf8e1e1",
+      "best_val_metric": 1.000000950284751,
+      "rng_keys": [
+        "python",
+        "numpy",
+        "torch",
+        "cuda",
+        "loader"
+      ],
+      "training_signal": "TDLAS measurements only",
+      "selection_metric": "mean held-out measurement relative L1"
+    },
+    "last": {
+      "path": "/data/djc/GeoPhy-Set3D/outputs/checkpoints/ray_senseiver_selfsup_v1/last.pt",
+      "sha256": "567ec1f88bdaa1e78cd14665727ee353add0cd1ce457256ff9bb963b95e367b9",
+      "completed_epochs": 113,
+      "updates": 9379,
+      "optimizer_state_steps": [
+        9379
+      ],
+      "scheduler_last_epoch": 113,
+      "model_state_sha256": "2ae0e2ba26606085a80c69e8bd193504efa45c6c164902a6a9394b71b2e2b39f",
+      "initial_state_sha256": "1fd1e876755be64371fa85c584410063b8f3b7f135f9ab7630e495ededf8e1e1",
+      "best_val_metric": 1.000000950284751,
+      "rng_keys": [
+        "python",
+        "numpy",
+        "torch",
+        "cuda",
+        "loader"
+      ],
+      "training_signal": "TDLAS measurements only",
+      "selection_metric": "mean held-out measurement relative L1"
+    }
+  },
+  "source_files_checked": 85,
+  "source_changes": 0,
+  "initial_state_sha256": "1fd1e876755be64371fa85c584410063b8f3b7f135f9ab7630e495ededf8e1e1",
+  "wrapper_initial_state_exact_match": true,
+  "parameters": 254913,
+  "common_training_fields_equal": {
+    "GeoLift-DeepSets-Sum": {
+      "dataset": true,
+      "normalization": true,
+      "loss": true,
+      "train": true,
+      "validation": true,
+      "optimizer": true,
+      "scheduler": true,
+      "training": true
+    },
+    "Plain-final": {
+      "dataset": true,
+      "normalization": true,
+      "loss": true,
+      "train": true,
+      "validation": true,
+      "optimizer": true,
+      "scheduler": true,
+      "training": true
+    }
+  },
+  "split_counts": {
+    "train": 166,
+    "val": 36,
+    "test": 35
+  },
+  "historical_access": {
+    "gt_file_opened": false,
+    "gt_open_attempts": 0,
+    "forbidden_npy_attempts": 0,
+    "supervised_checkpoint_open_attempts": 0,
+    "projection_open_count": 68802,
+    "unique_pool_a_projection_files": 202,
+    "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+    "audit_hook_inherited_by_workers": true
+  },
+  "archive_embedded_access": {
+    "gt_file_opened": false,
+    "gt_open_attempts": 0,
+    "forbidden_npy_attempts": 0,
+    "supervised_checkpoint_open_attempts": 0,
+    "projection_open_count": 0,
+    "unique_pool_a_projection_files": 0,
+    "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+    "audit_hook_inherited_by_workers": true
+  },
+  "supervised": {
+    "path": "/data/djc/GeoPhy-Set3D/outputs/comparisons/ray_senseiver_supervised_v1/science/checkpoints/best.pt",
+    "sha256": "eca3419f19b103feeb14840741d14a369110a970c55f7d7d746b727848d63d9f",
+    "paradigm": "supervised-only; no network loaded",
+    "complete_epochs": 187,
+    "partial_next_updates": 59,
+    "updates": 15580,
+    "val_nmse": 0.28681096
+  },
+  "queue_status_before": {
+    "at": "2026-10-24T16:05:23.237311+08:00",
+    "state": "paused_by_user",
+    "user_instruction": "暂停所有训练，评价seed20261011两个已完成模型",
+    "stopped_queue_pid": 1579851,
+    "stopped_training_pid": 1579959,
+    "committed_epoch": 240,
+    "committed_updates": 19920,
+    "checkpoint_preserved": true,
+    "remaining_runs_paused": true,
+    "no_foreign_process_signalled": true
+  },
+  "evidence_sha256": {
+    "/data/djc/GeoPhy-Set3D/outputs/comparisons/ray_senseiver_selfsup_v1/early_stop_boundary_observer.json": "4d5473f93dad6176a15b1830645b1ed5e24efb7463a101996ff2c7a9058f5b4c",
+    "/data/djc/GeoPhy-Set3D/outputs/comparisons/ray_senseiver_selfsup_v1/actual_training_inputs.jsonl": "c49cd4e761185ad4983a7663e9377786f3d04381b1560119fad87aba0c23eb9c",
+    "/data/djc/GeoPhy-Set3D/outputs/comparisons/ray_senseiver_selfsup_v1/paper_source.json": "8121e144dfca6696a71704694385138fddbc0e2b069b1b468202273418436d4a",
+    "/data/djc/GeoPhy-Set3D/outputs/comparisons/ray_senseiver_selfsup_v1/evaluation_source_manifest_original.json": "f95755e3a66eb753211bf657c6fec3af8f4fb0b4f6130073df572af4387dc5dd",
+    "/data/djc/GeoPhy-Set3D/outputs/comparisons/ray_senseiver_selfsup_v1/paper_excerpt.txt": "1fbe87cd8263e6d2131ef91e9f6bc5a05f50fab3dc0970a6a34e1b3c9c43d7fe",
+    "/data/djc/GeoPhy-Set3D/outputs/comparisons/ray_senseiver_selfsup_v1/protocol.json": "eb5df93974255355a323cff73883f0c199f26c10972862e62b1afe5a80da46ba",
+    "/data/djc/GeoPhy-Set3D/outputs/comparisons/ray_senseiver_selfsup_v1/metrics.jsonl": "b51ad83a0de23cbae415b598344beb9ccc4dcd2b2c6f3205307b7fb92c6008db",
+    "/data/djc/GeoPhy-Set3D/outputs/comparisons/ray_senseiver_selfsup_v1/initial_learning_diagnosis.log": "ce490f00568d692ce4f5b52060031e6659225522a15f278ea29c225360fba04d",
+    "/data/djc/GeoPhy-Set3D/outputs/comparisons/ray_senseiver_selfsup_v1/official_source.json": "39fa7bc37bc5f3ce445ea0b2e2c97eb096776654e527448378778ae58670788f",
+    "/data/djc/GeoPhy-Set3D/outputs/comparisons/ray_senseiver_selfsup_v1/full_tests.log": "1cb08fd124f1d9adcd629a0bf857a2fe6beee783be1263a5e2564faab740f0e4",
+    "/data/djc/GeoPhy-Set3D/outputs/comparisons/ray_senseiver_selfsup_v1/evaluation_source_manifest.json": "d8a8598bed85a64f939925158135438dcaba18d96eca09122b17c9e15d83488d",
+    "/data/djc/GeoPhy-Set3D/outputs/comparisons/ray_senseiver_selfsup_v1/smoke.log": "90b1796b6088b63274f546ebc578559607aeeba0342c540e097739829bd970af",
+    "/data/djc/GeoPhy-Set3D/outputs/comparisons/ray_senseiver_selfsup_v1/environment.json": "fa82a00662a50e01b051bd20c5d7e3814d8a152dcd74dd2ba3a0c6abc4dfa838",
+    "/data/djc/GeoPhy-Set3D/outputs/comparisons/ray_senseiver_selfsup_v1/training_process_observer.json": "ebcba96d1e9f0245db039dee6dbfef887e10c78f982e2fb99a32f7534cc3f9c3",
+    "/data/djc/GeoPhy-Set3D/outputs/comparisons/ray_senseiver_selfsup_v1/evaluation_source_manifest_pre_learning_diagnostic.json": "604a002c06d123b987f6a380ca3051ec236f7dee37bc59086ee14b419d2fc061",
+    "/data/djc/GeoPhy-Set3D/outputs/comparisons/ray_senseiver_selfsup_v1/early_termination_archive.json": "23999a39436abbe246e75b6ef9f18cfe58d1ce8c1c9099054ec906191af23eca",
+    "/data/djc/GeoPhy-Set3D/outputs/comparisons/ray_senseiver_selfsup_v1/evaluation_boundary_tests.log": "09d9b6f154f90d31930e174a26a8020c485cbe613407e6d2212660fe4cf42b01",
+    "/data/djc/GeoPhy-Set3D/outputs/comparisons/ray_senseiver_selfsup_v1/engineering_smoke.json": "7aaf40a1b9270b1ba919b1fb75b08b992ec1b42527de52d6cd734e792c234a37",
+    "/data/djc/GeoPhy-Set3D/outputs/comparisons/ray_senseiver_selfsup_v1/station_subsets.json": "0a9ffb547c756627b974dcc84fe800fadec07e4b391bb6114b3d4fd6142870aa",
+    "/data/djc/GeoPhy-Set3D/outputs/comparisons/ray_senseiver_selfsup_v1/validation_station_ids.json": "875933ca6cc824331ed338431b6a85143c09bc5d2bfaac47f0ac9fd6e40fa58a",
+    "/data/djc/GeoPhy-Set3D/outputs/comparisons/ray_senseiver_selfsup_v1/training_source_manifest.json": "52319d697f62167cf653f14d6a032c669865109acc255d2c6748ec0cf3e2631d",
+    "/data/djc/GeoPhy-Set3D/outputs/comparisons/ray_senseiver_selfsup_v1/geometry_layouts.json": "3fb5045dfabba2df4bef770c45266a77cae85a15974dbee73a2d44b183899ec1",
+    "/data/djc/GeoPhy-Set3D/outputs/comparisons/ray_senseiver_selfsup_v1/dataset_before.json": "dce6926505f8772abca643e0345a29e47e74bd25b9e6f11e15d56217ccfb24c5",
+    "/data/djc/GeoPhy-Set3D/outputs/comparisons/ray_senseiver_selfsup_v1/training_access_audit.json": "1a0a2e87bcd3988979429dffe17d08840072799f9d960bb8aa7d66dd54a2630c",
+    "/data/djc/GeoPhy-Set3D/outputs/comparisons/ray_senseiver_selfsup_v1/gt_boundary_amendment.json": "81b80386317759940cfff4569e6883d6858692c093c2c142fef9d7f84828ea2b",
+    "/data/djc/GeoPhy-Set3D/outputs/comparisons/ray_senseiver_selfsup_v1/history_before.json": "81c06bb29639231d8a70e85977ee6d9d0a8e5ea5cef540f509349e31e155e480",
+    "/data/djc/GeoPhy-Set3D/outputs/comparisons/ray_senseiver_selfsup_v1/train.log": "57ca8c0f71195d35be8b2609a3eb799e8b9ae5b0dde6600cc114f0fd547d2bfc",
+    "/data/djc/GeoPhy-Set3D/outputs/comparisons/ray_senseiver_selfsup_v1/necessary_tests.log": "0bf5e32bf8638faf64028eb7e473c36a2cddab7321333e147885729b842119ed",
+    "/data/djc/GeoPhy-Set3D/outputs/comparisons/ray_senseiver_selfsup_v1/evaluation_source_manifest_pre_gt_boundary.json": "80fa0c8d15ff8f7cfe1cd3d75559e0900454762b4ff2247a022bffa715fa298b",
+    "/data/djc/GeoPhy-Set3D/outputs/comparisons/ray_senseiver_selfsup_v1/statistics_tests.log": "a85bf27938d80def3c96dcd3de4ac00a7eaa9174c256b483469a3f88978cced7",
+    "/data/djc/GeoPhy-Set3D/outputs/comparisons/ray_senseiver_selfsup_v1/protocol.sha256": "94acd75c89ebd07c32bdf96f239ffb0c4771827e72492525c8dec6d5911ade16",
+    "/data/djc/GeoPhy-Set3D/outputs/comparisons/ray_senseiver_selfsup_v1/learning_diagnosis.log": "c739f488dfc927da167e2bf4e94bfcae627f2a7a9c4d07772ab87e6d993f09fb",
+    "/data/djc/GeoPhy-Set3D/outputs/comparisons/ray_senseiver_supervised_v1/science/checkpoints/best.pt": "eca3419f19b103feeb14840741d14a369110a970c55f7d7d746b727848d63d9f",
+    "/scratch/djc/GeoPhy-Set3D/deep_baselines_v1/queue_status.json": "0a06128265843c566560da45f136ccf6a60ad685c101b87c6e96d65f01fc2b12",
+    "/home/djc/projects/GeoPhy-Set3D/configs/train_ray_senseiver_selfsup_v1.yaml": "91ea77ed89f3dc11c7b7dfdc9bfc915a83528ee04af198a5482fdf19ada7810b",
+    "/home/djc/projects/GeoPhy-Set3D/configs/baselines/senseiver/model_v1.json": "dd31d5539fb4169f69ca4f598bd7fec6e9150b58daefc3f061ddfe04aad097f4",
+    "/home/djc/projects/GeoPhy-Set3D/docs/senseiver_selfsup_decision_v1_protocol_zh.md": "d65787e0a75cb6695c2a806c72b8efac4448f70e5fc7297920a876ec85efcd5d",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/senseiver_selfsup_decision_v1/launch.py": "48198f0a2d697d1b3dc2f2611179854f08c1f1bdad6e67da087c728e32812e12",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/senseiver_selfsup_decision_v1/diagnose.py": "5785cc1fcd6384b89b670d0cf4cd923cccce57048f47d05294ed90ae9e2b7e85",
+    "/home/djc/projects/GeoPhy-Set3D/scripts/senseiver_selfsup_decision_v1/audit.py": "21d0c53ae0e48f639892207ea289d5c2acb9122384290387472d847ea99c6365"
+  }
+}
