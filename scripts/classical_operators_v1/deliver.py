@@ -37,7 +37,11 @@ def main():
     write(ART/'experiment_status.json',status);write(ART/'checkpoint_manifest.json',checkpoints)
     write(ART/'integrity.json',dict(all_original_tracked_files_unchanged=True,checked_files=len(protected),original_checkpoint_history_and_queue_sha256_unchanged=True,
         primary_bitwise_regression=read(ART/'primary_regression.json')['bitwise_equal'],new_formal_updates=0,new_GT64_reads=0,
-        github_main_verified=False,resource_conflict_preempted=False,scientific_thresholds_not_relaxed=True))
+        github_main_verified=read(ART/'github_main.json')['verified'],resource_conflict_preempted=False,scientific_thresholds_not_relaxed=True))
+    for p in ROOT.glob('launch_*.log'):
+        shutil.copyfile(p,ART/p.name)
+    for p in ROOT.glob('registration*.json'):
+        shutil.copyfile(p,ART/p.name)
     log=ROOT/'regression.log'
     if log.exists():shutil.copyfile(log,ART/'regression.log')
     lines=['# GeoPhy-Set3D：DeepONet / FNO 经典基线实施与决策','',
@@ -45,7 +49,7 @@ def main():
         f"交付日期：{datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=8))).strftime('%Y-%m-%d %H:%M %Z')}。独立分支`experiment/classical_operators_v1`；工作区`{PROJECT}`。",'',
         '## 1. 已有结果与主模型冻结身份','',
         f"GeoLift-DeepSets-Sum：306,625参数，300epoch/24,900更新，best第292轮。实际checkpoint `{historic['deepsets']['checkpoint']}`；SHA256 `{historic['deepsets']['sha256']}`。本轮对900条prediction-row JSON和900个原预测数组逐一复算SHA并匹配冻结清单；已有逐案例指标、50项组/指标统计与独立bootstrap复核均存在并通过。本轮是身份重核，不声称重新执行全部旧GT评价。",'',
-        '原配置train_deepsets_selfsup_v1.yaml、训练源码清单f56b55d0f2ff20c1d667ee4aa58378b6e0017325f16ebb539edcaea761852128及评价源码清单完整保存。原始SharedEncoder2D/GeometryLifting/masked sum÷4/ResidualDecoder3D保持原样；这是共享GeoLift受控集合聚合对照，不是DeepSets论文官方三维重建实现，与失败Ray-DeepSets-V1不同。','',
+        '补充实际last.pt审计确认epoch300、optimizer全部参数step24900、scheduler300及RNG存在；48/48个源码在训练提交77c595a逐hash匹配，当前差异仅为后续增量注册的models/__init__.py。原配置train_deepsets_selfsup_v1.yaml、训练源码清单f56b55d0f2ff20c1d667ee4aa58378b6e0017325f16ebb539edcaea761852128及评价源码清单完整保存。原始SharedEncoder2D/GeometryLifting/masked sum÷4/ResidualDecoder3D保持原样；这是共享GeoLift受控集合聚合对照，不是DeepSets论文官方三维重建实现，与失败Ray-DeepSets-V1不同。','',
         '既有五组3D Relative L1：G1 .135463、G2 .131762、G3 .137796、G4 .156366、G5 .618805。完整Relative L2、observed/H误差、峰值/积分及95%CI仍引用原deepsets_selfsup_v1_zh.md和其paired_statistics.csv；不挑选新模型版本。','',
         f"当前主模型：`{historic['current_primary']['key']}`，{historic['current_primary']['parameters']:,}参数；checkpoint `{historic['current_primary']['checkpoint']}`；SHA `{historic['current_primary']['checkpoint_sha256']}`。冻结配置见history_audit.json；本轮CPU固定输入C0/C1逐位复现通过。",'',
         '**比较身份限制：** 历史DeepSets报告对照的是旧SelfSup-MRGR v1 SHA1573cd84…，不是当前Plain主模型。本轮没有伪造当前主模型与新NO-GO模型的配对三维表。900固定清单为36个开发Val案例×5组×5布局，不是最终独立test；最终test禁止访问。','',
@@ -83,9 +87,9 @@ def main():
         '## 4. 正式三维对比状态','',
         '两个新模型均未获得正式训练准入：formal=0epoch/0update、新900预测=0、新GT64评分=0。故无新三维Relative L1/L2、峰值/积分、95%CI或精度排名；不拿pilot单例代替正式全量。新增正式/selector/infer/GT入口采用完整预算、checkpoint哈希、measurement-only replay和900封存前置校验；由于本轮未获准入，这些完整路径未做端到端科学运行，不声称已经验证。','',
         '## 5. 独立复核、保护、偏离与资源','',
-        '独立复核是第二套NumPy数值实现，不是外部人员复核。CPU测试初次4/5通过（合成边界fixture差异），保留失败日志；改解析射线避开舍入网格边界后5/5通过，不改算子/容差；新模型、原DeepSets、原selfsup与配对统计30项回归通过。当前主模型C0/C1固定CPU输出逐位复现。原始4835个tracked文件及原checkpoint/历史结果/旧queue哈希前后全部不变。模型独立registry没有改旧build_model白名单。','',
+        '独立复核是第二套NumPy数值实现，不是外部人员复核。CPU测试初次4/5通过（合成边界fixture差异），保留失败日志；改解析射线避开舍入网格边界后5/5通过，不改算子/容差；新模型、原DeepSets、原selfsup与配对统计30项回归通过。当前主模型C0/C1固定CPU输出逐位复现。原始4835个tracked文件及原checkpoint/历史结果/旧queue哈希前后全部不变。DeepONet失败进程未在finally持久化末次访问计数，不能追补完整counter；原GTReadGuard始终禁止成功越界读取，后续零更新审计计数完整并无越界。模型独立registry没有改旧build_model白名单。','',
         '偏离/限制逐项保留：','',
-        '- 远端GitHub main最新性未确认：7897失效，17890 CONNECT和直连超时；本地main/cache origin/main均3f977a3。未推送、未合并main；正式训练即使pilot GO也需要补齐远端身份核验。',
+        '- 远端Git数据传输7897代理失效、17890 CONNECT/直连github.com超时；随后通过官方GitHub REST API（gh与独立curl）核对main确为3f977a3，与开发基点一致。远端最新性已解决；未推送、未合并main，核验见github_main.json。',
         '- home worktree因配额失败，使用scratch独立worktree；失败新目录仅属本轮，历史工作区保持不变。',
         '- DeepONet中断轮精确计数未持久化，只能给96–111范围；last完整epoch权威96。之后FNO在首个pilot更新前修复逐step fsync与异常快照，独立source manifest保留前后身份。',
         '- GPU0被其他用户占用使FNO首次预约60秒退出、零更新；登记资源修订后GPU1执行。全程既有UUID flock、15秒双空闲检查、外来冲突只停止自身；没有抢占或终止任何他人任务。GPU3既有任务保持。',
