@@ -56,7 +56,7 @@ def run(arm):
    donor_row,donor=ds._projections(1);sample=ds[0]['A'];aligned=dict(sample);aligned.update(ds._views(donor,sample['input_station_indices'].numpy(),'input'))
    db=projection_pool_collate([aligned]);wrong=dict(batch['A'])
    for k in ['input_projection','input_projection_raw']:
-    wrong[k]=batch['A'][k].clone();wrong[k][0]=db[k][0]
+    wrong[k]=batch['A'][k].clone();wrong[k][0,:db[k].shape[1]]=db[k][0]
    assert all(wrong[k] is v for k,v in batch['A'].items() if k not in ['input_projection','input_projection_raw'])
    assert torch.isfinite(model(wrong)).all()
   seen=[];hook=model.register_forward_pre_hook(lambda m,a:seen.append(id(a[0])))

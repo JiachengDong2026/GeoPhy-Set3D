@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/scratch/djc/GeoPhy-Set3D-classical-operators-v2-scale-init/scripts/classical_operators_v2_scale_init/cpu_checks.py", line 87, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/scratch/djc/GeoPhy-Set3D-classical-operators-v2-scale-init/scripts/classical_operators_v2_scale_init/cpu_checks.py", line 84, in main
+    try:run(arm)
+        ^^^^^^^^
+  File "/scratch/djc/GeoPhy-Set3D-classical-operators-v2-scale-init/scripts/classical_operators_v2_scale_init/cpu_checks.py", line 59, in run
+    wrong[k]=batch['A'][k].clone();wrong[k][0]=db[k][0]
+                                   ~~~~~~~~^^^
+RuntimeError: The expanded size of the tensor (4) must match the existing size (3) at non-singleton dimension 0.  Target sizes: [4, 1, 64, 64].  Tensor sizes: [3, 1, 64, 64]
