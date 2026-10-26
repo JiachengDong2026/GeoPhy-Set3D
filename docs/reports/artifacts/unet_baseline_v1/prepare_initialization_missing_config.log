@@ -1,0 +1,17 @@
+Traceback (most recent call last):
+  File "/scratch/djc/GeoPhy-Set3D-3d-unet-v1/scripts/unet_baseline_v1/prepare_initialization.py", line 35, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/scratch/djc/GeoPhy-Set3D-3d-unet-v1/scripts/unet_baseline_v1/prepare_initialization.py", line 11, in main
+    assert not (ART/'initialization.json').exists();setup();scale=read(ART/'reused_scale.json');c=load_config()
+                                                                                                  ^^^^^^^^^^^^^
+  File "/scratch/djc/GeoPhy-Set3D-3d-unet-v1/src/geophy_set3d/training/unet_baseline_v1.py", line 13, in load_config
+    c=yaml.safe_load((PROJECT/'configs/unet_baseline_v1/unet.yaml').read_text())
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/pathlib.py", line 1027, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/djc/envs/gas-torch/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/scratch/djc/GeoPhy-Set3D-3d-unet-v1/configs/unet_baseline_v1/unet.yaml'
