@@ -1,0 +1,94 @@
+{
+  "passed": true,
+  "full_fields": 24,
+  "physical_integrals": 96,
+  "max_projection_error_relative_to_target": 4.605445380875629e-08,
+  "final_results": [
+    {
+      "index": 0,
+      "arm": "voxel_sigmoid",
+      "step": 200,
+      "independent_loss": 0.24398088992607522,
+      "independent_measurement": {
+        "observed": 1.041906901394628,
+        "cross": 1.041906901394628,
+        "heldout": 1.0373958908271634
+      },
+      "independent_E": 1.0411321811381473,
+      "nontrivial_measurement_fit": false,
+      "independent_E_below099": false
+    },
+    {
+      "index": 0,
+      "arm": "voxel_scaled",
+      "step": 200,
+      "independent_loss": 0.20613975008431765,
+      "independent_measurement": {
+        "observed": 0.9911764438101577,
+        "cross": 0.9911764438101577,
+        "heldout": 0.794488867234607
+      },
+      "independent_E": 0.9850206221926209,
+      "nontrivial_measurement_fit": false,
+      "independent_E_below099": true
+    },
+    {
+      "index": 0,
+      "arm": "unet",
+      "step": 200,
+      "independent_loss": 0.23908860933231513,
+      "independent_measurement": {
+        "observed": 1.0228613584430264,
+        "cross": 1.0228614034161332,
+        "heldout": 1.0101394676058595
+      },
+      "independent_E": 1.022916052243824,
+      "nontrivial_measurement_fit": false,
+      "independent_E_below099": false
+    },
+    {
+      "index": 82,
+      "arm": "voxel_sigmoid",
+      "step": 200,
+      "independent_loss": 0.3309387371682443,
+      "independent_measurement": {
+        "observed": 1.0053440751267952,
+        "cross": 1.0053440751267952,
+        "heldout": 1.0092098008301627
+      },
+      "independent_E": 1.0056563364948532,
+      "nontrivial_measurement_fit": false,
+      "independent_E_below099": false
+    },
+    {
+      "index": 82,
+      "arm": "voxel_scaled",
+      "step": 200,
+      "independent_loss": 0.30501340133068666,
+      "independent_measurement": {
+        "observed": 0.9403093438246608,
+        "cross": 0.9403093438246608,
+        "heldout": 0.9194506783444728
+      },
+      "independent_E": 0.9578925341050435,
+      "nontrivial_measurement_fit": false,
+      "independent_E_below099": true
+    },
+    {
+      "index": 82,
+      "arm": "unet",
+      "step": 200,
+      "independent_loss": 0.2969464173446212,
+      "independent_measurement": {
+        "observed": 0.9287482511386799,
+        "cross": 0.928739507666807,
+        "heldout": 0.8918770447916091
+      },
+      "independent_E": 0.9576234251050106,
+      "nontrivial_measurement_fit": false,
+      "independent_E_below099": true
+    }
+  ],
+  "implementation": "independent NumPy FP64 trilinear K96; all 64-cubed fields; original physics and mask; original objective recomputed independently",
+  "new_optimizer_updates": 0
+}

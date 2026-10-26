@@ -1,0 +1,107 @@
+{
+  "index": 82,
+  "arm": "bounded_solver",
+  "optimizer": "SciPy bounded L-BFGS-B, original objective in FP64",
+  "accepted_iterations": 60,
+  "function_evaluations": 61,
+  "solver_status": {
+    "success": false,
+    "message": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+    "iterations": 60,
+    "nfev": 61,
+    "reported_loss": 0.007594883706749314
+  },
+  "initial": {
+    "step": 0,
+    "loss": 0.3311818242073059,
+    "parts": {
+      "hold": 0.21140199899673462,
+      "cross": 0.19963306188583374,
+      "observed": 0.19963306188583374,
+      "consistency": 0.0
+    },
+    "measurement": {
+      "heldout": 1.0101731160634728,
+      "cross": 1.006052544399715,
+      "observed": 1.006052544399715
+    },
+    "fields": [
+      {
+        "branch": "A",
+        "mean": 0.00019592210851704372,
+        "std": 1.6954021855002038e-06,
+        "min": 0.00018614460714161396,
+        "max": 0.0002108798362314701,
+        "nearzero": 0.0
+      },
+      {
+        "branch": "B",
+        "mean": 0.00019592210851704372,
+        "std": 1.6954021855002038e-06,
+        "min": 0.00018614460714161396,
+        "max": 0.0002108798362314701,
+        "nearzero": 0.0
+      }
+    ],
+    "extra_E_H": 1.0062075629754232,
+    "arrays": {
+      "path": "/scratch/djc/GeoPhy-Set3D/voxel_probe_v1/case82_bounded_solver/fields_step0.npz",
+      "sha256": "652b3c45728ad7daa2f94f5ceabcfe6294757d4e474d0fcf8b85541708a0ee6b"
+    }
+  },
+  "final": {
+    "step": "final",
+    "loss": 0.007594880182296038,
+    "parts": {
+      "hold": 0.0007575431955046952,
+      "cross": 0.011395561508834362,
+      "observed": 0.011395561508834362,
+      "consistency": 0.0
+    },
+    "measurement": {
+      "heldout": 0.0062070309620062235,
+      "cross": 0.06430075950996852,
+      "observed": 0.06430075950996852
+    },
+    "fields": [
+      {
+        "branch": "A",
+        "mean": 0.00415830390161822,
+        "std": 0.014415359824584554,
+        "min": 0.0,
+        "max": 0.23388513922691345,
+        "nearzero": 0.7835922241210938
+      },
+      {
+        "branch": "B",
+        "mean": 0.00415830390161822,
+        "std": 0.014415359824584554,
+        "min": 0.0,
+        "max": 0.23388513922691345,
+        "nearzero": 0.7835922241210938
+      }
+    ],
+    "extra_E_H": 0.10754009766761406,
+    "arrays": {
+      "path": "/scratch/djc/GeoPhy-Set3D/voxel_probe_v1/case82_bounded_solver/fields_stepfinal.npz",
+      "sha256": "02e92e7349ee842fa0e57de80295428e6c38d5350aac3a8ef9589f15820e94d1"
+    }
+  },
+  "seconds": 72.27002229914069,
+  "fitted_ABH": true,
+  "E_below099": true,
+  "access": {
+    "gt_file_opened": false,
+    "gt_open_attempts": 0,
+    "forbidden_npy_attempts": 0,
+    "supervised_checkpoint_open_attempts": 0,
+    "projection_open_count": 0,
+    "unique_pool_a_projection_files": 0,
+    "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+    "audit_hook_inherited_by_workers": true
+  },
+  "formal_training": false,
+  "network_updates": 0,
+  "FP32_final_judgement": true,
+  "final_checkpoint_sha256": "c79f5d6e0ba0f82bcfba5dfa0574e0f0b9ab68192afbd5be7fbe80bb8ca227fa"
+}
