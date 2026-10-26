@@ -9,11 +9,17 @@
   "E_used_for_early_stopping": true,
   "CPU_to_GPU": true,
   "sources": {
-    "scripts/unet_continuation_v1/train.py": "035130404825aa528c8ff65812b7ddd2de0975fdf2896be37956e2946f0763a0",
-    "scripts/unet_continuation_v1/launch.py": "7c1920c5c5016c9806110451a02301e884ff4182256dc6ef7c33c5586fc6216e",
-    "scripts/unet_continuation_v1/context.py": "b187879d993afd93dbee2b190f79507ab710f031688b31c7600aa80d3b17aeb1",
-    "scripts/unet_continuation_v1/evaluation.py": "21bc71ba94bd39055f689e795d5444897ea2773177a685a0250cfca745f8a5ef",
-    "scripts/unet_continuation_v1/preflight.py": "e7e95ccd99d6ef9834b03fa02d8d61904f21e63e96bb8756266c83fd54c32cc3",
+    "scripts/unet_continuation_v1/continuation_context.py": "b187879d993afd93dbee2b190f79507ab710f031688b31c7600aa80d3b17aeb1",
+    "scripts/unet_continuation_v1/train.py": "172e824106119db8d76e4fcc1436b501aa361299cbccc5ccbb52774c1c4e7191",
+    "scripts/unet_continuation_v1/launch.py": "cf188c0dd8b46be7d999eeab92b17e0ae857e233c6aad5256ae55d894afeb7a2",
+    "scripts/unet_continuation_v1/evaluation.py": "12d5e9f446889c7ddcea6d6dd407c4307170228286083b6e24681470cbe3bebd",
+    "scripts/unet_continuation_v1/preflight.py": "2c96e1c137eedd04d749fece92fbbe1508471f1a453db01542e2e655931be485",
     "docs/unet_feasible_continuation_v1_protocol_zh.md": "8ba6008ee464b6d605bc1cb4a20ce3bb22c5eb8d77beade23089ca2c2b511b5c"
+  },
+  "engineering_amendment": {
+    "reason": "Local context module name collided with existing scheduler context; renamed to continuation_context before any GPU acquisition or optimizer update",
+    "initial_registration_sha256": "58c28126ea40edd3d2fdec88ec8347e69747c7b50ccda0e2852478d7ac69fe17",
+    "attempt1_updates": 0,
+    "scientific_settings_changed": false
   }
 }

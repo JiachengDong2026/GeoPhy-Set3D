@@ -1,5 +1,5 @@
 """Read-only exact CPU resume and stop-policy checks before continuation."""
-from context import *
+from continuation_context import *
 from evaluation import evaluate
 from train import stop_reason
 
@@ -11,7 +11,7 @@ def main():
     assert {int(v['step']) for v in ck['optimizer']['state'].values()}=={100}
     model=fresh();model.load_state_dict(ck['model'])
     payload=torch.load(read(OLD_ART/'prepared.json')['cases'][0]['path'],map_location='cpu',weights_only=False)
-    directory=ROOT/'preflight';directory.mkdir(exist_ok=False)
+    directory=ROOT/'preflight';directory.mkdir(exist_ok=True)
     row=evaluate(model,payload['batch'],payload['extra'],directory,0,False)
     r=read(OLD_ART/'case0_original_refinement.json')['final']
     np.testing.assert_allclose([row['loss'],row['extra_E_H']],[r['loss'],r['extra_E_H']],rtol=1e-6,atol=1e-7)

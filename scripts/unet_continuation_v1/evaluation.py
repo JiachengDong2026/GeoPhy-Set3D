@@ -1,5 +1,5 @@
 """Original diagnostic evaluator, with explicit CPU array serialization for CUDA."""
-from context import *
+from continuation_context import *
 
 @torch.no_grad()
 def evaluate(model, batch, extra, directory, step, save_arrays):

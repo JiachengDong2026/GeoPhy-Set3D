@@ -1,12 +1,13 @@
 """Reuse existing UUID lock, double-idle checks, and foreign-conflict monitoring."""
 import sys,os,time
-from context import *
+from continuation_context import *
 sys.path.insert(0,str(PROJECT/'scripts/deep_baselines_v1'))
 import controller
 
 
 def main():
     verify_all()
+    assert read(ART/'preflight.json')['passed']
     original=controller.c.scheduler
     def restricted():
         s=original();s.BASE=ROOT
