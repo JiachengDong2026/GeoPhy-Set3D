@@ -1,0 +1,85 @@
+{
+  "arm": "unet",
+  "status": "NO_GO",
+  "engineering": true,
+  "training_improved": true,
+  "epochs": 30,
+  "optimizer_steps": 480,
+  "initial_val_H": 1.034737490529957,
+  "last_val_H": 1.0140934405171658,
+  "best_val_H": 1.0140934405171658,
+  "zero_baseline": {
+    "relative_l1": 1.0,
+    "relative_l2": 1.0,
+    "measurement_discrepancy": 0.1876649409532547
+  },
+  "final_checks": {
+    "0": {
+      "healthy_fields": false,
+      "train_zero_2of3": true,
+      "train_wrong_2of3": true,
+      "val_zero_response_2of4": true,
+      "val_zero_benefit_2of4": false,
+      "val_below_zero": false,
+      "val_initial_improvement": false
+    },
+    "10": {
+      "healthy_fields": true,
+      "train_zero_2of3": false,
+      "train_wrong_2of3": true,
+      "val_zero_response_2of4": false,
+      "val_zero_benefit_2of4": false,
+      "val_below_zero": false,
+      "val_initial_improvement": false
+    },
+    "20": {
+      "healthy_fields": true,
+      "train_zero_2of3": false,
+      "train_wrong_2of3": true,
+      "val_zero_response_2of4": false,
+      "val_zero_benefit_2of4": false,
+      "val_below_zero": false,
+      "val_initial_improvement": false
+    },
+    "29": {
+      "healthy_fields": true,
+      "train_zero_2of3": false,
+      "train_wrong_2of3": true,
+      "val_zero_response_2of4": true,
+      "val_zero_benefit_2of4": false,
+      "val_below_zero": false,
+      "val_initial_improvement": false
+    },
+    "30": {
+      "healthy_fields": true,
+      "train_zero_2of3": false,
+      "train_wrong_2of3": true,
+      "val_zero_response_2of4": true,
+      "val_zero_benefit_2of4": false,
+      "val_below_zero": false,
+      "val_initial_improvement": false
+    }
+  },
+  "parameters": 5343905,
+  "initial_state_sha256": "31d97af83e02322fb5b6050d028db6a461d514d6a821ff0de2cce6c9d12644d8",
+  "final_state_sha256": "f111bf66061934ced1a40e34eeb4d28693db22e40a82375bb95625ffe3c2d063",
+  "parameter_net_change_l2": 5.827937864343344,
+  "checkpoint": "/scratch/djc/GeoPhy-Set3D/unet_baseline_v1/unet/pilot/last.pt",
+  "checkpoint_sha256": "d3fd8594acf8963758406d3b37d200f5d3bb05995894f7c5f95803a4304205c9",
+  "pilot_best_sha256": "288e96f8e4f5f42afdfe90da5695b175668af879b6630cbfbc6d0b7effb53c9d",
+  "peak_gpu_bytes": 1142821376,
+  "seconds": 602.30124947289,
+  "access": {
+    "gt_file_opened": false,
+    "gt_open_attempts": 0,
+    "forbidden_npy_attempts": 0,
+    "supervised_checkpoint_open_attempts": 0,
+    "projection_open_count": 6744,
+    "unique_pool_a_projection_files": 68,
+    "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+    "audit_hook_inherited_by_workers": true
+  },
+  "formal_started": false,
+  "formal_updates": 0,
+  "formal_eligibility": "blocked by failed necessary pilot gates"
+}

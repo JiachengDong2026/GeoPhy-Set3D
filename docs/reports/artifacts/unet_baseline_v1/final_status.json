@@ -1,0 +1,76 @@
+{
+  "status": "NO_GO",
+  "model": "standard_3d_unet_v1",
+  "branch": "experiment/3d_unet_baseline_v1",
+  "base_commit": "279814b5152c3916913766e7a0fb28134e7d320d",
+  "parameters": 5343905,
+  "epochs": 30,
+  "actual_pilot_updates": 480,
+  "actual_CPU_test_updates": 1,
+  "actual_GPU_memory_check_updates": 0,
+  "CPU_passed": true,
+  "primary_C0_C1_bitwise": true,
+  "independent_full_fields": 210,
+  "independent_NumPy_integrals": true,
+  "additional_full_Val_independent_fields": 216,
+  "full_Val_gate_A_verified": true,
+  "c0": 0.00019270035664658265,
+  "alpha": 0.04792477019144524,
+  "initial_val_H": 1.034737490529957,
+  "epoch29_val_H": 1.0145096878722455,
+  "epoch30_val_H": 1.0140934405171658,
+  "last_checks": {
+    "29": {
+      "healthy_fields": true,
+      "train_zero_2of3": false,
+      "train_wrong_2of3": true,
+      "val_zero_response_2of4": true,
+      "val_zero_benefit_2of4": false,
+      "val_below_zero": false,
+      "val_initial_improvement": false
+    },
+    "30": {
+      "healthy_fields": true,
+      "train_zero_2of3": false,
+      "train_wrong_2of3": true,
+      "val_zero_response_2of4": true,
+      "val_zero_benefit_2of4": false,
+      "val_below_zero": false,
+      "val_initial_improvement": false
+    }
+  },
+  "histories_protected": {
+    "protected_tracked.json": {
+      "count": 4924,
+      "sha256": "39cae5a6d11819e8f178cb18c257864b0f7e82e543dec3b0a80558e1cbb92f29"
+    },
+    "protected_history.json": {
+      "count": 611,
+      "sha256": "aaaec857ea847fa859eba646a79987edbd67753dc25ebd6a5d48425ab9c110f2"
+    },
+    "protected_external.json": {
+      "count": 1897,
+      "sha256": "d83914785f76f0b518c89ddd863e44a59ac4672ccd792f3656e6876b6a34ba84"
+    }
+  },
+  "original_main_files_unchanged": true,
+  "v2_branch_unchanged": true,
+  "data_identity_reverified": true,
+  "registration_scientific_sources_unchanged": true,
+  "checkpoint_manifest_sha256": "a45299a80aa3ffaa4299202e461d88849d6afe56e7e0c3e00e9acdd010f4229c",
+  "last_checkpoint_sha256": "d3fd8594acf8963758406d3b37d200f5d3bb05995894f7c5f95803a4304205c9",
+  "best_checkpoint_sha256": "288e96f8e4f5f42afdfe90da5695b175668af879b6630cbfbc6d0b7effb53c9d",
+  "formal_epochs": 0,
+  "formal_updates": 0,
+  "new_formal_predictions": 0,
+  "GT64_reads": 0,
+  "GT128_reads": 0,
+  "PoolB_reads": 0,
+  "test_truth_reads": 0,
+  "merged_into_main": false,
+  "scientific_deviations": [],
+  "engineering_incidents": [
+    "Initial YAML generation used system python lacking PyYAML; configuration absent before model initialization, fixed using frozen environment and original log preserved"
+  ],
+  "finished_at": "2026-10-26T07:58:43.174268+00:00"
+}
