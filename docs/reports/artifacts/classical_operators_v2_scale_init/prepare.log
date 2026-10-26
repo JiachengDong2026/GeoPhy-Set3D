@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/scratch/djc/GeoPhy-Set3D-classical-operators-v2-scale-init/scripts/classical_operators_v2_scale_init/prepare.py", line 69, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/scratch/djc/GeoPhy-Set3D-classical-operators-v2-scale-init/scripts/classical_operators_v2_scale_init/prepare.py", line 38, in main
+    ds=make_dataset(load_config('deeponet'));batches=[visible(ds,i) for i in range(4)]
+                                                      ^^^^^^^^^^^^^
+  File "/scratch/djc/GeoPhy-Set3D-classical-operators-v2-scale-init/scripts/classical_operators_v2_scale_init/prepare.py", line 18, in visible
+    return {label:projection_pool_collate([dict(case_id=row['case_id'],sample_id=row['sample_id'],split='train',geometry_pool='train',
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/djc/GeoPhy-Set3D-classical-operators-v2-scale-init/src/geophy_set3d/data/collate.py", line 13, in projection_pool_collate
+    counts = [len(sample[f'{prefix}_station_indices']) for sample in samples]
+                  ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'hold_station_indices'
