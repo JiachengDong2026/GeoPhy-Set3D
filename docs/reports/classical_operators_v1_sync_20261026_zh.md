@@ -18,3 +18,7 @@
 本次源码及报告同步采用独立实验分支与main快进，不改历史模型或科学结论：GeoLift-DeepSets-Sum冻结复用，DeepONet/FNO当前适配NO-GO；未追加训练、GT评价或修复搜索。
 
 机器可读检查：[migration_check.json](artifacts/classical_operators_v1_sync_20261026/migration_check.json)。
+
+## Git工作区与软链接
+
+原main工作区有178项` D`状态，均位于上述迁移目录内。这是Git不沿替代目录软链接检查已跟踪子文件导致的表象；本次已把这178个文件经原路径读取，并与Git HEAD里的blob逐字节比对，全部一致，实际文件没有删除。保留用户软链接与该本地状态，仓库同步不提交这些表象删除。
