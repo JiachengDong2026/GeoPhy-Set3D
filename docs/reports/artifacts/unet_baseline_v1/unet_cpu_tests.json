@@ -1,0 +1,377 @@
+{
+  "passed": true,
+  "arm": "unet",
+  "initial_state_sha256": "31d97af83e02322fb5b6050d028db6a461d514d6a821ff0de2cce6c9d12644d8",
+  "changed_parameters": [
+    "readout.weight",
+    "readout.bias"
+  ],
+  "parameters": 5343905,
+  "initial_distribution": {
+    "mean": 0.00019588837682793514,
+    "std": 1.7670012915609996e-06,
+    "min": 0.00018526072381064296,
+    "max": 0.00021240822388790548,
+    "nearzero": 0.0,
+    "saturated": 0.0,
+    "logit_mean": -8.537810122525116,
+    "logit_std": 0.008986949259355252,
+    "logit_quantiles": [
+      -8.593561172485352,
+      -8.557584762573242,
+      -8.539032936096191,
+      -8.508434295654297,
+      -8.456788063049316
+    ]
+  },
+  "full_grid": [
+    64,
+    64,
+    64
+  ],
+  "batch_size": 2,
+  "initial_params_bitwise": true,
+  "initial_output_bitwise": true,
+  "serialization_bitwise": true,
+  "padding_bitwise": true,
+  "invalid_nan_safe": true,
+  "H_excluded": true,
+  "interventions_finite": true,
+  "loss": 0.23333485424518585,
+  "gradients": {
+    "encoder.0.0.weight": {
+      "norm": 0.0019131716604796332,
+      "nonzero": 2592,
+      "finite": true
+    },
+    "encoder.0.1.weight": {
+      "norm": 6.338108537621004e-05,
+      "nonzero": 16,
+      "finite": true
+    },
+    "encoder.0.1.bias": {
+      "norm": 6.34780010142576e-05,
+      "nonzero": 16,
+      "finite": true
+    },
+    "encoder.0.3.weight": {
+      "norm": 0.0022286038084496393,
+      "nonzero": 6912,
+      "finite": true
+    },
+    "encoder.0.4.weight": {
+      "norm": 6.752095470084742e-05,
+      "nonzero": 16,
+      "finite": true
+    },
+    "encoder.0.4.bias": {
+      "norm": 6.075333874768037e-05,
+      "nonzero": 16,
+      "finite": true
+    },
+    "encoder.1.0.weight": {
+      "norm": 0.0009867721082493116,
+      "nonzero": 13824,
+      "finite": true
+    },
+    "encoder.1.1.weight": {
+      "norm": 2.999305040555481e-05,
+      "nonzero": 32,
+      "finite": true
+    },
+    "encoder.1.1.bias": {
+      "norm": 2.3175662798613795e-05,
+      "nonzero": 32,
+      "finite": true
+    },
+    "encoder.1.3.weight": {
+      "norm": 0.0010582899306804951,
+      "nonzero": 27648,
+      "finite": true
+    },
+    "encoder.1.4.weight": {
+      "norm": 1.9162783606949846e-05,
+      "nonzero": 32,
+      "finite": true
+    },
+    "encoder.1.4.bias": {
+      "norm": 1.795213685700277e-05,
+      "nonzero": 32,
+      "finite": true
+    },
+    "encoder.2.0.weight": {
+      "norm": 0.0006106534218059792,
+      "nonzero": 55296,
+      "finite": true
+    },
+    "encoder.2.1.weight": {
+      "norm": 1.1220632090143638e-05,
+      "nonzero": 64,
+      "finite": true
+    },
+    "encoder.2.1.bias": {
+      "norm": 1.1760953042612606e-05,
+      "nonzero": 64,
+      "finite": true
+    },
+    "encoder.2.3.weight": {
+      "norm": 0.0007519846345497375,
+      "nonzero": 110400,
+      "finite": true
+    },
+    "encoder.2.4.weight": {
+      "norm": 7.862044503043552e-06,
+      "nonzero": 64,
+      "finite": true
+    },
+    "encoder.2.4.bias": {
+      "norm": 1.0052711131179879e-05,
+      "nonzero": 64,
+      "finite": true
+    },
+    "encoder.3.0.weight": {
+      "norm": 0.00029288203464344784,
+      "nonzero": 218880,
+      "finite": true
+    },
+    "encoder.3.1.weight": {
+      "norm": 4.928896770514702e-06,
+      "nonzero": 128,
+      "finite": true
+    },
+    "encoder.3.1.bias": {
+      "norm": 4.723375504702939e-06,
+      "nonzero": 128,
+      "finite": true
+    },
+    "encoder.3.3.weight": {
+      "norm": 0.00038342587030844777,
+      "nonzero": 439552,
+      "finite": true
+    },
+    "encoder.3.4.weight": {
+      "norm": 4.084948088488409e-06,
+      "nonzero": 128,
+      "finite": true
+    },
+    "encoder.3.4.bias": {
+      "norm": 3.998753818293701e-06,
+      "nonzero": 128,
+      "finite": true
+    },
+    "encoder.4.0.weight": {
+      "norm": 0.00017020196800129826,
+      "nonzero": 871680,
+      "finite": true
+    },
+    "encoder.4.1.weight": {
+      "norm": 2.0265638584872157e-06,
+      "nonzero": 251,
+      "finite": true
+    },
+    "encoder.4.1.bias": {
+      "norm": 1.7575078242188955e-06,
+      "nonzero": 251,
+      "finite": true
+    },
+    "encoder.4.3.weight": {
+      "norm": 0.00029654828348575803,
+      "nonzero": 1647360,
+      "finite": true
+    },
+    "encoder.4.4.weight": {
+      "norm": 2.159464951025407e-06,
+      "nonzero": 256,
+      "finite": true
+    },
+    "encoder.4.4.bias": {
+      "norm": 2.155793628605449e-06,
+      "nonzero": 256,
+      "finite": true
+    },
+    "up.0.weight": {
+      "norm": 6.410907903499795e-05,
+      "nonzero": 32768,
+      "finite": true
+    },
+    "up.0.bias": {
+      "norm": 5.911529128786352e-06,
+      "nonzero": 128,
+      "finite": true
+    },
+    "up.1.weight": {
+      "norm": 0.0001052848212244327,
+      "nonzero": 8192,
+      "finite": true
+    },
+    "up.1.bias": {
+      "norm": 1.308669768373074e-05,
+      "nonzero": 64,
+      "finite": true
+    },
+    "up.2.weight": {
+      "norm": 0.00010295915648266134,
+      "nonzero": 2048,
+      "finite": true
+    },
+    "up.2.bias": {
+      "norm": 1.839906318689098e-05,
+      "nonzero": 32,
+      "finite": true
+    },
+    "up.3.weight": {
+      "norm": 0.00032808246996976286,
+      "nonzero": 512,
+      "finite": true
+    },
+    "up.3.bias": {
+      "norm": 0.00011212457411437953,
+      "nonzero": 16,
+      "finite": true
+    },
+    "decoder.0.0.weight": {
+      "norm": 0.0006617920636598693,
+      "nonzero": 881408,
+      "finite": true
+    },
+    "decoder.0.1.weight": {
+      "norm": 5.284613440953954e-06,
+      "nonzero": 128,
+      "finite": true
+    },
+    "decoder.0.1.bias": {
+      "norm": 4.380145290346516e-06,
+      "nonzero": 128,
+      "finite": true
+    },
+    "decoder.0.3.weight": {
+      "norm": 0.0005031698601856689,
+      "nonzero": 442368,
+      "finite": true
+    },
+    "decoder.0.4.weight": {
+      "norm": 5.841304011884897e-06,
+      "nonzero": 128,
+      "finite": true
+    },
+    "decoder.0.4.bias": {
+      "norm": 5.027937457082552e-06,
+      "nonzero": 128,
+      "finite": true
+    },
+    "decoder.1.0.weight": {
+      "norm": 0.0010497376391824251,
+      "nonzero": 220608,
+      "finite": true
+    },
+    "decoder.1.1.weight": {
+      "norm": 8.573905688097465e-06,
+      "nonzero": 64,
+      "finite": true
+    },
+    "decoder.1.1.bias": {
+      "norm": 9.799020286487961e-06,
+      "nonzero": 64,
+      "finite": true
+    },
+    "decoder.1.3.weight": {
+      "norm": 0.0006056987746152857,
+      "nonzero": 110592,
+      "finite": true
+    },
+    "decoder.1.4.weight": {
+      "norm": 6.869129678370367e-06,
+      "nonzero": 64,
+      "finite": true
+    },
+    "decoder.1.4.bias": {
+      "norm": 7.2066903090765475e-06,
+      "nonzero": 64,
+      "finite": true
+    },
+    "decoder.2.0.weight": {
+      "norm": 0.0013293783437417295,
+      "nonzero": 55296,
+      "finite": true
+    },
+    "decoder.2.1.weight": {
+      "norm": 1.772061513006901e-05,
+      "nonzero": 32,
+      "finite": true
+    },
+    "decoder.2.1.bias": {
+      "norm": 2.175237445287912e-05,
+      "nonzero": 32,
+      "finite": true
+    },
+    "decoder.2.3.weight": {
+      "norm": 0.0010834566982133558,
+      "nonzero": 27648,
+      "finite": true
+    },
+    "decoder.2.4.weight": {
+      "norm": 2.8093106348598297e-05,
+      "nonzero": 32,
+      "finite": true
+    },
+    "decoder.2.4.bias": {
+      "norm": 3.429735123467052e-05,
+      "nonzero": 32,
+      "finite": true
+    },
+    "decoder.3.0.weight": {
+      "norm": 0.004214831948192738,
+      "nonzero": 13824,
+      "finite": true
+    },
+    "decoder.3.1.weight": {
+      "norm": 7.514024072426981e-05,
+      "nonzero": 16,
+      "finite": true
+    },
+    "decoder.3.1.bias": {
+      "norm": 9.108769963495743e-05,
+      "nonzero": 16,
+      "finite": true
+    },
+    "decoder.3.3.weight": {
+      "norm": 0.0033739908412335233,
+      "nonzero": 6912,
+      "finite": true
+    },
+    "decoder.3.4.weight": {
+      "norm": 0.00023749769311680392,
+      "nonzero": 16,
+      "finite": true
+    },
+    "decoder.3.4.bias": {
+      "norm": 0.00027345105013831084,
+      "nonzero": 16,
+      "finite": true
+    },
+    "readout.weight": {
+      "norm": 0.038771393508768695,
+      "nonzero": 16,
+      "finite": true
+    },
+    "readout.bias": {
+      "norm": 0.01881403475999832,
+      "nonzero": 1,
+      "finite": true
+    }
+  },
+  "preclip_gradient_norm": 0.043632109775204236,
+  "adamw_update_l2": 0.37463407804470683,
+  "actual_cpu_test_updates": 1,
+  "pilot_updates": 0,
+  "access": {
+    "gt_file_opened": false,
+    "gt_open_attempts": 0,
+    "forbidden_npy_attempts": 0,
+    "supervised_checkpoint_open_attempts": 0,
+    "projection_open_count": 12,
+    "unique_pool_a_projection_files": 2,
+    "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+    "audit_hook_inherited_by_workers": true
+  }
+}
