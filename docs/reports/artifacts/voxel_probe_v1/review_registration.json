@@ -1,0 +1,25 @@
+{
+  "kind": "analysis-only independent review, no new model/optimizer execution",
+  "review_source_sha256": {
+    "scripts/voxel_probe_v1/review.py": "27aba86118b7c6911a615e4b23c32a70390a1a48f2aefe6a552da94fee2447b2",
+    "scripts/unet_baseline_v1/numpy_projector.py": "b2a7784a278f331eb0b7ffc0c59f5d34e4466b865351651649ae189ed3108ae6"
+  },
+  "review_all_arms": true,
+  "epochs_or_steps": [
+    0,
+    200
+  ],
+  "fields_per_run": 4,
+  "target_sets": [
+    "A",
+    "B",
+    "H",
+    "E"
+  ],
+  "physical_integrals": 96,
+  "gate_values": {
+    "fitted_ABH": 0.9,
+    "E": 0.99
+  },
+  "model_updates": 0
+}

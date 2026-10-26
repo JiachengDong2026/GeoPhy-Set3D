@@ -1,0 +1,19 @@
+Traceback (most recent call last):
+  File "/scratch/djc/GeoPhy-Set3D-voxel-probe-v1/scripts/voxel_probe_v1/run.py", line 38, in main
+    checkpoint()
+  File "/scratch/djc/GeoPhy-Set3D-voxel-probe-v1/scripts/voxel_probe_v1/run.py", line 31, in checkpoint
+    scheduler=scheduler.state_dict(), rng=rng_state(), steps=steps, arm=arm, index=index,
+                                          ^^^^^^^^^^^
+TypeError: rng_state() missing 1 required positional argument: 'generator'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/scratch/djc/GeoPhy-Set3D-voxel-probe-v1/scripts/voxel_probe_v1/run.py", line 84, in <module>
+    main()
+  File "/scratch/djc/GeoPhy-Set3D-voxel-probe-v1/scripts/voxel_probe_v1/run.py", line 78, in main
+    checkpoint(error)
+  File "/scratch/djc/GeoPhy-Set3D-voxel-probe-v1/scripts/voxel_probe_v1/run.py", line 31, in checkpoint
+    scheduler=scheduler.state_dict(), rng=rng_state(), steps=steps, arm=arm, index=index,
+                                          ^^^^^^^^^^^
+TypeError: rng_state() missing 1 required positional argument: 'generator'
