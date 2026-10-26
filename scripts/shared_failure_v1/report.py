@@ -51,6 +51,8 @@ def main():
     axes[1].legend(fontsize=8)
     fig.savefig(ART / 'gradient_mechanism.png', dpi=180)
     fig.savefig(ART / 'gradient_mechanism.svg')
+    svg = ART / 'gradient_mechanism.svg'
+    svg.write_text('\n'.join(line.rstrip() for line in svg.read_text().splitlines()) + '\n')
     plt.close(fig)
     write('signal_stratification.json', stratification)
     lines = ['# 多架构自监督基线失败机制诊断 v1', '',
