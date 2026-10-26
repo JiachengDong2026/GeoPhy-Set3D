@@ -1,5 +1,5 @@
 """Seal exact sources and inputs before CPU optimization checks and GPU pilot."""
-from common import *
+from scale_context_base import *
 def main():
  assert not (ART/'registration.json').exists()
  scale=read(ART/'scale_calibration.json');init=read(ART/'initialization_calibration.json')

@@ -1,6 +1,6 @@
 """Full-resolution CPU initialization tests; stop before GPU on any failure."""
 import sys,io,copy,math,traceback
-from common import *
+from scale_context_base import *
 sys.path[:0]=[str(PROJECT/'src'),str(PROJECT/'scripts')]
 import numpy as np
 import torch

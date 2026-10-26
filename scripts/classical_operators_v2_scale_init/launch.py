@@ -1,6 +1,6 @@
 """Global UUID flock; 15s double-idle snapshots; never resume or replay training."""
 import sys,time,os,argparse
-from common import *
+from scale_context_base import *
 sys.path.insert(0,str(PROJECT/'scripts/deep_baselines_v1'))
 import controller
 

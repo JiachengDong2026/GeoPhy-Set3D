@@ -1,6 +1,6 @@
 """Negative access checks use synthetic paths: no real GT is opened."""
 import sys,tempfile
-from common import *
+from scale_context_base import *
 sys.path.insert(0,str(PROJECT/'src'))
 from geophy_set3d.training.gt_read_guard import GTReadGuard
 

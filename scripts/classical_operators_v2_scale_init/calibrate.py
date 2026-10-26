@@ -1,6 +1,6 @@
 """One predeclared train-A/B-only Huber physical constant fit, on CPU."""
 import math,sys
-from common import *
+from scale_context_base import *
 sys.path.insert(0,str(PROJECT/'src'))
 import numpy as np
 import torch

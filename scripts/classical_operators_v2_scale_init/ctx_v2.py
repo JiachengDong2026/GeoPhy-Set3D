@@ -3,7 +3,7 @@ import sys
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'classical_operators_v1'))
 from context import *
-from common import PROJECT,ROOT,ART,sha,read,write
+from scale_context_base import PROJECT,ROOT,ART,sha,read,write
 from geophy_set3d.training.classical_operators_v2_scale_init import load_config,build_model as initialized_model
 
 def build_model(c,device=None):

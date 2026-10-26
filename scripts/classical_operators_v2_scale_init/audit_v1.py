@@ -1,6 +1,6 @@
 """Verify frozen evidence and summarize saved complete fields without training."""
 import sys,time
-from common import *
+from scale_context_base import *
 sys.path.insert(0,str(PROJECT/'src'))
 import numpy as np
 import torch

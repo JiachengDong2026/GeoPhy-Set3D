@@ -1,0 +1,146 @@
+{
+  "passed": true,
+  "arm": "fno",
+  "initial_state_sha256": "9fae735a0f57d8daea947dde2aef03594c04a8123e8d4919c8b0f5f650d3c917",
+  "changed_parameters": [
+    "readout.2.bias"
+  ],
+  "parameters": 4196657,
+  "initial_distribution": {
+    "mean": 0.000184570367143172,
+    "std": 5.597117140638419e-08,
+    "min": 0.00018442442524246871,
+    "max": 0.0001846624945756048,
+    "logit_mean": -8.597295224346453,
+    "logit_std": 0.00030332439385651343,
+    "logit_quantiles": [
+      -8.5980863571167,
+      -8.597909927368164,
+      -8.597236633300781,
+      -8.596854209899902,
+      -8.596796035766602
+    ],
+    "nearzero": 0.0,
+    "saturated": 0.0
+  },
+  "full_grid": [
+    64,
+    64,
+    64
+  ],
+  "batch_size": 2,
+  "initial_params_bitwise": true,
+  "initial_output_bitwise": true,
+  "serialization_bitwise": true,
+  "padding_bitwise": true,
+  "invalid_nan_safe": true,
+  "H_excluded": true,
+  "interventions_finite": true,
+  "loss": 0.23207764327526093,
+  "gradients": {
+    "lift.weight": {
+      "norm": 1.3514802992042483e-05,
+      "nonzero": 96,
+      "finite": true
+    },
+    "lift.bias": {
+      "norm": 1.2538484647610353e-05,
+      "nonzero": 16,
+      "finite": true
+    },
+    "blocks.0.spectral.weights": {
+      "norm": 2.423546178524653e-05,
+      "nonzero": 1048320,
+      "finite": true
+    },
+    "blocks.0.pointwise.weight": {
+      "norm": 3.535207162625376e-05,
+      "nonzero": 256,
+      "finite": true
+    },
+    "blocks.0.pointwise.bias": {
+      "norm": 2.3315597156583787e-05,
+      "nonzero": 16,
+      "finite": true
+    },
+    "blocks.1.spectral.weights": {
+      "norm": 3.064770849025505e-05,
+      "nonzero": 1048320,
+      "finite": true
+    },
+    "blocks.1.pointwise.weight": {
+      "norm": 3.805606602343571e-05,
+      "nonzero": 256,
+      "finite": true
+    },
+    "blocks.1.pointwise.bias": {
+      "norm": 6.864432509883536e-05,
+      "nonzero": 16,
+      "finite": true
+    },
+    "blocks.2.spectral.weights": {
+      "norm": 7.22763177104076e-05,
+      "nonzero": 1048319,
+      "finite": true
+    },
+    "blocks.2.pointwise.weight": {
+      "norm": 8.009082433619021e-05,
+      "nonzero": 256,
+      "finite": true
+    },
+    "blocks.2.pointwise.bias": {
+      "norm": 0.00022738207944977216,
+      "nonzero": 16,
+      "finite": true
+    },
+    "blocks.3.spectral.weights": {
+      "norm": 0.0003852844212394092,
+      "nonzero": 1048320,
+      "finite": true
+    },
+    "blocks.3.pointwise.weight": {
+      "norm": 0.00038703345289037825,
+      "nonzero": 256,
+      "finite": true
+    },
+    "blocks.3.pointwise.bias": {
+      "norm": 0.0014403811509649449,
+      "nonzero": 16,
+      "finite": true
+    },
+    "readout.0.weight": {
+      "norm": 0.0017702489652870884,
+      "nonzero": 1024,
+      "finite": true
+    },
+    "readout.0.bias": {
+      "norm": 0.005193325556993297,
+      "nonzero": 64,
+      "finite": true
+    },
+    "readout.2.weight": {
+      "norm": 0.010563517611368773,
+      "nonzero": 64,
+      "finite": true
+    },
+    "readout.2.bias": {
+      "norm": 0.017502538859844208,
+      "nonzero": 1,
+      "finite": true
+    }
+  },
+  "preclip_gradient_norm": 0.021224450067270164,
+  "adamw_update_l2": 0.02821773829222204,
+  "actual_cpu_test_updates": 1,
+  "pilot_updates": 0,
+  "access": {
+    "gt_file_opened": false,
+    "gt_open_attempts": 0,
+    "forbidden_npy_attempts": 0,
+    "supervised_checkpoint_open_attempts": 0,
+    "projection_open_count": 12,
+    "unique_pool_a_projection_files": 2,
+    "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+    "audit_hook_inherited_by_workers": true
+  }
+}

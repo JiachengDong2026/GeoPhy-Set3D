@@ -1,6 +1,6 @@
 """No-update forward calibration of one registered residual rule plus physics check."""
 import sys,math
-from common import *
+from scale_context_base import *
 sys.path.insert(0,str(PROJECT/'src'))
 import numpy as np
 import torch
