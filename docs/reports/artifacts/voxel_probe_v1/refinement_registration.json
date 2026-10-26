@@ -1,0 +1,18 @@
+{
+  "purpose": "Check whether original physical objective can refine a measurement-feasible network after dense self-generated initialization; final targeted mechanism check",
+  "index": 0,
+  "updates": 100,
+  "initial_checkpoint_sha256": "adaf34e60216236b4e0b89382987331bfe47aa1a1a8810b0b16cd3149b362608",
+  "initialization": "weights from own separately registered 200-step dense self-generated field probe; not a frozen main/foreign/GT model",
+  "optimizer": "reset AdamW2e-4 wd1e-4 clip1 cosine300 per16updates",
+  "objective": "exact original unchanged objective only; no dense teacher loss or arrays in this stage",
+  "teacher_target_reads": 0,
+  "E": "evaluation only; not selection or training",
+  "source": "scripts/voxel_probe_v1/refine.py",
+  "source_sha256": "010373016cfd25ef0cc8de186b5fc4bc2bfb581143817646934fe5ca4b3d9a98",
+  "formal_training": false,
+  "interpretation": "If maintained and improved, supports optimization-path/initial spatial localization barrier; not proof of universal root cause or cross-case conditional reconstruction",
+  "stop_after_this_check": true,
+  "no_automatic_further_search": true,
+  "device": "CPU two threads, at most four total with original serial comparison"
+}
