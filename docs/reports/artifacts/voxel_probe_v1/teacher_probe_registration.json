@@ -1,0 +1,22 @@
+{
+  "purpose": "Separate feasibility in field space from fresh U-Net fit to a dense self-generated field; single diagnostic loss, no search",
+  "index": 0,
+  "updates": 200,
+  "teacher_source": "/scratch/djc/GeoPhy-Set3D/voxel_probe_v1/case0_bounded_solver/fields_stepfinal.npz",
+  "teacher_array_sha256": "152ff6c11cb9d183469869d6e08f9810b659fdbb05870ca60c4359d3e3308bfb",
+  "teacher_is_GT": false,
+  "teacher_not_unique_solution": true,
+  "loss": "A/B mean concentration MSE divided by fixed teacher mean-square concentration; no relative/consistency terms in this separate diagnostic",
+  "all_other_network_initial_optimizer_settings": "same fresh registered U-Net, same seed c0 alpha; AdamW2e-4 wd1e-4 clip1 cosine300 each16updates",
+  "criterion": [
+    "normalized MSE <= half initial",
+    "teacher relative L1 <=0.9",
+    "physical ABH and E separately reported, not selection"
+  ],
+  "no_GT": true,
+  "formal_training": false,
+  "source": "scripts/voxel_probe_v1/teacher_probe.py",
+  "source_sha256": "ae697322c6e0c9a3087cf93525f874bdcfd7f6264eb2f966ce7f4037b2bb3e23",
+  "scope_limit": "one teacher probe only; failure within 200 updates does not prove network incapable; no automatic architecture/loss/coefficient search",
+  "device": "CPU two threads; may coexist with independent two-thread original comparison"
+}
