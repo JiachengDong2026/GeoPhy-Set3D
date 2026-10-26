@@ -1,0 +1,21 @@
+{
+  "purpose": "One optimizer-only fresh U-Net check after independent shared-field existence result",
+  "index": 0,
+  "max_outer_iterations": 20,
+  "max_closures": 60,
+  "optimizer": "torch LBFGS lr1 history5 max_iter1 strong_wolfe; unmodified full FP32 objective gradients, no clipping distortion",
+  "same_seed_c0_alpha_architecture_loss_inputs": true,
+  "initialization": "fresh registered U-Net; no trained or solver field weights",
+  "E": "evaluation only; never line search, training, checkpoint selection or stopping",
+  "source": "scripts/voxel_probe_v1/network_solver.py",
+  "source_sha256": "6ae4c6569a2ebbd554463ff047761c14a5d73e4de8042991926fbe714029a28c",
+  "limits": [
+    "single-case fitting cannot establish conditional generalization",
+    "different optimizer cannot establish fair tuned architecture ranking",
+    "accepted iterations and closure evaluations reported separately",
+    "ceiling exception restores previous accepted state"
+  ],
+  "no_GT": true,
+  "formal_training": false,
+  "device": "CPU two threads, at most four experiment threads with independent original serial comparison"
+}
