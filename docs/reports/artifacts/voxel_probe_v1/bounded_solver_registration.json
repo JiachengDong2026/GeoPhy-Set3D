@@ -1,0 +1,28 @@
+{
+  "purpose": "Existence/conditioning check after fixed-Adam direct field progress; not a new architecture, loss, or hyperparameter search",
+  "indices": [
+    0,
+    82
+  ],
+  "max_iterations": 60,
+  "max_function_evaluations": 120,
+  "maxls": 10,
+  "initialization": "same prepared mean fresh A/B concentration; never continue previous diagnostic arms",
+  "parameterization": "shared mass-fraction field with [0,1] bounds",
+  "objective": "unchanged original objective in FP64 during SciPy solver; final exact original FP32 re-evaluation",
+  "independent_E": "never in loss, line search, selection or termination",
+  "source": "scripts/voxel_probe_v1/bounded_solver.py",
+  "source_sha256": "5d547c552ff26d7667339ef25c5d89c07337e5fbb2436ad151adaa5ce423cd38",
+  "previous_1200_Adam_update_budget_unchanged": true,
+  "additional_max_accepted_iterations": 120,
+  "network_updates": 0,
+  "hard_function_ceiling": true,
+  "no_GT": true,
+  "limitations": [
+    "FP64 solver is a new numerical diagnostic, not the original FP32 training protocol",
+    "shared single-case field bypasses conditional mapping and consistency",
+    "finite solver failure cannot establish no solution",
+    "line search samples training loss only; E is final evaluation only"
+  ],
+  "execution_resources": "CPU two threads; may coexist with two-thread independent original comparison, at most four task CPU threads; no GPU"
+}
