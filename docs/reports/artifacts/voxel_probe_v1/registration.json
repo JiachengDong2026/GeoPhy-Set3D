@@ -1,0 +1,77 @@
+{
+  "purpose": "Compare ability to fit fixed train measurements with direct shared voxel fields and fresh U-Net; separate optimizer parameterization from conditional network limitations",
+  "indices": [
+    0,
+    82
+  ],
+  "sampling_epoch": 0,
+  "seed": 20261011,
+  "device": "CPU",
+  "threads": 2,
+  "resolution": [
+    64,
+    64,
+    64
+  ],
+  "projector": "original K96/all valid rays",
+  "objective": "unchanged training.selfsup.objective; hold1/cross.5/observed.1/consistency.05",
+  "c0": 0.00019270035664658265,
+  "alpha": 0.04792477019144524,
+  "updates_per_run": 200,
+  "evaluation_steps": [
+    10,
+    50,
+    100,
+    200
+  ],
+  "arms": {
+    "voxel_sigmoid": {
+      "parameterization": "one case-specific shared sigmoid(logit voxel grid), used for both A/B; mean fresh network output start",
+      "lr": 0.0002,
+      "weight_decay": 0.0001
+    },
+    "voxel_scaled": {
+      "parameterization": "one case-specific shared c0*u voxel grid, projected after each step into [0,1] concentration; same shared initial concentration",
+      "lr": 0.05,
+      "weight_decay": 0.0001
+    },
+    "unet": {
+      "parameterization": "unchanged fresh registered U-Net with measurement scale initialization, A/B predictions separately",
+      "lr": 0.0002,
+      "weight_decay": 0.0001
+    }
+  },
+  "optimizer": "AdamW; clip1; cosine T_max300 advanced per16updates, matching pilot update timescale",
+  "total_update_ceiling": 1200,
+  "additional_E": "four lowest station IDs disjoint from A/B/H; measured train projections; evaluation only and never input/loss/selection; not external Val or GT",
+  "initialization": "network from same seed and c0/alpha only, no trained checkpoint; direct shared fields from fresh A/B output mean",
+  "interpretation": {
+    "nontrivial_measurement_fit": "final A/B/H each relative L1 <=0.9 and initial total loss decreases",
+    "independent_ray_check": "final E relative L1 <=0.99; report separately; no best-step selection",
+    "not_a_GO_gate": "This experiment cannot authorize formal training or prove 3D reconstruction accuracy"
+  },
+  "limitations": [
+    "2 fixed cases, one seed, fixed sampling",
+    "direct shared field is case-specific and cannot assess conditional generalization",
+    "scaled-field has different step size and metric; useful for existence/optimization probe, not matched optimizer ranking",
+    "H participates original training loss; only E is unseen rays",
+    "200 steps does not establish global optimum or universal network failure"
+  ],
+  "forbidden": [
+    "GT64",
+    "GT128",
+    "PoolB",
+    "final test",
+    "old model overwrites",
+    "formal300",
+    "architecture or loss search"
+  ],
+  "source_sha256": {
+    "scripts/voxel_probe_v1/prepare.py": "5948a4d9bcd58619936062f2260badadc2b8b6b76e8779a3842b7af4e0906d4f",
+    "scripts/voxel_probe_v1/probe_context.py": "69033e00bc93b4f8ca10ebfa24c2b104a4fb4ae4e63e7b82ea5f70a52a3bed2f",
+    "scripts/voxel_probe_v1/run.py": "7a101fd33ee0090768fe8dcfeb70613710aba605f877b15816556cbe2b4c54b1",
+    "scripts/voxel_probe_v1/preflight.py": "05c988b8efa45845a631da37dd0790712d4033d281a25473c53a0c61f03c4852",
+    "docs/voxel_network_probe_v1_protocol_zh.md": "b3e514ca1ba98c378829667d61ab10a4e457311124925aa9dc8f2cc8fdd299c2"
+  },
+  "prior_diagnosis_manifest_sha256": "5091d6bae1106464bebe25cd711fb9294229b5b1719818fe44b0b9f59dc0c457"
+}
