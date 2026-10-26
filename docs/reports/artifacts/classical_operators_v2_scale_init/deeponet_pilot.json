@@ -1,0 +1,85 @@
+{
+  "arm": "deeponet",
+  "status": "NO_GO",
+  "engineering": true,
+  "training_improved": true,
+  "epochs": 30,
+  "optimizer_steps": 480,
+  "initial_val_H": 1.0330961838044466,
+  "last_val_H": 1.0000008518539933,
+  "best_val_H": 1.0000008518539933,
+  "zero_baseline": {
+    "relative_l1": 1.0,
+    "relative_l2": 1.0,
+    "measurement_discrepancy": 0.1876649409532547
+  },
+  "final_checks": {
+    "0": {
+      "healthy_fields": false,
+      "train_zero_2of3": false,
+      "train_wrong_2of3": false,
+      "val_zero_benefit_2of4": false,
+      "val_below_zero": false,
+      "val_initial_improvement": false,
+      "val_healthy": false
+    },
+    "10": {
+      "healthy_fields": false,
+      "train_zero_2of3": false,
+      "train_wrong_2of3": false,
+      "val_zero_benefit_2of4": false,
+      "val_below_zero": false,
+      "val_initial_improvement": false,
+      "val_healthy": true
+    },
+    "20": {
+      "healthy_fields": false,
+      "train_zero_2of3": false,
+      "train_wrong_2of3": false,
+      "val_zero_benefit_2of4": false,
+      "val_below_zero": false,
+      "val_initial_improvement": false,
+      "val_healthy": true
+    },
+    "29": {
+      "healthy_fields": false,
+      "train_zero_2of3": false,
+      "train_wrong_2of3": false,
+      "val_zero_benefit_2of4": false,
+      "val_below_zero": false,
+      "val_initial_improvement": false,
+      "val_healthy": false
+    },
+    "30": {
+      "healthy_fields": false,
+      "train_zero_2of3": false,
+      "train_wrong_2of3": false,
+      "val_zero_benefit_2of4": false,
+      "val_below_zero": false,
+      "val_initial_improvement": false,
+      "val_healthy": false
+    }
+  },
+  "parameters": 222033,
+  "initial_state_sha256": "5cc63e1889bcef15c51894869d1497ff7e30fedad9d36192766f638a411e7ec1",
+  "final_state_sha256": "e6548bb7659c22755c84f32601542f8416a03c409a55ba0ce5f927619772298e",
+  "parameter_net_change_l2": 3.224953794096793,
+  "checkpoint": "/scratch/djc/GeoPhy-Set3D/classical_operators_v2_scale_init/deeponet/pilot/last.pt",
+  "checkpoint_sha256": "b1c111de8bb03aef203c0995a2752586b20817e4968ca3643ffc128822d1552d",
+  "pilot_best_sha256": "cc48a31e2713a18869053e3c3c618f75915d24aab883d9988b490e556dca0554",
+  "peak_gpu_bytes": 667098112,
+  "seconds": 181.05841425666586,
+  "access": {
+    "gt_file_opened": false,
+    "gt_open_attempts": 0,
+    "forbidden_npy_attempts": 0,
+    "supervised_checkpoint_open_attempts": 0,
+    "projection_open_count": 6642,
+    "unique_pool_a_projection_files": 68,
+    "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+    "audit_hook_inherited_by_workers": true
+  },
+  "formal_started": false,
+  "formal_updates": 0,
+  "formal_eligibility": "blocked by failed necessary pilot gates"
+}

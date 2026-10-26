@@ -1,0 +1,88 @@
+{
+  "status": "COMPLETED",
+  "branch": "experiment/classical_operators_v2_scale_init",
+  "base_commit": "279814b5152c3916913766e7a0fb28134e7d320d",
+  "models": {
+    "deeponet": {
+      "status": "NO_GO",
+      "pilot_epochs": 30,
+      "actual_updates": 480,
+      "CPU_passed": true,
+      "independent_full_fields": 210,
+      "initial_val_H": 1.0330961838044466,
+      "final_val_H": 1.0000008518539933,
+      "final_checks": {
+        "29": {
+          "healthy_fields": false,
+          "train_zero_2of3": false,
+          "train_wrong_2of3": false,
+          "val_zero_benefit_2of4": false,
+          "val_below_zero": false,
+          "val_initial_improvement": false,
+          "val_healthy": false
+        },
+        "30": {
+          "healthy_fields": false,
+          "train_zero_2of3": false,
+          "train_wrong_2of3": false,
+          "val_zero_benefit_2of4": false,
+          "val_below_zero": false,
+          "val_initial_improvement": false,
+          "val_healthy": false
+        }
+      },
+      "formal_updates": 0
+    },
+    "fno": {
+      "status": "NO_GO",
+      "pilot_epochs": 30,
+      "actual_updates": 480,
+      "CPU_passed": true,
+      "independent_full_fields": 210,
+      "initial_val_H": 1.032560189285425,
+      "final_val_H": 0.9862144949192727,
+      "final_checks": {
+        "29": {
+          "healthy_fields": false,
+          "train_zero_2of3": true,
+          "train_wrong_2of3": true,
+          "val_zero_benefit_2of4": false,
+          "val_below_zero": true,
+          "val_initial_improvement": false,
+          "val_healthy": true
+        },
+        "30": {
+          "healthy_fields": false,
+          "train_zero_2of3": true,
+          "train_wrong_2of3": true,
+          "val_zero_benefit_2of4": false,
+          "val_below_zero": true,
+          "val_initial_improvement": false,
+          "val_healthy": true
+        }
+      },
+      "formal_updates": 0
+    }
+  },
+  "c0": 0.00019270035664658265,
+  "protected_original_files": 4924,
+  "frozen_checkpoints_verified": 6,
+  "registered_sources_unchanged": true,
+  "primary_C0_C1_bitwise": true,
+  "formal_epochs": 0,
+  "formal_updates": 0,
+  "new_formal_predictions": 0,
+  "GT64_reads": 0,
+  "GT128_reads": 0,
+  "Pool_B_reads": 0,
+  "merged_into_main": false,
+  "no_scientific_deviations": true,
+  "engineering_preregistration_complete": false,
+  "input_hash_preregistration_limitation": "Val36 projection per-file hashes were omitted from initial registration; post-run verification against frozen build manifest is supplemental, not retrospective preregistration",
+  "engineering_amendments": [
+    "CPU donor assignment retained batch padding; no update before fix",
+    "v2 helper renamed to avoid scheduler import collision; no GPU allocation before fix"
+  ],
+  "checkpoint_manifest_sha256": "af728d7acb280989019df75fdeda484758b8420792ef6ca2c3452f4bbc3846bb",
+  "finished_at": "2026-10-26T07:06:06.803985+00:00"
+}
