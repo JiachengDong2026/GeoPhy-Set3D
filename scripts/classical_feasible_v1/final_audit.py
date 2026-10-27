@@ -19,17 +19,22 @@ def main():
     recovery=read(ART/'gnot_partial_resume_registration.json')
     for path,digest in recovery['boundary'].items():assert sha(path)==digest,path
     assert read(ART/'gnot_partial_resume_checks.json')['no_optimizer_replay']
-    for key in ['unet_workers','unet_sparse_guard_v2','unet_sparse_guard_v2_test','pilot_deeponet','pilot_fno_workers','pilot_senseiver','pilot_senseiver_sparse_guard_v2','pilot_gnot_resume','pilot_deepsets','pilot_deeponet_lr2e5']:
+    for key in ['unet_workers','unet_sparse_guard_v2','unet_sparse_guard_v2_test','pilot_deeponet','pilot_fno_workers','pilot_senseiver','pilot_senseiver_sparse_guard_v2','pilot_gnot_resume','pilot_gnot_sparse_guard_v2','pilot_deepsets','pilot_deeponet_lr2e5']:
         path=ROOT/'scheduling'/(key+'.json')
         states[key]=read(path);assert states[key]['state']=='complete',(key,states[key])
     for name in ['deeponet_multicase_review.json','fno_multicase_review.json','senseiver_multicase_review.json',
         'gnot_multicase_review.json','deepsets_multicase_review.json','deeponet_lr2e5_review.json']:
         assert read(ART/name)['passed'],name
-    for name in ['unet_validation_review.json','selected_unet_causal_review.json','unet_main_comparison.json','senseiver_complete_independent_review.json']:
+    assert read(active_art/'gnot_continuation_status.json')['state']=='complete'
+    for name in ['unet_validation_review.json','selected_unet_causal_review.json','unet_main_comparison.json','senseiver_complete_independent_review.json','gnot_complete_independent_review.json']:
         assert read(active_art/name)['passed'],name
     assert read(active_art/'deepsets_guard_review.json')['passed']
     registration=read(active_art/'deepsets_guard_review_registration.json')
     for path,digest in registration['boundary'].items():assert sha(path)==digest,path
+    for registration_path in [active_art/'registration.json',active_art/'senseiver_continuation_registration.json',
+        active_art/'deepsets_guard_review_registration.json',ART/'gnot_partial_resume_registration.json',
+        active_art/'remaining_queue_registration.json',active_art/'gnot_continuation_registration.json']:
+        for path,digest in read(registration_path)['sources'].items():assert sha(PROJECT/path)==digest,path
     score=read(active_art/'unet_test_score.json')
     assert score['GT64_files']==35 and score['GT128_reads']==0 and score['predictions']==595
     assert score['GT64_after_prediction_seal'] and not score['denied']
@@ -46,7 +51,7 @@ def main():
         assert sha(row['prediction'])==row['sha256'];large[row['prediction']]=row['sha256']
     reviews=[ART/name for name in ['deeponet_multicase_review.json','fno_multicase_review.json','senseiver_multicase_review.json',
         'gnot_multicase_review.json','deepsets_multicase_review.json','deeponet_lr2e5_review.json','health_guard_audit.json']]
-    reviews += [active_art/name for name in ['unet_validation_review.json','selected_unet_causal_review.json','senseiver_multicase_review.json']]
+    reviews += [active_art/name for name in ['unet_validation_review.json','selected_unet_causal_review.json','senseiver_multicase_review.json','gnot_multicase_review.json']]
     reviews += [Path(r['projection_review']) for r in read(active_art/'deepsets_guard_review.json')['results']]
     for path in reviews:
         for row in read(path)['records']:
@@ -54,7 +59,7 @@ def main():
     for row in read(ART/'teachers.json')['cases']:
         assert sha(row['path'])==row['sha256'];large[row['path']]=row['sha256']
     directories=[ROOT/('unet' if arm=='unet' else 'pilot_'+arm) for arm in ['unet','deeponet','fno','senseiver','gnot','deepsets','deeponet_lr2e5']]
-    directories += [active_root/'unet',active_root/'pilot_senseiver']
+    directories += [active_root/'unet',active_root/'pilot_senseiver',active_root/'pilot_gnot']
     for directory in directories:
         summary=read(directory/'summary.json')
         checkpoint=Path(summary['best_checkpoint'])

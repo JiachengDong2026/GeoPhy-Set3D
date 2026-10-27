@@ -1,6 +1,6 @@
 # 经典基线正式训练、测试与收敛诊断
 
-更新时间：2026-10-27T10:26:37.001832+00:00；状态：训练/复核进行中，禁止将快照当成最终成绩。
+更新时间：2026-10-27T11:23:34.521546+00:00；状态：本轮训练判定及复核已结束。
 
 本次正式模型是标准 3D U-Net（五级卷积编码解码器及跳跃连接），增加仅由训练测量生成的可行场预热。物理阶段仍使用原始自监督 objective、完整 64³/K96、166 train/36 Val、batch2、FP32 和既定优化器。额外的场求解与 4980 次预热更新必须单列；不将其冒充历史原始自监督协议的等预算基线。表中 deepsets 专指 Ray-DeepSets-v1（masked mean、无 GeoLift）的新调试，不是冻结的正式 GeoLift-DeepSets-Sum。
 
@@ -10,12 +10,13 @@
 | deeponet | STOP_MULTICASE_GATE_FAILED (physical 30) | 30 | 0.594740 | 0.667343 | 未完成/未启用 |
 | fno | MULTICASE_PILOT_GO (physical 30) | 30 | 0.238901 | 0.244623 | 未完成/未启用 |
 | senseiver | STOP_PERSISTENT_COLLAPSE (physical 29) | 29 | 0.571871 | 0.597660 | 未完成/未启用 |
-| gnot | RUNNING (physical 2) | 2 | 0.612854 | 0.612854 | 未完成/未启用 |
+| gnot | STOP_PERSISTENT_COLLAPSE (physical 29) | 29 | 0.549841 | 0.600711 | 未完成/未启用 |
 | deepsets | STOP_MULTICASE_GATE_FAILED (physical 30) | 30 | 0.826001 | 0.831702 | 未完成/未启用 |
 | deeponet_lr2e5 | MULTICASE_PILOT_GO (physical 30) | 30 | 0.568890 | 0.568890 | 未完成/未启用 |
 | unet_sparse_guard_v2 | FORMAL_300_COMPLETE_SPARSE_GUARD_V2 (physical 300) | 300 | 0.080058 | 0.080317 | 已完成 |
 | senseiver_sparse_guard_v2 | MULTICASE_PILOT_GO_SPARSE_GUARD_V2 (physical 30) | 30 | 0.571871 | 0.575841 | 未完成/未启用 |
 | deepsets_sparse_guard_v2 | MULTICASE_REQUALIFIED_SPARSE_GUARD_V2 (physical 30) | 30 | 0.826001 | 0.831702 | 未完成/未启用 |
+| gnot_sparse_guard_v2 | MULTICASE_PILOT_GO_SPARSE_GUARD_V2 (physical 30) | 30 | 0.534842 | 0.534842 | 未完成/未启用 |
 
 ![物理阶段曲线](artifacts/classical_feasible_v1/physical_training_curves.png)
 
@@ -40,13 +41,15 @@ DeepONet 固定学习率对照从同一预热末态开始，仅把物理阶段 L
 | deeponet | val_benefit, train_dependency | 全部通过 | 通过，H=0.667343 |
 | fno | 全部通过 | 全部通过 | 通过，H=0.244623 |
 | senseiver | healthy | 待完成/未到达 | 通过，H=0.597660 |
-| gnot | 待完成/未到达 | 待完成/未到达 | 待完成 |
+| gnot | healthy | 待完成/未到达 | 通过，H=0.600711 |
 | deepsets | healthy | 全部通过 | 通过，H=0.831702 |
 | deeponet_lr2e5 | 全部通过 | 全部通过 | 通过，H=0.568890 |
 
 Senseiver 原流程因体素饱和计数在 epoch29 停止；独立分支只恢复同一边界补完 epoch30，新增83次更新、零新增预热。修订判据下判定为 MULTICASE_PILOT_GO_SPARSE_GUARD_V2，末态 Val H=0.575841。原29轮停止结果保留。该结果仍是多案例pilot，未启动Senseiver正式300轮训练或最终GT测试。
 
 Ray-DeepSets 原epoch29/30的物理误差及因果门槛均通过，原NO-GO仅由epoch29体素饱和健康度触发。使用同一已固定质量加权判据，对保存的29/30权重分别重新独立计算完整36Val及normal/zero/wrong干预，判定为 MULTICASE_REQUALIFIED_SPARSE_GUARD_V2；新增optimizer更新为0，原NO-GO保留。末态Val H=0.831702，测量精度仍明显弱于FNO；该结果不是正式训练或GT测试成绩。
+
+GNOT 原流程同样在epoch29仅因体素饱和健康度停止。经独立29轮场健康度复核后，使用同一修订判据恢复optimizer/scheduler/RNG补完最后83次更新；判定 MULTICASE_PILOT_GO_SPARSE_GUARD_V2，末态Val H=0.534842。原始29轮停止与此前GPU冲突均保留；没有新增预热、架构/学习率搜索或正式GNOT测试。
 
 训练 epoch0 的 498 个 A/B/H 分支测量幅度最大/最小约 20.68 倍；原训练 relative epsilon 在这 498 个分支均未触发。因此本轮证据不支持将共同失败直接归因于 denominator epsilon 截断。
 

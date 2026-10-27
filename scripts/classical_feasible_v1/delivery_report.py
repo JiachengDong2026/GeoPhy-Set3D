@@ -26,13 +26,16 @@ def csv_write(path,rows):
 def main():
     verify();summary_rows=[];metric_rows=[];all_rows={}
     active_art=ART/'sparse_guard_v2' if (ART/'sparse_guard_v2/registration.json').exists() else ART
-    arms=['unet','deeponet','fno','senseiver','gnot','deepsets','deeponet_lr2e5','unet_sparse_guard_v2','senseiver_sparse_guard_v2','deepsets_sparse_guard_v2']
+    arms=['unet','deeponet','fno','senseiver','gnot','deepsets','deeponet_lr2e5','unet_sparse_guard_v2','senseiver_sparse_guard_v2','deepsets_sparse_guard_v2','gnot_sparse_guard_v2']
     for arm in arms:
-        corrected=arm in ['unet_sparse_guard_v2','senseiver_sparse_guard_v2']
-        directory=ROOT/('sparse_guard_v2/unet' if arm=='unet_sparse_guard_v2' else 'sparse_guard_v2/pilot_senseiver') if corrected else ROOT/('unet' if arm=='unet' else 'pilot_'+arm)
+        corrected=arm in ['unet_sparse_guard_v2','senseiver_sparse_guard_v2','gnot_sparse_guard_v2']
+        corrected_base=arm.removesuffix('_sparse_guard_v2')
+        corrected_directory='unet' if corrected_base=='unet' else 'pilot_'+corrected_base
+        directory=ROOT/'sparse_guard_v2'/corrected_directory if corrected else ROOT/('unet' if arm=='unet' else 'pilot_'+arm)
         rows=journal(directory/'metrics.jsonl');all_rows[arm]=rows
         name=arm+'_summary.json' if arm in ['unet','deeponet_lr2e5'] else arm+'_pilot_summary.json'
-        summary_path=ART/('sparse_guard_v2/unet_summary.json' if arm=='unet_sparse_guard_v2' else 'sparse_guard_v2/senseiver_pilot_summary.json') if corrected else ART/name
+        corrected_name='unet_summary.json' if corrected_base=='unet' else corrected_base+'_pilot_summary.json'
+        summary_path=active_art/corrected_name if corrected else ART/name
         if arm=='deepsets_sparse_guard_v2':
             directory=ROOT/'pilot_deepsets';rows=journal(directory/'metrics.jsonl');all_rows[arm]=rows
             summary_path=active_art/'deepsets_guard_review.json'
@@ -47,8 +50,8 @@ def main():
             formal_complete=report.get('formal_complete',False),
             test_complete=(arm=='unet_sparse_guard_v2' and (active_art/'unet_test_score.json').exists()) or (arm=='unet' and (ART/'unet_test_score.json').exists())))
         item=summary_rows[-1]
-        shared=arm in ['deeponet_lr2e5','unet_sparse_guard_v2','senseiver_sparse_guard_v2','deepsets_sparse_guard_v2']
-        prefix={'unet_sparse_guard_v2':14525,'senseiver_sparse_guard_v2':2407,'deepsets_sparse_guard_v2':2490}.get(arm,0)
+        shared=arm in ['deeponet_lr2e5','unet_sparse_guard_v2','senseiver_sparse_guard_v2','deepsets_sparse_guard_v2','gnot_sparse_guard_v2']
+        prefix={'unet_sparse_guard_v2':14525,'senseiver_sparse_guard_v2':2407,'deepsets_sparse_guard_v2':2490,'gnot_sparse_guard_v2':2407}.get(arm,0)
         item.update(shared_preheat_updates=4980 if shared else 0,shared_physical_updates=prefix,
             new_preheat_updates=0 if shared else item['preheat_updates'],
             new_physical_updates=max(0,item['physical_updates']-prefix))
@@ -83,6 +86,10 @@ def main():
             alternative=[r for r in all_rows['senseiver_sparse_guard_v2'] if r['stage']=='physical']
             if alternative:ax.plot([r['epoch'] for r in alternative],[selection_metric(r['val']) for r in alternative],
                 '--',label='Separate sparse guard v2 Val H')
+        if arm=='gnot':
+            alternative=[r for r in all_rows['gnot_sparse_guard_v2'] if r['stage']=='physical']
+            if alternative:ax.plot([r['epoch'] for r in alternative],[selection_metric(r['val']) for r in alternative],
+                '--',label='Separate sparse guard v2 Val H')
         ax.set(title=arm,xlabel='Physical epoch',ylabel='Loss / relative L1');ax.grid(alpha=.2)
         if rows:ax.legend(fontsize=8)
     fig.savefig(ART/'physical_training_curves.png',dpi=150);plt.close(fig)
@@ -91,7 +98,10 @@ def main():
         and (active_art/'pipeline_status.json').exists()
         and read(active_art/'pipeline_status.json')['state']=='formal_training_and_test_complete'
         and (active_art/'senseiver_continuation_status.json').exists()
-        and read(active_art/'senseiver_continuation_status.json')['state']=='complete')
+        and read(active_art/'senseiver_continuation_status.json')['state']=='complete'
+        and (active_art/'deepsets_guard_review.json').exists()
+        and (active_art/'gnot_continuation_status.json').exists()
+        and read(active_art/'gnot_continuation_status.json')['state']=='complete')
     lines=['# 经典基线正式训练、测试与收敛诊断','',f"更新时间：{datetime.now(timezone.utc).isoformat()}；状态：{'本轮训练判定及复核已结束' if terminal else '训练/复核进行中，禁止将快照当成最终成绩'}。",'',
         '本次正式模型是标准 3D U-Net（五级卷积编码解码器及跳跃连接），增加仅由训练测量生成的可行场预热。物理阶段仍使用原始自监督 objective、完整 64³/K96、166 train/36 Val、batch2、FP32 和既定优化器。额外的场求解与 4980 次预热更新必须单列；不将其冒充历史原始自监督协议的等预算基线。表中 deepsets 专指 Ray-DeepSets-v1（masked mean、无 GeoLift）的新调试，不是冻结的正式 GeoLift-DeepSets-Sum。','',
         '| 模型 | 判定/进度 | 物理 epoch | 最佳 Val H | 末态 Val H | 正式测试 |','|---|---|---:|---:|---:|---|']
@@ -128,6 +138,9 @@ def main():
     if (active_art/'deepsets_guard_review.json').exists():
         r=read(active_art/'deepsets_guard_review.json')
         lines+=['',f"Ray-DeepSets 原epoch29/30的物理误差及因果门槛均通过，原NO-GO仅由epoch29体素饱和健康度触发。使用同一已固定质量加权判据，对保存的29/30权重分别重新独立计算完整36Val及normal/zero/wrong干预，判定为 {r['decision']}；新增optimizer更新为0，原NO-GO保留。末态Val H={r['last_val_H']:.6f}，测量精度仍明显弱于FNO；该结果不是正式训练或GT测试成绩。"]
+    if (active_art/'gnot_pilot_summary.json').exists():
+        r=read(active_art/'gnot_pilot_summary.json')
+        lines+=['',f"GNOT 原流程同样在epoch29仅因体素饱和健康度停止。经独立29轮场健康度复核后，使用同一修订判据恢复optimizer/scheduler/RNG补完最后83次更新；判定 {r['decision']}，末态Val H={r['last_val_H']:.6f}。原始29轮停止与此前GPU冲突均保留；没有新增预热、架构/学习率搜索或正式GNOT测试。"]
     inventory=ART/'train_signal_inventory.json'
     if inventory.exists():
         r=read(inventory);lines+=['',f"训练 epoch0 的 498 个 A/B/H 分支测量幅度最大/最小约 {r['projection_amplitude_dynamic_ratio']:.2f} 倍；原训练 relative epsilon 在这 498 个分支均未触发。因此本轮证据不支持将共同失败直接归因于 denominator epsilon 截断。"]
