@@ -15,7 +15,11 @@ def main():
     assert read(ART/'other_algorithms_status.json')['state']=='bounded_multicase_checks_complete'
     assert read(ART/'completion_observer_status.json')['state']=='all_training_decisions_and_reviews_complete'
     states={}
-    for key in ['unet_workers','unet_sparse_guard_v2','unet_sparse_guard_v2_test','pilot_deeponet','pilot_fno_workers','pilot_senseiver','pilot_senseiver_sparse_guard_v2','pilot_gnot','pilot_deepsets','pilot_deeponet_lr2e5']:
+    assert read(ROOT/'scheduling/pilot_gnot.json')['state']=='failed'
+    recovery=read(ART/'gnot_partial_resume_registration.json')
+    for path,digest in recovery['boundary'].items():assert sha(path)==digest,path
+    assert read(ART/'gnot_partial_resume_checks.json')['no_optimizer_replay']
+    for key in ['unet_workers','unet_sparse_guard_v2','unet_sparse_guard_v2_test','pilot_deeponet','pilot_fno_workers','pilot_senseiver','pilot_senseiver_sparse_guard_v2','pilot_gnot_resume','pilot_deepsets','pilot_deeponet_lr2e5']:
         path=ROOT/'scheduling'/(key+'.json')
         states[key]=read(path);assert states[key]['state']=='complete',(key,states[key])
     for name in ['deeponet_multicase_review.json','fno_multicase_review.json','senseiver_multicase_review.json',
@@ -23,10 +27,16 @@ def main():
         assert read(ART/name)['passed'],name
     for name in ['unet_validation_review.json','selected_unet_causal_review.json','unet_main_comparison.json','senseiver_complete_independent_review.json']:
         assert read(active_art/name)['passed'],name
+    assert read(active_art/'deepsets_guard_review.json')['passed']
+    registration=read(active_art/'deepsets_guard_review_registration.json')
+    for path,digest in registration['boundary'].items():assert sha(path)==digest,path
     score=read(active_art/'unet_test_score.json')
     assert score['GT64_files']==35 and score['GT128_reads']==0 and score['predictions']==595
     assert score['GT64_after_prediction_seal'] and not score['denied']
     assert sha(score['metrics_path'])==score['metrics_sha256']
+    metrics=[json.loads(line) for line in Path(score['metrics_path']).read_text().splitlines()]
+    assert len(metrics)==595 and all(np.isfinite(row['volume'][key]) and row['volume'][key]>=0
+        for row in metrics for key in ['relative_l1','relative_l2'])
     seal=read(active_art/'unet_test_prediction_seal.json');lock=read(active_art/'unet_test_lock.json')
     assert seal['all_predictions_saved_before_GT64'] and not seal['denied']
     assert seal['checkpoint_sha256']==lock['sha256']==sha(lock['checkpoint'])
@@ -37,6 +47,7 @@ def main():
     reviews=[ART/name for name in ['deeponet_multicase_review.json','fno_multicase_review.json','senseiver_multicase_review.json',
         'gnot_multicase_review.json','deepsets_multicase_review.json','deeponet_lr2e5_review.json','health_guard_audit.json']]
     reviews += [active_art/name for name in ['unet_validation_review.json','selected_unet_causal_review.json','senseiver_multicase_review.json']]
+    reviews += [Path(r['projection_review']) for r in read(active_art/'deepsets_guard_review.json')['results']]
     for path in reviews:
         for row in read(path)['records']:
             assert sha(row['path'])==row['sha256'];large[row['path']]=row['sha256']
@@ -52,6 +63,8 @@ def main():
         for filename in ['best.pt','last.pt','metrics.jsonl','preheat_updates.jsonl','physical_updates.jsonl','summary.json']:
             path=directory/filename
             if path.exists():large[str(path)]=sha(path)
+    for name in ['conflict_boundary47.pt','conflict_partial48.pt','partial_resume_batches.jsonl','failure.json']:
+        path=ROOT/'pilot_gnot'/name;large[str(path)]=sha(path)
     small={}
     for directory in [ART,PROJECT/'scripts/classical_feasible_v1']:
         for path in sorted(directory.rglob('*')):

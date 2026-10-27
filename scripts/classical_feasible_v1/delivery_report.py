@@ -26,13 +26,16 @@ def csv_write(path,rows):
 def main():
     verify();summary_rows=[];metric_rows=[];all_rows={}
     active_art=ART/'sparse_guard_v2' if (ART/'sparse_guard_v2/registration.json').exists() else ART
-    arms=['unet','deeponet','fno','senseiver','gnot','deepsets','deeponet_lr2e5','unet_sparse_guard_v2','senseiver_sparse_guard_v2']
+    arms=['unet','deeponet','fno','senseiver','gnot','deepsets','deeponet_lr2e5','unet_sparse_guard_v2','senseiver_sparse_guard_v2','deepsets_sparse_guard_v2']
     for arm in arms:
         corrected=arm in ['unet_sparse_guard_v2','senseiver_sparse_guard_v2']
         directory=ROOT/('sparse_guard_v2/unet' if arm=='unet_sparse_guard_v2' else 'sparse_guard_v2/pilot_senseiver') if corrected else ROOT/('unet' if arm=='unet' else 'pilot_'+arm)
         rows=journal(directory/'metrics.jsonl');all_rows[arm]=rows
         name=arm+'_summary.json' if arm in ['unet','deeponet_lr2e5'] else arm+'_pilot_summary.json'
         summary_path=ART/('sparse_guard_v2/unet_summary.json' if arm=='unet_sparse_guard_v2' else 'sparse_guard_v2/senseiver_pilot_summary.json') if corrected else ART/name
+        if arm=='deepsets_sparse_guard_v2':
+            directory=ROOT/'pilot_deepsets';rows=journal(directory/'metrics.jsonl');all_rows[arm]=rows
+            summary_path=active_art/'deepsets_guard_review.json'
         report=read(summary_path) if summary_path.exists() else {}
         latest=rows[-1] if rows else {};physical=[r for r in rows if r['stage']=='physical']
         summary_rows.append(dict(model=arm,decision=report.get('decision','RUNNING' if rows else 'PENDING'),
@@ -44,8 +47,8 @@ def main():
             formal_complete=report.get('formal_complete',False),
             test_complete=(arm=='unet_sparse_guard_v2' and (active_art/'unet_test_score.json').exists()) or (arm=='unet' and (ART/'unet_test_score.json').exists())))
         item=summary_rows[-1]
-        shared=arm in ['deeponet_lr2e5','unet_sparse_guard_v2','senseiver_sparse_guard_v2']
-        prefix={'unet_sparse_guard_v2':14525,'senseiver_sparse_guard_v2':2407}.get(arm,0)
+        shared=arm in ['deeponet_lr2e5','unet_sparse_guard_v2','senseiver_sparse_guard_v2','deepsets_sparse_guard_v2']
+        prefix={'unet_sparse_guard_v2':14525,'senseiver_sparse_guard_v2':2407,'deepsets_sparse_guard_v2':2490}.get(arm,0)
         item.update(shared_preheat_updates=4980 if shared else 0,shared_physical_updates=prefix,
             new_preheat_updates=0 if shared else item['preheat_updates'],
             new_physical_updates=max(0,item['physical_updates']-prefix))
@@ -98,6 +101,7 @@ def main():
         lines.append(f"| {row['model']} | {row['decision']} ({row['stage']} {row['epoch']}) | {row['physical_updates']//83} | {best} | {last} | {'已完成' if row['test_complete'] else '未完成/未启用'} |")
     lines+=['','![物理阶段曲线](artifacts/classical_feasible_v1/physical_training_curves.png)','',
         'H 为未输入网络的验证测量相对 L1；它不是三维 GT 误差。多案例 pilot 只有第 29、30 轮均通过固定物理误差、场健康度及 normal/zero/wrong-case 干预门槛才记为 GO。中途最佳值不能替代末态稳定验收。','',
+        'U-Net正式阶段为300轮，其余模型目前是30轮pilot；不能用本表Val H直接构造等预算架构排名。当前正式GT对比只包含U-Net修订分支及冻结主模型，两者额外预热预算的差异也必须披露。','',
         '## 已确认的诊断证据','',
         '需要区分三个层次：历史无预热协议中的网络优化困难、本轮稠密预热的异常伪目标、以及后期稀疏输出触发体素饱和告警。后两者是本轮新发现，不能拿来解释全部历史失败或重写旧NO-GO。只有控制变量试验支持的改善才归因于相应修复。','',
         '五种旧失败架构在同一固定案例上，经 train 测量自生成场预热后均能降低原目标及额外未输入站位的测量误差，并通过独立 NumPy 投影复核。这说明不能笼统归因于所有网络实现都错误；稠密初始化能帮助它们离开此前的近零吸引区域。单案例成功仍不证明跨案例泛化或三维真值恢复。',
@@ -121,6 +125,9 @@ def main():
     if (active_art/'senseiver_pilot_summary.json').exists():
         r=read(active_art/'senseiver_pilot_summary.json')
         lines+=['',f"Senseiver 原流程因体素饱和计数在 epoch29 停止；独立分支只恢复同一边界补完 epoch30，新增83次更新、零新增预热。修订判据下判定为 {r['decision']}，末态 Val H={r['last_val_H']:.6f}。原29轮停止结果保留。该结果仍是多案例pilot，未启动Senseiver正式300轮训练或最终GT测试。"]
+    if (active_art/'deepsets_guard_review.json').exists():
+        r=read(active_art/'deepsets_guard_review.json')
+        lines+=['',f"Ray-DeepSets 原epoch29/30的物理误差及因果门槛均通过，原NO-GO仅由epoch29体素饱和健康度触发。使用同一已固定质量加权判据，对保存的29/30权重分别重新独立计算完整36Val及normal/zero/wrong干预，判定为 {r['decision']}；新增optimizer更新为0，原NO-GO保留。末态Val H={r['last_val_H']:.6f}，测量精度仍明显弱于FNO；该结果不是正式训练或GT测试成绩。"]
     inventory=ART/'train_signal_inventory.json'
     if inventory.exists():
         r=read(inventory);lines+=['',f"训练 epoch0 的 498 个 A/B/H 分支测量幅度最大/最小约 {r['projection_amplitude_dynamic_ratio']:.2f} 倍；原训练 relative epsilon 在这 498 个分支均未触发。因此本轮证据不支持将共同失败直接归因于 denominator epsilon 截断。"]
@@ -150,6 +157,11 @@ def main():
         '原 CPU 回投影移到四个 loader 进程，网络、原目标及输入内容不变。完整场预测逐值一致；三个 epoch 的 shuffle 顺序、loader RNG 和主进程 RNG 一致。U-Net 在 epoch23/1909 更新、FNO 在 epoch8/664 更新的完整边界恢复，优化器累计 step、scheduler 与 journal 连续，无更新重放。原受控中断日志及不可变边界 checkpoint 均保留。四个数据加载进程不使用 persistent_workers，以保留原随机序列。',
         '',
         'GPU 使用既有 UUID 锁、双空闲快照和冲突监测。大文件位于 /scratch/djc/GeoPhy-Set3D/classical_feasible_v1，测量数据使用迁移后的 /data/djc/GeoPhy-Set3D/data/processed/geophy_projection_pool_v1。冻结主模型、历史 DeepSets 和历史失败实验通过原哈希清单核验；不合并 main。']
+    if (ART/'gnot_partial_resume_checks.json').exists():
+        lines+=['',
+            'GNOT 在预热第48轮因其他进程占用同一GPU，被保护机制仅停止自身任务，已完成3914次真实更新；旧调度失败记录保留，新权威任务为pilot_gnot_resume。恢复使用中途checkpoint，核验optimizer3914/scheduler47，按epoch47边界RNG重建epoch48完整shuffle，验证中途sampler状态及实际case顺序完全一致。保留已完成13个batch，只计算未更新的第14个batch及其后续；没有重放任何optimizer更新。旧controller事件文本中的“replay interrupted epoch”未被执行。',
+            '',
+            '第48轮前26案例的平均预热loss没有保存，因此该轮完整normalized_MSE和完整梯度最大值明确记为null；只记录后140案例的已观测后段loss及梯度，不用后段均值冒充完整epoch。该缺失不影响真实更新journal、后续完整Val或物理阶段独立复核。']
     health_audit=ART/'health_guard_audit.json'
     if health_audit.exists():
         r=read(health_audit);sample=[v for v in r['records'] if v['index']==2]
@@ -165,11 +177,16 @@ def main():
     if selected.exists():
         r=read(selected)
         lines+=['',f"最终最佳 U-Net checkpoint 的额外独立复核：{r['passed']}。固定 4 个 Val 和 3 个 train 案例、A/B 两分支，各执行 normal/zero/wrong 测量干预，共 42 个完整预测场及独立 NumPy H 积分；检查结果为 {r['checks']}。错误测量仅替换数值，recipient 几何、mask、路径及站位不变；该复核在正式测试前执行，未进行优化更新。"]
+        if 'legacy_normal_health_passed' in r:
+            lines+=['',f"同一最终最佳checkpoint的原始按体素计数健康度通过状态为 {r['legacy_normal_health_passed']}；上述GO只对应浓度质量加权的修订判据，不能据此称原协议GO。"]
     if test.exists():
         r=read(test);lines+=['',f"U-Net 已完成 {r['predictions']} 个预测（35 test × 17 layouts），全部预测先封存，再由独立评分进程读取 35 个 GT64；GT128 读取次数为 {r['GT128_reads']}。模型选择仅使用完整 Val H。",'',
-            '| 测试条件 | 三维 relative L1 | 95% CI |','|---|---:|---|']
+            '| 测试条件 | 三维 relative L1 | L1 95% CI | 三维 relative L2 | 质心误差 mm |','|---|---:|---|---:|---:|']
+        lookup={(item['condition'],item['metric']):item['mean'] for item in r['summary']}
         for item in r['summary']:
-            if item['metric']=='relative_l1':lines.append(f"| {item['condition']} | {item['mean']:.6f} | [{item['ci95_low']:.6f}, {item['ci95_high']:.6f}] |")
+            if item['metric']=='relative_l1':
+                c=item['condition']
+                lines.append(f"| {c} | {item['mean']:.6f} | [{item['ci95_low']:.6f}, {item['ci95_high']:.6f}] | {lookup[c,'relative_l2']:.6f} | {lookup[c,'centroid_error_mm']:.3f} |")
     else:lines+=['','当前没有正式测试成绩。只有 U-Net 完成 300 轮、通过完整更新数及独立验证复核、冻结 best checkpoint 后，才允许执行 35 test × 17 layouts。若原协议停止，则不启用该模型的正式测试。']
     comparison=active_art/'unet_main_comparison.json'
     if comparison.exists():
@@ -179,6 +196,8 @@ def main():
             '| 条件 | 主模型三维 L1 | U-Net 三维 L1 | U-Net−主模型的配对 95% CI |','|---|---:|---:|---|']
         for item in r['summary']:
             if item['metric']=='relative_l1':lines.append(f"| {item['condition']} | {item['main_mean']:.6f} | {item['unet_mean']:.6f} | [{item['paired_ci95_low']:.6f}, {item['paired_ci95_high']:.6f}] |")
+        lines+=['',
+            '常规Val-A-V4上，主模型的误差在35个案例均低于U-Net，配对差值区间完全大于零。clustered-V4上，U-Net均值略低，但配对差值95%区间包含零，不能宣称显著优于主模型；训练预算也不同。']
     lines+=['',
         'IDE 中 classical_main_comparison_v2_20261026/summary.csv 属于 12 案例子集，不能与本轮 35 案例均值直接拼成同一排名。本轮单独输出汇总，原文件保持原样。DeepONet 当前实现有五个输入站位槽，其 pilot 范围为 train3–5/Val4；不声称已完成六视角 V6 或本轮 17-layout 正式测试。']
     lines+=['','机器可读结果：[训练轨迹](artifacts/classical_feasible_v1/training_metrics.csv)、[当前汇总](artifacts/classical_feasible_v1/current_comparison.csv)。最终决定须结合各 summary、独立 review 及 test seal，不能只引用平均 loss。','']

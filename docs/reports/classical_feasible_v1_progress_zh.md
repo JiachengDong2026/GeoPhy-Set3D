@@ -1,14 +1,24 @@
 # 经典基线正式训练与调试：进度快照
 
-2026-10-27T14:45:40.609922+08:00
+2026-10-27T18:28:06.083131+08:00
 
 仅train测量自生成场：166/166，GT未用于训练。此文件为进度快照，最终状态以各阶段summary及测试封存记录为准。
 
 ## U-Net完整训练
 
-当前阶段：preheat；epoch 13；该阶段更新 1079；完整36Val H=0.6092506。
+当前阶段：physical；epoch 175；该阶段更新 14525；完整36Val H=0.09502709。
 
 ![U-Net训练曲线](artifacts/classical_feasible_v1/unet_progress.png)
+
+当前训练结束状态：STOP_PERSISTENT_COLLAPSE；物理epoch=175；bestVal H=0.08731182。
+
+## U-Net：独立稀疏场判据修订 v2
+
+上图和原始STOP记录属于v1。v2保留原175轮停止结论，恢复同一完整边界继续训练；只修订饱和区域的统计权重，不改变网络或原目标。
+
+v2当前物理epoch 300/300，累计更新 24900，完整36Val H=0.08031696。
+
+[完整对比、判据变化和测试结果](classical_feasible_v1_training_test_zh.md)。
 
 ## 其他算法：单案例固定预算诊断
 
@@ -22,6 +32,10 @@
 
 ## 其他算法：多案例检查
 
-- deeponet：physical epoch8，完整Val H=0.6227325。
+- deeponet：physical epoch30，完整Val H=0.6673426。
+- fno：physical epoch30，完整Val H=0.244623。
+- senseiver：physical epoch29，完整Val H=0.5976599。
+- gnot：physical epoch3，完整Val H=0.6274009。
+- deepsets：physical epoch30，完整Val H=0.8317025。
 
 正式测试仅在U-Net完成300轮、模型选择与独立复核冻结后运行。单案例误差不构成三维GT精度或跨案例成功证明。
