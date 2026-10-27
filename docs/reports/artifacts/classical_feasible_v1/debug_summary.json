@@ -1,0 +1,2095 @@
+{
+  "models": [
+    {
+      "arm": "deeponet",
+      "teacher_updates": 200,
+      "physical_updates": 200,
+      "initial": {
+        "step": "fresh",
+        "loss": 0.24434344470500946,
+        "parts": {
+          "hold": 0.15048877894878387,
+          "cross": 0.15641838312149048,
+          "observed": 0.15641839802265167,
+          "consistency": 7.258201367221773e-05
+        },
+        "measurement": {
+          "heldout": 1.0396020413170048,
+          "cross": 1.0425545501020204,
+          "observed": 1.042554657975113
+        },
+        "fields": [
+          {
+            "branch": "A",
+            "mean": 0.00019257750808426843,
+            "std": 8.974404879512763e-08,
+            "min": 0.00019236007938161492,
+            "max": 0.0001927908306242898,
+            "nearzero": 0.0
+          },
+          {
+            "branch": "B",
+            "mean": 0.000192572538448732,
+            "std": 8.418726619225265e-08,
+            "min": 0.00019235785293858498,
+            "max": 0.00019279119442217052,
+            "nearzero": 0.0
+          }
+        ],
+        "extra_E_H": 1.041792730247519,
+        "arrays": {
+          "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/deeponet/fields_stepfresh.npz",
+          "sha256": "df82b6b3a1cedef491bd4c96139c83adb60b9f0e9f11a7bc7e8ff7f3fc6bf8c8"
+        },
+        "teacher_normalized_MSE": 0.9878699779510498
+      },
+      "dense_final": {
+        "step": "dense200",
+        "loss": 0.137099951505661,
+        "parts": {
+          "hold": 0.08321801573038101,
+          "cross": 0.08798931539058685,
+          "observed": 0.08799169212579727,
+          "consistency": 0.021762387827038765
+        },
+        "measurement": {
+          "heldout": 0.5796684093199362,
+          "cross": 0.5923078965101696,
+          "observed": 0.5923167568453788
+        },
+        "fields": [
+          {
+            "branch": "A",
+            "mean": 0.0015647542282445288,
+            "std": 0.004774709341630931,
+            "min": 6.944538455400107e-08,
+            "max": 0.056672945618629456,
+            "nearzero": 0.0
+          },
+          {
+            "branch": "B",
+            "mean": 0.0015318077261663593,
+            "std": 0.004747221231519608,
+            "min": 5.521113521922416e-08,
+            "max": 0.05702093988656998,
+            "nearzero": 0.0
+          }
+        ],
+        "extra_E_H": 0.6020287402206175,
+        "arrays": {
+          "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/deeponet/fields_stepdense200.npz",
+          "sha256": "b784736d538bfc5f83cee28af14f2c74244272729fff967cf6c9110561b212f3"
+        },
+        "teacher_normalized_MSE": 0.3453174829483032
+      },
+      "final": {
+        "step": "physical200",
+        "loss": 0.09445278346538544,
+        "parts": {
+          "hold": 0.05702957510948181,
+          "cross": 0.06118617579340935,
+          "observed": 0.06117476522922516,
+          "consistency": 0.014252741821110249
+        },
+        "measurement": {
+          "heldout": 0.39683938339619773,
+          "cross": 0.4114225234222658,
+          "observed": 0.41139670700805936
+        },
+        "fields": [
+          {
+            "branch": "A",
+            "mean": 0.0020562582381543192,
+            "std": 0.009557818409668874,
+            "min": 4.693532888733198e-13,
+            "max": 0.12334737181663513,
+            "nearzero": 0.015392303466796875
+          },
+          {
+            "branch": "B",
+            "mean": 0.002085765077447627,
+            "std": 0.009708607674542978,
+            "min": 4.4704927151632823e-13,
+            "max": 0.1252664476633072,
+            "nearzero": 0.015651702880859375
+          }
+        ],
+        "extra_E_H": 0.4067488908779642,
+        "arrays": {
+          "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/deeponet/fields_stepphysical200.npz",
+          "sha256": "21c3ecf98d067e21199e0d8e1b0f3afb51bc686122f951cbbc0a36933a992a13"
+        },
+        "teacher_normalized_MSE": 0.5435115694999695
+      },
+      "metrics": [
+        {
+          "step": "fresh",
+          "loss": 0.24434344470500946,
+          "parts": {
+            "hold": 0.15048877894878387,
+            "cross": 0.15641838312149048,
+            "observed": 0.15641839802265167,
+            "consistency": 7.258201367221773e-05
+          },
+          "measurement": {
+            "heldout": 1.0396020413170048,
+            "cross": 1.0425545501020204,
+            "observed": 1.042554657975113
+          },
+          "fields": [
+            {
+              "branch": "A",
+              "mean": 0.00019257750808426843,
+              "std": 8.974404879512763e-08,
+              "min": 0.00019236007938161492,
+              "max": 0.0001927908306242898,
+              "nearzero": 0.0
+            },
+            {
+              "branch": "B",
+              "mean": 0.000192572538448732,
+              "std": 8.418726619225265e-08,
+              "min": 0.00019235785293858498,
+              "max": 0.00019279119442217052,
+              "nearzero": 0.0
+            }
+          ],
+          "extra_E_H": 1.041792730247519,
+          "arrays": {
+            "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/deeponet/fields_stepfresh.npz",
+            "sha256": "df82b6b3a1cedef491bd4c96139c83adb60b9f0e9f11a7bc7e8ff7f3fc6bf8c8"
+          },
+          "teacher_normalized_MSE": 0.9878699779510498
+        },
+        {
+          "step": "dense50",
+          "loss": 0.34100475907325745,
+          "parts": {
+            "hold": 0.20482893288135529,
+            "cross": 0.21606527268886566,
+            "observed": 0.21582269668579102,
+            "consistency": 0.13121868669986725
+          },
+          "measurement": {
+            "heldout": 1.4170119524796092,
+            "cross": 1.4385606717056363,
+            "observed": 1.4375497420223136
+          },
+          "fields": [
+            {
+              "branch": "A",
+              "mean": 0.0023060305740483233,
+              "std": 0.0014990160999798921,
+              "min": 0.0004487617698032409,
+              "max": 0.006650077179074287,
+              "nearzero": 0.0
+            },
+            {
+              "branch": "B",
+              "mean": 0.0026300123103923934,
+              "std": 0.0017832424717344573,
+              "min": 0.00046731866314075887,
+              "max": 0.007901331409811974,
+              "nearzero": 0.0
+            }
+          ],
+          "extra_E_H": 1.4299199822100994,
+          "arrays": {
+            "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/deeponet/fields_stepdense50.npz",
+            "sha256": "a05a8b5cfd1d28bffa8a0048901fe6cbfbee2aadea2fba252be2a1b2e09c28d6"
+          },
+          "teacher_normalized_MSE": 0.8859286308288574
+        },
+        {
+          "step": "dense100",
+          "loss": 0.3426021635532379,
+          "parts": {
+            "hold": 0.2100597321987152,
+            "cross": 0.21896439790725708,
+            "observed": 0.21900823712348938,
+            "consistency": 0.023188116028904915
+          },
+          "measurement": {
+            "heldout": 1.452376109316908,
+            "cross": 1.4577624745093773,
+            "observed": 1.457941813448998
+          },
+          "fields": [
+            {
+              "branch": "A",
+              "mean": 0.0027972038023986734,
+              "std": 0.001917384437713608,
+              "min": 0.0004784954071510583,
+              "max": 0.010299153625965118,
+              "nearzero": 0.0
+            },
+            {
+              "branch": "B",
+              "mean": 0.0027330623879145977,
+              "std": 0.0018603691370937577,
+              "min": 0.00047455087769776583,
+              "max": 0.009986530989408493,
+              "nearzero": 0.0
+            }
+          ],
+          "extra_E_H": 1.4538517760190506,
+          "arrays": {
+            "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/deeponet/fields_stepdense100.npz",
+            "sha256": "ef529d663665b15818ba254e2b05d1864b3981d763f208ae13da4f0ceb73694c"
+          },
+          "teacher_normalized_MSE": 0.8318681120872498
+        },
+        {
+          "step": "dense200",
+          "loss": 0.137099951505661,
+          "parts": {
+            "hold": 0.08321801573038101,
+            "cross": 0.08798931539058685,
+            "observed": 0.08799169212579727,
+            "consistency": 0.021762387827038765
+          },
+          "measurement": {
+            "heldout": 0.5796684093199362,
+            "cross": 0.5923078965101696,
+            "observed": 0.5923167568453788
+          },
+          "fields": [
+            {
+              "branch": "A",
+              "mean": 0.0015647542282445288,
+              "std": 0.004774709341630931,
+              "min": 6.944538455400107e-08,
+              "max": 0.056672945618629456,
+              "nearzero": 0.0
+            },
+            {
+              "branch": "B",
+              "mean": 0.0015318077261663593,
+              "std": 0.004747221231519608,
+              "min": 5.521113521922416e-08,
+              "max": 0.05702093988656998,
+              "nearzero": 0.0
+            }
+          ],
+          "extra_E_H": 0.6020287402206175,
+          "arrays": {
+            "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/deeponet/fields_stepdense200.npz",
+            "sha256": "b784736d538bfc5f83cee28af14f2c74244272729fff967cf6c9110561b212f3"
+          },
+          "teacher_normalized_MSE": 0.3453174829483032
+        },
+        {
+          "step": "physical50",
+          "loss": 0.10558336973190308,
+          "parts": {
+            "hold": 0.06251560151576996,
+            "cross": 0.0679791048169136,
+            "observed": 0.06802676618099213,
+            "consistency": 0.04551089555025101
+          },
+          "measurement": {
+            "heldout": 0.4357566070489629,
+            "cross": 0.4577947947265681,
+            "observed": 0.45789165108552754
+          },
+          "fields": [
+            {
+              "branch": "A",
+              "mean": 0.0016029932997320396,
+              "std": 0.006191341279287138,
+              "min": 1.1663506271908375e-10,
+              "max": 0.07487817853689194,
+              "nearzero": 0.0
+            },
+            {
+              "branch": "B",
+              "mean": 0.0016755872469846472,
+              "std": 0.006544320606142459,
+              "min": 8.866564427112422e-11,
+              "max": 0.07949290424585342,
+              "nearzero": 4.9591064453125e-05
+            }
+          ],
+          "extra_E_H": 0.4647827480123936,
+          "arrays": {
+            "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/deeponet/fields_stepphysical50.npz",
+            "sha256": "5f9b410054768966fe34d11a5c4b8db11e566bccc5063772b5645d3ddbe22357"
+          },
+          "teacher_normalized_MSE": 0.2812485098838806
+        },
+        {
+          "step": "physical100",
+          "loss": 0.10520125925540924,
+          "parts": {
+            "hold": 0.0637364611029625,
+            "cross": 0.06811676919460297,
+            "observed": 0.06810867786407471,
+            "consistency": 0.011911006644368172
+          },
+          "measurement": {
+            "heldout": 0.4429686714174331,
+            "cross": 0.45741914114317794,
+            "observed": 0.4574307626902867
+          },
+          "fields": [
+            {
+              "branch": "A",
+              "mean": 0.0022719292251277413,
+              "std": 0.009985963762394077,
+              "min": 2.0342408313389626e-12,
+              "max": 0.12348830699920654,
+              "nearzero": 0.0073699951171875
+            },
+            {
+              "branch": "B",
+              "mean": 0.0022978938308664764,
+              "std": 0.010125778694134177,
+              "min": 1.809436172943435e-12,
+              "max": 0.12507878243923187,
+              "nearzero": 0.007747650146484375
+            }
+          ],
+          "extra_E_H": 0.4538947507472679,
+          "arrays": {
+            "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/deeponet/fields_stepphysical100.npz",
+            "sha256": "8745f053d58b957e061f60e84b84da7dd0be34ec773713a2d7d3d0319f1bd295"
+          },
+          "teacher_normalized_MSE": 0.5755149126052856
+        },
+        {
+          "step": "physical200",
+          "loss": 0.09445278346538544,
+          "parts": {
+            "hold": 0.05702957510948181,
+            "cross": 0.06118617579340935,
+            "observed": 0.06117476522922516,
+            "consistency": 0.014252741821110249
+          },
+          "measurement": {
+            "heldout": 0.39683938339619773,
+            "cross": 0.4114225234222658,
+            "observed": 0.41139670700805936
+          },
+          "fields": [
+            {
+              "branch": "A",
+              "mean": 0.0020562582381543192,
+              "std": 0.009557818409668874,
+              "min": 4.693532888733198e-13,
+              "max": 0.12334737181663513,
+              "nearzero": 0.015392303466796875
+            },
+            {
+              "branch": "B",
+              "mean": 0.002085765077447627,
+              "std": 0.009708607674542978,
+              "min": 4.4704927151632823e-13,
+              "max": 0.1252664476633072,
+              "nearzero": 0.015651702880859375
+            }
+          ],
+          "extra_E_H": 0.4067488908779642,
+          "arrays": {
+            "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/deeponet/fields_stepphysical200.npz",
+            "sha256": "21c3ecf98d067e21199e0d8e1b0f3afb51bc686122f951cbbc0a36933a992a13"
+          },
+          "teacher_normalized_MSE": 0.5435115694999695
+        }
+      ],
+      "dense_MSE_half": true,
+      "fitted_ABH": true,
+      "E_below099": true,
+      "teacher_sha256": "4b7d7236afe8c2bb8ff3728d36b45d07d567f2bf53b67548532c90cde983f627",
+      "initial_state_sha256": "a5a0b17852d09caa4da1f6ab9e0b242a3f3ca0d3cd0b47448aca14719ffa9adf",
+      "checkpoint_sha256": "f82e6f7737b31eff461294dd8c7a7d516fffe9ca0a60f62f3008ce38ed1fdc33",
+      "seconds": 53.132279659155756,
+      "status": "bounded_complete",
+      "access": {
+        "gt_file_opened": false,
+        "gt_open_attempts": 0,
+        "forbidden_npy_attempts": 0,
+        "supervised_checkpoint_open_attempts": 0,
+        "projection_open_count": 0,
+        "unique_pool_a_projection_files": 0,
+        "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+        "audit_hook_inherited_by_workers": true
+      },
+      "formal_training": false
+    },
+    {
+      "arm": "fno",
+      "teacher_updates": 200,
+      "physical_updates": 200,
+      "initial": {
+        "step": "fresh",
+        "loss": 0.24434348940849304,
+        "parts": {
+          "hold": 0.15049104392528534,
+          "cross": 0.1564207375049591,
+          "observed": 0.1564207375049591,
+          "consistency": 1.2391953418955381e-07
+        },
+        "measurement": {
+          "heldout": 1.039620207283252,
+          "cross": 1.0425727724648912,
+          "observed": 1.0425727701087038
+        },
+        "fields": [
+          {
+            "branch": "A",
+            "mean": 0.0001926173733833303,
+            "std": 5.838051820420552e-10,
+            "min": 0.0001926159020513296,
+            "max": 0.0001926183031173423,
+            "nearzero": 0.0
+          },
+          {
+            "branch": "B",
+            "mean": 0.00019261736799580653,
+            "std": 5.902684537791275e-10,
+            "min": 0.0001926159020513296,
+            "max": 0.0001926183031173423,
+            "nearzero": 0.0
+          }
+        ],
+        "extra_E_H": 1.0418111720755556,
+        "arrays": {
+          "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/fno/fields_stepfresh.npz",
+          "sha256": "5a80f1c0bc6e194612637768c5dd9514bebb7f4f7d9a5f3d09d142adbbf4cacb"
+        },
+        "teacher_normalized_MSE": 0.9878694415092468
+      },
+      "dense_final": {
+        "step": "dense200",
+        "loss": 0.13166306912899017,
+        "parts": {
+          "hold": 0.07489366829395294,
+          "cross": 0.08787062764167786,
+          "observed": 0.08769282698631287,
+          "consistency": 0.08129610866308212
+        },
+        "measurement": {
+          "heldout": 0.5336228879563745,
+          "cross": 0.6007365301791728,
+          "observed": 0.5995147788542328
+        },
+        "fields": [
+          {
+            "branch": "A",
+            "mean": 0.002431270003303787,
+            "std": 0.006295487238987919,
+            "min": 0.00023840347421355546,
+            "max": 0.05923176929354668,
+            "nearzero": 0.0
+          },
+          {
+            "branch": "B",
+            "mean": 0.0026373269873980476,
+            "std": 0.006931066198539471,
+            "min": 0.0002376142074353993,
+            "max": 0.06585969030857086,
+            "nearzero": 0.0
+          }
+        ],
+        "extra_E_H": 0.6335785193996455,
+        "arrays": {
+          "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/fno/fields_stepdense200.npz",
+          "sha256": "5e82674385b2d90be94b077780ede46db0dc874de707e80adfa080a280642127"
+        },
+        "teacher_normalized_MSE": 0.13952311873435974
+      },
+      "final": {
+        "step": "physical200",
+        "loss": 0.03352177143096924,
+        "parts": {
+          "hold": 0.019601112231612206,
+          "cross": 0.022545240819454193,
+          "observed": 0.022506095468997955,
+          "consistency": 0.007948585785925388
+        },
+        "measurement": {
+          "heldout": 0.15518473737080757,
+          "cross": 0.1718190759318948,
+          "observed": 0.17155101577108334
+        },
+        "fields": [
+          {
+            "branch": "A",
+            "mean": 0.0022521421244123263,
+            "std": 0.010382843535377452,
+            "min": 0.00018391780031379312,
+            "max": 0.2350996434688568,
+            "nearzero": 0.0
+          },
+          {
+            "branch": "B",
+            "mean": 0.002261093010893722,
+            "std": 0.010379814986181552,
+            "min": 0.00018381033441983163,
+            "max": 0.23392529785633087,
+            "nearzero": 0.0
+          }
+        ],
+        "extra_E_H": 0.17069339809601308,
+        "arrays": {
+          "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/fno/fields_stepphysical200.npz",
+          "sha256": "6128af1d4cd5513b8e8a7dc7271c0a70b6fa475c5f40a000eb56a5db1c4062cd"
+        },
+        "teacher_normalized_MSE": 0.541847825050354
+      },
+      "metrics": [
+        {
+          "step": "fresh",
+          "loss": 0.24434348940849304,
+          "parts": {
+            "hold": 0.15049104392528534,
+            "cross": 0.1564207375049591,
+            "observed": 0.1564207375049591,
+            "consistency": 1.2391953418955381e-07
+          },
+          "measurement": {
+            "heldout": 1.039620207283252,
+            "cross": 1.0425727724648912,
+            "observed": 1.0425727701087038
+          },
+          "fields": [
+            {
+              "branch": "A",
+              "mean": 0.0001926173733833303,
+              "std": 5.838051820420552e-10,
+              "min": 0.0001926159020513296,
+              "max": 0.0001926183031173423,
+              "nearzero": 0.0
+            },
+            {
+              "branch": "B",
+              "mean": 0.00019261736799580653,
+              "std": 5.902684537791275e-10,
+              "min": 0.0001926159020513296,
+              "max": 0.0001926183031173423,
+              "nearzero": 0.0
+            }
+          ],
+          "extra_E_H": 1.0418111720755556,
+          "arrays": {
+            "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/fno/fields_stepfresh.npz",
+            "sha256": "5a80f1c0bc6e194612637768c5dd9514bebb7f4f7d9a5f3d09d142adbbf4cacb"
+          },
+          "teacher_normalized_MSE": 0.9878694415092468
+        },
+        {
+          "step": "dense50",
+          "loss": 0.2448618859052658,
+          "parts": {
+            "hold": 0.15079811215400696,
+            "cross": 0.1567700207233429,
+            "observed": 0.15677008032798767,
+            "consistency": 3.525097054080106e-05
+          },
+          "measurement": {
+            "heldout": 1.0423470252307916,
+            "cross": 1.0455025708632095,
+            "observed": 1.0455027961748886
+          },
+          "fields": [
+            {
+              "branch": "A",
+              "mean": 0.00020540512842026626,
+              "std": 1.2296114260438275e-07,
+              "min": 0.00020514630887191743,
+              "max": 0.00020587426843121648,
+              "nearzero": 0.0
+            },
+            {
+              "branch": "B",
+              "mean": 0.0002054122850383422,
+              "std": 1.2652294484634792e-07,
+              "min": 0.00020514555217232555,
+              "max": 0.00020589841005858034,
+              "nearzero": 0.0
+            }
+          ],
+          "extra_E_H": 1.0447116524163351,
+          "arrays": {
+            "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/fno/fields_stepdense50.npz",
+            "sha256": "a7be6695a848538d5fe6388120029f69fea61874232b021ba144cecb70ceca6c"
+          },
+          "teacher_normalized_MSE": 0.9870936870574951
+        },
+        {
+          "step": "dense100",
+          "loss": 0.24634313583374023,
+          "parts": {
+            "hold": 0.15159866213798523,
+            "cross": 0.1576780378818512,
+            "observed": 0.1576787829399109,
+            "consistency": 0.0027515965048223734
+          },
+          "measurement": {
+            "heldout": 1.0494086269172964,
+            "cross": 1.053044225757258,
+            "observed": 1.0530507597049268
+          },
+          "fields": [
+            {
+              "branch": "A",
+              "mean": 0.00024777210603244004,
+              "std": 1.1018226883253545e-05,
+              "min": 0.00023260319721885026,
+              "max": 0.00032604948501102626,
+              "nearzero": 0.0
+            },
+            {
+              "branch": "B",
+              "mean": 0.00024845710368404106,
+              "std": 1.1526071048412431e-05,
+              "min": 0.00023258037981577218,
+              "max": 0.0003305054269731045,
+              "nearzero": 0.0
+            }
+          ],
+          "extra_E_H": 1.0520837660485067,
+          "arrays": {
+            "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/fno/fields_stepdense100.npz",
+            "sha256": "324f40d13addf51e013a6bf52bc6cd6e9f327d7d51871a3e92c56b89d28efca1"
+          },
+          "teacher_normalized_MSE": 0.9825700521469116
+        },
+        {
+          "step": "dense200",
+          "loss": 0.13166306912899017,
+          "parts": {
+            "hold": 0.07489366829395294,
+            "cross": 0.08787062764167786,
+            "observed": 0.08769282698631287,
+            "consistency": 0.08129610866308212
+          },
+          "measurement": {
+            "heldout": 0.5336228879563745,
+            "cross": 0.6007365301791728,
+            "observed": 0.5995147788542328
+          },
+          "fields": [
+            {
+              "branch": "A",
+              "mean": 0.002431270003303787,
+              "std": 0.006295487238987919,
+              "min": 0.00023840347421355546,
+              "max": 0.05923176929354668,
+              "nearzero": 0.0
+            },
+            {
+              "branch": "B",
+              "mean": 0.0026373269873980476,
+              "std": 0.006931066198539471,
+              "min": 0.0002376142074353993,
+              "max": 0.06585969030857086,
+              "nearzero": 0.0
+            }
+          ],
+          "extra_E_H": 0.6335785193996455,
+          "arrays": {
+            "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/fno/fields_stepdense200.npz",
+            "sha256": "5e82674385b2d90be94b077780ede46db0dc874de707e80adfa080a280642127"
+          },
+          "teacher_normalized_MSE": 0.13952311873435974
+        },
+        {
+          "step": "physical50",
+          "loss": 0.07321997731924057,
+          "parts": {
+            "hold": 0.041627854108810425,
+            "cross": 0.04772040992975235,
+            "observed": 0.04838411509990692,
+            "consistency": 0.05787007883191109
+          },
+          "measurement": {
+            "heldout": 0.30695199959094577,
+            "cross": 0.33793537080895053,
+            "observed": 0.3423015825213559
+          },
+          "fields": [
+            {
+              "branch": "A",
+              "mean": 0.002252931567251759,
+              "std": 0.00856421018290341,
+              "min": 0.0002279278851347044,
+              "max": 0.14090338349342346,
+              "nearzero": 0.0
+            },
+            {
+              "branch": "B",
+              "mean": 0.0023868016871687048,
+              "std": 0.009138050971210484,
+              "min": 0.00022713863290846348,
+              "max": 0.15180370211601257,
+              "nearzero": 0.0
+            }
+          ],
+          "extra_E_H": 0.36376674357001115,
+          "arrays": {
+            "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/fno/fields_stepphysical50.npz",
+            "sha256": "99b6ea78f493eadd4ed603940a3da32d75676a49785645acb6f314f1955c3370"
+          },
+          "teacher_normalized_MSE": 0.2937781810760498
+        },
+        {
+          "step": "physical100",
+          "loss": 0.049355294555425644,
+          "parts": {
+            "hold": 0.028715450316667557,
+            "cross": 0.03296077996492386,
+            "observed": 0.03294207900762558,
+            "consistency": 0.01730494014918804
+          },
+          "measurement": {
+            "heldout": 0.21837344357837313,
+            "cross": 0.24083409863798136,
+            "observed": 0.24074112646811976
+          },
+          "fields": [
+            {
+              "branch": "A",
+              "mean": 0.0022386049123465646,
+              "std": 0.00958375620633059,
+              "min": 0.0002110767673002556,
+              "max": 0.1923620104789734,
+              "nearzero": 0.0
+            },
+            {
+              "branch": "B",
+              "mean": 0.002266397038126422,
+              "std": 0.009618449939191474,
+              "min": 0.0002109856141032651,
+              "max": 0.19397960603237152,
+              "nearzero": 0.0
+            }
+          ],
+          "extra_E_H": 0.242770500991569,
+          "arrays": {
+            "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/fno/fields_stepphysical100.npz",
+            "sha256": "91ea6098ab8ac8926f25196c81baa534c506c88d40f6e53657be8e09d5f29a9b"
+          },
+          "teacher_normalized_MSE": 0.3988266885280609
+        },
+        {
+          "step": "physical200",
+          "loss": 0.03352177143096924,
+          "parts": {
+            "hold": 0.019601112231612206,
+            "cross": 0.022545240819454193,
+            "observed": 0.022506095468997955,
+            "consistency": 0.007948585785925388
+          },
+          "measurement": {
+            "heldout": 0.15518473737080757,
+            "cross": 0.1718190759318948,
+            "observed": 0.17155101577108334
+          },
+          "fields": [
+            {
+              "branch": "A",
+              "mean": 0.0022521421244123263,
+              "std": 0.010382843535377452,
+              "min": 0.00018391780031379312,
+              "max": 0.2350996434688568,
+              "nearzero": 0.0
+            },
+            {
+              "branch": "B",
+              "mean": 0.002261093010893722,
+              "std": 0.010379814986181552,
+              "min": 0.00018381033441983163,
+              "max": 0.23392529785633087,
+              "nearzero": 0.0
+            }
+          ],
+          "extra_E_H": 0.17069339809601308,
+          "arrays": {
+            "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/fno/fields_stepphysical200.npz",
+            "sha256": "6128af1d4cd5513b8e8a7dc7271c0a70b6fa475c5f40a000eb56a5db1c4062cd"
+          },
+          "teacher_normalized_MSE": 0.541847825050354
+        }
+      ],
+      "dense_MSE_half": true,
+      "fitted_ABH": true,
+      "E_below099": true,
+      "teacher_sha256": "4b7d7236afe8c2bb8ff3728d36b45d07d567f2bf53b67548532c90cde983f627",
+      "initial_state_sha256": "899d07b05d7a03a17c2b81dd78ae8a3df217e4f7a11dcb5555a25470ea9a88e6",
+      "checkpoint_sha256": "de6b786a4090c988aa9291087e6f8f79b85fe60ba37ff2999683671544a4bdd0",
+      "seconds": 36.1580348550342,
+      "status": "bounded_complete",
+      "access": {
+        "gt_file_opened": false,
+        "gt_open_attempts": 0,
+        "forbidden_npy_attempts": 0,
+        "supervised_checkpoint_open_attempts": 0,
+        "projection_open_count": 0,
+        "unique_pool_a_projection_files": 0,
+        "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+        "audit_hook_inherited_by_workers": true
+      },
+      "formal_training": false
+    },
+    {
+      "arm": "senseiver",
+      "teacher_updates": 200,
+      "physical_updates": 200,
+      "initial": {
+        "step": "fresh",
+        "loss": 0.24441243708133698,
+        "parts": {
+          "hold": 0.1504932940006256,
+          "cross": 0.15642407536506653,
+          "observed": 0.15642385184764862,
+          "consistency": 0.0012942749308422208
+        },
+        "measurement": {
+          "heldout": 1.0396379871951664,
+          "cross": 1.042597412708238,
+          "observed": 1.0425962036033416
+        },
+        "fields": [
+          {
+            "branch": "A",
+            "mean": 0.0001925424213619631,
+            "std": 3.471241282853954e-07,
+            "min": 0.00019125906692352146,
+            "max": 0.00019388918008189648,
+            "nearzero": 0.0
+          },
+          {
+            "branch": "B",
+            "mean": 0.00019279308065878187,
+            "std": 3.4485358550309496e-07,
+            "min": 0.00019147584680467844,
+            "max": 0.00019410837558098137,
+            "nearzero": 0.0
+          }
+        ],
+        "extra_E_H": 1.0418281247192387,
+        "arrays": {
+          "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/senseiver/fields_stepfresh.npz",
+          "sha256": "f9a2132de194f92d9c4abd2de1c4023147a49d3c508455dc3b02caed54a176c2"
+        },
+        "teacher_normalized_MSE": 0.9878718852996826
+      },
+      "dense_final": {
+        "step": "dense200",
+        "loss": 0.15018178522586823,
+        "parts": {
+          "hold": 0.0952572152018547,
+          "cross": 0.09101836383342743,
+          "observed": 0.09099731594324112,
+          "consistency": 0.006313053425401449
+        },
+        "measurement": {
+          "heldout": 0.6673309090641162,
+          "cross": 0.6176343690649514,
+          "observed": 0.6174745022928603
+        },
+        "fields": [
+          {
+            "branch": "A",
+            "mean": 0.002323100336964201,
+            "std": 0.006607876190961288,
+            "min": 4.903963144897716e-06,
+            "max": 0.0745449811220169,
+            "nearzero": 0.0
+          },
+          {
+            "branch": "B",
+            "mean": 0.002317252830116504,
+            "std": 0.006612415327937201,
+            "min": 4.920650098938495e-06,
+            "max": 0.07467575371265411,
+            "nearzero": 0.0
+          }
+        ],
+        "extra_E_H": 0.6501884215150351,
+        "arrays": {
+          "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/senseiver/fields_stepdense200.npz",
+          "sha256": "7d388c0e8e58735ff2665e28c2f654399a6d6c10803e2aeb5d6ca0dd780d8861"
+        },
+        "teacher_normalized_MSE": 0.2560633718967438
+      },
+      "final": {
+        "step": "physical200",
+        "loss": 0.08042533695697784,
+        "parts": {
+          "hold": 0.04789844527840614,
+          "cross": 0.05407843738794327,
+          "observed": 0.05407823622226715,
+          "consistency": 0.0015969760715961456
+        },
+        "measurement": {
+          "heldout": 0.3366177381975459,
+          "cross": 0.3662667755938025,
+          "observed": 0.3662623300211342
+        },
+        "fields": [
+          {
+            "branch": "A",
+            "mean": 0.0016138091807460094,
+            "std": 0.012340803948780336,
+            "min": 3.26209971035496e-07,
+            "max": 0.45560142397880554,
+            "nearzero": 0.0
+          },
+          {
+            "branch": "B",
+            "mean": 0.0016153343735002786,
+            "std": 0.012350122676044574,
+            "min": 3.271845230301551e-07,
+            "max": 0.45577454566955566,
+            "nearzero": 0.0
+          }
+        ],
+        "extra_E_H": 0.34422477644257476,
+        "arrays": {
+          "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/senseiver/fields_stepphysical200.npz",
+          "sha256": "ddadd7c1b510e7a86d8224b196ef2708a4842e28c4d79ace76ae263ccdd3a614"
+        },
+        "teacher_normalized_MSE": 1.779647946357727
+      },
+      "metrics": [
+        {
+          "step": "fresh",
+          "loss": 0.24441243708133698,
+          "parts": {
+            "hold": 0.1504932940006256,
+            "cross": 0.15642407536506653,
+            "observed": 0.15642385184764862,
+            "consistency": 0.0012942749308422208
+          },
+          "measurement": {
+            "heldout": 1.0396379871951664,
+            "cross": 1.042597412708238,
+            "observed": 1.0425962036033416
+          },
+          "fields": [
+            {
+              "branch": "A",
+              "mean": 0.0001925424213619631,
+              "std": 3.471241282853954e-07,
+              "min": 0.00019125906692352146,
+              "max": 0.00019388918008189648,
+              "nearzero": 0.0
+            },
+            {
+              "branch": "B",
+              "mean": 0.00019279308065878187,
+              "std": 3.4485358550309496e-07,
+              "min": 0.00019147584680467844,
+              "max": 0.00019410837558098137,
+              "nearzero": 0.0
+            }
+          ],
+          "extra_E_H": 1.0418281247192387,
+          "arrays": {
+            "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/senseiver/fields_stepfresh.npz",
+            "sha256": "f9a2132de194f92d9c4abd2de1c4023147a49d3c508455dc3b02caed54a176c2"
+          },
+          "teacher_normalized_MSE": 0.9878718852996826
+        },
+        {
+          "step": "dense50",
+          "loss": 0.3009750545024872,
+          "parts": {
+            "hold": 0.18446651101112366,
+            "cross": 0.19417768716812134,
+            "observed": 0.1941777765750885,
+            "consistency": 3.901693344232626e-05
+          },
+          "measurement": {
+            "heldout": 1.2791385957495636,
+            "cross": 1.2962031505778608,
+            "observed": 1.2962036085841646
+          },
+          "fields": [
+            {
+              "branch": "A",
+              "mean": 0.0012241743193781573,
+              "std": 6.244976628838386e-05,
+              "min": 0.0009561435435898602,
+              "max": 0.0015335447387769818,
+              "nearzero": 0.0
+            },
+            {
+              "branch": "B",
+              "mean": 0.001224131585621846,
+              "std": 6.244572948187236e-05,
+              "min": 0.0009561445913277566,
+              "max": 0.0015334257623180747,
+              "nearzero": 0.0
+            }
+          ],
+          "extra_E_H": 1.2919588900806356,
+          "arrays": {
+            "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/senseiver/fields_stepdense50.npz",
+            "sha256": "dcc2f2351989fdf9fb1310bbf69171b5d225a93b8719504d0d46108a7b87a652"
+          },
+          "teacher_normalized_MSE": 0.9429106116294861
+        },
+        {
+          "step": "dense100",
+          "loss": 0.35000884532928467,
+          "parts": {
+            "hold": 0.21441517770290375,
+            "cross": 0.22590680420398712,
+            "observed": 0.22590506076812744,
+            "consistency": 0.0009950145613402128
+          },
+          "measurement": {
+            "heldout": 1.4821712256744495,
+            "cross": 1.5032714306366994,
+            "observed": 1.5032649909875362
+          },
+          "fields": [
+            {
+              "branch": "A",
+              "mean": 0.0020777108473799544,
+              "std": 0.00036240714233596856,
+              "min": 0.0007520968792960048,
+              "max": 0.005473174154758453,
+              "nearzero": 0.0
+            },
+            {
+              "branch": "B",
+              "mean": 0.0020797802244334473,
+              "std": 0.0003626041189179616,
+              "min": 0.0007529785507358611,
+              "max": 0.005476390942931175,
+              "nearzero": 0.0
+            }
+          ],
+          "extra_E_H": 1.498558020433905,
+          "arrays": {
+            "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/senseiver/fields_stepdense100.npz",
+            "sha256": "02ad0626200d25b9286134097be42c147260d36ed6064113e3f5dac7dc253b24"
+          },
+          "teacher_normalized_MSE": 0.916617214679718
+        },
+        {
+          "step": "dense200",
+          "loss": 0.15018178522586823,
+          "parts": {
+            "hold": 0.0952572152018547,
+            "cross": 0.09101836383342743,
+            "observed": 0.09099731594324112,
+            "consistency": 0.006313053425401449
+          },
+          "measurement": {
+            "heldout": 0.6673309090641162,
+            "cross": 0.6176343690649514,
+            "observed": 0.6174745022928603
+          },
+          "fields": [
+            {
+              "branch": "A",
+              "mean": 0.002323100336964201,
+              "std": 0.006607876190961288,
+              "min": 4.903963144897716e-06,
+              "max": 0.0745449811220169,
+              "nearzero": 0.0
+            },
+            {
+              "branch": "B",
+              "mean": 0.002317252830116504,
+              "std": 0.006612415327937201,
+              "min": 4.920650098938495e-06,
+              "max": 0.07467575371265411,
+              "nearzero": 0.0
+            }
+          ],
+          "extra_E_H": 0.6501884215150351,
+          "arrays": {
+            "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/senseiver/fields_stepdense200.npz",
+            "sha256": "7d388c0e8e58735ff2665e28c2f654399a6d6c10803e2aeb5d6ca0dd780d8861"
+          },
+          "teacher_normalized_MSE": 0.2560633718967438
+        },
+        {
+          "step": "physical50",
+          "loss": 0.13457050919532776,
+          "parts": {
+            "hold": 0.08236109465360641,
+            "cross": 0.08666417002677917,
+            "observed": 0.08666382730007172,
+            "consistency": 0.0042190393432974815
+          },
+          "measurement": {
+            "heldout": 0.5751549269470596,
+            "cross": 0.584264679367068,
+            "observed": 0.5842304442656776
+          },
+          "fields": [
+            {
+              "branch": "A",
+              "mean": 0.0027960872677132644,
+              "std": 0.014639790400333023,
+              "min": 1.0170434734391165e-06,
+              "max": 0.3595930337905884,
+              "nearzero": 0.0
+            },
+            {
+              "branch": "B",
+              "mean": 0.0027861312252619474,
+              "std": 0.014602783178814178,
+              "min": 1.0243420547340065e-06,
+              "max": 0.3590671122074127,
+              "nearzero": 0.0
+            }
+          ],
+          "extra_E_H": 0.5715253783681097,
+          "arrays": {
+            "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/senseiver/fields_stepphysical50.npz",
+            "sha256": "8128e856094876ffd609036750f2bc8328ceb719aa95a15ebc1586c88a2aedf1"
+          },
+          "teacher_normalized_MSE": 1.8929523229599
+        },
+        {
+          "step": "physical100",
+          "loss": 0.07116101682186127,
+          "parts": {
+            "hold": 0.0416242778301239,
+            "cross": 0.04903290048241615,
+            "observed": 0.0490323007106781,
+            "consistency": 0.0023412613663822412
+          },
+          "measurement": {
+            "heldout": 0.29599240224691525,
+            "cross": 0.33525989016059854,
+            "observed": 0.33525163295352944
+          },
+          "fields": [
+            {
+              "branch": "A",
+              "mean": 0.0018686126559968501,
+              "std": 0.011986039528855697,
+              "min": 5.608422952718684e-07,
+              "max": 0.35955387353897095,
+              "nearzero": 0.0
+            },
+            {
+              "branch": "B",
+              "mean": 0.0018711821442207526,
+              "std": 0.01199514888565174,
+              "min": 5.643054805659631e-07,
+              "max": 0.358937531709671,
+              "nearzero": 0.0
+            }
+          ],
+          "extra_E_H": 0.3184481678234204,
+          "arrays": {
+            "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/senseiver/fields_stepphysical100.npz",
+            "sha256": "3c9a8351cec06e645e80aae438f8cb5bdc53532c6ac4431e8ff31d47f7c86923"
+          },
+          "teacher_normalized_MSE": 1.4249118566513062
+        },
+        {
+          "step": "physical200",
+          "loss": 0.08042533695697784,
+          "parts": {
+            "hold": 0.04789844527840614,
+            "cross": 0.05407843738794327,
+            "observed": 0.05407823622226715,
+            "consistency": 0.0015969760715961456
+          },
+          "measurement": {
+            "heldout": 0.3366177381975459,
+            "cross": 0.3662667755938025,
+            "observed": 0.3662623300211342
+          },
+          "fields": [
+            {
+              "branch": "A",
+              "mean": 0.0016138091807460094,
+              "std": 0.012340803948780336,
+              "min": 3.26209971035496e-07,
+              "max": 0.45560142397880554,
+              "nearzero": 0.0
+            },
+            {
+              "branch": "B",
+              "mean": 0.0016153343735002786,
+              "std": 0.012350122676044574,
+              "min": 3.271845230301551e-07,
+              "max": 0.45577454566955566,
+              "nearzero": 0.0
+            }
+          ],
+          "extra_E_H": 0.34422477644257476,
+          "arrays": {
+            "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/senseiver/fields_stepphysical200.npz",
+            "sha256": "ddadd7c1b510e7a86d8224b196ef2708a4842e28c4d79ace76ae263ccdd3a614"
+          },
+          "teacher_normalized_MSE": 1.779647946357727
+        }
+      ],
+      "dense_MSE_half": true,
+      "fitted_ABH": true,
+      "E_below099": true,
+      "teacher_sha256": "4b7d7236afe8c2bb8ff3728d36b45d07d567f2bf53b67548532c90cde983f627",
+      "initial_state_sha256": "4b216aed27860d916e44b5f2354e57f98d66170021d82a0dedae9440d033c229",
+      "checkpoint_sha256": "cd1c62f1cd6fbc5ca3fc50eba0a99c990c868c7f9bc5111cec4d9e09afd50c90",
+      "seconds": 102.25254041003063,
+      "status": "bounded_complete",
+      "access": {
+        "gt_file_opened": false,
+        "gt_open_attempts": 0,
+        "forbidden_npy_attempts": 0,
+        "supervised_checkpoint_open_attempts": 0,
+        "projection_open_count": 0,
+        "unique_pool_a_projection_files": 0,
+        "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+        "audit_hook_inherited_by_workers": true
+      },
+      "formal_training": false
+    },
+    {
+      "arm": "gnot",
+      "teacher_updates": 200,
+      "physical_updates": 200,
+      "initial": {
+        "step": "fresh",
+        "loss": 0.24440079927444458,
+        "parts": {
+          "hold": 0.15046977996826172,
+          "cross": 0.15639647841453552,
+          "observed": 0.15639671683311462,
+          "consistency": 0.0018619372276589274
+        },
+        "measurement": {
+          "heldout": 1.0394283649072993,
+          "cross": 1.0423658294329756,
+          "observed": 1.0423671271254535
+        },
+        "fields": [
+          {
+            "branch": "A",
+            "mean": 0.0001918725463155857,
+            "std": 2.1349667466965764e-07,
+            "min": 0.00019148862338624895,
+            "max": 0.00019239215180277824,
+            "nearzero": 0.0
+          },
+          {
+            "branch": "B",
+            "mean": 0.0001915137637739095,
+            "std": 2.1166669789014343e-07,
+            "min": 0.00019118140335194767,
+            "max": 0.00019207378500141203,
+            "nearzero": 0.0
+          }
+        ],
+        "extra_E_H": 1.0416055840118843,
+        "arrays": {
+          "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/gnot/fields_stepfresh.npz",
+          "sha256": "1d097a32cba7541a15f1d04e386e6dd24274d794c292610b609377b32bd8870a"
+        },
+        "teacher_normalized_MSE": 0.9879282116889954
+      },
+      "dense_final": {
+        "step": "dense200",
+        "loss": 0.13906067609786987,
+        "parts": {
+          "hold": 0.08076899498701096,
+          "cross": 0.09628699719905853,
+          "observed": 0.09630502015352249,
+          "consistency": 0.01035365555435419
+        },
+        "measurement": {
+          "heldout": 0.5726452473356584,
+          "cross": 0.6542477974003178,
+          "observed": 0.6543652188874165
+        },
+        "fields": [
+          {
+            "branch": "A",
+            "mean": 0.0021880732731843766,
+            "std": 0.005977680943339685,
+            "min": 0.00016719823179300874,
+            "max": 0.03763613849878311,
+            "nearzero": 0.0
+          },
+          {
+            "branch": "B",
+            "mean": 0.0021792908422891832,
+            "std": 0.005970016189842833,
+            "min": 0.00016292986401822418,
+            "max": 0.03739815950393677,
+            "nearzero": 0.0
+          }
+        ],
+        "extra_E_H": 0.6643411811131863,
+        "arrays": {
+          "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/gnot/fields_stepdense200.npz",
+          "sha256": "05a0e3b48ed33ce134a0879471fec9560a70c67c50b95975dc598aedfb15758b"
+        },
+        "teacher_normalized_MSE": 0.26897579431533813
+      },
+      "final": {
+        "step": "physical200",
+        "loss": 0.07621137797832489,
+        "parts": {
+          "hold": 0.045074861496686935,
+          "cross": 0.05140876770019531,
+          "observed": 0.05143247917294502,
+          "consistency": 0.00577760161831975
+        },
+        "measurement": {
+          "heldout": 0.31526141772333915,
+          "cross": 0.3459896730282546,
+          "observed": 0.34611811230455847
+        },
+        "fields": [
+          {
+            "branch": "A",
+            "mean": 0.0021564531667003922,
+            "std": 0.009970334908622494,
+            "min": 1.5641593563486822e-05,
+            "max": 0.07711679488420486,
+            "nearzero": 0.0
+          },
+          {
+            "branch": "B",
+            "mean": 0.002144032934665731,
+            "std": 0.009930418975782973,
+            "min": 1.5646530300728045e-05,
+            "max": 0.07699905335903168,
+            "nearzero": 0.0
+          }
+        ],
+        "extra_E_H": 0.3853715812761529,
+        "arrays": {
+          "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/gnot/fields_stepphysical200.npz",
+          "sha256": "5f9bb9707818d40f6ac21f619c691210abd957c3645297da7aa906db61ef7696"
+        },
+        "teacher_normalized_MSE": 0.39248326420783997
+      },
+      "metrics": [
+        {
+          "step": "fresh",
+          "loss": 0.24440079927444458,
+          "parts": {
+            "hold": 0.15046977996826172,
+            "cross": 0.15639647841453552,
+            "observed": 0.15639671683311462,
+            "consistency": 0.0018619372276589274
+          },
+          "measurement": {
+            "heldout": 1.0394283649072993,
+            "cross": 1.0423658294329756,
+            "observed": 1.0423671271254535
+          },
+          "fields": [
+            {
+              "branch": "A",
+              "mean": 0.0001918725463155857,
+              "std": 2.1349667466965764e-07,
+              "min": 0.00019148862338624895,
+              "max": 0.00019239215180277824,
+              "nearzero": 0.0
+            },
+            {
+              "branch": "B",
+              "mean": 0.0001915137637739095,
+              "std": 2.1166669789014343e-07,
+              "min": 0.00019118140335194767,
+              "max": 0.00019207378500141203,
+              "nearzero": 0.0
+            }
+          ],
+          "extra_E_H": 1.0416055840118843,
+          "arrays": {
+            "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/gnot/fields_stepfresh.npz",
+            "sha256": "1d097a32cba7541a15f1d04e386e6dd24274d794c292610b609377b32bd8870a"
+          },
+          "teacher_normalized_MSE": 0.9879282116889954
+        },
+        {
+          "step": "dense50",
+          "loss": 0.29897287487983704,
+          "parts": {
+            "hold": 0.18138229846954346,
+            "cross": 0.1945047378540039,
+            "observed": 0.19449713826179504,
+            "consistency": 0.01777016371488571
+          },
+          "measurement": {
+            "heldout": 1.2584867838334746,
+            "cross": 1.298413149642004,
+            "observed": 1.298403463837337
+          },
+          "fields": [
+            {
+              "branch": "A",
+              "mean": 0.0025498220187236686,
+              "std": 0.0023556689006846276,
+              "min": 0.0009179784101434052,
+              "max": 0.0105852410197258,
+              "nearzero": 0.0
+            },
+            {
+              "branch": "B",
+              "mean": 0.0025552165734938903,
+              "std": 0.00234072525418694,
+              "min": 0.0008997112745419145,
+              "max": 0.010343068279325962,
+              "nearzero": 0.0
+            }
+          ],
+          "extra_E_H": 1.280821486885096,
+          "arrays": {
+            "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/gnot/fields_stepdense50.npz",
+            "sha256": "f632560d1a58db62685ce66b05769e63cd7379dfdf2d64db89bde098e7883a3e"
+          },
+          "teacher_normalized_MSE": 0.7162017226219177
+        },
+        {
+          "step": "dense100",
+          "loss": 0.18529412150382996,
+          "parts": {
+            "hold": 0.11024554073810577,
+            "cross": 0.1240035891532898,
+            "observed": 0.12401706725358963,
+            "consistency": 0.012901781126856804
+          },
+          "measurement": {
+            "heldout": 0.7749165651415177,
+            "cross": 0.8370277214438812,
+            "observed": 0.8370697135337242
+          },
+          "fields": [
+            {
+              "branch": "A",
+              "mean": 0.0019034672355595639,
+              "std": 0.004035894230121174,
+              "min": 0.00033066017203964293,
+              "max": 0.028488323092460632,
+              "nearzero": 0.0
+            },
+            {
+              "branch": "B",
+              "mean": 0.001886201536991483,
+              "std": 0.004019061871976718,
+              "min": 0.0003197740879841149,
+              "max": 0.028091631829738617,
+              "nearzero": 0.0
+            }
+          ],
+          "extra_E_H": 0.8527821354486893,
+          "arrays": {
+            "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/gnot/fields_stepdense100.npz",
+            "sha256": "a2610259732e73c24f1a63a0bb15fb0a5ae1b352d3b59708d021e8f76e2e1ddb"
+          },
+          "teacher_normalized_MSE": 0.4140387177467346
+        },
+        {
+          "step": "dense200",
+          "loss": 0.13906067609786987,
+          "parts": {
+            "hold": 0.08076899498701096,
+            "cross": 0.09628699719905853,
+            "observed": 0.09630502015352249,
+            "consistency": 0.01035365555435419
+          },
+          "measurement": {
+            "heldout": 0.5726452473356584,
+            "cross": 0.6542477974003178,
+            "observed": 0.6543652188874165
+          },
+          "fields": [
+            {
+              "branch": "A",
+              "mean": 0.0021880732731843766,
+              "std": 0.005977680943339685,
+              "min": 0.00016719823179300874,
+              "max": 0.03763613849878311,
+              "nearzero": 0.0
+            },
+            {
+              "branch": "B",
+              "mean": 0.0021792908422891832,
+              "std": 0.005970016189842833,
+              "min": 0.00016292986401822418,
+              "max": 0.03739815950393677,
+              "nearzero": 0.0
+            }
+          ],
+          "extra_E_H": 0.6643411811131863,
+          "arrays": {
+            "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/gnot/fields_stepdense200.npz",
+            "sha256": "05a0e3b48ed33ce134a0879471fec9560a70c67c50b95975dc598aedfb15758b"
+          },
+          "teacher_normalized_MSE": 0.26897579431533813
+        },
+        {
+          "step": "physical50",
+          "loss": 0.0794854611158371,
+          "parts": {
+            "hold": 0.04285263642668724,
+            "cross": 0.060509659349918365,
+            "observed": 0.06054232642054558,
+            "consistency": 0.006475262809544802
+          },
+          "measurement": {
+            "heldout": 0.30567523807998653,
+            "cross": 0.4111042245498704,
+            "observed": 0.4113058967918719
+          },
+          "fields": [
+            {
+              "branch": "A",
+              "mean": 0.0018401826567329554,
+              "std": 0.007089108385701254,
+              "min": 5.4748023103456944e-05,
+              "max": 0.04772873967885971,
+              "nearzero": 0.0
+            },
+            {
+              "branch": "B",
+              "mean": 0.0018367472969015447,
+              "std": 0.007092981232406691,
+              "min": 5.4590156651102006e-05,
+              "max": 0.04792219400405884,
+              "nearzero": 0.0
+            }
+          ],
+          "extra_E_H": 0.46126186970711713,
+          "arrays": {
+            "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/gnot/fields_stepphysical50.npz",
+            "sha256": "b0159f38f2467eadae3afbd4f6e08553202c2dd79d90a6a87df22984f0ad21cf"
+          },
+          "teacher_normalized_MSE": 0.1961613893508911
+        },
+        {
+          "step": "physical100",
+          "loss": 0.10829631239175797,
+          "parts": {
+            "hold": 0.06637045741081238,
+            "cross": 0.06956441700458527,
+            "observed": 0.06956282258033752,
+            "consistency": 0.0037473796401172876
+          },
+          "measurement": {
+            "heldout": 0.46073834402169356,
+            "cross": 0.4659263085192532,
+            "observed": 0.46591576344612684
+          },
+          "fields": [
+            {
+              "branch": "A",
+              "mean": 0.0011965500137811058,
+              "std": 0.005713067181809633,
+              "min": 3.307644510641694e-05,
+              "max": 0.04641694203019142,
+              "nearzero": 0.0
+            },
+            {
+              "branch": "B",
+              "mean": 0.001196768424027786,
+              "std": 0.005710045413582133,
+              "min": 3.305869176983833e-05,
+              "max": 0.04639562964439392,
+              "nearzero": 0.0
+            }
+          ],
+          "extra_E_H": 0.4655368084691063,
+          "arrays": {
+            "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/gnot/fields_stepphysical100.npz",
+            "sha256": "7e7a74906b9e9abfaaeba9857af67caf91a29399acbe6ce5fcfa1f882a7ed718"
+          },
+          "teacher_normalized_MSE": 0.22793640196323395
+        },
+        {
+          "step": "physical200",
+          "loss": 0.07621137797832489,
+          "parts": {
+            "hold": 0.045074861496686935,
+            "cross": 0.05140876770019531,
+            "observed": 0.05143247917294502,
+            "consistency": 0.00577760161831975
+          },
+          "measurement": {
+            "heldout": 0.31526141772333915,
+            "cross": 0.3459896730282546,
+            "observed": 0.34611811230455847
+          },
+          "fields": [
+            {
+              "branch": "A",
+              "mean": 0.0021564531667003922,
+              "std": 0.009970334908622494,
+              "min": 1.5641593563486822e-05,
+              "max": 0.07711679488420486,
+              "nearzero": 0.0
+            },
+            {
+              "branch": "B",
+              "mean": 0.002144032934665731,
+              "std": 0.009930418975782973,
+              "min": 1.5646530300728045e-05,
+              "max": 0.07699905335903168,
+              "nearzero": 0.0
+            }
+          ],
+          "extra_E_H": 0.3853715812761529,
+          "arrays": {
+            "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/gnot/fields_stepphysical200.npz",
+            "sha256": "5f9bb9707818d40f6ac21f619c691210abd957c3645297da7aa906db61ef7696"
+          },
+          "teacher_normalized_MSE": 0.39248326420783997
+        }
+      ],
+      "dense_MSE_half": true,
+      "fitted_ABH": true,
+      "E_below099": true,
+      "teacher_sha256": "4b7d7236afe8c2bb8ff3728d36b45d07d567f2bf53b67548532c90cde983f627",
+      "initial_state_sha256": "f73343f81d05c2d901650ceea73ffe22ac98d581408456e54f3d21f943ebe91c",
+      "checkpoint_sha256": "a1876441e1b61eda3b4ab658b8b4d38e3607e562134e701fabac1b1a4b79293d",
+      "seconds": 681.7223591669463,
+      "status": "bounded_complete",
+      "access": {
+        "gt_file_opened": false,
+        "gt_open_attempts": 0,
+        "forbidden_npy_attempts": 0,
+        "supervised_checkpoint_open_attempts": 0,
+        "projection_open_count": 0,
+        "unique_pool_a_projection_files": 0,
+        "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+        "audit_hook_inherited_by_workers": true
+      },
+      "formal_training": false
+    },
+    {
+      "arm": "deepsets",
+      "teacher_updates": 200,
+      "physical_updates": 200,
+      "initial": {
+        "step": "fresh",
+        "loss": 0.24434618651866913,
+        "parts": {
+          "hold": 0.1504925787448883,
+          "cross": 0.15642252564430237,
+          "observed": 0.15642251074314117,
+          "consistency": 1.7330809214399778e-06
+        },
+        "measurement": {
+          "heldout": 1.0396341475613347,
+          "cross": 1.0425879169194157,
+          "observed": 1.0425879154081237
+        },
+        "fields": [
+          {
+            "branch": "A",
+            "mean": 0.00019268697696905868,
+            "std": 4.3995401162678736e-08,
+            "min": 0.0001925331016536802,
+            "max": 0.00019285867165308446,
+            "nearzero": 0.0
+          },
+          {
+            "branch": "B",
+            "mean": 0.00019268731264454608,
+            "std": 4.3992956095999195e-08,
+            "min": 0.00019253346545156091,
+            "max": 0.00019285903545096517,
+            "nearzero": 0.0
+          }
+        ],
+        "extra_E_H": 1.041826183095849,
+        "arrays": {
+          "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/deepsets/fields_stepfresh.npz",
+          "sha256": "e423e28a8f1328557bc5a97f82061382723a11ab5aabc3f749ad2d4b24d54142"
+        },
+        "teacher_normalized_MSE": 0.9878647327423096
+      },
+      "dense_final": {
+        "step": "dense200",
+        "loss": 0.1726791262626648,
+        "parts": {
+          "hold": 0.1083226203918457,
+          "cross": 0.107148677110672,
+          "observed": 0.1071472018957138,
+          "consistency": 0.001348789082840085
+        },
+        "measurement": {
+          "heldout": 0.7566687202620126,
+          "cross": 0.7241478405971018,
+          "observed": 0.7241376197478155
+        },
+        "fields": [
+          {
+            "branch": "A",
+            "mean": 0.002337588775305925,
+            "std": 0.0059433107688032175,
+            "min": 2.704450707824435e-05,
+            "max": 0.07878637313842773,
+            "nearzero": 0.0
+          },
+          {
+            "branch": "B",
+            "mean": 0.0023366872376357484,
+            "std": 0.0059418768418116824,
+            "min": 2.6990808692062274e-05,
+            "max": 0.07861225306987762,
+            "nearzero": 0.0
+          }
+        ],
+        "extra_E_H": 0.7391230821526695,
+        "arrays": {
+          "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/deepsets/fields_stepdense200.npz",
+          "sha256": "566f3657756950ee87768fba93f035120fee903e39dfd70870da5f351f831eba"
+        },
+        "teacher_normalized_MSE": 0.2648354470729828
+      },
+      "final": {
+        "step": "physical200",
+        "loss": 0.09091189503669739,
+        "parts": {
+          "hold": 0.05482907220721245,
+          "cross": 0.06006348133087158,
+          "observed": 0.060065001249313354,
+          "consistency": 0.0008915961952880025
+        },
+        "measurement": {
+          "heldout": 0.3860486345655191,
+          "cross": 0.4084142446863467,
+          "observed": 0.40842470261230535
+        },
+        "fields": [
+          {
+            "branch": "A",
+            "mean": 0.0018157465386328202,
+            "std": 0.013073677586608845,
+            "min": 8.360437959709088e-07,
+            "max": 0.43848928809165955,
+            "nearzero": 0.0
+          },
+          {
+            "branch": "B",
+            "mean": 0.0018157577902358443,
+            "std": 0.013073017020316064,
+            "min": 8.377996891795192e-07,
+            "max": 0.4388006925582886,
+            "nearzero": 0.0
+          }
+        ],
+        "extra_E_H": 0.42206192727796854,
+        "arrays": {
+          "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/deepsets/fields_stepphysical200.npz",
+          "sha256": "a8bf131ca9ce087f68be9f5a974303e731dcbcfd32d1010f1492c645166368a8"
+        },
+        "teacher_normalized_MSE": 2.063361883163452
+      },
+      "metrics": [
+        {
+          "step": "fresh",
+          "loss": 0.24434618651866913,
+          "parts": {
+            "hold": 0.1504925787448883,
+            "cross": 0.15642252564430237,
+            "observed": 0.15642251074314117,
+            "consistency": 1.7330809214399778e-06
+          },
+          "measurement": {
+            "heldout": 1.0396341475613347,
+            "cross": 1.0425879169194157,
+            "observed": 1.0425879154081237
+          },
+          "fields": [
+            {
+              "branch": "A",
+              "mean": 0.00019268697696905868,
+              "std": 4.3995401162678736e-08,
+              "min": 0.0001925331016536802,
+              "max": 0.00019285867165308446,
+              "nearzero": 0.0
+            },
+            {
+              "branch": "B",
+              "mean": 0.00019268731264454608,
+              "std": 4.3992956095999195e-08,
+              "min": 0.00019253346545156091,
+              "max": 0.00019285903545096517,
+              "nearzero": 0.0
+            }
+          ],
+          "extra_E_H": 1.041826183095849,
+          "arrays": {
+            "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/deepsets/fields_stepfresh.npz",
+            "sha256": "e423e28a8f1328557bc5a97f82061382723a11ab5aabc3f749ad2d4b24d54142"
+          },
+          "teacher_normalized_MSE": 0.9878647327423096
+        },
+        {
+          "step": "dense50",
+          "loss": 0.2469809353351593,
+          "parts": {
+            "hold": 0.15172415971755981,
+            "cross": 0.15781402587890625,
+            "observed": 0.157816082239151,
+            "consistency": 0.011362982913851738
+          },
+          "measurement": {
+            "heldout": 1.0502921368093154,
+            "cross": 1.0539643360742699,
+            "observed": 1.0539713981658916
+          },
+          "fields": [
+            {
+              "branch": "A",
+              "mean": 0.000249066108145124,
+              "std": 1.1790025223922581e-05,
+              "min": 0.000211427453905344,
+              "max": 0.00032903975807130337,
+              "nearzero": 0.0
+            },
+            {
+              "branch": "B",
+              "mean": 0.0002462406643388704,
+              "std": 1.1499668436734702e-05,
+              "min": 0.00020956993103027344,
+              "max": 0.00032434400054626167,
+              "nearzero": 0.0
+            }
+          ],
+          "extra_E_H": 1.0530661693820988,
+          "arrays": {
+            "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/deepsets/fields_stepdense50.npz",
+            "sha256": "dd2f3b4996e0e3b8a65a3bc9f8f493797d2cf0dd9d6659b4ab4e432926eff5d1"
+          },
+          "teacher_normalized_MSE": 0.9837223887443542
+        },
+        {
+          "step": "dense100",
+          "loss": 0.3808768093585968,
+          "parts": {
+            "hold": 0.23346447944641113,
+            "cross": 0.24239236116409302,
+            "observed": 0.24244152009487152,
+            "consistency": 0.03943977504968643
+          },
+          "measurement": {
+            "heldout": 1.6108421422448078,
+            "cross": 1.6106707119086408,
+            "observed": 1.6107484722640435
+          },
+          "fields": [
+            {
+              "branch": "A",
+              "mean": 0.002875976139875447,
+              "std": 0.0012475976109595798,
+              "min": 0.00047036638716235757,
+              "max": 0.024360409006476402,
+              "nearzero": 0.0
+            },
+            {
+              "branch": "B",
+              "mean": 0.002764703130974988,
+              "std": 0.0011990857355062756,
+              "min": 0.0004583141708280891,
+              "max": 0.023459041491150856,
+              "nearzero": 0.0
+            }
+          ],
+          "extra_E_H": 1.612497343518286,
+          "arrays": {
+            "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/deepsets/fields_stepdense100.npz",
+            "sha256": "84fae84d373c1a1c11949103061ff1ba0058012cd6f20fb7ab9ee078f2380fdf"
+          },
+          "teacher_normalized_MSE": 0.8575601577758789
+        },
+        {
+          "step": "dense200",
+          "loss": 0.1726791262626648,
+          "parts": {
+            "hold": 0.1083226203918457,
+            "cross": 0.107148677110672,
+            "observed": 0.1071472018957138,
+            "consistency": 0.001348789082840085
+          },
+          "measurement": {
+            "heldout": 0.7566687202620126,
+            "cross": 0.7241478405971018,
+            "observed": 0.7241376197478155
+          },
+          "fields": [
+            {
+              "branch": "A",
+              "mean": 0.002337588775305925,
+              "std": 0.0059433107688032175,
+              "min": 2.704450707824435e-05,
+              "max": 0.07878637313842773,
+              "nearzero": 0.0
+            },
+            {
+              "branch": "B",
+              "mean": 0.0023366872376357484,
+              "std": 0.0059418768418116824,
+              "min": 2.6990808692062274e-05,
+              "max": 0.07861225306987762,
+              "nearzero": 0.0
+            }
+          ],
+          "extra_E_H": 0.7391230821526695,
+          "arrays": {
+            "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/deepsets/fields_stepdense200.npz",
+            "sha256": "566f3657756950ee87768fba93f035120fee903e39dfd70870da5f351f831eba"
+          },
+          "teacher_normalized_MSE": 0.2648354470729828
+        },
+        {
+          "step": "physical50",
+          "loss": 0.11113570630550385,
+          "parts": {
+            "hold": 0.06779337674379349,
+            "cross": 0.07214362174272537,
+            "observed": 0.07214071601629257,
+            "consistency": 0.0011289642425253987
+          },
+          "measurement": {
+            "heldout": 0.4774086532399685,
+            "cross": 0.49111389468522826,
+            "observed": 0.4910945792153305
+          },
+          "fields": [
+            {
+              "branch": "A",
+              "mean": 0.0019163619246481568,
+              "std": 0.010405250640519791,
+              "min": 4.154808266321197e-06,
+              "max": 0.37490174174308777,
+              "nearzero": 0.0
+            },
+            {
+              "branch": "B",
+              "mean": 0.0019160736147255022,
+              "std": 0.010404745298051243,
+              "min": 4.1572143345547374e-06,
+              "max": 0.3746544122695923,
+              "nearzero": 0.0
+            }
+          ],
+          "extra_E_H": 0.49208240115137336,
+          "arrays": {
+            "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/deepsets/fields_stepphysical50.npz",
+            "sha256": "1eefa68d4d98cd7b6aa68c327b3e76d092afc6e5b63d43d93e4e8821ec2a9e28"
+          },
+          "teacher_normalized_MSE": 1.1545348167419434
+        },
+        {
+          "step": "physical100",
+          "loss": 0.10001455247402191,
+          "parts": {
+            "hold": 0.06056904047727585,
+            "cross": 0.06566383689641953,
+            "observed": 0.06566391885280609,
+            "consistency": 0.000944193743634969
+          },
+          "measurement": {
+            "heldout": 0.4263957106096332,
+            "cross": 0.4464993141358756,
+            "observed": 0.4464998063425817
+          },
+          "fields": [
+            {
+              "branch": "A",
+              "mean": 0.0017760470076405984,
+              "std": 0.011513938545935104,
+              "min": 1.6767496617831057e-06,
+              "max": 0.3357633352279663,
+              "nearzero": 0.0
+            },
+            {
+              "branch": "B",
+              "mean": 0.001776035879644838,
+              "std": 0.011513242793290551,
+              "min": 1.6799732520667021e-06,
+              "max": 0.33601778745651245,
+              "nearzero": 0.0
+            }
+          ],
+          "extra_E_H": 0.4504293669990242,
+          "arrays": {
+            "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/deepsets/fields_stepphysical100.npz",
+            "sha256": "0f56b57d06f7182f9f0f9bbed949a92dc4091d6f0171617042fe77e66cf93965"
+          },
+          "teacher_normalized_MSE": 1.5247807502746582
+        },
+        {
+          "step": "physical200",
+          "loss": 0.09091189503669739,
+          "parts": {
+            "hold": 0.05482907220721245,
+            "cross": 0.06006348133087158,
+            "observed": 0.060065001249313354,
+            "consistency": 0.0008915961952880025
+          },
+          "measurement": {
+            "heldout": 0.3860486345655191,
+            "cross": 0.4084142446863467,
+            "observed": 0.40842470261230535
+          },
+          "fields": [
+            {
+              "branch": "A",
+              "mean": 0.0018157465386328202,
+              "std": 0.013073677586608845,
+              "min": 8.360437959709088e-07,
+              "max": 0.43848928809165955,
+              "nearzero": 0.0
+            },
+            {
+              "branch": "B",
+              "mean": 0.0018157577902358443,
+              "std": 0.013073017020316064,
+              "min": 8.377996891795192e-07,
+              "max": 0.4388006925582886,
+              "nearzero": 0.0
+            }
+          ],
+          "extra_E_H": 0.42206192727796854,
+          "arrays": {
+            "path": "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/debug/deepsets/fields_stepphysical200.npz",
+            "sha256": "a8bf131ca9ce087f68be9f5a974303e731dcbcfd32d1010f1492c645166368a8"
+          },
+          "teacher_normalized_MSE": 2.063361883163452
+        }
+      ],
+      "dense_MSE_half": true,
+      "fitted_ABH": true,
+      "E_below099": true,
+      "teacher_sha256": "4b7d7236afe8c2bb8ff3728d36b45d07d567f2bf53b67548532c90cde983f627",
+      "initial_state_sha256": "2218171aeb54dc01182f4ef3dc57dc9b32c7d6f34dcf6174854e913b036ec20c",
+      "checkpoint_sha256": "06f34093b59dcc22a4060428c881965f4a0316e5d92f166a383ee2de92ca1a3f",
+      "seconds": 41.61064416123554,
+      "status": "bounded_complete",
+      "access": {
+        "gt_file_opened": false,
+        "gt_open_attempts": 0,
+        "forbidden_npy_attempts": 0,
+        "supervised_checkpoint_open_attempts": 0,
+        "projection_open_count": 0,
+        "unique_pool_a_projection_files": 0,
+        "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+        "audit_hook_inherited_by_workers": true
+      },
+      "formal_training": false
+    }
+  ],
+  "access": {
+    "gt_file_opened": false,
+    "gt_open_attempts": 0,
+    "forbidden_npy_attempts": 0,
+    "supervised_checkpoint_open_attempts": 0,
+    "projection_open_count": 0,
+    "unique_pool_a_projection_files": 0,
+    "policy": "Only Pool A train/val projection NPY; GT64/GT128 and foreign checkpoints denied",
+    "audit_hook_inherited_by_workers": true
+  },
+  "protocol": "single fixed case, dense200 plus original200 per architecture"
+}
