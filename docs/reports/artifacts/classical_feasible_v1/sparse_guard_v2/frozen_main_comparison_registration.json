@@ -1,0 +1,26 @@
+{
+  "purpose": "Fixed paired comparison after U-Net test seal and independent GT64 score; no new main inference or GT reads",
+  "conditions": [
+    "Val-A-V4",
+    "clustered-V4"
+  ],
+  "cases": 35,
+  "predictions": 210,
+  "draw_aggregation": "mean within each case before paired35case bootstrap10000, seed2026102703",
+  "main_checkpoint_sha256": "0ccea9b24a77e9d5fac025c626a98b167c3ab57fa202688e3e4acc75261bc18c",
+  "main_metrics": "/scratch/djc/GeoPhy-Set3D-classical-feasible-formal-v1/docs/reports/artifacts/mrgr_oari_targeted_v1/metrics.csv",
+  "main_manifest": "/scratch/djc/GeoPhy-Set3D/mrgr_oari_targeted_v1/evaluation/uniform_plain_set_interaction_seed20261011/manifest.jsonl",
+  "inputs": {
+    "/scratch/djc/GeoPhy-Set3D-classical-feasible-formal-v1/docs/reports/artifacts/mrgr_oari_targeted_v1/metrics.csv": "882c64592794b1089187d0571c4ce737ea0a059f8375767f10916a164c75c9c4",
+    "/scratch/djc/GeoPhy-Set3D/mrgr_oari_targeted_v1/evaluation/uniform_plain_set_interaction_seed20261011/manifest.jsonl": "914f54ea87c460a6470b091b1a8188a5571b42bb9b95d279a339933898782a93",
+    "/scratch/djc/GeoPhy-Set3D/mrgr_oari_targeted_v1/evaluation/uniform_plain_set_interaction_seed20261011/complete.json": "6353b9381ff506380a5beea4df7133adc0afa189bcf1815928c0955dab20b47e",
+    "/scratch/djc/GeoPhy-Set3D-classical-feasible-formal-v1/docs/reports/artifacts/classical_feasible_v1/test_layouts.json": "8cb547fbe1e90ec79ef9b876581aeea7406cd7ccf644788e7273c30a6030cdfe",
+    "/scratch/djc/GeoPhy-Set3D-classical-feasible-formal-v1/docs/reports/artifacts/classical_feasible_v1/test_cases.json": "a46e1fee6611f5d7549ce540ad8726a3e8299a29d736d65d8e335ba0d2ab9f88"
+  },
+  "sources": {
+    "scripts/classical_feasible_v1/compare_frozen_main.py": "dc4a58d9d441283b2c3e2586df6d35bbed161c7f8ded610cbdcbce01f860f85b"
+  },
+  "excluded_summary": "IDE classical_main_comparison_v2_20261026 summary has12cases, not this35case cohort; do not merge means",
+  "no_test_data_for_model_selection": true,
+  "extra_preheat_budget_disclosed": true
+}

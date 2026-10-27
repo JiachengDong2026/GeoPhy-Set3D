@@ -1,0 +1,38 @@
+{
+  "registered_at": "2026-10-27T08:40:52.494732+00:00",
+  "scope": "Separate single sparse guard correction after v1 STOP; never relabel v1 as GO",
+  "sources": {
+    "scripts/classical_feasible_v1/sparse_guard_v2_context.py": "4bbf7caa326b417f04083d0e0520cf614f0aac033f2385d9c350bb6eeb526a7a",
+    "scripts/classical_feasible_v1/train_sparse_guard_v2.py": "0edf06f77ac7677187dbf0322b054c5eee24053479d402e955641f986b2973fc",
+    "scripts/classical_feasible_v1/review_selected_sparse_v2.py": "6ff268ea25bb698d61353d9ac4842fddb063fe7b622a06993f83bcd392046c0a",
+    "scripts/classical_feasible_v1/test_sparse_guard_v2.py": "e33146d1e601b82bad2c7a5795bca8b6ff70fbfb31d7c5d2ec750f5ae22bc8c5",
+    "scripts/classical_feasible_v1/sparse_guard_v2_pipeline.py": "afbe4160bf9c9ae890e9309e22fc66e987a22502220aa65ede56c1298471e517",
+    "scripts/classical_feasible_v1/sparse_guard_v2_checks.py": "29bc04e147dd6c0b8599d1082d98039afcdd952e8be04c72278ce07048ca27eb",
+    "docs/classical_sparse_guard_v2_protocol_zh.md": "9aebfaa6d9cdb16e959d008b1c5bad76214d8ded6191029bca25861fcd301895"
+  },
+  "boundary": {
+    "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/unet/last.pt": "526344571a23e7357f0f773f7c6a9dc79248862e0fb452d4ee72f670c7b576a0",
+    "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/unet/best.pt": "79f9e3dc40d0f5f431605692daaa3780151e1d663bfa6e68992c7f0e9ad8d0e3",
+    "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/unet/metrics.jsonl": "57220e48a88b37a90f633b03322ac4618a5bc4f9ecab313ff98084f146a0f3b0",
+    "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/unet/physical_updates.jsonl": "68466d650b6fdbd38f96fa23d1cae190b923dab9451a7035e67d302f76f2c756",
+    "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/unet/preheat_updates.jsonl": "4b9a306d73cc8ee85f844d2da52d849804e4d59e07ffe60ad03d88a938376eb9",
+    "/scratch/djc/GeoPhy-Set3D/classical_feasible_v1/unet/summary.json": "f748be82204bd9ce56595f225d056de675c5fb7e8eec41af4bb25a604cf42396",
+    "/scratch/djc/GeoPhy-Set3D-classical-feasible-formal-v1/docs/reports/artifacts/classical_feasible_v1/unet_summary.json": "f748be82204bd9ce56595f225d056de675c5fb7e8eec41af4bb25a604cf42396",
+    "/scratch/djc/GeoPhy-Set3D-classical-feasible-formal-v1/docs/reports/artifacts/classical_feasible_v1/health_guard_audit.json": "ca3c834803f14da9031f5057629a844254a449e7a2ce5833bbc498a8f333d677",
+    "/scratch/djc/GeoPhy-Set3D-classical-feasible-formal-v1/docs/reports/artifacts/classical_feasible_v1/sparse_guard_v2/test_registration.json": "ecb32ba62d85d5862511806c710590c254098cc2573fb4327dd63a32e089b5d2",
+    "/scratch/djc/GeoPhy-Set3D-classical-feasible-formal-v1/docs/reports/artifacts/classical_feasible_v1/sparse_guard_v2/test_layouts.json": "8cb547fbe1e90ec79ef9b876581aeea7406cd7ccf644788e7273c30a6030cdfe",
+    "/scratch/djc/GeoPhy-Set3D-classical-feasible-formal-v1/docs/reports/artifacts/classical_feasible_v1/sparse_guard_v2/test_cases.json": "a46e1fee6611f5d7549ce540ad8726a3e8299a29d736d65d8e335ba0d2ab9f88",
+    "/scratch/djc/GeoPhy-Set3D-classical-feasible-formal-v1/docs/reports/artifacts/classical_feasible_v1/sparse_guard_v2/frozen_main_comparison_registration.json": "23a4025df7f45765d1eaeb339ef8c021cfe94dc40e137cde1a921772f1e33489",
+    "/scratch/djc/GeoPhy-Set3D-classical-feasible-formal-v1/docs/reports/artifacts/classical_feasible_v1/sparse_guard_v2/selected_checkpoint_review_registration.json": "5b52a548ed15f19b714f521c3ed846e7366ef1c6eba86d8c336a9b332c9c370b"
+  },
+  "resume_epoch": 175,
+  "existing_physical_updates": 14525,
+  "remaining_physical_epochs": 125,
+  "total_physical_updates": 24900,
+  "training_model_loss_data_optimizer_unchanged": true,
+  "scientific_guard_changed": true,
+  "new_saturation_gate": "sum(p * (p*(1-p)<4.54e-5))/sum(p) < .95",
+  "GT_used": false,
+  "test_predictions": 595,
+  "test_after_independent_qualification_and_seal": true
+}

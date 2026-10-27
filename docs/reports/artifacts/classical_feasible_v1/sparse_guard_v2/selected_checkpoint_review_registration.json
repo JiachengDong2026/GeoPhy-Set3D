@@ -1,0 +1,39 @@
+{
+  "registered_at": "2026-10-27T08:24:12.379773+00:00",
+  "purpose": "Additional GT-free independent causal qualification of final Val-selected U-Net best before test freeze",
+  "training_changed": false,
+  "selection_changed": false,
+  "budget_changed": false,
+  "GT_used": false,
+  "sources": {
+    "scripts/classical_feasible_v1/review_selected_sparse_v2.py": "6ff268ea25bb698d61353d9ac4842fddb063fe7b622a06993f83bcd392046c0a"
+  },
+  "cases": {
+    "val": 4,
+    "train": 3
+  },
+  "branches": [
+    "A",
+    "B"
+  ],
+  "interventions": [
+    "normal",
+    "zero",
+    "wrong"
+  ],
+  "thresholds": {
+    "Val_H_max": 0.99,
+    "relative_improvement": 0.05,
+    "absolute_improvement": 0.01,
+    "zero_benefit_min": 0.001,
+    "response_relative_min": 0.001,
+    "response_absolute_min": 1e-08,
+    "wrong_increase_min": 1e-06,
+    "val_pass_count_min": 2,
+    "train_pass_count_min": 2
+  },
+  "health": "Same registered original normal-field health gates; counterfactuals finite and bounded",
+  "failure_action": "Preserve evidence and prohibit test; no tuning after GT",
+  "guard_version": "sparse_guard_v2",
+  "original_thresholds_preserved_except_saturation_weighting": true
+}
