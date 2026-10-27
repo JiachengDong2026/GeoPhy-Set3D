@@ -39,6 +39,13 @@ def main():
     else:lines.append('等待166个训练案例自生成场准备完成，尚未开始完整训练。')
     if (ART/'unet_summary.json').exists():
         r=read(ART/'unet_summary.json');lines+=['',f"当前训练结束状态：{r['decision']}；物理epoch={r['epochs']}；bestVal H={r['best_val_H']:.7g}。"]
+    corrected=journal(ROOT/'sparse_guard_v2/unet/metrics.jsonl')
+    if corrected:
+        r=corrected[-1]
+        lines+=['','## U-Net：独立稀疏场判据修订 v2','',
+            '上图和原始STOP记录属于v1。v2保留原175轮停止结论，恢复同一完整边界继续训练；只修订饱和区域的统计权重，不改变网络或原目标。',
+            '',f"v2当前物理epoch {r['epoch']}/300，累计更新 {r['updates']}，完整36Val H={selection_metric(r['val']):.7g}。",
+            '', '[完整对比、判据变化和测试结果](classical_feasible_v1_training_test_zh.md)。']
     lines+=['','## 其他算法：单案例固定预算诊断','', '| 模型 | 稠密预热后H | 原目标末态H | E（未参与优化） | 状态 |','|---|---:|---:|---:|---|']
     summary=[]
     for arm in ['deeponet','fno','senseiver','gnot','deepsets']:
