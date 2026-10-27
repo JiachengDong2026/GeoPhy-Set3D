@@ -54,6 +54,7 @@ class TestGuard:
 def registration():
     verify()
     for path,digest in read(ART/'test_registration.json')['sources'].items():assert sha(PROJECT/path)==digest,path
+    assert read(ART/'unet_validation_review.json')['passed']
     summary=read(ART/'unet_summary.json');assert summary['formal_complete'] and summary['physical_updates']==24900
     checkpoint=Path(summary['best_checkpoint']);assert sha(checkpoint)==summary['best_checkpoint_sha256']
     layouts=read(ART/'test_layouts.json');cases=read(ART/'test_cases.json');assert len(layouts)==17 and len(cases)==35
@@ -111,7 +112,7 @@ def score():
             case=r['case_id']
             if case not in gt:gt[case]=np.load(DATA/source[case]['gt_volume_64_path'],allow_pickle=False)
             with np.load(r['prediction'],allow_pickle=False) as arrays:p=arrays['concentration']
-            g=gt[case];volume=volume_metrics(p,g)
+            g=gt[case].squeeze();volume=volume_metrics(p,g)
             morphology=dict(peak_ratio=float(p.max()/max(g.max(),1e-30)),mass_ratio=float(p.sum()/max(g.sum(),1e-30)))
             for fraction in [.01,.1,.5]:
                 pm=p>=fraction*g.max();gm=g>=fraction*g.max();morphology[f'dice_{fraction}']=float(2*(pm&gm).sum()/max(pm.sum()+gm.sum(),1))
@@ -135,4 +136,8 @@ def score():
 
 
 if __name__=='__main__':
-    action=sys.argv[1];{'freeze':registration,'predict':predict,'score':score}[action]()
+    action=sys.argv[1]
+    if action=='freeze' and not (ART/'unet_validation_review.json').exists():
+        from review_validation import main as review_validation
+        review_validation()
+    {'freeze':registration,'predict':predict,'score':score}[action]()
