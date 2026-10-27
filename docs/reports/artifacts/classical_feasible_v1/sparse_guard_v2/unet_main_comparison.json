@@ -1,0 +1,60 @@
+{
+  "passed": true,
+  "main_rerun": false,
+  "new_GT_reads": 0,
+  "paired_cases": 35,
+  "matched_predictions": 210,
+  "conditions": [
+    "Val-A-V4",
+    "clustered-V4"
+  ],
+  "summary": [
+    {
+      "condition": "Val-A-V4",
+      "metric": "relative_l1",
+      "cases": 35,
+      "main_mean": 0.08493035116081155,
+      "unet_mean": 0.16035713198393506,
+      "delta_unet_minus_main": 0.07542678082312353,
+      "paired_ci95_low": 0.06151883082809539,
+      "paired_ci95_high": 0.09108138134014974,
+      "unet_lower_error_cases": 0
+    },
+    {
+      "condition": "Val-A-V4",
+      "metric": "relative_l2",
+      "cases": 35,
+      "main_mean": 0.15742415755106562,
+      "unet_mean": 0.2280834193154859,
+      "delta_unet_minus_main": 0.0706592617644203,
+      "paired_ci95_low": 0.05395504498739028,
+      "paired_ci95_high": 0.08993600603442953,
+      "unet_lower_error_cases": 0
+    },
+    {
+      "condition": "clustered-V4",
+      "metric": "relative_l1",
+      "cases": 35,
+      "main_mean": 0.2985370428055329,
+      "unet_mean": 0.277147893341222,
+      "delta_unet_minus_main": -0.021389149464310985,
+      "paired_ci95_low": -0.04619574352415161,
+      "paired_ci95_high": 0.005394318350381444,
+      "unet_lower_error_cases": 26
+    },
+    {
+      "condition": "clustered-V4",
+      "metric": "relative_l2",
+      "cases": 35,
+      "main_mean": 0.4662814844833726,
+      "unet_mean": 0.369611959830879,
+      "delta_unet_minus_main": -0.09666952465249357,
+      "paired_ci95_low": -0.13429979217604626,
+      "paired_ci95_high": -0.057424489268677645,
+      "unet_lower_error_cases": 28
+    }
+  ],
+  "main_checkpoint_sha256": "0ccea9b24a77e9d5fac025c626a98b167c3ab57fa202688e3e4acc75261bc18c",
+  "registration_sha256": "23a4025df7f45765d1eaeb339ef8c021cfe94dc40e137cde1a921772f1e33489",
+  "comparison_scope": "same35cases and identical input station IDs; official Val-A-V4 and five clustered-V4 draws only; extra preheat budget disclosed"
+}
