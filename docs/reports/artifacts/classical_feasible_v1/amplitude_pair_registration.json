@@ -1,0 +1,35 @@
+{
+  "reason": "Complete-cohort preheat exposes weak-case amplitude overprediction despite mean Val H gains; train-only snapshot audit",
+  "indices": [
+    0,
+    1,
+    2,
+    7,
+    10,
+    31,
+    77,
+    82,
+    83,
+    100,
+    110,
+    126,
+    140,
+    150,
+    160,
+    165
+  ],
+  "updates_per_arm": 200,
+  "batch": 2,
+  "arms": [
+    "original",
+    "measurement_amplitude_normalized"
+  ],
+  "identical_fresh_base_seed": true,
+  "identical_batch_order": true,
+  "physics_unchanged": true,
+  "E_or_test_used": false,
+  "sources": {
+    "scripts/classical_feasible_v1/amplitude_adapter.py": "131f9ec7a6947d5eaa6b18b1e466c6bd556fa99b5a26e6d2708f812ac1dbc6c4",
+    "scripts/classical_feasible_v1/amplitude_pair.py": "09d628517afacb7ae0db292849533ac3d26b19d6197bd0dde9270ed9955cac98"
+  }
+}
