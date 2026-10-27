@@ -1,0 +1,25 @@
+{
+  "purpose": "Engineering-only epoch-boundary continuation; original training and scientific gates unchanged",
+  "num_workers": 4,
+  "persistent_workers": false,
+  "unchanged": [
+    "architecture",
+    "fresh initialization identity",
+    "all166train and36Val",
+    "A/B/H geometry sampling",
+    "case shuffle sequence and RNG",
+    "original objective",
+    "optimizer state and24900 physical updates",
+    "preheat60epochs4980updates",
+    "Val-only checkpoint selection",
+    "test seal before GT64"
+  ],
+  "resume": "next epoch from authoritative interrupted.pt; assert optimizer counts/scheduler and journal at complete epoch; no update replay",
+  "cpu_checks": "workers_equivalence_checks.json and prepared_input_checks.json",
+  "sources": {
+    "scripts/classical_feasible_v1/train_unet_workers.py": "3bf2bd40da11e77e64e336625681a301ddf0e7b6efeb15de36b6b13fe25be6a0",
+    "scripts/classical_feasible_v1/workers_checks.py": "0b27b528c714cba1f49f72bb004c64ba8beb0665eef35fb776e859931c13ce33",
+    "scripts/classical_feasible_v1/continue_at_boundary.py": "c6e2710d9bb2b332ceb9b4b9248900280a98a7ec5b1596cd4f31379f88294b18",
+    "scripts/classical_feasible_v1/prepared_inputs.py": "d333ac5e4355f2b2c1339ae7c74e4754bfe68f087da2a308989c3b1c044cfd33"
+  }
+}

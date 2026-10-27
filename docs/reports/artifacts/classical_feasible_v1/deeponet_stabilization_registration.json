@@ -1,0 +1,27 @@
+{
+  "hypothesis": "The shared preheated DeepONet responds to measurements, but the almost-constant early2e-4 physical fine-tuning rate causes transient amplitude overshoot; one10x lower rate can stabilize terminal gates",
+  "evidence": {
+    "epoch29_val_H": 0.7926505820691354,
+    "epoch30_val_H": 0.6673426137622003,
+    "epoch29_val_output_mean": 0.004401320453325752,
+    "epoch30_val_output_mean": 0.0019452500554406368,
+    "independent_terminal_review": "deeponet_multicase_review.json"
+  },
+  "candidate_count": 1,
+  "physical_learning_rate": 2e-05,
+  "epochs": 30,
+  "updates": 2490,
+  "preheat": "identical existing60epochs4980updates, reused as a fixed controlled starting point",
+  "preheated_checkpoint_sha256": "c1315c88b440fcad2e3adb5a525a58f6096cf8fc6b8d50d06b64ecdc91ce5c87",
+  "optimizer": "fresh AdamW, original wd/clipping, cosineTmax300",
+  "original_physics_and_gate_thresholds_unchanged": true,
+  "original_failure_preserved": true,
+  "not_original_equal_budget_baseline": true,
+  "not_formal_training": true,
+  "no_test_or_GT": true,
+  "no_additional_search": true,
+  "sources": {
+    "scripts/classical_feasible_v1/train_deeponet_stabilization.py": "2f984f165b574a23a166cf74caac0a047c2105b117439ee75042cf9dfd4429da",
+    "scripts/classical_feasible_v1/wait_stabilization_gpu.py": "3e02a3c6c32e6c5eb5a512b45e704142a6660a7a3228dbd9bd45da56a365f2af"
+  }
+}

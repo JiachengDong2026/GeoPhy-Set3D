@@ -1,0 +1,27 @@
+{
+  "purpose": "One engineering line-search repair, selected solely by original solver ABNORMAL termination",
+  "indices": [
+    2,
+    7,
+    10,
+    77
+  ],
+  "device": "cpu",
+  "precision": "fp64",
+  "initial_constant": "same train-only c0",
+  "only_solver_option_change": "maxls10 to40",
+  "bounds": [
+    0,
+    1
+  ],
+  "max_accepted_iterations": 60,
+  "hard_function_evaluation_ceiling": 120,
+  "original_loss_and_geometry_unchanged": true,
+  "retained_original162": true,
+  "promotion_rule": "all4 non-ABNORMAL termination and finalH<=0.5 originalH and finalLoss<originalLoss; no Val/test/GT selection",
+  "original_targets_and_runs_unchanged": true,
+  "one_candidate_no_search": true,
+  "sources": {
+    "scripts/classical_feasible_v1/repair_teacher_linesearch.py": "f4eef0b178f4c1d731d6041c62990a3e0e58c5c09ce82fc69c994d4f81bcd8e4"
+  }
+}
