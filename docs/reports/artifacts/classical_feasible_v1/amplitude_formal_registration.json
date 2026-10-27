@@ -1,0 +1,27 @@
+{
+  "kind": "Pre-registered conditional formal variant; no execution until train-only paired test passes",
+  "promotion_rule": "paired16case end200 amplitude MSE <=0.5 control and H<=0.9 control, no Val/test used in promotion",
+  "preheat_epochs": 60,
+  "preheat_updates": 4980,
+  "physical_epochs": 300,
+  "physical_updates": 24900,
+  "train_cases": 166,
+  "val_cases": 36,
+  "test_cases": 35,
+  "test_layouts": 17,
+  "normalization": "input-specific LS mole-fraction amplitude; reference median train166 epoch0 A/B; output sigmoid odds rescaling",
+  "reference_source": "amplitude_reference.json; immutable train-only measurements",
+  "fresh_initialization": true,
+  "optimizer_and_physics_unchanged": true,
+  "efficiency": "original exact CPU backprojection in4 loader workers, geometry cache2GiB",
+  "distinct_variant": true,
+  "old_runs_unchanged": true,
+  "sources": {
+    "scripts/classical_feasible_v1/amplitude_adapter.py": "131f9ec7a6947d5eaa6b18b1e466c6bd556fa99b5a26e6d2708f812ac1dbc6c4",
+    "scripts/classical_feasible_v1/prepared_inputs.py": "d333ac5e4355f2b2c1339ae7c74e4754bfe68f087da2a308989c3b1c044cfd33",
+    "scripts/classical_feasible_v1/train_unet_amp_v2.py": "ff6ce0fca2e0f1af4ff47796d07ad5db1cefd5fbd7325f3cf200b7833301e855",
+    "scripts/classical_feasible_v1/pipeline_amp_v2.py": "577e3add861f4ea7603246f0fc295264ea0a2c69200e616ca8a93edc9aa55fd2",
+    "scripts/classical_feasible_v1/test_unet_amp_v2.py": "d3d7597d02378aa9a33f0a84bbfbd0faef1fada377eba982dbbd0de833be0d9e",
+    "scripts/classical_feasible_v1/review_validation_amp_v2.py": "a68197c4a6ee0c0618e370e83be12a7ce3e2b8d7e278c1d5c80312efc5a6412e"
+  }
+}
